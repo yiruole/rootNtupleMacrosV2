@@ -160,9 +160,9 @@ void makePlots() {
 
    // ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt
    TCanvas c1_barrel;
-   TH1F *h1_barrel[2];
-   h1_barrel[0] = (TH1F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_all"); 
-   h1_barrel[1] = (TH1F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_heep"); 
+   TH2F *h1_barrel[2];
+   h1_barrel[0] = (TH2F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_all"); 
+   h1_barrel[1] = (TH2F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_heep"); 
 
    h1_barrel[0]->SetStats(0);
    h1_barrel[0]->SetMarkerStyle(20);
@@ -197,9 +197,9 @@ void makePlots() {
 
    // ElectronE2x5OverE5x5_vs_E1x5OverE5x5 
    TCanvas c2_barrel;
-   TH1F *h2_barrel[2];
-   h2_barrel[0] = (TH1F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_barrel_all"); 
-   h2_barrel[1] = (TH1F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_barrel_heep"); 
+   TH2F *h2_barrel[2];
+   h2_barrel[0] = (TH2F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_barrel_all"); 
+   h2_barrel[1] = (TH2F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_barrel_heep"); 
 
    h2_barrel[0]->SetStats(0);
    h2_barrel[0]->SetMarkerStyle(20);
@@ -234,6 +234,13 @@ void makePlots() {
    l2_barrel.DrawLatex(0.6,0.2,"barrel");
    c2_barrel.SaveAs("plots/h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_barrel.png");
 
+   TCanvas c3_barrel;
+   TH2F *h3_barrel;
+   h3_barrel = (TH2F*)file0_.Get("h2_HEEPcheck_barrel"); 
+   h3_barrel->Draw("colztext");
+   l2_barrel.DrawLatex(0.6,0.2,"barrel");
+   c3_barrel.SaveAs("plots/h2_HEEPcheck_barrel.png");
+   
 
    //## endcap ##
    overlay_plots(file0, file1, "h_ElectronPt_endcap_heep", "h_ElectronPt_endcap_all", 0, 500, "ElectronPt [GeV]", "plots/h_ElectronPt_endcap.png",1, 0, 25, -999, "endcap");
@@ -247,9 +254,9 @@ void makePlots() {
 
    // ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt
    TCanvas c1_endcap;
-   TH1F *h1_endcap[2];
-   h1_endcap[0] = (TH1F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_all"); 
-   h1_endcap[1] = (TH1F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_heep"); 
+   TH2F *h1_endcap[2];
+   h1_endcap[0] = (TH2F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_all"); 
+   h1_endcap[1] = (TH2F*)file0_.Get("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_heep"); 
 
    h1_endcap[0]->SetStats(0);
    h1_endcap[0]->SetMarkerStyle(20);
@@ -287,9 +294,9 @@ void makePlots() {
 
    // ElectronE2x5OverE5x5_vs_E1x5OverE5x5 
    TCanvas c2_endcap;
-   TH1F *h2_endcap[2];
-   h2_endcap[0] = (TH1F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_endcap_all"); 
-   h2_endcap[1] = (TH1F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_endcap_heep"); 
+   TH2F *h2_endcap[2];
+   h2_endcap[0] = (TH2F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_endcap_all"); 
+   h2_endcap[1] = (TH2F*)file0_.Get("h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_endcap_heep"); 
 
    h2_endcap[0]->SetStats(0);
    h2_endcap[0]->SetMarkerStyle(20);
@@ -324,5 +331,11 @@ void makePlots() {
    l2_endcap.DrawLatex(0.6,0.2,"endcap");
    c2_endcap.SaveAs("plots/h2_ElectronE2x5OverE5x5_vs_E1x5OverE5x5_endcap.png");
 
+   TCanvas c3_endcap;
+   TH2F *h3_endcap;
+   h3_endcap = (TH2F*)file0_.Get("h2_HEEPcheck_endcap"); 
+   h3_endcap->Draw("colztext");
+   l2_endcap.DrawLatex(0.6,0.2,"endcap");
+   c3_endcap.SaveAs("plots/h2_HEEPcheck_endcap.png");
 
 }

@@ -49,7 +49,7 @@ void analysisClass::Loop()
    TH2F *h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_all 
      = new TH2F ("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_all"
 		 ,"h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_all"
-		 ,100,0,500,200,0,100);
+		 ,100,0,500,500,0,100);
    TH1F *h_ElectronHcalIsoD2Heep_barrel_all = new TH1F ("h_ElectronHcalIsoD2Heep_barrel_all","h_ElectronHcalIsoD2Heep_barrel_all",200,0,100);
    TH1F *h_ElectronTrkIsoHeep_barrel_all = new TH1F ("h_ElectronTrkIsoHeep_barrel_all","h_ElectronTrkIsoHeep_barrel_all",200,0,100);
 
@@ -79,7 +79,7 @@ void analysisClass::Loop()
    TH2F *h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_heep 
      = new TH2F ("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_heep"
 		 ,"h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_barrel_heep"
-		 ,100,0,500,200,0,100);
+		 ,100,0,500,500,0,100);
    TH1F *h_ElectronHcalIsoD2Heep_barrel_heep = new TH1F ("h_ElectronHcalIsoD2Heep_barrel_heep","h_ElectronHcalIsoD2Heep_barrel_heep",200,0,100);
    TH1F *h_ElectronTrkIsoHeep_barrel_heep = new TH1F ("h_ElectronTrkIsoHeep_barrel_heep","h_ElectronTrkIsoHeep_barrel_heep",200,0,100);
 
@@ -108,7 +108,7 @@ void analysisClass::Loop()
    TH2F *h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_all 
      = new TH2F ("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_all"
 		 ,"h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_all"
-		 ,100,0,500,200,0,100);
+		 ,100,0,500,500,0,100);
    TH1F *h_ElectronHcalIsoD2Heep_endcap_all = new TH1F ("h_ElectronHcalIsoD2Heep_endcap_all","h_ElectronHcalIsoD2Heep_endcap_all",200,0,100);
    TH1F *h_ElectronTrkIsoHeep_endcap_all = new TH1F ("h_ElectronTrkIsoHeep_endcap_all","h_ElectronTrkIsoHeep_endcap_all",200,0,100);
 
@@ -137,7 +137,7 @@ void analysisClass::Loop()
    TH2F *h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_heep 
      = new TH2F ("h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_heep"
 		 ,"h2_ElectronEcalIsoHeep_plus_HcalIsoD1Heep_vs_ElectronPt_endcap_heep"
-		 ,100,0,500,200,0,100);
+		 ,100,0,500,500,0,100);
    TH1F *h_ElectronHcalIsoD2Heep_endcap_heep = new TH1F ("h_ElectronHcalIsoD2Heep_endcap_heep","h_ElectronHcalIsoD2Heep_endcap_heep",200,0,100);
    TH1F *h_ElectronTrkIsoHeep_endcap_heep = new TH1F ("h_ElectronTrkIsoHeep_endcap_heep","h_ElectronTrkIsoHeep_endcap_heep",200,0,100);
 
@@ -152,6 +152,18 @@ void analysisClass::Loop()
    h_ElectronHcalIsoD2Heep_endcap_heep->Sumw2();
    h_ElectronTrkIsoHeep_endcap_heep->Sumw2();
 
+
+   //HEEP checks
+   TH2F *h2_HEEPcheck_barrel = new TH2F ("h2_HEEPcheck_barrel","h2_HEEPcheck_barrel",2,-0.5,1.5,2,-0.5,1.5);
+   TH2F *h2_HEEPcheck_endcap = new TH2F ("h2_HEEPcheck_endcap","h2_HEEPcheck_endcap",2,-0.5,1.5,2,-0.5,1.5);
+   h2_HEEPcheck_barrel->Sumw2();
+   h2_HEEPcheck_endcap->Sumw2();
+
+   h2_HEEPcheck_barrel->GetXaxis()->SetTitle("HEEP flag");
+   h2_HEEPcheck_barrel->GetYaxis()->SetTitle("HEEP emulation");
+
+   h2_HEEPcheck_endcap->GetXaxis()->SetTitle("HEEP flag");
+   h2_HEEPcheck_endcap->GetYaxis()->SetTitle("HEEP emulation");
 
    /////////initialize variables
 
@@ -188,6 +200,25 @@ void analysisClass::Loop()
 	     
 	 if(isBarrel)
 	   {
+	     //HEEP flag
+	     int passHEEPflag = 0;
+	     if( ElectronHeepID->at(ele) == 0 )
+	       passHEEPflag = 1;
+
+	     //Emulate HEEP selection
+	     int passHEEPemu = 0;
+	     if(ElectronPt->at(ele) > 25 
+		&& fabs(ElectronDeltaEtaTrkSC->at(ele)) < 0.005
+		&& fabs(ElectronDeltaPhiTrkSC->at(ele)) < 0.09
+		&& ElectronHoE->at(ele) < 0.05 
+		&& (ElectronE2x5OverE5x5->at(ele) >0.94 || ElectronE1x5OverE5x5->at(ele) > 0.83 )
+		&& ElectronEcalIsoHeep->at(ele)+ElectronHcalIsoD1Heep->at(ele) < 2+0.03*ElectronPt->at(ele)
+		&& ElectronTrkIsoHeep->at(ele) <7.5
+		)
+	       passHEEPemu = 1;
+
+	     h2_HEEPcheck_barrel->Fill(passHEEPflag,passHEEPemu);
+	      
 	     h_ElectronPt_barrel_all->Fill( ElectronPt->at(ele) );
 	     h_ElectronSCEta_fabs_barrel_all->Fill( fabs( ElectronSCEta->at(ele) ) );
 	     h_ElectronDeltaEtaTrkSC_barrel_all->Fill( ElectronDeltaEtaTrkSC->at(ele) ) ;
@@ -219,6 +250,33 @@ void analysisClass::Loop()
 
 	 if(isEndcap)
 	   {
+	     //HEEP flag
+	     int passHEEPflag = 0;
+	     if( ElectronHeepID->at(ele) == 0 )
+	       passHEEPflag = 1;
+
+	     //Emulate HEEP selection
+	     int passHEEPemu = 0;
+
+	     int passEcalHcalIsoCut=0;
+	     if(ElectronPt->at(ele) < 50 && (ElectronEcalIsoHeep->at(ele)+ElectronHcalIsoD1Heep->at(ele)) < 2.5)
+	       passEcalHcalIsoCut=1;
+	     if(ElectronPt->at(ele) > 50 && (ElectronEcalIsoHeep->at(ele)+ElectronHcalIsoD1Heep->at(ele)) < 2.5+0.03*(ElectronPt->at(ele)-50) )
+	       passEcalHcalIsoCut=1;
+
+	     if(ElectronPt->at(ele) > 25 
+		&& fabs(ElectronDeltaEtaTrkSC->at(ele)) < 0.007
+		&& fabs(ElectronDeltaPhiTrkSC->at(ele)) < 0.09
+		&& ElectronHoE->at(ele) < 0.05 
+		&& ElectronSigmaIEtaIEta->at(ele) < 0.03
+		&& passEcalHcalIsoCut == 1
+		&& ElectronHcalIsoD2Heep->at(ele) < 0.5
+		&& ElectronTrkIsoHeep->at(ele) < 15
+		)
+	       passHEEPemu = 1;
+
+	     h2_HEEPcheck_endcap->Fill(passHEEPflag,passHEEPemu);
+
 	     h_ElectronPt_endcap_all->Fill( ElectronPt->at(ele) );
 	     h_ElectronSCEta_fabs_endcap_all->Fill( fabs(ElectronSCEta->at(ele)) );
 	     h_ElectronDeltaEtaTrkSC_endcap_all->Fill( ElectronDeltaEtaTrkSC->at(ele) ) ;
@@ -330,6 +388,9 @@ void analysisClass::Loop()
    h_ElectronHcalIsoD2Heep_endcap_heep->Write();
    h_ElectronTrkIsoHeep_endcap_heep->Write();
 
+   //HEEP checks
+   h2_HEEPcheck_barrel->Write();
+   h2_HEEPcheck_endcap->Write();
 
    //INFO
    //    //pT of both electrons, to be built using the histograms produced automatically by baseClass
