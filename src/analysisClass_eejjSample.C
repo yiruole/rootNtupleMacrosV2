@@ -27,12 +27,9 @@ void analysisClass::Loop()
    
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
 
-  //barrel - all   
-  TH1F *h_ElectronPt_barrel_all = new TH1F ("h_ElectronPt_barrel_all","h_ElectronPt_barrel_all",100,0,500); 
-  h_ElectronPt_barrel_all->Sumw2();
-  //barrel - heep   
-  TH1F *h_ElectronPt_barrel_heep = new TH1F ("h_ElectronPt_barrel_heep","h_ElectronPt_barrel_heep",100,0,500);
-  h_ElectronPt_barrel_heep->Sumw2();
+
+
+
   
   ////////////////////// User's code to book histos - END ///////////////////////
     
@@ -95,18 +92,6 @@ void analysisClass::Loop()
 
 	v_idx_jet_PtCut.push_back(ijet);
 
-	//  //Disambiguation of electrons from jets
-	//  float minDeltaR=9999;
-	//  TVector3 jet_vec;
-	//  jet_vec.SetPtEtaPhi(caloJetPt[ijet],caloJetEta[ijet],caloJetPhi[ijet]);
-	//  for (int i=0; i < v_idx_ele_final.size(); i++){
-	//    TVector3 ele_vec;
-	//    ele_vec.SetPtEtaPhi(elePt[v_idx_ele_final[i]],eleEta[v_idx_ele_final[i]],elePhi[v_idx_ele_final[i]]);
-	//    double distance = jet_vec.DeltaR(ele_vec);
-	//    if (distance<minDeltaR) minDeltaR=distance;
-	//   }
-	//  if ( minDeltaR > deltaR_minCut )  v_idx_jet_final.push_back(ijet);
-
 	//pT pre-cut + no overlaps with electrons
 	if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
@@ -136,15 +121,6 @@ void analysisClass::Loop()
 	if ( MuonPassIso->at(imuon)==1 && MuonPassID->at(imuon)==1)
 	  v_idx_muon_PtCut_IDISO.push_back(imuon);
 
-	//  //barrel-endcap definition
-	//  bool in_Barrel=false;
-	//          bool in_Endcap=false;
-	//  if( fabs(muonEta[imuon]) < getPreCutValue1("muonEta_bar") )  in_Barrel=true;
-	//  if( ( fabs(muonEta[imuon]) > getPreCutValue1("muonEta_end") )
-	//      && 
-	//      ( fabs(muonEta[imuon]) < getPreCutValue2("muonEta_end") ) 
-	//      )  in_Endcap=true;
-	 
       } // End loop over muons
 
 
@@ -301,23 +277,14 @@ void analysisClass::Loop()
     
   } // End of loop over events
   
-  //////////write histos 
+
+  ////////////////////// User's code to write histos - BEGIN ///////////////////////
+
+
+
+
+  ////////////////////// User's code to write histos - END ///////////////////////
   
-  
-  //h_nEleFinal->Write();
-  
-  //barrel - all
-  h_ElectronPt_barrel_all->Write();
-  //barrel - heep
-  h_ElectronPt_barrel_heep->Write();
-  //INFO
-  //    //pT of both electrons, to be built using the histograms produced automatically by baseClass
-  //    TH1F * h_pTElectrons = new TH1F ("h_pTElectrons","", getHistoNBins("pT1stEle"), getHistoMin("pT1stEle"), getHistoMax("pT1stEle"));
-  //    h_pTElectrons->Add( & getHisto_noCuts_or_skim("pT1stEle") ); // all histos can be retrieved, see other getHisto_xxxx methods in baseClass.h
-  //    h_pTElectrons->Add( & getHisto_noCuts_or_skim("pT2ndEle") );
-  //    //one could also do:  *h_pTElectrons = getHisto_noCuts_or_skim("pT1stEle") + getHisto_noCuts_or_skim("pT2ndEle");
-  //    h_pTElectrons->Write();
-  //    //one could also do:   const TH1F& h = getHisto_noCuts_or_skim// and use h
   
   //STDOUT("analysisClass::Loop() ends");   
 }
