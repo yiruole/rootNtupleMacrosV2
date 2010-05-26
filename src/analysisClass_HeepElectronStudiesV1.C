@@ -28,6 +28,7 @@ void analysisClass::Loop()
    std::cout << "analysisClass::Loop() begins" <<std::endl;   
     
    if (fChain == 0) return;
+
    
    //////////book histos here
 
@@ -167,6 +168,8 @@ void analysisClass::Loop()
 
    /////////initialize variables
 
+   int printout = (int) getPreCutValue1("printout");
+
    Long64_t nentries = fChain->GetEntriesFast();
    std::cout << "analysisClass::Loop(): nentries = " << nentries << std::endl;   
 
@@ -185,6 +188,8 @@ void analysisClass::Loop()
 
      ///Stuff to be done every event
      
+     vector<int> v_idx_HeepElectrons;
+
      //Loop over electrons
      for(int ele=0; ele<ElectronPt->size(); ele++)
        {
@@ -203,7 +208,10 @@ void analysisClass::Loop()
 	     //HEEP flag
 	     int passHEEPflag = 0;
 	     if( ElectronHeepID->at(ele) == 0 )
-	       passHEEPflag = 1;
+	       {
+		 passHEEPflag = 1;
+		 v_idx_HeepElectrons.push_back(ele);       
+	       }
 
 	     //Emulate HEEP selection
 	     int passHEEPemu = 0;
@@ -253,7 +261,10 @@ void analysisClass::Loop()
 	     //HEEP flag
 	     int passHEEPflag = 0;
 	     if( ElectronHeepID->at(ele) == 0 )
-	       passHEEPflag = 1;
+	       {
+		 passHEEPflag = 1;
+		 v_idx_HeepElectrons.push_back(ele);       
+	       }
 
 	     //Emulate HEEP selection
 	     int passHEEPemu = 0;
@@ -304,7 +315,6 @@ void analysisClass::Loop()
 		 h_ElectronTrkIsoHeep_endcap_heep->Fill( ElectronTrkIsoHeep->at(ele) );	       
 	       }	     
 	   }
-
 	 
        }
 
@@ -313,11 +323,44 @@ void analysisClass::Loop()
      
      // Set the value of the variableNames listed in the cutFile to their current value
      //fillVariableWithValue("nEleFinal", ElectronPt->size() ) ;
+     fillVariableWithValue("nHeepEle", v_idx_HeepElectrons.size() ) ;
+     fillVariableWithValue("CaloMET", CaloMET->at(0) ) ;
+     fillVariableWithValue("TCMET", TCMET->at(0) ) ;
+     fillVariableWithValue("PFMET", PFMET->at(0) ) ;
 
      // Evaluate cuts (but do not apply them)
      evaluateCuts();
      
      // Fill histograms and do analysis based on cut evaluation
+
+
+     //# Print run/event/ls + other info for events with Heep electrons
+     if( passedCut("nHeepEle") && printout )
+       {
+	 
+	 for(int ele=0; ele < v_idx_HeepElectrons.size(); ele++)
+	   {
+	     cout << "!!Heep Candidate!! -- " 
+		  << "run: " << run << " lumi: " << ls 
+		  << " event: " << event << " Et(GeV): " <<  ElectronPt->at( v_idx_HeepElectrons[ele] )
+		  << " eta(SC): " << ElectronSCEta->at( v_idx_HeepElectrons[ele] )  
+		  << " phi(SC): " << ElectronSCPhi->at( v_idx_HeepElectrons[ele] ) 
+		  << " 1-eSwissCross/eMax: " << 1 - ElectronSCS4S1->at( v_idx_HeepElectrons[ele] )
+		  << " -- CaloMET: " << CaloMET->at(0) 
+		  << " TCMET: " << TCMET->at(0) 
+		  << " PFMET: " << PFMET->at(0) 
+		  << endl;	      
+	   }
+
+	 if( v_idx_HeepElectrons.size() >=2 )
+	   {
+	     cout << "-----------------" << endl;
+	     cout << "!! Z Candidate !!" << endl;
+	     cout << "-----------------" << endl;
+	   }
+
+       }
+
      //h_nEleFinal->Fill( ElectronPt->size() );
      
 
