@@ -24,6 +24,8 @@ void analysisClass::Loop()
   //STDOUT("analysisClass::Loop() begins");
   
   if (fChain == 0) return;
+
+   TH1F *h_TrigDiff = new TH1F("TrigDiff","TrigDiff",3.0,-1.5,1.5);
    
    TH1F *h_dR_JetSC = new TH1F("dR_JetSC","dR_JetSC",600,0,3.0); h_dR_JetSC->Sumw2();
    TH1F *h_dR_JetSC_2Jets = new TH1F("dR_JetSC_2Jets","dR_JetSC_2Jets",600,0,3.0); h_dR_JetSC_2Jets->Sumw2();
@@ -96,7 +98,7 @@ void analysisClass::Loop()
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
-    if(jentry < 10 || jentry%1000 == 0) STDOUT("analysisClass::Loop(): jentry = " << jentry);   
+    if(jentry < 10 || jentry%10000 == 0) STDOUT("analysisClass::Loop(): jentry = " << jentry);   
     // if (Cut(ientry) < 0) continue;
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
@@ -104,6 +106,8 @@ void analysisClass::Loop()
     //## HLT
 
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
+    int TrigDiff = HLTBits->at(56) - HLTResults->at(1);
+    h_TrigDiff->Fill(TrigDiff);
 
 
     // Electrons
@@ -413,6 +417,18 @@ void analysisClass::Loop()
        h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_iso[0]));
      }
 
+     //Require dR>3 between leading SC and leading JET
+     if (v_idx_jet_PtCut_noOverlapSC.size()>0 && v_idx_sc_iso.size()>0){
+	TVector3 jet_vec;
+	jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut_noOverlapSC[0]),
+			    CaloJetEta->at(v_idx_jet_PtCut_noOverlapSC[0]),
+			    CaloJetPhi->at(v_idx_jet_PtCut_noOverlapSC[0]));
+	TVector3 sc_vec;
+	sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[0]),
+			   SuperClusterEta->at(v_idx_sc_iso[0]),
+			   SuperClusterPhi->at(v_idx_sc_iso[0]));
+	if (jet_vec.DeltaR(sc_vec)<3.0) continue;
+
      //// Fill fake rate pltos
 	 for(int iele=0;iele<v_idx_ele_PtCut_IDISO_noOverlap.size();iele++)
 	   {
@@ -470,7 +486,7 @@ void analysisClass::Loop()
 	       h_goodSC_ST->Fill(calc_sT);
 	     }
 	   }
-
+     }  // if sc and jet size > 0
 
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
        {
@@ -500,6 +516,8 @@ void analysisClass::Loop()
   
 
   ////////////////////// User's code to write histos - BEGIN ///////////////////////
+
+   h_TrigDiff->Write();
 
    h_dR_JetSC->Write();
    h_dR_JetSC_2Jets->Write();
