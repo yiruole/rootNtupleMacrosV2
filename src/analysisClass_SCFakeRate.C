@@ -27,6 +27,7 @@ void analysisClass::Loop()
 
    TH1F *h_TrigDiff = new TH1F("TrigDiff","TrigDiff",3.0,-1.5,1.5);
    
+   TH1F *h_dPhi_JetSC = new TH1F("dPhi_JetSC","dPhi_JetSC",650,0,6.5); h_dPhi_JetSC->Sumw2();
    TH1F *h_dR_JetSC = new TH1F("dR_JetSC","dR_JetSC",600,0,3.0); h_dR_JetSC->Sumw2();
    TH1F *h_dR_JetSC_2Jets = new TH1F("dR_JetSC_2Jets","dR_JetSC_2Jets",600,0,3.0); h_dR_JetSC_2Jets->Sumw2();
    TH2F *h_dR_JetSC_EcalIso = new TH2F("dR_JetSC_EcalIso","dR_JetSC_EcalIso",600,0,3.0,500,0,10); h_dR_JetSC->Sumw2();
@@ -93,8 +94,8 @@ void analysisClass::Loop()
   ////// If the root version is updated and rootNtupleClass regenerated,     /////
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
-  for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-    //for (Long64_t jentry=0; jentry<1;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
+  for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -106,7 +107,8 @@ void analysisClass::Loop()
     //## HLT
 
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
-    int TrigDiff = HLTBits->at(56) - HLTResults->at(1);
+    //bool PassTrig=HLTBits->at(71); // results of HLTPhoton15 
+    int TrigDiff = HLTBits->at(71) - HLTResults->at(1);
     h_TrigDiff->Fill(TrigDiff);
 
 
@@ -427,7 +429,9 @@ void analysisClass::Loop()
 	sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[0]),
 			   SuperClusterEta->at(v_idx_sc_iso[0]),
 			   SuperClusterPhi->at(v_idx_sc_iso[0]));
-	if (jet_vec.DeltaR(sc_vec)<3.0) continue;
+	double dPhi_SC_Jet = fabs(jet_vec.DeltaPhi(sc_vec));
+	h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
+	if (dPhi_SC_Jet<2.7) continue;
 
      //// Fill fake rate pltos
 	 for(int iele=0;iele<v_idx_ele_PtCut_IDISO_noOverlap.size();iele++)
@@ -519,6 +523,7 @@ void analysisClass::Loop()
 
    h_TrigDiff->Write();
 
+   h_dPhi_JetSC->Write();
    h_dR_JetSC->Write();
    h_dR_JetSC_2Jets->Write();
    h_dR_JetSC_EcalIso->Write();
