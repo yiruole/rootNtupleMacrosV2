@@ -494,7 +494,6 @@ void analysisClass::Loop()
 	       h_goodSC_ST->Fill(calc_sT);
 	     }
 	   }
-     }  // if sc and jet size > 0
 
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
        {
