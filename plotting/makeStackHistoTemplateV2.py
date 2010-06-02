@@ -194,10 +194,14 @@ h_sT_VVjets = GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________sT", Fi
 h_sT_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________sT", File1)
 
 plot0 = Plot() 
+## inputs for stacked histograms
+## it created h_sT_TTbar, h_sT_TTbar+h_sT_ZJetAlpgen , h_sT_TTbar+h_sT_ZJetAlpgen+h_sT_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
 plot0.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_QCD_Madgraph,
                          h_sT_SingleTop, h_sT_VVjets, h_sT_WJetAlpgen]
 plot0.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0.histos          = [h_sT_LQeejj_M300, h_sT_LQeejj_M400, h_sT_LQeejj_M500]
 plot0.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
 plot0.xtit            = "sT (GeV)"
