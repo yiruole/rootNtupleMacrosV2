@@ -26,8 +26,9 @@ void analysisClass::Loop()
   if (fChain == 0) return;
 
    TH1F *h_TrigDiff = new TH1F("TrigDiff","TrigDiff",3.0,-1.5,1.5);
+   TH2F *h2_DebugTrig = new TH2F("DebugTrig","DebugTrig;HLTResults;HLTBits",2,0,2,2,0,2);
    
-   TH1F *h_dPhi_JetSC = new TH1F("dPhi_JetSC","dPhi_JetSC",650,0,6.5); h_dPhi_JetSC->Sumw2();
+   TH1F *h_dPhi_JetSC = new TH1F("dPhi_JetSC","dPhi_JetSC",320,0,3.2); h_dPhi_JetSC->Sumw2();
    TH1F *h_dR_JetSC = new TH1F("dR_JetSC","dR_JetSC",600,0,3.0); h_dR_JetSC->Sumw2();
    TH1F *h_dR_JetSC_2Jets = new TH1F("dR_JetSC_2Jets","dR_JetSC_2Jets",600,0,3.0); h_dR_JetSC_2Jets->Sumw2();
    TH2F *h_dR_JetSC_EcalIso = new TH2F("dR_JetSC_EcalIso","dR_JetSC_EcalIso",600,0,3.0,500,0,10); h_dR_JetSC->Sumw2();
@@ -94,8 +95,8 @@ void analysisClass::Loop()
   ////// If the root version is updated and rootNtupleClass regenerated,     /////
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
-  //for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
+  for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<100;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -110,7 +111,7 @@ void analysisClass::Loop()
     //bool PassTrig=HLTBits->at(71); // results of HLTPhoton15 
     int TrigDiff = HLTBits->at(71) - HLTResults->at(1);
     h_TrigDiff->Fill(TrigDiff);
-
+    h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
 
     // Electrons
     vector<int> v_idx_ele_all;
@@ -165,7 +166,7 @@ void analysisClass::Loop()
 	scHighestPt = SuperClusterPt->at(isc);
 	idx_scHighestPt = isc;
       }
-    }
+     }
     if (idx_scHighestPt != -1) v_idx_sc_iso.push_back(idx_scHighestPt);
     if (idx_scNextPt != -1)v_idx_sc_iso.push_back(idx_scNextPt);
 
@@ -419,51 +420,54 @@ void analysisClass::Loop()
        h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_iso[0]));
      }
 
-     //Require dR>3 between leading SC and leading JET
-     if (v_idx_jet_PtCut_noOverlapSC.size()>0 && v_idx_sc_iso.size()>0){
-	TVector3 jet_vec;
-	jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut_noOverlapSC[0]),
-			    CaloJetEta->at(v_idx_jet_PtCut_noOverlapSC[0]),
-			    CaloJetPhi->at(v_idx_jet_PtCut_noOverlapSC[0]));
-	TVector3 sc_vec;
-	sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[0]),
-			   SuperClusterEta->at(v_idx_sc_iso[0]),
-			   SuperClusterPhi->at(v_idx_sc_iso[0]));
-	double dPhi_SC_Jet = fabs(jet_vec.DeltaPhi(sc_vec));
-	h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
-	if (dPhi_SC_Jet<2.7) continue;
-
-     //// Fill fake rate pltos
-	 for(int iele=0;iele<v_idx_ele_PtCut_IDISO_noOverlap.size();iele++)
+     //// Fill fake rate plots
+	 if(v_idx_ele_PtCut_IDISO_noOverlap.size()==1)
 	   {
-	     h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	     h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
 
 	     bool Barrel = false;
 	     bool Endcap = false;
-	     if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]))<1.45) Barrel = true;
-	     if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]))<2.5) Endcap = true;
+	     if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]))<1.45) Barrel = true;
+	     if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]))<2.5) Endcap = true;
 
-	     if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Barrel && TwoSC) h_goodEleSCPt_Barrel_2SC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Barrel && TwoJets) h_goodEleSCPt_Barrel_2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Barrel && (v_idx_jet_PtCut_noOverlapSC.size()>1) ) h_goodEleSCPt_Barrel_2Jets_wSC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Barrel && TwoSC && TwoJets) h_goodEleSCPt_Barrel_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	     if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Barrel && TwoSC) h_goodEleSCPt_Barrel_2SC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Barrel && TwoJets) h_goodEleSCPt_Barrel_2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Barrel && (v_idx_jet_PtCut_noOverlapSC.size()>1) ) h_goodEleSCPt_Barrel_2Jets_wSC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Barrel && TwoSC && TwoJets) h_goodEleSCPt_Barrel_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
 
-	     if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Endcap && TwoSC) h_goodEleSCPt_Endcap_2SC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Endcap && TwoJets) h_goodEleSCPt_Endcap_2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Endcap && (v_idx_jet_PtCut_noOverlapSC.size()>1) ) h_goodEleSCPt_Endcap_2Jets_wSC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Endcap && TwoSC && TwoJets) h_goodEleSCPt_Endcap_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	     if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Endcap && TwoSC) h_goodEleSCPt_Endcap_2SC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Endcap && TwoJets) h_goodEleSCPt_Endcap_2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Endcap && (v_idx_jet_PtCut_noOverlapSC.size()>1) ) h_goodEleSCPt_Endcap_2Jets_wSC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	     if (Endcap && TwoSC && TwoJets) h_goodEleSCPt_Endcap_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
 
 	     if (TwoSC && TwoJets) {
-	       h_goodEleSCPt_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	       h_goodEleSCEta_2SC2Jets->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	       h_goodEleSCPt_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	       h_goodEleSCEta_2SC2Jets->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
 	       h_goodEle_ST->Fill(calc_sT);
 	     }
 	   }
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
+	     //Require dR>3 between SC and JET
+	     TVector3 sc_vec;
+	     sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
+			   SuperClusterEta->at(v_idx_sc_iso[isc]),
+			   SuperClusterPhi->at(v_idx_sc_iso[isc]));
+	     double dPhi_SC_Jet=0;
+	     for (int ijet=0;ijet<v_idx_jet_PtCut.size();ijet++){
+	       TVector3 jet_vec;
+	       jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
+			    CaloJetEta->at(v_idx_jet_PtCut[ijet]),
+			    CaloJetPhi->at(v_idx_jet_PtCut[ijet]));
+	       double deltaPhi=fabs(jet_vec.DeltaPhi(sc_vec));
+	       if (deltaPhi>dPhi_SC_Jet)dPhi_SC_Jet=deltaPhi;
+	     }
+	     h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
+	     if (dPhi_SC_Jet<2.6) continue;
+
 	     h_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	     h_goodSCEta->Fill(SuperClusterEta->at(v_idx_sc_iso[isc]));
 
@@ -522,6 +526,7 @@ void analysisClass::Loop()
   ////////////////////// User's code to write histos - BEGIN ///////////////////////
 
    h_TrigDiff->Write();
+   h2_DebugTrig->Write();
 
    h_dPhi_JetSC->Write();
    h_dR_JetSC->Write();
