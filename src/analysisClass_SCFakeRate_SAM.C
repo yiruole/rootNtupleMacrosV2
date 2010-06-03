@@ -370,24 +370,11 @@ void analysisClass::Loop()
      //Require dR>3 between leading SC and leading JET
      //Require dR>3 between leading SC and leading JET
      //// Fill fake rate pltos
-     //for(int iele=0;iele<v_idx_ele_PtCut_IDISO_noOverlap.size();iele++)
-     if ( v_idx_ele_PtCut_IDISO_noOverlap.size()==1)
-	   {
-	     int iele=0;
-	     h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+     //
 
-	     bool Barrel = false;
-	     bool Endcap = false;
-	     if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]))<1.45) Barrel = true;
-	     if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]))<2.5) Endcap = true;
-
-	     if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	     if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	   }
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
-	     //Require dR>3 between SC and JET
+	     //Require dR>2.6 between SC and JET
 	     TVector3 sc_vec;
 	     sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
 			   SuperClusterEta->at(v_idx_sc_iso[isc]),
@@ -414,7 +401,34 @@ void analysisClass::Loop()
 
 	     if (Barrel) h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	     if (Endcap) h_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	   }
+
+	     ///  see if there is a HEEP ele to match this
+	     double deltaR_ele_sc = 99;
+	     int idx_HEEP = -1;
+	     for(int iele=0;iele<v_idx_ele_PtCut_IDISO_noOverlap.size();iele++){
+	       TVector3 ele_vec;
+	       ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+			   ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+			   ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	       double tmp_deltaR = ele_vec.DeltaR(sc_vec);
+	       if (tmp_deltaR<deltaR_ele_sc){
+		 deltaR_ele_sc = tmp_deltaR;
+		 idx_HEEP = iele;
+	       }
+	     }
+	     if (deltaR_ele_sc<0.3){
+		h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
+		h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
+		
+		bool Barrel = false;
+		bool Endcap = false;
+		if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))<1.45) Barrel = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))<2.5) Endcap = true;
+		
+		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
+		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
+		}
+	   } // for sc
 
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
        {
