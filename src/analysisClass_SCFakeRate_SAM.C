@@ -161,15 +161,15 @@ void analysisClass::Loop()
      for(int isc=0;isc<SuperClusterPt->size();isc++){
       if ( SuperClusterPt->at(isc) < getPreCutValue1("ele_PtCut") ) continue;
       if (SuperClusterHoE->at(isc)>0.05) continue;
-      if (SuperClusterPt->at(isc)<scNextPt){
-	scNextPt = SuperClusterPt->at(isc);
-	idx_scNextPt = isc;
-      }
-      if (SuperClusterPt->at(isc)<scHighestPt){
+      if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
 	idx_scNextPt = idx_scNextPt;
 	scHighestPt = SuperClusterPt->at(isc);
 	idx_scHighestPt = isc;
+      }
+      else if (SuperClusterPt->at(isc)>scNextPt){
+	scNextPt = SuperClusterPt->at(isc);
+	idx_scNextPt = isc;
       }
      }
     if (idx_scHighestPt != -1) v_idx_sc_iso.push_back(idx_scHighestPt);
