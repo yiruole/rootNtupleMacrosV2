@@ -93,6 +93,9 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    //## HLT
+    bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
+
     // Electrons
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
@@ -193,7 +196,8 @@ void analysisClass::Loop()
 	fillVariableWithValue( "PassBPTX0", true ) ;
 	fillVariableWithValue( "PassPhysDecl", true ) ;       
       }
-    //fillVariableWithValue( "HLT", PassTrig ) ;
+
+    //fillVariableWithValue( "PassHLT", PassTrig ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
