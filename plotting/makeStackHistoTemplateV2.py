@@ -57,11 +57,11 @@ class Plot:
     xmax        = "" # max x axis range (need to set both min and max. Leave it as is for full range)
     ymin        = "" # min y axis range (need to set both min and max. Leave it as is for full range)
     ymax        = "" # max y axis range (need to set both min and max. Leave it as is for full range)
-    lpos        = "" # legend position (default = top-right, option="bottom-center")
+    lpos        = "" # legend position (default = top-right, option="bottom-center", "top-left")
     logscale    = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "11.73 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
@@ -77,6 +77,8 @@ class Plot:
         #-- legend
         if (plot.lpos=="bottom-center"):
             legend = TLegend(0.35, 0.25, 0.35+0.30, 0.25+0.20)
+        elif(plot.lpos=="top-left"):
+            legend = TLegend(0.12, 0.70, 0.15+0.30, 0.70+0.20)            
         else:
             legend = TLegend(0.60, 0.70, 0.89, 0.90)
         legend.SetFillColor(kWhite)
@@ -161,6 +163,9 @@ class Plot:
         if (plot.lpos=="bottom-center"):
             l.DrawLatex(0.35,0.20,"CMS 2010 Preliminary")
             l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
+        if (plot.lpos=="top-left"):
+            l.DrawLatex(0.12,0.65,"CMS 2010 Preliminary")
+            l.DrawLatex(0.12,0.60,"L_{int} = " + plot.lint)
         else:
             l.DrawLatex(0.60,0.65,"CMS 2010 Preliminary")
             l.DrawLatex(0.60,0.60,"L_{int} = " + plot.lint)
@@ -184,9 +189,9 @@ class Plot:
 
 #--- Input root file
 
-FileMC = GetFile("/afs/cern.ch/user/s/santanas/scratch0/Releases/CMSSW_3_5_7_LQ_May19/src/Leptoquarks/rootNtupleAnalyzerV2/LQ_PAS_June2010/output4June_2/analysisClass_eejjSample_plots.root")
-FileDATA = GetFile("/afs/cern.ch/user/s/santanas/scratch0/Releases/CMSSW_3_5_7_LQ_May19/src/Leptoquarks/rootNtupleAnalyzerV2/LQ_PAS_June2010/output4June_2/analysisClass_eejjSample___MinimumBias__Commissioning10-SD_EG-v9__RECO.root")
-
+FileMC = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/MC/analysisClass_eejjSample_plots.root")
+#FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample___EG__Run2010A-PromptReco-v1__RECO.root")
+FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/DATA/analysisClass_eejjSample_plots.root")
                 
 #--- Final plots are defined here
 
@@ -199,12 +204,12 @@ h_Mee_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts____
 h_Mee_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
-h_Mee_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
+#h_Mee_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
-h_Mee_DATA = GetHisto("cutHisto_allPreviousCuts________Mee_PAS", FileDATA)
+h_Mee_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", FileDATA)
 
 
 plot0 = Plot() 
@@ -222,11 +227,10 @@ plot0.xtit            = "M(ee) (GeV)"
 plot0.ytit            = "Number of events"
 plot0.logscale        = "yes"
 plot0.rebin           = 1
-#plot0.ymin            = 0.001
-#plot0.ymax            = 2
+plot0.ymin            = 0.00000001
+plot0.ymax            = 5
 #plot0.lpos = "bottom-center"
 plot0.name            = "Mee_allPreviousCuts"
-plot0.lint            = "8.23 nb^{-1}"
 plot0.histodata       = h_Mee_DATA
 
 #--- nEle_PtCut_IDISO_noOvrlp ---
@@ -236,12 +240,12 @@ h_nEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts___
 h_nEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
-h_nEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
+#h_nEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
-h_nEle_DATA = GetHisto("cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileDATA)
+h_nEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileDATA)
 
 plot1 = Plot() 
 ## inputs for stacked histograms
@@ -256,11 +260,10 @@ plot1.xtit            = "Number of Heep electrons (pT>25 GeV)"
 plot1.ytit            = "Number of events"
 plot1.logscale        = "yes"
 plot1.rebin           = 1
-#plot1.ymin            = 0.01
-#plot1.ymax            = 2
+plot1.ymin            = 0.0001
+plot1.ymax            = 1000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
-plot1.lint            = "8.23 nb^{-1}"
 plot1.histodata       = h_nEle_DATA
 
 
@@ -273,12 +276,12 @@ h_pT1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_pT1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
-h_pT1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
+#h_pT1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
-h_pT1stEle_DATA = GetHisto("cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileDATA)
+h_pT1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileDATA)
 
 plot2 = Plot() 
 ## inputs for stacked histograms
@@ -293,11 +296,10 @@ plot2.xtit            = "pT 1st HEEP electron (GeV)"
 plot2.ytit            = "Number of events"
 plot2.logscale        = "yes"
 plot2.rebin           = 1
-#plot2.ymin            = 0.01
-#plot2.ymax            = 2
+plot2.ymin            = 0.00000001
+plot2.ymax            = 5
 #plot2.lpos = "bottom-center"
 plot2.name            = "pT1stEle_allPreviousCuts"
-plot2.lint            = "8.23 nb^{-1}"
 plot2.histodata       = h_pT1stEle_DATA
 
 
@@ -308,12 +310,12 @@ h_Eta1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
-h_Eta1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
+#h_Eta1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
-h_Eta1stEle_DATA = GetHisto("cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileDATA)
+h_Eta1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileDATA)
 
 plot3 = Plot() 
 ## inputs for stacked histograms
@@ -328,11 +330,10 @@ plot3.xtit            = "#eta 1st HEEP electron"
 plot3.ytit            = "Number of events"
 plot3.logscale        = "yes"
 plot3.rebin           = 10
-#plot3.ymin            = 0.01
-#plot3.ymax            = 2
-plot3.lpos = "bottom-center"
+plot3.ymin            = 0.0001
+plot3.ymax            = 20
+plot3.lpos = "top-left"
 plot3.name            = "Eta1stEle_allPreviousCuts"
-plot3.lint            = "8.23 nb^{-1}"
 plot3.histodata       = h_Eta1stEle_DATA
 
 
@@ -344,12 +345,12 @@ h_pT2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_pT2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
-h_pT2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
+#h_pT2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
-h_pT2ndEle_DATA = GetHisto("cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileDATA)
+h_pT2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileDATA)
 
 plot4 = Plot() 
 ## inputs for stacked histograms
@@ -364,11 +365,10 @@ plot4.xtit            = "pT 2nd HEEP electron (GeV)"
 plot4.ytit            = "Number of events"
 plot4.logscale        = "yes"
 plot4.rebin           = 1
-#plot4.ymin            = 0.01
-#plot4.ymax            = 2
+plot4.ymin            = 0.00000001
+plot4.ymax            = 5
 #plot4.lpos = "bottom-center"
 plot4.name            = "pT2ndEle_allPreviousCuts"
-plot4.lint            = "8.23 nb^{-1}"
 plot4.histodata       = h_pT2ndEle_DATA
 
 
@@ -379,12 +379,12 @@ h_Eta2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
-h_Eta2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
+#h_Eta2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
-h_Eta2ndEle_DATA = GetHisto("cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileDATA)
+h_Eta2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileDATA)
 
 plot5 = Plot() 
 ## inputs for stacked histograms
@@ -399,11 +399,10 @@ plot5.xtit            = "#eta 2nd HEEP electron"
 plot5.ytit            = "Number of events"
 plot5.logscale        = "yes"
 plot5.rebin           = 10
-#plot5.ymin            = 0.01
-#plot5.ymax            = 2
-plot5.lpos = "bottom-center"
+plot5.ymin            = 0.0001
+plot5.ymax            = 20
+plot5.lpos = "top-left"
 plot5.name            = "Eta2ndEle_allPreviousCuts"
-plot5.lint            = "8.23 nb^{-1}"
 plot5.histodata       = h_Eta2ndEle_DATA
 
 
@@ -414,12 +413,12 @@ h_nJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts___
 h_nJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
-h_nJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
+#h_nJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
-h_nJet_DATA = GetHisto("cutHisto_allPreviousCuts________nJet_PAS", FileDATA)
+h_nJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nJet_PAS", FileDATA)
 
 
 plot6 = Plot() 
@@ -435,11 +434,10 @@ plot6.xtit            = "Number of jets (pT>10GeV)"
 plot6.ytit            = "Number of events"
 plot6.logscale        = "yes"
 plot6.rebin           = 1
-#plot6.ymin            = 0.001
-#plot6.ymax            = 2
+plot6.ymin            = 0.0001
+plot6.ymax            = 5
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
-plot6.lint            = "8.23 nb^{-1}"
 plot6.histodata       = h_nJet_DATA
 
 
@@ -451,12 +449,12 @@ h_Pt1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_Pt1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
-h_Pt1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
+#h_Pt1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
-h_Pt1stJet_DATA = GetHisto("cutHisto_allPreviousCuts________Pt1stJet_PAS", FileDATA)
+h_Pt1stJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileDATA)
 
 
 plot7 = Plot() 
@@ -472,11 +470,10 @@ plot7.xtit            = "pT 1st jet (GeV)"
 plot7.ytit            = "Number of events"
 plot7.logscale        = "yes"
 plot7.rebin           = 1
-#plot7.ymin            = 0.001
-#plot7.ymax            = 2
+plot7.ymin            = 0.00000001
+plot7.ymax            = 5
 #plot7.lpos = "bottom-center"
 plot7.name            = "Pt1stJet_allPreviousCuts"
-plot7.lint            = "8.23 nb^{-1}"
 plot7.histodata       = h_Pt1stJet_DATA
 
 
@@ -487,12 +484,12 @@ h_Eta1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
-h_Eta1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
+#h_Eta1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
-h_Eta1stJet_DATA = GetHisto("cutHisto_allPreviousCuts________Eta1stJet_PAS", FileDATA)
+h_Eta1stJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileDATA)
 
 
 plot8 = Plot() 
@@ -507,12 +504,11 @@ plot8.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
 plot8.xtit            = "#eta 1st jet (GeV)"
 plot8.ytit            = "Number of events"
 plot8.logscale        = "yes"
-plot8.rebin           = 10
-#plot8.ymin            = 0.001
-#plot8.ymax            = 2
-#plot8.lpos = "bottom-center"
+plot8.rebin           = 20
+plot8.ymin            = 0.0001
+plot8.ymax            = 20
+plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
-plot8.lint            = "8.23 nb^{-1}"
 plot8.histodata       = h_Eta1stJet_DATA
 
 
@@ -523,12 +519,12 @@ h_Pt2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_Pt2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
-h_Pt2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
+#h_Pt2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
-h_Pt2ndJet_DATA = GetHisto("cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileDATA)
+h_Pt2ndJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileDATA)
 
 
 plot9 = Plot() 
@@ -544,11 +540,10 @@ plot9.xtit            = "pT 2nd jet (GeV)"
 plot9.ytit            = "Number of events"
 plot9.logscale        = "yes"
 plot9.rebin           = 1
-#plot9.ymin            = 0.001
-#plot9.ymax            = 2
+plot9.ymin            = 0.00000001
+plot9.ymax            = 5
 #plot9.lpos = "bottom-center"
 plot9.name            = "Pt2ndJet_allPreviousCuts"
-plot9.lint            = "8.23 nb^{-1}"
 plot9.histodata       = h_Pt2ndJet_DATA
 
 
@@ -559,12 +554,12 @@ h_Eta2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
-h_Eta2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
+#h_Eta2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
-h_Eta2ndJet_DATA = GetHisto("cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileDATA)
+h_Eta2ndJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileDATA)
 
 
 plot10 = Plot() 
@@ -580,11 +575,10 @@ plot10.xtit            = "#eta 2nd jet (GeV)"
 plot10.ytit            = "Number of events"
 plot10.logscale        = "yes"
 plot10.rebin           = 10
-#plot10.ymin            = 0.001
-#plot10.ymax            = 2
-#plot10.lpos = "bottom-center"
+plot10.ymin            = 0.0001
+plot10.ymax            = 20
+plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
-plot10.lint            = "8.23 nb^{-1}"
 plot10.histodata       = h_Eta2ndJet_DATA
 
 
