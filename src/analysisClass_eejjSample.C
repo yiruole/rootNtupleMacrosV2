@@ -71,6 +71,7 @@ void analysisClass::Loop()
    
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
 
+  TH1F *h_Mej_PAS = new TH1F ("h_Mej_PAS","h_Mej_PAS",200,0,2000);  h_Mej_PAS->Sumw2();
 
 
 
@@ -295,6 +296,19 @@ void analysisClass::Loop()
 	//PAS June 2010
 	fillVariableWithValue("Mee_PAS", ee.M());
 
+	double calc_sTele=-999.;
+        calc_sTele =
+          ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
+          ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
+	fillVariableWithValue("sTele_PAS", calc_sTele);
+
+	if(isData==true) 
+	  {
+	    STDOUT("Two electrons: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
+	    STDOUT("Two electrons: M_ee, Pt_ee, Eta_ee, Phi_ee = "<<ee.M() <<", "<< ee.Pt() <<", "<< ee.Eta() <<", "<< ee.Phi());
+	    STDOUT("Two electrons: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
+	    STDOUT("Two electrons: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
+	  }
       }
 
     // Mej 
@@ -331,19 +345,19 @@ void analysisClass::Loop()
 
 	if(diff_11_22 > diff_12_21)
 	  {
-	    fillVariableWithValue("Mej", M12);       
-	    fillVariableWithValue("Mej", M21);
+	    fillVariableWithValue("Mej_1stPair", M12);       
+	    fillVariableWithValue("Mej_2ndPair", M21);
 	    //PAS June 2010
-	    fillVariableWithValue("Mej_PAS", M12);       
-	    fillVariableWithValue("Mej_PAS", M21);
+	    h_Mej_PAS->Fill(M12);
+	    h_Mej_PAS->Fill(M21);
 	  }
 	else
 	  {
-	    fillVariableWithValue("Mej", M22);       
-	    fillVariableWithValue("Mej", M11);
+	    fillVariableWithValue("Mej_1stPair", M22);       
+	    fillVariableWithValue("Mej_2ndPair", M11);
 	    //PAS June 2010
-	    fillVariableWithValue("Mej_PAS", M22);       
-	    fillVariableWithValue("Mej_PAS", M11);
+	    h_Mej_PAS->Fill(M22);
+	    h_Mej_PAS->Fill(M11);
 	  } 
       }
 
@@ -373,6 +387,7 @@ void analysisClass::Loop()
 
   ////////////////////// User's code to write histos - BEGIN ///////////////////////
 
+  h_Mej_PAS->Write();
 
 
 

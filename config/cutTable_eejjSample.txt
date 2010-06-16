@@ -48,7 +48,7 @@ muonEta_end           1.2          2.4                  -               -       
 #VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
 #------------			------------ -------------	------------	-------------	-----	----------------
 PassBPTX0			0	     1			-		-		0	2 -0.5 1.5
-PassPhysDecl			0	     1			-		-		0	2 -0.5 1.5
+PassPhysDecl			-inf	     +inf		-		-		0	2 -0.5 1.5
 PassBeamScraping		0	     1			-		-		0	2 -0.5 1.5
 PassPrimaryVertex		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseFilter		0	     1			-		-		0	2 -0.5 1.5
@@ -66,6 +66,7 @@ mEta2ndEle_IDISO_NoOvrlp        -inf	     2.5                -               -  
 maxMEtaEles_IDISO_NoOvrl        -inf	     +inf               -               -               1       50 0 5
 #
 Mee_PAS                         -inf	     +inf               -               -               2       200 0 1000
+sTele_PAS                       -inf	     +inf               -               -               2       200 0 1000
 nJet_PAS			-inf	     +inf               -               -               2       16 -0.5 15.5
 Pt1stJet_PAS			-inf	     +inf               -               -               3       100 0 1000
 Pt2ndJet_PAS			-inf	     +inf               -               -               3       100 0 1000
@@ -85,11 +86,11 @@ mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -           
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               3       50 0 5
 #
 sT_PAS                          -inf	     +inf               -               -               4       200 0 2000
-Mej_PAS                         -inf	     +inf               -               -               4       200 0 2000
 #
 Mee                             110	     +inf               -               -               6       200 0 1000
 sT                              440	     +inf               -               -               6       200 0 2000
-Mej                             -inf	     +inf               -               -               6       200 0 2000
+Mej_1stPair                     -inf	     +inf               -               -               6       200 0 2000
+Mej_2ndPair                     -inf	     +inf               -               -               6       200 0 2000
 #
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
