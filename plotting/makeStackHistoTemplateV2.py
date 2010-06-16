@@ -61,7 +61,7 @@ class Plot:
     logscale    = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "11.73 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "11.81 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
@@ -175,7 +175,7 @@ class Plot:
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
-        canvas.SaveAs(plot.name + ".eps")
+        canvas.SaveAs(plot.name + ".gif","gif")
         canvas.Print(fileps)
 
 
@@ -189,10 +189,11 @@ class Plot:
 
 #--- Input root file
 
-FileMC = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/MC/analysisClass_eejjSample_plots.root")
+FileMC = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample_plots.root")
 #FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample___EG__Run2010A-PromptReco-v1__RECO.root")
-FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/DATA/analysisClass_eejjSample_plots.root")
-                
+#FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample_plots.root")
+FileDATA = FileMC
+               
 #--- Final plots are defined here
 
 # Simply add or remove plots and update the list plots = [plot0, plot1, ...] below
@@ -581,11 +582,47 @@ plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
 plot10.histodata       = h_Eta2ndJet_DATA
 
+#--- sT ---
+
+h_sT_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+#h_sT_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________sT_PAS", FileDATA)
+
+
+plot11 = Plot() 
+## inputs for stacked histograms
+## it created h_sT_TTbar, h_sT_TTbar+h_sT_ZJetAlpgen , h_sT_TTbar+h_sT_ZJetAlpgen+h_sT_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot11.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_QCDPt15,
+                         h_sT_SingleTop, h_sT_VVjets, h_sT_WJetAlpgen]
+plot11.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
+                         "single top", "di-bosons + jets", "W/W* + jets" ]
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot11.histos          = [h_sT_LQeejj_M300, h_sT_LQeejj_M400, h_sT_LQeejj_M500]
+plot11.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot11.xtit            = "St (GeV)"
+plot11.ytit            = "Number of events"
+plot11.logscale        = "yes"
+plot11.rebin           = 1
+plot11.ymin            = 0.00000001
+plot11.ymax            = 5
+#plot11.lpos = "bottom-center"
+plot11.name            = "sT_allPreviousCuts"
+plot11.histodata       = h_sT_DATA
+
 
 
 
 # List of plots to be plotted
-plots = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10]
+plots = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11]
 
 
 ############# USER CODE - END ################################################
