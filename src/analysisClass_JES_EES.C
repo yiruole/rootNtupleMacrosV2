@@ -98,7 +98,8 @@ void analysisClass::Loop()
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
 
     // Electrons
-    double EES = 1.1; // Electron Energy Scale
+    double EES_barrel = 1.1; // Electron Energy Scale
+    double EES_endcap = 1.1; // Electron Energy Scale
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
     vector<int> v_idx_ele_PtCut_IDISO_noOverlap;
@@ -107,11 +108,18 @@ void analysisClass::Loop()
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
+	bool barrel = false;
+	bool endcap = false;
+	if (fabs(ElectronEta->at(iele))<1.445) barrel = true;
+	if (fabs(ElectronEta->at(iele))>1.54 && fabs(ElectronEta->at(iele))<2.5) endcap = true;
+	if (!barrel && ! endcap) continue;
+
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
 
 	//pT pre-cut on ele
-	if( EES*ElectronPt->at(iele) < getPreCutValue1("ele_PtCut") ) continue; 
+	if( barrel && EES_barrel*ElectronPt->at(iele)<getPreCutValue1("ele_PtCut") ) continue; 
+	if( endcap && EES_endcap*ElectronPt->at(iele)<getPreCutValue1("ele_PtCut") ) continue; 
 	v_idx_ele_PtCut.push_back(iele);
 
 	//ID + ISO + NO overlap with good muons 
@@ -125,7 +133,7 @@ void analysisClass::Loop()
 
     
     // Jets
-    double JES = 1.1;
+    double JES = 1.0;
     vector<int> v_idx_jet_all;
     vector<int> v_idx_jet_PtCut;
     vector<int> v_idx_jet_PtCut_noOverlap;
@@ -185,6 +193,15 @@ void analysisClass::Loop()
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
     
+    double HEEPele1pT, HEEPele2pT;
+    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ){
+      if (fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]))<1.445) HEEPele1pT = EES_barrel*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]);
+      if (fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]))>1.54 && fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]))<2.5) HEEPele1pT = EES_endcap*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]);
+    }
+    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 2 ){
+      if (fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]))<1.445) HEEPele2pT = EES_barrel*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
+      if (fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]))>1.54 && fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]))<2.5) HEEPele2pT = EES_endcap*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
+    }
 
     // Set the value of the variableNames listed in the cutFile to their current value
     
@@ -223,7 +240,7 @@ void analysisClass::Loop()
     // 1st ele
     if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) 
       {
-	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", HEEPele1pT );
 	fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0])) );
       }
@@ -231,7 +248,7 @@ void analysisClass::Loop()
     // 2nd ele
     if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 2 ) 
       {
-	fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
+	fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", HEEPele2pT );
 	fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
 	fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1])) );
 	fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ) );
@@ -273,8 +290,8 @@ void analysisClass::Loop()
     if ( (TwoEle) && (TwoJets) ) 
       {
 	calc_sT = 
-	  EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
-	  EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) +
+	  HEEPele1pT +
+	  HEEPele2pT +
 	  JES*CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
 	  JES*CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
 	fillVariableWithValue("sT", calc_sT);
@@ -286,10 +303,10 @@ void analysisClass::Loop()
     if (TwoEle)
       {
 	TLorentzVector ele1, ele2, ee;
-	ele1.SetPtEtaPhiM(EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
+	ele1.SetPtEtaPhiM(HEEPele1pT,
 			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
 			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),0);
-	ele2.SetPtEtaPhiM(EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
+	ele2.SetPtEtaPhiM(HEEPele2pT,
 			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
 			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),0);
 	ee = ele1+ele2;
@@ -300,8 +317,7 @@ void analysisClass::Loop()
 
 	double calc_sTele=-999.;
         calc_sTele =
-          EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
-          EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
+            HEEPele1pT + HEEPele2pT ;
 	fillVariableWithValue("sTele_PAS", calc_sTele);
 
 	if(isData==true) 
@@ -320,10 +336,10 @@ void analysisClass::Loop()
     if ( (TwoEle) && (TwoJets) ) 
       {
 	TLorentzVector jet1, jet2, ele1, ele2;
-	ele1.SetPtEtaPhiM(EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
+	ele1.SetPtEtaPhiM(HEEPele1pT,
 			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
 			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),0);
-	ele2.SetPtEtaPhiM(EES*ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
+	ele2.SetPtEtaPhiM(HEEPele2pT,
 			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
 			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),0);
 	jet1.SetPtEtaPhiM(JES*CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
