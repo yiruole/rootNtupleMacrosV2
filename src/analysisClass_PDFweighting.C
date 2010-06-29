@@ -103,9 +103,9 @@ void analysisClass::Loop()
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
     // PDF weight
-    double CentralWeight = PDFWeights[0][0] ;
-    for(int pdf=0;pdf<PDFWeights[0].size();pdf++){
-      double tmp = (PDFWeights[0][pdf]/CentralWeight);
+    double CentralWeight = PDFWeights->at(0) ;
+    for(int pdf=0;pdf<PDFWeights->size();pdf++){
+      double tmp = (PDFWeights->at(pdf)/CentralWeight);
       if (tmp!=tmp) continue; // solves nan problem
       cum_weights[pdf]=cum_weights[pdf]+tmp;
     }
@@ -363,28 +363,14 @@ void analysisClass::Loop()
 
 
 
-    if (passedCut("0")&&passedCut("1")){
-      double CentralWeight = PDFWeights[0][0] ;
-      for(int pdf=0;pdf<PDFWeights[0].size();pdf++){
-	cum_weights_PASS[pdf]=cum_weights_PASS[pdf]+(PDFWeights[0][pdf]/CentralWeight);
-	h_PDFWeight_Npass->Fill(pdf,PDFWeights[0][pdf]/CentralWeight);
+    if (passedCut("all")){
+      double CentralWeight = PDFWeights->at(0) ;
+      for(int pdf=0;pdf<PDFWeights->size();pdf++){
+    	cum_weights_PASS[pdf]=cum_weights_PASS[pdf]+(PDFWeights->at(pdf)/CentralWeight);
+    	h_PDFWeight_Npass->Fill(pdf,PDFWeights->at(pdf)/CentralWeight);
       }
     }
 
-    // Fill histograms and do analysis based on cut evaluation
-    //h_nEleFinal->Fill( ElectronPt->size() );
-     
-
-    //INFO
-    //      // retrieve value of previously filled variables (after making sure that they were filled)
-    //      double totpTEle;
-    //      if ( variableIsFilled("pT1stEle") && variableIsFilled("pT2ndEle") ) 
-    //        totpTEle = getVariableValue("pT1stEle")+getVariableValue("pT2ndEle");
-    //      // reject events that did not pass level 0 cuts
-    //      if( !passedCut("0") ) continue;
-    //      // ......
-    
-     
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
   } // End of loop over events
@@ -396,7 +382,6 @@ void analysisClass::Loop()
   for (int i=0;i<41;i++) {
     h_PDFWeight_eff->Fill(i,cum_weights_PASS[i]/cum_weights[i]);
     }
-  //h_PDFWeight_eff->Divide(h_PDFWeight_PASS,h_PDFWeight,1,1);
   h_PDFWeight_eff->Write();
   h_PDFWeight_Npass->Write();
 
