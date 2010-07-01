@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# This script generates a set of cut files starting from a template (inputFileName in the
+# user's inputs below) and setting different St and Mee cut values according to
+# StValues and MeeValues in the user's inputs below.
+# The 1st (2nd, 3rd, ...) StValues will be paired with the 1st (2nd, 3rd, ...) MeeValues
+# and one (two, three, ...) cut file(s) generated for each St,Mee value pair.
+# The cut files will be generated in the current directory.
+
 import os
 
 #### USER"S INPUTS HERE ####
