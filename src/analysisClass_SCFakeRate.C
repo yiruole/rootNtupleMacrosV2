@@ -95,12 +95,10 @@ void analysisClass::Loop()
   ////// If the root version is updated and rootNtupleClass regenerated,     /////
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
-  //for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  for (Long64_t jentry=0; jentry<10000000;jentry++) { // Begin of loop over events
+  for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
-    //if (jentry%2 == 0) continue;  //only include odd or events to make 2 seperate samples
     if(jentry < 10 || jentry%10000 == 0) STDOUT("analysisClass::Loop(): jentry = " << jentry);   
     // if (Cut(ientry) < 0) continue;
     
@@ -111,8 +109,6 @@ void analysisClass::Loop()
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
     //bool PassTrig=HLTBits->at(71); // results of HLTPhoton15 
     int TrigDiff = HLTBits->at(71) - HLTResults->at(1);
-    h_TrigDiff->Fill(TrigDiff);
-    h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
 
     // Electrons
     vector<int> v_idx_ele_all;
@@ -213,10 +209,8 @@ void analysisClass::Loop()
 	idx_scNextPt = isc;
       }
      }
-     if (idx_scHighestPt != -1) {
-       v_idx_sc_iso.push_back(idx_scHighestPt);
-     }
-    if (idx_scNextPt != -1)v_idx_sc_iso.push_back(idx_scNextPt);
+     if (idx_scHighestPt != -1) v_idx_sc_iso.push_back(idx_scHighestPt);
+     if (idx_scNextPt != -1)v_idx_sc_iso.push_back(idx_scNextPt);
 
     //////now fill in the rest of the sc in whatever order they are
     for(int isc=0;isc<SuperClusterPt->size();isc++){
@@ -239,8 +233,8 @@ void analysisClass::Loop()
       if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)< (6+(0.01*(SuperClusterPt->at(isc)-50)))) scPassEcalIso = true;
       if (Barrel && SuperClusterHEEPTrkIso->at(isc)<7.5) scPassTrkIso = true;
       if (Endcap && SuperClusterHEEPTrkIso->at(isc)<15) scPassTrkIso = true;
-      //if (scPassHoE && scPassSigmaEE && scPassEcalIso && scPassTrkIso ){
-      if (scPassHoE){
+      if (scPassHoE && scPassSigmaEE && scPassEcalIso && scPassTrkIso ){
+	//if (scPassHoE){
 	v_idx_sc_iso.push_back(isc);
       }
     }
@@ -403,6 +397,7 @@ void analysisClass::Loop()
       }
 
     // Mee
+    double MassEE=0;
     if (TwoSC)
       {
 	TLorentzVector ele1, ele2, ee;
@@ -413,6 +408,7 @@ void analysisClass::Loop()
 			  SuperClusterEta->at(v_idx_sc_iso[1]),
 			  SuperClusterPhi->at(v_idx_sc_iso[1]),0);
 	ee = ele1+ele2;
+	MassEE=ee.M()
 	fillVariableWithValue("Mee", ee.M());
       }
 
@@ -469,13 +465,9 @@ void analysisClass::Loop()
      }
 
      // Fill histograms and do analysis based on cut evaluation
-     if (v_idx_sc_iso.size()>0 && !passedCut("HLT")){
-       NFailHLT++;
-       h_eta_failHLT->Fill(SuperClusterEta->at(v_idx_sc_iso[0]));
-       h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_iso[0]));
-     }
 
      //// Fill fake rate plots
+     if (MassEE>60 && MassEE<120) continue; //get rid of Zs
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
 	     //Require dR>3 between SC and JET
@@ -493,7 +485,7 @@ void analysisClass::Loop()
 	       if (deltaPhi>dPhi_SC_Jet)dPhi_SC_Jet=deltaPhi;
 	     }
 	     h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
-	     if (dPhi_SC_Jet<2.6) continue;
+	     if (dPhi_SC_Jet<3.0) continue;
 
 	     h_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	     h_goodSCEta->Fill(SuperClusterEta->at(v_idx_sc_iso[isc]));
@@ -535,7 +527,7 @@ void analysisClass::Loop()
 		 idx_HEEP = iele;
 	       }
 	     }
-	     if (deltaR_ele_sc<0.3){
+	     if (deltaR_ele_sc<0.5){
 		h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		
@@ -572,15 +564,17 @@ void analysisClass::Loop()
 	 }
 
 	 double probSC1 = 0, probSC2 = 0;
-	 double BarrelCross = -0.001437;
-	 double BarrelSlope = 0.000104;
-	 double EndcapCross = 0.014;
-	 double EndcapSlope = 0.000283;
+	 double BarrelCross = -0.000534;
+	 double BarrelSlope = 0.000102;
+	 double EndcapCross = 0.00896;
+	 double EndcapSlope = 0.00121;
 
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[0])<70) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[1])<70) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[0])>=70) probSC1 = EndcapCross + EndcapSlope*70 ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[1])>=70) probSC2 = EndcapCross + EndcapSlope*70;
       
 	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
 	 h_probSt->Fill(calc_sT,probSC1+probSC2);
