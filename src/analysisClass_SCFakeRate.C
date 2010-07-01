@@ -408,7 +408,7 @@ void analysisClass::Loop()
 			  SuperClusterEta->at(v_idx_sc_iso[1]),
 			  SuperClusterPhi->at(v_idx_sc_iso[1]),0);
 	ee = ele1+ele2;
-	MassEE=ee.M()
+	MassEE=ee.M();
 	fillVariableWithValue("Mee", ee.M());
       }
 
