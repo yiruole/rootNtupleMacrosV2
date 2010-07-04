@@ -61,7 +61,7 @@ class Plot:
     logscale    = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "11.81 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "21.05 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
@@ -175,7 +175,7 @@ class Plot:
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
-        canvas.SaveAs(plot.name + ".gif","gif")
+        canvas.SaveAs(plot.name + ".eps","eps")
         canvas.Print(fileps)
 
 
@@ -262,7 +262,7 @@ plot1.ytit            = "Number of events"
 plot1.logscale        = "yes"
 plot1.rebin           = 1
 plot1.ymin            = 0.0001
-plot1.ymax            = 1000000
+plot1.ymax            = 10000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
 plot1.histodata       = h_nEle_DATA
@@ -332,7 +332,7 @@ plot3.ytit            = "Number of events"
 plot3.logscale        = "yes"
 plot3.rebin           = 10
 plot3.ymin            = 0.0001
-plot3.ymax            = 20
+plot3.ymax            = 50
 plot3.lpos = "top-left"
 plot3.name            = "Eta1stEle_allPreviousCuts"
 plot3.histodata       = h_Eta1stEle_DATA
@@ -401,7 +401,7 @@ plot5.ytit            = "Number of events"
 plot5.logscale        = "yes"
 plot5.rebin           = 10
 plot5.ymin            = 0.0001
-plot5.ymax            = 20
+plot5.ymax            = 50
 plot5.lpos = "top-left"
 plot5.name            = "Eta2ndEle_allPreviousCuts"
 plot5.histodata       = h_Eta2ndEle_DATA
@@ -507,7 +507,7 @@ plot8.ytit            = "Number of events"
 plot8.logscale        = "yes"
 plot8.rebin           = 20
 plot8.ymin            = 0.0001
-plot8.ymax            = 20
+plot8.ymax            = 50
 plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
 plot8.histodata       = h_Eta1stJet_DATA
@@ -577,7 +577,7 @@ plot10.ytit            = "Number of events"
 plot10.logscale        = "yes"
 plot10.rebin           = 10
 plot10.ymin            = 0.0001
-plot10.ymax            = 20
+plot10.ymax            = 50
 plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
 plot10.histodata       = h_Eta2ndJet_DATA
