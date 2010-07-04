@@ -10,12 +10,18 @@
 import os
 
 #### USER"S INPUTS HERE ####
-inputFileName="../cutTable_eejjSample.txt" # Will be used as a template and left untouched
+inputFileName="cutTable_eejjSample.txt" # Will be used as a template and left untouched
 ## St and Mee values - One cut file will be created in this dir for each St,Mee pair
 StValues =["140", "240", "300"] # Opt values for MLQ=100,200,300 GeV at ILum=100 nb-1
 MeeValues=["100", "100", "100"] # Optimized Mee was 95, but we set it to 100 GeV
 #### End OF USER"S INPUTS ####
 
+print "This will generate cut files in the current directory starting from the template file:"
+print "  "+inputFileName
+print "and setting the following St,Mee value pairs:"
+for i, unused in enumerate(StValues) :
+    print "  St = "+StValues[i]+", Mee = "+MeeValues[i]
+resp = raw_input("Continue? [Hit CTRL-C to cancel, RETURN to proceed]")
 
 def replaceCutValue(filename, variable, newvalue) :
     f = file(filename)
@@ -53,5 +59,6 @@ for i, unused in enumerate(StValues) :
     os.system("cp "+inputFileName+" "+outFileName)
     replaceCutValue(outFileName,"sT",StValues[i])
     replaceCutValue(outFileName,"Mee",MeeValues[i])
+    print "Generated file: "+outFileName
 
 
