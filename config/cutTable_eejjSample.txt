@@ -22,8 +22,8 @@ jet_PtCut             10           -                    -               -       
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.5          -                    -               -               -1
 muon_jet_DeltaRcut    0.1          -                    -               -               -1
-TriggerBits1          51           52                   67              68              -1
-## EM80=51, EM200=52, HLTPhoton15=67, HLTPhoton25=68 (HLT1EMHightEtb=40, HLT1EMVeryHightEt=41 old??) ##
+## 'HLT_Mu9','HLT_Photon15_L1R','HLT_Photon20_L1R','HLT_Photon30_L1R_8E29','HLT_Ele15_LW_L1R','HLT_Jet30U','HLT_MET45','HLT_MinBiasBSC'
+HLTTrigger            1            -                    -               -               -1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
@@ -53,7 +53,7 @@ PassBeamScraping		0	     1			-		-		0	2 -0.5 1.5
 PassPrimaryVertex		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseFilter		0	     1			-		-		0	2 -0.5 1.5
 #
-#PassHLT				0	     1			-		-		1	3 -0.5 1.5
+PassHLT				0	     1			-		-		1	2 -0.5 1.5
 nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut_IDISO_noOvrlp	1	     +inf		-		-		1	16 -0.5 15.5
