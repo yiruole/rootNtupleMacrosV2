@@ -95,7 +95,8 @@ void analysisClass::Loop()
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
     //## HLT
-    bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
+    int HLTTrigger = (int) getPreCutValue1("HLTTrigger");
+    int PassTrig=HLTResults->at(HLTTrigger); // results of HLTPhoton15 
 
     // Electrons
     vector<int> v_idx_ele_all;
@@ -106,6 +107,9 @@ void analysisClass::Loop()
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
+	// Reject ECAL spikes
+	if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
+
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
 
@@ -198,7 +202,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "PassPhysDecl", true ) ;       
       }
 
-    //fillVariableWithValue( "PassHLT", PassTrig ) ;
+    fillVariableWithValue( "PassHLT", PassTrig ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
