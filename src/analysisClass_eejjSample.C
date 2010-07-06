@@ -142,19 +142,40 @@ void analysisClass::Loop()
 
 	//pT pre-cut on reco jets
 	if ( CaloJetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
-
 	v_idx_jet_PtCut.push_back(ijet);
 
+	//Checking overlap between electrons and jets
+	int JetOverlapsWithEle = 0; //don't change the default (0) 
+	float minDeltaR=9999.;
+	TVector3 jet_vec;
+	jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
+	for (int i=0; i < v_idx_ele_PtCut_IDISO_noOverlap.size(); i++){
+	  TVector3 ele_vec;	  
+	  ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
+			      ,ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
+			      ,ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[i]));
+	  double distance = jet_vec.DeltaR(ele_vec);
+	  if (distance<minDeltaR) minDeltaR=distance;
+	}
+	if ( minDeltaR < getPreCutValue1("jet_ele_DeltaRcut") )
+	  JetOverlapsWithEle = 1; //this jet overlaps with a good electron --> remove it from the analysis
+
 	//pT pre-cut + no overlaps with electrons
-	if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
-	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
+	// ---- use the flag stored in rootTuples
+	//if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
+	// && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
+	// ----
+	if( JetOverlapsWithEle == 0 )  /* NO overlap with electrons */  
 	  v_idx_jet_PtCut_noOverlap.push_back(ijet);
 
 	//pT pre-cut + no overlaps with electrons + jetID
 	bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
-	if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
-	    && passjetID == true )                                 /* pass JetID */
-	    // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
+	// ---- use the flag stored in rootTuples
+	//if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
+	// ----
+	if( JetOverlapsWithEle == 0                           /* NO overlap with electrons */  
+	    && passjetID == true )                            /* pass JetID */
+	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
 	  v_idx_jet_PtCut_noOverlap_ID.push_back(ijet);
 
 	//NOTE: We should verify that caloJetOverlaps match with the code above
