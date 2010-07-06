@@ -61,7 +61,7 @@ class Plot:
     logscale    = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "21.05 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "58.41 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
@@ -200,6 +200,8 @@ FileDATA = FileMC
     
 #--- Mee ---
 
+h_Mee_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
+h_Mee_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
@@ -222,20 +224,22 @@ plot0.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_QCDPt15,
 plot0.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot0.histos          = [h_Mee_LQeejj_M300, h_Mee_LQeejj_M400, h_Mee_LQeejj_M500]
-plot0.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot0.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
+plot0.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot0.xtit            = "M(ee) (GeV)"
 plot0.ytit            = "Number of events"
 plot0.logscale        = "yes"
 plot0.rebin           = 1
 plot0.ymin            = 0.00000001
-plot0.ymax            = 5
+plot0.ymax            = 20
 #plot0.lpos = "bottom-center"
 plot0.name            = "Mee_allPreviousCuts"
 plot0.histodata       = h_Mee_DATA
 
 #--- nEle_PtCut_IDISO_noOvrlp ---
 
+h_nEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
+h_nEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
@@ -255,14 +259,14 @@ plot1.histosStack     = [h_nEle_TTbar, h_nEle_ZJetAlpgen, h_nEle_QCDPt15,
 plot1.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot1.histos          = [h_nEle_LQeejj_M300, h_nEle_LQeejj_M400, h_nEle_LQeejj_M500]
-plot1.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot1.histos          = [h_nEle_LQeejj_M100, h_nEle_LQeejj_M200, h_nEle_LQeejj_M300]
+plot1.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot1.xtit            = "Number of Heep electrons (pT>25 GeV)"
 plot1.ytit            = "Number of events"
 plot1.logscale        = "yes"
 plot1.rebin           = 1
 plot1.ymin            = 0.0001
-plot1.ymax            = 10000000
+plot1.ymax            = 20000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
 plot1.histodata       = h_nEle_DATA
@@ -272,6 +276,8 @@ plot1.histodata       = h_nEle_DATA
 
 #--- Pt1stEle_IDISO_NoOvrlp  ---
 
+h_pT1stEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
+h_pT1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
@@ -291,14 +297,14 @@ plot2.histosStack     = [h_pT1stEle_TTbar, h_pT1stEle_ZJetAlpgen, h_pT1stEle_QCD
 plot2.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot2.histos          = [h_pT1stEle_LQeejj_M300, h_pT1stEle_LQeejj_M400, h_pT1stEle_LQeejj_M500]
-plot2.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot2.histos          = [h_pT1stEle_LQeejj_M100, h_pT1stEle_LQeejj_M200, h_pT1stEle_LQeejj_M300]
+plot2.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot2.xtit            = "pT 1st HEEP electron (GeV)"
 plot2.ytit            = "Number of events"
 plot2.logscale        = "yes"
 plot2.rebin           = 1
 plot2.ymin            = 0.00000001
-plot2.ymax            = 5
+plot2.ymax            = 20
 #plot2.lpos = "bottom-center"
 plot2.name            = "pT1stEle_allPreviousCuts"
 plot2.histodata       = h_pT1stEle_DATA
@@ -306,6 +312,8 @@ plot2.histodata       = h_pT1stEle_DATA
 
 #--- Eta1stEle_IDISO_NoOvrlp  ---
 
+h_Eta1stEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
+h_Eta1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
@@ -325,14 +333,14 @@ plot3.histosStack     = [h_Eta1stEle_TTbar, h_Eta1stEle_ZJetAlpgen, h_Eta1stEle_
 plot3.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot3.histos          = [h_Eta1stEle_LQeejj_M300, h_Eta1stEle_LQeejj_M400, h_Eta1stEle_LQeejj_M500]
-plot3.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot3.histos          = [h_Eta1stEle_LQeejj_M100, h_Eta1stEle_LQeejj_M200, h_Eta1stEle_LQeejj_M300]
+plot3.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot3.xtit            = "#eta 1st HEEP electron"
 plot3.ytit            = "Number of events"
 plot3.logscale        = "yes"
 plot3.rebin           = 10
 plot3.ymin            = 0.0001
-plot3.ymax            = 50
+plot3.ymax            = 1000
 plot3.lpos = "top-left"
 plot3.name            = "Eta1stEle_allPreviousCuts"
 plot3.histodata       = h_Eta1stEle_DATA
@@ -341,6 +349,8 @@ plot3.histodata       = h_Eta1stEle_DATA
 
 #--- Pt2ndEle_IDISO_NoOvrlp  ---
 
+h_pT2ndEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
+h_pT2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
@@ -360,14 +370,14 @@ plot4.histosStack     = [h_pT2ndEle_TTbar, h_pT2ndEle_ZJetAlpgen, h_pT2ndEle_QCD
 plot4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot4.histos          = [h_pT2ndEle_LQeejj_M300, h_pT2ndEle_LQeejj_M400, h_pT2ndEle_LQeejj_M500]
-plot4.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot4.histos          = [h_pT2ndEle_LQeejj_M100, h_pT2ndEle_LQeejj_M200, h_pT2ndEle_LQeejj_M300]
+plot4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot4.xtit            = "pT 2nd HEEP electron (GeV)"
 plot4.ytit            = "Number of events"
 plot4.logscale        = "yes"
 plot4.rebin           = 1
 plot4.ymin            = 0.00000001
-plot4.ymax            = 5
+plot4.ymax            = 20
 #plot4.lpos = "bottom-center"
 plot4.name            = "pT2ndEle_allPreviousCuts"
 plot4.histodata       = h_pT2ndEle_DATA
@@ -375,6 +385,8 @@ plot4.histodata       = h_pT2ndEle_DATA
 
 #--- Eta2ndEle_IDISO_NoOvrlp  ---
 
+h_Eta2ndEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
+h_Eta2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
@@ -394,14 +406,14 @@ plot5.histosStack     = [h_Eta2ndEle_TTbar, h_Eta2ndEle_ZJetAlpgen, h_Eta2ndEle_
 plot5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot5.histos          = [h_Eta2ndEle_LQeejj_M300, h_Eta2ndEle_LQeejj_M400, h_Eta2ndEle_LQeejj_M500]
-plot5.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot5.histos          = [h_Eta2ndEle_LQeejj_M100, h_Eta2ndEle_LQeejj_M200, h_Eta2ndEle_LQeejj_M300]
+plot5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot5.xtit            = "#eta 2nd HEEP electron"
 plot5.ytit            = "Number of events"
 plot5.logscale        = "yes"
 plot5.rebin           = 10
 plot5.ymin            = 0.0001
-plot5.ymax            = 50
+plot5.ymax            = 1000
 plot5.lpos = "top-left"
 plot5.name            = "Eta2ndEle_allPreviousCuts"
 plot5.histodata       = h_Eta2ndEle_DATA
@@ -409,6 +421,8 @@ plot5.histodata       = h_Eta2ndEle_DATA
 
 #--- nJet_PAS ---
 
+h_nJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
+h_nJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
@@ -429,14 +443,14 @@ plot6.histosStack     = [h_nJet_TTbar, h_nJet_ZJetAlpgen, h_nJet_QCDPt15,
 plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot6.histos          = [h_nJet_LQeejj_M300, h_nJet_LQeejj_M400, h_nJet_LQeejj_M500]
-plot6.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot6.histos          = [h_nJet_LQeejj_M100, h_nJet_LQeejj_M200, h_nJet_LQeejj_M300]
+plot6.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot6.xtit            = "Number of jets (pT>10GeV)"
 plot6.ytit            = "Number of events"
 plot6.logscale        = "yes"
 plot6.rebin           = 1
 plot6.ymin            = 0.0001
-plot6.ymax            = 5
+plot6.ymax            = 20
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.histodata       = h_nJet_DATA
@@ -445,6 +459,8 @@ plot6.histodata       = h_nJet_DATA
 
 #--- Pt1stJet_PAS ---
 
+h_Pt1stJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
+h_Pt1stJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
@@ -465,14 +481,14 @@ plot7.histosStack     = [h_Pt1stJet_TTbar, h_Pt1stJet_ZJetAlpgen, h_Pt1stJet_QCD
 plot7.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot7.histos          = [h_Pt1stJet_LQeejj_M300, h_Pt1stJet_LQeejj_M400, h_Pt1stJet_LQeejj_M500]
-plot7.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot7.histos          = [h_Pt1stJet_LQeejj_M100, h_Pt1stJet_LQeejj_M200, h_Pt1stJet_LQeejj_M300]
+plot7.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot7.xtit            = "pT 1st jet (GeV)"
 plot7.ytit            = "Number of events"
 plot7.logscale        = "yes"
 plot7.rebin           = 1
 plot7.ymin            = 0.00000001
-plot7.ymax            = 5
+plot7.ymax            = 20
 #plot7.lpos = "bottom-center"
 plot7.name            = "Pt1stJet_allPreviousCuts"
 plot7.histodata       = h_Pt1stJet_DATA
@@ -480,6 +496,8 @@ plot7.histodata       = h_Pt1stJet_DATA
 
 #--- Eta1stJet_PAS ---
 
+h_Eta1stJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
+h_Eta1stJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
@@ -500,14 +518,14 @@ plot8.histosStack     = [h_Eta1stJet_TTbar, h_Eta1stJet_ZJetAlpgen, h_Eta1stJet_
 plot8.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot8.histos          = [h_Eta1stJet_LQeejj_M300, h_Eta1stJet_LQeejj_M400, h_Eta1stJet_LQeejj_M500]
-plot8.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot8.histos          = [h_Eta1stJet_LQeejj_M100, h_Eta1stJet_LQeejj_M200, h_Eta1stJet_LQeejj_M300]
+plot8.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot8.xtit            = "#eta 1st jet (GeV)"
 plot8.ytit            = "Number of events"
 plot8.logscale        = "yes"
 plot8.rebin           = 20
 plot8.ymin            = 0.0001
-plot8.ymax            = 50
+plot8.ymax            = 1000
 plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
 plot8.histodata       = h_Eta1stJet_DATA
@@ -515,6 +533,8 @@ plot8.histodata       = h_Eta1stJet_DATA
 
 #--- Pt2ndJet_PAS ---
 
+h_Pt2ndJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
+h_Pt2ndJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
@@ -535,14 +555,14 @@ plot9.histosStack     = [h_Pt2ndJet_TTbar, h_Pt2ndJet_ZJetAlpgen, h_Pt2ndJet_QCD
 plot9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot9.histos          = [h_Pt2ndJet_LQeejj_M300, h_Pt2ndJet_LQeejj_M400, h_Pt2ndJet_LQeejj_M500]
-plot9.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot9.histos          = [h_Pt2ndJet_LQeejj_M100, h_Pt2ndJet_LQeejj_M200, h_Pt2ndJet_LQeejj_M300]
+plot9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot9.xtit            = "pT 2nd jet (GeV)"
 plot9.ytit            = "Number of events"
 plot9.logscale        = "yes"
 plot9.rebin           = 1
 plot9.ymin            = 0.00000001
-plot9.ymax            = 5
+plot9.ymax            = 20
 #plot9.lpos = "bottom-center"
 plot9.name            = "Pt2ndJet_allPreviousCuts"
 plot9.histodata       = h_Pt2ndJet_DATA
@@ -550,6 +570,8 @@ plot9.histodata       = h_Pt2ndJet_DATA
 
 #--- Eta2ndJet_PAS ---
 
+h_Eta2ndJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
+h_Eta2ndJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
@@ -570,20 +592,22 @@ plot10.histosStack     = [h_Eta2ndJet_TTbar, h_Eta2ndJet_ZJetAlpgen, h_Eta2ndJet
 plot10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot10.histos          = [h_Eta2ndJet_LQeejj_M300, h_Eta2ndJet_LQeejj_M400, h_Eta2ndJet_LQeejj_M500]
-plot10.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot10.histos          = [h_Eta2ndJet_LQeejj_M100, h_Eta2ndJet_LQeejj_M200, h_Eta2ndJet_LQeejj_M300]
+plot10.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot10.xtit            = "#eta 2nd jet (GeV)"
 plot10.ytit            = "Number of events"
 plot10.logscale        = "yes"
 plot10.rebin           = 10
 plot10.ymin            = 0.0001
-plot10.ymax            = 50
+plot10.ymax            = 1000
 plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
 plot10.histodata       = h_Eta2ndJet_DATA
 
 #--- sT ---
 
+h_sT_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________sT_PAS", FileMC)
@@ -606,14 +630,14 @@ plot11.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_QCDPt15,
 plot11.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
                          "single top", "di-bosons + jets", "W/W* + jets" ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot11.histos          = [h_sT_LQeejj_M300, h_sT_LQeejj_M400, h_sT_LQeejj_M500]
-plot11.keys            = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+plot11.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
+plot11.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot11.xtit            = "St (GeV)"
 plot11.ytit            = "Number of events"
 plot11.logscale        = "yes"
 plot11.rebin           = 1
 plot11.ymin            = 0.00000001
-plot11.ymax            = 5
+plot11.ymax            = 20
 #plot11.lpos = "bottom-center"
 plot11.name            = "sT_allPreviousCuts"
 plot11.histodata       = h_sT_DATA
