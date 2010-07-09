@@ -97,6 +97,10 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    //## HLT
+    int HLTTrigger = (int) getPreCutValue1("HLTTrigger");
+    int PassTrig=HLTResults->at(HLTTrigger); // results of HLTPhoton15 
+
     // Electrons
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
@@ -106,6 +110,9 @@ void analysisClass::Loop()
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
+        // Reject ECAL spikes
+        if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
+
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
 
@@ -138,20 +145,41 @@ void analysisClass::Loop()
 
 	//pT pre-cut on reco jets
 	if ( CaloJetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
-
 	v_idx_jet_PtCut.push_back(ijet);
 
-	//pT pre-cut + no overlaps with electrons
-	if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
-	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
-	  v_idx_jet_PtCut_noOverlap.push_back(ijet);
+        //Checking overlap between electrons and jets
+        int JetOverlapsWithEle = 0; //don't change the default (0) 
+        float minDeltaR=9999.;
+        TVector3 jet_vec;
+        jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
+        for (int i=0; i < v_idx_ele_PtCut_IDISO_noOverlap.size(); i++){
+          TVector3 ele_vec;       
+          ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
+                              ,ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
+                              ,ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[i]));
+          double distance = jet_vec.DeltaR(ele_vec);
+          if (distance<minDeltaR) minDeltaR=distance;
+        }
+        if ( minDeltaR < getPreCutValue1("jet_ele_DeltaRcut") )
+          JetOverlapsWithEle = 1; //this jet overlaps with a good electron --> remove it from the analysis
 
-	//pT pre-cut + no overlaps with electrons + jetID
-	bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
-	if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
-	    && passjetID == true )                                 /* pass JetID */
-	    // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
-	  v_idx_jet_PtCut_noOverlap_ID.push_back(ijet);
+        //pT pre-cut + no overlaps with electrons
+        // ---- use the flag stored in rootTuples
+        //if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
+        // && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
+        // ----
+        if( JetOverlapsWithEle == 0 )  /* NO overlap with electrons */  
+          v_idx_jet_PtCut_noOverlap.push_back(ijet);
+
+        //pT pre-cut + no overlaps with electrons + jetID
+        bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
+        // ---- use the flag stored in rootTuples
+        //if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
+        // ----
+        if( JetOverlapsWithEle == 0                           /* NO overlap with electrons */  
+            && passjetID == true )                            /* pass JetID */
+          // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
+          v_idx_jet_PtCut_noOverlap_ID.push_back(ijet);
 
 	//NOTE: We should verify that caloJetOverlaps match with the code above
       } // End loop over jets
@@ -172,9 +200,12 @@ void analysisClass::Loop()
 	if ( MuonPt->at(imuon) < getPreCutValue1("muon_PtCut") ) continue;
 	 
 	v_idx_muon_PtCut.push_back(imuon);
-
+        
 	//ID + ISO
-	if ( MuonPassIso->at(imuon)==1 && MuonPassID->at(imuon)==1)
+	if ( MuonPassIso->at(imuon)==1 && MuonPassID->at(imuon)==1
+             && fabs(MuonEta->at(imuon)) < getPreCutValue1("muFidRegion")
+             && MuonTrkHits->at(imuon) >= getPreCutValue1("muNHits_minThresh")
+             && fabs(MuonTrkD0->at(imuon)) < getPreCutValue1("muTrkD0Maximum") )
 	  v_idx_muon_PtCut_IDISO.push_back(imuon);
 
       } // End loop over muons
@@ -198,7 +229,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "PassPhysDecl", true ) ;       
       }
 
-    //fillVariableWithValue( "HLT", PassTrig ) ;
+    fillVariableWithValue( "PassHLT", PassTrig ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
@@ -342,7 +373,7 @@ void analysisClass::Loop()
 	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
 			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
 			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
-	TLorentzVector jet1ele1, jet2ele1, jet1nu1, jet2nu1;
+	TLorentzVector jet1ele1, jet2ele1;
 	jet1ele1 = jet1 + ele1;
 	jet2ele1 = jet2 + ele1;
 	Me1j1 = jet1ele1.M();

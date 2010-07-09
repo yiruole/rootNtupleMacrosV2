@@ -199,8 +199,11 @@ void analysisClass::Loop()
 	v_idx_muon_PtCut.push_back(imuon);
 
 	//ID + ISO
-	if ( MuonPassIso->at(imuon)==1 && MuonPassID->at(imuon)==1)
-	  v_idx_muon_PtCut_IDISO.push_back(imuon);
+        if ( MuonPassIso->at(imuon)==1 && MuonPassID->at(imuon)==1
+             && fabs(MuonEta->at(imuon)) < getPreCutValue1("muFidRegion")
+             && MuonTrkHits->at(imuon) >= getPreCutValue1("muNHits_minThresh")
+             && fabs(MuonTrkD0->at(imuon)) < getPreCutValue1("muTrkD0Maximum") )
+          v_idx_muon_PtCut_IDISO.push_back(imuon);
 
       } // End loop over muons
 
@@ -368,7 +371,7 @@ void analysisClass::Loop()
 	diff_11_22 = M11 - M22;
 	diff_12_21 = M12 - M21;
 
-	if(diff_11_22 > diff_12_21)
+	if(fabs(diff_11_22) > fabs(diff_12_21))
 	  {
 	    fillVariableWithValue("Mej_1stPair", M12);       
 	    fillVariableWithValue("Mej_2ndPair", M21);
