@@ -24,7 +24,7 @@ jet_ele_DeltaRcut     0.5          -                    -               -       
 muon_jet_DeltaRcut    0.1          -                    -               -               -1
 muFidRegion           2.1          -                    -               -               -1
 muNHits_minThresh     11           -                    -               -               -1
-muTrkD0Maximum        0.25         -                    -               -               -1
+muTrkD0Maximum        0.2         -                    -               -               -1
 ## 'HLT_Mu9','HLT_Photon15_L1R','HLT_Photon20_L1R','HLT_Photon30_L1R_8E29','HLT_Ele15_LW_L1R','HLT_Jet30U','HLT_MET45','HLT_MinBiasBSC'
 HLTTrigger            1            -                    -               -               -1
 eleEta_bar            1.442        -                    -               -               -1
