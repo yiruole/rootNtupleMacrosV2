@@ -18,7 +18,7 @@ MeeValues=["100", "100", "100"] # Optimized Mee was 95, but we set it to 100 GeV
 
 print "This will generate cut files in the current directory starting from the template file:"
 print "  "+inputFileName
-print "and setting the following St,Mee value pairs:"
+print "and set the following St,Mee value pairs:"
 for i, unused in enumerate(StValues) :
     print "  St = "+StValues[i]+", Mee = "+MeeValues[i]
 resp = raw_input("Continue? [Hit CTRL-C to cancel, RETURN to proceed]")
