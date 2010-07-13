@@ -97,7 +97,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
+    //for (Long64_t jentry=0; jentry<10;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -106,8 +106,9 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    //## HLT
+    //if (PtHat<=30) continue;
 
+    //## HLT
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
     //bool PassTrig=HLTBits->at(71); // results of HLTPhoton15 
     int TrigDiff = HLTBits->at(71) - HLTResults->at(1);
@@ -128,7 +129,7 @@ void analysisClass::Loop()
 	if( ElectronPt->at(iele) < getPreCutValue1("ele_PtCut") ) continue; 
 	v_idx_ele_PtCut.push_back(iele);
 
-	//ID + ISO + NO overlap with good muons 
+// 	//ID + ISO + NO overlap with good muons 
 // 	int eleID = ElectronPassID->at(iele);
 // 	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
 // 	  {
@@ -152,22 +153,24 @@ void analysisClass::Loop()
 	  }
 	}
 
+	double eleEt = ElectronPt->at(iele);
 	if ((fabs(ElectronEta->at(iele))>1.56) && (fabs(ElectronEta->at(iele))<2.5)){
 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.007){
 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
 	    if (ElectronHoE->at(iele)<0.05){
 	      if (ElectronSigmaIEtaIEta->at(iele)<0.03){
-		if ((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<2.5){
-		    if (ElectronTrkIsoHeep->at(iele)<7.5){
+		if (((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<2.5) || 
+		    ((eleEt>50)&&(ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))< ((0.03*(eleEt-50))+2.5))){
+		    if (ElectronTrkIsoHeep->at(iele)<15){
 		      if (ElectronHcalIsoD2Heep->at(iele)<0.5){
 		      HEEP = true;
 		      }
 		    }
-		  }
 		}
 	      }
 	    }
 	  }
+	}
 	}
 
 	if ( HEEP  && ElectronOverlaps->at(iele)==0 )
@@ -567,17 +570,15 @@ void analysisClass::Loop()
 	 }
 
 	 double probSC1 = 0, probSC2 = 0;
-	 double BarrelCross = -0.000534;
-	 double BarrelSlope = 0.000102;
-	 double EndcapCross = 0.00896;
-	 double EndcapSlope = 0.00121;
+	 double BarrelCross = 0.005838;
+	 double BarrelSlope = 0.0;
+	 double EndcapCross = 0.03723;
+	 double EndcapSlope = 0.0;
 
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[0])<70) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[1])<70) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[0])>=70) probSC1 = EndcapCross + EndcapSlope*70 ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && SuperClusterPt->at(v_idx_sc_iso[1])>=70) probSC2 = EndcapCross + EndcapSlope*70;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<2.5 ) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<2.5 ) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
       
 	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
 	 h_probSt->Fill(calc_sT,probSC1+probSC2);
