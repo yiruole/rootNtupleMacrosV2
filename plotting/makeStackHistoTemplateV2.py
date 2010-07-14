@@ -175,7 +175,7 @@ class Plot:
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
-        canvas.SaveAs(plot.name + ".eps","eps")
+        canvas.SaveAs(plot.name + ".pdf","pdf")
         canvas.Print(fileps)
 
 
@@ -205,7 +205,7 @@ h_Mee_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts____
 h_Mee_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
-h_Mee_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
+h_Mee_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 #h_Mee_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
 h_Mee_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee_PAS", FileMC)
@@ -228,13 +228,43 @@ plot0.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300
 plot0.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot0.xtit            = "M(ee) (GeV)"
 plot0.ytit            = "Number of events"
-plot0.logscale        = "yes"
+# plot0.logscale        = "yes"
+# plot0.rebin           = 1
+# plot0.ymin            = 0.00000001
+# plot0.ymax            = 20
+plot0.logscale        = "no"
 plot0.rebin           = 1
-plot0.ymin            = 0.00000001
-plot0.ymax            = 20
+plot0.ymin            = 0
+plot0.ymax            = 9
+plot0.xmin            = 0
+plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
 plot0.name            = "Mee_allPreviousCuts"
 plot0.histodata       = h_Mee_DATA
+
+plot0_ylog = Plot() 
+## inputs for stacked histograms
+## it created h_Mee_TTbar, h_Mee_TTbar+h_Mee_ZJetAlpgen , h_Mee_TTbar+h_Mee_ZJetAlpgen+h_Mee_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot0_ylog.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_QCDPt15,
+                         h_Mee_SingleTop, h_Mee_VVjets, h_Mee_WJetAlpgen]
+plot0_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
+                         "single top", "di-bosons + jets", "W/W* + jets" ]
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot0_ylog.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
+plot0_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot0_ylog.xtit            = "M(ee) (GeV)"
+plot0_ylog.ytit            = "Number of events"
+plot0_ylog.logscale        = "yes"
+plot0_ylog.rebin           = 1
+plot0_ylog.ymin            = 0.00000001
+plot0_ylog.ymax            = 20
+plot0_ylog.xmin            = 0
+plot0_ylog.xmax            = 1000
+#plot0_ylog.lpos = "bottom-center"
+plot0_ylog.name            = "Mee_allPreviousCuts"
+plot0_ylog.histodata       = h_Mee_DATA
+
 
 #--- nEle_PtCut_IDISO_noOvrlp ---
 
@@ -243,7 +273,7 @@ h_nEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts___
 h_nEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
-h_nEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
+h_nEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 #h_nEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
 h_nEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", FileMC)
@@ -281,7 +311,7 @@ h_pT1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCut
 h_pT1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
-h_pT1stEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
+h_pT1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 #h_pT1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
 h_pT1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", FileMC)
@@ -317,7 +347,7 @@ h_Eta1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCu
 h_Eta1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
-h_Eta1stEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
+h_Eta1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 #h_Eta1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
 h_Eta1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", FileMC)
@@ -354,7 +384,7 @@ h_pT2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCut
 h_pT2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
-h_pT2ndEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
+h_pT2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 #h_pT2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
 h_pT2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", FileMC)
@@ -390,7 +420,7 @@ h_Eta2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCu
 h_Eta2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
-h_Eta2ndEle_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
+h_Eta2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 #h_Eta2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
 h_Eta2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", FileMC)
@@ -426,7 +456,7 @@ h_nJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts___
 h_nJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
-h_nJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
+h_nJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 #h_nJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
 h_nJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nJet_PAS", FileMC)
@@ -464,7 +494,7 @@ h_Pt1stJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCut
 h_Pt1stJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
-h_Pt1stJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
+h_Pt1stJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 #h_Pt1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
 h_Pt1stJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stJet_PAS", FileMC)
@@ -501,7 +531,7 @@ h_Eta1stJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCu
 h_Eta1stJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
-h_Eta1stJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
+h_Eta1stJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 #h_Eta1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
 h_Eta1stJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stJet_PAS", FileMC)
@@ -538,7 +568,7 @@ h_Pt2ndJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCut
 h_Pt2ndJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
-h_Pt2ndJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
+h_Pt2ndJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 #h_Pt2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
 h_Pt2ndJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndJet_PAS", FileMC)
@@ -575,7 +605,7 @@ h_Eta2ndJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCu
 h_Eta2ndJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
-h_Eta2ndJet_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
+h_Eta2ndJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 #h_Eta2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
 h_Eta2ndJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndJet_PAS", FileMC)
@@ -611,7 +641,7 @@ h_sT_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts_____
 h_sT_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________sT_PAS", FileMC)
-h_sT_TTbar = GetHisto("histo1D__TTbar__cutHisto_allPreviousCuts________sT_PAS", FileMC)
+h_sT_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 #h_sT_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________sT_PAS", FileMC)
 h_sT_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________sT_PAS", FileMC)
@@ -646,7 +676,7 @@ plot11.histodata       = h_sT_DATA
 
 
 # List of plots to be plotted
-plots = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11]
+plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11]
 
 
 ############# USER CODE - END ################################################
