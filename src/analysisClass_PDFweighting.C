@@ -76,9 +76,12 @@ void analysisClass::Loop()
   TH1F *h_PDFWeight_eff = new TH1F ("PDFWeight_eff","PDFWeight_eff",41,-0.5,40.5); h_PDFWeight_eff->Sumw2();
   TH1F *h_PDFWeight_Npass = new TH1F ("PDFWeight_Npass","PDFWeight_Npass",41,-0.5,40.5); h_PDFWeight_Npass->Sumw2();
 
-  double N_events=0;
+  double N_events[41];
   double cum_weights_PASS[41];
-  for (int i=0;i<41;i++) cum_weights_PASS[i]=0;
+  for (int i=0;i<41;i++){
+    cum_weights_PASS[i]=0;
+    N_events[i]=0;
+  }
   
   ////////////////////// User's code to book histos - END ///////////////////////
     
@@ -99,7 +102,12 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    N_events++;
+    double CentralWeight = PDFWeights->at(0) ;
+    for(int pdf=0;pdf<PDFWeights->size();pdf++){
+      double tmp = (PDFWeights->at(pdf)/CentralWeight);
+      if (tmp!=tmp) continue; // solves nan problem
+      N_events[pdf]=N_events[pdf]+tmp;
+    }
 
     //## HLT
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
@@ -373,7 +381,7 @@ void analysisClass::Loop()
 
   h_Mej->Write();
   for (int i=0;i<41;i++) {
-    if (N_events!=0) h_PDFWeight_eff->Fill(i,cum_weights_PASS[i]/N_events);
+    if (N_events[i]!=0) h_PDFWeight_eff->Fill(i,cum_weights_PASS[i]/N_events[i]);
     }
   h_PDFWeight_eff->Write();
   h_PDFWeight_Npass->Write();
