@@ -106,7 +106,7 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    //if (PtHat<=30) continue;
+    //if (PtHat>=30) continue;
 
     //## HLT
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
@@ -472,8 +472,33 @@ void analysisClass::Loop()
 
      // Fill histograms and do analysis based on cut evaluation
 
+     if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
+       {
+	 for (int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++){
+	   h_actualPt1stSc->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	   h_actualSt->Fill(calc_sT);
+	 }
+
+	 double probSC1 = 0, probSC2 = 0;
+	 double BarrelCross = 0.005838;
+	 double BarrelSlope = 0;
+	 double EndcapCross = 0.03723;
+	 double EndcapSlope = 0.00;
+
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<2.5 && (SuperClusterPt->at(v_idx_sc_iso[0])<70)) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<2.5 && (SuperClusterPt->at(v_idx_sc_iso[0])<70) ) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<2.5 && (SuperClusterPt->at(v_idx_sc_iso[0])>=70)) probSC1 = EndcapCross + EndcapSlope*70 ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<2.5 && (SuperClusterPt->at(v_idx_sc_iso[0])>=70) ) probSC2 = EndcapCross + EndcapSlope*70;
+      
+	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1*probSC2);
+	 h_probSt->Fill(calc_sT,probSC1*probSC2);
+       }
+
      //// Fill fake rate plots
-     //if (MassEE>60 && MassEE<120) continue; //get rid of Zs
+     if (PFMET->at(0)>10) continue;
+     if (MassEE>60 && MassEE<120) continue; //get rid of Zs
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
 	     //Require dR>3 between SC and JET
@@ -561,28 +586,6 @@ void analysisClass::Loop()
 		}
 	     }
 	   } // for sc
-
-     if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
-       {
-	 for (int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++){
-	   h_actualPt1stSc->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	   h_actualSt->Fill(calc_sT);
-	 }
-
-	 double probSC1 = 0, probSC2 = 0;
-	 double BarrelCross = 0.005838;
-	 double BarrelSlope = 0.0;
-	 double EndcapCross = 0.03723;
-	 double EndcapSlope = 0.0;
-
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<2.5 ) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<2.5 ) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-      
-	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
-	 h_probSt->Fill(calc_sT,probSC1+probSC2);
-       }
 
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
