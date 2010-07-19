@@ -95,8 +95,25 @@ void analysisClass::Loop()
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
     //## HLT
-    int HLTTrigger = (int) getPreCutValue1("HLTTrigger");
-    int PassTrig=HLTResults->at(HLTTrigger); // results of HLTPhoton15 
+    int PassTrig = 0;
+    int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
+			 getPreCutValue2("HLTFromRun"),
+			 getPreCutValue3("HLTFromRun"),
+			 getPreCutValue4("HLTFromRun")};
+    int HLTTrigger[4] = {getPreCutValue1("HLTTrigger"),
+			 getPreCutValue2("HLTTrigger"),
+			 getPreCutValue3("HLTTrigger"),
+			 getPreCutValue4("HLTTrigger")};
+    for (int i=0; i<4; i++) {
+      if ( HLTFromRun[i] <= run ) {
+ 	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
+	if (HLTTrigger[i] < HLTResults->size() ) {
+	  PassTrig=HLTResults->at(HLTTrigger[i]);
+	} else {
+	  STDOUT("ERROR: HLTTrigger exceeds size of HLTResults");
+	}
+      }
+    }
 
     // Electrons
     vector<int> v_idx_ele_all;
