@@ -148,11 +148,12 @@ class Plot:
             ih=ih+1
 
         #-- plot data
-        if(plot.rebin!=""):
-            plot.histodata.Rebin(plot.rebin)
-        plot.histodata.SetMarkerStyle(20)
-        legend.AddEntry(plot.histodata, "data","p")
-        plot.histodata.Draw("psame")
+        if(plot.histodata!=""):
+            if(plot.rebin!=""):
+                plot.histodata.Rebin(plot.rebin)
+            plot.histodata.SetMarkerStyle(20)
+            legend.AddEntry(plot.histodata, "data","p")
+            plot.histodata.Draw("psame")
 
         #-- draw label
         l = TLatex()
@@ -161,13 +162,13 @@ class Plot:
         l.SetTextFont(62)
         l.SetNDC()
         if (plot.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS 2010 Preliminary")
+            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
             l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
         if (plot.lpos=="top-left"):
-            l.DrawLatex(0.12,0.65,"CMS 2010 Preliminary")
+            l.DrawLatex(0.12,0.65,"CMS Preliminary 2010")
             l.DrawLatex(0.12,0.60,"L_{int} = " + plot.lint)
         else:
-            l.DrawLatex(0.60,0.65,"CMS 2010 Preliminary")
+            l.DrawLatex(0.60,0.65,"CMS Preliminary 2010")
             l.DrawLatex(0.60,0.60,"L_{int} = " + plot.lint)
 
         #-- end
