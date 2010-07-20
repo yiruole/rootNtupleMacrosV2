@@ -18,7 +18,7 @@
 ele_PtCut	      25		-		-		-		-1
 eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
-jet_PtCut             10           -                    -               -               -1
+jet_PtCut             25           -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.5          -                    -               -               -1
 muon_jet_DeltaRcut    0.1          -                    -               -               -1
@@ -56,6 +56,7 @@ PassBeamScraping		0	     1			-		-		0	2 -0.5 1.5
 PassPrimaryVertex		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseFilter		0	     1			-		-		0	2 -0.5 1.5
 #
+PassHLT                         0            1                  -               -               1       2 -0.5 1.5
 nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut_IDISO_noOvrlp	0	     1			-		-		1	16 -0.5 15.5
@@ -66,7 +67,7 @@ mEta1stEle_IDISO_NoOvrlp        -inf	     2.5                -               -  
 MTenu_PAS                       -inf	     +inf               -               -               2       200 0 1000
 mDeltaPhiMETEle_PAS		-inf	     +inf		-		-		2	50 0 4
 #
-MET				30	     +inf               -               -               2       200 0 1000
+MET				70	     +inf               -               -               2       200 0 1000
 #
 nJet_PAS			-inf	     +inf               -               -               2       16 -0.5 15.5
 Pt1stJet_PAS			-inf	     +inf               -               -               3       100 0 1000
@@ -81,8 +82,8 @@ nJet_all                        -inf	     +inf               -               -  
 nJet_PtCut                      -inf	     +inf               -               -               3       16 -0.5 15.5
 nJet_PtCut_noOvrlp		-inf	     +inf               -               -               3       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID		1	     +inf               -               -               3       16 -0.5 15.5
-Pt1stJet_noOvrlp_ID		10	     +inf               -               -               3       100 0 1000
-Pt2ndJet_noOvrlp_ID		10	     +inf               -               -               3       100 0 1000
+Pt1stJet_noOvrlp_ID		25	     +inf               -               -               3       100 0 1000
+Pt2ndJet_noOvrlp_ID		25	     +inf               -               -               3       100 0 1000
 Eta1stJet_noOvrlp_ID		-inf	     +inf               -               -               3       100 -5 5
 Eta2ndJet_noOvrlp_ID		-inf	     +inf               -               -               3       100 -5 5
 mEta1stJet_noOvrlp_ID		-inf	     3.0                -               -               3       50 0 5
@@ -90,11 +91,13 @@ mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -           
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               3       50 0 5
 nMuon_PtCut_IDISO		-1	     0			-		-		3	16 -0.5 15.5
 mDeltaPhiMET1stJet		0.3	     +inf		-	        -	        3       50 0 4
+mDeltaPhiMETEle                 -inf         +inf               -               -               3       50 0 4
+mDeltaPhiMET2ndJet              -inf         +inf               -               -               3       50 0 4
 #
 sT_PAS                          -inf	     +inf               -               -               4       200 0 2000
 #
-MTenu                           100	     +inf               -               -               6       200 0 1000
-sT                              400	     +inf               -               -               6       200 0 2000
+MTenu                           110	     +inf               -               -               6       200 0 1000
+sT                              310	     +inf               -               -               6       200 0 2000
 #Mej                             -inf	     +inf               -               -               6       200 0 2000
 #MTnuj                           -inf	     +inf               -               -               6       200 0 2000
 #
@@ -102,8 +105,10 @@ sT                              400	     +inf               -               -   
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
-#Mee                            OPT           >         95              140             1
-#sT                             OPT           >         320             500             1
+#MTenu                          OPT           >         165             210             1
+#sT                             OPT           >         430             520             1
+#mDeltaPhiMET1stJet             OPT           >         0               0.9             1
+#MET                            OPT           >         40              130             1
 #Pt2ndEle_IDISO_NoOvrlp         OPT           >         10              100             1
 #Pt2ndJet_noOvrlp_ID            OPT           >         10              100             1
 #maxMEtaEles_IDISO_NoOvrl       OPT           <         1.6             2.5             1

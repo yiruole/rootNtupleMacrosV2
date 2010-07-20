@@ -2,6 +2,7 @@
 #include "analysisClass.h"
 #include <TH2.h>
 #include <TH1F.h>
+#include <TH2D.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TLorentzVector.h>
@@ -30,7 +31,7 @@ bool JetIdloose(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits
   return jetidloose;
 }
 
-bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta, double ak5JetPtRaw){
+bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta, double ak5JetPt){
   bool jetidtight=false;
   bool jetidresEMF=true;
   bool jetidfHPD_highPt=true;
@@ -40,14 +41,31 @@ bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits
   double emf_min = 0.01;
 
   if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
-  if(fabs(ak5JetEta)<2.6 && ak5JetPtRaw>80 && ak5JetJIDresEMF>=1) jetidresEMF=false;
-  if(ak5JetPtRaw>25 && ak5JetJIDfHPD>=0.95) jetidfHPD_highPt=false;
+  if(fabs(ak5JetEta)<2.6 && ak5JetPt>80 && ak5JetJIDresEMF>=1) jetidresEMF=false;
+  if(ak5JetPt>25 && ak5JetJIDfHPD>=0.95) jetidfHPD_highPt=false;
 
   if(jetidresEMF && jetidfHPD_highPt && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin) 
     {
       jetidtight=true;
     }
   return jetidtight;
+}
+
+bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
+  bool jetidloose=false;
+  bool jetidChHadFrac=true;
+
+  double chHadFrac = 0.;
+  double chEmFrac = 1.;
+  double neutHadFrac = 1.;
+  double neutEmFrac = 1.;
+
+  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac) jetidChHadFrac=false;
+
+  if(jetidChHadFrac && ak5ChargedEmFraction<chEmFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
+    jetidloose=true;
+  }
+  return jetidloose;
 }
 
 //-----------------------------
@@ -77,8 +95,32 @@ void analysisClass::Loop()
   TH1F *h_MTnuj = new TH1F ("h_MTnuj","h_MTnuj",200,0,2000);
   h_MTnuj->Sumw2();
   
-
+  TH2D *h2_MTnuj_vs_MET = new TH2D ("h2_MTnuj_vs_MET","h2_MTnuj_vs_MET;#slash{E}_{T} [GeV];M_{T}(#nu,j) [GeV]",200,0,1000,200,0,1000);
+  h2_MTnuj_vs_MET->Sumw2();
   
+  TH2D *h2_ST_vs_MET = new TH2D ("h2_ST_vs_MET","h2_ST_vs_MET;#slash{E}_{T} [GeV];S_{T} [GeV]",200,0,1000,200,0,2000);
+  h2_ST_vs_MET->Sumw2();
+  
+  TH2D *h2_ST_vs_MTnuj = new TH2D ("h2_ST_vs_MTnuj","h2_ST_vs_MTnuj;M_{T}(#nu,j) [GeV];S_{T} [GeV]",200,0,1000,200,0,2000);
+  h2_ST_vs_MTnuj->Sumw2();
+  
+  TH2D *h2_DeltaPhiMETEle_vs_MET = new TH2D ("h2_DeltaPhiMETEle_vs_MET","h2_DeltaPhiMETEle_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},e)",200,0,1000,50,0,4);
+  h2_DeltaPhiMETEle_vs_MET->Sumw2();
+  
+  TH2D *h2_DeltaPhiMET1stJet_vs_MET = new TH2D ("h2_DeltaPhiMET1stJet_vs_MET","h2_DeltaPhiMET1stJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j1)",200,0,1000,50,0,4);
+  h2_DeltaPhiMET1stJet_vs_MET->Sumw2();
+  
+  TH2D *h2_DeltaPhiMET2ndJet_vs_MET = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET","h2_DeltaPhiMET2ndJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j2)",200,0,1000,50,0,4);
+  h2_DeltaPhiMET2ndJet_vs_MET->Sumw2();
+  
+  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet","h2_DeltaPhiMETEle_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",50,0,4,50,0,4);
+  h2_DeltaPhiMETEle_vs_MET1stJet->Sumw2();
+  
+  TH2D *h2_DeltaPhiMETEle_vs_MET2ndJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET2ndJet","h2_DeltaPhiMETEle_vs_MET2ndJet;#Delta#phi(#slash{E}_{T},j2);#Delta#phi(#slash{E}_{T},e)",50,0,4,50,0,4);
+  h2_DeltaPhiMETEle_vs_MET2ndJet->Sumw2();
+  
+  TH2D *h2_DeltaPhiMET2ndJet_vs_MET1stJet = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET1stJet","h2_DeltaPhiMET2ndJet_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},j2)",50,0,4,50,0,4);
+  h2_DeltaPhiMET2ndJet_vs_MET1stJet->Sumw2();
   ////////////////////// User's code to book histos - END ///////////////////////
     
   Long64_t nentries = fChain->GetEntriesFast();
@@ -173,6 +215,7 @@ void analysisClass::Loop()
 
         //pT pre-cut + no overlaps with electrons + jetID
         bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
+        //bool passjetID = PFJetIdloose(PFJetChargedHadronEnergyFraction->at(ijet),PFJetChargedEmEnergyFraction->at(ijet),PFJetNeutralHadronEnergyFraction->at(ijet),PFJetNeutralEmEnergyFraction->at(ijet),PFJetEta->at(ijet));
         // ---- use the flag stored in rootTuples
         //if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
         // ----
@@ -256,20 +299,21 @@ void analysisClass::Loop()
 
     // MET
     // --> CaloMET
-    double thisMET = CaloMET->at(0);
-    double thisMETPhi = CaloMETPhi->at(0);
+//     double thisMET = CaloMET->at(0);
+//     double thisMETPhi = CaloMETPhi->at(0);
     //#
     // --> TCMET
-    //double thisMET = TCMET->at(0);
-    //double thisMETPhi = TCMETPhi->at(0);
+//     double thisMET = TCMET->at(0);
+//     double thisMETPhi = TCMETPhi->at(0);
     //#
     // --> PFMET
-    //double thisMET = PFMET->at(0);
-    //double thisMETPhi = PFMETPhi->at(0);
+    double thisMET = PFMET->at(0);
+    double thisMETPhi = PFMETPhi->at(0);
     //#
     fillVariableWithValue("MET", thisMET);
 
     // 1st ele and transverse mass enu
+    double MT, DeltaPhiMETEle = -999;
     if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) 
       {
 	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
@@ -282,19 +326,23 @@ void analysisClass::Loop()
 	v_MET.SetMagPhi( 1 , thisMETPhi);
 	v_ele.SetMagPhi( 1 , ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
 	float deltaphi = v_MET.DeltaPhi(v_ele);
-	//fillVariableWithValue( "mDeltaPhiMETEle", fabs(deltaphi) );
+	fillVariableWithValue( "mDeltaPhiMETEle", fabs(deltaphi) );
 	//PAS June 2010
 	fillVariableWithValue( "mDeltaPhiMETEle_PAS", fabs(deltaphi) );
+        DeltaPhiMETEle = fabs(deltaphi);
+        h2_DeltaPhiMETEle_vs_MET->Fill(thisMET, fabs(deltaphi) );
 
 	// transverse mass enu
-	double MT = sqrt(2 * ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) * thisMET * (1 - cos(deltaphi)) );
+	MT = sqrt(2 * ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) * thisMET * (1 - cos(deltaphi)) );
 	fillVariableWithValue("MTenu", MT);
+        h2_MTnuj_vs_MET->Fill(thisMET,MT);
 	//PAS June 2010
 	fillVariableWithValue("MTenu_PAS", MT);
       }
 
 
     // 1st jet and deltaphi jet-MET
+    double DeltaPhiMET1stJet = -999;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 ) 
       {
 	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
@@ -313,6 +361,9 @@ void analysisClass::Loop()
 	fillVariableWithValue( "mDeltaPhiMET1stJet", fabs(deltaphi) );
 	//PAS June 2010
 	fillVariableWithValue( "mDeltaPhiMET1stJet_PAS", fabs(deltaphi) );
+        DeltaPhiMET1stJet = fabs(deltaphi);
+        h2_DeltaPhiMET1stJet_vs_MET->Fill(thisMET, fabs(deltaphi) );
+        if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) h2_DeltaPhiMETEle_vs_MET1stJet->Fill( fabs(deltaphi), DeltaPhiMETEle);
       }
 
 
@@ -333,9 +384,12 @@ void analysisClass::Loop()
 	v_MET.SetMagPhi( 1 , thisMETPhi );
 	v_jet.SetMagPhi( 1 , CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
 	float deltaphi = v_MET.DeltaPhi(v_jet);
-	//fillVariableWithValue( "mDeltaPhiMET2ndJet", fabs(deltaphi) );
+	fillVariableWithValue( "mDeltaPhiMET2ndJet", fabs(deltaphi) );
 	//PAS June 2010
 	fillVariableWithValue( "mDeltaPhiMET2ndJet_PAS", fabs(deltaphi) );
+        h2_DeltaPhiMET2ndJet_vs_MET->Fill(thisMET, fabs(deltaphi) );
+        h2_DeltaPhiMET2ndJet_vs_MET1stJet->Fill( DeltaPhiMET1stJet, fabs(deltaphi) );
+        if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) h2_DeltaPhiMETEle_vs_MET2ndJet->Fill( fabs(deltaphi), DeltaPhiMETEle);
       }
 
     // define "1ele" and "2jets" booleans
@@ -354,6 +408,8 @@ void analysisClass::Loop()
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) + 
 	  thisMET;
 	fillVariableWithValue("sT", calc_sT);
+        h2_ST_vs_MET->Fill(thisMET,calc_sT);
+        h2_ST_vs_MTnuj->Fill(MT,calc_sT);
 	//PAS June 2010
 	fillVariableWithValue("sT_PAS", calc_sT);
       }
@@ -428,6 +484,15 @@ void analysisClass::Loop()
 
   h_Mej->Write();
   h_MTnuj->Write();
+  h2_MTnuj_vs_MET->Write();
+  h2_ST_vs_MET->Write();
+  h2_ST_vs_MTnuj->Write();
+  h2_DeltaPhiMETEle_vs_MET->Write();
+  h2_DeltaPhiMET1stJet_vs_MET->Write();
+  h2_DeltaPhiMET2ndJet_vs_MET->Write();
+  h2_DeltaPhiMETEle_vs_MET1stJet->Write();
+  h2_DeltaPhiMETEle_vs_MET2ndJet->Write();
+  h2_DeltaPhiMET2ndJet_vs_MET1stJet->Write();
 
   ////////////////////// User's code to write histos - END ///////////////////////
   
