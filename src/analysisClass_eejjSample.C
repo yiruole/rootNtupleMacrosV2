@@ -108,7 +108,7 @@ void analysisClass::Loop()
     for (int i=0; i<4; i++) {
       if ( HLTFromRun[i] <= run ) {
  	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
-	if (HLTTrigger[i] < 0 || HLTTrigger[i] < HLTResults->size() ) {
+	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
 	  PassTrig=HLTResults->at(HLTTrigger[i]);
 	  HLTTrgUsed=HLTTrigger[i];
 	} else {
