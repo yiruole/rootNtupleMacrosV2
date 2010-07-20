@@ -104,16 +104,19 @@ void analysisClass::Loop()
 			 getPreCutValue2("HLTTrigger"),
 			 getPreCutValue3("HLTTrigger"),
 			 getPreCutValue4("HLTTrigger")};
+    int HLTTrgUsed;
     for (int i=0; i<4; i++) {
       if ( HLTFromRun[i] <= run ) {
  	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
-	if (HLTTrigger[i] < HLTResults->size() ) {
+	if (HLTTrigger[i] < 0 || HLTTrigger[i] < HLTResults->size() ) {
 	  PassTrig=HLTResults->at(HLTTrigger[i]);
+	  HLTTrgUsed=HLTTrigger[i];
 	} else {
-	  STDOUT("ERROR: HLTTrigger exceeds size of HLTResults");
+	  STDOUT("ERROR: HLTTrigger out of range of HLTResults: HLTTrigger = "<<HLTTrigger[i] <<"and HLTResults size = "<< HLTResults->size());
 	}
       }
     }
+    if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
 
     // Electrons
     vector<int> v_idx_ele_all;
