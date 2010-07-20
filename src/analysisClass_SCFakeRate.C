@@ -27,6 +27,8 @@ void analysisClass::Loop()
 
    TH1F *h_TrigDiff = new TH1F("TrigDiff","TrigDiff",3.0,-1.5,1.5);
    TH2F *h2_DebugTrig = new TH2F("DebugTrig","DebugTrig;HLTResults;HLTBits",2,0,2,2,0,2);
+
+   TH1F *h_PtHat = new TH1F("","",400,0,2000);h_PtHat->Sumw2();
    
    TH1F *h_dPhi_JetSC = new TH1F("dPhi_JetSC","dPhi_JetSC",320,0,3.2); h_dPhi_JetSC->Sumw2();
    TH1F *h_dR_JetSC = new TH1F("dR_JetSC","dR_JetSC",600,0,3.0); h_dR_JetSC->Sumw2();
@@ -40,16 +42,9 @@ void analysisClass::Loop()
    TH1F *h_goodEleSCPt_2SC2Jets = new TH1F ("goodEleSCPt_2SC2Jets","goodEleSCPt_2SC2Jets",1000,0,1000); h_goodEleSCPt_2SC2Jets->Sumw2();
    TH1F *h_goodEleSCEta_2SC2Jets = new TH1F ("goodEleSCEta_2SC2Jets","goodEleSCEta_2SC2Jets",100,-3.,3.); h_goodEleSCEta_2SC2Jets->Sumw2();
    TH1F *h_goodEleSCPt_Barrel = new TH1F ("goodEleSCPt_Barrel","goodEleSCPt_Barrel",1000,0,1000); h_goodEleSCPt_Barrel->Sumw2();
-   TH1F *h_goodEleSCPt_Barrel_2SC = new TH1F ("goodEleSCPt_Barrel_2SC","goodEleSCPt_Barrel_2SC",1000,0,1000); h_goodEleSCPt_Barrel_2SC->Sumw2();
-   TH1F *h_goodEleSCPt_Barrel_2Jets = new TH1F ("goodEleSCPt_Barrel_2Jets","goodEleSCPt_Barrel_2Jets",1000,0,1000); h_goodEleSCPt_Barrel_2Jets->Sumw2();
-   TH1F *h_goodEleSCPt_Barrel_2Jets_wSC = new TH1F ("goodEleSCPt_Barrel_2Jets_wSC","goodEleSCPt_Barrel_2Jets_wSC",1000,0,1000); h_goodEleSCPt_Barrel_2Jets_wSC->Sumw2();
    TH1F *h_goodEleSCPt_Barrel_2SC2Jets = new TH1F ("goodEleSCPt_Barrel_2SC2Jets","goodEleSCPt_Barrel_2SC2Jets",1000,0,1000); h_goodEleSCPt_Barrel_2SC2Jets->Sumw2();
    TH1F *h_goodEleSCPt_Endcap = new TH1F ("goodEleSCPt_Endcap","goodEleSCPt_Endcap",1000,0,1000); h_goodEleSCPt_Endcap->Sumw2();
-   TH1F *h_goodEleSCPt_Endcap_2SC = new TH1F ("goodEleSCPt_Endcap_2SC","goodEleSCPt_Endcap_2SC",1000,0,1000); h_goodEleSCPt_Endcap_2SC->Sumw2();
-   TH1F *h_goodEleSCPt_Endcap_2Jets = new TH1F ("goodEleSCPt_Endcap_2Jets","goodEleSCPt_Endcap_2Jets",1000,0,1000); h_goodEleSCPt_Endcap_2Jets->Sumw2();
-   TH1F *h_goodEleSCPt_Endcap_2Jets_wSC = new TH1F ("goodEleSCPt_Endcap_2Jets_wSC","goodEleSCPt_Endcap_2Jets_wSC",1000,0,1000); h_goodEleSCPt_Endcap_2Jets_wSC->Sumw2();
    TH1F *h_goodEleSCPt_Endcap_2SC2Jets = new TH1F ("goodEleSCPt_Endcap_2SC2Jets","goodEleSCPt_Endcap_2SC2Jets",1000,0,1000); h_goodEleSCPt_Endcap_2SC2Jets->Sumw2();
-   TH1F *h_goodEle_ST = new TH1F ("goodEle_ST","goodEle_ST",220,-100,1000); h_goodEle_ST->Sumw2();
    TH1F *h_goodElePt = new TH1F ("goodElePt","goodElePt",1000,0,1000); h_goodElePt->Sumw2();
 
    TH1F *h_goodSCPt = new TH1F ("goodSCPt","goodSCPt",1000,0,1000); h_goodSCPt->Sumw2();
@@ -57,29 +52,27 @@ void analysisClass::Loop()
    TH1F *h_goodSCPt_2SC2Jets = new TH1F ("goodSCPt_2SC2Jets","goodSCPt_2SC2Jets",1000,0,1000); h_goodSCPt_2SC2Jets->Sumw2();
    TH1F *h_goodSCEta_2SC2Jets = new TH1F ("goodSCEta_2SC2Jets","goodSCEta_2SC2Jets",100,-3.,3.); h_goodSCEta_2SC2Jets->Sumw2();
    TH1F *h_goodSCPt_Barrel = new TH1F ("goodSCPt_Barrel","goodSCPt_Barrel",1000,0,1000); h_goodSCPt_Barrel->Sumw2();
-   TH1F *h_goodSCPt_Barrel_2SC = new TH1F ("goodSCPt_Barrel_2SC","goodSCPt_Barrel_2SC",1000,0,1000); h_goodSCPt_Barrel_2SC->Sumw2();
-   TH1F *h_goodSCPt_Barrel_2Jets = new TH1F ("goodSCPt_Barrel_2Jets","goodSCPt_Barrel_2Jets",1000,0,1000); h_goodSCPt_Barrel_2Jets->Sumw2();
-   TH1F *h_goodSCPt_Barrel_2Jets_wSC = new TH1F ("goodSCPt_Barrel_2Jets_wSC","goodSCPt_Barrel_2Jets_wSC",1000,0,1000); h_goodSCPt_Barrel_2Jets_wSC->Sumw2();
    TH1F *h_goodSCPt_Barrel_2SC2Jets = new TH1F ("goodSCPt_Barrel_2SC2Jets","goodSCPt_Barrel_2SC2Jets",1000,0,1000); h_goodSCPt_Barrel_2SC2Jets->Sumw2();
    TH1F *h_goodSCPt_Endcap = new TH1F ("goodSCPt_Endcap","goodSCPt_Endcap",1000,0,1000); h_goodSCPt_Endcap->Sumw2();
-   TH1F *h_goodSCPt_Endcap_2SC = new TH1F ("goodSCPt_Endcap_2SC","goodSCPt_Endcap_2SC",1000,0,1000); h_goodSCPt_Endcap_2SC->Sumw2();
-   TH1F *h_goodSCPt_Endcap_2Jets = new TH1F ("goodSCPt_Endcap_2Jets","goodSCPt_Endcap_2Jets",1000,0,1000); h_goodSCPt_Endcap_2Jets->Sumw2();
-   TH1F *h_goodSCPt_Endcap_2Jets_wSC = new TH1F ("goodSCPt_Endcap_2Jets_wSC","goodSCPt_Endcap_2Jets_wSC",1000,0,1000); h_goodSCPt_Endcap_2Jets_wSC->Sumw2();
    TH1F *h_goodSCPt_Endcap_2SC2Jets = new TH1F ("goodSCPt_Endcap_2SC2Jets","goodSCPt_Endcap_2SC2Jets",1000,0,1000); h_goodSCPt_Endcap_2SC2Jets->Sumw2();
-   TH1F *h_goodSC_ST = new TH1F ("goodSC_ST","goodSC_ST",220,-100,1000); h_goodSC_ST->Sumw2();
 
    TH2F *h_scEcalIso_Et = new TH2F ("scEcalIso_Et","scEcalIso_Et",100,0,1000,500,0,20); h_scEcalIso_Et->Sumw2();
    TH1F *h_scHoE = new TH1F ("scHoE","scHoE",100,0,1.0); h_scHoE->Sumw2();
    TH1F *h_scTrkIso = new TH1F ("scTrkIso","scTrkIso",100,0,50); h_scTrkIso->Sumw2();
-   TH1F *h_scIetaIeta = new TH1F ("scIetaIeta","scIetaIeta",100,0,0.1); h_scIetaIeta->Sumw2();
+   TH1F *h_scIetaIeta = new TH1F ("scIetaIeta","scIetaIeta",100,-0.1,0.1); h_scIetaIeta->Sumw2();
 
    TH1F *h_eta_failHLT = new TH1F("eta_failHLT","eta_failHLT",500,-3.0,3.0);
    TH1F *h_phi_failHLT = new TH1F("phi_failHLT","phi_failHLT",100,-3.5,3.5);
 
-   TH1F *h_probPt1stSc = new TH1F ("probPt1stSc","probPt1stSc",1000,0,1000);  h_probPt1stSc->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc = new TH1F ("actualPt1stSc","actualPt1stSc",1000,0,1000);  h_actualPt1stSc->Sumw2();  //N events with at least 1 HEEP ele
-   TH1F *h_probSt = new TH1F ("probSt","probSt",1000,0,1000);  h_probSt->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt = new TH1F ("actualSt","actualSt",1000,0,1000);  h_actualSt->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probPt1stSc_esjj = new TH1F ("probPt1stSc_esjj","probPt1stSc_esjj",1000,0,1000);  h_probPt1stSc_esjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualPt1stSc_esjj = new TH1F ("actualPt1stSc_esjj","actualPt1stSc_esjj",1000,0,1000);  h_actualPt1stSc_esjj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probSt_esjj = new TH1F ("probSt_esjj","probSt_esjj",200,0,2000);  h_probSt_esjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualSt_esjj = new TH1F ("actualSt_esjj","actualSt_esjj",200,0,2000);  h_actualSt_esjj->Sumw2();  //N events with at least 1 HEEP ele
+
+   TH1F *h_probPt1stSc_eejj = new TH1F ("probPt1stSc_eejj","probPt1stSc_eejj",1000,0,1000);  h_probPt1stSc_eejj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualPt1stSc_eejj = new TH1F ("actualPt1stSc_eejj","actualPt1stSc_eejj",1000,0,1000);  h_actualPt1stSc_eejj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probSt_eejj = new TH1F ("probSt_eejj","probSt_eejj",200,0,2000);  h_probSt_eejj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualSt_eejj = new TH1F ("actualSt_eejj","actualSt_eejj",200,0,2000);  h_actualSt_eejj->Sumw2();  //N events with at least 1 HEEP ele
 
    /////////initialize variables
    double FailRate = 0;
@@ -106,7 +99,8 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    //if (PtHat>=30) continue;
+    //if (PtHat<30) continue;
+    h_PtHat->Fill(PtHat);
 
     //## HLT
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
@@ -360,6 +354,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Eta2ndSC_ISO", SuperClusterEta->at(v_idx_sc_iso[1]) );
 	fillVariableWithValue( "mEta2ndSC_ISO", fabs(SuperClusterEta->at(v_idx_sc_iso[1])) );
 	fillVariableWithValue( "maxMEtaSC_ISO", max( getVariableValue("mEta1stSC_ISO"), getVariableValue("mEta2ndSC_ISO") ) );
+	fillVariableWithValue( "STee", SuperClusterPt->at(v_idx_sc_iso[0])+SuperClusterPt->at(v_idx_sc_iso[1]));
       }
 
     // 1st jet
@@ -379,6 +374,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Eta2ndJet_noOvrlpSC", CaloJetEta->at(v_idx_jet_PtCut_noOverlapSC[1]) );
 	fillVariableWithValue( "mEta2ndJet_noOvrlpSC", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlapSC[1])) );
 	fillVariableWithValue( "maxMEtaJets_noOvrlpSC", max( getVariableValue("mEta1stJet_noOvrlpSC"), getVariableValue("mEta2ndJet_noOvrlpSC") ) );
+	fillVariableWithValue( "STjj", CaloJetPt->at(v_idx_jet_PtCut_noOverlapSC[0])+CaloJetPt->at(v_idx_jet_PtCut_noOverlapSC[1]));
       }
 
     //## define "2ele" and "2jets" booleans
@@ -472,18 +468,23 @@ void analysisClass::Loop()
 
      // Fill histograms and do analysis based on cut evaluation
 
+     //calculate predicted and actual N events with HEEP ele
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
        {
 	 for (int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++){
-	   h_actualPt1stSc->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	   h_actualSt->Fill(calc_sT);
+	   h_actualPt1stSc_esjj->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	   h_actualSt_esjj->Fill(calc_sT);
+	   if (v_idx_ele_PtCut_IDISO_noOverlap.size()>=2){
+	     h_actualPt1stSc_eejj->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	     h_actualSt_eejj->Fill(calc_sT);
+	   }
 	 }
 
 	 double probSC1 = 0, probSC2 = 0;
-	 double BarrelCross = 0.005838;
-	 double BarrelSlope = 0;
-	 double EndcapCross = 0.03723;
-	 double EndcapSlope = 0.00;
+	 double BarrelCross = getPreCutValue1("FakeRate_BarrelCross");
+	 double BarrelSlope = getPreCutValue1("FakeRate_BarrelSlope");
+	 double EndcapCross = getPreCutValue1("FakeRate_EndcapCross");
+	 double EndcapSlope = getPreCutValue1("FakeRate_EndcapSlope");
 
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
@@ -492,13 +493,15 @@ void analysisClass::Loop()
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<2.5 && (SuperClusterPt->at(v_idx_sc_iso[0])>=70)) probSC1 = EndcapCross + EndcapSlope*70 ;
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<2.5 && (SuperClusterPt->at(v_idx_sc_iso[0])>=70) ) probSC2 = EndcapCross + EndcapSlope*70;
       
-	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1*probSC2);
-	 h_probSt->Fill(calc_sT,probSC1*probSC2);
+	 h_probPt1stSc_esjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
+	 h_probSt_esjj->Fill(calc_sT,probSC1+probSC2);
+	 h_probPt1stSc_eejj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1*probSC2);
+	 h_probSt_eejj->Fill(calc_sT,probSC1*probSC2);
        }
 
      //// Fill fake rate plots
-     if (PFMET->at(0)>10) continue;
      if (MassEE>60 && MassEE<120) continue; //get rid of Zs
+     if (PFMET->at(0) > 10) continue; // get rid of Ws
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
 	     //Require dR>3 between SC and JET
@@ -527,21 +530,14 @@ void analysisClass::Loop()
 	     if (fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))<2.5) Endcap = true;
 
 	     if (Barrel) h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	     if (Barrel && TwoSC) h_goodSCPt_Barrel_2SC->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	     if (Barrel && TwoJets) h_goodSCPt_Barrel_2Jets->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	     if (Barrel && (v_idx_jet_PtCut_noOverlapSC.size()>1)) h_goodSCPt_Barrel_2Jets_wSC->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	     if (Barrel && TwoSC && TwoJets) h_goodSCPt_Barrel_2SC2Jets->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 
 	     if (Endcap) h_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	     if (Endcap && TwoSC) h_goodSCPt_Endcap_2SC->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	     if (Endcap && TwoJets) h_goodSCPt_Endcap_2Jets->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
-	     if (Endcap && (v_idx_jet_PtCut_noOverlapSC.size()>1)) h_goodSCPt_Endcap_2Jets_wSC->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	     if (Endcap && TwoSC && TwoJets) h_goodSCPt_Endcap_2SC2Jets->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 
 	     if (TwoSC && TwoJets) {
 	       h_goodSCPt_2SC2Jets->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	       h_goodSCEta_2SC2Jets->Fill(SuperClusterEta->at(v_idx_sc_iso[isc]));
-	       h_goodSC_ST->Fill(calc_sT);
 	     }
 
 	     // check if there is a HEEP ele associated with this sc
@@ -568,24 +564,18 @@ void analysisClass::Loop()
 		if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))<2.5) eleEndcap = true;
 		
 		if (eleBarrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (eleBarrel && TwoSC) h_goodEleSCPt_Barrel_2SC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (eleBarrel && TwoJets) h_goodEleSCPt_Barrel_2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (eleBarrel && (v_idx_jet_PtCut_noOverlapSC.size()>1) ) h_goodEleSCPt_Barrel_2Jets_wSC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		if (eleBarrel && TwoSC && TwoJets) h_goodEleSCPt_Barrel_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		
 		if (eleEndcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (eleEndcap && TwoSC) h_goodEleSCPt_Endcap_2SC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (eleEndcap && TwoJets) h_goodEleSCPt_Endcap_2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (eleEndcap && (v_idx_jet_PtCut_noOverlapSC.size()>1) ) h_goodEleSCPt_Endcap_2Jets_wSC->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		if (eleEndcap && TwoSC && TwoJets) h_goodEleSCPt_Endcap_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		
 		if (TwoSC && TwoJets) {
 		  h_goodEleSCPt_2SC2Jets->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
 		  h_goodEleSCEta_2SC2Jets->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		  h_goodEle_ST->Fill(calc_sT);
 		}
 	     }
 	   } // for sc
+
 
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
@@ -608,31 +598,17 @@ void analysisClass::Loop()
    h_goodEleSCPt_2SC2Jets->Write();
    h_goodEleSCEta_2SC2Jets->Write();
    h_goodEleSCPt_Barrel->Write();
-   h_goodEleSCPt_Barrel_2SC->Write();
-   h_goodEleSCPt_Barrel_2Jets->Write();
-   h_goodEleSCPt_Barrel_2Jets_wSC->Write();
    h_goodEleSCPt_Barrel_2SC2Jets->Write();
    h_goodEleSCPt_Endcap->Write();
-   h_goodEleSCPt_Endcap_2SC->Write();
-   h_goodEleSCPt_Endcap_2Jets->Write();
-   h_goodEleSCPt_Endcap_2Jets_wSC->Write();
    h_goodEleSCPt_Endcap_2SC2Jets->Write();
-   h_goodEle_ST->Write();
    h_goodSCPt->Write();
    h_goodSCEta->Write();
    h_goodSCPt_2SC2Jets->Write();
    h_goodSCEta_2SC2Jets->Write();
    h_goodSCPt_Barrel->Write();
-   h_goodSCPt_Barrel_2SC->Write();
-   h_goodSCPt_Barrel_2Jets->Write();
-   h_goodSCPt_Barrel_2Jets_wSC->Write();
    h_goodSCPt_Barrel_2SC2Jets->Write();
    h_goodSCPt_Endcap->Write();
-   h_goodSCPt_Endcap_2SC->Write();
-   h_goodSCPt_Endcap_2Jets->Write();
-   h_goodSCPt_Endcap_2Jets_wSC->Write();
    h_goodSCPt_Endcap_2SC2Jets->Write();
-   h_goodSC_ST->Write();
 
    h_scEcalIso_Et->Write();
    h_scHoE->Write();
@@ -642,10 +618,14 @@ void analysisClass::Loop()
    h_eta_failHLT->Write();
    h_phi_failHLT->Write();
 
-   h_probPt1stSc->Write();
-   h_actualPt1stSc->Write();
-   h_probSt->Write();
-   h_actualSt->Write();
+   h_probPt1stSc_esjj->Write();
+   h_actualPt1stSc_esjj->Write();
+   h_probSt_esjj->Write();
+   h_actualSt_esjj->Write();
+   h_probPt1stSc_eejj->Write();
+   h_actualPt1stSc_eejj->Write();
+   h_probSt_eejj->Write();
+   h_actualSt_eejj->Write();
 
    FailRate = 100 * NFailHLT/HasSC;
    //cout << "NFail: " << NFailHLT << "\t" << "FailRate: " << FailRate << " %" << endl;
