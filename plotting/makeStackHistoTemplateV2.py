@@ -61,7 +61,7 @@ class Plot:
     logscale    = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "58.41 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "253.9 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
@@ -148,12 +148,11 @@ class Plot:
             ih=ih+1
 
         #-- plot data
-        if(plot.histodata!=""):
-            if(plot.rebin!=""):
-                plot.histodata.Rebin(plot.rebin)
-            plot.histodata.SetMarkerStyle(20)
-            legend.AddEntry(plot.histodata, "data","p")
-            plot.histodata.Draw("psame")
+        if(plot.rebin!=""):
+            plot.histodata.Rebin(plot.rebin)
+        plot.histodata.SetMarkerStyle(20)
+        legend.AddEntry(plot.histodata, "data","p")
+        plot.histodata.Draw("psame")
 
         #-- draw label
         l = TLatex()
@@ -162,13 +161,13 @@ class Plot:
         l.SetTextFont(62)
         l.SetNDC()
         if (plot.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
+            l.DrawLatex(0.35,0.20,"CMS 2010 Preliminary")
             l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
         if (plot.lpos=="top-left"):
-            l.DrawLatex(0.12,0.65,"CMS Preliminary 2010")
+            l.DrawLatex(0.12,0.65,"CMS 2010 Preliminary")
             l.DrawLatex(0.12,0.60,"L_{int} = " + plot.lint)
         else:
-            l.DrawLatex(0.60,0.65,"CMS Preliminary 2010")
+            l.DrawLatex(0.60,0.65,"CMS 2010 Preliminary")
             l.DrawLatex(0.60,0.60,"L_{int} = " + plot.lint)
 
         #-- end
@@ -176,6 +175,7 @@ class Plot:
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
+        canvas.SaveAs(plot.name + ".eps","eps")
         canvas.SaveAs(plot.name + ".pdf","pdf")
         canvas.Print(fileps)
 
@@ -190,9 +190,8 @@ class Plot:
 
 #--- Input root file
 
-FileMC = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample_plots.root")
-#FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample___EG__Run2010A-PromptReco-v1__RECO.root")
-#FileDATA = GetFile("/afs/cern.ch/user/p/prumerio/scratch0/lq/collisions/data/output/analysisClass_eejjSample_plots.root")
+#FileMC = GetFile("/home/prumerio/cms/lq/collisions/rootNtupleAnalyzerV2/data/output_fromAFS/254nb-1/output_cutTable_eejjSample_Mee100_St140/analysisClass_eejjSample_plots.root")
+FileMC = GetFile("/home/prumerio/cms/lq/collisions/rootNtupleAnalyzerV2/data/output_fromAFS/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
 FileDATA = FileMC
                
 #--- Final plots are defined here
@@ -236,7 +235,7 @@ plot0.ytit            = "Number of events"
 plot0.logscale        = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 9
+plot0.ymax            = 40
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -258,10 +257,10 @@ plot0_ylog.xtit            = "M(ee) (GeV)"
 plot0_ylog.ytit            = "Number of events"
 plot0_ylog.logscale        = "yes"
 plot0_ylog.rebin           = 1
-plot0_ylog.ymin            = 0.00000001
-plot0_ylog.ymax            = 20
+plot0_ylog.ymin            = 0.0001
+plot0_ylog.ymax            = 100
 plot0_ylog.xmin            = 0
-plot0_ylog.xmax            = 1000
+plot0_ylog.xmax            = 500
 #plot0_ylog.lpos = "bottom-center"
 plot0_ylog.name            = "Mee_allPreviousCuts"
 plot0_ylog.histodata       = h_Mee_DATA
@@ -297,7 +296,7 @@ plot1.ytit            = "Number of events"
 plot1.logscale        = "yes"
 plot1.rebin           = 1
 plot1.ymin            = 0.0001
-plot1.ymax            = 20000000
+plot1.ymax            = 60000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
 plot1.histodata       = h_nEle_DATA
@@ -334,8 +333,10 @@ plot2.xtit            = "pT 1st HEEP electron (GeV)"
 plot2.ytit            = "Number of events"
 plot2.logscale        = "yes"
 plot2.rebin           = 1
-plot2.ymin            = 0.00000001
-plot2.ymax            = 20
+plot2.xmin            = 0
+plot2.xmax            = 500
+plot2.ymin            = 0.0001
+plot2.ymax            = 100
 #plot2.lpos = "bottom-center"
 plot2.name            = "pT1stEle_allPreviousCuts"
 plot2.histodata       = h_pT1stEle_DATA
@@ -370,8 +371,8 @@ plot3.xtit            = "#eta 1st HEEP electron"
 plot3.ytit            = "Number of events"
 plot3.logscale        = "yes"
 plot3.rebin           = 10
-plot3.ymin            = 0.0001
-plot3.ymax            = 1000
+plot3.ymin            = 0.001
+plot3.ymax            = 5000
 plot3.lpos = "top-left"
 plot3.name            = "Eta1stEle_allPreviousCuts"
 plot3.histodata       = h_Eta1stEle_DATA
@@ -407,8 +408,10 @@ plot4.xtit            = "pT 2nd HEEP electron (GeV)"
 plot4.ytit            = "Number of events"
 plot4.logscale        = "yes"
 plot4.rebin           = 1
-plot4.ymin            = 0.00000001
-plot4.ymax            = 20
+plot4.xmin            = 0
+plot4.xmax            = 500
+plot4.ymin            = 0.0001
+plot4.ymax            = 100
 #plot4.lpos = "bottom-center"
 plot4.name            = "pT2ndEle_allPreviousCuts"
 plot4.histodata       = h_pT2ndEle_DATA
@@ -443,8 +446,8 @@ plot5.xtit            = "#eta 2nd HEEP electron"
 plot5.ytit            = "Number of events"
 plot5.logscale        = "yes"
 plot5.rebin           = 10
-plot5.ymin            = 0.0001
-plot5.ymax            = 1000
+plot5.ymin            = 0.001
+plot5.ymax            = 5000
 plot5.lpos = "top-left"
 plot5.name            = "Eta2ndEle_allPreviousCuts"
 plot5.histodata       = h_Eta2ndEle_DATA
@@ -480,8 +483,8 @@ plot6.xtit            = "Number of jets (pT>10GeV)"
 plot6.ytit            = "Number of events"
 plot6.logscale        = "yes"
 plot6.rebin           = 1
-plot6.ymin            = 0.0001
-plot6.ymax            = 20
+plot6.ymin            = 0.001
+plot6.ymax            = 100
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.histodata       = h_nJet_DATA
@@ -518,8 +521,10 @@ plot7.xtit            = "pT 1st jet (GeV)"
 plot7.ytit            = "Number of events"
 plot7.logscale        = "yes"
 plot7.rebin           = 1
-plot7.ymin            = 0.00000001
-plot7.ymax            = 20
+plot7.xmin            = 0
+plot7.xmax            = 500
+plot7.ymin            = 0.0001
+plot7.ymax            = 100
 #plot7.lpos = "bottom-center"
 plot7.name            = "Pt1stJet_allPreviousCuts"
 plot7.histodata       = h_Pt1stJet_DATA
@@ -555,8 +560,8 @@ plot8.xtit            = "#eta 1st jet (GeV)"
 plot8.ytit            = "Number of events"
 plot8.logscale        = "yes"
 plot8.rebin           = 20
-plot8.ymin            = 0.0001
-plot8.ymax            = 1000
+plot8.ymin            = 0.001
+plot8.ymax            = 5000
 plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
 plot8.histodata       = h_Eta1stJet_DATA
@@ -591,9 +596,11 @@ plot9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot9.xtit            = "pT 2nd jet (GeV)"
 plot9.ytit            = "Number of events"
 plot9.logscale        = "yes"
+plot9.xmin            = 0
+plot9.xmax            = 500
 plot9.rebin           = 1
-plot9.ymin            = 0.00000001
-plot9.ymax            = 20
+plot9.ymin            = 0.0001
+plot9.ymax            = 100
 #plot9.lpos = "bottom-center"
 plot9.name            = "Pt2ndJet_allPreviousCuts"
 plot9.histodata       = h_Pt2ndJet_DATA
@@ -629,8 +636,8 @@ plot10.xtit            = "#eta 2nd jet (GeV)"
 plot10.ytit            = "Number of events"
 plot10.logscale        = "yes"
 plot10.rebin           = 10
-plot10.ymin            = 0.0001
-plot10.ymax            = 1000
+plot10.ymin            = 0.001
+plot10.ymax            = 5000
 plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
 plot10.histodata       = h_Eta2ndJet_DATA
@@ -667,17 +674,54 @@ plot11.xtit            = "St (GeV)"
 plot11.ytit            = "Number of events"
 plot11.logscale        = "yes"
 plot11.rebin           = 1
-plot11.ymin            = 0.00000001
-plot11.ymax            = 20
+plot11.xmin            = 0
+plot11.xmax            = 500
+plot11.ymin            = 0.0001
+plot11.ymax            = 100
 #plot11.lpos = "bottom-center"
 plot11.name            = "sT_allPreviousCuts"
 plot11.histodata       = h_sT_DATA
 
 
+plot12 = Plot()
+plot12.histosStack     = [
+    GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__ZJetAlpgen__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________sT", FileMC),
+    ]
+plot12.keysStack       = [
+    "ttbar",
+    "Z/#gamma/Z* + jets",
+    "QCD multi-jets",
+    "single top",
+    "di-bosons + jets",
+    "W/W* + jets"
+    ]
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot12.histos          = [
+    GetHisto("histo1D__LQeejj_M100__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__LQeejj_M200__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__LQeejj_M300__cutHisto_allOtherCuts___________sT", FileMC)
+    ]
+plot12.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot12.xtit            = "St (GeV)"
+plot12.ytit            = "Number of events"
+plot12.logscale        = "yes"
+plot12.rebin           = 1
+plot12.xmin            = 0
+plot12.xmax            = 500
+plot12.ymin            = 0.001
+plot12.ymax            = 100
+#plot12.lpos = "bottom-center"
+plot12.name            = "sT_allOtherCuts"
+plot12.histodata       = GetHisto("histo1D__DATA__cutHisto_allOtherCuts___________sT", FileDATA)
 
 
 # List of plots to be plotted
-plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11]
+plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11, plot12]
 
 
 ############# USER CODE - END ################################################
