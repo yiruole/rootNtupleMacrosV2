@@ -190,8 +190,8 @@ class Plot:
 
 #--- Input root file
 
-#FileMC = GetFile("/home/prumerio/cms/lq/collisions/rootNtupleAnalyzerV2/data/output_fromAFS/254nb-1/output_cutTable_eejjSample_Mee100_St140/analysisClass_eejjSample_plots.root")
-FileMC = GetFile("/home/prumerio/cms/lq/collisions/rootNtupleAnalyzerV2/data/output_fromAFS/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
+#FileMC = GetFile("$LQDATA/254nb-1/output_cutTable_eejjSample_Mee100_St240/analysisClass_eejjSample_plots.root")
+FileMC = GetFile("$LQDATA/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
 FileDATA = FileMC
                
 #--- Final plots are defined here
@@ -690,15 +690,11 @@ plot12.histosStack     = [
     GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________sT", FileMC),
     GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________sT", FileMC),
     GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________sT", FileMC),
-    GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________sT", FileMC),
+    GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________sT", FileMC)
     ]
 plot12.keysStack       = [
-    "ttbar",
-    "Z/#gamma/Z* + jets",
-    "QCD multi-jets",
-    "single top",
-    "di-bosons + jets",
-    "W/W* + jets"
+    "ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
+    "single top", "di-bosons + jets", "W/W* + jets"
     ]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot12.histos          = [
@@ -712,16 +708,70 @@ plot12.ytit            = "Number of events"
 plot12.logscale        = "yes"
 plot12.rebin           = 1
 plot12.xmin            = 0
-plot12.xmax            = 500
+plot12.xmax            = 1000
 plot12.ymin            = 0.001
-plot12.ymax            = 100
+plot12.ymax            = 5
 #plot12.lpos = "bottom-center"
 plot12.name            = "sT_allOtherCuts"
 plot12.histodata       = GetHisto("histo1D__DATA__cutHisto_allOtherCuts___________sT", FileDATA)
 
+# h1->Add(h2);
+h1 = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________sT", FileMC)
+h2 = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________sT", FileMC)
+h1.Add(h2)
+
+h_Mej_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+#h_Mej_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_VVjets = GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________Mej_1stPair", FileMC)
+h_Mej_DATA = GetHisto("histo1D__DATA__cutHisto_allOtherCuts___________Mej_1stPair", FileDATA)
+
+h_Mej_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+#h_Mej_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________Mej_2ndPair", FileMC))
+h_Mej_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allOtherCuts___________Mej_2ndPair", FileDATA))
+
+plot13 = Plot()
+plot13.histosStack     = [h_Mej_TTbar, h_Mej_ZJetAlpgen, h_Mej_QCDPt15,
+                          h_Mej_SingleTop, h_Mej_VVjets, h_Mej_WJetAlpgen]
+plot13.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
+                          "single top", "di-bosons + jets", "W/W* + jets"]
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot13.histos          = [h_Mej_LQeejj_M100, h_Mej_LQeejj_M200, h_Mej_LQeejj_M300]
+plot13.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot13.xtit            = "Mej (GeV)"
+plot13.ytit            = "Number of events x 2"
+plot13.logscale        = "yes"
+plot13.rebin           = 1
+plot13.xmin            = 0
+plot13.xmax            = 500
+plot13.ymin            = 0.001
+plot13.ymax            = 5
+#plot13.lpos = "bottom-center"
+plot13.name            = "Mej_allOtherCuts"
+plot13.histodata       = h_Mej_DATA
+
 
 # List of plots to be plotted
-plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11, plot12]
+plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11, # to be produced using preselection root file
+         plot12, plot13] # to be produced using full selection root file
 
 
 ############# USER CODE - END ################################################
