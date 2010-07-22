@@ -18,6 +18,7 @@ import ROOT
 from array import array
 
 #--- ROOT general options
+gROOT.SetBatch(kTRUE);
 gStyle.SetOptStat(0)
 gStyle.SetPalette(1)
 gStyle.SetCanvasBorderMode(0)
