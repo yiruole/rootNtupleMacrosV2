@@ -1,3 +1,15 @@
+/*
+Description and instructions:
+This code creates vectors of HEEP electrons, isolated superclusters and cleaned jets (no overlaps) based on their index in the original collection.
+It makes plots necessary for the calculation of the QCD fake rate, i.e. the pt/eta distributions of the HEEP electrons for the numerator and the pt/eta distributions of the isolated sc for the denominator.
+A separate pyroot macro divides the two output histograms to get the fake rate.
+There are plots for the pT of the leading electron and the ST in events passing the full selection criteria (ele criteria->sc criteria).
+These plots have two versions, "actual" are events with esjj/eejj and "prob" are the weighted histograms for ssjj events based on the probability of one/both sc to be reco'ed as electrons.
+The fake rate used for these histograms is taken from the cut file: cutTable_SCFakeRate.
+Typically I run the code once to establish the fake rate, the re-run it with the correct rate in the cut file to accurately fill the "prob" histograms.
+*/
+
+
 #define analysisClass_cxx
 #include "analysisClass.h"
 #include <TH2.h>
@@ -73,6 +85,11 @@ void analysisClass::Loop()
    TH1F *h_actualPt1stSc_eejj = new TH1F ("actualPt1stSc_eejj","actualPt1stSc_eejj",1000,0,1000);  h_actualPt1stSc_eejj->Sumw2();  //N events with at least 1 HEEP ele
    TH1F *h_probSt_eejj = new TH1F ("probSt_eejj","probSt_eejj",200,0,2000);  h_probSt_eejj->Sumw2();  //N events based on fake rate
    TH1F *h_actualSt_eejj = new TH1F ("actualSt_eejj","actualSt_eejj",200,0,2000);  h_actualSt_eejj->Sumw2();  //N events with at least 1 HEEP ele
+
+   TH1F *h_SCpT_ssjj = new TH1F ("SCpT_ssjj","SCpT_ssjj",1000,0,1000); h_SCpT_ssjj->Sumw2();
+   TH1F *h_SCeta_ssjj = new TH1F ("SCeta_ssjj","SCeta_ssjj",100,-3,3); h_SCeta_ssjj->Sumw2();
+   TH1F *h_STss_ssjj = new TH1F ("STss_ssjj","STss_ssjj",100,-3,3); h_STss_ssjj->Sumw2();
+   TH1F *h_STjj_ssjj = new TH1F ("STjj_ssjj","STjj_ssjj",100,-3,3); h_STjj_ssjj->Sumw2();
 
    /////////initialize variables
    double FailRate = 0;
@@ -191,6 +208,7 @@ void analysisClass::Loop()
       if (fabs(SuperClusterEta->at(isc))<1.442) Barrel = true;
       if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
       if (!Barrel && !Endcap) continue;
+      if ((1-SuperClusterS4S1->at(isc))>0.95) continue; // spike cleaning
       if (Endcap && SuperClusterSigmaIEtaIEta->at(isc)>0.03) continue;
       if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
       if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
@@ -224,6 +242,7 @@ void analysisClass::Loop()
       if (fabs(SuperClusterEta->at(isc))<1.442) Barrel = true;
       if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
       if (!Barrel && !Endcap) continue;
+      if ((1-SuperClusterS4S1->at(isc))>0.95) continue; // spike cleaning
       if (SuperClusterHoE->at(isc)<0.05) scPassHoE=true;
       if (Endcap && SuperClusterSigmaIEtaIEta->at(isc)<0.03) scPassSigmaEE=true;
       if (Barrel) scPassSigmaEE=true;
@@ -497,6 +516,15 @@ void analysisClass::Loop()
 	 h_probSt_esjj->Fill(calc_sT,probSC1+probSC2);
 	 h_probPt1stSc_eejj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1*probSC2);
 	 h_probSt_eejj->Fill(calc_sT,probSC1*probSC2);
+
+	 h_STss_ssjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0])+SuperClusterPt->at(v_idx_sc_iso[1]));
+	 h_STjj_ssjj->Fill(CaloJetPt->at(v_idx_jet_PtCut_noOverlapSC[0])+CaloJetPt->at(v_idx_jet_PtCut_noOverlapSC[1]));
+	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
+	   {
+	     h_SCpT_ssjj->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
+	     h_SCeta_ssjj->Fill(SuperClusterEta->at(v_idx_sc_iso[isc]));
+	   }
+
        }
 
      //// Fill fake rate plots
