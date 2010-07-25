@@ -32,6 +32,9 @@ eleEta_bar            1.442        -                    -               -       
 eleEta_end            1.560        2.5                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
 muonEta_end           1.2          2.4                  -               -               -1
+EleEnergyScale_EB     1.0	   -			-		-		-1
+EleEnergyScale_EE     1.0	   -			-		-		-1
+JetEnergyScale        1.0	   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------

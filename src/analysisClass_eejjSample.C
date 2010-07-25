@@ -94,6 +94,26 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    double eleEta_bar = getPreCutValue1("eleEta_bar");
+    double eleEta_end_min = getPreCutValue1("eleEta_end");
+    double eleEta_end_max = getPreCutValue2("eleEta_end");
+
+    // EES and JES
+    double EleEnergyScale_EB=getPreCutValue1("EleEnergyScale_EB");
+    double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
+    double JetEnergyScale=getPreCutValue1("JetEnergyScale");
+    for(int iele=0; iele<ElectronPt->size(); iele++)
+      {
+	if( fabs(ElectronEta->at(iele)) < eleEta_bar )
+	  ElectronPt->at(iele) *= EleEnergyScale_EB;
+	if( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
+	  ElectronPt->at(iele) *= EleEnergyScale_EE;
+      }
+    for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+      {
+        CaloJetPt->at(ijet) *= JetEnergyScale;
+      }
+
     //## HLT
     int PassTrig = 0;
     int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
@@ -157,7 +177,7 @@ void analysisClass::Loop()
     // Loop over jets
     for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
       {
-
+	
 	//no cut on reco jets
 	v_idx_jet_all.push_back(ijet);
 
