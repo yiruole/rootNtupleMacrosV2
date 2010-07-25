@@ -73,10 +73,20 @@ void analysisClass::Loop()
 
   TH1F *h_Mej_PAS = new TH1F ("h_Mej_PAS","h_Mej_PAS",200,0,2000);  h_Mej_PAS->Sumw2();
 
-
-
   
   ////////////////////// User's code to book histos - END ///////////////////////
+
+  ////////////////////// User's code to get preCut values - BEGIN ///////////////
+
+  double eleEta_bar = getPreCutValue1("eleEta_bar");
+  double eleEta_end_min = getPreCutValue1("eleEta_end");
+  double eleEta_end_max = getPreCutValue2("eleEta_end");
+
+  double EleEnergyScale_EB=getPreCutValue1("EleEnergyScale_EB");
+  double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
+  double JetEnergyScale=getPreCutValue1("JetEnergyScale");
+
+  ////////////////////// User's code to get preCut values - END /////////////////
     
   Long64_t nentries = fChain->GetEntriesFast();
   STDOUT("analysisClass::Loop(): nentries = " << nentries);   
@@ -94,24 +104,23 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    double eleEta_bar = getPreCutValue1("eleEta_bar");
-    double eleEta_end_min = getPreCutValue1("eleEta_end");
-    double eleEta_end_max = getPreCutValue2("eleEta_end");
-
     // EES and JES
-    double EleEnergyScale_EB=getPreCutValue1("EleEnergyScale_EB");
-    double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
-    double JetEnergyScale=getPreCutValue1("JetEnergyScale");
-    for(int iele=0; iele<ElectronPt->size(); iele++)
+    if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
-	if( fabs(ElectronEta->at(iele)) < eleEta_bar )
-	  ElectronPt->at(iele) *= EleEnergyScale_EB;
-	if( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
-	  ElectronPt->at(iele) *= EleEnergyScale_EE;
+	for(int iele=0; iele<ElectronPt->size(); iele++)
+	  {
+	    if( fabs(ElectronEta->at(iele)) < eleEta_bar )
+	      ElectronPt->at(iele) *= EleEnergyScale_EB;
+	    if( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
+	      ElectronPt->at(iele) *= EleEnergyScale_EE;
+	  }
       }
-    for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+    if( JetEnergyScale != 1 )
       {
-        CaloJetPt->at(ijet) *= JetEnergyScale;
+	for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+	  {
+	    CaloJetPt->at(ijet) *= JetEnergyScale;
+	  }
       }
 
     //## HLT
