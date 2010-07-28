@@ -62,7 +62,7 @@ class Plot:
     logscale    = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "253.9 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "254 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
@@ -81,7 +81,7 @@ class Plot:
         elif(plot.lpos=="top-left"):
             legend = TLegend(0.12, 0.70, 0.15+0.30, 0.70+0.20)            
         else:
-            legend = TLegend(0.60, 0.70, 0.89, 0.90)
+            legend = TLegend(0.58, 0.68, 0.88, 0.88)
         legend.SetFillColor(kWhite)
         legend.SetMargin(0.2)
 
@@ -101,9 +101,9 @@ class Plot:
             if(plot.rebin!=""):
                 stack[iter].Rebin(plot.rebin)
             stack[iter].SetMarkerStyle(20+2*iter)
-            stack[iter].SetMarkerColor(1+iter)
-            stack[iter].SetLineColor(1+iter)
-            stack[iter].SetFillColor(1+iter)
+            stack[iter].SetMarkerColor(15+10*iter)
+            stack[iter].SetLineColor(  15+10*iter)
+            stack[iter].SetFillColor(  15+10*iter)
             legend.AddEntry(stack[iter], plot.keysStack[Nstacked - iter - 1],"lf")            
             #draw stack
             if iter==0:
@@ -193,6 +193,9 @@ class Plot:
 
 File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
 File_selection    = GetFile("$LQDATA/collisions/254nb-1/output_cutTable_eejjSample_Mee100_St240/analysisClass_eejjSample_plots.root")
+
+#otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
+otherBkgsKey="Other Bkgs"
                
 #--- Final plots are defined here
 
@@ -207,6 +210,7 @@ h_Mee_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts____
 h_Mee_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 h_Mee_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 h_Mee_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 #h_Mee_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 h_Mee_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 h_Mee_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
@@ -218,10 +222,10 @@ plot0 = Plot()
 ## inputs for stacked histograms
 ## it created h_Mee_TTbar, h_Mee_TTbar+h_Mee_ZJetAlpgen , h_Mee_TTbar+h_Mee_ZJetAlpgen+h_Mee_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
-plot0.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_QCDPt15,
-                         h_Mee_SingleTop, h_Mee_VVjets, h_Mee_WJetAlpgen]
-plot0.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot0.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_OTHERBKG]
+plot0.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
 plot0.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -245,10 +249,9 @@ plot0_ylog = Plot()
 ## inputs for stacked histograms
 ## it created h_Mee_TTbar, h_Mee_TTbar+h_Mee_ZJetAlpgen , h_Mee_TTbar+h_Mee_ZJetAlpgen+h_Mee_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
-plot0_ylog.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_QCDPt15,
-                         h_Mee_SingleTop, h_Mee_VVjets, h_Mee_WJetAlpgen]
-plot0_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot0_ylog.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_OTHERBKG]
+plot0_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0_ylog.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
 plot0_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -274,6 +277,7 @@ h_nEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts___
 h_nEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 h_nEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 h_nEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
+h_nEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 #h_nEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 h_nEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 h_nEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
@@ -283,10 +287,9 @@ h_nEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nEle_PtCu
 
 plot1 = Plot() 
 ## inputs for stacked histograms
-plot1.histosStack     = [h_nEle_TTbar, h_nEle_ZJetAlpgen, h_nEle_QCDPt15,
-                         h_nEle_SingleTop, h_nEle_VVjets, h_nEle_WJetAlpgen]
-plot1.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot1.histosStack     = [h_nEle_TTbar, h_nEle_ZJetAlpgen, h_nEle_OTHERBKG]
+plot1.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot1.histos          = [h_nEle_LQeejj_M100, h_nEle_LQeejj_M200, h_nEle_LQeejj_M300]
 plot1.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -312,6 +315,7 @@ h_pT1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_pT1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_pT1stEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 #h_pT1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -321,10 +325,9 @@ h_pT1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1st
 
 plot2 = Plot() 
 ## inputs for stacked histograms
-plot2.histosStack     = [h_pT1stEle_TTbar, h_pT1stEle_ZJetAlpgen, h_pT1stEle_QCDPt15,
-                         h_pT1stEle_SingleTop, h_pT1stEle_VVjets, h_pT1stEle_WJetAlpgen]
-plot2.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot2.histosStack     = [h_pT1stEle_TTbar, h_pT1stEle_ZJetAlpgen, h_pT1stEle_OTHERBKG]
+plot2.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2.histos          = [h_pT1stEle_LQeejj_M100, h_pT1stEle_LQeejj_M200, h_pT1stEle_LQeejj_M300]
 plot2.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -350,6 +353,7 @@ h_Eta1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_Eta1stEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 #h_Eta1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -359,10 +363,9 @@ h_Eta1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1
 
 plot3 = Plot() 
 ## inputs for stacked histograms
-plot3.histosStack     = [h_Eta1stEle_TTbar, h_Eta1stEle_ZJetAlpgen, h_Eta1stEle_QCDPt15,
-                         h_Eta1stEle_SingleTop, h_Eta1stEle_VVjets, h_Eta1stEle_WJetAlpgen]
-plot3.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot3.histosStack     = [h_Eta1stEle_TTbar, h_Eta1stEle_ZJetAlpgen, h_Eta1stEle_OTHERBKG]
+plot3.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3.histos          = [h_Eta1stEle_LQeejj_M100, h_Eta1stEle_LQeejj_M200, h_Eta1stEle_LQeejj_M300]
 plot3.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -387,6 +390,7 @@ h_pT2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_pT2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_pT2ndEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 #h_pT2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -396,10 +400,9 @@ h_pT2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2nd
 
 plot4 = Plot() 
 ## inputs for stacked histograms
-plot4.histosStack     = [h_pT2ndEle_TTbar, h_pT2ndEle_ZJetAlpgen, h_pT2ndEle_QCDPt15,
-                         h_pT2ndEle_SingleTop, h_pT2ndEle_VVjets, h_pT2ndEle_WJetAlpgen]
-plot4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot4.histosStack     = [h_pT2ndEle_TTbar, h_pT2ndEle_ZJetAlpgen, h_pT2ndEle_OTHERBKG]
+plot4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot4.histos          = [h_pT2ndEle_LQeejj_M100, h_pT2ndEle_LQeejj_M200, h_pT2ndEle_LQeejj_M300]
 plot4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -425,6 +428,7 @@ h_Eta2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_Eta2ndEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 #h_Eta2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -434,10 +438,9 @@ h_Eta2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2
 
 plot5 = Plot() 
 ## inputs for stacked histograms
-plot5.histosStack     = [h_Eta2ndEle_TTbar, h_Eta2ndEle_ZJetAlpgen, h_Eta2ndEle_QCDPt15,
-                         h_Eta2ndEle_SingleTop, h_Eta2ndEle_VVjets, h_Eta2ndEle_WJetAlpgen]
-plot5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot5.histosStack     = [h_Eta2ndEle_TTbar, h_Eta2ndEle_ZJetAlpgen, h_Eta2ndEle_OTHERBKG]
+plot5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot5.histos          = [h_Eta2ndEle_LQeejj_M100, h_Eta2ndEle_LQeejj_M200, h_Eta2ndEle_LQeejj_M300]
 plot5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -461,6 +464,7 @@ h_nJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts___
 h_nJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
 h_nJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
 h_nJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
+h_nJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
 #h_nJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
 h_nJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
 h_nJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
@@ -471,10 +475,9 @@ h_nJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nJet_PAS"
 
 plot6 = Plot() 
 ## inputs for stacked histograms
-plot6.histosStack     = [h_nJet_TTbar, h_nJet_ZJetAlpgen, h_nJet_QCDPt15,
-                         h_nJet_SingleTop, h_nJet_VVjets, h_nJet_WJetAlpgen]
-plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot6.histosStack     = [h_nJet_TTbar, h_nJet_ZJetAlpgen, h_nJet_OTHERBKG]
+plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot6.histos          = [h_nJet_LQeejj_M100, h_nJet_LQeejj_M200, h_nJet_LQeejj_M300]
 plot6.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -499,6 +502,7 @@ h_Pt1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_Pt1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
 h_Pt1stJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
 h_Pt1stJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_Pt1stJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
 #h_Pt1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
 h_Pt1stJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
 h_Pt1stJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
@@ -509,10 +513,9 @@ h_Pt1stJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1st
 
 plot7 = Plot() 
 ## inputs for stacked histograms
-plot7.histosStack     = [h_Pt1stJet_TTbar, h_Pt1stJet_ZJetAlpgen, h_Pt1stJet_QCDPt15,
-                         h_Pt1stJet_SingleTop, h_Pt1stJet_VVjets, h_Pt1stJet_WJetAlpgen]
-plot7.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot7.histosStack     = [h_Pt1stJet_TTbar, h_Pt1stJet_ZJetAlpgen, h_Pt1stJet_OTHERBKG]
+plot7.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot7.histos          = [h_Pt1stJet_LQeejj_M100, h_Pt1stJet_LQeejj_M200, h_Pt1stJet_LQeejj_M300]
 plot7.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -538,6 +541,7 @@ h_Eta1stJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta1stJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
 h_Eta1stJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
 h_Eta1stJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_Eta1stJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
 #h_Eta1stJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
 h_Eta1stJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
 h_Eta1stJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
@@ -548,10 +552,9 @@ h_Eta1stJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1
 
 plot8 = Plot() 
 ## inputs for stacked histograms
-plot8.histosStack     = [h_Eta1stJet_TTbar, h_Eta1stJet_ZJetAlpgen, h_Eta1stJet_QCDPt15,
-                         h_Eta1stJet_SingleTop, h_Eta1stJet_VVjets, h_Eta1stJet_WJetAlpgen]
-plot8.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot8.histosStack     = [h_Eta1stJet_TTbar, h_Eta1stJet_ZJetAlpgen, h_Eta1stJet_OTHERBKG]
+plot8.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot8.histos          = [h_Eta1stJet_LQeejj_M100, h_Eta1stJet_LQeejj_M200, h_Eta1stJet_LQeejj_M300]
 plot8.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -575,6 +578,7 @@ h_Pt2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_Pt2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
 h_Pt2ndJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
 h_Pt2ndJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
+h_Pt2ndJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
 #h_Pt2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
 h_Pt2ndJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
 h_Pt2ndJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
@@ -585,10 +589,9 @@ h_Pt2ndJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2nd
 
 plot9 = Plot() 
 ## inputs for stacked histograms
-plot9.histosStack     = [h_Pt2ndJet_TTbar, h_Pt2ndJet_ZJetAlpgen, h_Pt2ndJet_QCDPt15,
-                         h_Pt2ndJet_SingleTop, h_Pt2ndJet_VVjets, h_Pt2ndJet_WJetAlpgen]
-plot9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot9.histosStack     = [h_Pt2ndJet_TTbar, h_Pt2ndJet_ZJetAlpgen, h_Pt2ndJet_OTHERBKG]
+plot9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot9.histos          = [h_Pt2ndJet_LQeejj_M100, h_Pt2ndJet_LQeejj_M200, h_Pt2ndJet_LQeejj_M300]
 plot9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -614,6 +617,7 @@ h_Eta2ndJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_Eta2ndJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
 h_Eta2ndJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
 h_Eta2ndJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
+h_Eta2ndJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
 #h_Eta2ndJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
 h_Eta2ndJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
 h_Eta2ndJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
@@ -624,10 +628,9 @@ h_Eta2ndJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2
 
 plot10 = Plot() 
 ## inputs for stacked histograms
-plot10.histosStack     = [h_Eta2ndJet_TTbar, h_Eta2ndJet_ZJetAlpgen, h_Eta2ndJet_QCDPt15,
-                         h_Eta2ndJet_SingleTop, h_Eta2ndJet_VVjets, h_Eta2ndJet_WJetAlpgen]
-plot10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot10.histosStack     = [h_Eta2ndJet_TTbar, h_Eta2ndJet_ZJetAlpgen, h_Eta2ndJet_OTHERBKG]
+plot10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot10.histos          = [h_Eta2ndJet_LQeejj_M100, h_Eta2ndJet_LQeejj_M200, h_Eta2ndJet_LQeejj_M300]
 plot10.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -650,6 +653,7 @@ h_sT_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts_____
 h_sT_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
 h_sT_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
 h_sT_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
+h_sT_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
 #h_sT_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
 h_sT_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
 h_sT_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
@@ -662,10 +666,9 @@ plot11 = Plot()
 ## inputs for stacked histograms
 ## it created h_sT_TTbar, h_sT_TTbar+h_sT_ZJetAlpgen , h_sT_TTbar+h_sT_ZJetAlpgen+h_sT_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
-plot11.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_QCDPt15,
-                         h_sT_SingleTop, h_sT_VVjets, h_sT_WJetAlpgen]
-plot11.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot11.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_OTHERBKG]
+plot11.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot11.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
 plot11.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -690,6 +693,7 @@ h_Mej_presel_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__h_Mej_PAS", File_pres
 h_Mej_presel_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__h_Mej_PAS", File_preselection).Clone()
 h_Mej_presel_TTbar = GetHisto("histo1D__TTbar_Madgraph__h_Mej_PAS", File_preselection).Clone()
 h_Mej_presel_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__h_Mej_PAS", File_preselection).Clone()
+h_Mej_presel_OTHERBKG = GetHisto("histo1D__OTHERBKG__h_Mej_PAS", File_preselection).Clone()
 #h_Mej_presel_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__h_Mej_PAS", File_preselection).Clone()
 h_Mej_presel_QCDPt15 = GetHisto("histo1D__QCDPt15__h_Mej_PAS", File_preselection).Clone()
 h_Mej_presel_SingleTop = GetHisto("histo1D__SingleTop__h_Mej_PAS", File_preselection).Clone()
@@ -698,10 +702,8 @@ h_Mej_presel_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__h_Mej_PAS", File_presel
 h_Mej_presel_DATA = GetHisto("histo1D__DATA__h_Mej_PAS", File_preselection).Clone()
 
 plot12 = Plot()
-plot12.histosStack     = [h_Mej_presel_TTbar, h_Mej_presel_ZJetAlpgen, h_Mej_presel_QCDPt15,
-                             h_Mej_presel_SingleTop, h_Mej_presel_VVjets, h_Mej_presel_WJetAlpgen]
-plot12.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                             "single top", "di-bosons + jets", "W/W* + jets"]
+plot12.histosStack     = [h_Mej_presel_TTbar, h_Mej_presel_ZJetAlpgen, h_Mej_presel_OTHERBKG]
+plot12.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot12.histos          = [h_Mej_presel_LQeejj_M100, h_Mej_presel_LQeejj_M200, h_Mej_presel_LQeejj_M300]
 plot12.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -726,15 +728,14 @@ plot20 = Plot()
 plot20.histosStack     = [
     GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
     GetHisto("histo1D__ZJetAlpgen__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
-    GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
-    GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
-    GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
-    GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________sT", File_selection).Clone()
+    GetHisto("histo1D__OTHERBKG__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
+#     GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
+#     GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
+#     GetHisto("histo1D__VVjets__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
+#     GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts___________sT", File_selection).Clone()
     ]
 plot20.keysStack       = [
-    "ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-    "single top", "di-bosons + jets", "W/W* + jets"
-    ]
+    "ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot20.histos          = [
     GetHisto("histo1D__LQeejj_M100__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
@@ -764,6 +765,7 @@ h_Mej_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allOtherCuts_______
 h_Mej_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
 h_Mej_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
 h_Mej_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
+h_Mej_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
 #h_Mej_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
 h_Mej_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
 h_Mej_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________Mej_1stPair", File_selection).Clone()
@@ -778,6 +780,7 @@ h_Mej_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allOtherCuts_____
 h_Mej_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
 h_Mej_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
 h_Mej_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
+h_Mej_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
 #h_Mej_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
 h_Mej_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
 h_Mej_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
@@ -786,10 +789,8 @@ h_Mej_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allOtherCuts_______
 h_Mej_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allOtherCuts___________Mej_2ndPair", File_selection))
 
 plot21 = Plot()
-plot21.histosStack     = [h_Mej_TTbar, h_Mej_ZJetAlpgen, h_Mej_QCDPt15,
-                          h_Mej_SingleTop, h_Mej_VVjets, h_Mej_WJetAlpgen]
-plot21.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                          "single top", "di-bosons + jets", "W/W* + jets"]
+plot21.histosStack     = [h_Mej_TTbar, h_Mej_ZJetAlpgen, h_Mej_OTHERBKG]
+plot21.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot21.histos          = [h_Mej_LQeejj_M100, h_Mej_LQeejj_M200, h_Mej_LQeejj_M300]
 plot21.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -816,6 +817,7 @@ h_pTEles_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts_
 h_pTEles_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pTEles_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pTEles_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_pTEles_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 #h_pTEles_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pTEles_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pTEles_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -830,6 +832,7 @@ h_pTEles_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCut
 h_pTEles_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 h_pTEles_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 h_pTEles_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
+h_pTEles_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 #h_pTEles_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 h_pTEles_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 h_pTEles_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
@@ -839,10 +842,9 @@ h_pTEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2nd
 
 plot2and4 = Plot() 
 ## inputs for stacked histograms
-plot2and4.histosStack     = [h_pTEles_TTbar, h_pTEles_ZJetAlpgen, h_pTEles_QCDPt15,
-                         h_pTEles_SingleTop, h_pTEles_VVjets, h_pTEles_WJetAlpgen]
-plot2and4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot2and4.histosStack     = [h_pTEles_TTbar, h_pTEles_ZJetAlpgen, h_pTEles_OTHERBKG]
+plot2and4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2and4.histos          = [h_pTEles_LQeejj_M100, h_pTEles_LQeejj_M200, h_pTEles_LQeejj_M300]
 plot2and4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
@@ -867,6 +869,7 @@ h_etaEles_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts
 h_etaEles_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_etaEles_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_etaEles_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_etaEles_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 #h_etaEles_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_etaEles_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_etaEles_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -881,6 +884,7 @@ h_etaEles_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCu
 h_etaEles_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 h_etaEles_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 h_etaEles_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
+h_etaEles_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 #h_etaEles_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 h_etaEles_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 h_etaEles_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
@@ -890,10 +894,9 @@ h_etaEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2
 
 plot3and5 = Plot() 
 ## inputs for stacked histograms
-plot3and5.histosStack     = [h_etaEles_TTbar, h_etaEles_ZJetAlpgen, h_etaEles_QCDPt15,
-                         h_etaEles_SingleTop, h_etaEles_VVjets, h_etaEles_WJetAlpgen]
-plot3and5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", "QCD multi-jets",
-                         "single top", "di-bosons + jets", "W/W* + jets" ]
+plot3and5.histosStack     = [h_etaEles_TTbar, h_etaEles_ZJetAlpgen, h_etaEles_OTHERBKG]
+plot3and5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3and5.histos          = [h_etaEles_LQeejj_M100, h_etaEles_LQeejj_M200, h_etaEles_LQeejj_M300]
 plot3and5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
