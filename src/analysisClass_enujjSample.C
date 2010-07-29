@@ -312,13 +312,32 @@ void analysisClass::Loop()
     //#
     fillVariableWithValue("MET", thisMET);
 
+    // Loop over GenParticles to calculate the GenMET
+//     TLorentzVector nu_p4 = 0.;
+//     for(int ipart=0; ipart<GenParticlePt->size(); ipart++)
+//       {
+//         //if the particle is not a neutrino, skip it
+//         if ( abs(GenParticlePdgId->at(ipart))!=12 &&
+//              abs(GenParticlePdgId->at(ipart))!=14 &&
+//              abs(GenParticlePdgId->at(ipart))!=16 ) continue;
+//         TLorentzVector temp_p4;
+//         temp_p4.SetPtEtaPhiM(GenParticlePt->at(ipart),
+//                              GenParticleEta->at(ipart),
+//                              GenParticlePhi->at(ipart),0.);
+//         nu_p4 += temp_p4;
+//       } // End loop over GenParticles
+// 
+//     if( nu_p4.Perp()>0. ) fillVariableWithValue("deltaMET", (thisMET-nu_p4.Perp())/nu_p4.Perp());
+
     // 1st ele and transverse mass enu
     double MT, DeltaPhiMETEle = -999;
-    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) 
+    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 )
       {
 	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0])) );
+
+        fillVariableWithValue( "minMETPt1stEle", min(thisMET, ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0])) );
 
 	// DeltaPhi - MET vs 1st ele
 	TVector2 v_MET;
