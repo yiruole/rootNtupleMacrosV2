@@ -76,12 +76,18 @@ class Plot:
             canvas.SetLogy();
 
         #-- legend
+        hsize=0.20
+        vsize=0.25
         if (plot.lpos=="bottom-center"):
-            legend = TLegend(0.35, 0.25, 0.35+0.30, 0.25+0.20)
+            xstart=0.35
+            ystart=0.25
         elif(plot.lpos=="top-left"):
-            legend = TLegend(0.12, 0.70, 0.15+0.30, 0.70+0.20)            
+            xstart=0.12
+            ystart=0.63
         else:
-            legend = TLegend(0.58, 0.68, 0.88, 0.88)
+            xstart=0.68
+            ystart=0.63
+        legend = TLegend(xstart, ystart, xstart+hsize, ystart+vsize)
         legend.SetFillColor(kWhite)
         legend.SetMargin(0.2)
 
@@ -142,8 +148,8 @@ class Plot:
             if(plot.rebin!=""):
                 histo.Rebin(plot.rebin)
             histo.SetMarkerStyle(20+2*ih)
-            histo.SetMarkerColor(1+ih)
-            histo.SetLineColor(1+ih)
+            histo.SetMarkerColor(2+2*ih)
+            histo.SetLineColor(  2+2*ih)
             legend.AddEntry(histo, plot.keys[ih],"l")
             histo.Draw("HISTsame")
             ih=ih+1
@@ -161,15 +167,17 @@ class Plot:
         l.SetTextSize(0.04)
         l.SetTextFont(62)
         l.SetNDC()
+#        l.DrawLatex(xstart,ystart-0.05,"CMS 2010 Preliminary")
+#        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + plot.lint)
         if (plot.lpos=="bottom-center"):
             l.DrawLatex(0.35,0.20,"CMS 2010 Preliminary")
             l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
         if (plot.lpos=="top-left"):
-            l.DrawLatex(0.12,0.65,"CMS 2010 Preliminary")
-            l.DrawLatex(0.12,0.60,"L_{int} = " + plot.lint)
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS 2010 Preliminary")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.08,"L_{int} = " + plot.lint)
         else:
-            l.DrawLatex(0.60,0.65,"CMS 2010 Preliminary")
-            l.DrawLatex(0.60,0.60,"L_{int} = " + plot.lint)
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS 2010 Preliminary")
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + plot.lint)
 
         #-- end
         legend.Draw()
