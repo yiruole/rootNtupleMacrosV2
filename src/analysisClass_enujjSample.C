@@ -264,12 +264,12 @@ void analysisClass::Loop()
     if(isData==true)
       {
 	fillVariableWithValue( "PassBPTX0", isBPTX0 ) ;
-	fillVariableWithValue( "PassPhysDecl", isPhysDeclared ) ;       
+	fillVariableWithValue( "PassPhysDecl", isPhysDeclared ) ;
       }
     else
       {
 	fillVariableWithValue( "PassBPTX0", true ) ;
-	fillVariableWithValue( "PassPhysDecl", true ) ;       
+	fillVariableWithValue( "PassPhysDecl", true ) ;
       }
 
     fillVariableWithValue( "PassHLT", PassTrig ) ;

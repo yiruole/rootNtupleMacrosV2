@@ -97,8 +97,8 @@ mDeltaPhiMET2ndJet              -inf         +inf               -               
 sT_PAS                          -inf         +inf               -               -               4       200 0 2000
 #
 minMETPt1stEle                  65           +inf               -               -               6       200 0 1000
-MTenu                           140          +inf               -               -               6       200 0 1000
-sT                              450          +inf               -               -               6       200 0 2000
+MTenu                           100          +inf               -               -               6       200 0 1000
+sT                              460          +inf               -               -               6       200 0 2000
 #Mej                             -inf        +inf               -               -               6       200 0 2000
 #MTnuj                           -inf        +inf               -               -               6       200 0 2000
 #
@@ -106,9 +106,9 @@ sT                              450          +inf               -               
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
-minMETPt1stEle                  OPT           >         40              85              1
-MTenu                           OPT           >         120             165             1
-sT                              OPT           >         410             500             1
+minMETPt1stEle                  OPT           >         55              100             1
+MTenu                           OPT           >         90              135             1
+sT                              OPT           >         460             550             1
 #mDeltaPhiMET1stJet             OPT           >         0               0.9             1
 #Pt1stEle_IDISO_NoOvrlp         OPT           >         25              70              1
 #Pt2ndJet_noOvrlp_ID            OPT           >         10              100             1
