@@ -152,11 +152,16 @@ void analysisClass::Loop()
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
     vector<int> v_idx_ele_PtCut_IDISO_noOverlap;
-    int eleIDType = (int) getPreCutValue1("eleIDType");
-     
+    // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
+    int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
+    int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
+    int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
+    int heepBitMask;
+
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
+
 	// Reject ECAL spikes
 	if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
 
@@ -167,10 +172,25 @@ void analysisClass::Loop()
 	if( ElectronPt->at(iele) < getPreCutValue1("ele_PtCut") ) continue; 
 	v_idx_ele_PtCut.push_back(iele);
 
-	//ID + ISO + NO overlap with good muons 
-	int eleID = ElectronPassID->at(iele);
-	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
+	// get heepBitMask for EB, GAP, EE 
+	if( fabs(ElectronEta->at(iele)) < eleEta_bar ) 
 	  {
+	    heepBitMask = heepBitMask_EB;
+	  }
+	else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max ) 
+	  {
+	    heepBitMask = heepBitMask_EE;
+	  }
+	else {
+	    heepBitMask = heepBitMask_GAP;
+	}
+
+	//ID + ISO + NO overlap with good muons 
+	// int eleID = ElectronPassID->at(iele);
+	// if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
+	if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0  && ElectronOverlaps->at(iele)==0 )
+	  {
+	    //STDOUT("ElectronHeepID = " << hex << ElectronHeepID->at(iele) << " ; ElectronPassID = " << ElectronPassID->at(iele) )
 	    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
 	  }
 
@@ -393,6 +413,8 @@ void analysisClass::Loop()
     double M11, M12, M21, M22 = -999;
     double diff_11_22 = 9999;
     double diff_12_21 = 9999;
+    double Mej_1stPair = 0;
+    double Mej_2ndPair = 0;
     if ( (TwoEle) && (TwoJets) ) 
       {
 	TLorentzVector jet1, jet2, ele1, ele2;
@@ -423,20 +445,32 @@ void analysisClass::Loop()
 
 	if(fabs(diff_11_22) > fabs(diff_12_21))
 	  {
-	    fillVariableWithValue("Mej_1stPair", M12);       
-	    fillVariableWithValue("Mej_2ndPair", M21);
-	    //PAS June 2010
-	    h_Mej_PAS->Fill(M12);
-	    h_Mej_PAS->Fill(M21);
+	    Mej_1stPair = M12;
+	    Mej_2ndPair = M21;
 	  }
 	else
 	  {
-	    fillVariableWithValue("Mej_1stPair", M22);       
-	    fillVariableWithValue("Mej_2ndPair", M11);
-	    //PAS June 2010
-	    h_Mej_PAS->Fill(M22);
-	    h_Mej_PAS->Fill(M11);
+	    Mej_1stPair = M22;
+	    Mej_2ndPair = M11;
 	  } 
+	fillVariableWithValue("Mej_1stPair", Mej_1stPair);       
+	fillVariableWithValue("Mej_2ndPair", Mej_2ndPair);
+	//PAS June 2010
+	h_Mej_PAS->Fill(Mej_1stPair);
+	h_Mej_PAS->Fill(Mej_2ndPair);
+	fillVariableWithValue("Mej_1stPair_PAS", Mej_1stPair);       
+	fillVariableWithValue("Mej_2ndPair_PAS", Mej_2ndPair);
+
+	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) 
+	  {
+	    STDOUT("Mej < 20 GeV: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
+	    STDOUT("Mej < 20 GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair "<< Mej_2ndPair );
+	    STDOUT("Mej < 20 GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
+	    STDOUT("Mej < 20 GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<", "<< jet1.Eta() <<", "<< jet1.Phi() );
+	    STDOUT("Mej < 20 GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
+	    STDOUT("Mej < 20 GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<", "<< jet2.Eta() <<", "<< jet2.Phi() );
+	  }
+
       }
 
 
