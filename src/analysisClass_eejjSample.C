@@ -447,6 +447,7 @@ void analysisClass::Loop()
 	deltaM_e1j1_e2j2 = Me1j1 - Me2j2;
 	deltaM_e1j2_e2j1 = Me1j2 - Me2j1;
 
+
 	double deltaR_e1j1 = ele1.DeltaR(jet1);
 	double deltaR_e2j2 = ele2.DeltaR(jet2);
 	double deltaR_e1j2 = ele1.DeltaR(jet2);
@@ -473,22 +474,34 @@ void analysisClass::Loop()
 
 	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
 	  {
-	    STDOUT("Mej < 20 GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
-	    STDOUT("Mej < 20 GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair "<< Mej_2ndPair );
-	    STDOUT("Mej < 20 GeV: e1j1.M = "<<e1j1.M() <<", e2j2.M"<<e2j2.M() <<", e1j2.M"<<e1j2.M()  <<", e2j1.M"<<e2j1.M()  );
-	    STDOUT("Mej < 20 GeV: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
-	    STDOUT("Mej < 20 GeV: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
-	    STDOUT("Mej < 20 GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<",\t"<< ele1.Eta() <<",\t"<< ele1.Phi() );
-	    STDOUT("Mej < 20 GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<",\t"<< ele2.Eta() <<",\t"<< ele2.Phi() );
-	    STDOUT("Mej < 20 GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
-	    STDOUT("Mej < 20 GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
-
+	    STDOUT("Mej<20GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+	    STDOUT("Mej<20GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair = "<< Mej_2ndPair );
+	    STDOUT("Mej<20GeV: e1j1.M = "<<e1j1.M() <<", e2j2.M = "<<e2j2.M() <<", e1j2.M = "<<e1j2.M()  <<", e2j1.M = "<<e2j1.M()  );
+	    STDOUT("Mej<20GeV: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
+	    STDOUT("Mej<20GeV: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
+// 	    STDOUT("Mej<20GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<",\t"<< ele1.Eta() <<",\t"<< ele1.Phi() );
+// 	    STDOUT("Mej<20GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<",\t"<< ele2.Eta() <<",\t"<< ele2.Phi() );
+// 	    STDOUT("Mej<20GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
+// 	    STDOUT("Mej<20GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
+	    TLorentzVector thisele;
+	    for(int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++)
+	      {
+		thisele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+				     ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+				     ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),0);
+		STDOUT("Mej<20GeV: e"<<iele+1<<" Pt, eta, phi = " 
+		       << ", "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi()<<"; DR_j1, DR_j2 = "<< thisele.DeltaR(jet1)<<", "<<thisele.DeltaR(jet2));
+	      }
+	    TLorentzVector thisjet;
+	    TLorentzVector thisjet_e1, thisjet_e2;
 	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
 	      {
-		STDOUT("Mej < 20 GeV: ijet, Pt, eta, phi = "<< ijet 
-		       << "\t\t"<<CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet])
-		       << "\t\t"<<CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet])
-		       << "\t\t"<<CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+		thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+				     CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+				     CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
+		thisjet_e1 = thisjet + ele1;
+		thisjet_e2 = thisjet + ele2;
+		STDOUT("Mej<20GeV: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<"; DR_e1, DR_e2 = "<< thisjet.DeltaR(ele1)<<", "<<thisjet.DeltaR(ele2) << "; M_e1, M_e2 = " <<thisjet_e1.M() <<", "<<thisjet_e2.M() );
 	      }
 	  } // printouts for low Mej 
 
