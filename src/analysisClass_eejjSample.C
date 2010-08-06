@@ -410,12 +410,16 @@ void analysisClass::Loop()
       }
 
     // Mej 
-    double M11, M12, M21, M22 = -999;
-    double diff_11_22 = 9999;
-    double diff_12_21 = 9999;
+    double Me1j1, Me1j2, Me2j1, Me2j2 = -999;
+    double deltaM_e1j1_e2j2 = 9999;
+    double deltaM_e1j2_e2j1 = 9999;
     double Mej_1stPair = 0;
     double Mej_2ndPair = 0;
-    if ( (TwoEle) && (TwoJets) ) 
+    double deltaR_e1j1 ;
+    double deltaR_e2j2 ;
+    double deltaR_e1j2 ;
+    double deltaR_e2j1 ;
+    if ( (TwoEle) && (TwoJets) ) // TwoEle and TwoJets
       {
 	TLorentzVector jet1, jet2, ele1, ele2;
 	ele1.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
@@ -430,28 +434,34 @@ void analysisClass::Loop()
 	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
 			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
 			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
-	TLorentzVector jet1ele1, jet2ele1, jet1ele2, jet2ele2;
-	jet1ele1 = jet1 + ele1;
-	jet2ele1 = jet2 + ele1;
-	jet1ele2 = jet1 + ele2;
-	jet2ele2 = jet2 + ele2;
-	M11 = jet1ele1.M();
-	M21 = jet2ele1.M();
-	M12 = jet1ele2.M();
-	M22 = jet2ele2.M();
+	TLorentzVector e1j1, e1j2, e2j1, e2j2;
+	e1j1 = ele1 + jet1;
+	e2j2 = ele2 + jet2;
+	e2j1 = ele2 + jet1;
+	e1j2 = ele1 + jet2;
+	Me1j1 = e1j1.M();
+	Me2j2 = e2j2.M();
+	Me1j2 = e1j2.M();
+	Me2j1 = e2j1.M();
 
-	diff_11_22 = M11 - M22;
-	diff_12_21 = M12 - M21;
+	deltaM_e1j1_e2j2 = Me1j1 - Me2j2;
+	deltaM_e1j2_e2j1 = Me1j2 - Me2j1;
 
-	if(fabs(diff_11_22) > fabs(diff_12_21))
+	double deltaR_e1j1 = ele1.DeltaR(jet1);
+	double deltaR_e2j2 = ele2.DeltaR(jet2);
+	double deltaR_e1j2 = ele1.DeltaR(jet2);
+	double deltaR_e2j1 = ele2.DeltaR(jet1);
+
+
+	if(fabs(deltaM_e1j1_e2j2) > fabs(deltaM_e1j2_e2j1))
 	  {
-	    Mej_1stPair = M12;
-	    Mej_2ndPair = M21;
+	    Mej_1stPair = Me1j2;
+	    Mej_2ndPair = Me2j1;
 	  }
 	else
 	  {
-	    Mej_1stPair = M22;
-	    Mej_2ndPair = M11;
+	    Mej_1stPair = Me1j1;
+	    Mej_2ndPair = Me2j2;
 	  } 
 	fillVariableWithValue("Mej_1stPair", Mej_1stPair);       
 	fillVariableWithValue("Mej_2ndPair", Mej_2ndPair);
@@ -461,17 +471,28 @@ void analysisClass::Loop()
 	fillVariableWithValue("Mej_1stPair_PAS", Mej_1stPair);       
 	fillVariableWithValue("Mej_2ndPair_PAS", Mej_2ndPair);
 
-	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) 
+	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
 	  {
-	    STDOUT("Mej < 20 GeV: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
+	    STDOUT("Mej < 20 GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
 	    STDOUT("Mej < 20 GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair "<< Mej_2ndPair );
-	    STDOUT("Mej < 20 GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
-	    STDOUT("Mej < 20 GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<", "<< jet1.Eta() <<", "<< jet1.Phi() );
-	    STDOUT("Mej < 20 GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
-	    STDOUT("Mej < 20 GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<", "<< jet2.Eta() <<", "<< jet2.Phi() );
-	  }
+	    STDOUT("Mej < 20 GeV: e1j1.M = "<<e1j1.M() <<", e2j2.M"<<e2j2.M() <<", e1j2.M"<<e1j2.M()  <<", e2j1.M"<<e2j1.M()  );
+	    STDOUT("Mej < 20 GeV: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
+	    STDOUT("Mej < 20 GeV: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
+	    STDOUT("Mej < 20 GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<",\t"<< ele1.Eta() <<",\t"<< ele1.Phi() );
+	    STDOUT("Mej < 20 GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<",\t"<< ele2.Eta() <<",\t"<< ele2.Phi() );
+	    STDOUT("Mej < 20 GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
+	    STDOUT("Mej < 20 GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
 
-      }
+	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+	      {
+		STDOUT("Mej < 20 GeV: ijet, Pt, eta, phi = "<< ijet 
+		       << "\t\t"<<CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet])
+		       << "\t\t"<<CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet])
+		       << "\t\t"<<CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+	      }
+	  } // printouts for low Mej 
+
+      } // TwoEle and TwoJets
 
 
 
