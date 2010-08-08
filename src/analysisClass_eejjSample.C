@@ -453,7 +453,6 @@ void analysisClass::Loop()
 	double deltaR_e1j2 = ele1.DeltaR(jet2);
 	double deltaR_e2j1 = ele2.DeltaR(jet1);
 
-
 	if(fabs(deltaM_e1j1_e2j2) > fabs(deltaM_e1j2_e2j1))
 	  {
 	    Mej_1stPair = Me1j2;
@@ -472,6 +471,29 @@ void analysisClass::Loop()
 	fillVariableWithValue("Mej_1stPair_PAS", Mej_1stPair);       
 	fillVariableWithValue("Mej_2ndPair_PAS", Mej_2ndPair);
 
+	// min and max DeltaR between electrons and any jet
+	double minDeltaR_ej = 999999;
+	double maxDeltaR_ej = -1;
+	double thisMinDR, thisMaxDR, DR_thisjet_e1, DR_thisjet_e2;
+	TLorentzVector thisjet;
+	for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+	  {
+	    thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+				 CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+				 CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
+	    DR_thisjet_e1 = thisjet.DeltaR(ele1);
+	    DR_thisjet_e2 = thisjet.DeltaR(ele2);
+	    thisMinDR = min(DR_thisjet_e1, DR_thisjet_e2);
+	    thisMaxDR = max(DR_thisjet_e1, DR_thisjet_e2);
+	    if(thisMinDR < minDeltaR_ej)
+	      minDeltaR_ej = thisMinDR;
+	    if(thisMaxDR > maxDeltaR_ej)
+	      maxDeltaR_ej = thisMaxDR;
+	  } 
+	fillVariableWithValue("minDeltaR_ej", minDeltaR_ej);
+	fillVariableWithValue("maxDeltaR_ej", maxDeltaR_ej);
+
+	// printouts for small Mej
 	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
 	  {
 	    STDOUT("Mej<20GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);

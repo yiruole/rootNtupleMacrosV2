@@ -101,6 +101,8 @@ Mej_2ndPair_PAS                 -inf	     +inf               -               -  
 #
 Mee                             100	     +inf               -               -               6       200 0 1000
 sT                              240	     +inf               -               -               6       200 0 2000
+minDeltaR_ej                    -inf	     +inf               -               -               6       100 0 10
+maxDeltaR_ej                    -inf	     +inf               -               -               6       100 0 10
 Mej_1stPair                     -inf	     +inf               -               -               6       200 0 2000
 Mej_2ndPair                     -inf	     +inf               -               -               6       200 0 2000
 #
