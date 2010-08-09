@@ -86,6 +86,17 @@ void analysisClass::Loop()
   double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
   double JetEnergyScale=getPreCutValue1("JetEnergyScale");
 
+  // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
+  int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
+  int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
+
+  int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
+
+  int looseBitMask_EB       =  getPreCutValue1("looseBitMask_EBGapEE") ;
+  int looseBitMask_GAP      =  getPreCutValue2("looseBitMask_EBGapEE") ;
+  int looseBitMask_EE       =  getPreCutValue3("looseBitMask_EBGapEE") ;
+  int looseBitMask_enabled  =  getPreCutValue4("looseBitMask_EBGapEE") ;
+
   ////////////////////// User's code to get preCut values - END /////////////////
     
   Long64_t nentries = fChain->GetEntriesFast();
@@ -152,10 +163,6 @@ void analysisClass::Loop()
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
     vector<int> v_idx_ele_PtCut_IDISO_noOverlap;
-    // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
-    int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
-    int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
-    int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
     int heepBitMask;
 
     //Loop over electrons
@@ -196,7 +203,51 @@ void analysisClass::Loop()
 
       } // End loop over electrons
 
-    
+    // tight-loose electrons, if enabled from cut file
+    if ( looseBitMask_enabled == 1 && v_idx_ele_PtCut_IDISO_noOverlap.size() == 1 )
+      {
+	//	STDOUT("v_idx_ele_PtCut_IDISO_noOverlap[0] = "<<v_idx_ele_PtCut_IDISO_noOverlap[0] << " - Pt = "<<ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	bool loosePtLargerThanTightPt = true;
+	for(int iele=0; iele<ElectronPt->size(); iele++)
+	  {
+	    if (iele == v_idx_ele_PtCut_IDISO_noOverlap[0])
+	      {
+		loosePtLargerThanTightPt = false;
+		continue;
+	      }
+	    // get looseBitMask for EB, GAP, EE 
+
+	    int looseBitMask;
+	    if( fabs(ElectronEta->at(iele)) < eleEta_bar ) 
+	      {
+		looseBitMask = looseBitMask_EB;
+	      }
+	    else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max ) 
+	      {
+		looseBitMask = looseBitMask_EE;
+	      }
+	    else {
+	      looseBitMask = looseBitMask_GAP;
+	    }
+	    if ( (ElectronHeepID->at(iele) & ~looseBitMask)==0x0  && ElectronOverlaps->at(iele)==0 )
+	      {
+		if ( loosePtLargerThanTightPt )
+		  {
+		    v_idx_ele_PtCut_IDISO_noOverlap.insert(v_idx_ele_PtCut_IDISO_noOverlap.begin(),1,iele);
+		  }
+		else 
+		  {
+		    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
+		  }
+		break;
+	      }
+	  }	
+// 	for ( int i=0; i<v_idx_ele_PtCut_IDISO_noOverlap.size(); i++)
+// 	  {
+// 	    STDOUT("i="<<i<<", v_idx_ele_PtCut_IDISO_noOverlap[i] = "<<v_idx_ele_PtCut_IDISO_noOverlap[i] << ", Pt = "<<ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[i]));
+// 	  }
+      } // tight-loose electrons, if enabled from cut file
+
     // Jets
     vector<int> v_idx_jet_all;
     vector<int> v_idx_jet_PtCut;
