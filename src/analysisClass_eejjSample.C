@@ -206,11 +206,12 @@ void analysisClass::Loop()
     // tight-loose electrons, if enabled from cut file
     if ( looseBitMask_enabled == 1 && v_idx_ele_PtCut_IDISO_noOverlap.size() == 1 )
       {
-	//	STDOUT("v_idx_ele_PtCut_IDISO_noOverlap[0] = "<<v_idx_ele_PtCut_IDISO_noOverlap[0] << " - Pt = "<<ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+	//STDOUT("v_idx_ele_PtCut_IDISO_noOverlap[0] = "<<v_idx_ele_PtCut_IDISO_noOverlap[0] << " - Pt = "<<ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
 	bool loosePtLargerThanTightPt = true;
-	for(int iele=0; iele<ElectronPt->size(); iele++)
+	for(int iele=0; iele<v_idx_ele_PtCut.size(); iele++)
 	  {
-	    if (iele == v_idx_ele_PtCut_IDISO_noOverlap[0])
+	    
+	    if (v_idx_ele_PtCut[iele] == v_idx_ele_PtCut_IDISO_noOverlap[0])
 	      {
 		loosePtLargerThanTightPt = false;
 		continue;
@@ -218,28 +219,28 @@ void analysisClass::Loop()
 	    // get looseBitMask for EB, GAP, EE 
 
 	    int looseBitMask;
-	    if( fabs(ElectronEta->at(iele)) < eleEta_bar ) 
+	    if( fabs(ElectronEta->at(v_idx_ele_PtCut[iele])) < eleEta_bar ) 
 	      {
 		looseBitMask = looseBitMask_EB;
 	      }
-	    else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max ) 
+	    else if ( fabs(ElectronEta->at(v_idx_ele_PtCut[iele])) > eleEta_end_min && fabs(ElectronEta->at(v_idx_ele_PtCut[iele])) < eleEta_end_max ) 
 	      {
 		looseBitMask = looseBitMask_EE;
 	      }
 	    else {
 	      looseBitMask = looseBitMask_GAP;
 	    }
-	    if ( (ElectronHeepID->at(iele) & ~looseBitMask)==0x0  && ElectronOverlaps->at(iele)==0 )
+	    if ( (ElectronHeepID->at(v_idx_ele_PtCut[iele]) & ~looseBitMask)==0x0  && ElectronOverlaps->at(v_idx_ele_PtCut[iele])==0 )
 	      {
 		if ( loosePtLargerThanTightPt )
 		  {
-		    v_idx_ele_PtCut_IDISO_noOverlap.insert(v_idx_ele_PtCut_IDISO_noOverlap.begin(),1,iele);
+		    v_idx_ele_PtCut_IDISO_noOverlap.insert(v_idx_ele_PtCut_IDISO_noOverlap.begin(),1,v_idx_ele_PtCut[iele]);
 		  }
 		else 
 		  {
-		    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
+		    v_idx_ele_PtCut_IDISO_noOverlap.push_back(v_idx_ele_PtCut[iele]);
 		  }
-		break;
+		break; // happy with one loose electron - Note: if you want more than 1 loose, pt sorting will not be OK with the code as is. 
 	      }
 	  }	
 // 	for ( int i=0; i<v_idx_ele_PtCut_IDISO_noOverlap.size(); i++)
@@ -561,19 +562,23 @@ void analysisClass::Loop()
 	double deltaR_e1j2 = ele1.DeltaR(jet2);
 	double deltaR_e2j1 = ele2.DeltaR(jet1);
 
-	// Fill min DR between any of the 2 selected eles and any of the 2 selected jets
-	double minDR_2ele_2jet = min ( min(deltaR_e1j1,deltaR_e2j2) , min(deltaR_e1j2,deltaR_e2j1) );
-	fillVariableWithValue("minDR_2ele_2jet", minDR_2ele_2jet);
+// 	// Fill min DR between any of the 2 selected eles and any of the 2 selected jets
+// 	double minDR_2ele_2jet = min ( min(deltaR_e1j1,deltaR_e2j2) , min(deltaR_e1j2,deltaR_e2j1) );
+// 	fillVariableWithValue("minDR_2ele_2jet", minDR_2ele_2jet);
 
 	if(fabs(deltaM_e1j1_e2j2) > fabs(deltaM_e1j2_e2j1))
 	  {
 	    Mej_1stPair = Me1j2;
 	    Mej_2ndPair = Me2j1;
+	    fillVariableWithValue("minDRej_selecPairs", min(deltaR_e1j2,deltaR_e2j1) );
+	    fillVariableWithValue("minDRej_unselPairs", min(deltaR_e1j1,deltaR_e2j2) );
 	  }
 	else
 	  {
 	    Mej_1stPair = Me1j1;
 	    Mej_2ndPair = Me2j2;
+	    fillVariableWithValue("minDRej_selecPairs", min(deltaR_e1j1,deltaR_e2j2) );
+	    fillVariableWithValue("minDRej_unselPairs", min(deltaR_e1j2,deltaR_e2j1) );
 	  } 
 	fillVariableWithValue("Mej_1stPair", Mej_1stPair);       
 	fillVariableWithValue("Mej_2ndPair", Mej_2ndPair);
