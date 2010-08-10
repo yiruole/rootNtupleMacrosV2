@@ -25,10 +25,14 @@ jet_PtCut             10           -                    -               -       
 jet_sc_DeltaRcut     0.3          -                    -               -               -1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
-FakeRate_BarrelCross  0.00715	   -			-		-		-1
-FakeRate_BarrelSlope  0.0	   -			-		-		-1
-FakeRate_EndcapCross  0.04643	   -			-		-		-1
-FakeRate_EndcapSlope  0.0	   -			-		-		-1
+FakeRate_loose_BarrelCross  0.04	   -			-		-		-1
+FakeRate_loose_BarrelSlope  0.0	   -			-		-		-1
+FakeRate_loose_EndcapCross  0.03	   -			-		-		-1
+FakeRate_loose_EndcapSlope  0.0	   -			-		-		-1
+FakeRate_tight_BarrelCross  0.004	   -			-		-		-1
+FakeRate_tight_BarrelSlope  0.0	   -			-		-		-1
+FakeRate_tight_EndcapCross  0.015	   -			-		-		-1
+FakeRate_tight_EndcapSlope  0.0	   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -49,7 +53,7 @@ FakeRate_EndcapSlope  0.0	   -			-		-		-1
 #VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
 #------------			------------ -------------	------------	-------------	-----	----------------
 nIsoSC				0	     +inf		-		-		0	5 -0.5 4.5
-HLT				-1	   +inf			-		-		4	2 -0.5 1.5
+HLT				0	   +inf			-		-		4	2 -0.5 1.5
 dR_SCJet			0.0	   0.3			0.7		+inf		0	300 0.0	3.0
 #
 Pt1stSC_ISO			30         +inf                 -               -               1       100 0 1000
