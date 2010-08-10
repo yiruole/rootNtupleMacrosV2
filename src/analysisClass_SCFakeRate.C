@@ -56,20 +56,15 @@ void analysisClass::Loop()
    TH1F *h_eta_failHLT = new TH1F("eta_failHLT","eta_failHLT",500,-3.0,3.0);
    TH1F *h_phi_failHLT = new TH1F("phi_failHLT","phi_failHLT",100,-3.5,3.5);
 
-   TH1F *h_probPt1stSc = new TH1F ("probPt1stSc","probPt1stSc",200,0,1000);  h_probPt1stSc->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc = new TH1F ("actualPt1stSc","actualPt1stSc",200,0,1000);  h_actualPt1stSc->Sumw2();  //N events with at least 1 HEEP ele
-   TH1F *h_probSt = new TH1F ("probSt","probSt",200,0,1000);  h_probSt->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt = new TH1F ("actualSt","actualSt",200,0,1000);  h_actualSt->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probPt1stSc_esjj = new TH1F ("probPt1stSc_esjj","probPt1stSc_esjj",200,0,1000);  h_probPt1stSc_esjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualPt1stSc_esjj = new TH1F ("actualPt1stSc_esjj","actualPt1stSc_esjj",200,0,1000);  h_actualPt1stSc_esjj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probSt_esjj = new TH1F ("probSt_esjj","probSt_esjj",200,0,1000);  h_probSt_esjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualSt_esjj = new TH1F ("actualSt_esjj","actualSt_esjj",200,0,1000);  h_actualSt_esjj->Sumw2();  //N events with at least 1 HEEP ele
 
-//    TH1F *h_probPt1stSc_esjj = new TH1F ("probPt1stSc_esjj","probPt1stSc_esjj",200,0,1000);  h_probPt1stSc_esjj->Sumw2();  //N events based on fake rate
-//    TH1F *h_actualPt1stSc_esjj = new TH1F ("actualPt1stSc_esjj","actualPt1stSc_esjj",200,0,1000);  h_actualPt1stSc_esjj->Sumw2();  //N events with at least 1 HEEP ele
-//    TH1F *h_probSt_esjj = new TH1F ("probSt_esjj","probSt_esjj",200,0,1000);  h_probSt_esjj->Sumw2();  //N events based on fake rate
-//    TH1F *h_actualSt_esjj = new TH1F ("actualSt_esjj","actualSt_esjj",200,0,1000);  h_actualSt_esjj->Sumw2();  //N events with at least 1 HEEP ele
-
-//    TH1F *h_probPt1stSc_eejj = new TH1F ("probPt1stSc_eejj","probPt1stSc_eejj",200,0,1000);  h_probPt1stSc_eejj->Sumw2();  //N events based on fake rate
-//    TH1F *h_actualPt1stSc_eejj = new TH1F ("actualPt1stSc_eejj","actualPt1stSc_eejj",200,0,1000);  h_actualPt1stSc_eejj->Sumw2();  //N events with at least 1 HEEP ele
-//    TH1F *h_probSt_eejj = new TH1F ("probSt_eejj","probSt_eejj",200,0,1000);  h_probSt_eejj->Sumw2();  //N events based on fake rate
-//    TH1F *h_actualSt_eejj = new TH1F ("actualSt_eejj","actualSt_eejj",200,0,1000);  h_actualSt_eejj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probPt1stSc_eejj = new TH1F ("probPt1stSc_eejj","probPt1stSc_eejj",200,0,1000);  h_probPt1stSc_eejj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualPt1stSc_eejj = new TH1F ("actualPt1stSc_eejj","actualPt1stSc_eejj",200,0,1000);  h_actualPt1stSc_eejj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probSt_eejj = new TH1F ("probSt_eejj","probSt_eejj",200,0,1000);  h_probSt_eejj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualSt_eejj = new TH1F ("actualSt_eejj","actualSt_eejj",200,0,1000);  h_actualSt_eejj->Sumw2();  //N events with at least 1 HEEP ele
 
    /////////initialize variables
    double FailRate = 0;
@@ -424,13 +419,13 @@ void analysisClass::Loop()
      //// Fill fake rate pltos
      //
 
-     if (!passedCut("dR_SCJet")) continue;  //leading 2 sc not close to jets
+     if (!passedCut("dR_SCJet")) continue;  //leading 2 sc close to jets
 
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
        {
 	 if (v_idx_ele_HEEP_loose.size()==1){
-	   h_actualPt1stSc->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[0]));
-	   h_actualSt->Fill(calc_sT);
+	   h_actualPt1stSc_esjj->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[0]));
+	   h_actualSt_esjj->Fill(calc_sT);
 	 }
 
 	 double probSC1 = 0, probSC2 = 0;
@@ -444,8 +439,8 @@ void analysisClass::Loop()
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
 	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
       
-	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
-	 h_probSt->Fill(calc_sT,probSC1+probSC2);
+	 h_probPt1stSc_esjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
+	 h_probSt_esjj->Fill(calc_sT,probSC1+probSC2);
        }
 
      if ( (MEE>60)&&(MEE<120)) continue; // reject Zs
@@ -574,10 +569,15 @@ void analysisClass::Loop()
    h_eta_failHLT->Write();
    h_phi_failHLT->Write();
 
-   h_probPt1stSc->Write();
-   h_actualPt1stSc->Write();
-   h_probSt->Write();
-   h_actualSt->Write();
+   h_probPt1stSc_esjj->Write();
+   h_actualPt1stSc_esjj->Write();
+   h_probSt_esjj->Write();
+   h_actualSt_esjj->Write();
+
+   h_probPt1stSc_eejj->Write();
+   h_actualPt1stSc_eejj->Write();
+   h_probSt_eejj->Write();
+   h_actualSt_eejj->Write();
 
    FailRate = 100 * NFailHLT/HasSC;
    //cout << "NFail: " << NFailHLT << "\t" << "FailRate: " << FailRate << " %" << endl;
