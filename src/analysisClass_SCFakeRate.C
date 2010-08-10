@@ -94,15 +94,18 @@ void analysisClass::Loop()
    TH1F *h_eta_failHLT = new TH1F("eta_failHLT","eta_failHLT",500,-3.0,3.0);
    TH1F *h_phi_failHLT = new TH1F("phi_failHLT","phi_failHLT",100,-3.5,3.5);
 
-   TH1F *h_probPt1stSc_esjj = new TH1F ("probPt1stSc_esjj","probPt1stSc_esjj",200,0,1000);  h_probPt1stSc_esjj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc_esjj = new TH1F ("actualPt1stSc_esjj","actualPt1stSc_esjj",200,0,1000);  h_actualPt1stSc_esjj->Sumw2();  //N events with at least 1 HEEP ele
-   TH1F *h_probSt_esjj = new TH1F ("probSt_esjj","probSt_esjj",200,0,1000);  h_probSt_esjj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt_esjj = new TH1F ("actualSt_esjj","actualSt_esjj",200,0,1000);  h_actualSt_esjj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probPt1stSc_lsjj = new TH1F ("probPt1stSc_lsjj","probPt1stSc_lsjj",200,0,1000);  h_probPt1stSc_lsjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualPt1stSc_lsjj = new TH1F ("actualPt1stSc_lsjj","actualPt1stSc_lsjj",200,0,1000);  h_actualPt1stSc_lsjj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probSt_lsjj = new TH1F ("probSt_lsjj","probSt_lsjj",200,0,1000);  h_probSt_lsjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualSt_lsjj = new TH1F ("actualSt_lsjj","actualSt_lsjj",200,0,1000);  h_actualSt_lsjj->Sumw2();  //N events with at least 1 HEEP ele
+
+   TH1F *h_probPt1stSc_tsjj = new TH1F ("probPt1stSc_tsjj","probPt1stSc_tsjj",200,0,1000);  h_probPt1stSc_tsjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualPt1stSc_tsjj = new TH1F ("actualPt1stSc_tsjj","actualPt1stSc_tsjj",200,0,1000);  h_actualPt1stSc_tsjj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_probSt_tsjj = new TH1F ("probSt_tsjj","probSt_tsjj",200,0,1000);  h_probSt_tsjj->Sumw2();  //N events based on fake rate
+   TH1F *h_actualSt_tsjj = new TH1F ("actualSt_tsjj","actualSt_tsjj",200,0,1000);  h_actualSt_tsjj->Sumw2();  //N events with at least 1 HEEP ele
 
    TH1F *h_probPt1stSc_eejj = new TH1F ("probPt1stSc_eejj","probPt1stSc_eejj",200,0,1000);  h_probPt1stSc_eejj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc_eejj = new TH1F ("actualPt1stSc_eejj","actualPt1stSc_eejj",200,0,1000);  h_actualPt1stSc_eejj->Sumw2();  //N events with at least 1 HEEP ele
    TH1F *h_probSt_eejj = new TH1F ("probSt_eejj","probSt_eejj",200,0,1000);  h_probSt_eejj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt_eejj = new TH1F ("actualSt_eejj","actualSt_eejj",200,0,1000);  h_actualSt_eejj->Sumw2();  //N events with at least 1 HEEP ele
 
    /////////initialize variables
    double FailRate = 0;
@@ -164,7 +167,7 @@ void analysisClass::Loop()
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
 	// Reject ECAL spikes
-	if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
+	if ( 1 - ElectronSCS4S1->at(iele) > 0.90 ) continue; 
 
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
@@ -554,23 +557,43 @@ void analysisClass::Loop()
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
        {
 	 if (v_idx_ele_HEEP_loose.size()==1){
-	   h_actualPt1stSc_esjj->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[0]));
-	   h_actualSt_esjj->Fill(calc_sT);
+	   h_actualPt1stSc_lsjj->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[0]));
+	   h_actualSt_lsjj->Fill(calc_sT);
+	 }
+	 if (v_idx_ele_HEEP.size()==1){
+	   h_actualPt1stSc_tsjj->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[0]));
+	   h_actualSt_tsjj->Fill(calc_sT);
 	 }
 
-	 double probSC1 = 0, probSC2 = 0;
-	 double BarrelCross = getPreCutValue1("FakeRate_BarrelCross");
-	 double BarrelSlope = getPreCutValue1("FakeRate_BarrelSlope");
-	 double EndcapCross = getPreCutValue1("FakeRate_EndcapCross");
-	 double EndcapSlope = getPreCutValue1("FakeRate_EndcapSlope");
+	 double probSC1_loose = 0, probSC2_loose = 0;
+	 double probSC1_tight = 0, probSC2_tight = 0;
 
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<eleEta_bar) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>eleEta_end_min) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<eleEta_bar) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>eleEta_end_min) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 double BarrelCross_loose = getPreCutValue1("FakeRate_loose_BarrelCross");
+	 double BarrelSlope_loose = getPreCutValue1("FakeRate_loose_BarrelSlope");
+	 double EndcapCross_loose = getPreCutValue1("FakeRate_loose_EndcapCross");
+	 double EndcapSlope_loose = getPreCutValue1("FakeRate_loose_EndcapSlope");
+
+	 double BarrelCross_tight = getPreCutValue1("FakeRate_tight_BarrelCross");
+	 double BarrelSlope_tight = getPreCutValue1("FakeRate_tight_BarrelSlope");
+	 double EndcapCross_tight = getPreCutValue1("FakeRate_tight_EndcapCross");
+	 double EndcapSlope_tight = getPreCutValue1("FakeRate_tight_EndcapSlope");
+
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<eleEta_bar) probSC1_loose = BarrelCross_loose + BarrelSlope_loose*SuperClusterPt->at(v_idx_sc_iso[0]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>eleEta_end_min) probSC1_loose = EndcapCross_loose + EndcapSlope_loose*SuperClusterPt->at(v_idx_sc_iso[0]) ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<eleEta_bar) probSC2_loose = BarrelCross_loose + BarrelSlope_loose*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>eleEta_end_min) probSC2_loose = EndcapCross_loose + EndcapSlope_loose*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<eleEta_bar) probSC1_tight = BarrelCross_tight + BarrelSlope_tight*SuperClusterPt->at(v_idx_sc_iso[0]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>eleEta_end_min) probSC1_tight = EndcapCross_tight + EndcapSlope_tight*SuperClusterPt->at(v_idx_sc_iso[0]) ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<eleEta_bar) probSC2_tight = BarrelCross_tight + BarrelSlope_tight*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>eleEta_end_min) probSC2_tight = EndcapCross_tight + EndcapSlope_tight*SuperClusterPt->at(v_idx_sc_iso[1]);
       
-	 h_probPt1stSc_esjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
-	 h_probSt_esjj->Fill(calc_sT,probSC1+probSC2);
+	 h_probPt1stSc_lsjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1_loose+probSC2_loose);
+	 h_probSt_lsjj->Fill(calc_sT,probSC1_loose+probSC2_loose);
+	 h_probPt1stSc_tsjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1_tight+probSC2_tight);
+	 h_probSt_tsjj->Fill(calc_sT,probSC1_tight+probSC2_tight);
+
+	 h_probPt1stSc_eejj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1_loose*probSC2_tight + probSC1_tight*probSC2_loose - probSC1_tight*probSC2_tight);
+	 h_probSt_eejj->Fill(calc_sT, probSC1_loose*probSC2_tight + probSC1_tight*probSC2_loose - probSC1_tight*probSC2_tight );
        }
 
      /// Fill fake rate plots
@@ -701,15 +724,18 @@ void analysisClass::Loop()
    h_eta_failHLT->Write();
    h_phi_failHLT->Write();
 
-   h_probPt1stSc_esjj->Write();
-   h_actualPt1stSc_esjj->Write();
-   h_probSt_esjj->Write();
-   h_actualSt_esjj->Write();
+   h_probPt1stSc_lsjj->Write();
+   h_actualPt1stSc_lsjj->Write();
+   h_probSt_lsjj->Write();
+   h_actualSt_lsjj->Write();
+
+   h_probPt1stSc_tsjj->Write();
+   h_actualPt1stSc_tsjj->Write();
+   h_probSt_tsjj->Write();
+   h_actualSt_tsjj->Write();
 
    h_probPt1stSc_eejj->Write();
-   h_actualPt1stSc_eejj->Write();
    h_probSt_eejj->Write();
-   h_actualSt_eejj->Write();
 
    FailRate = 100 * NFailHLT/HasSC;
    //cout << "NFail: " << NFailHLT << "\t" << "FailRate: " << FailRate << " %" << endl;
