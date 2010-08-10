@@ -19,7 +19,7 @@ ele_PtCut	      30		-		-		-		-1
 # no longer used since using heepBitMask # eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
 heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
-looseBitMask_EBGapEE  0xf00		0xf00           0xf00           0               -1
+looseBitMask_EBGapEE  0xf00		0xf00           0xf00           1               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
 jet_PtCut             30           -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
@@ -94,7 +94,8 @@ Pt2ndJet_noOvrlp_ID		30	     +inf               -               -               
 Eta2ndJet_noOvrlp_ID		-inf	     +inf               -               -               3       100 -5 5
 mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -               3       50 0 5
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               3       50 0 5
-minDR_2ele_2jet			0.7	     +inf		-		-		3	100 0 10
+minDRej_selecPairs		0.7	     +inf		-		-		3	100 0 10
+minDRej_unselPairs		0.7	     +inf		-		-		3	100 0 10
 #
 sT_PAS                          -inf	     +inf               -               -               4       200 0 2000
 Mej_1stPair_PAS                 -inf	     +inf               -               -               4       200 0 2000
