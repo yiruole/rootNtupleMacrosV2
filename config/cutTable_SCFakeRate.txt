@@ -18,14 +18,13 @@
 ele_PtCut	      10		-		-		-		-1
 eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
+heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
+looseBitMask_EBGapEE  0xf00		0xf00           0xf00           0               -1
+# heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
 jet_PtCut             10           -                    -               -               -1
-muon_PtCut            10           -                    -               -               -1
-jet_ele_DeltaRcut     0.5          -                    -               -               -1
-muon_jet_DeltaRcut    0.1          -                    -               -               -1
+jet_sc_DeltaRcut     0.3          -                    -               -               -1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
-muonEta_bar           1.2          -                    -               -               -1
-muonEta_end           1.2          2.4                  -               -               -1
 FakeRate_BarrelCross  0.00715	   -			-		-		-1
 FakeRate_BarrelSlope  0.0	   -			-		-		-1
 FakeRate_EndcapCross  0.04643	   -			-		-		-1
@@ -51,7 +50,7 @@ FakeRate_EndcapSlope  0.0	   -			-		-		-1
 #------------			------------ -------------	------------	-------------	-----	----------------
 nIsoSC				0	     +inf		-		-		0	5 -0.5 4.5
 HLT				0	   +inf			-		-		4	2 -0.5 1.5
-dR_SCJet			0.7	   +inf			-		-		0	300 0.0	3.0
+dR_SCJet			0.0	   0.3			0.7		+inf		0	300 0.0	3.0
 #
 Pt1stSC_ISO			30         +inf                 -               -               1       100 0 1000
 Eta1stSC_ISO			-inf       +inf                 -               -               1       100 -5 5
@@ -74,10 +73,10 @@ maxMEtaJets_noOvrlpSC           -inf       +inf                 -               
 #
 Mee                             100        +inf                 -               -               3       200 0 1000
 sT                              140        +inf                 -               -               4       200 0 2000
+nEle_all			0	     +inf		-		-		4	16 -0.5 15.5
+nEle_PtCut			0	     +inf		-		-		4	16 -0.5 15.5
+nEle_PtCut_IDISO_noOvrlp	0	     +inf		-		-		4	16 -0.5 15.5
 Mej                             -inf       +inf                 -               -               4       200 0 2000
 STee				-inf	   +inf		        -	        -	        4	200 0 2000
 STjj				-inf	   +inf		        -	        -	        4	200 0 2000
 #
-nEle_all			0	     +inf		-		-		4	16 -0.5 15.5
-nEle_PtCut			0	     +inf		-		-		4	16 -0.5 15.5
-nEle_PtCut_IDISO_noOvrlp	0	     +inf		-		-		4	16 -0.5 15.5

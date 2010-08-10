@@ -8,6 +8,44 @@
 #include <TVector2.h>
 #include <TVector3.h>
 
+//-----------------------------
+//### JetID ### --> see https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaHighPtJets#JetId
+
+bool JetIdloose(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta){
+  bool jetidloose=false;
+  bool jetidresEMF=true;
+
+  double fhpdmax = 0.98;
+  double n90hitsmin =1;
+  double emf_min = 0.01;
+
+  if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
+
+  if(jetidresEMF && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin) {
+    jetidloose=true;
+  }
+  return jetidloose;
+}
+
+bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta, double ak5JetPtRaw){
+  bool jetidtight=false;
+  bool jetidresEMF=true;
+  bool jetidfHPD_highPt=true;
+
+  double fhpdmax = 0.98;
+  double n90hitsmin =1;
+  double emf_min = 0.01;
+
+  if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
+  if(fabs(ak5JetEta)<2.6 && ak5JetPtRaw>80 && ak5JetJIDresEMF>=1) jetidresEMF=false;
+  if(ak5JetPtRaw>25 && ak5JetJIDfHPD>=0.95) jetidfHPD_highPt=false;
+
+  if(jetidresEMF && jetidfHPD_highPt && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin) 
+    {
+      jetidtight=true;
+    }
+  return jetidtight;
+}
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
@@ -72,8 +110,23 @@ void analysisClass::Loop()
    double HasSC = 0;
 
   
-  ////////////////////// User's code to book histos - END ///////////////////////
-    
+  ////////////////////// User's code to get preCut values - BEGIN ///////////////
+
+  double eleEta_bar = getPreCutValue1("eleEta_bar");
+  double eleEta_end_min = getPreCutValue1("eleEta_end");
+  double eleEta_end_max = getPreCutValue2("eleEta_end");
+
+  // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
+  int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
+  int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
+
+  int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
+
+  int looseBitMask_EB       =  getPreCutValue1("looseBitMask_EBGapEE") ;
+  int looseBitMask_GAP      =  getPreCutValue2("looseBitMask_EBGapEE") ;
+  int looseBitMask_EE       =  getPreCutValue3("looseBitMask_EBGapEE") ;
+  int looseBitMask_enabled  =  getPreCutValue4("looseBitMask_EBGapEE") ;
+
   Long64_t nentries = fChain->GetEntriesFast();
   STDOUT("analysisClass::Loop(): nentries = " << nentries);   
   
@@ -82,7 +135,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<5;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<5000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -105,10 +158,14 @@ void analysisClass::Loop()
     vector<int> v_idx_ele_HEEP;
     vector<int> v_idx_ele_HEEP_loose;
     int eleIDType = (int) getPreCutValue1("eleIDType");
+    int heepBitMask;
      
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
+	// Reject ECAL spikes
+	if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
+
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
 
@@ -116,15 +173,54 @@ void analysisClass::Loop()
 	if( ElectronPt->at(iele) < getPreCutValue1("ele_PtCut") ) continue; 
 	v_idx_ele_PtCut.push_back(iele);
 
-	//ID + ISO + NO overlap with good muons 
-	int eleID = ElectronPassID->at(iele);
-	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
+	// get heepBitMask for EB, GAP, EE 
+	if( fabs(ElectronEta->at(iele)) < eleEta_bar ) 
 	  {
+	    heepBitMask = heepBitMask_EB;
+	  }
+	else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max ) 
+	  {
+	    heepBitMask = heepBitMask_EE;
+	  }
+	else {
+	    heepBitMask = heepBitMask_GAP;
+	}
+
+	if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0  && ElectronOverlaps->at(iele)==0 )
+	  {
+	    //STDOUT("ElectronHeepID = " << hex << ElectronHeepID->at(iele) << " ; ElectronPassID = " << ElectronPassID->at(iele) )
 	    v_idx_ele_HEEP.push_back(iele);
 	  }
 
+	///// now look for loose eles
+	    int looseBitMask;
+	    if( fabs(ElectronEta->at(iele)) < eleEta_bar ) 
+	      {
+		looseBitMask = looseBitMask_EB;
+	      }
+	    else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max ) 
+	      {
+		looseBitMask = looseBitMask_EE;
+	      }
+	    else {
+	      looseBitMask = looseBitMask_GAP;
+	    }
+	    if ( (ElectronHeepID->at(iele) & ~looseBitMask)==0x0  && ElectronOverlaps->at(iele)==0 )
+	      {
+		v_idx_ele_HEEP_loose.push_back(iele);
+	      }
+
+      } // End loop over electrons
+
+	//ID + ISO + NO overlap with good muons 
+// 	int eleID = ElectronPassID->at(iele);
+// 	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
+// 	  {
+// 	    v_idx_ele_HEEP.push_back(iele);
+// 	  }
+
 // 	bool HEEP = false;
-// 	if (fabs(ElectronEta->at(iele))<1.442){
+// 	if (fabs(ElectronEta->at(iele))<eleEta_bar){
 // 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.005){
 // 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
 // 	    if (ElectronHoE->at(iele)<0.05){
@@ -141,12 +237,12 @@ void analysisClass::Loop()
 // 	}
 
 // 	double eleEt = ElectronPt->at(iele);
-// 	if ((fabs(ElectronEta->at(iele))>1.56) && (fabs(ElectronEta->at(iele))<2.5)){
+// 	if ((fabs(ElectronEta->at(iele))>eleEta_end_min) && (fabs(ElectronEta->at(iele))<eleEta_end_max)){
 // 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.007){
 // 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
 // 	    if (ElectronHoE->at(iele)<0.05){
 // 	      if (ElectronSigmaIEtaIEta->at(iele)<0.03){
-// 		if (((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<2.5) || 
+// 		if (((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<eleEta_end_max) || 
 // 		    ((eleEt>50)&&(ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))< ((0.03*(eleEt-50))+2.5))){
 // 		    if (ElectronTrkIsoHeep->at(iele)<15){
 // 		      if (ElectronHcalIsoD2Heep->at(iele)<0.5){
@@ -165,35 +261,35 @@ void analysisClass::Loop()
 // 	    v_idx_ele_HEEP.push_back(iele);
 // 	  }
 
-	bool HEEP_loose = false;
-	if (fabs(ElectronEta->at(iele))<1.442){
-	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.005){
-	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
-	    if (ElectronHoE->at(iele)<0.05){
-		      HEEP_loose = true;
-	      }
-	    }
-	  }
-	}
+// 	bool HEEP_loose = false;
+// 	if (fabs(ElectronEta->at(iele))<eleEta_bar){
+// 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.005){
+// 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
+// 	    if (ElectronHoE->at(iele)<0.05){
+// 		      HEEP_loose = true;
+// 	      }
+// 	    }
+// 	  }
+// 	}
 
-	if ((fabs(ElectronEta->at(iele))>1.56) && (fabs(ElectronEta->at(iele))<2.5)){
-	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.007){
-	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
-	    if (ElectronHoE->at(iele)<0.05){
-	      if (ElectronSigmaIEtaIEta->at(iele)<0.03){
-		      HEEP_loose = true;
-	      }
-	    }
-	  }
-	}
-	}
+// 	if ((fabs(ElectronEta->at(iele))>eleEta_end_min) && (fabs(ElectronEta->at(iele))<eleEta_end_max)){
+// 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.007){
+// 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
+// 	    if (ElectronHoE->at(iele)<0.05){
+// 	      if (ElectronSigmaIEtaIEta->at(iele)<0.03){
+// 		      HEEP_loose = true;
+// 	      }
+// 	    }
+// 	  }
+// 	}
+// 	}
 
-	if ( HEEP_loose  && ElectronOverlaps->at(iele)==0 )
-	  {
-	    v_idx_ele_HEEP_loose.push_back(iele);
-	  }
+// 	if ( HEEP_loose  && ElectronOverlaps->at(iele)==0 )
+// 	  {
+// 	    v_idx_ele_HEEP_loose.push_back(iele);
+// 	  }
 
-      } // End loop over electrons
+//       } // End loop over electrons
 
     
     //////// Fill SC histos
@@ -247,37 +343,74 @@ void analysisClass::Loop()
 	if ( CaloJetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
 
 	v_idx_jet_PtCut.push_back(ijet);
+      } // jet loop
 
 	 ///// take the two leading iso SC out of the jet collection
-	 TVector3 jet_vec;
-	 jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
-	 float minDRsc = 99;
-	 int idx_nearest_sc = -1;
-	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
-	     {
-	       if (isc>1) continue; // only remove two leading sc from jet collection
-	       TVector3 sc_vec;
-	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
-				  SuperClusterEta->at(v_idx_sc_iso[isc]),
-				  SuperClusterPhi->at(v_idx_sc_iso[isc]));
-	       float DR = jet_vec.DeltaR(sc_vec);
-	       if (DR<minDRsc) {
-		 minDRsc = DR;
-		 idx_nearest_sc = isc;
-	       }
-	     }
+// 	 TVector3 jet_vec;
+// 	 jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
+// 	 float minDRsc = 99;
+// 	 int idx_nearest_sc = -1;
+// 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
+// 	     {
+// 	       if (isc>1) continue; // only remove two leading sc from jet collection
+// 	       TVector3 sc_vec;
+// 	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
+// 				  SuperClusterEta->at(v_idx_sc_iso[isc]),
+// 				  SuperClusterPhi->at(v_idx_sc_iso[isc]));
+// 	       float DR = jet_vec.DeltaR(sc_vec);
+// 	       if (DR<minDRsc) {
+// 		 minDRsc = DR;
+// 		 idx_nearest_sc = isc;
+// 	       }
+// 	     }
 
-	//pT pre-cut + no overlaps with electrons or superclusters
-	if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0 && minDRsc>0.3 )/* NO overlap with sc */  
-	//if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0 )  
+    vector <int> jetFlags(v_idx_jet_PtCut.size(), 0);
+    int Njetflagged = 0;
+    for (int isc=0; isc<v_idx_sc_iso.size(); isc++)
+      {
+	TLorentzVector sc;
+        sc.SetPtEtaPhiM(  SuperClusterPt->at(v_idx_sc_iso[isc]),
+			 SuperClusterEta->at(v_idx_sc_iso[isc]),
+			 SuperClusterPhi->at(v_idx_sc_iso[isc]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;    
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlags[ijet] == 1 ) 
+	      continue;
+            jet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
+			     CaloJetEta->at(v_idx_jet_PtCut[ijet]),
+			     CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+	    double DR = jet.DeltaR(sc);
+	    if (DR<minDR) 
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < getPreCutValue1("jet_sc_DeltaRcut") && ijet_minDR > -1)
+	  {
+	    jetFlags[ijet_minDR] = 1;
+	    Njetflagged++;
+	  }
+      } // sc loop
+
+    for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
+      {	
+	bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
+	if( jetFlags[ijet] == 0                           /* NO overlap with sc */  
+	    && passjetID == true )                            /* pass JetID */
+	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
 	  v_idx_jet_PtCut_noOvrlap.push_back(ijet);
-
+	
       } // End loop over jets
 
      //find dR between isoSC and jets
 
     float smallest_ScJet_dR = 99;
     for (int ijet=0; ijet<v_idx_jet_PtCut_noOvrlap.size(); ijet++){
+      if (ijet>1) break; // only care about two leading jets
       TVector3 jet_vec;
       jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[ijet]),
 			       CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[ijet]),
@@ -414,11 +547,8 @@ void analysisClass::Loop()
        h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_iso[0]));
      }
 
-     //Require dR>3 between leading SC and leading JET
-     //Require dR>3 between leading SC and leading JET
-     //// Fill fake rate pltos
-     //
-
+     /// Fill ssjj prediction plots
+     /////////////////////////////////////////////////
      if (!passedCut("dR_SCJet")) continue;  //leading 2 sc close to jets
 
      if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
@@ -434,15 +564,17 @@ void analysisClass::Loop()
 	 double EndcapCross = getPreCutValue1("FakeRate_EndcapCross");
 	 double EndcapSlope = getPreCutValue1("FakeRate_EndcapSlope");
 
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<eleEta_bar) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>eleEta_end_min) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<eleEta_bar) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
+	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>eleEta_end_min) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
       
 	 h_probPt1stSc_esjj->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
 	 h_probSt_esjj->Fill(calc_sT,probSC1+probSC2);
        }
 
+     /// Fill fake rate plots
+     ///////////////////////////////////////
      if ( (MEE>60)&&(MEE<120)) continue; // reject Zs
      if (PFMET->at(0) > 10) continue; // get rid of Ws
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
@@ -472,7 +604,7 @@ void analysisClass::Loop()
 	     bool Barrel = false;
 	     bool Endcap = false;
 	     if (fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))<1.45) Barrel = true;
-	     if (fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))>1.56 && fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))<2.5) Endcap = true;
+	     if (fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))>eleEta_end_min && fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))<eleEta_end_max) Endcap = true;
 
 	     if (Barrel) h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
 	     if (Endcap) h_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc_iso[isc]));
@@ -499,8 +631,8 @@ void analysisClass::Loop()
 		
 		bool Barrel = false;
 		bool Endcap = false;
-		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<1.45) Barrel = true;
-		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<2.5) Endcap = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<eleEta_bar) Barrel = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))>eleEta_end_min && fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<eleEta_end_max) Endcap = true;
 		
 		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
@@ -527,8 +659,8 @@ void analysisClass::Loop()
 		
 		bool Barrel = false;
 		bool Endcap = false;
-		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]))<1.45) Barrel = true;
-		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]))<2.5) Endcap = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]))<eleEta_bar) Barrel = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]))>eleEta_end_min && fabs(ElectronSCEta->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]))<eleEta_end_max) Endcap = true;
 		
 		if (Barrel) h_loose_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]));
 		if (Endcap) h_loose_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[idx_HEEP_loose]));
