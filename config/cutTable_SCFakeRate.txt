@@ -72,11 +72,11 @@ mEta1stJet_noOvrlpSC            -inf       3.0                  -               
 mEta2ndJet_noOvrlpSC            -inf       3.0                  -               -               2       50 0 5
 maxMEtaJets_noOvrlpSC           -inf       +inf                 -               -               2       50 0 5
 #
-STee				-inf	   +inf		        -	        -	        3	200 0 2000
-STjj				-inf	   +inf		        -	        -	        3	200 0 2000
 Mee                             100        +inf                 -               -               3       200 0 1000
-sT                              140        +inf                 -               -               3       200 0 2000
-Mej                             -inf       +inf                 -               -               3       200 0 2000
+sT                              140        +inf                 -               -               4       200 0 2000
+Mej                             -inf       +inf                 -               -               4       200 0 2000
+STee				-inf	   +inf		        -	        -	        4	200 0 2000
+STjj				-inf	   +inf		        -	        -	        4	200 0 2000
 #
 nEle_all			0	     +inf		-		-		4	16 -0.5 15.5
 nEle_PtCut			0	     +inf		-		-		4	16 -0.5 15.5

@@ -8,6 +8,7 @@
 #include <TVector2.h>
 #include <TVector3.h>
 
+
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
 {
@@ -60,6 +61,16 @@ void analysisClass::Loop()
    TH1F *h_probSt = new TH1F ("probSt","probSt",200,0,1000);  h_probSt->Sumw2();  //N events based on fake rate
    TH1F *h_actualSt = new TH1F ("actualSt","actualSt",200,0,1000);  h_actualSt->Sumw2();  //N events with at least 1 HEEP ele
 
+//    TH1F *h_probPt1stSc_esjj = new TH1F ("probPt1stSc_esjj","probPt1stSc_esjj",200,0,1000);  h_probPt1stSc_esjj->Sumw2();  //N events based on fake rate
+//    TH1F *h_actualPt1stSc_esjj = new TH1F ("actualPt1stSc_esjj","actualPt1stSc_esjj",200,0,1000);  h_actualPt1stSc_esjj->Sumw2();  //N events with at least 1 HEEP ele
+//    TH1F *h_probSt_esjj = new TH1F ("probSt_esjj","probSt_esjj",200,0,1000);  h_probSt_esjj->Sumw2();  //N events based on fake rate
+//    TH1F *h_actualSt_esjj = new TH1F ("actualSt_esjj","actualSt_esjj",200,0,1000);  h_actualSt_esjj->Sumw2();  //N events with at least 1 HEEP ele
+
+//    TH1F *h_probPt1stSc_eejj = new TH1F ("probPt1stSc_eejj","probPt1stSc_eejj",200,0,1000);  h_probPt1stSc_eejj->Sumw2();  //N events based on fake rate
+//    TH1F *h_actualPt1stSc_eejj = new TH1F ("actualPt1stSc_eejj","actualPt1stSc_eejj",200,0,1000);  h_actualPt1stSc_eejj->Sumw2();  //N events with at least 1 HEEP ele
+//    TH1F *h_probSt_eejj = new TH1F ("probSt_eejj","probSt_eejj",200,0,1000);  h_probSt_eejj->Sumw2();  //N events based on fake rate
+//    TH1F *h_actualSt_eejj = new TH1F ("actualSt_eejj","actualSt_eejj",200,0,1000);  h_actualSt_eejj->Sumw2();  //N events with at least 1 HEEP ele
+
    /////////initialize variables
    double FailRate = 0;
    double NFailHLT = 0;
@@ -76,7 +87,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<5;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -242,13 +253,14 @@ void analysisClass::Loop()
 
 	v_idx_jet_PtCut.push_back(ijet);
 
-	 ///// take the iso SC out of the jet collection
+	 ///// take the two leading iso SC out of the jet collection
 	 TVector3 jet_vec;
 	 jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
 	 float minDRsc = 99;
 	 int idx_nearest_sc = -1;
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	     {
+	       if (isc>1) continue; // only remove two leading sc from jet collection
 	       TVector3 sc_vec;
 	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
 				  SuperClusterEta->at(v_idx_sc_iso[isc]),
@@ -378,7 +390,7 @@ void analysisClass::Loop()
       }
 
     // Mee
-    double MEE = 0;
+    float MEE = 0;
     if (TwoSC)
       {
 	TLorentzVector ele1, ele2, ee;
@@ -389,7 +401,7 @@ void analysisClass::Loop()
 			  SuperClusterEta->at(v_idx_sc_iso[1]),
 			  SuperClusterPhi->at(v_idx_sc_iso[1]),0);
 	ee = ele1+ele2;
-	MEE = ee.M();
+	MEE=ee.M();
 	fillVariableWithValue("Mee", ee.M());
       }
 
@@ -406,6 +418,11 @@ void analysisClass::Loop()
        h_eta_failHLT->Fill(SuperClusterEta->at(v_idx_sc_iso[0]));
        h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_iso[0]));
      }
+
+     //Require dR>3 between leading SC and leading JET
+     //Require dR>3 between leading SC and leading JET
+     //// Fill fake rate pltos
+     //
 
      if (!passedCut("dR_SCJet")) continue;  //leading 2 sc not close to jets
 
@@ -431,10 +448,7 @@ void analysisClass::Loop()
 	 h_probSt->Fill(calc_sT,probSC1+probSC2);
        }
 
-     //// Fill fake rate pltos
-     //
-
-     if ( (MEE>60)&&(MEE<120)) continue; // require at most one loose ele to reject Zs
+     if ( (MEE>60)&&(MEE<120)) continue; // reject Zs
      if (PFMET->at(0) > 10) continue; // get rid of Ws
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
