@@ -45,11 +45,6 @@ void analysisClass::Loop()
    TH1F *h_eta_failHLT = new TH1F("eta_failHLT","eta_failHLT",500,-3.0,3.0);
    TH1F *h_phi_failHLT = new TH1F("phi_failHLT","phi_failHLT",100,-3.5,3.5);
 
-   TH1F *h_probPt1stSc = new TH1F ("probPt1stSc","probPt1stSc",200,0,1000);  h_probPt1stSc->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc = new TH1F ("actualPt1stSc","actualPt1stSc",200,0,1000);  h_actualPt1stSc->Sumw2();  //N events with at least 1 HEEP ele
-   TH1F *h_probSt = new TH1F ("probSt","probSt",200,0,1000);  h_probSt->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt = new TH1F ("actualSt","actualSt",200,0,1000);  h_actualSt->Sumw2();  //N events with at least 1 HEEP ele
-
    /////////initialize variables
    double FailRate = 0;
    double NFailHLT = 0;
@@ -86,7 +81,7 @@ void analysisClass::Loop()
     // Electrons
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
-    vector<int> v_idx_ele_PtCut_IDISO_noOverlap;
+    vector<int> v_idx_ele_HEEP;
     int eleIDType = (int) getPreCutValue1("eleIDType");
      
     //Loop over electrons
@@ -100,51 +95,53 @@ void analysisClass::Loop()
 	v_idx_ele_PtCut.push_back(iele);
 
 	//ID + ISO + NO overlap with good muons 
-// 	int eleID = ElectronPassID->at(iele);
-// 	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
-// 	  {
-// 	    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
-// 	  }
-
-	bool HEEP = false;
-	if (fabs(ElectronEta->at(iele))<1.442){
-	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.005){
-	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
-	    if (ElectronHoE->at(iele)<0.05){
-		if ((ElectronE2x5OverE5x5->at(iele)>0.94)||(ElectronE1x5OverE5x5->at(iele)>0.83)){
-		  if ((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<(2+0.03*ElectronPt->at(iele))){
-		    if (ElectronTrkIsoHeep->at(iele)<7.5){
-		      HEEP = true;
-		    }
-		  }
-		}
-	      }
-	    }
-	  }
-	}
-
-	if ((fabs(ElectronEta->at(iele))>1.56) && (fabs(ElectronEta->at(iele))<2.5)){
-	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.007){
-	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
-	    if (ElectronHoE->at(iele)<0.05){
-	      if (ElectronSigmaIEtaIEta->at(iele)<0.03){
-		if ((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<2.5){
-		    if (ElectronTrkIsoHeep->at(iele)<7.5){
-		      if (ElectronHcalIsoD2Heep->at(iele)<0.5){
-		      HEEP = true;
-		      }
-		    }
-		  }
-		}
-	      }
-	    }
-	  }
-	}
-
-	if ( HEEP  && ElectronOverlaps->at(iele)==0 )
+	int eleID = ElectronPassID->at(iele);
+	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
 	  {
-	    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
+	    v_idx_ele_HEEP.push_back(iele);
 	  }
+
+// 	bool HEEP = false;
+// 	if (fabs(ElectronEta->at(iele))<1.442){
+// 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.005){
+// 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
+// 	    if (ElectronHoE->at(iele)<0.05){
+// 		if ((ElectronE2x5OverE5x5->at(iele)>0.94)||(ElectronE1x5OverE5x5->at(iele)>0.83)){
+// 		  if ((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<(2+0.03*ElectronPt->at(iele))){
+// 		    if (ElectronTrkIsoHeep->at(iele)<7.5){
+// 		      HEEP = true;
+// 		    }
+// 		  }
+// 		}
+// 	      }
+// 	    }
+// 	  }
+// 	}
+
+// 	double eleEt = ElectronPt->at(iele);
+// 	if ((fabs(ElectronEta->at(iele))>1.56) && (fabs(ElectronEta->at(iele))<2.5)){
+// 	if (fabs(ElectronDeltaEtaTrkSC->at(iele))<0.007){
+// 	  if (fabs(ElectronDeltaPhiTrkSC->at(iele))<0.09){
+// 	    if (ElectronHoE->at(iele)<0.05){
+// 	      if (ElectronSigmaIEtaIEta->at(iele)<0.03){
+// 		if (((ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))<2.5) || 
+// 		    ((eleEt>50)&&(ElectronEcalIsoHeep->at(iele) + ElectronHcalIsoD1Heep->at(iele))< ((0.03*(eleEt-50))+2.5))){
+// 		    if (ElectronTrkIsoHeep->at(iele)<15){
+// 		      if (ElectronHcalIsoD2Heep->at(iele)<0.5){
+// 		      HEEP = true;
+// 		      }
+// 		    }
+// 		}
+// 	      }
+// 	    }
+// 	  }
+// 	}
+// 	}
+
+// 	if ( HEEP  && ElectronOverlaps->at(iele)==0 )
+// 	  {
+// 	    v_idx_ele_HEEP.push_back(iele);
+// 	  }
 
       } // End loop over electrons
 
@@ -153,44 +150,12 @@ void analysisClass::Loop()
 
      vector<int> v_idx_sc_iso;
 
-     ///Find two highest Pt SC, since they are not ordered 
-     float scHighestPt = -99;
-     float scNextPt = -99;
-     int idx_scHighestPt = -1;
-     int idx_scNextPt = -1;
-     for(int isc=0;isc<SuperClusterPt->size();isc++){
-      if ( SuperClusterPt->at(isc) < getPreCutValue1("ele_PtCut") ) continue;
-      if (SuperClusterHoE->at(isc)>0.05) continue;
-      if (SuperClusterPt->at(isc)>scHighestPt){
-	scNextPt = scHighestPt;
-	idx_scNextPt = idx_scNextPt;
-	scHighestPt = SuperClusterPt->at(isc);
-	idx_scHighestPt = isc;
-      }
-      else if (SuperClusterPt->at(isc)>scNextPt){
-	scNextPt = SuperClusterPt->at(isc);
-	idx_scNextPt = isc;
-      }
-     }
-    if (idx_scHighestPt != -1) v_idx_sc_iso.push_back(idx_scHighestPt);
-    if (idx_scNextPt != -1)v_idx_sc_iso.push_back(idx_scNextPt);
-
-    //////now fill in the rest of the sc in whatever order they are
     for(int isc=0;isc<SuperClusterPt->size();isc++){
-      if (isc==idx_scHighestPt || isc==idx_scNextPt) continue;
       if ( SuperClusterPt->at(isc) < getPreCutValue1("ele_PtCut") ) continue;
       if (SuperClusterHoE->at(isc)<0.05) {
 	v_idx_sc_iso.push_back(isc);
       }
     }
-
-    vector<int> v_idx_sc_iso_barrel;
-    for(int isc=0; isc<v_idx_sc_iso.size(); isc++)
-      {
-	if (fabs(SuperClusterEta->at(v_idx_sc_iso[isc]))>1.45) continue;
-      v_idx_sc_iso_barrel.push_back(v_idx_sc_iso[isc]);
-      }
-    h_NisoSC->Fill(v_idx_sc_iso_barrel.size());
 
     // Jets
     vector<int> v_idx_jet_all;
@@ -206,58 +171,10 @@ void analysisClass::Loop()
 	//pT pre-cut on reco jets
 	if ( CaloJetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
 
-	v_idx_jet_PtCut.push_back(ijet);
-
-	 ///// take the iso SC out of the jet collection
-// 	 TVector3 jet_vec;
-// 	 jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
-// 	 float minDRsc = 99;
-// 	 int idx_nearest_sc = -1;
-// 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
-// 	     {
-// 	       TVector3 sc_vec;
-// 	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
-// 				  SuperClusterEta->at(v_idx_sc_iso[isc]),
-// 				  SuperClusterPhi->at(v_idx_sc_iso[isc]));
-// 	       float DR = jet_vec.DeltaR(sc_vec);
-// 	       if (DR<minDRsc) {
-// 		 minDRsc = DR;
-// 		 idx_nearest_sc = isc;
-// 	       }
-// 	     }
-
-	//pT pre-cut + no overlaps with electrons or superclusters
-	//if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0 && minDRsc>0.5 )/* NO overlap with electrons */  
 	if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0 )/* NO overlap with electrons */  
 	  v_idx_jet_PtCut.push_back(ijet);
 
       } // End loop over jets
-
-     //find dR between isoSC and jets
-
-	 for (int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++){
-	   if (ijet>1) break;  // only care about two leading jets
-	   TVector3 jet_vec;
-	   jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
-			       CaloJetEta->at(v_idx_jet_PtCut[ijet]),
-			       CaloJetPhi->at(v_idx_jet_PtCut[ijet]));
-	   float minDR = 99;
-	   int idx_nearest_sc = -1;
-	   for(int isc=0;isc<v_idx_sc_iso.size();isc++)
-	     {
-	       if (isc>1) break; //only care about two leading SC
-	       TVector3 sc_vec;
-	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_iso[isc]),
-				  SuperClusterEta->at(v_idx_sc_iso[isc]),
-				  SuperClusterPhi->at(v_idx_sc_iso[isc]));
-	       float DR = jet_vec.DeltaR(sc_vec);
-	       if (DR<minDR) {
-		 minDR = DR;
-		 idx_nearest_sc = isc;
-	       }
-	     }
-	   if (minDR!=99) h_dR_JetSC->Fill(minDR);
-	 }
 
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
@@ -273,11 +190,6 @@ void analysisClass::Loop()
     fillVariableWithValue( "nIsoSC", v_idx_sc_iso.size() );
     //fillVariableWithValue( "nIsoSC",v_idx_sc_iso_barrel.size() );
 
-    // nEle
-    fillVariableWithValue( "nEle_all", v_idx_ele_all.size() ) ;
-    fillVariableWithValue( "nEle_PtCut", v_idx_ele_PtCut.size() ) ;
-    fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp", v_idx_ele_PtCut_IDISO_noOverlap.size() ) ;
-     
     // nJet
     fillVariableWithValue( "nJet_all", v_idx_jet_all.size() ) ;
     fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
@@ -319,39 +231,6 @@ void analysisClass::Loop()
 	fillVariableWithValue( "maxMEtaJets_noOvrlpSC", max( getVariableValue("mEta1stJet_noOvrlpSC"), getVariableValue("mEta2ndJet_noOvrlpSC") ) );
       }
 
-    //## define "2ele" and "2jets" booleans
-    bool TwoEle=false;
-    bool TwoSC=false;
-    bool TwoJets=false;
-    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 2 ) TwoEle = true;
-    if( v_idx_jet_PtCut.size() >= 2 ) TwoJets = true;
-    if( v_idx_sc_iso.size()>= 2) TwoSC = true;
-
-    // ST
-    double calc_sT=-999.; 
-    if ( (TwoSC) && (TwoJets) ) 
-      {
-	calc_sT = 
-	  SuperClusterPt->at(v_idx_sc_iso[0]) +
-	  SuperClusterPt->at(v_idx_sc_iso[1]) +
-	  CaloJetPt->at(v_idx_jet_PtCut[0]) +
-	  CaloJetPt->at(v_idx_jet_PtCut[1]);
-	fillVariableWithValue("sT", calc_sT);
-      }
-
-    // Mee
-    if (TwoSC)
-      {
-	TLorentzVector ele1, ele2, ee;
-	ele1.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_iso[0]),
-			  SuperClusterEta->at(v_idx_sc_iso[0]),
-			  SuperClusterPhi->at(v_idx_sc_iso[0]),0);
-	ele2.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_iso[1]),
-			  SuperClusterEta->at(v_idx_sc_iso[1]),
-			  SuperClusterPhi->at(v_idx_sc_iso[1]),0);
-	ee = ele1+ele2;
-	fillVariableWithValue("Mee", ee.M());
-      }
 
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
@@ -367,11 +246,9 @@ void analysisClass::Loop()
        h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_iso[0]));
      }
 
-     //Require dR>3 between leading SC and leading JET
-     //Require dR>3 between leading SC and leading JET
-     //// Fill fake rate pltos
-     //
 
+     if ( v_idx_ele_PtCut.size()>1) continue; // require at most one loose ele to reject Zs
+     if (PFMET->at(0) > 10) continue; // get rid of Ws
 	 for(int isc=0;isc<v_idx_sc_iso.size();isc++)
 	   {
 	     //Require dR>2.6 between SC and JET
@@ -405,11 +282,11 @@ void analysisClass::Loop()
 	     ///  see if there is a HEEP ele to match this
 	     double deltaR_ele_sc = 99;
 	     int idx_HEEP = -1;
-	     for(int iele=0;iele<v_idx_ele_PtCut_IDISO_noOverlap.size();iele++){
+	     for(int iele=0;iele<v_idx_ele_HEEP.size();iele++){
 	       TVector3 ele_vec;
-	       ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
-			   ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
-			   ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
+	       ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_HEEP[iele]),
+			   ElectronEta->at(v_idx_ele_HEEP[iele]),
+			   ElectronPhi->at(v_idx_ele_HEEP[iele]));
 	       double tmp_deltaR = ele_vec.DeltaR(sc_vec);
 	       if (tmp_deltaR<deltaR_ele_sc){
 		 deltaR_ele_sc = tmp_deltaR;
@@ -417,40 +294,19 @@ void analysisClass::Loop()
 	       }
 	     }
 	     if (deltaR_ele_sc<0.3){
-		h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
+		h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
+		h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]));
 		
 		bool Barrel = false;
 		bool Endcap = false;
-		if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))<1.45) Barrel = true;
-		if (fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]))<2.5) Endcap = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<1.45) Barrel = true;
+		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))>1.56 && fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<2.5) Endcap = true;
 		
-		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
-		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[idx_HEEP]));
+		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
+		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		}
 	   } // for sc
 
-     if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
-       {
-	 for (int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++){
-	   h_actualPt1stSc->Fill(ElectronSCPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]));
-	   h_actualSt->Fill(calc_sT);
-	 }
-
-	 double probSC1 = 0, probSC2 = 0;
-	 double BarrelCross = -0.001437;
-	 double BarrelSlope = 0.000104;
-	 double EndcapCross = 0.014;
-	 double EndcapSlope = 0.000283;
-
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))<1.442) probSC1 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[0]))>1.56) probSC1 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))<1.442) probSC2 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc_iso[1]))>1.56) probSC2 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_iso[1]);
-      
-	 h_probPt1stSc->Fill(SuperClusterPt->at(v_idx_sc_iso[0]),probSC1+probSC2);
-	 h_probSt->Fill(calc_sT,probSC1+probSC2);
-       }
 
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
@@ -476,11 +332,6 @@ void analysisClass::Loop()
 
    h_eta_failHLT->Write();
    h_phi_failHLT->Write();
-
-   h_probPt1stSc->Write();
-   h_actualPt1stSc->Write();
-   h_probSt->Write();
-   h_actualSt->Write();
 
    FailRate = 100 * NFailHLT/HasSC;
    //cout << "NFail: " << NFailHLT << "\t" << "FailRate: " << FailRate << " %" << endl;
