@@ -167,7 +167,7 @@ void analysisClass::Loop()
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
 	// Reject ECAL spikes
-	if ( 1 - ElectronSCS4S1->at(iele) > 0.90 ) continue; 
+	if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
 
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
@@ -306,6 +306,7 @@ void analysisClass::Loop()
      int idx_scNextPt = -1;
      for(int isc=0;isc<SuperClusterPt->size();isc++){
       if ( SuperClusterPt->at(isc) < getPreCutValue1("ele_PtCut") ) continue;
+      if ( 1 - SuperClusterS4S1->at(isc) > 0.95 ) continue; 
       if (SuperClusterHoE->at(isc)>0.05) continue;
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
@@ -325,6 +326,7 @@ void analysisClass::Loop()
     for(int isc=0;isc<SuperClusterPt->size();isc++){
       if (isc==idx_scHighestPt || isc==idx_scNextPt) continue;
       if ( SuperClusterPt->at(isc) < getPreCutValue1("ele_PtCut") ) continue;
+      if ( 1 - SuperClusterS4S1->at(isc) > 0.95 ) continue; 
       if (SuperClusterHoE->at(isc)<0.05) {
 	v_idx_sc_iso.push_back(isc);
       }
