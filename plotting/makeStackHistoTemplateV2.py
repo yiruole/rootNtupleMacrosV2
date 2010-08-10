@@ -202,7 +202,10 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
+
 File_selection    = GetFile("$LQDATA/collisions/254nb-1/output_cutTable_eejjSample_Mee100_St240/analysisClass_eejjSample_plots.root")
 
 #### Common values for plots:
@@ -934,8 +937,8 @@ plot3and5.histodata       = h_etaEles_DATA
 
 
 # List of plots to be plotted
-plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot2and4, plot3and5, plot6, plot7, plot8, plot9, plot10, plot11, plot12, # produced using preselection root file
-         plot20, plot21] # produced using full selection root file
+plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot2and4, plot3and5, plot6, plot7, plot8, plot9, plot10, plot11, plot12] # produced using preselection root file
+#         plot20, plot21] # produced using full selection root file
 
 
 ############# USER CODE - END ################################################

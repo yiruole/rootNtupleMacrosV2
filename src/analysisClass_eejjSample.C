@@ -257,50 +257,107 @@ void analysisClass::Loop()
     // Loop over jets
     for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
       {
-	
 	//no cut on reco jets
 	v_idx_jet_all.push_back(ijet);
 
 	//pT pre-cut on reco jets
 	if ( CaloJetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
 	v_idx_jet_PtCut.push_back(ijet);
+      }
 
-	//Checking overlap between electrons and jets
-	int JetOverlapsWithEle = 0; //don't change the default (0) 
-	float minDeltaR=9999.;
-	TVector3 jet_vec;
-	jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
-	for (int i=0; i < v_idx_ele_PtCut_IDISO_noOverlap.size(); i++){
-	  TVector3 ele_vec;	  
-	  ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
-			      ,ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
-			      ,ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[i]));
-	  double distance = jet_vec.DeltaR(ele_vec);
-	  if (distance<minDeltaR) minDeltaR=distance;
-	}
-	if ( minDeltaR < getPreCutValue1("jet_ele_DeltaRcut") )
-	  JetOverlapsWithEle = 1; //this jet overlaps with a good electron --> remove it from the analysis
+// 	//Checking overlap between electrons and jets
+// 	int JetOverlapsWithEle = 0; //don't change the default (0) 
+// 	float minDeltaR=9999.;
+// 	TVector3 jet_vec;
+// 	jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
+// 	for (int i=0; i < v_idx_ele_PtCut_IDISO_noOverlap.size(); i++){
+// 	  TVector3 ele_vec;	  
+// 	  ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
+// 			      ,ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
+// 			      ,ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[i]));
+// 	  double distance = jet_vec.DeltaR(ele_vec);
+// 	  if (distance<minDeltaR) minDeltaR=distance;
+// 	}
+// 	if ( minDeltaR < getPreCutValue1("jet_ele_DeltaRcut") )
+// 	  JetOverlapsWithEle = 1; //this jet overlaps with a good electron --> remove it from the analysis
 
-	//pT pre-cut + no overlaps with electrons
-	// ---- use the flag stored in rootTuples
-	//if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
-	// && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
-	// ----
-	if( JetOverlapsWithEle == 0 )  /* NO overlap with electrons */  
-	  v_idx_jet_PtCut_noOverlap.push_back(ijet);
+// 	//pT pre-cut + no overlaps with electrons
+// 	// ---- use the flag stored in rootTuples
+// 	//if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
+// 	// && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
+// 	// ----
+// 	if( JetOverlapsWithEle == 0 )  /* NO overlap with electrons */  
+// 	  v_idx_jet_PtCut_noOverlap.push_back(ijet);
 
-	//pT pre-cut + no overlaps with electrons + jetID
+    vector <int> jetFlags(v_idx_jet_PtCut.size(), 0);
+    int Njetflagged = 0;
+    for (int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++)
+      {
+	TLorentzVector ele;
+        ele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+			 ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+			 ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;    
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlags[ijet] == 1 ) 
+	      continue;
+            jet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
+			     CaloJetEta->at(v_idx_jet_PtCut[ijet]),
+			     CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+	    double DR = jet.DeltaR(ele);
+	    if (DR<minDR) 
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < getPreCutValue1("jet_ele_DeltaRcut") && ijet_minDR > -1)
+	  {
+	    jetFlags[ijet_minDR] = 1;
+	    Njetflagged++;
+	  }
+      }
+
+//     // printouts for jet cleaning
+//     STDOUT("CLEANING ----------- v_idx_ele_PtCut_IDISO_noOverlap.size = "<< v_idx_ele_PtCut_IDISO_noOverlap.size() <<", Njetflagged = "<< Njetflagged<<", diff="<< v_idx_ele_PtCut_IDISO_noOverlap.size()-Njetflagged );
+//     if( (v_idx_ele_PtCut_IDISO_noOverlap.size()-Njetflagged) == 1 ) 
+//       {
+// 	TLorentzVector thisele;
+// 	for(int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++)
+// 	  {
+// 	    thisele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+// 				 ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+// 				 ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),0);
+// 	    STDOUT("CLEANING: e"<<iele+1<<" Pt, eta, phi = "  << ", "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi());
+// 	  }
+// 	TLorentzVector thisjet;
+// 	for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+// 	  {
+// 	    thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
+// 				 CaloJetEta->at(v_idx_jet_PtCut[ijet]),
+// 				 CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+// 	    STDOUT("CLEANING: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<" jetFlags="<<jetFlags[ijet] );
+// 	  }
+//       } // printouts for jet cleaning
+    
+    
+    for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
+      {	
 	bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
 	// ---- use the flag stored in rootTuples
 	//if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
 	// ----
-	if( JetOverlapsWithEle == 0                           /* NO overlap with electrons */  
+	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
 	    && passjetID == true )                            /* pass JetID */
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
 	  v_idx_jet_PtCut_noOverlap_ID.push_back(ijet);
-
+	
 	//NOTE: We should verify that caloJetOverlaps match with the code above
       } // End loop over jets
+    
 
 
     //## Muons
@@ -503,6 +560,10 @@ void analysisClass::Loop()
 	double deltaR_e2j2 = ele2.DeltaR(jet2);
 	double deltaR_e1j2 = ele1.DeltaR(jet2);
 	double deltaR_e2j1 = ele2.DeltaR(jet1);
+
+	// Fill min DR between any of the 2 selected eles and any of the 2 selected jets
+	double minDR_2ele_2jet = min ( min(deltaR_e1j1,deltaR_e2j2) , min(deltaR_e1j2,deltaR_e2j1) );
+	fillVariableWithValue("minDR_2ele_2jet", minDR_2ele_2jet);
 
 	if(fabs(deltaM_e1j1_e2j2) > fabs(deltaM_e1j2_e2j1))
 	  {
