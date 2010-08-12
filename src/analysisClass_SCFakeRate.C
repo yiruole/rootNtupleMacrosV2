@@ -312,7 +312,7 @@ void analysisClass::Loop()
       if (SuperClusterHoE->at(isc)>0.05) continue;
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
-	idx_scNextPt = idx_scNextPt;
+	idx_scNextPt = idx_scHighestPt;
 	scHighestPt = SuperClusterPt->at(isc);
 	idx_scHighestPt = isc;
       }
