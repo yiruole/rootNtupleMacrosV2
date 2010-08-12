@@ -63,7 +63,7 @@ PassBeamScraping		0	     1			-		-		0	2 -0.5 1.5
 PassPrimaryVertex		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseFilter		-inf	     +inf		-		-		0	2 -0.5 1.5
 #
-PassHLT				0	     1			-		-		1	2 -0.5 1.5
+PassHLT				-inf	     +inf		-		-		1	2 -0.5 1.5
 nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut_IDISO_noOvrlp	1	     +inf		-		-		1	16 -0.5 15.5
