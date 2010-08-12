@@ -21,7 +21,7 @@ ele_PtCut	      25		-		-		-		-1
 heepBitMask_EBGapEE   0x000	        0x000           0x010           -               -1
 looseBitMask_EBGapEE  0xf00		0xf00           0xf00           0               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
-jet_PtCut             10           -                    -               -               -1
+jet_PtCut             20           -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.3          -                    -               -               -1
 muon_jet_DeltaRcut    0.1          -                    -               -               -1
@@ -83,10 +83,10 @@ nJet_all                        -inf	     +inf               -               -  
 nJet_PtCut                      -inf	     +inf               -               -               3       16 -0.5 15.5
 nJet_PtCut_noOvrlp		-inf	     +inf               -               -               3       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID		1	     +inf               -               -               3       16 -0.5 15.5
-Pt1stJet_noOvrlp_ID		10	     +inf               -               -               3       100 0 1000
+Pt1stJet_noOvrlp_ID		20	     +inf               -               -               3       100 0 1000
 Eta1stJet_noOvrlp_ID		-inf	     +inf               -               -               3       100 -5 5
 mEta1stJet_noOvrlp_ID		-inf	     3.0                -               -               3       50 0 5
-Pt2ndJet_noOvrlp_ID		10	     +inf               -               -               3       100 0 1000
+Pt2ndJet_noOvrlp_ID		20	     +inf               -               -               3       100 0 1000
 Eta2ndJet_noOvrlp_ID		-inf	     +inf               -               -               3       100 -5 5
 mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -               3       50 0 5
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               3       50 0 5
