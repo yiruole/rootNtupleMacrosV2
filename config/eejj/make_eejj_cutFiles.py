@@ -12,8 +12,8 @@ import os
 #### USER"S INPUTS HERE ####
 inputFileName="cutTable_eejjSample.txt" # Will be used as a template and left untouched
 ## St and Mee values - One cut file will be created in this dir for each St,Mee pair
-StValues =["140", "280", "380"] # Opt values for MLQ=100,200,300 GeV at ILum=100 nb-1
-MeeValues=["100", "100", "100"] # Optimized Mee was 95, but we set it to 100 GeV
+StValues =["140", "280", "380"] # Opt values for MLQ=100,200,300 GeV at ILum=1 pb-1
+MeeValues=["100", "100", "100"] 
 #### End OF USER"S INPUTS ####
 
 print "This will generate cut files in the current directory starting from the template file:"
