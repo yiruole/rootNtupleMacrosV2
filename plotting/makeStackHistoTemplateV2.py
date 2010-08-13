@@ -205,8 +205,7 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-#File_preselection = GetFile("$LQDATA/collisions/827nb-1/output_cutTable_eejjSample_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("/home/santanas/Leptoquarks/rootNtupleAnalyzerV2/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 #File_selection    = GetFile("$LQDATA/collisions/254nb-1/output_cutTable_eejjSample_Mee100_St240/analysisClass_eejjSample_plots.root")
 
@@ -221,7 +220,7 @@ pt_ymax=500
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=120
+eta_ymax=90
 
 
            
@@ -257,7 +256,7 @@ plot0.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
 plot0.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot0.xtit            = "M(ee) (GeV)"
+plot0.xtit            = "M(ee) (GeV/c^{2})"
 plot0.ytit            = "Number of events"
 # plot0.ylog            = "yes"
 # plot0.rebin           = 1
@@ -283,7 +282,7 @@ plot0_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0_ylog.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
 plot0_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot0_ylog.xtit            = "M(ee) (GeV)"
+plot0_ylog.xtit            = "M(ee) (GeV/c^{2})"
 plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 1
@@ -321,7 +320,7 @@ plot1.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot1.histos          = [h_nEle_LQeejj_M100, h_nEle_LQeejj_M200, h_nEle_LQeejj_M300]
 plot1.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot1.xtit            = "Number of Heep electrons (pT>25 GeV)"
+plot1.xtit            = "Number of electrons"
 plot1.ytit            = "Number of events"
 plot1.ylog            = "yes"
 plot1.rebin           = 1
@@ -359,7 +358,7 @@ plot2.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2.histos          = [h_pT1stEle_LQeejj_M100, h_pT1stEle_LQeejj_M200, h_pT1stEle_LQeejj_M300]
 plot2.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot2.xtit            = "pT 1st HEEP electron (GeV)"
+plot2.xtit            = "pT 1st electron (GeV/c)"
 plot2.ytit            = "Number of events"
 plot2.ylog            = "yes"
 plot2.rebin           = 1
@@ -397,7 +396,7 @@ plot3.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3.histos          = [h_Eta1stEle_LQeejj_M100, h_Eta1stEle_LQeejj_M200, h_Eta1stEle_LQeejj_M300]
 plot3.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot3.xtit            = "#eta 1st HEEP electron"
+plot3.xtit            = "#eta 1st electron"
 plot3.ytit            = "Number of events"
 plot3.rebin           = eta_rebin
 plot3.ymin            = eta_ymin
@@ -433,7 +432,7 @@ plot4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot4.histos          = [h_pT2ndEle_LQeejj_M100, h_pT2ndEle_LQeejj_M200, h_pT2ndEle_LQeejj_M300]
 plot4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot4.xtit            = "pT 2nd HEEP electron (GeV)"
+plot4.xtit            = "pT 2nd electron (GeV/c)"
 plot4.ytit            = "Number of events"
 plot4.ylog            = "yes"
 plot4.rebin           = 1
@@ -471,7 +470,7 @@ plot5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot5.histos          = [h_Eta2ndEle_LQeejj_M100, h_Eta2ndEle_LQeejj_M200, h_Eta2ndEle_LQeejj_M300]
 plot5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot5.xtit            = "#eta 2nd HEEP electron"
+plot5.xtit            = "#eta 2nd electron"
 plot5.ytit            = "Number of events"
 plot5.rebin           = eta_rebin
 plot5.ymin            = eta_ymin
@@ -507,14 +506,14 @@ plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot6.histos          = [h_nJet_LQeejj_M100, h_nJet_LQeejj_M200, h_nJet_LQeejj_M300]
 plot6.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot6.xtit            = "Number of jets (pT>20GeV)"
+plot6.xtit            = "Number of jets"
 plot6.ytit            = "Number of events"
 plot6.ylog            = "yes"
 plot6.rebin           = 1
 plot6.xmin            = 0
 plot6.xmax            = 12
 plot6.ymin            = 0.01
-plot6.ymax            = 200
+plot6.ymax            = 500
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.histodata       = h_nJet_DATA
@@ -547,7 +546,7 @@ plot7.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot7.histos          = [h_Pt1stJet_LQeejj_M100, h_Pt1stJet_LQeejj_M200, h_Pt1stJet_LQeejj_M300]
 plot7.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot7.xtit            = "pT 1st jet (GeV)"
+plot7.xtit            = "pT 1st jet (GeV/c)"
 plot7.ytit            = "Number of events"
 plot7.ylog            = "yes"
 plot7.rebin           = 1
@@ -586,7 +585,7 @@ plot8.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot8.histos          = [h_Eta1stJet_LQeejj_M100, h_Eta1stJet_LQeejj_M200, h_Eta1stJet_LQeejj_M300]
 plot8.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot8.xtit            = "#eta 1st jet (GeV)"
+plot8.xtit            = "#eta 1st jet"
 plot8.ytit            = "Number of events"
 plot8.rebin           = eta_rebin
 plot8.ymin            = eta_ymin
@@ -622,7 +621,7 @@ plot9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot9.histos          = [h_Pt2ndJet_LQeejj_M100, h_Pt2ndJet_LQeejj_M200, h_Pt2ndJet_LQeejj_M300]
 plot9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot9.xtit            = "pT 2nd jet (GeV)"
+plot9.xtit            = "pT 2nd jet (GeV/c)"
 plot9.ytit            = "Number of events"
 plot9.ylog            = "yes"
 plot9.xmin            = pt_xmin
@@ -660,7 +659,7 @@ plot10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot10.histos          = [h_Eta2ndJet_LQeejj_M100, h_Eta2ndJet_LQeejj_M200, h_Eta2ndJet_LQeejj_M300]
 plot10.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot10.xtit            = "#eta 2nd jet (GeV)"
+plot10.xtit            = "#eta 2nd jet"
 plot10.ytit            = "Number of events"
 plot10.rebin           = eta_rebin
 plot10.ymin            = eta_ymin
@@ -697,11 +696,11 @@ plot11.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot11.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
 plot11.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot11.xtit            = "St (GeV)"
+plot11.xtit            = "St (GeV/c)"
 plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
-plot11.rebin           = 1
+plot11.rebin           = 2
 plot11.xmin            = 50
 plot11.xmax            = 1000
 plot11.ymin            = 0.001
@@ -763,7 +762,7 @@ plot12.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot12.histos          = [h_Mej_presel_LQeejj_M100, h_Mej_presel_LQeejj_M200, h_Mej_presel_LQeejj_M300]
 plot12.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot12.xtit            = "Mej (GeV)"
+plot12.xtit            = "Mej (GeV/c^{2})"
 plot12.ytit            = "Number of events x 2"
 plot12.ylog            = "yes"
 plot12.rebin           = 2
@@ -816,7 +815,7 @@ plot2and4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2and4.histos          = [h_pTEles_LQeejj_M100, h_pTEles_LQeejj_M200, h_pTEles_LQeejj_M300]
 plot2and4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot2and4.xtit            = "pT electrons (GeV)"
+plot2and4.xtit            = "pT electrons (GeV/c)"
 plot2and4.ytit            = "Number of entries"
 plot2and4.ylog            = "yes"
 plot2and4.rebin           = 1
@@ -868,7 +867,7 @@ plot3and5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3and5.histos          = [h_etaEles_LQeejj_M100, h_etaEles_LQeejj_M200, h_etaEles_LQeejj_M300]
 plot3and5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot3and5.xtit            = "#eta electrons (GeV)"
+plot3and5.xtit            = "#eta electrons"
 plot3and5.ytit            = "Number of entries"
 plot3and5.rebin           = eta_rebin/2
 plot3and5.ymin            = eta_ymin
@@ -904,7 +903,7 @@ plot3and5.histodata       = h_etaEles_DATA
 #     GetHisto("histo1D__LQeejj_M300__cutHisto_allOtherCuts___________sT", File_selection).Clone()
 #     ]
 # plot20.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-# plot20.xtit            = "St (GeV)"
+# plot20.xtit            = "St (GeV/c)"
 # plot20.ytit            = "Number of events"
 # plot20.ylog            = "yes"
 # plot20.rebin           = 1
@@ -955,7 +954,7 @@ plot3and5.histodata       = h_etaEles_DATA
 # ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 # plot21.histos          = [h_Mej_LQeejj_M100, h_Mej_LQeejj_M200, h_Mej_LQeejj_M300]
 # plot21.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-# plot21.xtit            = "Mej (GeV)"
+# plot21.xtit            = "Mej (GeV/c^{2})"
 # plot21.ytit            = "Number of events x 2"
 # plot21.ylog            = "yes"
 # plot21.rebin           = 1
