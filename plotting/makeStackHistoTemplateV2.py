@@ -63,7 +63,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "827 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "828 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     histodata   = "" # data histogram
     
     def Draw(self, fileps):
