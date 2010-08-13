@@ -205,7 +205,8 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj_825nb-1_preSelJet10GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/collisions/827nb-1/output_cutTable_eejjSample_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("/home/santanas/Leptoquarks/rootNtupleAnalyzerV2/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 #File_selection    = GetFile("$LQDATA/collisions/254nb-1/output_cutTable_eejjSample_Mee100_St240/analysisClass_eejjSample_plots.root")
 
@@ -506,7 +507,7 @@ plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot6.histos          = [h_nJet_LQeejj_M100, h_nJet_LQeejj_M200, h_nJet_LQeejj_M300]
 plot6.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot6.xtit            = "Number of jets (pT>10GeV)"
+plot6.xtit            = "Number of jets (pT>20GeV)"
 plot6.ytit            = "Number of events"
 plot6.ylog            = "yes"
 plot6.rebin           = 1
