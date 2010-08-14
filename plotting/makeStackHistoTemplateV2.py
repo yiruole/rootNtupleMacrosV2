@@ -775,6 +775,76 @@ plot12.name            = "Mej_allPreviousCuts"
 plot12.histodata       = h_Mej_presel_DATA
 
 
+
+
+
+#--- Mee (after preselection) ---
+
+h_Mee_FullPreSel_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+#h_Mee_FullPreSel_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+
+plot13 = Plot() 
+## inputs for stacked histograms
+## it created h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen , h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen+h_Mee_FullPreSel_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot13.histosStack     = [h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_ZJetAlpgen, h_Mee_FullPreSel_OTHERBKG]
+plot13.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot13.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
+plot13.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot13.xtit            = "M(ee) (GeV/c^{2})"
+plot13.ytit            = "Number of events"
+# plot13.ylog            = "yes"
+# plot13.rebin           = 1
+# plot13.ymin            = 0.00000001
+# plot13.ymax            = 20
+plot13.ylog            = "no"
+plot13.rebin           = 1
+plot13.ymin            = 0
+plot13.ymax            = 12
+plot13.xmin            = 0
+plot13.xmax            = 200
+#plot13.lpos = "bottom-center"
+plot13.name            = "Mee_FullPreSel_allPreviousCuts_ylin"
+plot13.histodata       = h_Mee_FullPreSel_DATA
+
+plot13_ylog = Plot() 
+## inputs for stacked histograms
+## it created h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen , h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen+h_Mee_FullPreSel_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot13_ylog.histosStack     = [h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_ZJetAlpgen, h_Mee_FullPreSel_OTHERBKG]
+plot13_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot13_ylog.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
+plot13_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot13_ylog.xtit            = "M(ee) (GeV/c^{2})"
+plot13_ylog.ytit            = "Number of events"
+plot13_ylog.ylog            = "yes"
+plot13_ylog.rebin           = 1
+plot13_ylog.ymin            = 0.001
+plot13_ylog.ymax            = 100
+plot13_ylog.xmin            = 0
+plot13_ylog.xmax            = 400
+#plot13_ylog.lpos = "bottom-center"
+plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
+plot13_ylog.histodata       = h_Mee_FullPreSel_DATA
+
+
 ## Pt Eles AllPreviousCuts
 
 h_pTEles_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
@@ -971,7 +1041,7 @@ plot3and5.histodata       = h_etaEles_DATA
 
 
 # List of plots to be plotted
-plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot2and4, plot3and5, plot6, plot7, plot8, plot9, plot10, plot11, plot12] # produced using preselection root file
+plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot2and4, plot3and5, plot6, plot7, plot8, plot9, plot10, plot11, plot12, plot13, plot13_ylog] # produced using preselection root file
 #         plot20, plot21] # produced using full selection root file
 
 
