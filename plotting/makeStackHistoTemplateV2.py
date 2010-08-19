@@ -241,7 +241,7 @@ pt_ymax=500
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=90
+eta_ymax=120
 
 
 
@@ -286,7 +286,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 160
+plot0.ymax            = 180
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
