@@ -53,7 +53,7 @@ class Plot:
     histosStack = [] # list of histograms to be plotted in this plot -- stack histo format
     keysStack   = [] # list of keys to be put in the legend (1 key per histo) -- stack histo format
     xtit        = "" # xtitle
-    ytit        = "" # ytitle 
+    ytit        = "" # ytitle
     xmin        = "" # min x axis range (need to set both min and max. Leave it as is for full range)
     xmax        = "" # max x axis range (need to set both min and max. Leave it as is for full range)
     ymin        = "" # min y axis range (need to set both min and max. Leave it as is for full range)
@@ -64,8 +64,12 @@ class Plot:
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
     lint        = "828 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
+    ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
+    ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
+    ZScaleUnc   = 0.25 # uncertainty of the data-MC Z+jets scale factor
     histodata   = "" # data histogram
-    
+
     def Draw(self, fileps):
 
         #-- create canvas
@@ -100,7 +104,7 @@ class Plot:
             #make this stack
             stack[iter] = TH1F()
             Nloop = Nstacked - iter
-            for iter1 in range(0,Nloop):            
+            for iter1 in range(0,Nloop):
                 histo = plot.histosStack[iter1]
                 if(iter1==0):
                     stack[iter].SetBins( histo.GetNbinsX(), histo.GetXaxis().GetXmin(), histo.GetXaxis().GetXmax() )
@@ -113,7 +117,7 @@ class Plot:
             stack[iter].SetMarkerColor(15+10*iter)
             stack[iter].SetLineColor(  15+10*iter)
             stack[iter].SetFillColor(  15+10*iter)
-            legend.AddEntry(stack[iter], plot.keysStack[Nstacked - iter - 1],"lf")            
+            legend.AddEntry(stack[iter], plot.keysStack[Nstacked - iter - 1],"lf")
             #draw stack
             if iter==0:
                 thisMin = stack[iter].GetXaxis().GetXmin()
@@ -139,11 +143,26 @@ class Plot:
                 #        if(hh.GetMaximum() > maxHisto):
                 #            maxHisto = hh.GetMaximum()
                 #stack[iter].GetYaxis().SetLimits(0.,maxHisto*1.2)
-                #stack[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)                    
+                #stack[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)
                 #draw first histo
                 stack[iter].Draw("HIST")
             else:
                 stack[iter].Draw("HISTsame")
+
+        #-- Z+jets uncertainty band
+        if(plot.addZUncBand == "yes"):
+            Zhisto = plot.histosStack[plot.ZPlotIndex].Clone()
+            if(plot.rebin!=""):
+                Zhisto.Rebin(plot.rebin)
+            zUncHisto = stack[0].Clone()
+            for bin in range(0,Zhisto.GetNbinsX()):
+              zUncHisto.SetBinError(bin+1,plot.ZScaleUnc*Zhisto.GetBinContent(bin+1))
+            zUncHisto.SetMarkerStyle(0)
+            zUncHisto.SetLineColor(0)
+            zUncHisto.SetFillColor(5)
+            zUncHisto.SetFillStyle(3154)
+            zUncHisto.Draw("E2same")
+            legend.AddEntry(zUncHisto, plot.ZUncKey,"f")
 
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
@@ -158,11 +177,12 @@ class Plot:
             ih=ih+1
 
         #-- plot data
-        if(plot.rebin!=""):
-            plot.histodata.Rebin(plot.rebin)
-        plot.histodata.SetMarkerStyle(20)
-        legend.AddEntry(plot.histodata, "data","p")
-        plot.histodata.Draw("psame")
+        if(plot.histodata!=""):
+            if(plot.rebin!=""):
+                plot.histodata.Rebin(plot.rebin)
+            plot.histodata.SetMarkerStyle(20)
+            legend.AddEntry(plot.histodata, "data","p")
+            plot.histodata.Draw("psame")
 
         #-- draw label
         l = TLatex()
@@ -170,16 +190,16 @@ class Plot:
         l.SetTextSize(0.04)
         l.SetTextFont(62)
         l.SetNDC()
-#        l.DrawLatex(xstart,ystart-0.05,"CMS 2010 Preliminary")
+#        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
 #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + plot.lint)
         if (plot.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS 2010 Preliminary")
+            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
             l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
         if (plot.lpos=="top-left"):
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS 2010 Preliminary")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
             l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.08,"L_{int} = " + plot.lint)
         else:
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS 2010 Preliminary")
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + plot.lint)
 
         #-- end
@@ -205,13 +225,14 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/eejj_828nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
-File_selection    = GetFile("$LQDATA/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_selection    = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/eejj_828nb-1/output_cutTable_eejjSample_Mee100_St280/analysisClass_eejjSample_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
 otherBkgsKey="Other Bkgs"
+zUncBand="no"
 
 pt_xmin=0
 pt_xmax=250
@@ -223,11 +244,11 @@ eta_ymin=0
 eta_ymax=90
 
 
-           
+
 #--- Final plots are defined here
 
 # Simply add or remove plots and update the list plots = [plot0, plot1, ...] below
-    
+
 #--- Mee ---
 
 h_Mee_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
@@ -245,7 +266,7 @@ h_Mee_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee_PA
 h_Mee_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 h_Mee_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 
-plot0 = Plot() 
+plot0 = Plot()
 ## inputs for stacked histograms
 ## it created h_Mee_TTbar, h_Mee_TTbar+h_Mee_ZJetAlpgen , h_Mee_TTbar+h_Mee_ZJetAlpgen+h_Mee_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
@@ -270,9 +291,10 @@ plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
 plot0.name            = "Mee_allPreviousCuts_ylin"
+plot0.addZUncBand     = zUncBand
 plot0.histodata       = h_Mee_DATA
 
-plot0_ylog = Plot() 
+plot0_ylog = Plot()
 ## inputs for stacked histograms
 ## it created h_Mee_TTbar, h_Mee_TTbar+h_Mee_ZJetAlpgen , h_Mee_TTbar+h_Mee_ZJetAlpgen+h_Mee_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
@@ -292,6 +314,7 @@ plot0_ylog.xmin            = 0
 plot0_ylog.xmax            = 400
 #plot0_ylog.lpos = "bottom-center"
 plot0_ylog.name            = "Mee_allPreviousCuts"
+plot0_ylog.addZUncBand     = zUncBand
 plot0_ylog.histodata       = h_Mee_DATA
 
 
@@ -312,7 +335,7 @@ h_nEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________nEle_
 h_nEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 h_nEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nEle_PtCut_IDISO_noOvrlp", File_preselection).Clone()
 
-plot1 = Plot() 
+plot1 = Plot()
 ## inputs for stacked histograms
 plot1.histosStack     = [h_nEle_TTbar, h_nEle_ZJetAlpgen, h_nEle_OTHERBKG]
 plot1.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -328,6 +351,7 @@ plot1.ymin            = 0.0001
 plot1.ymax            = 60000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
+plot1.addZUncBand     = zUncBand
 plot1.histodata       = h_nEle_DATA
 
 
@@ -350,7 +374,7 @@ h_pT1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________P
 h_pT1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 
-plot2 = Plot() 
+plot2 = Plot()
 ## inputs for stacked histograms
 plot2.histosStack     = [h_pT1stEle_TTbar, h_pT1stEle_ZJetAlpgen, h_pT1stEle_OTHERBKG]
 plot2.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -368,6 +392,7 @@ plot2.ymin            = pt_ymin
 plot2.ymax            = pt_ymax
 #plot2.lpos = "bottom-center"
 plot2.name            = "pT1stEle_allPreviousCuts"
+plot2.addZUncBand     = zUncBand
 plot2.histodata       = h_pT1stEle_DATA
 
 
@@ -388,7 +413,7 @@ h_Eta1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________
 h_Eta1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
 
-plot3 = Plot() 
+plot3 = Plot()
 ## inputs for stacked histograms
 plot3.histosStack     = [h_Eta1stEle_TTbar, h_Eta1stEle_ZJetAlpgen, h_Eta1stEle_OTHERBKG]
 plot3.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -403,6 +428,7 @@ plot3.ymin            = eta_ymin
 plot3.ymax            = eta_ymax
 plot3.lpos = "top-left"
 plot3.name            = "Eta1stEle_allPreviousCuts"
+plot3.addZUncBand     = zUncBand
 plot3.histodata       = h_Eta1stEle_DATA
 
 
@@ -424,7 +450,7 @@ h_pT2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________P
 h_pT2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_pT2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 
-plot4 = Plot() 
+plot4 = Plot()
 ## inputs for stacked histograms
 plot4.histosStack     = [h_pT2ndEle_TTbar, h_pT2ndEle_ZJetAlpgen, h_pT2ndEle_OTHERBKG]
 plot4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -442,6 +468,7 @@ plot4.ymin            = pt_ymin
 plot4.ymax            = pt_ymax
 #plot4.lpos = "bottom-center"
 plot4.name            = "pT2ndEle_allPreviousCuts"
+plot4.addZUncBand     = zUncBand
 plot4.histodata       = h_pT2ndEle_DATA
 
 
@@ -462,7 +489,7 @@ h_Eta2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________
 h_Eta2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 h_Eta2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
 
-plot5 = Plot() 
+plot5 = Plot()
 ## inputs for stacked histograms
 plot5.histosStack     = [h_Eta2ndEle_TTbar, h_Eta2ndEle_ZJetAlpgen, h_Eta2ndEle_OTHERBKG]
 plot5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -477,6 +504,7 @@ plot5.ymin            = eta_ymin
 plot5.ymax            = eta_ymax
 plot5.lpos = "top-left"
 plot5.name            = "Eta2ndEle_allPreviousCuts"
+plot5.addZUncBand     = zUncBand
 plot5.histodata       = h_Eta2ndEle_DATA
 
 
@@ -498,7 +526,7 @@ h_nJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts_____
 h_nJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
 
 
-plot6 = Plot() 
+plot6 = Plot()
 ## inputs for stacked histograms
 plot6.histosStack     = [h_nJet_TTbar, h_nJet_ZJetAlpgen, h_nJet_OTHERBKG]
 plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -516,6 +544,7 @@ plot6.ymin            = 0.01
 plot6.ymax            = 500
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
+plot6.addZUncBand     = zUncBand
 plot6.histodata       = h_nJet_DATA
 
 
@@ -538,7 +567,7 @@ h_Pt1stJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts_
 h_Pt1stJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
 
 
-plot7 = Plot() 
+plot7 = Plot()
 ## inputs for stacked histograms
 plot7.histosStack     = [h_Pt1stJet_TTbar, h_Pt1stJet_ZJetAlpgen, h_Pt1stJet_OTHERBKG]
 plot7.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -556,6 +585,7 @@ plot7.ymin            = pt_ymin
 plot7.ymax            = pt_ymax
 #plot7.lpos = "bottom-center"
 plot7.name            = "Pt1stJet_allPreviousCuts"
+plot7.addZUncBand     = zUncBand
 plot7.histodata       = h_Pt1stJet_DATA
 
 
@@ -577,7 +607,7 @@ h_Eta1stJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts
 h_Eta1stJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
 
 
-plot8 = Plot() 
+plot8 = Plot()
 ## inputs for stacked histograms
 plot8.histosStack     = [h_Eta1stJet_TTbar, h_Eta1stJet_ZJetAlpgen, h_Eta1stJet_OTHERBKG]
 plot8.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -592,6 +622,7 @@ plot8.ymin            = eta_ymin
 plot8.ymax            = eta_ymax/2
 plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
+plot8.addZUncBand     = zUncBand
 plot8.histodata       = h_Eta1stJet_DATA
 
 
@@ -613,7 +644,7 @@ h_Pt2ndJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts_
 h_Pt2ndJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection).Clone()
 
 
-plot9 = Plot() 
+plot9 = Plot()
 ## inputs for stacked histograms
 plot9.histosStack     = [h_Pt2ndJet_TTbar, h_Pt2ndJet_ZJetAlpgen, h_Pt2ndJet_OTHERBKG]
 plot9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -630,6 +661,7 @@ plot9.ymin            = pt_ymin
 plot9.ymax            = pt_ymax
 #plot9.lpos = "bottom-center"
 plot9.name            = "Pt2ndJet_allPreviousCuts"
+plot9.addZUncBand     = zUncBand
 plot9.histodata       = h_Pt2ndJet_DATA
 
 
@@ -651,7 +683,7 @@ h_Eta2ndJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts
 h_Eta2ndJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection).Clone()
 
 
-plot10 = Plot() 
+plot10 = Plot()
 ## inputs for stacked histograms
 plot10.histosStack     = [h_Eta2ndJet_TTbar, h_Eta2ndJet_ZJetAlpgen, h_Eta2ndJet_OTHERBKG]
 plot10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -666,6 +698,7 @@ plot10.ymin            = eta_ymin
 plot10.ymax            = eta_ymax/2
 plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
+plot10.addZUncBand     = zUncBand
 plot10.histodata       = h_Eta2ndJet_DATA
 
 #--- sT ---
@@ -686,7 +719,7 @@ h_sT_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts_______
 h_sT_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________sT_PAS", File_preselection).Clone()
 
 
-plot11 = Plot() 
+plot11 = Plot()
 ## inputs for stacked histograms
 ## it created h_sT_TTbar, h_sT_TTbar+h_sT_ZJetAlpgen , h_sT_TTbar+h_sT_ZJetAlpgen+h_sT_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
@@ -707,6 +740,7 @@ plot11.ymin            = 0.001
 plot11.ymax            = 100
 #plot11.lpos = "bottom-center"
 plot11.name            = "sT_allPreviousCuts"
+plot11.addZUncBand     = zUncBand
 plot11.histodata       = h_sT_DATA
 
 ##--- Mej preselection
@@ -772,6 +806,7 @@ plot12.ymin            = 0.001
 plot12.ymax            = 500
 #plot12.lpos = "bottom-center"
 plot12.name            = "Mej_allPreviousCuts"
+plot12.addZUncBand     = zUncBand
 plot12.histodata       = h_Mej_presel_DATA
 
 
@@ -795,7 +830,7 @@ h_Mee_FullPreSel_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts___
 h_Mee_FullPreSel_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
 h_Mee_FullPreSel_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
 
-plot13 = Plot() 
+plot13 = Plot()
 ## inputs for stacked histograms
 ## it created h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen , h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen+h_Mee_FullPreSel_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
@@ -820,9 +855,10 @@ plot13.xmin            = 0
 plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
 plot13.name            = "Mee_FullPreSel_allPreviousCuts_ylin"
+plot13.addZUncBand     = zUncBand
 plot13.histodata       = h_Mee_FullPreSel_DATA
 
-plot13_ylog = Plot() 
+plot13_ylog = Plot()
 ## inputs for stacked histograms
 ## it created h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen , h_Mee_FullPreSel_TTbar+h_Mee_FullPreSel_ZJetAlpgen+h_Mee_FullPreSel_QCD_Madgraph etc..
 ## and plot them one on top of each other to effectly create a stacked histogram
@@ -842,6 +878,7 @@ plot13_ylog.xmin            = 0
 plot13_ylog.xmax            = 400
 #plot13_ylog.lpos = "bottom-center"
 plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
+plot13_ylog.addZUncBand     = zUncBand
 plot13_ylog.histodata       = h_Mee_FullPreSel_DATA
 
 
@@ -877,7 +914,7 @@ h_pTEles_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________P
 h_pTEles_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 h_pTEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
 
-plot2and4 = Plot() 
+plot2and4 = Plot()
 ## inputs for stacked histograms
 plot2and4.histosStack     = [h_pTEles_TTbar, h_pTEles_ZJetAlpgen, h_pTEles_OTHERBKG]
 plot2and4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -895,6 +932,7 @@ plot2and4.ymin            = pt_ymin
 plot2and4.ymax            = pt_ymax
 #plot2and4.lpos = "bottom-center"
 plot2and4.name            = "pTEles_allPreviousCuts"
+plot2and4.addZUncBand     = zUncBand
 plot2and4.histodata       = h_pTEles_DATA
 
 ## Eta Eles AllPreviousCuts
@@ -929,7 +967,7 @@ h_etaEles_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________
 h_etaEles_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 h_etaEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
 
-plot3and5 = Plot() 
+plot3and5 = Plot()
 ## inputs for stacked histograms
 plot3and5.histosStack     = [h_etaEles_TTbar, h_etaEles_ZJetAlpgen, h_etaEles_OTHERBKG]
 plot3and5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
@@ -945,6 +983,7 @@ plot3and5.ymax            = eta_ymax
 plot3and5.lpos            = "top-left"
 #plot3and5.lpos = "bottom-center"
 plot3and5.name            = "etaEles_allPreviousCuts"
+plot3and5.addZUncBand     = zUncBand
 plot3and5.histodata       = h_etaEles_DATA
 
 ## Add Pt and eta of jets
@@ -983,6 +1022,7 @@ plot20.ymin            = 0.001
 plot20.ymax            = 100
 #plot20.lpos = "bottom-center"
 plot20.name            = "sT_allOtherCuts"
+plot20.addZUncBand     = zUncBand
 plot20.histodata       = GetHisto("histo1D__DATA__cutHisto_allOtherCuts___________sT", File_selection).Clone()
 
 
@@ -1034,6 +1074,7 @@ plot21.ymin            = 0.001
 plot21.ymax            = 20
 #plot21.lpos = "bottom-center"
 plot21.name            = "Mej_allOtherCuts"
+plot21.addZUncBand     = zUncBand
 plot21.histodata       = h_Mej_DATA
 
 
