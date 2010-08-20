@@ -197,7 +197,7 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection = GetFile("$LQDATA/eejj_analysis/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj_analysis/830nb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 
 #--- Rescaling of Z/gamma + jet background
@@ -214,7 +214,7 @@ plot0.histoMCZ = h_ZJetAlpgen_Mee
 plot0.xmin = 80  
 plot0.xmax = 100 
 plot0.name = "Zrescale"
-plot0.fileXsectionNoRescale = "/home/santanas/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
+plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/santanas/scratch0/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
