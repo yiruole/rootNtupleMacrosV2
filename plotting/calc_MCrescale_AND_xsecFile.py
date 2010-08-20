@@ -98,6 +98,8 @@ class Plot:
     #rebin      = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
     lint        = "828 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    fileXsectionNoRescale = "" #cross section file (with no rescale
+    datasetName = "" # string for pattern recognition of dataset name (rescaling will be done only on matched datasets)
 
     def CalculateRescaleFactor(self, fileps):
         #calculate rescaling factor for Z/gamma+jet background and create new cross section file
@@ -114,22 +116,27 @@ class Plot:
             sys.exit()
 
         #integrals
-        integralMCall = GetIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
-        ERRintegralMCall = GetErrorIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
         integralDATA = GetIntegralTH1(plot.histoDATA,plot.xmin,plot.xmax)
         ERRintegralDATA = GetErrorIntegralTH1(plot.histoDATA,plot.xmin,plot.xmax)
+        integralMCall = GetIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
+        ERRintegralMCall = GetErrorIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
         integralMCZ = GetIntegralTH1(plot.histoMCZ,plot.xmin,plot.xmax)
         ERRintegralMCZ = GetErrorIntegralTH1(plot.histoMCZ,plot.xmin,plot.xmax)
+        
+        #contamination from other backgrounds (except Z) in the integral range
+        integralMCothers = integralMCall - integralMCZ
+        ERRintegralMCothers = sqrt(ERRintegralMCall**2 + ERRintegralMCZ**2)
+        contamination = integralMCothers / integralMCall            
 
-        #contamination
-        contamination = (integralMCall - integralMCZ) / integralMCall
+        #DATA corrected for other bkg contamination --> best estimate of DATA (due to Z only)
+        integralDATAcorr = (integralDATA - integralMCothers) 
+        ERRintegralDATAcorr = sqrt(ERRintegralDATA**2 + ERRintegralMCothers**2)
 
         #rescale factor
-        rescale = integralMCall / integralDATA
-        relERRintegralMCall = ERRintegralMCall / integralMCall
-        relERRintegralDATA = ERRintegralDATA / integralDATA
-        ERRrescale = sqrt(relERRintegralMCall**2 + relERRintegralDATA**2)
-
+        rescale = integralDATAcorr / integralMCZ
+        relERRintegralDATAcorr = ERRintegralDATAcorr / integralDATAcorr
+        relERRintegralMCZ = ERRintegralMCZ / integralMCZ
+        ERRrescale = sqrt(relERRintegralDATAcorr**2 + relERRintegralMCZ**2)
 
         #draw histo
         plot.histoMCall.SetFillColor(kBlue)
@@ -150,13 +157,36 @@ class Plot:
         #printout
         print " "
         print "######################################## "
-        print "integralMCall: "   + str( integralMCall ) + " +/- " + str( ERRintegralMCall )
-        print "integralDATA: "   + str( integralDATA ) + " +/- " + str( ERRintegralDATA )
-        print "contribution from all other backgrounds (except Z+jet): " + str(contamination*100) + "%"
+        print "integral range: " + str(plot.xmin) + " < Mee < " + str(plot.xmax) + " GeV/c2"
+        print "integral MC Z: "   + str( integralMCZ ) + " +/- " + str( ERRintegralMCZ )
+        print "integral DATA: "   + str( integralDATA ) + " +/- " + str( ERRintegralDATA )
+        print "contribution from other bkgs (except Z+jet): " + str(contamination*100) + "%"
+        print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr ) + " +/- " + str( ERRintegralDATAcorr )
         print "rescale factor for Z background: " + str(rescale) + " +\- " + str(ERRrescale*rescale)
         print "systematical uncertainty of Z+jet background modeling: " + str(ERRrescale*100) + "%"
         print "######################################## "
         print " "
+
+        #create new cross section file        
+        originalFileName = string.split( string.split(plot0.fileXsectionNoRescale, "/" )[-1], "." ) [0]  
+        newFileName = originalFileName + "_" + plot.name +".txt"
+        os.system('rm -f '+ newFileName)
+        outputFile = open(newFileName,'w')
+
+        for line in open( plot.fileXsectionNoRescale ):
+            line = string.strip(line,"\n")
+
+            if( re.search(plot.datasetName, line) ):
+                list = re.split( '\s+' , line  )                
+                newline = str(list[0]) + "    "  + str("%.6f" % (float(list[1])*float(rescale)) )
+                print >> outputFile, newline
+            else:
+                print >> outputFile, line
+                
+        outputFile.close
+        print "New xsection file (after Z rescaling) is: " + newFileName
+        print " " 
+        
 
 ############# DON'T NEED TO MODIFY ANYTHING HERE - END #######################
 ##############################################################################
@@ -168,9 +198,6 @@ class Plot:
 #--- Input files
 #preselection
 File_preselection = GetFile("$LQDATA/eejj_analysis/eejj_825nb-1_preSelJet20GeV_noDeltaEta/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
-
-#xsection file
-File_xsection_noRescale = "$LQANA/config/xsection_7TeV.txt"
 
 
 #--- Rescaling of Z/gamma + jet background
@@ -186,13 +213,14 @@ plot0.histoMCall = h_ALLBKG_Mee
 plot0.histoMCZ = h_ZJetAlpgen_Mee
 plot0.xmin = 80  
 plot0.xmax = 100 
-plot0.name = "h_Mee_compare"
+plot0.name = "Zrescale"
+plot0.fileXsectionNoRescale = "/home/santanas/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
 plot0.ymaxplot = 15
-#datasetName = "Z0Jets_Pt0to100-alpgen"# string for pattern recognition of dataset name
-#                                      # (rescaling will be applied only to those datasets)
+plot0.datasetName = "Z.+Jets_Pt.+alpgen"
+# example: this match with /Z3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
 
 plots = [plot0]
 
