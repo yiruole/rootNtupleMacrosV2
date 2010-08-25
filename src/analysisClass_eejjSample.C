@@ -254,6 +254,7 @@ void analysisClass::Loop()
     vector<int> v_idx_jet_PtCut;
     vector<int> v_idx_jet_PtCut_noOverlap;
     vector<int> v_idx_jet_PtCut_noOverlap_ID;
+    vector<int> v_idx_jet_PtCut_noOverlap_ID_EtaCut;
 
     // Loop over jets
     for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
@@ -345,16 +346,30 @@ void analysisClass::Loop()
 //       } // printouts for jet cleaning
     
     
+    float JetEtaCutValue = getPreCutValue1("jet_EtaCut");
     for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
       {	
 	bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
 	// ---- use the flag stored in rootTuples
 	//if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
 	// ----
+
+	if( jetFlags[ijet] == 0  )                         /* NO overlap with electrons */  
+	  //  && passjetID == true )                            /* pass JetID */
+	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
+	  v_idx_jet_PtCut_noOverlap.push_back(ijet);
+
 	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
 	    && passjetID == true )                            /* pass JetID */
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
 	  v_idx_jet_PtCut_noOverlap_ID.push_back(ijet);
+
+	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
+	    && passjetID == true                             /* pass JetID */
+	    && fabs( CaloJetEta->at(ijet) ) < JetEtaCutValue )
+	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
+	  v_idx_jet_PtCut_noOverlap_ID_EtaCut.push_back(ijet);
+
 	
 	//NOTE: We should verify that caloJetOverlaps match with the code above
       } // End loop over jets
@@ -422,8 +437,12 @@ void analysisClass::Loop()
     fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
     fillVariableWithValue( "nJet_PtCut_noOvrlp", v_idx_jet_PtCut_noOverlap.size() ) ;
     fillVariableWithValue( "nJet_PtCut_noOvrlp_ID", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
+    //TwoEleOnly
+    fillVariableWithValue( "nJet_TwoEleOnly_All", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
+    fillVariableWithValue( "nJet_TwoEleOnly_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
     //PAS June 2010
-    fillVariableWithValue( "nJet_PAS", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
+    fillVariableWithValue( "nJet_PAS_All", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
+    fillVariableWithValue( "nJet_PAS_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
 
     // 1st ele
     if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) 
@@ -431,6 +450,9 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0])) );
+	//PAS June 2010
+	fillVariableWithValue( "Pt1stEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+	fillVariableWithValue( "Eta1stEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
       }
 
     // 2nd ele
@@ -440,6 +462,9 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
 	fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1])) );
 	fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ) );
+	//PAS June 2010
+	fillVariableWithValue( "Pt2ndEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
+	fillVariableWithValue( "Eta2ndEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
       }
 
     // 1st jet
@@ -487,6 +512,34 @@ void analysisClass::Loop()
 	fillVariableWithValue("sT_PAS", calc_sT);
       }
 
+    // ST jets
+    if (TwoJets)
+      {
+	double calc_sTjet=-999.;
+	calc_sTjet =
+	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) + 
+	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) ;
+	fillVariableWithValue("sTjet_PAS", calc_sTjet);
+      }
+
+    // Mjj
+    if (TwoJets)
+      {
+	TLorentzVector jet1, jet2, jj;
+	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
+	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
+	jj = jet1+jet2;
+	//TwoEleOnly
+	fillVariableWithValue("Mjj_TwoEleOnly", jj.M());
+	//PAS June 2010
+	fillVariableWithValue("Mjj_PAS", jj.M());
+      }
+
+
     // Mee
     if (TwoEle)
       {
@@ -499,14 +552,15 @@ void analysisClass::Loop()
 			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),0);
 	ee = ele1+ele2;
 	fillVariableWithValue("Mee", ee.M());
-
+	//TwoEleOnly
+	fillVariableWithValue("Mee_TwoEleOnly", ee.M());
 	//PAS June 2010
 	fillVariableWithValue("Mee_PAS", ee.M());
 
 	double calc_sTele=-999.;
         calc_sTele =
-          ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
-          ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
+	   ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
+	   ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
 	fillVariableWithValue("sTele_PAS", calc_sTele);
 
 	if(isData==true) 
