@@ -77,7 +77,6 @@ mEta2ndEle_IDISO_NoOvrlp        -inf	     2.5                -               -  
 maxMEtaEles_IDISO_NoOvrl        -inf	     +inf               -               -               1       50 0 5
 #
 Mee_TwoEleOnly                  -inf	     +inf               -               -               1       200 0 1000
-Mjj_TwoEleOnly                  -inf	     +inf               -               -               1       200 0 2000
 nJet_TwoEleOnly_All		-inf	     +inf               -               -               1       16 -0.5 15.5
 nJet_TwoEleOnly_EtaCut		-inf	     +inf               -               -               1       16 -0.5 15.5
 #
@@ -101,13 +100,13 @@ Pt1stEle_PAS			-inf	     +inf               -               -               2   
 Eta1stEle_PAS			-inf	     +inf               -               -               2       100 -5 5
 Pt2ndEle_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta2ndEle_PAS			-inf	     +inf               -               -               2       100 -5 5
+Mee_PAS                         -inf	     +inf               -               -               2       200 0 1000
+sTele_PAS                       -inf	     +inf               -               -               2       200 0 2000
 Pt1stJet_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta1stJet_PAS			-inf	     +inf               -               -               2       100 -5 5
 Pt2ndJet_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta2ndJet_PAS			-inf	     +inf               -               -               2       100 -5 5
-Mee_PAS                         -inf	     +inf               -               -               2       200 0 1000
 Mjj_PAS				-inf	     +inf               -               -               2       200 0 2000
-sTele_PAS                       -inf	     +inf               -               -               2       200 0 2000
 sTjet_PAS                       -inf	     +inf               -               -               2       200 0 2000
 sT_PAS                          -inf	     +inf               -               -               2       200 0 2000
 Mej_1stPair_PAS                 -inf	     +inf               -               -               2       200 0 2000

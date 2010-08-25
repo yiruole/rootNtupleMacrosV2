@@ -533,8 +533,6 @@ void analysisClass::Loop()
 			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
 			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	jj = jet1+jet2;
-	//TwoEleOnly
-	fillVariableWithValue("Mjj_TwoEleOnly", jj.M());
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M());
       }
