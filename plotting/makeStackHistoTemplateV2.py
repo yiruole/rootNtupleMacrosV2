@@ -63,11 +63,11 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "828 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "1.1 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
-    ZScaleUnc   = 0.25 # uncertainty of the data-MC Z+jets scale factor
+    ZScaleUnc   = 0.20 # uncertainty of the data-MC Z+jets scale factor
     histodata   = "" # data histogram
 
     def Draw(self, fileps):
@@ -225,9 +225,10 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj_analysis/830nb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v3/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
-File_selection    = GetFile("$LQDATA/eejj_analysis/830nb-1/output_cutTable_eejjSample_Mee100_St280/analysisClass_eejjSample_plots.root")
+#File_selection    = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v3/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_selection    = GetFile("$LQDATA/eejj_analysis/1.1pb-1/output_cutTable_eejjSample_Mee100_St280/analysisClass_eejjSample_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
@@ -237,11 +238,11 @@ zUncBand="no"
 pt_xmin=0
 pt_xmax=250
 pt_ymin=0.001
-pt_ymax=500
+pt_ymax=200
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=120
+eta_ymax=60
 
 
 
@@ -249,22 +250,22 @@ eta_ymax=120
 
 # Simply add or remove plots and update the list plots = [plot0, plot1, ...] below
 
-#--- Mee ---
+#--- Mee_TwoEleOnly ---
 
-h_Mee_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-#h_Mee_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
-h_Mee_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+#h_Mee_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+h_Mee_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
 
 plot0 = Plot()
 ## inputs for stacked histograms
@@ -286,7 +287,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 180
+plot0.ymax            = 300
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -357,22 +358,22 @@ plot1.histodata       = h_nEle_DATA
 
 
 
-#--- Pt1stEle_IDISO_NoOvrlp  ---
+#--- Pt1stEle_PAS  ---
 
-h_pT1stEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-#h_pT1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_pT1stEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+#h_pT1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pT1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
 
 plot2 = Plot()
 ## inputs for stacked histograms
@@ -396,22 +397,22 @@ plot2.addZUncBand     = zUncBand
 plot2.histodata       = h_pT1stEle_DATA
 
 
-#--- Eta1stEle_IDISO_NoOvrlp  ---
+#--- Eta1stEle_PAS  ---
 
-h_Eta1stEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-#h_Eta1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_Eta1stEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+#h_Eta1stEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_Eta1stEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
 
 plot3 = Plot()
 ## inputs for stacked histograms
@@ -433,22 +434,22 @@ plot3.histodata       = h_Eta1stEle_DATA
 
 
 
-#--- Pt2ndEle_IDISO_NoOvrlp  ---
+#--- Pt2ndEle_PAS  ---
 
-h_pT2ndEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-#h_pT2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pT2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_pT2ndEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+#h_pT2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
+h_pT2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection).Clone()
 
 plot4 = Plot()
 ## inputs for stacked histograms
@@ -472,22 +473,22 @@ plot4.addZUncBand     = zUncBand
 plot4.histodata       = h_pT2ndEle_DATA
 
 
-#--- Eta2ndEle_IDISO_NoOvrlp  ---
+#--- Eta2ndEle_PAS  ---
 
-h_Eta2ndEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-#h_Eta2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_Eta2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_Eta2ndEle_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+#h_Eta2ndEle_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
+h_Eta2ndEle_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection).Clone()
 
 plot5 = Plot()
 ## inputs for stacked histograms
@@ -508,22 +509,22 @@ plot5.addZUncBand     = zUncBand
 plot5.histodata       = h_Eta2ndEle_DATA
 
 
-#--- nJet_PAS ---
+#--- nJet_TwoEleOnly_EtaCut ---
 
-h_nJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-#h_nJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
-h_nJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nJet_PAS", File_preselection).Clone()
+h_nJet_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+#h_nJet_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
+h_nJet_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________nJet_TwoEleOnly_EtaCut", File_preselection).Clone()
 
 
 plot6 = Plot()
@@ -541,7 +542,7 @@ plot6.rebin           = 1
 plot6.xmin            = 0
 plot6.xmax            = 12
 plot6.ymin            = 0.01
-plot6.ymax            = 500
+plot6.ymax            = 700
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.addZUncBand     = zUncBand
@@ -619,7 +620,7 @@ plot8.xtit            = "#eta 1st jet"
 plot8.ytit            = "Number of events"
 plot8.rebin           = eta_rebin
 plot8.ymin            = eta_ymin
-plot8.ymax            = eta_ymax/2
+plot8.ymax            = eta_ymax
 plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
 plot8.addZUncBand     = zUncBand
@@ -695,7 +696,7 @@ plot10.xtit            = "#eta 2nd jet"
 plot10.ytit            = "Number of events"
 plot10.rebin           = eta_rebin
 plot10.ymin            = eta_ymin
-plot10.ymax            = eta_ymax/2
+plot10.ymax            = eta_ymax
 plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
 plot10.addZUncBand     = zUncBand
@@ -742,6 +743,95 @@ plot11.ymax            = 100
 plot11.name            = "sT_allPreviousCuts"
 plot11.addZUncBand     = zUncBand
 plot11.histodata       = h_sT_DATA
+
+
+#--- sTele ---
+
+h_sT_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+#h_sT_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+h_sT_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________sTele_PAS", File_preselection).Clone()
+
+
+plot11_ele = Plot()
+## inputs for stacked histograms
+## it created h_sT_TTbar, h_sT_TTbar+h_sT_ZJetAlpgen , h_sT_TTbar+h_sT_ZJetAlpgen+h_sT_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot11_ele.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_OTHERBKG]
+plot11_ele.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot11_ele.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
+plot11_ele.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot11_ele.xtit            = "St electrons (GeV/c)"
+plot11_ele.ytit            = "Number of events"
+#plot11_ele.xlog            = "yes"
+plot11_ele.ylog            = "yes"
+plot11_ele.rebin           = 2
+plot11_ele.xmin            = 50
+plot11_ele.xmax            = 1000
+plot11_ele.ymin            = 0.001
+plot11_ele.ymax            = 100
+#plot11_ele.lpos = "bottom-center"
+plot11_ele.name            = "sTele_allPreviousCuts"
+plot11_ele.addZUncBand     = zUncBand
+plot11_ele.histodata       = h_sT_DATA
+
+
+#--- sTjet ---
+
+h_sT_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+#h_sT_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+h_sT_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________sTjet_PAS", File_preselection).Clone()
+
+
+plot11_jet = Plot()
+## inputs for stacked histograms
+## it created h_sT_TTbar, h_sT_TTbar+h_sT_ZJetAlpgen , h_sT_TTbar+h_sT_ZJetAlpgen+h_sT_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot11_jet.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_OTHERBKG]
+plot11_jet.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot11_jet.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
+plot11_jet.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot11_jet.xtit            = "St jets (GeV/c)"
+plot11_jet.ytit            = "Number of events"
+#plot11_jet.xlog            = "yes"
+plot11_jet.ylog            = "yes"
+plot11_jet.rebin           = 2
+plot11_jet.xmin            = 50
+plot11_jet.xmax            = 1000
+plot11_jet.ymin            = 0.001
+plot11_jet.ymax            = 100
+#plot11_jet.lpos = "bottom-center"
+plot11_jet.name            = "sTjet_allPreviousCuts"
+plot11_jet.addZUncBand     = zUncBand
+plot11_jet.histodata       = h_sT_DATA
+
+
+
 
 ##--- Mej preselection
 
@@ -801,7 +891,7 @@ plot12.ytit            = "Number of events x 2"
 plot12.ylog            = "yes"
 plot12.rebin           = 2
 plot12.xmin            = 0
-plot12.xmax            = 400
+plot12.xmax            = 600
 plot12.ymin            = 0.001
 plot12.ymax            = 500
 #plot12.lpos = "bottom-center"
@@ -813,22 +903,22 @@ plot12.histodata       = h_Mej_presel_DATA
 
 
 
-#--- Mee (after preselection) ---
+#--- Mee_PAS (after preselection) ---
 
-h_Mee_FullPreSel_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-#h_Mee_FullPreSel_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
-h_Mee_FullPreSel_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+#h_Mee_FullPreSel_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
+h_Mee_FullPreSel_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone()
 
 plot13 = Plot()
 ## inputs for stacked histograms
@@ -850,7 +940,7 @@ plot13.ytit            = "Number of events"
 plot13.ylog            = "no"
 plot13.rebin           = 1
 plot13.ymin            = 0
-plot13.ymax            = 12
+plot13.ymax            = 20
 plot13.xmin            = 0
 plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
@@ -871,7 +961,7 @@ plot13_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot13_ylog.xtit            = "M(ee) (GeV/c^{2})"
 plot13_ylog.ytit            = "Number of events"
 plot13_ylog.ylog            = "yes"
-plot13_ylog.rebin           = 1
+plot13_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
 plot13_ylog.ymin            = 0.001
 plot13_ylog.ymax            = 100
 plot13_ylog.xmin            = 0
@@ -882,37 +972,110 @@ plot13_ylog.addZUncBand     = zUncBand
 plot13_ylog.histodata       = h_Mee_FullPreSel_DATA
 
 
+
+#--- Mjj_PAS (after preselection) ---
+
+h_Mjj_FullPreSel_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+#h_Mjj_FullPreSel_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+h_Mjj_FullPreSel_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mjj_PAS", File_preselection).Clone()
+
+plot14 = Plot()
+## inputs for stacked histograms
+## it created h_Mjj_FullPreSel_TTbar, h_Mjj_FullPreSel_TTbar+h_Mjj_FullPreSel_ZJetAlpgen , h_Mjj_FullPreSel_TTbar+h_Mjj_FullPreSel_ZJetAlpgen+h_Mjj_FullPreSel_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot14.histosStack     = [h_Mjj_FullPreSel_TTbar, h_Mjj_FullPreSel_ZJetAlpgen, h_Mjj_FullPreSel_OTHERBKG]
+plot14.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot14.histos          = [h_Mjj_FullPreSel_LQeejj_M100, h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
+plot14.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot14.xtit            = "M(jj) (GeV/c^{2})"
+plot14.ytit            = "Number of events"
+# plot14.ylog            = "yes"
+# plot14.rebin           = 1
+# plot14.ymin            = 0.00000001
+# plot14.ymax            = 20
+plot14.ylog            = "no"
+plot14.rebin           = 1
+plot14.ymin            = 0
+plot14.ymax            = 10
+plot14.xmin            = 0
+plot14.xmax            = 600
+#plot14.lpos = "bottom-center"
+plot14.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
+plot14.addZUncBand     = zUncBand
+plot14.histodata       = h_Mjj_FullPreSel_DATA
+
+plot14_ylog = Plot()
+## inputs for stacked histograms
+## it created h_Mjj_FullPreSel_TTbar, h_Mjj_FullPreSel_TTbar+h_Mjj_FullPreSel_ZJetAlpgen , h_Mjj_FullPreSel_TTbar+h_Mjj_FullPreSel_ZJetAlpgen+h_Mjj_FullPreSel_QCD_Madgraph etc..
+## and plot them one on top of each other to effectly create a stacked histogram
+plot14_ylog.histosStack     = [h_Mjj_FullPreSel_TTbar, h_Mjj_FullPreSel_ZJetAlpgen, h_Mjj_FullPreSel_OTHERBKG]
+plot14_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot14_ylog.histos          = [h_Mjj_FullPreSel_LQeejj_M100, h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
+plot14_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot14_ylog.xtit            = "M(jj) (GeV/c^{2})"
+plot14_ylog.ytit            = "Number of events"
+plot14_ylog.ylog            = "yes"
+plot14_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
+plot14_ylog.ymin            = 0.001
+plot14_ylog.ymax            = 100
+plot14_ylog.xmin            = 0
+plot14_ylog.xmax            = 600
+#plot14_ylog.lpos = "bottom-center"
+plot14_ylog.name            = "Mjj_FullPreSel_allPreviousCuts"
+plot14_ylog.addZUncBand     = zUncBand
+plot14_ylog.histodata       = h_Mjj_FullPreSel_DATA
+
+
+
+
+
 ## Pt Eles AllPreviousCuts
 
-h_pTEles_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-#h_pTEles_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_pTEles_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_pTEles_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+#h_pTEles_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
+h_pTEles_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_PAS", File_preselection).Clone()
 
-h_pTEles_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-#h_pTEles_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
-h_pTEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_IDISO_NoOvrlp", File_preselection))
+h_pTEles_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+#h_pTEles_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
+h_pTEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndEle_PAS", File_preselection))
 
 plot2and4 = Plot()
 ## inputs for stacked histograms
@@ -923,7 +1086,7 @@ plot2and4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 plot2and4.histos          = [h_pTEles_LQeejj_M100, h_pTEles_LQeejj_M200, h_pTEles_LQeejj_M300]
 plot2and4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot2and4.xtit            = "pT electrons (GeV/c)"
-plot2and4.ytit            = "Number of entries"
+plot2and4.ytit            = "Number of events x 2"
 plot2and4.ylog            = "yes"
 plot2and4.rebin           = 1
 plot2and4.xmin            = pt_xmin
@@ -937,35 +1100,35 @@ plot2and4.histodata       = h_pTEles_DATA
 
 ## Eta Eles AllPreviousCuts
 
-h_etaEles_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-#h_etaEles_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
-h_etaEles_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stEle_IDISO_NoOvrlp", File_preselection).Clone()
+h_etaEles_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+#h_etaEles_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
+h_etaEles_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stEle_PAS", File_preselection).Clone()
 
-h_etaEles_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-#h_etaEles_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
-h_etaEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_IDISO_NoOvrlp", File_preselection))
+h_etaEles_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+#h_etaEles_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
+h_etaEles_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndEle_PAS", File_preselection))
 
 plot3and5 = Plot()
 ## inputs for stacked histograms
@@ -976,7 +1139,7 @@ plot3and5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 plot3and5.histos          = [h_etaEles_LQeejj_M100, h_etaEles_LQeejj_M200, h_etaEles_LQeejj_M300]
 plot3and5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot3and5.xtit            = "#eta electrons"
-plot3and5.ytit            = "Number of entries"
+plot3and5.ytit            = "Number of events x 2"
 plot3and5.rebin           = eta_rebin/2
 plot3and5.ymin            = eta_ymin
 plot3and5.ymax            = eta_ymax
@@ -986,7 +1149,113 @@ plot3and5.name            = "etaEles_allPreviousCuts"
 plot3and5.addZUncBand     = zUncBand
 plot3and5.histodata       = h_etaEles_DATA
 
-## Add Pt and eta of jets
+
+## Pt Jets AllPreviousCuts
+
+h_pTJets_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+#h_pTJets_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+h_pTJets_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stJet_PAS", File_preselection).Clone()
+
+h_pTJets_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+#h_pTJets_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+h_pTJets_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt2ndJet_PAS", File_preselection))
+
+plot7and9 = Plot()
+## inputs for stacked histograms
+plot7and9.histosStack     = [h_pTJets_TTbar, h_pTJets_ZJetAlpgen, h_pTJets_OTHERBKG]
+plot7and9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot7and9.histos          = [h_pTJets_LQeejj_M100, h_pTJets_LQeejj_M200, h_pTJets_LQeejj_M300]
+plot7and9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot7and9.xtit            = "pT jets (GeV/c)"
+plot7and9.ytit            = "Number of events x 2"
+plot7and9.ylog            = "yes"
+plot7and9.rebin           = 1
+plot7and9.xmin            = pt_xmin
+plot7and9.xmax            = pt_xmax
+plot7and9.ymin            = pt_ymin
+plot7and9.ymax            = pt_ymax
+#plot7and9.lpos = "bottom-center"
+plot7and9.name            = "pTJets_allPreviousCuts"
+plot7and9.addZUncBand     = zUncBand
+plot7and9.histodata       = h_pTJets_DATA
+
+## Eta Eles AllPreviousCuts
+
+h_etaJets_LQeejj_M100 = GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_LQeejj_M200 = GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_LQeejj_M300 = GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_LQeejj_M400 = GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_LQeejj_M500 = GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_TTbar = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_ZJetAlpgen = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_OTHERBKG = GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+#h_etaJets_QCD_Madgraph = GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_QCDPt15 = GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+h_etaJets_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta1stJet_PAS", File_preselection).Clone()
+
+h_etaJets_LQeejj_M100.Add(GetHisto("histo1D__LQeejj_M100__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_LQeejj_M200.Add(GetHisto("histo1D__LQeejj_M200__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_LQeejj_M300.Add(GetHisto("histo1D__LQeejj_M300__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_LQeejj_M400.Add(GetHisto("histo1D__LQeejj_M400__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_LQeejj_M500.Add(GetHisto("histo1D__LQeejj_M500__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_TTbar.Add(GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_ZJetAlpgen.Add(GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_OTHERBKG.Add(GetHisto("histo1D__OTHERBKG__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+#h_etaJets_QCD_Madgraph.Add(GetHisto("histo1D__QCD_Madgraph__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_QCDPt15.Add(GetHisto("histo1D__QCDPt15__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_SingleTop.Add(GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_VVjets.Add(GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_WJetAlpgen.Add(GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+h_etaJets_DATA.Add(GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Eta2ndJet_PAS", File_preselection))
+
+plot8and10 = Plot()
+## inputs for stacked histograms
+plot8and10.histosStack     = [h_etaJets_TTbar, h_etaJets_ZJetAlpgen, h_etaJets_OTHERBKG]
+plot8and10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot8and10.histos          = [h_etaJets_LQeejj_M100, h_etaJets_LQeejj_M200, h_etaJets_LQeejj_M300]
+plot8and10.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot8and10.xtit            = "#eta jets"
+plot8and10.ytit            = "Number of events x 2"
+plot8and10.rebin           = eta_rebin/2
+plot8and10.ymin            = eta_ymin
+plot8and10.ymax            = eta_ymax
+plot8and10.lpos            = "top-left"
+#plot8and10.lpos = "bottom-center"
+plot8and10.name            = "etaJets_allPreviousCuts"
+plot8and10.addZUncBand     = zUncBand
+plot8and10.histodata       = h_etaJets_DATA
+
+
+
 
 
 # ############################ Plots below to be done after full selection ######################
@@ -1015,7 +1284,7 @@ plot20.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
 plot20.xtit            = "St (GeV/c)"
 plot20.ytit            = "Number of events"
 plot20.ylog            = "yes"
-plot20.rebin           = 5
+plot20.rebin           = 10
 plot20.xmin            = 0
 plot20.xmax            = 1000
 plot20.ymin            = 0.001
@@ -1069,7 +1338,7 @@ plot21.ytit            = "Number of events x 2"
 plot21.ylog            = "yes"
 plot21.rebin           = 1
 plot21.xmin            = 0
-plot21.xmax            = 500
+plot21.xmax            = 600
 plot21.ymin            = 0.001
 plot21.ymax            = 20
 #plot21.lpos = "bottom-center"
@@ -1083,7 +1352,7 @@ plot21.histodata       = h_Mej_DATA
 
 # List of plots to be plotted
 plots = [plot0, plot0_ylog, plot1, plot2, plot3, plot4, plot5, plot2and4, plot3and5, plot6, plot7, plot8, plot9, plot10,
-         plot11, plot12, plot13, plot13_ylog,  # produced using preselection root file
+         plot7and9, plot8and10, plot11, plot11_ele, plot11_jet, plot12, plot13, plot13_ylog, plot14, plot14_ylog,  # produced using preselection root file
          plot20, plot21] # produced using full selection root file
 
 
