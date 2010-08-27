@@ -78,6 +78,11 @@ void analysisClass::Loop()
    TH1F *h_goodEleSCPt_EcalIso_Barrel = new TH1F ("goodEleSCPt_EcalIso_Barrel","goodEleSCPt_EcalIso_Barrel",100,0,100); h_goodEleSCPt_EcalIso_Barrel->Sumw2();
    TH1F *h_goodEleSCPt_EcalIso_Endcap = new TH1F ("goodEleSCPt_EcalIso_Endcap","goodEleSCPt_EcalIso_Endcap",100,0,100); h_goodEleSCPt_EcalIso_Endcap->Sumw2();
 
+
+   TH1F *h_goodEle_EoP = new TH1F ("goodEle_EoP","goodEle_EoP",500,0,5); h_goodEle_EoP->Sumw2();
+   TH1F *h_goodEle_EoP_Barrel = new TH1F ("goodEle_EoP_Barrel","goodEle_EoP_Barrel",500,0,5); h_goodEle_EoP_Barrel->Sumw2();
+   TH1F *h_goodEle_EoP_Endcap = new TH1F ("goodEle_EoP_Endcap","goodEle_EoP_Endcap",500,0,5); h_goodEle_EoP_Endcap->Sumw2();
+
    TH1F *h_goodSCPt = new TH1F ("goodSCPt","goodSCPt",100,0,100); h_goodSCPt->Sumw2();
    TH1F *h_goodSCEta = new TH1F ("goodSCEta","goodSCEta",100,-3.,3.); h_goodSCEta->Sumw2();
    TH1F *h_goodSCPt_Barrel = new TH1F ("goodSCPt_Barrel","goodSCPt_Barrel",100,0,100); h_goodSCPt_Barrel->Sumw2();
@@ -98,43 +103,32 @@ void analysisClass::Loop()
    TH1F *h_eta_failHLT = new TH1F("eta_failHLT","eta_failHLT",500,-3.0,3.0);
    TH1F *h_phi_failHLT = new TH1F("phi_failHLT","phi_failHLT",100,-3.5,3.5);
 
-   TH1F *h_probPt1stSc_lsjj = new TH1F ("probPt1stSc_lsjj","probPt1stSc_lsjj",200,0,1000);  h_probPt1stSc_lsjj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc_lsjj = new TH1F ("actualPt1stSc_lsjj","actualPt1stSc_lsjj",200,0,1000);  h_actualPt1stSc_lsjj->Sumw2();  //N events with at least 1 HEEP ele
-   TH1F *h_probSt_lsjj = new TH1F ("probSt_lsjj","probSt_lsjj",200,0,1000);  h_probSt_lsjj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt_lsjj = new TH1F ("actualSt_lsjj","actualSt_lsjj",200,0,1000);  h_actualSt_lsjj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_IsoSuperClusterHEEPEcalIso_barrel = new TH1F("IsoSuperClusterHEEPEcalIso_barrel","IsoSuperClusterHEEPEcalIso_barrel",100,0,10);
+   TH1F *h_IsoSuperClusterEta_barrel = new TH1F("IsoSuperClusterEta_barrel","IsoSuperClusterEta_barrel",100,-3,3);
+   TH1F *h_IsoSuperClusterHEEPTrkIso_barrel = new TH1F("IsoSuperClusterHEEPTrkIso_barrel","IsoSuperClusterHEEPTrkIso_barrel",100,0,15);
+   TH1F *h_IsoSuperClusterHoE_barrel = new TH1F("IsoSuperClusterHoE_barrel","IsoSuperClusterHoE_barrel",200,0,0.2);
+   TH1F *h_IsoSuperClusterPhi_barrel = new TH1F("IsoSuperClusterPhi_barrel","IsoSuperClusterPhi_barrel",100,-3.5,3.5);
+   TH1F *h_IsoSuperClusterPt_barrel = new TH1F("IsoSuperClusterPt_barrel","IsoSuperClusterPt_barrel",100,0,400);
+   TH1F *h_IsoSuperClusterS4S1_barrel = new TH1F("IsoSuperClusterS4S1_barrel","IsoSuperClusterS4S1_barrel",100,0,1.0);
+   TH1F *h_IsoSuperClusterSigmaIEtaIEta_barrel = new TH1F("IsoSuperClusterSigmaIEtaIEta_barrel","IsoSuperClusterSigmaIEtaIEta_barrel",100,0,0.1);
+   TH1F *h_IsoSuperClusterDrTrack1_barrel = new TH1F("IsoSuperClusterDrTrack1_barrel","IsoSuperClusterDrTrack1_barrel",300,0,3.0);
 
-   TH1F *h_probPt1stSc_tsj = new TH1F ("probPt1stSc_tsj","probPt1stSc_tsj",200,0,1000);  h_probPt1stSc_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt1stSc_tsj = new TH1F ("actualPt1stSc_tsj","actualPt1stSc_tsj",200,0,1000);  h_actualPt1stSc_tsj->Sumw2();  //N events with at least 1 HEEP ele
+   TH1F *h_IsoSuperClusterHEEPEcalIso_endcap = new TH1F("IsoSuperClusterHEEPEcalIso_endcap","IsoSuperClusterHEEPEcalIso_endcap",100,0,10);
+   TH1F *h_IsoSuperClusterEta_endcap = new TH1F("IsoSuperClusterEta_endcap","IsoSuperClusterEta_endcap",100,-3,3);
+   TH1F *h_IsoSuperClusterHEEPTrkIso_endcap = new TH1F("IsoSuperClusterHEEPTrkIso_endcap","IsoSuperClusterHEEPTrkIso_endcap",100,0,15);
+   TH1F *h_IsoSuperClusterHoE_endcap = new TH1F("IsoSuperClusterHoE_endcap","IsoSuperClusterHoE_endcap",200,0,0.2);
+   TH1F *h_IsoSuperClusterPhi_endcap = new TH1F("IsoSuperClusterPhi_endcap","IsoSuperClusterPhi_endcap",100,-3.5,3.5);
+   TH1F *h_IsoSuperClusterPt_endcap = new TH1F("IsoSuperClusterPt_endcap","IsoSuperClusterPt_endcap",100,0,400);
+   TH1F *h_IsoSuperClusterS4S1_endcap = new TH1F("IsoSuperClusterS4S1_endcap","IsoSuperClusterS4S1_endcap",100,0,1.0);
+   TH1F *h_IsoSuperClusterSigmaIEtaIEta_endcap = new TH1F("IsoSuperClusterSigmaIEtaIEta_endcap","IsoSuperClusterSigmaIEtaIEta_endcap",100,0,0.1);
+   TH1F *h_IsoSuperClusterDrTrack1_endcap = new TH1F("IsoSuperClusterDrTrack1_endcap","IsoSuperClusterDrTrack1_endcap",300,0,3.0);
 
-   TH1F *h_probPt2ndSc_tsj = new TH1F ("probPt2ndSc_tsj","probPt2ndSc_tsj",200,0,1000);  h_probPt2ndSc_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPt2ndSc_tsj = new TH1F ("actualPt2ndSc_tsj","actualPt2ndSc_tsj",200,0,1000);  h_actualPt2ndSc_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probEtaJet_tsj = new TH1F ("probEtaJet_tsj","probEtaJet_tsj",600,-3.,3.);  h_probEtaJet_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualEtaJet_tsj = new TH1F ("actualEtaJet_tsj","actualEtaJet_tsj",600,-3.,3.);  h_actualEtaJet_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probEta1stSc_tsj = new TH1F ("probEta1stSc_tsj","probEta1stSc_tsj",600,-3.,3.);  h_probEta1stSc_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualEta1stSc_tsj = new TH1F ("actualEta1stSc_tsj","actualEta1stSc_tsj",600,-3.,3.);  h_actualEta1stSc_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probSt_tsj = new TH1F ("probSt_tsj","probSt_tsj",200,0,1000);  h_probSt_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualSt_tsj = new TH1F ("actualSt_tsj","actualSt_tsj",200,0,1000);  h_actualSt_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probStSC_tsj = new TH1F ("probStSC_tsj","probStSC_tsj",200,0,1000);  h_probStSC_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualStSC_tsj = new TH1F ("actualStSC_tsj","actualStSC_tsj",200,0,1000);  h_actualStSC_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probMET_tsj = new TH1F ("probMET_tsj","probMET_tsj",200,0,1000);  h_probMET_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualMET_tsj = new TH1F ("actualMET_tsj","actualMET_tsj",200,0,1000);  h_actualMET_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probCaloMET_tsj = new TH1F ("probCaloMET_tsj","probCaloMET_tsj",200,0,1000);  h_probCaloMET_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualCaloMET_tsj = new TH1F ("actualCaloMET_tsj","actualCaloMET_tsj",200,0,1000);  h_actualCaloMET_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probPtJet_tsj = new TH1F ("probPtJet_tsj","probPtJet_tsj",200,0,1000);  h_probPtJet_tsj->Sumw2();  //N events based on fake rate
-   TH1F *h_actualPtJet_tsj = new TH1F ("actualPtJet_tsj","actualPtJet_tsj",200,0,1000);  h_actualPtJet_tsj->Sumw2();  //N events with at least 1 HEEP ele
-
-   TH1F *h_probPt1stSc_tt = new TH1F ("probPt1stSc_tt","probPt1stSc_tt",200,0,1000);  h_probPt1stSc_tt->Sumw2();  //N events based on fake rate
-   TH1F *h_probPt1stSc_ttjj = new TH1F ("probPt1stSc_ttjj","probPt1stSc_ttjj",200,0,1000);  h_probPt1stSc_ttjj->Sumw2();  //N events based on fake rate
-   TH1F *h_probSt_ttjj = new TH1F ("probSt_ttjj","probSt_ttjj",200,0,1000);  h_probSt_ttjj->Sumw2();  //N events based on fake rate
-   TH1F *h_probPt1stSc_tljj = new TH1F ("probPt1stSc_tljj","probPt1stSc_tljj",200,0,1000);  h_probPt1stSc_tljj->Sumw2();  //N events based on fake rate
-   TH1F *h_probSt_tljj = new TH1F ("probSt_tljj","probSt_tljj",200,0,1000);  h_probSt_tljj->Sumw2();  //N events based on fake rate
+   TH2D *h_IsoSuperClusterPt_S4S1_barrel = new TH2D("IsoSuperClusterPt_S4S1_barrel","IsoSuperClusterPt_S4S1_barrel",100,0,400,110,0,1.1);
+   TH2D *h_IsoSuperClusterPt_S4S1_endcap = new TH2D("IsoSuperClusterPt_S4S1_endcap","IsoSuperClusterPt_S4S1_endcap",100,0,400,110,0,1.1);
+   TH2D *h_IsoSuperClusterPt_Phi_barrel = new TH2D("IsoSuperClusterPt_Phi_barrel","IsoSuperClusterPt_Phi_barrel",100,0,400,100,-3.5,3.5);
+   TH2D *h_IsoSuperClusterPt_Phi_endcap = new TH2D("IsoSuperClusterPt_Phi_endcap","IsoSuperClusterPt_Phi_endcap",100,0,400,100,-3.5,3.5);
+   TH2D *h_IsoSuperClusterEta_Phi = new TH2D("IsoSuperClusterEta_Phi","IsoSuperClusterEta_Phi",100,-3.5,3.5,100,-3.5,3.5);
+  
 
    /////////initialize variables
    double FailRate = 0;
@@ -167,7 +161,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<5000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<50;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -175,6 +169,8 @@ void analysisClass::Loop()
     //if (Cut(ientry) < 0) continue;
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
+
+    //if (PtHat>=30) continue;
 
     //## HLT
 
@@ -344,9 +340,9 @@ void analysisClass::Loop()
       if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
       if (!Barrel && !Endcap) continue;
 
-      if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
+      //if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      //if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      //if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
 
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
@@ -374,9 +370,9 @@ void analysisClass::Loop()
       if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
       if (!Barrel && !Endcap) continue;
 
-      if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
+      //if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      //if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      //if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
 
       if (SuperClusterHoE->at(isc)<0.05) {
 	v_idx_sc.push_back(isc);
@@ -401,24 +397,6 @@ void analysisClass::Loop()
 	v_idx_jet_PtCut.push_back(ijet);
       } // jet loop
 
-	 ///// take the two leading iso SC out of the jet collection
-// 	 TVector3 jet_vec;
-// 	 jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
-// 	 float minDRsc = 99;
-// 	 int idx_nearest_sc = -1;
-// 	 for(int isc=0;isc<v_idx_sc.size();isc++)
-// 	     {
-// 	       if (isc>1) continue; // only remove two leading sc from jet collection
-// 	       TVector3 sc_vec;
-// 	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc[isc]),
-// 				  SuperClusterEta->at(v_idx_sc[isc]),
-// 				  SuperClusterPhi->at(v_idx_sc[isc]));
-// 	       float DR = jet_vec.DeltaR(sc_vec);
-// 	       if (DR<minDRsc) {
-// 		 minDRsc = DR;
-// 		 idx_nearest_sc = isc;
-// 	       }
-// 	     }
 
     vector <int> jetFlags(v_idx_jet_PtCut.size(), 0);
     int Njetflagged = 0;
@@ -462,8 +440,37 @@ void analysisClass::Loop()
 	
       } // End loop over jets
 
-     //find dR between isoSC and jets
+    // make new collection of back to back sc
+     vector<int> v_idx_sc_dPhi;
+    for(int isc=0;isc<v_idx_sc.size();isc++)
+	   {
+	     //Require dPhi>3.0 between SC and JET
+	     TVector3 sc_vec;
+	     sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc[isc]),
+			   SuperClusterEta->at(v_idx_sc[isc]),
+			   SuperClusterPhi->at(v_idx_sc[isc]));
+	     double dPhi_SC_Jet=0;
+	     for (int ijet=0;ijet<v_idx_jet_PtCut.size();ijet++){
+	       TVector3 jet_vec;
+	       jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
+			    CaloJetEta->at(v_idx_jet_PtCut[ijet]),
+			    CaloJetPhi->at(v_idx_jet_PtCut[ijet]));
+	       double deltaPhi=fabs(jet_vec.DeltaPhi(sc_vec));
+	       if (deltaPhi>dPhi_SC_Jet)dPhi_SC_Jet=deltaPhi;
+	     }
+	     if (dPhi_SC_Jet>=3.0) v_idx_sc_dPhi.push_back(v_idx_sc[isc]);
+	     h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
+	   }
 
+//     cout << "Iso SC: " << endl;
+//     for(int isc=0;isc<v_idx_sc.size();isc++) cout << SuperClusterPt->at(v_idx_sc[isc]) << endl;
+//     cout << "Back to Back Iso SC: " << endl;
+//     for(int isc=0;isc<v_idx_sc_dPhi.size();isc++) cout << SuperClusterPt->at(v_idx_sc_dPhi[isc]) << endl;
+//     cout << endl;
+    
+
+
+     //find dR between isoSC and jets
     float smallest_ScJet_dR = 99;
     for (int ijet=0; ijet<v_idx_jet_PtCut_noOvrlap.size(); ijet++){
       if (ijet>1) break; // only care about two leading jets
@@ -473,13 +480,13 @@ void analysisClass::Loop()
 			       CaloJetPhi->at(v_idx_jet_PtCut_noOvrlap[ijet]));
       float minDR = 99;
       int idx_nearest_sc = -1;
-      for(int isc=0;isc<v_idx_sc.size();isc++)
+      for(int isc=0;isc<v_idx_sc_dPhi.size();isc++)
 	  {
 	    if (isc>1) break; //only care about two leading SC
 	    TVector3 sc_vec;
-	    sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc[isc]),
-				  SuperClusterEta->at(v_idx_sc[isc]),
-				  SuperClusterPhi->at(v_idx_sc[isc]));
+	    sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_dPhi[isc]),
+				  SuperClusterEta->at(v_idx_sc_dPhi[isc]),
+				  SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
 	    float DR = jet_vec.DeltaR(sc_vec);
 	    if (DR<minDR) {
 		 minDR = DR;
@@ -489,7 +496,6 @@ void analysisClass::Loop()
        if (minDR!=99) h_dR_JetSC->Fill(minDR);
        if (minDR<smallest_ScJet_dR) smallest_ScJet_dR= minDR;
     }
-
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
@@ -505,90 +511,48 @@ void analysisClass::Loop()
 
     //## SC
     fillVariableWithValue( "nIsoSC", v_idx_sc.size() );
-    //fillVariableWithValue( "nIsoSC",v_idx_sc_barrel.size() );
 
     // nEle
-    fillVariableWithValue( "nEle_all", v_idx_ele_all.size() ) ;
-    fillVariableWithValue( "nEle_PtCut", v_idx_ele_PtCut.size() ) ;
     fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp", v_idx_ele_HEEP.size() ) ;
      
     // nJet
-    fillVariableWithValue( "nJet_all", v_idx_jet_all.size() ) ;
     fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
-    fillVariableWithValue( "nJet_PtCut_noOvrlpSC", v_idx_jet_PtCut_noOvrlap.size() ) ;
+
+    // dPhi SC-Jet
+    fillVariableWithValue("nSC_BackToBack", v_idx_sc_dPhi.size());
 
     // 1st SC
-    if( v_idx_sc.size() >= 1 ) 
+    if( v_idx_sc_dPhi.size() >= 1 ) 
       {
-	fillVariableWithValue( "Pt1stSC_ISO", SuperClusterPt->at(v_idx_sc[0]) );
-	fillVariableWithValue( "Eta1stSC_ISO", SuperClusterEta->at(v_idx_sc[0]) );
-	fillVariableWithValue( "mEta1stSC_ISO", fabs(SuperClusterEta->at(v_idx_sc[0])) );
-      }
-
-    // 2nd SC
-    if( v_idx_sc.size() >= 2 ) 
-      {
-	fillVariableWithValue( "Pt2ndSC_ISO", SuperClusterPt->at(v_idx_sc[1]) );
-	fillVariableWithValue( "Eta2ndSC_ISO", SuperClusterEta->at(v_idx_sc[1]) );
-	fillVariableWithValue( "mEta2ndSC_ISO", fabs(SuperClusterEta->at(v_idx_sc[1])) );
-	fillVariableWithValue( "maxMEtaSC_ISO", max( getVariableValue("mEta1stSC_ISO"), getVariableValue("mEta2ndSC_ISO") ) );
+	fillVariableWithValue( "Pt1stSC_ISO", SuperClusterPt->at(v_idx_sc_dPhi[0]) );
+	fillVariableWithValue( "Eta1stSC_ISO", SuperClusterEta->at(v_idx_sc_dPhi[0]) );
       }
 
     // 1st jet
     if( v_idx_jet_PtCut_noOvrlap.size() >= 1 ) 
       {
-	fillVariableWithValue( "Pt1stJet_noOvrlpSC", CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[0]) );
-	fillVariableWithValue( "Eta1stJet_noOvrlpSC", CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[0]) );
-	fillVariableWithValue( "mEta1stJet_noOvrlpSC", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[0])) );
-      }
-
-
-    //cout << "2nd Jet" << endl;
-    //## 2nd jet
-    if( v_idx_jet_PtCut_noOvrlap.size() >= 2 ) 
-      {
-	fillVariableWithValue( "Pt2ndJet_noOvrlpSC", CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[1]) );
-	fillVariableWithValue( "Eta2ndJet_noOvrlpSC", CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[1]) );
-	fillVariableWithValue( "mEta2ndJet_noOvrlpSC", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[1])) );
-	fillVariableWithValue( "maxMEtaJets_noOvrlpSC", max( getVariableValue("mEta1stJet_noOvrlpSC"), getVariableValue("mEta2ndJet_noOvrlpSC") ) );
-      }
-
-
-    //## define "2ele" and "2jets" booleans
-    bool TwoEle=false;
-    bool TwoSC=false;
-    bool TwoJets=false;
-    if( v_idx_ele_HEEP.size() >= 2 ) TwoEle = true;
-    if( v_idx_jet_PtCut_noOvrlap.size() >= 2 ) TwoJets = true;
-    if( v_idx_sc.size()>= 2) TwoSC = true;
-
-    // ST
-    double calc_sT=-999.; 
-    if ( (TwoSC) && (TwoJets) ) 
-      {
-	calc_sT = 
-	  SuperClusterPt->at(v_idx_sc[0]) +
-	  SuperClusterPt->at(v_idx_sc[1]) +
-	  CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[0]) +
-	  CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[1]);
-	fillVariableWithValue("sT", calc_sT);
+	fillVariableWithValue( "Pt1stJet_noOvrlpSC", CaloJetPt->at(v_idx_jet_PtCut[0]) );
+	fillVariableWithValue( "Eta1stJet_noOvrlpSC", CaloJetEta->at(v_idx_jet_PtCut[0]) );
       }
 
     // Mee
-    float MEE = 0;
-    if (TwoSC)
+    float MEE = -0.5;  // set slightly larger than 0 so that events with 1 sc still pass the 0<MEE<60 cut
+    if (v_idx_sc_dPhi.size()>= 2)
       {
 	TLorentzVector ele1, ele2, ee;
-	ele1.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc[0]),
-			  SuperClusterEta->at(v_idx_sc[0]),
-			  SuperClusterPhi->at(v_idx_sc[0]),0);
-	ele2.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc[1]),
-			  SuperClusterEta->at(v_idx_sc[1]),
-			  SuperClusterPhi->at(v_idx_sc[1]),0);
+	ele1.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_dPhi[0]),
+			  SuperClusterEta->at(v_idx_sc_dPhi[0]),
+			  SuperClusterPhi->at(v_idx_sc_dPhi[0]),0);
+	ele2.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_dPhi[1]),
+			  SuperClusterEta->at(v_idx_sc_dPhi[1]),
+			  SuperClusterPhi->at(v_idx_sc_dPhi[1]),0);
 	ee = ele1+ele2;
 	MEE=ee.M();
-	fillVariableWithValue("Mee", ee.M());
       }
+	fillVariableWithValue("Mee",MEE);
+
+    // MET
+    fillVariableWithValue("MET",PFMET->at(0));
 
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
@@ -598,131 +562,64 @@ void analysisClass::Loop()
      }
 
      // Fill histograms and do analysis based on cut evaluation
-     if (v_idx_sc.size()>0 && !passedCut("HLT")){
+     if (v_idx_sc_dPhi.size()>0 && !passedCut("HLT")){
        NFailHLT++;
-       h_eta_failHLT->Fill(SuperClusterEta->at(v_idx_sc[0]));
-       h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc[0]));
+       h_eta_failHLT->Fill(SuperClusterEta->at(v_idx_sc_dPhi[0]));
+       h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_dPhi[0]));
      }
-
-     /// Fill ssjj prediction plots
-     /////////////////////////////////////////////////
-     if (!passedCut("dR_SCJet")) continue;  //leading 2 sc close to jets
-
-     ///////// set cuts files such that level 0 = initial event cuts, level 1 = two sc, level 2 = one jet, level 3 = 2 jets
-
-	 double BarrelCross_loose = getPreCutValue1("FakeRate_loose_BarrelCross");
-	 double BarrelSlope_loose = getPreCutValue1("FakeRate_loose_BarrelSlope");
-	 double EndcapCross_loose = getPreCutValue1("FakeRate_loose_EndcapCross");
-	 double EndcapSlope_loose = getPreCutValue1("FakeRate_loose_EndcapSlope");
-
-	 double BarrelCross_tight = getPreCutValue1("FakeRate_tight_BarrelCross");
-	 double BarrelSlope_tight = getPreCutValue1("FakeRate_tight_BarrelSlope");
-	 double EndcapCross_tight = getPreCutValue1("FakeRate_tight_EndcapCross");
-	 double EndcapSlope_tight = getPreCutValue1("FakeRate_tight_EndcapSlope");
-
-	 double probSC1_loose = 0, probSC2_loose = 0;
-	 double probSC1_tight = 0, probSC2_tight = 0;
-	 double weight_tl =0, weight_tt=0;
-
-     if( passedCut("0")&&passedCut("1") ) 
-       {
-	 if (fabs(SuperClusterEta->at(v_idx_sc[0]))<eleEta_bar) probSC1_loose = BarrelCross_loose + BarrelSlope_loose*SuperClusterPt->at(v_idx_sc[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc[0]))>eleEta_end_min) probSC1_loose = EndcapCross_loose + EndcapSlope_loose*SuperClusterPt->at(v_idx_sc[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc[1]))<eleEta_bar) probSC2_loose = BarrelCross_loose + BarrelSlope_loose*SuperClusterPt->at(v_idx_sc[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc[1]))>eleEta_end_min) probSC2_loose = EndcapCross_loose + EndcapSlope_loose*SuperClusterPt->at(v_idx_sc[1]);
-
-	 if (fabs(SuperClusterEta->at(v_idx_sc[0]))<eleEta_bar) probSC1_tight = BarrelCross_tight + BarrelSlope_tight*SuperClusterPt->at(v_idx_sc[0]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc[0]))>eleEta_end_min) probSC1_tight = EndcapCross_tight + EndcapSlope_tight*SuperClusterPt->at(v_idx_sc[0]) ;
-	 if (fabs(SuperClusterEta->at(v_idx_sc[1]))<eleEta_bar) probSC2_tight = BarrelCross_tight + BarrelSlope_tight*SuperClusterPt->at(v_idx_sc[1]);
-	 if (fabs(SuperClusterEta->at(v_idx_sc[1]))>eleEta_end_min) probSC2_tight = EndcapCross_tight + EndcapSlope_tight*SuperClusterPt->at(v_idx_sc[1]);
-
-	 weight_tl = (probSC1_loose*probSC2_tight) + (probSC1_tight*probSC2_loose) - (probSC1_tight*probSC2_tight) ;
-	 weight_tt = (probSC1_tight*probSC2_tight) ;
-
-	 h_probPt1stSc_tt->Fill(SuperClusterPt->at(v_idx_sc[0]),weight_tt);
-       }
-      
-     if( passedCut("0")&&passedCut("1")&&passedCut("2") ) 
-       {
-	 double sT_3 = SuperClusterPt->at(v_idx_sc[0]) + SuperClusterPt->at(v_idx_sc[1]) + CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[0]);
-	 double sT_SC = SuperClusterPt->at(v_idx_sc[0]) + SuperClusterPt->at(v_idx_sc[1]);
-	 if (v_idx_ele_HEEP.size()==1){
-	   h_actualPt1stSc_tsj->Fill(SuperClusterPt->at(v_idx_sc[0]));
-	   h_actualPt2ndSc_tsj->Fill(SuperClusterPt->at(v_idx_sc[1]));
-	   h_actualEta1stSc_tsj->Fill(SuperClusterEta->at(v_idx_sc[0]));
-	   h_actualPtJet_tsj->Fill(CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[0]));
-	   h_actualEtaJet_tsj->Fill(CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[0]));
-	   h_actualSt_tsj->Fill(sT_3);
-	   h_actualStSC_tsj->Fill(sT_SC);
-	   h_actualMET_tsj->Fill(PFMET->at(0));
-	   h_actualCaloMET_tsj->Fill(CaloMET->at(0));
-	 }
-	 h_probEta1stSc_tsj->Fill(SuperClusterEta->at(v_idx_sc[0]),probSC1_tight+probSC2_tight);
-	 h_probPt1stSc_tsj->Fill(SuperClusterPt->at(v_idx_sc[0]),probSC1_tight+probSC2_tight);
-	 h_probPt2ndSc_tsj->Fill(SuperClusterPt->at(v_idx_sc[1]),probSC1_tight+probSC2_tight);
-	 h_probSt_tsj->Fill(sT_3,probSC1_tight+probSC2_tight);
-	 h_probStSC_tsj->Fill(sT_SC,probSC1_tight+probSC2_tight);
-	 h_probPtJet_tsj->Fill(CaloJetPt->at(v_idx_jet_PtCut_noOvrlap[0]),probSC1_tight+probSC2_tight);
-	 h_probEtaJet_tsj->Fill(CaloJetEta->at(v_idx_jet_PtCut_noOvrlap[0]),probSC1_tight+probSC2_tight);
-	 h_probMET_tsj->Fill(PFMET->at(0),probSC1_tight+probSC2_tight);
-	 h_probCaloMET_tsj->Fill(CaloMET->at(0),probSC1_tight+probSC2_tight);
-       }
-
-     if( passedCut("0")&&passedCut("1")&&passedCut("2")&&passedCut("3") ) 
-       {
-	 if (v_idx_ele_HEEP_loose.size()==1){
-	   h_actualPt1stSc_lsjj->Fill(ElectronSCPt->at(v_idx_ele_HEEP_loose[0]));
-	   h_actualSt_lsjj->Fill(calc_sT);
-	 }
-
-	 h_probPt1stSc_lsjj->Fill(SuperClusterPt->at(v_idx_sc[0]),probSC1_loose+probSC2_loose);
-	 h_probSt_lsjj->Fill(calc_sT,probSC1_loose+probSC2_loose);
-
-	 h_probPt1stSc_tljj->Fill(SuperClusterPt->at(v_idx_sc[0]), weight_tl);
-	 h_probSt_tljj->Fill(calc_sT, weight_tl);
-
-	 h_probPt1stSc_ttjj->Fill(SuperClusterPt->at(v_idx_sc[0]), weight_tt);
-	 h_probSt_ttjj->Fill(calc_sT, weight_tt);
-       }
 
 
      /// Fill fake rate plots
      ///////////////////////////////////////
-     if ( (MEE>60)&&(MEE<120)) continue; // reject Zs
-     if (PFMET->at(0) > 10) continue; // get rid of Ws
-	 for(int isc=0;isc<v_idx_sc.size();isc++)
+     if (passedCut("0")){
+	 for(int isc=0;isc<v_idx_sc_dPhi.size();isc++)
 	   {
-	     //Require dR>3.0 between SC and JET
-	     TVector3 sc_vec;
-	     sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc[isc]),
-			   SuperClusterEta->at(v_idx_sc[isc]),
-			   SuperClusterPhi->at(v_idx_sc[isc]));
-	     double dPhi_SC_Jet=0;
-	     for (int ijet=0;ijet<v_idx_jet_PtCut.size();ijet++){
-	       TVector3 jet_vec;
-	       jet_vec.SetPtEtaPhi(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
-			    CaloJetEta->at(v_idx_jet_PtCut[ijet]),
-			    CaloJetPhi->at(v_idx_jet_PtCut[ijet]));
-	       double deltaPhi=fabs(jet_vec.DeltaPhi(sc_vec));
-	       if (deltaPhi>dPhi_SC_Jet)dPhi_SC_Jet=deltaPhi;
-	     }
-	     if (dPhi_SC_Jet<3.0) continue;
-	     h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
-
-	     h_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc[isc]));
-	     h_goodSCEta->Fill(SuperClusterEta->at(v_idx_sc[isc]));
-	     h_loose_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc[isc]));
-	     h_loose_goodSCEta->Fill(SuperClusterEta->at(v_idx_sc[isc]));
+	     h_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	     h_goodSCEta->Fill(SuperClusterEta->at(v_idx_sc_dPhi[isc]));
+	     h_loose_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	     h_loose_goodSCEta->Fill(SuperClusterEta->at(v_idx_sc_dPhi[isc]));
 
 	     bool Barrel = false;
 	     bool Endcap = false;
-	     if (fabs(SuperClusterEta->at(v_idx_sc[isc]))<1.45) Barrel = true;
-	     if (fabs(SuperClusterEta->at(v_idx_sc[isc]))>eleEta_end_min && fabs(SuperClusterEta->at(v_idx_sc[isc]))<eleEta_end_max) Endcap = true;
+	     if (fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))<1.45) Barrel = true;
+	     if (fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))>eleEta_end_min && fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))<eleEta_end_max) Endcap = true;
 
-	     if (Barrel) h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc[isc]));
-	     if (Endcap) h_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc[isc]));
-	     if (Barrel) h_loose_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc[isc]));
-	     if (Endcap) h_loose_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc[isc]));
+	     if (Barrel) {
+	       h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	       h_loose_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterHEEPEcalIso_barrel->Fill(SuperClusterHEEPEcalIso->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterEta_barrel->Fill(SuperClusterEta->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterHEEPTrkIso_barrel->Fill(SuperClusterHEEPTrkIso->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterHoE_barrel->Fill(SuperClusterHoE->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPhi_barrel->Fill(SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPt_barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterS4S1_barrel->Fill(SuperClusterS4S1->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterSigmaIEtaIEta_barrel->Fill(SuperClusterSigmaIEtaIEta->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterDrTrack1_barrel->Fill(SuperClusterDrTrack1->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPt_S4S1_barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]),SuperClusterS4S1->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPt_Phi_barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]),SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
+	     }
+
+	     if (Endcap){
+	       h_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	       h_loose_goodSCPt_Endcap->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterHEEPEcalIso_endcap->Fill(SuperClusterHEEPEcalIso->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterEta_endcap->Fill(SuperClusterEta->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterHEEPTrkIso_endcap->Fill(SuperClusterHEEPTrkIso->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterHoE_endcap->Fill(SuperClusterHoE->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPhi_endcap->Fill(SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPt_endcap->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterS4S1_endcap->Fill(SuperClusterS4S1->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterSigmaIEtaIEta_endcap->Fill(SuperClusterSigmaIEtaIEta->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterDrTrack1_endcap->Fill(SuperClusterDrTrack1->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPt_S4S1_endcap->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]),SuperClusterS4S1->at(v_idx_sc_dPhi[isc]));
+	       h_IsoSuperClusterPt_Phi_endcap->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]),SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
+	     }
+
+	       TVector3 sc_vec;
+	       sc_vec.SetPtEtaPhi(SuperClusterPt->at(v_idx_sc_dPhi[isc]),
+			   SuperClusterEta->at(v_idx_sc_dPhi[isc]),
+			   SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
 
 	     ///  see if there is a HEEP ele to match this
 	     double deltaR_ele_sc = 99;
@@ -747,6 +644,16 @@ void analysisClass::Loop()
 		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<eleEta_bar) Barrel = true;
 		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))>eleEta_end_min && fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<eleEta_end_max) Endcap = true;
 		
+		double E = ElectronPt->at(v_idx_ele_HEEP[idx_HEEP]);
+		double P = ElectronTrackPt->at(v_idx_ele_HEEP[idx_HEEP]);
+		double EoP = -99;
+		if (P!=0) {
+		  EoP = E / P;
+		  h_goodEle_EoP->Fill(EoP);
+		  if (Barrel) h_goodEle_EoP_Barrel->Fill(EoP);
+		  if (Endcap) h_goodEle_EoP_Endcap->Fill(EoP);
+		}
+
 		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		}
@@ -780,7 +687,7 @@ void analysisClass::Loop()
 		}
 	   } // for sc
 
-
+	 } // if passed cuts "ALL"
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
   } // End of loop over events
@@ -798,6 +705,9 @@ void analysisClass::Loop()
    h_goodEleSCEta->Write();
    h_goodEleSCPt_Barrel->Write();
    h_goodEleSCPt_Endcap->Write();
+   h_goodEle_EoP->Write();
+   h_goodEle_EoP_Barrel->Write();
+   h_goodEle_EoP_Endcap->Write();
    h_loose_goodEleSCPt->Write();
    h_loose_goodEleSCEta->Write();
    h_loose_goodEleSCPt_Barrel->Write();
@@ -814,35 +724,21 @@ void analysisClass::Loop()
    h_eta_failHLT->Write();
    h_phi_failHLT->Write();
 
-   h_probPt1stSc_lsjj->Write();
-   h_actualPt1stSc_lsjj->Write();
-   h_probSt_lsjj->Write();
-   h_actualSt_lsjj->Write();
+  h_IsoSuperClusterHEEPEcalIso_endcap->Write();
+  h_IsoSuperClusterEta_endcap->Write(); 
+  h_IsoSuperClusterHEEPTrkIso_endcap->Write();
+  h_IsoSuperClusterHoE_endcap->Write();
+  h_IsoSuperClusterPhi_endcap->Write();
+  h_IsoSuperClusterPt_endcap->Write();
+  h_IsoSuperClusterS4S1_endcap->Write();
+  h_IsoSuperClusterSigmaIEtaIEta_endcap->Write();
+  h_IsoSuperClusterDrTrack1_endcap->Write();
 
-   h_probPt1stSc_tsj->Write();
-   h_actualPt1stSc_tsj->Write();
-   h_probPt2ndSc_tsj->Write();
-   h_actualPt2ndSc_tsj->Write();
-   h_probEta1stSc_tsj->Write();
-   h_actualEta1stSc_tsj->Write();
-   h_probPtJet_tsj->Write();
-   h_actualPtJet_tsj->Write();
-   h_probEtaJet_tsj->Write();
-   h_actualEtaJet_tsj->Write();
-   h_probSt_tsj->Write();
-   h_actualSt_tsj->Write();
-   h_probStSC_tsj->Write();
-   h_actualStSC_tsj->Write();
-   h_probMET_tsj->Write();
-   h_actualMET_tsj->Write();
-   h_probCaloMET_tsj->Write();
-   h_actualCaloMET_tsj->Write();
-
-   h_probPt1stSc_tt->Write();
-   h_probPt1stSc_ttjj->Write();
-   h_probSt_ttjj->Write();
-   h_probPt1stSc_tljj->Write();
-   h_probSt_tljj->Write();
+  h_IsoSuperClusterPt_S4S1_barrel->Write();
+  h_IsoSuperClusterPt_S4S1_endcap->Write();
+  h_IsoSuperClusterPt_Phi_barrel->Write();
+  h_IsoSuperClusterPt_Phi_endcap->Write();
+  h_IsoSuperClusterEta_Phi->Write();
 
    FailRate = 100 * NFailHLT/HasSC;
    //cout << "NFail: " << NFailHLT << "\t" << "FailRate: " << FailRate << " %" << endl;
