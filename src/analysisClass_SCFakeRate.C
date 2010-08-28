@@ -340,9 +340,9 @@ void analysisClass::Loop()
       if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
       if (!Barrel && !Endcap) continue;
 
-      //if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      //if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      //if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
+      if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
 
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
@@ -370,9 +370,9 @@ void analysisClass::Loop()
       if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
       if (!Barrel && !Endcap) continue;
 
-      //if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      //if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
-      //if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
+      if (Barrel && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
+      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
 
       if (SuperClusterHoE->at(isc)<0.05) {
 	v_idx_sc.push_back(isc);
@@ -584,6 +584,7 @@ void analysisClass::Loop()
 	     if (fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))<1.45) Barrel = true;
 	     if (fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))>eleEta_end_min && fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))<eleEta_end_max) Endcap = true;
 
+	     h_IsoSuperClusterEta_Phi->Fill(SuperClusterEta->at(v_idx_sc_dPhi[isc]),SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
 	     if (Barrel) {
 	       h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
 	       h_loose_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
@@ -723,6 +724,16 @@ void analysisClass::Loop()
 
    h_eta_failHLT->Write();
    h_phi_failHLT->Write();
+
+  h_IsoSuperClusterHEEPEcalIso_barrel->Write();
+  h_IsoSuperClusterEta_barrel->Write(); 
+  h_IsoSuperClusterHEEPTrkIso_barrel->Write();
+  h_IsoSuperClusterHoE_barrel->Write();
+  h_IsoSuperClusterPhi_barrel->Write();
+  h_IsoSuperClusterPt_barrel->Write();
+  h_IsoSuperClusterS4S1_barrel->Write();
+  h_IsoSuperClusterSigmaIEtaIEta_barrel->Write();
+  h_IsoSuperClusterDrTrack1_barrel->Write();
 
   h_IsoSuperClusterHEEPEcalIso_endcap->Write();
   h_IsoSuperClusterEta_endcap->Write(); 
