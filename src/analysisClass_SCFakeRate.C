@@ -68,8 +68,10 @@ void analysisClass::Loop()
    TH2F *h2_DebugTrig = new TH2F("DebugTrig","DebugTrig;HLTResults;HLTBits",2,0,2,2,0,2);
    
    TH1F *h_dPhi_JetSC = new TH1F("dPhi_JetSC","dPhi_JetSC",650,0,6.5); h_dPhi_JetSC->Sumw2();
+   TH1F *h_dR_EleSC = new TH1F("dR_EleSC","dR_EleSC",100,0,1.0); h_dR_EleSC->Sumw2();
    TH1F *h_dR_JetSC = new TH1F("dR_JetSC","dR_JetSC",600,0,3.0); h_dR_JetSC->Sumw2();
    TH1F *h_NisoSC = new TH1F ("NisoSC","NisoSC",6,-0.5,5.5);  h_NisoSC->Sumw2();
+   TH1F *h_NisoSC_nearEle = new TH1F ("NisoSC_nearEle","NisoSC_nearEle",6,-0.5,5.5);  h_NisoSC_nearEle->Sumw2();
 
    TH1F *h_goodEleSCPt = new TH1F ("goodEleSCPt","goodEleSCPt",100,0,100); h_goodEleSCPt->Sumw2();
    TH1F *h_goodEleSCEta = new TH1F ("goodEleSCEta","goodEleSCEta",100,-3.,3.); h_goodEleSCEta->Sumw2();
@@ -462,6 +464,26 @@ void analysisClass::Loop()
 	     h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
 	   }
 
+    for (int iele=0; iele<v_idx_ele_HEEP.size(); iele++){
+    double minDr_Ele_Sc = 99;
+    vector<int> closeSC;
+	TLorentzVector ele_vec;
+        ele_vec.SetPtEtaPhiM(  ElectronPt->at(v_idx_ele_HEEP[iele]),
+			       ElectronEta->at(v_idx_ele_HEEP[iele]),
+			       ElectronPhi->at(v_idx_ele_HEEP[iele]),0);
+	for (int isc=0; isc<v_idx_sc_dPhi.size(); isc++){
+	  TLorentzVector sc;
+	  sc.SetPtEtaPhiM(  SuperClusterPt->at(v_idx_sc_dPhi[isc]),
+			 SuperClusterEta->at(v_idx_sc_dPhi[isc]),
+			 SuperClusterPhi->at(v_idx_sc_dPhi[isc]),0);
+	  double dR = ele_vec.DeltaR(sc);
+	  if (dR<minDr_Ele_Sc) minDr_Ele_Sc=dR;
+	  if (dR<0.3) closeSC.push_back(iele);
+	}
+	h_dR_EleSC->Fill(minDr_Ele_Sc);
+	h_NisoSC_nearEle->Fill(closeSC.size());
+    }
+
 //     cout << "Iso SC: " << endl;
 //     for(int isc=0;isc<v_idx_sc.size();isc++) cout << SuperClusterPt->at(v_idx_sc[isc]) << endl;
 //     cout << "Back to Back Iso SC: " << endl;
@@ -516,7 +538,7 @@ void analysisClass::Loop()
     fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp", v_idx_ele_HEEP.size() ) ;
      
     // nJet
-    fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
+    fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut_noOvrlap.size() ) ;
 
     // dPhi SC-Jet
     fillVariableWithValue("nSC_BackToBack", v_idx_sc_dPhi.size());
@@ -701,7 +723,10 @@ void analysisClass::Loop()
 
    h_dPhi_JetSC->Write();
    h_dR_JetSC->Write();
+   h_dR_EleSC->Write();
    h_NisoSC->Write();
+   h_NisoSC_nearEle->Write();
+
    h_goodEleSCPt->Write();
    h_goodEleSCEta->Write();
    h_goodEleSCPt_Barrel->Write();
