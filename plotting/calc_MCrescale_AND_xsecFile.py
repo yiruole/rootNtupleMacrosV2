@@ -203,9 +203,9 @@ File_preselection = GetFile("$LQDATA/eejj_analysis/830nb-1/output_cutTable_eejjS
 #--- Rescaling of Z/gamma + jet background
 
 #-----------------------------------------
-h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() # MC all
-h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() # MC Z
-h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() #DATA
+h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC all
+h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC Z
+h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() #DATA
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_Mee
