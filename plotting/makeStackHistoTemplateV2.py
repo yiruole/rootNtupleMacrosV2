@@ -225,7 +225,7 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v3/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v4/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 #File_selection    = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v3/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 File_selection    = GetFile("$LQDATA/eejj_analysis/1.1pb-1/output_cutTable_eejjSample_Mee100_St280/analysisClass_eejjSample_plots.root")
@@ -929,8 +929,10 @@ plot13.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot13.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
-plot13.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+#plot13.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
+#plot13.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot13.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200]
+plot13.keys            = ["LQ eejj M100","LQ eejj M200"]
 plot13.xtit            = "M(ee) (GeV/c^{2})"
 plot13.ytit            = "Number of events"
 # plot13.ylog            = "yes"
