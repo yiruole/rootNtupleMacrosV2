@@ -1001,8 +1001,10 @@ plot14.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot14.histos          = [h_Mjj_FullPreSel_LQeejj_M100, h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
-plot14.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+#plot14.histos          = [h_Mjj_FullPreSel_LQeejj_M100, h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
+#plot14.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot14.histos          = [h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
+plot14.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot14.xtit            = "M(jj) (GeV/c^{2})"
 plot14.ytit            = "Number of events"
 # plot14.ylog            = "yes"
