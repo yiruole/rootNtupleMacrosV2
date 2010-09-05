@@ -111,6 +111,9 @@ sTjet_PAS                       -inf	     +inf               -               -  
 sT_PAS                          -inf	     +inf               -               -               2       200 0 2000
 Mej_1stPair_PAS                 -inf	     +inf               -               -               2       200 0 2000
 Mej_2ndPair_PAS                 -inf	     +inf               -               -               2       200 0 2000
+pfMET_PAS			-inf         +inf               -               -               2       200 0 2000
+tcMET_PAS			-inf         +inf               -               -               2       200 0 2000
+caloMET_PAS			-inf         +inf               -               -               2       200 0 2000
 #
 Mee                             100	     +inf               -               -               3       200 0 1000
 sT                              280	     +inf               -               -               3       200 0 2000

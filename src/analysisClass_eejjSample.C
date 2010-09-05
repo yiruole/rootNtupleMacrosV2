@@ -444,6 +444,12 @@ void analysisClass::Loop()
     fillVariableWithValue( "nJet_PAS_All", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
     fillVariableWithValue( "nJet_PAS_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
 
+    // MET
+    //PAS June 2010
+    fillVariableWithValue( "pfMET_PAS", PFMET->at(0) ) ;
+    fillVariableWithValue( "tcMET_PAS", TCMET->at(0) ) ;
+    fillVariableWithValue( "caloMET_PAS", CaloMET->at(0) ) ;
+
     // 1st ele
     if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) 
       {
@@ -707,6 +713,36 @@ void analysisClass::Loop()
     //h_nEleFinal->Fill( ElectronPt->size() );
      
 
+    //Large MET events passing pre-selection
+    float METcut = 60;
+    if( variableIsFilled("pfMET_PAS") && passedAllPreviousCuts("pfMET_PAS") && isData==true) 
+      {
+
+	if( getVariableValue("pfMET_PAS") > METcut )
+	  {
+
+	    STDOUT("pfMET>60GeV: ----------- START ------------");
+
+	    STDOUT("pfMET>60GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);	    
+	    if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )	      
+	      STDOUT("pfMET>60GeV: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+	    if( variableIsFilled("Pt2ndEle_PAS") && variableIsFilled("Eta2ndEle_PAS") )	      
+	      STDOUT("pfMET>60GeV: Pt2ndEle_PAS,Eta2ndEle_PAS = "<<getVariableValue("Pt2ndEle_PAS")<<",\t"<<getVariableValue("Eta2ndEle_PAS"));
+	    if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )	      
+	      STDOUT("pfMET>60GeV: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+	    if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )	      
+	      STDOUT("pfMET>60GeV: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+	    if( variableIsFilled("Mee_PAS") && variableIsFilled("Mjj_PAS") )	      
+	      STDOUT("pfMET>60GeV: Mee_PAS,Mjj_PAS = "<<getVariableValue("Mee_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+	    if( variableIsFilled("pfMET_PAS") && variableIsFilled("caloMET_PAS") )	      
+	      STDOUT("pfMET>60GeV: pfMET_PAS,caloMET_PAS = "<<getVariableValue("pfMET_PAS")<<",\t"<<getVariableValue("caloMET_PAS"));
+
+	    STDOUT("pfMET>60GeV: ------------ END -------------");
+
+	  }
+      }
+
+
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
     //      double totpTEle;
@@ -715,8 +751,8 @@ void analysisClass::Loop()
     //      // reject events that did not pass level 0 cuts
     //      if( !passedCut("0") ) continue;
     //      // ......
-    
-     
+
+        
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
   } // End of loop over events
