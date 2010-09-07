@@ -734,6 +734,9 @@ void analysisClass::Loop()
 	      STDOUT("pfMET>60GeV: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
 	    if( variableIsFilled("Mee_PAS") && variableIsFilled("Mjj_PAS") )	      
 	      STDOUT("pfMET>60GeV: Mee_PAS,Mjj_PAS = "<<getVariableValue("Mee_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+	    if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )	      
+	      STDOUT("pfMET>60GeV: Mej_1stPair_PAS,Mej_2ndPair_PAS = "<<getVariableValue("Mej_1stPair_PAS")
+		     <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
 	    if( variableIsFilled("pfMET_PAS") && variableIsFilled("caloMET_PAS") )	      
 	      STDOUT("pfMET>60GeV: pfMET_PAS,caloMET_PAS = "<<getVariableValue("pfMET_PAS")<<",\t"<<getVariableValue("caloMET_PAS"));
 
