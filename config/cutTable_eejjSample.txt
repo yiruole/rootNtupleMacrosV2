@@ -15,13 +15,13 @@
 #------------	      ------------	-------------	------------	-------------	-----
 #eleFidRegion	      2.5		-		-		-		-1	
 #jetFidRegion	      2.5		-		-		-		-1	
-ele_PtCut	      25		-		-		-		-1
+ele_PtCut	      30		-		-		-		-1
 # no longer used since using heepBitMask # eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
 heepBitMask_EBGapEE   0x000	        0x000           0x010           -               -1
 looseBitMask_EBGapEE  0xf00		0xf00           0xf00           0               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
-jet_PtCut             20           -                    -               -               -1
+jet_PtCut             30           -                    -               -               -1
 jet_EtaCut            3.0          -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.3          -                    -               -               -1
@@ -68,10 +68,10 @@ PassHLT				-inf	     +inf		-		-		1	2 -0.5 1.5
 nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut_IDISO_noOvrlp	1	     +inf		-		-		1	16 -0.5 15.5
-Pt1stEle_IDISO_NoOvrlp          25	     +inf               -               -               1       100 0 1000
+Pt1stEle_IDISO_NoOvrlp          30	     +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf	     +inf               -               -               1       100 -5 5
 mEta1stEle_IDISO_NoOvrlp        -inf	     2.5                -               -               1       50 0 5
-Pt2ndEle_IDISO_NoOvrlp          25	     +inf               -               -               1       100 0 1000
+Pt2ndEle_IDISO_NoOvrlp          30	     +inf               -               -               1       100 0 1000
 Eta2ndEle_IDISO_NoOvrlp         -inf	     +inf               -               -               1       100 -5 5
 mEta2ndEle_IDISO_NoOvrlp        -inf	     2.5                -               -               1       50 0 5
 maxMEtaEles_IDISO_NoOvrl        -inf	     +inf               -               -               1       50 0 5
@@ -84,15 +84,16 @@ nJet_all                        -inf	     +inf               -               -  
 nJet_PtCut                      -inf	     +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp		-inf	     +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID		1	     +inf               -               -               2       16 -0.5 15.5
-Pt1stJet_noOvrlp_ID		20	     +inf               -               -               2       100 0 1000
+Pt1stJet_noOvrlp_ID		30	     +inf               -               -               2       100 0 1000
 Eta1stJet_noOvrlp_ID		-inf	     +inf               -               -               2       100 -5 5
 mEta1stJet_noOvrlp_ID		-inf	     3.0                -               -               2       50 0 5
-Pt2ndJet_noOvrlp_ID		20	     +inf               -               -               2       100 0 1000
+Pt2ndJet_noOvrlp_ID		30	     +inf               -               -               2       100 0 1000
 Eta2ndJet_noOvrlp_ID		-inf	     +inf               -               -               2       100 -5 5
 mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -               2       50 0 5
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               2       50 0 5
 minDRej_selecPairs		0.7	     +inf		-		-		2	100 0 10
 minDRej_unselPairs		0.7	     +inf		-		-		2	100 0 10
+Mee_presel			50	     +inf               -               -               2       200 0 1000
 #
 nJet_PAS_All			-inf	     +inf               -               -               2       16 -0.5 15.5
 nJet_PAS_EtaCut			-inf	     +inf               -               -               2       16 -0.5 15.5
@@ -116,13 +117,17 @@ tcMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 #
 Mee                             100	     +inf               -               -               3       200 0 1000
-sT                              280	     +inf               -               -               3       200 0 2000
+sT                              -inf	     +inf               -               -               3       200 0 2000
+sT_MLQ200                       280	     +inf               -               -               3       200 0 2000
 #
 minDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
 maxDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
 Mej_1stPair                     -inf	     +inf               -               -               4       200 0 2000
 Mej_2ndPair                     -inf	     +inf               -               -               4       200 0 2000
 #
+sT_MLQ250                       330	     +inf               -               -               3       200 0 2000
+sT_MLQ300                       380	     +inf               -               -               3       200 0 2000
+sT_MLQ400                       460	     +inf               -               -               3       200 0 2000
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
