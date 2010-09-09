@@ -63,7 +63,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "1.1 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "2.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -225,10 +225,10 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_DeltaR07/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10_noDeltaEtaIn_EE/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/collisions/254nb-1/output_elePt25_jetPt10/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v5_metStudy/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj_analysis/2.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 #File_selection    = GetFile("$LQDATA/eejj_analysis/1.1pb-1_v3/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
-File_selection    = GetFile("$LQDATA/eejj_analysis/1.1pb-1/output_cutTable_eejjSample_Mee100_St280/analysisClass_eejjSample_plots.root")
+File_selection    = GetFile("$LQDATA/eejj_analysis/2.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
@@ -236,13 +236,13 @@ otherBkgsKey="Other Bkgs"
 zUncBand="no"
 
 pt_xmin=0
-pt_xmax=250
+pt_xmax=400
 pt_ymin=0.001
-pt_ymax=200
+pt_ymax=300
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=60
+eta_ymax=30
 
 
 
@@ -276,8 +276,8 @@ plot0.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot0.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
-plot0.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot0.histos          = [h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
+plot0.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot0.xtit            = "M(ee) (GeV/c^{2})"
 plot0.ytit            = "Number of events"
 # plot0.ylog            = "yes"
@@ -287,7 +287,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 300
+plot0.ymax            = 700
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -303,16 +303,16 @@ plot0_ylog.histosStack     = [h_Mee_TTbar, h_Mee_ZJetAlpgen, h_Mee_OTHERBKG]
 plot0_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot0_ylog.histos          = [h_Mee_LQeejj_M100, h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
-plot0_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot0_ylog.histos          = [h_Mee_LQeejj_M200, h_Mee_LQeejj_M300]
+plot0_ylog.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot0_ylog.xtit            = "M(ee) (GeV/c^{2})"
 plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 1
 plot0_ylog.ymin            = 0.001
-plot0_ylog.ymax            = 500
+plot0_ylog.ymax            = 1000
 plot0_ylog.xmin            = 0
-plot0_ylog.xmax            = 400
+plot0_ylog.xmax            = 1000
 #plot0_ylog.lpos = "bottom-center"
 plot0_ylog.name            = "Mee_allPreviousCuts"
 plot0_ylog.addZUncBand     = zUncBand
@@ -342,8 +342,8 @@ plot1.histosStack     = [h_nEle_TTbar, h_nEle_ZJetAlpgen, h_nEle_OTHERBKG]
 plot1.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot1.histos          = [h_nEle_LQeejj_M100, h_nEle_LQeejj_M200, h_nEle_LQeejj_M300]
-plot1.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot1.histos          = [h_nEle_LQeejj_M200, h_nEle_LQeejj_M300]
+plot1.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot1.xtit            = "Number of electrons"
 plot1.ytit            = "Number of events"
 plot1.ylog            = "yes"
@@ -381,8 +381,8 @@ plot2.histosStack     = [h_pT1stEle_TTbar, h_pT1stEle_ZJetAlpgen, h_pT1stEle_OTH
 plot2.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot2.histos          = [h_pT1stEle_LQeejj_M100, h_pT1stEle_LQeejj_M200, h_pT1stEle_LQeejj_M300]
-plot2.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot2.histos          = [h_pT1stEle_LQeejj_M200, h_pT1stEle_LQeejj_M300]
+plot2.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot2.xtit            = "pT 1st electron (GeV/c)"
 plot2.ytit            = "Number of events"
 plot2.ylog            = "yes"
@@ -420,8 +420,8 @@ plot3.histosStack     = [h_Eta1stEle_TTbar, h_Eta1stEle_ZJetAlpgen, h_Eta1stEle_
 plot3.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot3.histos          = [h_Eta1stEle_LQeejj_M100, h_Eta1stEle_LQeejj_M200, h_Eta1stEle_LQeejj_M300]
-plot3.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot3.histos          = [h_Eta1stEle_LQeejj_M200, h_Eta1stEle_LQeejj_M300]
+plot3.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot3.xtit            = "#eta 1st electron"
 plot3.ytit            = "Number of events"
 plot3.rebin           = eta_rebin
@@ -457,8 +457,8 @@ plot4.histosStack     = [h_pT2ndEle_TTbar, h_pT2ndEle_ZJetAlpgen, h_pT2ndEle_OTH
 plot4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot4.histos          = [h_pT2ndEle_LQeejj_M100, h_pT2ndEle_LQeejj_M200, h_pT2ndEle_LQeejj_M300]
-plot4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot4.histos          = [h_pT2ndEle_LQeejj_M200, h_pT2ndEle_LQeejj_M300]
+plot4.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot4.xtit            = "pT 2nd electron (GeV/c)"
 plot4.ytit            = "Number of events"
 plot4.ylog            = "yes"
@@ -496,8 +496,8 @@ plot5.histosStack     = [h_Eta2ndEle_TTbar, h_Eta2ndEle_ZJetAlpgen, h_Eta2ndEle_
 plot5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot5.histos          = [h_Eta2ndEle_LQeejj_M100, h_Eta2ndEle_LQeejj_M200, h_Eta2ndEle_LQeejj_M300]
-plot5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot5.histos          = [h_Eta2ndEle_LQeejj_M200, h_Eta2ndEle_LQeejj_M300]
+plot5.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot5.xtit            = "#eta 2nd electron"
 plot5.ytit            = "Number of events"
 plot5.rebin           = eta_rebin
@@ -533,8 +533,8 @@ plot6.histosStack     = [h_nJet_TTbar, h_nJet_ZJetAlpgen, h_nJet_OTHERBKG]
 plot6.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot6.histos          = [h_nJet_LQeejj_M100, h_nJet_LQeejj_M200, h_nJet_LQeejj_M300]
-plot6.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot6.histos          = [h_nJet_LQeejj_M200, h_nJet_LQeejj_M300]
+plot6.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot6.xtit            = "Number of jets"
 plot6.ytit            = "Number of events"
 plot6.ylog            = "yes"
@@ -542,7 +542,7 @@ plot6.rebin           = 1
 plot6.xmin            = 0
 plot6.xmax            = 12
 plot6.ymin            = 0.01
-plot6.ymax            = 700
+plot6.ymax            = 2000
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.addZUncBand     = zUncBand
@@ -574,8 +574,8 @@ plot7.histosStack     = [h_Pt1stJet_TTbar, h_Pt1stJet_ZJetAlpgen, h_Pt1stJet_OTH
 plot7.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot7.histos          = [h_Pt1stJet_LQeejj_M100, h_Pt1stJet_LQeejj_M200, h_Pt1stJet_LQeejj_M300]
-plot7.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot7.histos          = [h_Pt1stJet_LQeejj_M200, h_Pt1stJet_LQeejj_M300]
+plot7.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot7.xtit            = "pT 1st jet (GeV/c)"
 plot7.ytit            = "Number of events"
 plot7.ylog            = "yes"
@@ -614,8 +614,8 @@ plot8.histosStack     = [h_Eta1stJet_TTbar, h_Eta1stJet_ZJetAlpgen, h_Eta1stJet_
 plot8.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot8.histos          = [h_Eta1stJet_LQeejj_M100, h_Eta1stJet_LQeejj_M200, h_Eta1stJet_LQeejj_M300]
-plot8.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot8.histos          = [h_Eta1stJet_LQeejj_M200, h_Eta1stJet_LQeejj_M300]
+plot8.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot8.xtit            = "#eta 1st jet"
 plot8.ytit            = "Number of events"
 plot8.rebin           = eta_rebin
@@ -651,8 +651,8 @@ plot9.histosStack     = [h_Pt2ndJet_TTbar, h_Pt2ndJet_ZJetAlpgen, h_Pt2ndJet_OTH
 plot9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot9.histos          = [h_Pt2ndJet_LQeejj_M100, h_Pt2ndJet_LQeejj_M200, h_Pt2ndJet_LQeejj_M300]
-plot9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot9.histos          = [h_Pt2ndJet_LQeejj_M200, h_Pt2ndJet_LQeejj_M300]
+plot9.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot9.xtit            = "pT 2nd jet (GeV/c)"
 plot9.ytit            = "Number of events"
 plot9.ylog            = "yes"
@@ -690,8 +690,8 @@ plot10.histosStack     = [h_Eta2ndJet_TTbar, h_Eta2ndJet_ZJetAlpgen, h_Eta2ndJet
 plot10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot10.histos          = [h_Eta2ndJet_LQeejj_M100, h_Eta2ndJet_LQeejj_M200, h_Eta2ndJet_LQeejj_M300]
-plot10.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot10.histos          = [h_Eta2ndJet_LQeejj_M200, h_Eta2ndJet_LQeejj_M300]
+plot10.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot10.xtit            = "#eta 2nd jet"
 plot10.ytit            = "Number of events"
 plot10.rebin           = eta_rebin
@@ -728,8 +728,8 @@ plot11.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_OTHERBKG]
 plot11.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot11.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
-plot11.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot11.histos          = [h_sT_LQeejj_M200, h_sT_LQeejj_M300]
+plot11.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot11.xtit            = "St (GeV/c)"
 plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
@@ -771,8 +771,8 @@ plot11_ele.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_OTHERBKG]
 plot11_ele.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot11_ele.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
-plot11_ele.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot11_ele.histos          = [h_sT_LQeejj_M200, h_sT_LQeejj_M300]
+plot11_ele.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot11_ele.xtit            = "St electrons (GeV/c)"
 plot11_ele.ytit            = "Number of events"
 #plot11_ele.xlog            = "yes"
@@ -814,8 +814,8 @@ plot11_jet.histosStack     = [h_sT_TTbar, h_sT_ZJetAlpgen, h_sT_OTHERBKG]
 plot11_jet.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot11_jet.histos          = [h_sT_LQeejj_M100, h_sT_LQeejj_M200, h_sT_LQeejj_M300]
-plot11_jet.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot11_jet.histos          = [h_sT_LQeejj_M200, h_sT_LQeejj_M300]
+plot11_jet.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot11_jet.xtit            = "St jets (GeV/c)"
 plot11_jet.ytit            = "Number of events"
 #plot11_jet.xlog            = "yes"
@@ -884,14 +884,14 @@ plot12 = Plot()
 plot12.histosStack     = [h_Mej_presel_TTbar, h_Mej_presel_ZJetAlpgen, h_Mej_presel_OTHERBKG]
 plot12.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot12.histos          = [h_Mej_presel_LQeejj_M100, h_Mej_presel_LQeejj_M200, h_Mej_presel_LQeejj_M300]
-plot12.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot12.histos          = [h_Mej_presel_LQeejj_M200, h_Mej_presel_LQeejj_M300]
+plot12.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot12.xtit            = "Mej (GeV/c^{2})"
 plot12.ytit            = "Number of events x 2"
 plot12.ylog            = "yes"
 plot12.rebin           = 2
 plot12.xmin            = 0
-plot12.xmax            = 600
+plot12.xmax            = 1000
 plot12.ymin            = 0.001
 plot12.ymax            = 500
 #plot12.lpos = "bottom-center"
@@ -931,8 +931,8 @@ plot13.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 #plot13.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
 #plot13.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
-plot13.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200]
-plot13.keys            = ["LQ eejj M100","LQ eejj M200"]
+plot13.histos          = [h_Mee_FullPreSel_LQeejj_M200]
+plot13.keys            = ["LQ eejj M200"]
 plot13.xtit            = "M(ee) (GeV/c^{2})"
 plot13.ytit            = "Number of events"
 # plot13.ylog            = "yes"
@@ -942,7 +942,7 @@ plot13.ytit            = "Number of events"
 plot13.ylog            = "no"
 plot13.rebin           = 1
 plot13.ymin            = 0
-plot13.ymax            = 20
+plot13.ymax            = 40
 plot13.xmin            = 0
 plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
@@ -958,8 +958,8 @@ plot13_ylog.histosStack     = [h_Mee_FullPreSel_TTbar, h_Mee_FullPreSel_ZJetAlpg
 plot13_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot13_ylog.histos          = [h_Mee_FullPreSel_LQeejj_M100, h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
-plot13_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot13_ylog.histos          = [h_Mee_FullPreSel_LQeejj_M200, h_Mee_FullPreSel_LQeejj_M300]
+plot13_ylog.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot13_ylog.xtit            = "M(ee) (GeV/c^{2})"
 plot13_ylog.ytit            = "Number of events"
 plot13_ylog.ylog            = "yes"
@@ -967,7 +967,7 @@ plot13_ylog.rebin           = 1 # don't change it (since a rebinning is already 
 plot13_ylog.ymin            = 0.001
 plot13_ylog.ymax            = 100
 plot13_ylog.xmin            = 0
-plot13_ylog.xmax            = 400
+plot13_ylog.xmax            = 1000
 #plot13_ylog.lpos = "bottom-center"
 plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
 plot13_ylog.addZUncBand     = zUncBand
@@ -1016,7 +1016,7 @@ plot14.rebin           = 1
 plot14.ymin            = 0
 plot14.ymax            = 10
 plot14.xmin            = 0
-plot14.xmax            = 600
+plot14.xmax            = 1000
 #plot14.lpos = "bottom-center"
 plot14.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
@@ -1030,8 +1030,8 @@ plot14_ylog.histosStack     = [h_Mjj_FullPreSel_TTbar, h_Mjj_FullPreSel_ZJetAlpg
 plot14_ylog.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot14_ylog.histos          = [h_Mjj_FullPreSel_LQeejj_M100, h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
-plot14_ylog.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot14_ylog.histos          = [h_Mjj_FullPreSel_LQeejj_M200, h_Mjj_FullPreSel_LQeejj_M300]
+plot14_ylog.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot14_ylog.xtit            = "M(jj) (GeV/c^{2})"
 plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
@@ -1039,7 +1039,7 @@ plot14_ylog.rebin           = 1 # don't change it (since a rebinning is already 
 plot14_ylog.ymin            = 0.001
 plot14_ylog.ymax            = 100
 plot14_ylog.xmin            = 0
-plot14_ylog.xmax            = 600
+plot14_ylog.xmax            = 1000
 #plot14_ylog.lpos = "bottom-center"
 plot14_ylog.name            = "Mjj_FullPreSel_allPreviousCuts"
 plot14_ylog.addZUncBand     = zUncBand
@@ -1087,8 +1087,8 @@ plot2and4.histosStack     = [h_pTEles_TTbar, h_pTEles_ZJetAlpgen, h_pTEles_OTHER
 plot2and4.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot2and4.histos          = [h_pTEles_LQeejj_M100, h_pTEles_LQeejj_M200, h_pTEles_LQeejj_M300]
-plot2and4.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot2and4.histos          = [h_pTEles_LQeejj_M200, h_pTEles_LQeejj_M300]
+plot2and4.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot2and4.xtit            = "pT electrons (GeV/c)"
 plot2and4.ytit            = "Number of events x 2"
 plot2and4.ylog            = "yes"
@@ -1140,8 +1140,8 @@ plot3and5.histosStack     = [h_etaEles_TTbar, h_etaEles_ZJetAlpgen, h_etaEles_OT
 plot3and5.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot3and5.histos          = [h_etaEles_LQeejj_M100, h_etaEles_LQeejj_M200, h_etaEles_LQeejj_M300]
-plot3and5.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot3and5.histos          = [h_etaEles_LQeejj_M200, h_etaEles_LQeejj_M300]
+plot3and5.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot3and5.xtit            = "#eta electrons"
 plot3and5.ytit            = "Number of events x 2"
 plot3and5.rebin           = eta_rebin/2
@@ -1192,8 +1192,8 @@ plot7and9.histosStack     = [h_pTJets_TTbar, h_pTJets_ZJetAlpgen, h_pTJets_OTHER
 plot7and9.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot7and9.histos          = [h_pTJets_LQeejj_M100, h_pTJets_LQeejj_M200, h_pTJets_LQeejj_M300]
-plot7and9.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot7and9.histos          = [h_pTJets_LQeejj_M200, h_pTJets_LQeejj_M300]
+plot7and9.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot7and9.xtit            = "pT jets (GeV/c)"
 plot7and9.ytit            = "Number of events x 2"
 plot7and9.ylog            = "yes"
@@ -1245,8 +1245,8 @@ plot8and10.histosStack     = [h_etaJets_TTbar, h_etaJets_ZJetAlpgen, h_etaJets_O
 plot8and10.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot8and10.histos          = [h_etaJets_LQeejj_M100, h_etaJets_LQeejj_M200, h_etaJets_LQeejj_M300]
-plot8and10.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot8and10.histos          = [h_etaJets_LQeejj_M200, h_etaJets_LQeejj_M300]
+plot8and10.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot8and10.xtit            = "#eta jets"
 plot8and10.ytit            = "Number of events x 2"
 plot8and10.rebin           = eta_rebin/2
@@ -1285,17 +1285,17 @@ plot15.histosStack     = [h_pfMET_TTbar, h_pfMET_ZJetAlpgen, h_pfMET_OTHERBKG]
 plot15.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot15.histos          = [h_pfMET_LQeejj_M100, h_pfMET_LQeejj_M200, h_pfMET_LQeejj_M300, h_pfMET_LQeejj_M400, h_pfMET_LQeejj_M500]
-plot15.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300", "LQ eejj M400", "LQ eejj M500"]
+plot15.histos          = [h_pfMET_LQeejj_M200, h_pfMET_LQeejj_M300, h_pfMET_LQeejj_M400, h_pfMET_LQeejj_M500]
+plot15.keys            = ["LQ eejj M200","LQ eejj M300", "LQ eejj M400", "LQ eejj M500"]
 plot15.xtit            = "pfMET (GeV/c)"
 plot15.ytit            = "Number of events"
 #plot15.xlog            = "yes"
 plot15.ylog            = "yes"
 plot15.rebin           = 1
 plot15.xmin            = 0
-plot15.xmax            = 400
+plot15.xmax            = 300
 plot15.ymin            = 0.001
-plot15.ymax            = 100
+plot15.ymax            = 400
 #plot15.lpos = "bottom-center"
 plot15.name            = "pfMET_allPreviousCuts"
 plot15.addZUncBand     = zUncBand
@@ -1328,17 +1328,17 @@ plot16.histosStack     = [h_caloMET_TTbar, h_caloMET_ZJetAlpgen, h_caloMET_OTHER
 plot16.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot16.histos          = [h_caloMET_LQeejj_M100, h_caloMET_LQeejj_M200, h_caloMET_LQeejj_M300, h_caloMET_LQeejj_M400, h_caloMET_LQeejj_M500]
-plot16.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300", "LQ eejj M400", "LQ eejj M500"]
+plot16.histos          = [h_caloMET_LQeejj_M200, h_caloMET_LQeejj_M300, h_caloMET_LQeejj_M400, h_caloMET_LQeejj_M500]
+plot16.keys            = ["LQ eejj M200","LQ eejj M300", "LQ eejj M400", "LQ eejj M500"]
 plot16.xtit            = "caloMET (GeV/c)"
 plot16.ytit            = "Number of events"
 #plot16.xlog            = "yes"
 plot16.ylog            = "yes"
 plot16.rebin           = 1
 plot16.xmin            = 0
-plot16.xmax            = 400
+plot16.xmax            = 300
 plot16.ymin            = 0.001
-plot16.ymax            = 100
+plot16.ymax            = 500
 #plot16.lpos = "bottom-center"
 plot16.name            = "caloMET_allPreviousCuts"
 plot16.addZUncBand     = zUncBand
@@ -1366,11 +1366,10 @@ plot20.keysStack       = [
     "ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot20.histos          = [
-    GetHisto("histo1D__LQeejj_M100__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
     GetHisto("histo1D__LQeejj_M200__cutHisto_allOtherCuts___________sT", File_selection).Clone(),
     GetHisto("histo1D__LQeejj_M300__cutHisto_allOtherCuts___________sT", File_selection).Clone()
     ]
-plot20.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot20.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot20.xtit            = "St (GeV/c)"
 plot20.ytit            = "Number of events"
 plot20.ylog            = "yes"
@@ -1421,8 +1420,8 @@ plot21 = Plot()
 plot21.histosStack     = [h_Mej_TTbar, h_Mej_ZJetAlpgen, h_Mej_OTHERBKG]
 plot21.keysStack       = ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-plot21.histos          = [h_Mej_LQeejj_M100, h_Mej_LQeejj_M200, h_Mej_LQeejj_M300]
-plot21.keys            = ["LQ eejj M100","LQ eejj M200","LQ eejj M300"]
+plot21.histos          = [h_Mej_LQeejj_M200, h_Mej_LQeejj_M300]
+plot21.keys            = ["LQ eejj M200","LQ eejj M300"]
 plot21.xtit            = "Mej (GeV/c^{2})"
 plot21.ytit            = "Number of events x 2"
 plot21.ylog            = "yes"
