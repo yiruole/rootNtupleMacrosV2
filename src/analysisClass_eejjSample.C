@@ -73,7 +73,59 @@ void analysisClass::Loop()
 
   TH1F *h_Mej_PAS = new TH1F ("h_Mej_PAS","h_Mej_PAS",200,0,2000);  h_Mej_PAS->Sumw2();
 
+  TH1F *h_ElectronDeltaEtaTrkSC_barrel_heep = new TH1F ("h_ElectronDeltaEtaTrkSC_barrel_heep","h_ElectronDeltaEtaTrkSC_barrel_heep",200,-0.05,0.05);
+  TH1F *h_ElectronDeltaPhiTrkSC_barrel_heep = new TH1F ("h_ElectronDeltaPhiTrkSC_barrel_heep","h_ElectronDeltaPhiTrkSC_barrel_heep",200,-0.5,0.5);
+  TH1F *h_ElectronHoE_barrel_heep = new TH1F ("h_ElectronHoE_barrel_heep","h_ElectronHoE_barrel_heep",75,0,0.15);
+  TH1F *h_ElectronSigmaIEtaIEta_barrel_heep = new TH1F ("h_ElectronSigmaIEtaIEta_barrel_heep","h_ElectronSigmaIEtaIEta_barrel_heep",100,0,0.1);
+  TH1F *h_ElectronE2x5OverE5x5_barrel_heep = new TH1F ("h_ElectronE2x5OverE5x5_barrel_heep","h_ElectronE2x5OverE5x5_barrel_heep",100,0,1);
+  TH1F *h_ElectronE1x5OverE5x5_barrel_heep = new TH1F ("h_ElectronE1x5OverE5x5_barrel_heep","h_ElectronE1x5OverE5x5_barrel_heep",100,0,1);
+  TH1F *h_ElectronEcalIsoHeep_barrel_heep = new TH1F ("h_ElectronEcalIsoHeep_barrel_heep","h2_ElectronEcalIsoHeep_barrel_heep",100,0,50);
+  TH1F *h_ElectronHcalIsoD1Heep_barrel_heep = new TH1F ("h_ElectronHcalIsoD1Heep_barrel_heep","h_ElectronHcalIsoD1Heep_barrel_heep",100,0,50);
+  TH1F *h_ElectronHcalIsoD2Heep_barrel_heep = new TH1F ("h_ElectronHcalIsoD2Heep_barrel_heep","h_ElectronHcalIsoD2Heep_barrel_heep",100,0,50);
+  TH1F *h_ElectronTrkIsoHeep_barrel_heep = new TH1F ("h_ElectronTrkIsoHeep_barrel_heep","h_ElectronTrkIsoHeep_barrel_heep",100,0,50);
   
+  h_ElectronDeltaEtaTrkSC_barrel_heep->Sumw2();
+  h_ElectronDeltaPhiTrkSC_barrel_heep->Sumw2();
+  h_ElectronHoE_barrel_heep->Sumw2();
+  h_ElectronSigmaIEtaIEta_barrel_heep->Sumw2();
+  h_ElectronE2x5OverE5x5_barrel_heep->Sumw2();
+  h_ElectronE1x5OverE5x5_barrel_heep->Sumw2();
+  h_ElectronEcalIsoHeep_barrel_heep->Sumw2();
+  h_ElectronHcalIsoD1Heep_barrel_heep->Sumw2();
+  h_ElectronHcalIsoD2Heep_barrel_heep->Sumw2();
+  h_ElectronTrkIsoHeep_barrel_heep->Sumw2();
+
+  TH1F *h_ElectronDeltaEtaTrkSC_endcap_heep = new TH1F ("h_ElectronDeltaEtaTrkSC_endcap_heep","h_ElectronDeltaEtaTrkSC_endcap_heep",200,-0.05,0.05);
+  TH1F *h_ElectronDeltaPhiTrkSC_endcap_heep = new TH1F ("h_ElectronDeltaPhiTrkSC_endcap_heep","h_ElectronDeltaPhiTrkSC_endcap_heep",200,-0.5,0.5);
+  TH1F *h_ElectronHoE_endcap_heep = new TH1F ("h_ElectronHoE_endcap_heep","h_ElectronHoE_endcap_heep",75,0,0.15);
+  TH1F *h_ElectronSigmaIEtaIEta_endcap_heep = new TH1F ("h_ElectronSigmaIEtaIEta_endcap_heep","h_ElectronSigmaIEtaIEta_endcap_heep",100,0,0.1);
+  TH1F *h_ElectronE2x5OverE5x5_endcap_heep = new TH1F ("h_ElectronE2x5OverE5x5_endcap_heep","h_ElectronE2x5OverE5x5_endcap_heep",100,0,1);
+  TH1F *h_ElectronE1x5OverE5x5_endcap_heep = new TH1F ("h_ElectronE1x5OverE5x5_endcap_heep","h_ElectronE1x5OverE5x5_endcap_heep",100,0,1);
+  TH1F *h_ElectronEcalIsoHeep_endcap_heep = new TH1F ("h_ElectronEcalIsoHeep_endcap_heep","h2_ElectronEcalIsoHeep_endcap_heep",500,0,100);
+  TH1F *h_ElectronHcalIsoD1Heep_endcap_heep = new TH1F ("h_ElectronHcalIsoD1Heep_endcap_heep","h_ElectronHcalIsoD1Heep_endcap_heep",500,0,100);
+  TH1F *h_ElectronHcalIsoD2Heep_endcap_heep = new TH1F ("h_ElectronHcalIsoD2Heep_endcap_heep","h_ElectronHcalIsoD2Heep_endcap_heep",200,0,100);
+  TH1F *h_ElectronTrkIsoHeep_endcap_heep = new TH1F ("h_ElectronTrkIsoHeep_endcap_heep","h_ElectronTrkIsoHeep_endcap_heep",200,0,100);
+  
+  h_ElectronDeltaEtaTrkSC_endcap_heep->Sumw2();
+  h_ElectronDeltaPhiTrkSC_endcap_heep->Sumw2();
+  h_ElectronHoE_endcap_heep->Sumw2();
+  h_ElectronSigmaIEtaIEta_endcap_heep->Sumw2();
+  h_ElectronE2x5OverE5x5_endcap_heep->Sumw2();
+  h_ElectronE1x5OverE5x5_endcap_heep->Sumw2();
+  h_ElectronEcalIsoHeep_endcap_heep->Sumw2();
+  h_ElectronHcalIsoD1Heep_endcap_heep->Sumw2();
+  h_ElectronHcalIsoD2Heep_endcap_heep->Sumw2();
+  h_ElectronTrkIsoHeep_endcap_heep->Sumw2();
+
+  
+  TH1F *h_CaloJetResEMF_looseID = new TH1F ("h_CaloJetResEMF_looseID","h_CaloJetResEMF_looseID",100,-2,2);
+  TH1F *h_CaloJetFHPD_looseID = new TH1F ("h_CaloJetFHPD_looseID","h_CaloJetFHPD_looseID",100,-2,2);
+  TH1F *h_CaloJetN90Hits_looseID = new TH1F ("h_CaloJetN90Hits_looseID","h_CaloJetN90Hits_looseID",50,0,100);
+
+  h_CaloJetResEMF_looseID->Sumw2();
+  h_CaloJetFHPD_looseID->Sumw2();
+  h_CaloJetN90Hits_looseID->Sumw2();
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
@@ -514,6 +566,10 @@ void analysisClass::Loop()
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
 	fillVariableWithValue("sT", calc_sT);
+	fillVariableWithValue("sT_MLQ200", calc_sT);
+	fillVariableWithValue("sT_MLQ250", calc_sT);
+	fillVariableWithValue("sT_MLQ300", calc_sT);
+	fillVariableWithValue("sT_MLQ400", calc_sT);       
 	//PAS June 2010
 	fillVariableWithValue("sT_PAS", calc_sT);
       }
@@ -558,6 +614,8 @@ void analysisClass::Loop()
 	fillVariableWithValue("Mee", ee.M());
 	//TwoEleOnly
 	fillVariableWithValue("Mee_TwoEleOnly", ee.M());
+	fillVariableWithValue("Mee_presel", ee.M());
+	//
 	//PAS June 2010
 	fillVariableWithValue("Mee_PAS", ee.M());
 
@@ -745,6 +803,65 @@ void analysisClass::Loop()
 	  }
       }
 
+    //plot of electron ID/Isolation variables
+    if( passedAllPreviousCuts("Pt1stEle_PAS") && (TwoEle) && (TwoJets) )
+      {
+
+	for(int iele=0 ; iele<v_idx_ele_PtCut_IDISO_noOverlap.size() ; iele++ )
+	  {
+
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    
+	    if( fabs( ElectronEta->at(iele) ) < 1.442 ) 
+	      isBarrel = 1;
+	    
+	    if( fabs( ElectronEta->at(iele) ) > 1.560 && fabs( ElectronEta->at(iele) ) < 2.5 ) 
+	      isEndcap = 1;
+	    
+	    if( isBarrel )
+	      {
+		h_ElectronDeltaEtaTrkSC_barrel_heep->Fill( ElectronDeltaEtaTrkSC->at(iele) ) ;
+		h_ElectronDeltaPhiTrkSC_barrel_heep->Fill( ElectronDeltaPhiTrkSC->at(iele) ) ;
+		h_ElectronHoE_barrel_heep->Fill( ElectronHoE->at(iele) );
+		h_ElectronSigmaIEtaIEta_barrel_heep->Fill( ElectronSigmaIEtaIEta->at(iele) );
+		h_ElectronE2x5OverE5x5_barrel_heep->Fill( ElectronE2x5OverE5x5->at(iele) );
+		h_ElectronE1x5OverE5x5_barrel_heep->Fill( ElectronE1x5OverE5x5->at(iele) );
+		h_ElectronEcalIsoHeep_barrel_heep->Fill( ElectronEcalIsoHeep->at(iele) );
+		h_ElectronHcalIsoD1Heep_barrel_heep->Fill( ElectronHcalIsoD1Heep->at(iele) );
+		h_ElectronHcalIsoD2Heep_barrel_heep->Fill( ElectronHcalIsoD2Heep->at(iele) );
+		h_ElectronTrkIsoHeep_barrel_heep->Fill( ElectronTrkIsoHeep->at(iele) );
+	      }
+
+	    if( isEndcap )
+	      {
+		h_ElectronDeltaEtaTrkSC_endcap_heep->Fill( ElectronDeltaEtaTrkSC->at(iele) ) ;
+		h_ElectronDeltaPhiTrkSC_endcap_heep->Fill( ElectronDeltaPhiTrkSC->at(iele) ) ;
+		h_ElectronHoE_endcap_heep->Fill( ElectronHoE->at(iele) );
+		h_ElectronSigmaIEtaIEta_endcap_heep->Fill( ElectronSigmaIEtaIEta->at(iele) );
+		h_ElectronE2x5OverE5x5_endcap_heep->Fill( ElectronE2x5OverE5x5->at(iele) );
+		h_ElectronE1x5OverE5x5_endcap_heep->Fill( ElectronE1x5OverE5x5->at(iele) );
+		h_ElectronEcalIsoHeep_endcap_heep->Fill( ElectronEcalIsoHeep->at(iele) );
+		h_ElectronHcalIsoD1Heep_endcap_heep->Fill( ElectronHcalIsoD1Heep->at(iele) );
+		h_ElectronHcalIsoD2Heep_endcap_heep->Fill( ElectronHcalIsoD2Heep->at(iele) );
+		h_ElectronTrkIsoHeep_endcap_heep->Fill( ElectronTrkIsoHeep->at(iele) );
+	      }
+
+	  }
+      }
+    
+    if( passedAllPreviousCuts("Pt1stJet_PAS") && (TwoEle) && (TwoJets) )
+      {
+	//jet1
+	h_CaloJetResEMF_looseID->Fill( CaloJetresEMF->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
+	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
+	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
+    
+	//jet2
+	h_CaloJetResEMF_looseID->Fill( CaloJetresEMF->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
+	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
+	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
+      }
 
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
@@ -765,6 +882,31 @@ void analysisClass::Loop()
 
   h_Mej_PAS->Write();
 
+  h_ElectronDeltaEtaTrkSC_barrel_heep->Write();
+  h_ElectronDeltaPhiTrkSC_barrel_heep->Write();
+  h_ElectronHoE_barrel_heep->Write();
+  h_ElectronSigmaIEtaIEta_barrel_heep->Write();
+  h_ElectronE2x5OverE5x5_barrel_heep->Write();
+  h_ElectronE1x5OverE5x5_barrel_heep->Write();
+  h_ElectronEcalIsoHeep_barrel_heep->Write();
+  h_ElectronHcalIsoD1Heep_barrel_heep->Write();
+  h_ElectronHcalIsoD2Heep_barrel_heep->Write();
+  h_ElectronTrkIsoHeep_barrel_heep->Write();
+
+  h_ElectronDeltaEtaTrkSC_endcap_heep->Write();
+  h_ElectronDeltaPhiTrkSC_endcap_heep->Write();
+  h_ElectronHoE_endcap_heep->Write();
+  h_ElectronSigmaIEtaIEta_endcap_heep->Write();
+  h_ElectronE2x5OverE5x5_endcap_heep->Write();
+  h_ElectronE1x5OverE5x5_endcap_heep->Write();
+  h_ElectronEcalIsoHeep_endcap_heep->Write();
+  h_ElectronHcalIsoD1Heep_endcap_heep->Write();
+  h_ElectronHcalIsoD2Heep_endcap_heep->Write();
+  h_ElectronTrkIsoHeep_endcap_heep->Write();
+
+  h_CaloJetResEMF_looseID->Write();
+  h_CaloJetFHPD_looseID->Write();
+  h_CaloJetN90Hits_looseID->Write();
 
 
   ////////////////////// User's code to write histos - END ///////////////////////
