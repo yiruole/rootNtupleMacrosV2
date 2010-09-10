@@ -1,3 +1,13 @@
+/* This code chooses events that pass the criteria for the QCD fake rate calculation
+It fills histograms to be used as the numerator (N_electrons) and denominator (N_superclusters)
+First the electron collection is made, then the superclusters passing isolation, then the jet collection
+with the isolated superclusters removed, then a NEW collection of superclusters is made which is the subset 
+the isolated collection that are back to back with a jet (uncleaned of sc).
+Finally the dR is calculated between the leading superclusters (up to 2) and the leading jets (cleaned of sc, 
+up to 2) so that events can be rejected if the leadnig objects are too close.
+*/
+
+
 #define analysisClass_cxx
 #include "analysisClass.h"
 #include <TH2.h>
@@ -172,7 +182,7 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    //if (PtHat>=30) continue;
+    //if (PtHat>=30) continue;   // to be used with samples that have lower PtHat cut only
 
     //## HLT
 
@@ -183,6 +193,7 @@ void analysisClass::Loop()
     h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
 
     // Electrons
+    // Choose the electrons for the numerator here
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
     vector<int> v_idx_ele_HEEP;
@@ -242,7 +253,8 @@ void analysisClass::Loop()
 
       } // End loop over electrons
 
-	//ID + ISO + NO overlap with good muons 
+
+    // Use the following code to apply HEEP cuts one by one, for example if you want to relax the pT cuts
 // 	int eleID = ElectronPassID->at(iele);
 // 	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
 // 	  {
@@ -323,6 +335,11 @@ void analysisClass::Loop()
 
     
     //////// Fill SC histos
+    // Choose the superclusters for the denominator
+    //  The superclusters are saved in the root tuples first from the barrel, 
+    // then from the endcap.  So they are not ordered in pT.
+    //  To deal with this, loop through all the superclusters and find the 2 highest pT
+    //  then loop through the rest to get any other possible sc passing cuts.
 
      vector<int> v_idx_sc;
 
@@ -382,6 +399,7 @@ void analysisClass::Loop()
     }
 
     // Jets
+    // Determine the jet collection that still has iso superclusters ("_PtCut") and cleaned of iso superclusters ("_PtCut_noOvrlap")
     vector<int> v_idx_jet_all;
     vector<int> v_idx_jet_PtCut;
     vector<int> v_idx_jet_PtCut_noOvrlap;
@@ -442,7 +460,8 @@ void analysisClass::Loop()
 	
       } // End loop over jets
 
-    // make new collection of back to back sc
+
+    // make new collection of sc that have a jet (including iso sc) back to back.
      vector<int> v_idx_sc_dPhi;
     for(int isc=0;isc<v_idx_sc.size();isc++)
 	   {
@@ -464,6 +483,7 @@ void analysisClass::Loop()
 	     h_dPhi_JetSC->Fill(dPhi_SC_Jet);	
 	   }
 
+    /// Make plots to make sure each sc matches only one electron
     for (int iele=0; iele<v_idx_ele_HEEP.size(); iele++){
     double minDr_Ele_Sc = 99;
     vector<int> closeSC;
@@ -484,15 +504,8 @@ void analysisClass::Loop()
 	h_NisoSC_nearEle->Fill(closeSC.size());
     }
 
-//     cout << "Iso SC: " << endl;
-//     for(int isc=0;isc<v_idx_sc.size();isc++) cout << SuperClusterPt->at(v_idx_sc[isc]) << endl;
-//     cout << "Back to Back Iso SC: " << endl;
-//     for(int isc=0;isc<v_idx_sc_dPhi.size();isc++) cout << SuperClusterPt->at(v_idx_sc_dPhi[isc]) << endl;
-//     cout << endl;
-    
 
-
-     //find dR between isoSC and jets
+     //find dR between leading isoSC and leading jets to reject events where they are too close
     float smallest_ScJet_dR = 99;
     for (int ijet=0; ijet<v_idx_jet_PtCut_noOvrlap.size(); ijet++){
       if (ijet>1) break; // only care about two leading jets
@@ -558,7 +571,7 @@ void analysisClass::Loop()
       }
 
     // Mee
-    float MEE = -0.5;  // set slightly larger than 0 so that events with 1 sc still pass the 0<MEE<60 cut
+    float MEE = 0.05;  // set slightly larger than 0 so that events with 1 sc still pass the 0<MEE<60 cut
     if (v_idx_sc_dPhi.size()>= 2)
       {
 	TLorentzVector ele1, ele2, ee;
@@ -593,7 +606,7 @@ void analysisClass::Loop()
 
      /// Fill fake rate plots
      ///////////////////////////////////////
-     if (passedCut("0")){
+     if (passedCut("0")){  // use cut file to select cuts used for fake rate events
 	 for(int isc=0;isc<v_idx_sc_dPhi.size();isc++)
 	   {
 	     h_goodSCPt->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
@@ -605,7 +618,8 @@ void analysisClass::Loop()
 	     bool Endcap = false;
 	     if (fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))<1.45) Barrel = true;
 	     if (fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))>eleEta_end_min && fabs(SuperClusterEta->at(v_idx_sc_dPhi[isc]))<eleEta_end_max) Endcap = true;
-
+	     
+	     //Fill the denominator histograms and all variable histograms
 	     h_IsoSuperClusterEta_Phi->Fill(SuperClusterEta->at(v_idx_sc_dPhi[isc]),SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
 	     if (Barrel) {
 	       h_goodSCPt_Barrel->Fill(SuperClusterPt->at(v_idx_sc_dPhi[isc]));
@@ -644,7 +658,7 @@ void analysisClass::Loop()
 			   SuperClusterEta->at(v_idx_sc_dPhi[isc]),
 			   SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
 
-	     ///  see if there is a HEEP ele to match this
+	     ///  see if there is a HEEP ele to match this superclusters
 	     double deltaR_ele_sc = 99;
 	     int idx_HEEP = -1;
 	     for(int iele=0;iele<v_idx_ele_HEEP.size();iele++){
@@ -658,7 +672,7 @@ void analysisClass::Loop()
 		 idx_HEEP = iele;
 	       }
 	     }
-	     if (deltaR_ele_sc<0.3){
+	     if (deltaR_ele_sc<0.3){  // Fill the numerator histograms
 		h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]));
 		
@@ -666,7 +680,7 @@ void analysisClass::Loop()
 		bool Endcap = false;
 		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<eleEta_bar) Barrel = true;
 		if (fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))>eleEta_end_min && fabs(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]))<eleEta_end_max) Endcap = true;
-		
+		//Fill EoP histograms to look for real electron contamination
 		double E = ElectronPt->at(v_idx_ele_HEEP[idx_HEEP]);
 		double P = ElectronTrackPt->at(v_idx_ele_HEEP[idx_HEEP]);
 		double EoP = -99;

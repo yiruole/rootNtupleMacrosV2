@@ -1,3 +1,9 @@
+/*
+This code selects events with 2 superclusters and 2 jets that pass the full selection criteria,
+then reads the fake rate from the cut file and applies it to each event.
+Predicted histograms are made for various quantities.
+*/
+
 #define analysisClass_cxx
 #include "analysisClass.h"
 #include <TH2.h>
@@ -139,7 +145,7 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    //if (PtHat<30) continue;
+    //if (PtHat<30) continue;  // use this cut for samples with only lower PtHat cut
 
     //## HLT
 
@@ -150,6 +156,7 @@ void analysisClass::Loop()
     h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
 
     // Electrons
+    // look for HEEP electrons for the "actual" plots 
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
     vector<int> v_idx_ele_HEEP;
@@ -209,7 +216,7 @@ void analysisClass::Loop()
 
       } // End loop over electrons
 
-	//ID + ISO + NO overlap with good muons 
+    // use these cuts to apply HEEP selection one cut at a time, for example to relax pT cut
 // 	int eleID = ElectronPassID->at(iele);
 // 	if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
 // 	  {
@@ -290,6 +297,11 @@ void analysisClass::Loop()
 
     
     //////// Fill SC histos
+    // Choose the superclusters for the denominator
+    //  The superclusters are saved in the root tuples first from the barrel, 
+    // then from the endcap.  So they are not ordered in pT.
+    //  To deal with this, loop through all the superclusters and find the 2 highest pT
+    //  then loop through the rest to get any other possible sc passing cuts.
 
      vector<int> v_idx_sc;
 
@@ -409,8 +421,8 @@ void analysisClass::Loop()
 	
       } // End loop over jets
 
-     //find dR between isoSC and jets
 
+     //find dR between leading isoSC and leading jets to reject events where they are too close
     float smallest_ScJet_dR = 99;
     for (int ijet=0; ijet<v_idx_jet_PtCut_noOvrlap.size(); ijet++){
       if (ijet>1) break; // only care about two leading jets
