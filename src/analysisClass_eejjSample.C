@@ -401,26 +401,26 @@ void analysisClass::Loop()
     float JetEtaCutValue = getPreCutValue1("jet_EtaCut");
     for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
       {	
-	bool passjetID = JetIdloose(CaloJetresEMF->at(ijet),CaloJetfHPD->at(ijet),CaloJetn90Hits->at(ijet), CaloJetEta->at(ijet));
+	bool passjetID = JetIdloose(CaloJetresEMF->at(v_idx_jet_PtCut[ijet]),CaloJetfHPD->at(v_idx_jet_PtCut[ijet]),CaloJetn90Hits->at(v_idx_jet_PtCut[ijet]), CaloJetEta->at(v_idx_jet_PtCut[ijet]));
 	// ---- use the flag stored in rootTuples
-	//if( (CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
+	//if( (CaloJetOverlaps->at(v_idx_jet_PtCut[ijet]) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
 	// ----
 
 	if( jetFlags[ijet] == 0  )                         /* NO overlap with electrons */  
 	  //  && passjetID == true )                            /* pass JetID */
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
-	  v_idx_jet_PtCut_noOverlap.push_back(ijet);
+	  v_idx_jet_PtCut_noOverlap.push_back(v_idx_jet_PtCut[ijet]);
 
 	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
 	    && passjetID == true )                            /* pass JetID */
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
-	  v_idx_jet_PtCut_noOverlap_ID.push_back(ijet);
+	  v_idx_jet_PtCut_noOverlap_ID.push_back(v_idx_jet_PtCut[ijet]);
 
 	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
 	    && passjetID == true                             /* pass JetID */
-	    && fabs( CaloJetEta->at(ijet) ) < JetEtaCutValue )
+	    && fabs( CaloJetEta->at(v_idx_jet_PtCut[ijet]) ) < JetEtaCutValue )
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
-	  v_idx_jet_PtCut_noOverlap_ID_EtaCut.push_back(ijet);
+	  v_idx_jet_PtCut_noOverlap_ID_EtaCut.push_back(v_idx_jet_PtCut[ijet]);
 
 	
 	//NOTE: We should verify that caloJetOverlaps match with the code above
