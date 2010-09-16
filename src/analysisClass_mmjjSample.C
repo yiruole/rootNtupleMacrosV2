@@ -156,7 +156,7 @@ void analysisClass::Loop()
       if ( !isData && i != 0) continue; // For MC use HLTPhoton15 as the cleaned trigger is not in MC yet as of July 20, 2010
       if ( HLTFromRun[i] <= run ) {
  	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
-	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
+	if (HLTTrigger[i] > -1 && HLTTrigger[i] < HLTResults->size() ) {
 	  PassTrig=HLTResults->at(HLTTrigger[i]);
 	  HLTTrgUsed=HLTTrigger[i];
 	} else {
