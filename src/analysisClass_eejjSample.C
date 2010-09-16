@@ -150,9 +150,7 @@ void analysisClass::Loop()
   int looseBitMask_enabled  =  getPreCutValue4("looseBitMask_EBGapEE") ;
 
   double muon_PtCut = getPreCutValue1("muon_PtCut");
-  double muon_jet_DeltaRcut = getPreCutValue1("muon_jet_DeltaRcut");
-  double muon_ele_DeltaRcut = getPreCutValue1("muon_ele_DeltaRcut");
-  double muFidRegion = getPreCutValue1("muFidRegion");
+  double muFidRegion = getPreCutValue1("muFidRegion"); // currently unused !!!
   double muNHits_minThresh = getPreCutValue1("muNHits_minThresh");
   double muTrkD0Maximum = getPreCutValue1("muTrkD0Maximum");
 
@@ -437,11 +435,7 @@ void analysisClass::Loop()
     // Muons
     vector<int> v_idx_muon_all;
     vector<int> v_idx_muon_PtCut;
-    vector<int> v_idx_muon_PtCut_IDISO_noOverlap;
-    bool pass_mu=false;
-    bool pass_DIS_mu_ele=false;
-    bool pass_DIS_mu_jet = false;
-    bool pass_muon_conditions = false;
+    vector<int> v_idx_muon_PtCut_IDISO;
     
     // Loop over muons  
     for(int imuon=0; imuon<MuonPt->size(); imuon++){
@@ -454,41 +448,10 @@ void analysisClass::Loop()
       // pT pre-cut on muons
       v_idx_muon_PtCut.push_back(imuon);
       
-      pass_mu=false;
-      pass_DIS_mu_jet=false;
-      pass_DIS_mu_ele = false;
-      pass_muon_conditions = false;
-      // Muon Conditions (Various)
-      if ( ((*MuonTrkHits)[imuon]  >= muNHits_minThresh  )&&( fabs((*MuonTrkD0)[imuon]) < muTrkD0Maximum ) &&((*MuonPassIso)[imuon]==1 ) &&((*MuonPassID)[imuon]==1) ) pass_muon_conditions = true;
-
-      // Muon Disambiguation
-      float minDeltaRMu=9999.0;
-      TVector3 muon_vec;
-      muon_vec.SetPtEtaPhi((*MuonPt)[imuon],(*MuonEta)[imuon],(*MuonPhi)[imuon]);
-      
-      // muons-jets
-      for (unsigned int i=0; i < v_idx_jet_PtCut_noOverlap_ID.size(); i++){
-	TVector3 jet_vec;
-	jet_vec.SetPtEtaPhi((*CaloJetPt)[v_idx_jet_PtCut_noOverlap_ID[i]],(*CaloJetEta)[v_idx_jet_PtCut_noOverlap_ID[i]],(*CaloJetPhi)[v_idx_jet_PtCut_noOverlap_ID[i]]);
-	double distanceMuon = muon_vec.DeltaR(jet_vec);
-	if (distanceMuon<minDeltaRMu) minDeltaRMu=distanceMuon;
-      }
-
-      if ( minDeltaRMu > muon_jet_DeltaRcut ) pass_DIS_mu_jet = true;
-
-      // muons-electrons
-      minDeltaRMu=9999.0;
-
-      for (unsigned int i=0; i < v_idx_ele_PtCut_IDISO_noOverlap.size(); i++){
-	TVector3 ele_vec;
-	ele_vec.SetPtEtaPhi((*ElectronPt)[v_idx_ele_PtCut_IDISO_noOverlap[i]],(*ElectronEta)[v_idx_ele_PtCut_IDISO_noOverlap[i]],(*ElectronPhi)[v_idx_ele_PtCut_IDISO_noOverlap[i]]);
-	double distanceMuon = muon_vec.DeltaR(ele_vec);
-	if (distanceMuon<minDeltaRMu) minDeltaRMu=distanceMuon;
-      }
-
-      if ( minDeltaRMu > muon_ele_DeltaRcut ) pass_DIS_mu_ele = true;
-
-      if(pass_muon_conditions && pass_DIS_mu_ele && pass_DIS_mu_jet)  v_idx_muon_PtCut_IDISO_noOverlap.push_back(imuon);
+      if ( ((*MuonTrkHits)[imuon]  >= muNHits_minThresh  )&&( fabs((*MuonTrkD0)[imuon]) < muTrkD0Maximum ) &&((*MuonPassIso)[imuon]==1 ) &&((*MuonPassID)[imuon]==1) ) 
+	{
+	  v_idx_muon_PtCut_IDISO.push_back(imuon);
+	}
 
     }// end loop over muons
 
@@ -521,7 +484,7 @@ void analysisClass::Loop()
     // nMu
 //     fillVariableWithValue( "nMu_all", MuonPt->size() ) ;
 //     fillVariableWithValue( "nMu_PtCut", v_idx_muon_PtCut.size() ) ;
-//     fillVariableWithValue( "nMu_PtCut_IDISO_noOvrlp", v_idx_muon_PtCut_IDISO_noOverlap.size() ) ;
+//     fillVariableWithValue( "nMu_PtCut_IDISO", v_idx_muon_PtCut_IDISO.size() ) ;
 
     // nEle
     fillVariableWithValue( "nEle_all", v_idx_ele_all.size() ) ;
