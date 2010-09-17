@@ -544,9 +544,9 @@ void analysisClass::Loop()
 
 
     /////  Define the fake rate for QCD and calculate prob. for each sc to be an ele
-    double BarrelCross = 0.1;
+    double BarrelCross = 0.0061;
     double BarrelSlope = 0;
-    double EndcapCross = 0.1;
+    double EndcapCross = 0.0399;
     double EndcapSlope = 0;
 
     double p1_all = 0, p2_all = 0, p3_all = 0;
