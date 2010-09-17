@@ -168,6 +168,8 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    //if (PtHat>=30) continue;
+
     // EES and JES
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
@@ -862,13 +864,13 @@ void analysisClass::Loop()
 	   SuperClusterPt->at(v_idx_sc_Iso[1]) ;
 	fillVariableWithValue("sTele_PAS", calc_sTele, p1_Iso*p2_Iso);
 
-	if(isData==true) 
-	  {
-	    STDOUT("Two electrons: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
-	    STDOUT("Two electrons: M_ee, Pt_ee, Eta_ee, Phi_ee = "<<ee.M() <<", "<< ee.Pt() <<", "<< ee.Eta() <<", "<< ee.Phi());
-	    STDOUT("Two electrons: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
-	    STDOUT("Two electrons: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
-	  }
+// 	if(isData==true) 
+// 	  {
+// 	    STDOUT("Two electrons: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
+// 	    STDOUT("Two electrons: M_ee, Pt_ee, Eta_ee, Phi_ee = "<<ee.M() <<", "<< ee.Pt() <<", "<< ee.Eta() <<", "<< ee.Phi());
+// 	    STDOUT("Two electrons: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
+// 	    STDOUT("Two electrons: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
+// 	  }
       }
 
     // Mej 
@@ -963,39 +965,39 @@ void analysisClass::Loop()
 	fillVariableWithValue("minDeltaR_ej", minDeltaR_ej, p1_Iso*p2_Iso);
 	fillVariableWithValue("maxDeltaR_ej", maxDeltaR_ej, p1_Iso*p2_Iso);
 
-	// printouts for small Mej
-	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
-	  {
-	    STDOUT("Mej<20GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
-	    STDOUT("Mej<20GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair = "<< Mej_2ndPair );
-	    STDOUT("Mej<20GeV: e1j1.M = "<<e1j1.M() <<", e2j2.M = "<<e2j2.M() <<", e1j2.M = "<<e1j2.M()  <<", e2j1.M = "<<e2j1.M()  );
-	    STDOUT("Mej<20GeV: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
-	    STDOUT("Mej<20GeV: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
-// 	    STDOUT("Mej<20GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<",\t"<< ele1.Eta() <<",\t"<< ele1.Phi() );
-// 	    STDOUT("Mej<20GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<",\t"<< ele2.Eta() <<",\t"<< ele2.Phi() );
-// 	    STDOUT("Mej<20GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
-// 	    STDOUT("Mej<20GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
-	    TLorentzVector thisele;
-	    for(int iele=0; iele<v_idx_sc_Iso.size(); iele++)
-	      {
-		thisele.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[iele]),
-				     SuperClusterEta->at(v_idx_sc_Iso[iele]),
-				     SuperClusterPhi->at(v_idx_sc_Iso[iele]),0);
-		STDOUT("Mej<20GeV: e"<<iele+1<<" Pt, eta, phi = " 
-		       << ", "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi()<<"; DR_j1, DR_j2 = "<< thisele.DeltaR(jet1)<<", "<<thisele.DeltaR(jet2));
-	      }
-	    TLorentzVector thisjet;
-	    TLorentzVector thisjet_e1, thisjet_e2;
-	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
-	      {
-		thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-				     CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-				     CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
-		thisjet_e1 = thisjet + ele1;
-		thisjet_e2 = thisjet + ele2;
-		STDOUT("Mej<20GeV: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<"; DR_e1, DR_e2 = "<< thisjet.DeltaR(ele1)<<", "<<thisjet.DeltaR(ele2) << "; M_e1, M_e2 = " <<thisjet_e1.M() <<", "<<thisjet_e2.M() );
-	      }
-	  } // printouts for low Mej 
+// 	// printouts for small Mej
+// 	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
+// 	  {
+// 	    STDOUT("Mej<20GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+// 	    STDOUT("Mej<20GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair = "<< Mej_2ndPair );
+// 	    STDOUT("Mej<20GeV: e1j1.M = "<<e1j1.M() <<", e2j2.M = "<<e2j2.M() <<", e1j2.M = "<<e1j2.M()  <<", e2j1.M = "<<e2j1.M()  );
+// 	    STDOUT("Mej<20GeV: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
+// 	    STDOUT("Mej<20GeV: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
+// // 	    STDOUT("Mej<20GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<",\t"<< ele1.Eta() <<",\t"<< ele1.Phi() );
+// // 	    STDOUT("Mej<20GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<",\t"<< ele2.Eta() <<",\t"<< ele2.Phi() );
+// // 	    STDOUT("Mej<20GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
+// // 	    STDOUT("Mej<20GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
+// 	    TLorentzVector thisele;
+// 	    for(int iele=0; iele<v_idx_sc_Iso.size(); iele++)
+// 	      {
+// 		thisele.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[iele]),
+// 				     SuperClusterEta->at(v_idx_sc_Iso[iele]),
+// 				     SuperClusterPhi->at(v_idx_sc_Iso[iele]),0);
+// 		STDOUT("Mej<20GeV: e"<<iele+1<<" Pt, eta, phi = " 
+// 		       << ", "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi()<<"; DR_j1, DR_j2 = "<< thisele.DeltaR(jet1)<<", "<<thisele.DeltaR(jet2));
+// 	      }
+// 	    TLorentzVector thisjet;
+// 	    TLorentzVector thisjet_e1, thisjet_e2;
+// 	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+// 	      {
+// 		thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+// 				     CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+// 				     CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
+// 		thisjet_e1 = thisjet + ele1;
+// 		thisjet_e2 = thisjet + ele2;
+// 		STDOUT("Mej<20GeV: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<"; DR_e1, DR_e2 = "<< thisjet.DeltaR(ele1)<<", "<<thisjet.DeltaR(ele2) << "; M_e1, M_e2 = " <<thisjet_e1.M() <<", "<<thisjet_e2.M() );
+// 	      }
+// 	  } // printouts for low Mej 
 
       } // TwoEle and TwoJets
 
@@ -1008,37 +1010,37 @@ void analysisClass::Loop()
     //h_nEleFinal->Fill( ElectronPt->size() );
      
 
-    //Large MET events passing pre-selection
-    float METcut = 60;
-    if( variableIsFilled("pfMET_PAS") && passedAllPreviousCuts("pfMET_PAS") && isData==true) 
-      {
+//     //Large MET events passing pre-selection
+//     float METcut = 60;
+//     if( variableIsFilled("pfMET_PAS") && passedAllPreviousCuts("pfMET_PAS") && isData==true) 
+//       {
 
-	if( getVariableValue("pfMET_PAS") > METcut )
-	  {
+// 	if( getVariableValue("pfMET_PAS") > METcut )
+// 	  {
 
-	    STDOUT("pfMET>60GeV: ----------- START ------------");
+// 	    STDOUT("pfMET>60GeV: ----------- START ------------");
 
-	    STDOUT("pfMET>60GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);	    
-	    if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )	      
-	      STDOUT("pfMET>60GeV: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
-	    if( variableIsFilled("Pt2ndEle_PAS") && variableIsFilled("Eta2ndEle_PAS") )	      
-	      STDOUT("pfMET>60GeV: Pt2ndEle_PAS,Eta2ndEle_PAS = "<<getVariableValue("Pt2ndEle_PAS")<<",\t"<<getVariableValue("Eta2ndEle_PAS"));
-	    if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )	      
-	      STDOUT("pfMET>60GeV: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
-	    if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )	      
-	      STDOUT("pfMET>60GeV: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
-	    if( variableIsFilled("Mee_PAS") && variableIsFilled("Mjj_PAS") )	      
-	      STDOUT("pfMET>60GeV: Mee_PAS,Mjj_PAS = "<<getVariableValue("Mee_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
-	    if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )	      
-	      STDOUT("pfMET>60GeV: Mej_1stPair_PAS,Mej_2ndPair_PAS = "<<getVariableValue("Mej_1stPair_PAS")
-		     <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
-	    if( variableIsFilled("pfMET_PAS") && variableIsFilled("caloMET_PAS") )	      
-	      STDOUT("pfMET>60GeV: pfMET_PAS,caloMET_PAS = "<<getVariableValue("pfMET_PAS")<<",\t"<<getVariableValue("caloMET_PAS"));
+// 	    STDOUT("pfMET>60GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);	    
+// 	    if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+// 	    if( variableIsFilled("Pt2ndEle_PAS") && variableIsFilled("Eta2ndEle_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: Pt2ndEle_PAS,Eta2ndEle_PAS = "<<getVariableValue("Pt2ndEle_PAS")<<",\t"<<getVariableValue("Eta2ndEle_PAS"));
+// 	    if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+// 	    if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+// 	    if( variableIsFilled("Mee_PAS") && variableIsFilled("Mjj_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: Mee_PAS,Mjj_PAS = "<<getVariableValue("Mee_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+// 	    if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: Mej_1stPair_PAS,Mej_2ndPair_PAS = "<<getVariableValue("Mej_1stPair_PAS")
+// 		     <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+// 	    if( variableIsFilled("pfMET_PAS") && variableIsFilled("caloMET_PAS") )	      
+// 	      STDOUT("pfMET>60GeV: pfMET_PAS,caloMET_PAS = "<<getVariableValue("pfMET_PAS")<<",\t"<<getVariableValue("caloMET_PAS"));
 
-	    STDOUT("pfMET>60GeV: ------------ END -------------");
+// 	    STDOUT("pfMET>60GeV: ------------ END -------------");
 
-	  }
-      }
+// 	  }
+//       }
 
     //plot of electron ID/Isolation variables
     if( passedAllPreviousCuts("Pt1stEle_PAS") && (TwoEle) && (TwoJets) )
