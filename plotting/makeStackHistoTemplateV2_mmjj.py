@@ -1479,7 +1479,7 @@ plot5_nojet.histodata       = h_Eta2ndMu_nojet_DATA
 
 
 # List of plots to be plotted
-plots = [plot0, plot0_ylog, plot1, plot2_nojet, plot2, plot3_nojet, plot3, plot4_nojet, plot4, plot5_nojet, plot5,
+plots = [plot0, plot0_ylog, plot2_nojet, plot3_nojet, plot4_nojet, plot5_nojet, plot1, plot2, plot3, plot4, plot5,
          plot2and4, plot3and5, plot6, plot7, plot8,
          plot9, plot10, plot7and9, plot8and10, plot11, plot11_ele, plot11_jet, plot12, plot13, plot13_ylog, plot14, plot14_ylog,
          plot15, plot16]  # produced using preselection root file
