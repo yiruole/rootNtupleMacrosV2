@@ -159,7 +159,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<100;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -597,6 +597,115 @@ void analysisClass::Loop()
 
     // Set the value of the variableNames listed in the cutFile to their current value
     
+//     if (v_idx_sc_all.size()==0) fillVariableWithValue( "nEle_all", v_idx_sc_all.size()) ;
+//     else if (v_idx_sc_all.size()==1) fillVariableWithValue( "nEle_all", 0, 1-p1_all) ;
+//     else if (v_idx_sc_all.size()==2) fillVariableWithValue( "nEle_all", 0, (1-p1_all)*(1-p2_all)) ;
+//     else if (v_idx_sc_all.size()>2) fillVariableWithValue( "nEle_all", 0, (1-p1_all)*(1-p2_all)*(1-p3_all)) ;
+
+//     if (v_idx_sc_PtCut.size()==0) fillVariableWithValue( "nEle_PtCut", v_idx_sc_PtCut.size()) ;
+//     else if (v_idx_sc_PtCut.size()==1) fillVariableWithValue( "nEle_PtCut",0, 1-p1_PtCut ) ;
+//     else if (v_idx_sc_PtCut.size()==2) fillVariableWithValue( "nEle_PtCut",0, (1-p1_PtCut)*(1-p2_PtCut) ) ;
+//     else if (v_idx_sc_PtCut.size()>2) fillVariableWithValue( "nEle_PtCut",0, (1-p1_PtCut)*(1-p2_PtCut)*(1-p3_PtCut) ) ;
+
+//     if (v_idx_sc_Iso.size()==0) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp", v_idx_sc_Iso.size()) ;
+//     else if (v_idx_sc_Iso.size()==1) {
+//       fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",0, 1-p1_Iso ) ;
+
+//       fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[0]), p1_Iso);
+//       fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[0]), p1_Iso);
+//       fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[0])), p1_Iso);
+//     }
+//     else if (v_idx_sc_Iso.size()==2) {
+//       fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",0, (1-p1_Iso)*(1-p2_Iso) ) ;
+
+//       fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[0]), p1_Iso);
+//       fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[0]), p1_Iso);
+//       fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[0])), p1_Iso);
+
+//       //cout << SuperClusterPt->at(v_idx_sc_Iso[1]) << "\t" << p1_Iso << "\t" << p2_Iso << "\t" << p1_Iso*p2_Iso << endl;
+//       fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso);
+//       fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso);
+//       fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[1])), p1_Iso*p2_Iso);
+//       fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ), p1_Iso*p2_Iso);
+//     }
+//     else if (v_idx_sc_Iso.size()>2) {
+//       fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",0, (1-p1_Iso)*(1-p2_Iso)*(1-p3_Iso) ) ;
+
+//       fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[0]), p1_Iso);
+//       fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[0]), p1_Iso);
+//       fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[0])), p1_Iso);
+
+//       fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso);
+//       fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso);
+//       fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[1])), p1_Iso*p2_Iso);
+//       fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ), p1_Iso*p2_Iso);
+//     }
+
+//     evaluateCuts();
+//     resetCuts();
+
+//     if (v_idx_sc_all.size()==1) fillVariableWithValue( "nEle_all", 1, p1_all) ;
+//     else if (v_idx_sc_all.size()==2) fillVariableWithValue( "nEle_all", 1, p1_all + p2_all - 2*p1_all*p2_all) ;
+//     else if (v_idx_sc_all.size()>2) fillVariableWithValue( "nEle_all", 1, p1_all + p2_all + p3_all - 2*p1_all*p2_all - 2*p2_all*p3_all - 2*p1_all*p3_all) ;
+
+//     if (v_idx_sc_PtCut.size()==1) fillVariableWithValue( "nEle_PtCut",1, p1_PtCut ) ;
+//     else if (v_idx_sc_PtCut.size()==2) fillVariableWithValue( "nEle_PtCut",1, p1_PtCut + p2_PtCut - 2*p1_PtCut*p2_PtCut ) ;
+//     else if (v_idx_sc_PtCut.size()>2) fillVariableWithValue( "nEle_PtCut",1, p1_PtCut + p2_PtCut + p3_PtCut - 2*p1_PtCut*p2_PtCut - 2*p1_PtCut*p3_PtCut - 2*p3_PtCut*p2_PtCut   ) ;
+
+//     if (v_idx_sc_Iso.size()==1) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",1, p1_Iso ) ;
+//     else if (v_idx_sc_Iso.size()==2) {
+//       fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",1, p1_Iso + p2_Iso - 2*p1_Iso*p2_Iso ) ;
+
+//       fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[1]), p2_Iso*(1-p1_Iso));
+//       fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[1]), p2_Iso*(1-p1_Iso));
+//       fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[1])), p2_Iso*(1-p1_Iso));
+//     }
+//     else if (v_idx_sc_Iso.size()>2) {
+//       fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",1, p1_Iso + p2_Iso + p3_Iso - 2*p1_Iso*p2_Iso - 2*p2_Iso*p3_Iso - 2*p1_Iso*p3_Iso   ) ;
+     
+//       fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[1]), p2_Iso*(1-p1_Iso)); 
+//       fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[1]), p2_Iso*(1-p1_Iso));
+//       fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[1])), p2_Iso*(1-p1_Iso));
+
+//       fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[2]), (1-p1_PtCut)*p3_Iso*p2_Iso);
+//       fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[2]), (1-p1_PtCut)*p3_Iso*p2_Iso);
+//       fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[2])), (1-p1_PtCut)*p3_Iso*p2_Iso);
+//       fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ), (1-p1_PtCut)*p3_Iso*p2_Iso);
+//     }
+
+//     evaluateCuts();
+//     resetCuts();
+
+//     if (v_idx_sc_all.size()==2) fillVariableWithValue( "nEle_all", 2, p1_all*p2_all ) ;
+//     else if (v_idx_sc_all.size()>2) fillVariableWithValue( "nEle_all", 2, p1_all*p3_all + p1_all*p2_all + p3_all*p2_all) ;
+
+//     if (v_idx_sc_PtCut.size()==2) fillVariableWithValue( "nEle_PtCut",2, p1_PtCut*p2_PtCut) ;
+//     else if (v_idx_sc_PtCut.size()>2) fillVariableWithValue( "nEle_PtCut",2, p1_PtCut*p3_PtCut + p1_PtCut*p2_PtCut + p3_PtCut*p2_PtCut ) ;
+
+//     if (v_idx_sc_Iso.size()==2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",2, p1_Iso*p2_Iso) ;
+//     else if (v_idx_sc_Iso.size()>2) {
+//       fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",2, p1_Iso*p3_Iso + p1_Iso*p2_Iso + p3_Iso*p2_Iso ) ;
+
+//       fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[2]), p3_Iso*(1-p1_Iso)*(1-p2_Iso)); 
+//       fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[2]), p3_Iso*(1-p1_Iso)*(1-p2_Iso));
+//       fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[2])), p3_Iso*(1-p1_Iso)*(1-p2_Iso));
+//     }
+
+//     evaluateCuts();
+//     resetCuts();
+
+//     if (v_idx_sc_all.size()>2) fillVariableWithValue( "nEle_all", 3, p1_all*p2_all*p3_all) ;
+//     if (v_idx_sc_PtCut.size()>2) fillVariableWithValue( "nEle_PtCut",3, p1_PtCut*p2_PtCut*p3_PtCut ) ;
+//     if (v_idx_sc_Iso.size()>2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",3, p1_Iso*p2_Iso*p3_Iso) ;
+
+
+///  Just fill all histograms assuming exactly 2 superclusters.
+    if (v_idx_sc_all.size()==2) fillVariableWithValue( "nEle_all",v_idx_sc_all.size() , p1_all*p2_all ) ;
+    if (v_idx_sc_PtCut.size()==2) fillVariableWithValue( "nEle_PtCut",v_idx_sc_PtCut.size(), p1_PtCut*p2_PtCut) ;
+    if (v_idx_sc_Iso.size()==2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",v_idx_sc_Iso.size(), p1_Iso*p2_Iso) ;
+
+
+    /// Now fill all variables that are filled just once
     // Trigger (L1 and HLT)
     if(isData==true)
       {
@@ -616,65 +725,52 @@ void analysisClass::Loop()
     fillVariableWithValue( "PassPrimaryVertex", isPrimaryVertex ) ;
     fillVariableWithValue( "PassHBHENoiseFilter", passLooseNoiseFilter ) ;
 
-    // nEle
-    fillVariableWithValue( "nEle_all", v_idx_sc_all.size() ) ;
-    fillVariableWithValue( "nEle_PtCut", v_idx_sc_PtCut.size() ) ;
-    fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp", v_idx_sc_Iso.size()) ;
-
-//     fillVariableWithValue( "nEle_all", v_idx_ele_all.size() ) ;
-//     fillVariableWithValue( "nEle_PtCut", v_idx_ele_PtCut.size() ) ;
-//     fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp", v_idx_ele_PtCut_IDISO_noOverlap.size()) ;
-     
     // nJet
-    fillVariableWithValue( "nJet_all", v_idx_jet_all.size() ) ;
-    fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
-    fillVariableWithValue( "nJet_PtCut_noOvrlp", v_idx_jet_PtCut_noOverlap.size() ) ;
-    fillVariableWithValue( "nJet_PtCut_noOvrlp_ID", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
+    fillVariableWithValue( "nJet_all", v_idx_jet_all.size(), p1_Iso*p2_Iso ) ;
+    fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size(), p1_Iso*p2_Iso ) ;
+    fillVariableWithValue( "nJet_PtCut_noOvrlp", v_idx_jet_PtCut_noOverlap.size(), p1_Iso*p2_Iso ) ;
+    fillVariableWithValue( "nJet_PtCut_noOvrlp_ID", v_idx_jet_PtCut_noOverlap_ID.size(), p1_Iso*p2_Iso ) ;
     //TwoEleOnly
-    fillVariableWithValue( "nJet_TwoEleOnly_All", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
-    fillVariableWithValue( "nJet_TwoEleOnly_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
+    fillVariableWithValue( "nJet_TwoEleOnly_All", v_idx_jet_PtCut_noOverlap_ID.size() , p1_Iso*p2_Iso) ;
+    fillVariableWithValue( "nJet_TwoEleOnly_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size(), p1_Iso*p2_Iso ) ;
     //PAS June 2010
-    fillVariableWithValue( "nJet_PAS_All", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
-    fillVariableWithValue( "nJet_PAS_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
+    fillVariableWithValue( "nJet_PAS_All", v_idx_jet_PtCut_noOverlap_ID.size(), p1_Iso*p2_Iso ) ;
+    fillVariableWithValue( "nJet_PAS_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size(), p1_Iso*p2_Iso ) ;
 
     // MET
     //PAS June 2010
-    fillVariableWithValue( "pfMET_PAS", PFMET->at(0) ) ;
-    fillVariableWithValue( "tcMET_PAS", TCMET->at(0) ) ;
-    fillVariableWithValue( "caloMET_PAS", CaloMET->at(0) ) ;
+    fillVariableWithValue( "pfMET_PAS", PFMET->at(0), p1_Iso*p2_Iso ) ;
+    fillVariableWithValue( "tcMET_PAS", TCMET->at(0), p1_Iso*p2_Iso ) ;
+    fillVariableWithValue( "caloMET_PAS", CaloMET->at(0), p1_Iso*p2_Iso ) ;
 
-    // 1st ele
-    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) 
+    //ele Pt
+    if( v_idx_sc_Iso.size() >= 2 ) 
       {
-	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
-	fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
-	fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0])) );
+	fillVariableWithValue( "Pt1stEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[0]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta1stEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[0]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "mEta1stEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[0])), p1_Iso*p2_Iso );
 	//PAS June 2010
-	fillVariableWithValue( "Pt1stEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
-	fillVariableWithValue( "Eta1stEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
-      }
+	fillVariableWithValue( "Pt1stEle_PAS", SuperClusterPt->at(v_idx_sc_Iso[0]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta1stEle_PAS", SuperClusterEta->at(v_idx_sc_Iso[0]), p1_Iso*p2_Iso );
 
-    // 2nd ele
-    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 2 ) 
-      {
-	fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
-	fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
-	fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1])) );
-	fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ) );
+	fillVariableWithValue( "Pt2ndEle_IDISO_NoOvrlp", SuperClusterPt->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta2ndEle_IDISO_NoOvrlp", SuperClusterEta->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "mEta2ndEle_IDISO_NoOvrlp", fabs(SuperClusterEta->at(v_idx_sc_Iso[1])), p1_Iso*p2_Iso );
+	fillVariableWithValue( "maxMEtaEles_IDISO_NoOvrl", max( getVariableValue("mEta1stEle_IDISO_NoOvrlp"), getVariableValue("mEta2ndEle_IDISO_NoOvrlp") ) , p1_Iso*p2_Iso);
 	//PAS June 2010
-	fillVariableWithValue( "Pt2ndEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
-	fillVariableWithValue( "Eta2ndEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
+	fillVariableWithValue( "Pt2ndEle_PAS", SuperClusterPt->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta2ndEle_PAS", SuperClusterEta->at(v_idx_sc_Iso[1]), p1_Iso*p2_Iso );
       }
 
     // 1st jet
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 ) 
       {
-	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "Eta1stJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "mEta1stJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0])) );
+	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta1stJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) , p1_Iso*p2_Iso);
+	fillVariableWithValue( "mEta1stJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0])), p1_Iso*p2_Iso );
 	//PAS June 2010
-	fillVariableWithValue( "Pt1stJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "Eta1stJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Pt1stJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta1stJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1_Iso*p2_Iso );
       }
 
 
@@ -682,19 +778,19 @@ void analysisClass::Loop()
     //## 2nd jet
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 ) 
       {
-	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "Eta2ndJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "mEta2ndJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1])) );
-	fillVariableWithValue( "maxMEtaJets_noOvrlp_ID", max( getVariableValue("mEta1stJet_noOvrlp_ID"), getVariableValue("mEta2ndJet_noOvrlp_ID") ) );
+	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta2ndJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "mEta2ndJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1])), p1_Iso*p2_Iso );
+	fillVariableWithValue( "maxMEtaJets_noOvrlp_ID", max( getVariableValue("mEta1stJet_noOvrlp_ID"), getVariableValue("mEta2ndJet_noOvrlp_ID") ), p1_Iso*p2_Iso );
 	//PAS June 2010
-	fillVariableWithValue( "Pt2ndJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "Eta2ndJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Pt2ndJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1_Iso*p2_Iso );
+	fillVariableWithValue( "Eta2ndJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1_Iso*p2_Iso );
       }
 
     //## define "2ele" and "2jets" booleans
     bool TwoEle=false;
     bool TwoJets=false;
-    if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 2 ) TwoEle = true;
+    if( v_idx_sc_Iso.size() >= 2 ) TwoEle = true;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 ) TwoJets = true;
 
     // ST
@@ -702,17 +798,17 @@ void analysisClass::Loop()
     if ( (TwoEle) && (TwoJets) ) 
       {
 	calc_sT = 
-	  ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
-	  ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) +
+	  SuperClusterPt->at(v_idx_sc_Iso[0]) +
+	  SuperClusterPt->at(v_idx_sc_Iso[1]) +
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
-	fillVariableWithValue("sT", calc_sT);
-	fillVariableWithValue("sT_MLQ200", calc_sT);
-	fillVariableWithValue("sT_MLQ250", calc_sT);
-	fillVariableWithValue("sT_MLQ300", calc_sT);
-	fillVariableWithValue("sT_MLQ400", calc_sT);       
+	fillVariableWithValue("sT", calc_sT, p1_Iso*p2_Iso);
+	fillVariableWithValue("sT_MLQ200", calc_sT, p1_Iso*p2_Iso);
+	fillVariableWithValue("sT_MLQ250", calc_sT, p1_Iso*p2_Iso);
+	fillVariableWithValue("sT_MLQ300", calc_sT, p1_Iso*p2_Iso);
+	fillVariableWithValue("sT_MLQ400", calc_sT, p1_Iso*p2_Iso);       
 	//PAS June 2010
-	fillVariableWithValue("sT_PAS", calc_sT);
+	fillVariableWithValue("sT_PAS", calc_sT, p1_Iso*p2_Iso);
       }
 
     // ST jets
@@ -722,7 +818,7 @@ void analysisClass::Loop()
 	calc_sTjet =
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) + 
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) ;
-	fillVariableWithValue("sTjet_PAS", calc_sTjet);
+	fillVariableWithValue("sTjet_PAS", calc_sTjet, p1_Iso*p2_Iso);
       }
 
     // Mjj
@@ -737,7 +833,7 @@ void analysisClass::Loop()
 			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	jj = jet1+jet2;
 	//PAS June 2010
-	fillVariableWithValue("Mjj_PAS", jj.M());
+	fillVariableWithValue("Mjj_PAS", jj.M(), p1_Iso*p2_Iso);
       }
 
 
@@ -745,26 +841,26 @@ void analysisClass::Loop()
     if (TwoEle)
       {
 	TLorentzVector ele1, ele2, ee;
-	ele1.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
-			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
-			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),0);
-	ele2.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
-			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
-			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),0);
+	ele1.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[0]),
+			  SuperClusterEta->at(v_idx_sc_Iso[0]),
+			  SuperClusterPhi->at(v_idx_sc_Iso[0]),0);
+	ele2.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[1]),
+			  SuperClusterEta->at(v_idx_sc_Iso[1]),
+			  SuperClusterPhi->at(v_idx_sc_Iso[1]),0);
 	ee = ele1+ele2;
-	fillVariableWithValue("Mee", ee.M());
+	fillVariableWithValue("Mee", ee.M(), p1_Iso*p2_Iso);
 	//TwoEleOnly
-	fillVariableWithValue("Mee_TwoEleOnly", ee.M());
-	fillVariableWithValue("Mee_presel", ee.M());
+	fillVariableWithValue("Mee_TwoEleOnly", ee.M(), p1_Iso*p2_Iso);
+	fillVariableWithValue("Mee_presel", ee.M(), p1_Iso*p2_Iso);
 	//
 	//PAS June 2010
-	fillVariableWithValue("Mee_PAS", ee.M());
+	fillVariableWithValue("Mee_PAS", ee.M(), p1_Iso*p2_Iso);
 
 	double calc_sTele=-999.;
         calc_sTele =
-	   ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
-	   ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
-	fillVariableWithValue("sTele_PAS", calc_sTele);
+	   SuperClusterPt->at(v_idx_sc_Iso[0]) +
+	   SuperClusterPt->at(v_idx_sc_Iso[1]) ;
+	fillVariableWithValue("sTele_PAS", calc_sTele, p1_Iso*p2_Iso);
 
 	if(isData==true) 
 	  {
@@ -788,12 +884,12 @@ void analysisClass::Loop()
     if ( (TwoEle) && (TwoJets) ) // TwoEle and TwoJets
       {
 	TLorentzVector jet1, jet2, ele1, ele2;
-	ele1.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
-			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),
-			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]),0);
-	ele2.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
-			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
-			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),0);
+	ele1.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[0]),
+			  SuperClusterEta->at(v_idx_sc_Iso[0]),
+			  SuperClusterPhi->at(v_idx_sc_Iso[0]),0);
+	ele2.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[1]),
+			  SuperClusterEta->at(v_idx_sc_Iso[1]),
+			  SuperClusterPhi->at(v_idx_sc_Iso[1]),0);
 	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
 			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
 			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
@@ -827,23 +923,23 @@ void analysisClass::Loop()
 	  {
 	    Mej_1stPair = Me1j2;
 	    Mej_2ndPair = Me2j1;
-	    fillVariableWithValue("minDRej_selecPairs", min(deltaR_e1j2,deltaR_e2j1) );
-	    fillVariableWithValue("minDRej_unselPairs", min(deltaR_e1j1,deltaR_e2j2) );
+	    fillVariableWithValue("minDRej_selecPairs", min(deltaR_e1j2,deltaR_e2j1), p1_Iso*p2_Iso );
+	    fillVariableWithValue("minDRej_unselPairs", min(deltaR_e1j1,deltaR_e2j2), p1_Iso*p2_Iso );
 	  }
 	else
 	  {
 	    Mej_1stPair = Me1j1;
 	    Mej_2ndPair = Me2j2;
-	    fillVariableWithValue("minDRej_selecPairs", min(deltaR_e1j1,deltaR_e2j2) );
-	    fillVariableWithValue("minDRej_unselPairs", min(deltaR_e1j2,deltaR_e2j1) );
+	    fillVariableWithValue("minDRej_selecPairs", min(deltaR_e1j1,deltaR_e2j2), p1_Iso*p2_Iso );
+	    fillVariableWithValue("minDRej_unselPairs", min(deltaR_e1j2,deltaR_e2j1), p1_Iso*p2_Iso );
 	  } 
-	fillVariableWithValue("Mej_1stPair", Mej_1stPair);       
-	fillVariableWithValue("Mej_2ndPair", Mej_2ndPair);
+	fillVariableWithValue("Mej_1stPair", Mej_1stPair, p1_Iso*p2_Iso);       
+	fillVariableWithValue("Mej_2ndPair", Mej_2ndPair, p1_Iso*p2_Iso);
 	//PAS June 2010
 	h_Mej_PAS->Fill(Mej_1stPair);
 	h_Mej_PAS->Fill(Mej_2ndPair);
-	fillVariableWithValue("Mej_1stPair_PAS", Mej_1stPair);       
-	fillVariableWithValue("Mej_2ndPair_PAS", Mej_2ndPair);
+	fillVariableWithValue("Mej_1stPair_PAS", Mej_1stPair, p1_Iso*p2_Iso);       
+	fillVariableWithValue("Mej_2ndPair_PAS", Mej_2ndPair, p1_Iso*p2_Iso);
 
 	// min and max DeltaR between electrons and any jet
 	double minDeltaR_ej = 999999;
@@ -864,8 +960,8 @@ void analysisClass::Loop()
 	    if(thisMaxDR > maxDeltaR_ej)
 	      maxDeltaR_ej = thisMaxDR;
 	  } 
-	fillVariableWithValue("minDeltaR_ej", minDeltaR_ej);
-	fillVariableWithValue("maxDeltaR_ej", maxDeltaR_ej);
+	fillVariableWithValue("minDeltaR_ej", minDeltaR_ej, p1_Iso*p2_Iso);
+	fillVariableWithValue("maxDeltaR_ej", maxDeltaR_ej, p1_Iso*p2_Iso);
 
 	// printouts for small Mej
 	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
@@ -880,11 +976,11 @@ void analysisClass::Loop()
 // 	    STDOUT("Mej<20GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
 // 	    STDOUT("Mej<20GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
 	    TLorentzVector thisele;
-	    for(int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++)
+	    for(int iele=0; iele<v_idx_sc_Iso.size(); iele++)
 	      {
-		thisele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
-				     ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
-				     ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),0);
+		thisele.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[iele]),
+				     SuperClusterEta->at(v_idx_sc_Iso[iele]),
+				     SuperClusterPhi->at(v_idx_sc_Iso[iele]),0);
 		STDOUT("Mej<20GeV: e"<<iele+1<<" Pt, eta, phi = " 
 		       << ", "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi()<<"; DR_j1, DR_j2 = "<< thisele.DeltaR(jet1)<<", "<<thisele.DeltaR(jet2));
 	      }
