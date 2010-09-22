@@ -426,7 +426,7 @@ void analysisClass::Loop()
     fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
     fillVariableWithValue( "nJet_PtCut_noOvrlp", v_idx_jet_PtCut_noOverlap.size() ) ;
     fillVariableWithValue( "nJet_PtCut_noOvrlp_ID", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
-    fillVariableWithValue( "nJet_PtCut_noOvrlp_ID_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
+    fillVariableWithValue( "nJet_WithJetEtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
 
     // nMuon
     fillVariableWithValue( "nMuon_PtCut_IDISO", v_idx_muon_PtCut_IDISO.size() ) ;

@@ -74,7 +74,7 @@ MET                             30           +inf               -               
 nJet_all                        -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut                      -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp              -inf         +inf               -               -               2       16 -0.5 15.5
-nJet_PtCut_noOvrlp_ID_EtaCut    -inf         +inf               -               -               2       16 -0.5 15.5
+nJet_WithJetEtaCut              -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID           1            +inf               -               -               2       16 -0.5 15.5
 Pt1stJet_noOvrlp_ID             30           +inf               -               -               2       100 0 1000
 Pt2ndJet_noOvrlp_ID             30           +inf               -               -               2       100 0 1000
