@@ -1,0 +1,86 @@
+#
+#############################     Example of file with list of cuts
+#
+#
+#------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
+# This first list of variable names and values are used to pass configurable values to the user code associated 
+# to a variable name.
+# The user can retrieve the values associated to a variable name via a provided function call
+# [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in 
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1. 
+# Variable names must be unique.
+#
+#VariableName         value1		value2		value3		value4		level
+#------------	      ------------	-------------	------------	-------------	-----
+#eleFidRegion	      2.5		-		-		-		-1	
+#jetFidRegion	      2.5		-		-		-		-1	
+ele_PtCut	      10		-		-		-		-1
+eleIDType	      5			-		-		-		-1
+# eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
+heepBitMask_EBGapEE   0x000	        0x000           0x010           -               -1
+looseBitMask_EBGapEE  0xf00		0xf00           0xf00           0               -1
+# heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
+jet_PtCut             10           -                    -               -               -1
+jet_sc_DeltaRcut     0.3          -                    -               -               -1
+eleEta_bar            1.442        -                    -               -               -1
+eleEta_end            1.560        2.5                  -               -               -1
+FakeRate_loose_BarrelCross  0.0512	   -			-		-		-1
+FakeRate_loose_BarrelSlope  0.0		   -			-		-		-1
+FakeRate_loose_EndcapCross  0.0329	   -			-		-		-1
+FakeRate_loose_EndcapSlope  0.0		   -			-		-		-1
+FakeRate_tight_BarrelCross  0.0048	   -			-		-		-1
+FakeRate_tight_BarrelSlope  0.0		   -			-		-		-1
+FakeRate_tight_EndcapCross  0.0389	   -			-		-		-1
+FakeRate_tight_EndcapSlope  0.0		   -			-		-		-1
+#
+#
+#--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
+# The cut variable names, cut boundaries and histogram binnings are provided here by the user.
+# In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
+# a provided function call [ e.g. fillVariableWithValue("nEleFinal", number_of_electrons) ]
+# The variable names in the user code has to match the names provided here.
+# Variable names must be unique.
+# The cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 ) 
+# in case only the first range (minValue1, maxValue1) is provided, 
+# otherwise the cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )  OR  ( minValue2 < VariableName <= maxValue2 )
+# in case even the second range (minValue2, maxValue2) is provided.
+# The level of the cut (0,1,2 ... n) is provided by the user and can be used in the code to easily determine if
+# groups of same-level cuts have passed or failed.
+#
+#VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
+#------------			------------ -------------	------------	-------------	-----	----------------
+nIsoSC				0	     +inf		-		-		0	5 -0.5 4.5
+HLT				-1	   +inf			-		-		4	2 -0.5 1.5
+dR_SCJet			0.7	   +inf			-		-		0	300 0.0	3.0
+#
+Pt1stSC_ISO			30         +inf                 -               -               1       100 0 1000
+Eta1stSC_ISO			-inf       +inf                 -               -               1       100 -5 5
+mEta1stSC_ISO			-inf       2.5                  -               -               1       50 0 5
+Pt2ndSC_ISO			30         +inf                 -               -               1       100 0 1000
+Eta2ndSC_ISO			-inf       +inf                 -               -               1       100 -5 5
+mEta2ndSC_ISO			-inf       2.5                  -               -               1       50 0 5
+maxMEtaSC_ISO			-inf       +inf                 -               -               1       50 0 5
+#
+nJet_all                        -inf	     +inf               -               -               2       16 -0.5 15.5
+nJet_PtCut                      -inf	     +inf               -               -               2       16 -0.5 15.5
+nJet_PtCut_noOvrlpSC            0	     +inf               -               -               2       16 -0.5 15.5
+Pt1stJet_noOvrlpSC              30         +inf                 -               -               2       100 0 1000
+Eta1stJet_noOvrlpSC             -inf       +inf                 -               -               2       100 -5 5
+mEta1stJet_noOvrlpSC            -inf       3.0                  -               -               2       50 0 5
+Pt2ndJet_noOvrlpSC              30         +inf                 -               -               3       100 0 1000
+Eta2ndJet_noOvrlpSC             -inf       +inf                 -               -               3       100 -5 5
+mEta2ndJet_noOvrlpSC            -inf       3.0                  -               -               3       50 0 5
+maxMEtaJets_noOvrlpSC           -inf       +inf                 -               -               3       50 0 5
+#
+Mee                             100        +inf                 -               -               3       200 0 1000
+sT                              120        +inf                 -               -               3       200 0 2000
+nEle_all			0	     +inf		-		-		4	16 -0.5 15.5
+nEle_PtCut			0	     +inf		-		-		4	16 -0.5 15.5
+nEle_PtCut_IDISO_noOvrlp	0	     +inf		-		-		4	16 -0.5 15.5
+Mej                             -inf       +inf                 -               -               4       200 0 2000
+STee				-inf	   +inf		        -	        -	        4	200 0 2000
+STjj				-inf	   +inf		        -	        -	        4	200 0 2000
+#
