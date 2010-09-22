@@ -18,7 +18,7 @@
 ele_PtCut             30                -               -               -               -1
 # no longer used since using heepBitMask # eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
-heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
+heepBitMask_EBGapEE   0x000	        0x000           0x010           -               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
 jet_PtCut             30           -                    -               -               -1
 jet_EtaCut            3.0          -                    -               -               -1
@@ -69,11 +69,12 @@ nEle_PtCut_IDISO_noOvrlp        0            1                  -               
 Pt1stEle_IDISO_NoOvrlp          30           +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf         +inf               -               -               1       100 -5 5
 mEta1stEle_IDISO_NoOvrlp        -inf         2.5                -               -               1       50 0 5
-MET                             -inf         +inf               -               -               1       200 0 1000
+MET                             30           +inf               -               -               1       200 0 1000
 #
 nJet_all                        -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut                      -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp              -inf         +inf               -               -               2       16 -0.5 15.5
+nJet_PtCut_noOvrlp_ID_EtaCut    -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID           1            +inf               -               -               2       16 -0.5 15.5
 Pt1stJet_noOvrlp_ID             30           +inf               -               -               2       100 0 1000
 Pt2ndJet_noOvrlp_ID             30           +inf               -               -               2       100 0 1000
@@ -87,8 +88,6 @@ Pt1stEle_PAS			-inf         +inf               -               -               3
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
 MET_PAS                         -inf         +inf               -               -               3       200 0 1000
 minMETPt1stEle_PAS              -inf         +inf               -               -               3       200 0 1000
-nJet_PAS_All                    -inf         +inf               -               -               3       16 -0.5 15.5
-nJet_PAS_EtaCut                 -inf         +inf               -               -               3       16 -0.5 15.5
 Pt1stJet_PAS                    -inf         +inf               -               -               3       100 0 1000
 Pt2ndJet_PAS                    -inf         +inf               -               -               3       100 0 1000
 Eta1stJet_PAS                   -inf         +inf               -               -               3       100 -5 5
@@ -99,6 +98,7 @@ mDeltaPhiMET1stJet_PAS          -inf         +inf               -               
 mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       50 0 4
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
+Mjj_PAS				-inf	     +inf               -               -               2       200 0 2000
 #
 nMuon_PtCut_IDISO               -1           0                  -               -               2       16 -0.5 15.5
 mDeltaPhiMETEle                 -inf         +inf               -               -               2       50 0 4
