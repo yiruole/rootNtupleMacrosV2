@@ -426,9 +426,7 @@ void analysisClass::Loop()
     fillVariableWithValue( "nJet_PtCut", v_idx_jet_PtCut.size() ) ;
     fillVariableWithValue( "nJet_PtCut_noOvrlp", v_idx_jet_PtCut_noOverlap.size() ) ;
     fillVariableWithValue( "nJet_PtCut_noOvrlp_ID", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
-    //PAS Sept 2010
-    fillVariableWithValue( "nJet_PAS_All", v_idx_jet_PtCut_noOverlap_ID.size() ) ;
-    fillVariableWithValue( "nJet_PAS_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
+    fillVariableWithValue( "nJet_PtCut_noOvrlp_ID_EtaCut", v_idx_jet_PtCut_noOverlap_ID_EtaCut.size() ) ;
 
     // nMuon
     fillVariableWithValue( "nMuon_PtCut_IDISO", v_idx_muon_PtCut_IDISO.size() ) ;
@@ -560,6 +558,20 @@ void analysisClass::Loop()
     if( v_idx_ele_PtCut_IDISO_noOverlap.size() == 1 ) OneEle = true;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 ) TwoJets = true;
 
+    // Mjj
+    if (TwoJets)
+      {
+	TLorentzVector jet1, jet2, jj;
+	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
+	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
+	jj = jet1+jet2;
+	//PAS June 2010
+	fillVariableWithValue("Mjj_PAS", jj.M());
+      }
 
     // ST
     if ( (OneEle) && (TwoJets) ) 
