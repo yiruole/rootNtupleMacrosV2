@@ -243,7 +243,6 @@ void analysisClass::Loop()
       if ( SuperClusterPt->at(isc) > getPreCutValue1("ele_PtCut") ) PassPt=true;
       if (SuperClusterHoE->at(isc)<0.05) PassHoE=true;
 
-
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
 	idx_scNextPt = idx_scHighestPt;
@@ -268,7 +267,18 @@ void analysisClass::Loop()
 	}
       }
 
-      if (PassPt && PassHoE){
+      bool Barrel = false;
+      bool Endcap = false;
+      bool PassEcalIso = false;
+      if (fabs(SuperClusterEta->at(isc))<1.442) Barrel = true;
+      if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
+      if (!Barrel && !Endcap) continue;
+
+      if (Barrel && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
+      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
+      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*(SuperClusterPt->at(isc)-50)))) PassEcalIso=true;
+
+      if (PassPt && PassHoE && PassEcalIso){
 	if (SuperClusterPt->at(isc)>scHighestPt_Iso){
 	  scNextPt_Iso = scHighestPt_Iso;
 	  idx_scNextPt_Iso = idx_scHighestPt_Iso;
