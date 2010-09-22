@@ -712,9 +712,9 @@ void analysisClass::Loop()
 
 
 ///  Just fill all histograms assuming exactly 2 superclusters.
-    if (v_idx_sc_all.size()==2) fillVariableWithValue( "nEle_all",v_idx_sc_all.size() , p1_all*p2_all ) ;
-    if (v_idx_sc_PtCut.size()==2) fillVariableWithValue( "nEle_PtCut",v_idx_sc_PtCut.size(), p1_PtCut*p2_PtCut) ;
-    if (v_idx_sc_Iso.size()==2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",v_idx_sc_Iso.size(), p1_Iso*p2_Iso) ;
+//     if (v_idx_sc_all.size()>=2) fillVariableWithValue( "nEle_all",v_idx_sc_all.size() , p1_all*p2_all ) ;
+//     if (v_idx_sc_PtCut.size()>=2) fillVariableWithValue( "nEle_PtCut",v_idx_sc_PtCut.size(), p1_PtCut*p2_PtCut) ;
+    if (v_idx_sc_Iso.size()>=2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",v_idx_sc_Iso.size(), p1_Iso*p2_Iso) ;
 
 
     /// Now fill all variables that are filled just once
