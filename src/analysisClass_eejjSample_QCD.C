@@ -237,11 +237,28 @@ void analysisClass::Loop()
 
 
      for(int isc=0;isc<SuperClusterPt->size();isc++){
+
       if ( 1 - SuperClusterS4S1->at(isc) > 0.95 ) continue; 
-       bool PassPt = false;
-       bool PassHoE = false;
+
+      bool Barrel = false;
+      bool Endcap = false;
+      if (fabs(SuperClusterEta->at(isc))<1.442) Barrel = true;
+      if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
+      if ( !Barrel && !Endcap) continue;
+
+      bool PassPt = false;
       if ( SuperClusterPt->at(isc) > getPreCutValue1("ele_PtCut") ) PassPt=true;
-      if (SuperClusterHoE->at(isc)<0.05) PassHoE=true;
+      if ( !PassPt ) continue;
+
+      bool PassHoE = false;
+      if ( SuperClusterHoE->at(isc)<0.05) PassHoE=true;
+      if ( !PassHoE ) continue;
+
+      bool PassEcalIso = false;
+      if (Barrel && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
+      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
+      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*(SuperClusterPt->at(isc)-50)))) PassEcalIso=true;
+      if ( !PassEcalIso ) continue;
 
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
@@ -254,62 +271,36 @@ void analysisClass::Loop()
 	idx_scNextPt = isc;
       }
 
-      if (PassPt){
-	if (SuperClusterPt->at(isc)>scHighestPt_PtCut){
-	  scNextPt_PtCut = scHighestPt_PtCut;
-	  idx_scNextPt_PtCut = idx_scHighestPt_PtCut;
-	  scHighestPt_PtCut = SuperClusterPt->at(isc);
-	  idx_scHighestPt_PtCut = isc;
-	}
-	else if (SuperClusterPt->at(isc)>scNextPt_PtCut){
-	  scNextPt_PtCut = SuperClusterPt->at(isc);
-	  idx_scNextPt_PtCut = isc;
-	}
-      }
-
-      bool Barrel = false;
-      bool Endcap = false;
-      bool PassEcalIso = false;
-      if (fabs(SuperClusterEta->at(isc))<1.442) Barrel = true;
-      if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
-      if (!Barrel && !Endcap) continue;
-
-      if (Barrel && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
-      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
-      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*(SuperClusterPt->at(isc)-50)))) PassEcalIso=true;
-
-      if (PassPt && PassHoE && PassEcalIso){
-	if (SuperClusterPt->at(isc)>scHighestPt_Iso){
-	  scNextPt_Iso = scHighestPt_Iso;
-	  idx_scNextPt_Iso = idx_scHighestPt_Iso;
-	  scHighestPt_Iso = SuperClusterPt->at(isc);
-	  idx_scHighestPt_Iso = isc;
-	}
-	else if (SuperClusterPt->at(isc)>scNextPt_Iso){
-	  scNextPt_Iso = SuperClusterPt->at(isc);
-	  idx_scNextPt_Iso = isc;
-	}
-      }
-
      }
-    if (idx_scHighestPt != -1) v_idx_sc_all.push_back(idx_scHighestPt);
-    if (idx_scNextPt != -1)v_idx_sc_all.push_back(idx_scNextPt);
-    if (idx_scHighestPt_PtCut != -1) v_idx_sc_PtCut.push_back(idx_scHighestPt_PtCut);
-    if (idx_scNextPt_PtCut != -1)v_idx_sc_PtCut.push_back(idx_scNextPt_PtCut);
-    if (idx_scHighestPt_Iso != -1) v_idx_sc_Iso.push_back(idx_scHighestPt_Iso);
-    if (idx_scNextPt_Iso != -1)v_idx_sc_Iso.push_back(idx_scNextPt_Iso);
+    if (idx_scHighestPt != -1) v_idx_sc_Iso.push_back(idx_scHighestPt);
+    if (idx_scNextPt != -1)v_idx_sc_Iso.push_back(idx_scNextPt);
 
     //////now fill in the rest of the sc in whatever order they are
     for(int isc=0;isc<SuperClusterPt->size();isc++){
-       if ( 1 - SuperClusterS4S1->at(isc) > 0.95 ) continue; 
-       bool PassPt = false;
-       bool PassHoE = false;
-       if (isc!=idx_scHighestPt && isc!=idx_scNextPt) v_idx_sc_all.push_back(isc);
-       if ( SuperClusterPt->at(isc) > getPreCutValue1("ele_PtCut") ) PassPt=true;
-       if (SuperClusterHoE->at(isc)<0.05) PassHoE=true;
 
-       if (isc!=idx_scHighestPt_PtCut && isc!=idx_scNextPt_PtCut && PassPt) v_idx_sc_PtCut.push_back(isc);
-       if (isc!=idx_scHighestPt_Iso && isc!=idx_scNextPt_Iso && PassPt && PassHoE) v_idx_sc_Iso.push_back(isc);
+      if ( 1 - SuperClusterS4S1->at(isc) > 0.95 ) continue; 
+
+      bool Barrel = false;
+      bool Endcap = false;
+      if (fabs(SuperClusterEta->at(isc))<1.442) Barrel = true;
+      if ((fabs(SuperClusterEta->at(isc))<2.5)&&(fabs(SuperClusterEta->at(isc))>1.560)) Endcap = true;
+      if ( !Barrel && !Endcap) continue;
+
+      bool PassPt = false;
+      if ( SuperClusterPt->at(isc) > getPreCutValue1("ele_PtCut") ) PassPt=true;
+      if ( !PassPt ) continue;
+
+      bool PassHoE = false;
+      if ( SuperClusterHoE->at(isc)<0.05) PassHoE=true;
+      if ( !PassHoE ) continue;
+
+      bool PassEcalIso = false;
+      if (Barrel && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
+      if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*SuperClusterPt->at(isc)))) PassEcalIso=true;
+      if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)<(6+(0.01*(SuperClusterPt->at(isc)-50)))) PassEcalIso=true;
+      if ( !PassEcalIso ) continue;
+
+      if (isc!=idx_scHighestPt && isc!=idx_scNextPt) v_idx_sc_Iso.push_back(isc);
     }
 
     // Electrons
@@ -560,34 +551,6 @@ void analysisClass::Loop()
     double BarrelSlope = 0;
     double EndcapCross = 0.0399;
     double EndcapSlope = 0;
-
-    double p1_all = 0, p2_all = 0, p3_all = 0;
-    if (v_idx_sc_all.size()>=1){
-      if (fabs(SuperClusterEta->at(v_idx_sc_all[0]))<eleEta_bar) p1_all = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_all[0]);
-      if (fabs(SuperClusterEta->at(v_idx_sc_all[0]))>eleEta_end_min) p1_all = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_all[0]) ;
-    }
-    if (v_idx_sc_all.size()>=2){
-      if (fabs(SuperClusterEta->at(v_idx_sc_all[1]))<eleEta_bar) p2_all = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_all[1]);
-      if (fabs(SuperClusterEta->at(v_idx_sc_all[1]))>eleEta_end_min) p2_all = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_all[1]);
-    }
-    if (v_idx_sc_all.size()>=3){
-      if (fabs(SuperClusterEta->at(v_idx_sc_all[2]))<eleEta_bar) p3_all = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_all[2]);
-      if (fabs(SuperClusterEta->at(v_idx_sc_all[2]))>eleEta_end_min) p3_all = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_all[2]);
-    }
-
-    double p1_PtCut = 0, p2_PtCut = 0, p3_PtCut = 0;
-    if (v_idx_sc_PtCut.size()>=1){
-      if (fabs(SuperClusterEta->at(v_idx_sc_PtCut[0]))<eleEta_bar) p1_PtCut = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_PtCut[0]);
-      if (fabs(SuperClusterEta->at(v_idx_sc_PtCut[0]))>eleEta_end_min) p1_PtCut = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_PtCut[0]) ;
-    }
-    if (v_idx_sc_PtCut.size()>=2){
-      if (fabs(SuperClusterEta->at(v_idx_sc_PtCut[1]))<eleEta_bar) p2_PtCut = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_PtCut[1]);
-      if (fabs(SuperClusterEta->at(v_idx_sc_PtCut[1]))>eleEta_end_min) p2_PtCut = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_PtCut[1]);
-    }
-    if (v_idx_sc_PtCut.size()>=3){
-      if (fabs(SuperClusterEta->at(v_idx_sc_PtCut[2]))<eleEta_bar) p3_PtCut = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_PtCut[2]);
-      if (fabs(SuperClusterEta->at(v_idx_sc_PtCut[2]))>eleEta_end_min) p3_PtCut = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_PtCut[2]);
-    }
 
     double p1_Iso = 0, p2_Iso = 0, p3_Iso = 0;
     if (v_idx_sc_Iso.size()>=1){
