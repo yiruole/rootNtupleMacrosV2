@@ -39,6 +39,8 @@ muonEta_end           1.2          2.4                  -               -       
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
+fakeRate_Barrel	      0.0061	   0			-		-		-1
+fakeRate_Endcap	      0.0399	   0			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
