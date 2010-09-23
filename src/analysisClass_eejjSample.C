@@ -479,7 +479,7 @@ void analysisClass::Loop()
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
     fillVariableWithValue( "PassPrimaryVertex", isPrimaryVertex ) ;
-    fillVariableWithValue( "PassHBHENoiseFilter", passLooseNoiseFilter ) ;
+    //    fillVariableWithValue( "PassHBHENoiseFilter", passLooseNoiseFilter ) ;
 
     // nMu
 //     fillVariableWithValue( "nMu_all", MuonPt->size() ) ;
