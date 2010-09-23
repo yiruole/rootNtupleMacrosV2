@@ -554,7 +554,7 @@ void analysisClass::Loop()
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
     fillVariableWithValue( "PassPrimaryVertex", isPrimaryVertex ) ;
-    fillVariableWithValue( "PassHBHENoiseFilter", passLooseNoiseFilter ) ;
+    //fillVariableWithValue( "PassHBHENoiseFilter", passLooseNoiseFilter ) ;
 
     // nJet
     fillVariableWithValue( "nJet_all", v_idx_jet_all.size(), p1*p2 ) ;
