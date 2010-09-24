@@ -481,9 +481,25 @@ void analysisClass::Loop()
 
     // Set the value of the variableNames listed in the cutFile to their current value
 
+
+    //     //-------------- EXAMPLE OF RESET-EVALUATE LOOP -
+    //     //TEST : loop reset-evaluate cuts    
+    //     fillVariableWithValue("Test",0,0.5);    
+    //     evaluateCuts();
+    //     resetCuts();    
+    //     fillVariableWithValue("Test",0,0.25);    
+    //     evaluateCuts();
+    //     resetCuts();
+    //     fillVariableWithValue("Test",1,1);
+    //     evaluateCuts();
+    //     resetCuts();
+    //     fillVariableWithValue("Test",1,0.2);
+    //     //---------------
+
+
     // original code from Ellie available at 
     // http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/rootNtupleMacrosV2/src/analysisClass_eejjSample_QCD.C?revision=1.8&view=markup
-    //here we report only the code to fill the "nEle_PtCut_IDISO_noOvrlp" variable
+    //here we report only the code to fill correctly the "nEle_PtCut_IDISO_noOvrlp" variable
     
     //## fill bin Nele=0
     
@@ -528,12 +544,13 @@ void analysisClass::Loop()
 
     //     if (v_idx_sc_Iso.size()>2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",3, p1*p2*p3) ;
 
+
     //-----
 
     ///  Just fill all histograms assuming exactly 2 superclusters.
     //     if (v_idx_sc_all.size()>=2) fillVariableWithValue( "nEle_all",v_idx_sc_all.size() , p1*p2 ) ;
     //     if (v_idx_sc_PtCut.size()>=2) fillVariableWithValue( "nEle_PtCut",v_idx_sc_PtCut.size(), p1*p2) ;
-    if (v_idx_sc_Iso.size()>=2) fillVariableWithValue( "nEle_PtCut_IDISO_noOvrlp",v_idx_sc_Iso.size(), p1*p2) ;
+    if (v_idx_sc_Iso.size()>=2) fillVariableWithValue("nEle_PtCut_IDISO_noOvrlp",v_idx_sc_Iso.size(), p1*p2) ;
 
 
     /// Now fill all variables that are filled just once
