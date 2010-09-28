@@ -138,12 +138,12 @@ void analysisClass::Loop()
     // EES and JES
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
-	for(int iele=0; iele<ElectronPt->size(); iele++)
+	for(int iele=0; iele<SuperClusterPt->size(); iele++)
 	  {
-	    if( fabs(ElectronEta->at(iele)) < eleEta_bar )
-	      ElectronPt->at(iele) *= EleEnergyScale_EB;
-	    if( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
-	      ElectronPt->at(iele) *= EleEnergyScale_EE;
+	    if( fabs(SuperClusterEta->at(iele)) < eleEta_bar )
+	      SuperClusterPt->at(iele) *= EleEnergyScale_EB;
+	    if( fabs(SuperClusterEta->at(iele)) > eleEta_end_min && fabs(SuperClusterEta->at(iele)) < eleEta_end_max )
+	      SuperClusterPt->at(iele) *= EleEnergyScale_EE;
 	  }
       }
     if( JetEnergyScale != 1 )
