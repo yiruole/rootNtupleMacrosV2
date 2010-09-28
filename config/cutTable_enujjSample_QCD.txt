@@ -29,7 +29,7 @@ muFidRegion           2.1          -                    -               -       
 muNHits_minThresh     11           -                    -               -               -1
 muTrkD0Maximum        0.2         -                    -               -               -1
 ## 'HLT_Mu9','HLT_Photon15_L1R','HLT_Photon20_L1R','HLT_Photon30_L1R_8E29','HLT_Ele15_LW_L1R','HLT_Jet30U','HLT_MET45','HLT_MinBiasBSC','HLT_Photon15_Cleaned_L1R','HLT_Photon20_Cleaned_L1R'
-HLTTrigger            1            8                    -1              -1              -1
+HLTTrigger            2            9                    -1              -1              -1
 HLTFromRun	      0		   138409		999999999	999999999	-1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
@@ -63,9 +63,9 @@ PassBPTX0                       0            1                  -               
 PassPhysDecl                    -inf         +inf               -               -               0       2 -0.5 1.5
 PassBeamScraping                0            1                  -               -               0       2 -0.5 1.5
 PassPrimaryVertex               0            1                  -               -               0       2 -0.5 1.5
-#PassHBHENoiseFilter             0            1                  -               -               0       2 -0.5 1.5
+#PassHBHENoiseFilter            0            1                  -               -               0       2 -0.5 1.5
 #
-PassHLT                         -inf         +inf               -               -               1       2 -0.5 1.5
+PassHLT                         0	     1                  -               -               1       2 -0.5 1.5
 nIsoSC				-inf	     +inf		-		-		1	16 -0.5 15.5
 #nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 #nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
