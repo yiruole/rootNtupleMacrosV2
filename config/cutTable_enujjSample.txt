@@ -85,6 +85,7 @@ Eta2ndJet_noOvrlp_ID            -inf         +inf               -               
 mEta1stJet_noOvrlp_ID           -inf         3.0                -               -               2       50 0 5
 mEta2ndJet_noOvrlp_ID           -inf         3.0                -               -               2       50 0 5
 maxMEtaJets_noOvrlp_ID          -inf         +inf               -               -               2       50 0 5
+minDRej				0.7	     +inf		-		-		2	100 0 10
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
@@ -100,22 +101,32 @@ mDeltaPhiMET1stJet_PAS          -inf         +inf               -               
 mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       50 0 4
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
-Mjj_PAS				-inf	     +inf               -               -               2       200 0 2000
+Mjj_PAS				-inf	     +inf               -               -               3       200 0 2000
+Mej_1stPair_PAS                 -inf	     +inf               -               -               3       200 0 2000
+Mej_2ndPair_PAS                 -inf	     +inf               -               -               3       200 0 2000
+MTnuj_1stPair_PAS               -inf	     +inf               -               -               3       200 0 2000
+MTnuj_2ndPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 #
-nMuon_PtCut_IDISO               -1           0                  -               -               2       16 -0.5 15.5
-mDeltaPhiMETEle                 -inf         +inf               -               -               2       40 0 4
-mDeltaPhiMET1stJet              0.3          +inf               -               -               2       40 0 4
-mDeltaPhiMET2ndJet              -inf         +inf               -               -               2       40 0 4
+nMuon_PtCut_IDISO               -1           0                  -               -               4       16 -0.5 15.5
+mDeltaPhiMETEle                 -inf         +inf               -               -               4       40 0 4
+mDeltaPhiMET1stJet              0.3          +inf               -               -               4       40 0 4
+mDeltaPhiMET2ndJet              -inf         +inf               -               -               4       40 0 4
 minMETPt1stEle                  70           +inf               -               -               4       200 0 1000
 MTenu                           125          +inf               -               -               5       200 0 1000
 sT                              -inf         +inf               -               -               6       200 0 2000
 sT_MLQ200                       350	     +inf               -               -               6       200 0 2000
-sT_MLQ250                       420	     +inf               -               -               6       200 0 2000
-sT_MLQ280                       460	     +inf               -               -               6       200 0 2000
-sT_MLQ300                       470	     +inf               -               -               6       200 0 2000
-sT_MLQ320                       510	     +inf               -               -               6       200 0 2000
-#Mej                            -inf        +inf               -               -               6       200 0 2000
-#MTnuj                          -inf        +inf               -               -               6       200 0 2000
+#
+Mej_1stPair                     -inf	     +inf               -               -               7       200 0 2000
+Mej_2ndPair                     -inf	     +inf               -               -               7       200 0 2000
+MTnuj_1stPair                   -inf	     +inf               -               -               7       200 0 2000
+MTnuj_2ndPair                   -inf	     +inf               -               -               7       200 0 2000
+#
+sT_MLQ250                       420	     +inf               -               -               7       200 0 2000
+sT_MLQ280                       460	     +inf               -               -               7       200 0 2000
+sT_MLQ300                       470	     +inf               -               -               7       200 0 2000
+sT_MLQ320                       510	     +inf               -               -               7       200 0 2000
+#Mej                            -inf        +inf                -               -               7       200 0 2000
+#MTnuj                          -inf        +inf                -               -               7       200 0 2000
 #
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
