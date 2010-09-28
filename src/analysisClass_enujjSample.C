@@ -121,6 +121,10 @@ void analysisClass::Loop()
   
   TH2D *h2_DeltaPhiMET2ndJet_vs_MET1stJet = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET1stJet","h2_DeltaPhiMET2ndJet_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},j2)",50,0,4,50,0,4);
   h2_DeltaPhiMET2ndJet_vs_MET1stJet->Sumw2();
+
+  TH2D *h2_MT_vs_etaEle = new TH2D ("h2_MT_vs_etaEle","h2_MT_vs_etaEle;#eta;M_{T}(#nu,e) [GeV]",50,-5,5,200,0,1000);
+  h2_MT_vs_etaEle->Sumw2();
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
@@ -490,12 +494,10 @@ void analysisClass::Loop()
 	//PAS Sept 2010
 	fillVariableWithValue( "mDeltaPhiMETEle_PAS", fabs(deltaphi) );
         DeltaPhiMETEle = fabs(deltaphi);
-        h2_DeltaPhiMETEle_vs_MET->Fill(thisMET, fabs(deltaphi) );
 
 	// transverse mass enu
 	MT = sqrt(2 * ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) * thisMET * (1 - cos(deltaphi)) );
 	fillVariableWithValue("MTenu", MT);
-        h2_MTnuj_vs_MET->Fill(thisMET,MT);
 	//PAS Sept 2010
 	fillVariableWithValue("MTenu_PAS", MT);
       }
@@ -522,8 +524,6 @@ void analysisClass::Loop()
 	//PAS Sept 2010
 	fillVariableWithValue( "mDeltaPhiMET1stJet_PAS", fabs(deltaphi) );
         DeltaPhiMET1stJet = fabs(deltaphi);
-        h2_DeltaPhiMET1stJet_vs_MET->Fill(thisMET, fabs(deltaphi) );
-        if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) h2_DeltaPhiMETEle_vs_MET1stJet->Fill( fabs(deltaphi), DeltaPhiMETEle);
       }
 
 
@@ -547,9 +547,6 @@ void analysisClass::Loop()
 	fillVariableWithValue( "mDeltaPhiMET2ndJet", fabs(deltaphi) );
 	//PAS Sept 2010
 	fillVariableWithValue( "mDeltaPhiMET2ndJet_PAS", fabs(deltaphi) );
-        h2_DeltaPhiMET2ndJet_vs_MET->Fill(thisMET, fabs(deltaphi) );
-        h2_DeltaPhiMET2ndJet_vs_MET1stJet->Fill( DeltaPhiMET1stJet, fabs(deltaphi) );
-        if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 ) h2_DeltaPhiMETEle_vs_MET2ndJet->Fill( fabs(deltaphi), DeltaPhiMETEle);
       }
 
     // define "1ele" and "2jets" booleans
@@ -587,8 +584,6 @@ void analysisClass::Loop()
 	fillVariableWithValue("sT_MLQ280", calc_sT);
 	fillVariableWithValue("sT_MLQ300", calc_sT);
 	fillVariableWithValue("sT_MLQ320", calc_sT);
-        h2_ST_vs_MET->Fill(thisMET,calc_sT);
-        h2_ST_vs_MTnuj->Fill(MT,calc_sT);
 	//PAS Sept 2010
 	fillVariableWithValue("sT_PAS", calc_sT);
       }
@@ -653,7 +648,29 @@ void analysisClass::Loop()
 	h_MTnuj->Fill(MTn1j1);
 	h_MTnuj->Fill(MTn1j2);
       }
-     
+    
+    if( passedAllPreviousCuts("Pt1stEle_PAS") 
+	&& variableIsFilled("MTenu_PAS") && variableIsFilled("Eta1stEle_PAS") 
+	&& variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("MET_PAS")  
+	&& variableIsFilled("mDeltaPhiMET1stJet_PAS") && variableIsFilled("mDeltaPhiMET2ndJet_PAS")  
+	&& variableIsFilled("sT_PAS") 
+	)
+      {
+	h2_MT_vs_etaEle->Fill( getVariableValue("Eta1stEle_PAS") , getVariableValue("MTenu_PAS") );
+        h2_DeltaPhiMETEle_vs_MET->Fill(getVariableValue("MET_PAS"), fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) );
+        h2_MTnuj_vs_MET->Fill(getVariableValue("MET_PAS"), getVariableValue("MTenu_PAS") );
+        h2_DeltaPhiMET1stJet_vs_MET->Fill( getVariableValue("MET_PAS"), fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ) );
+        h2_DeltaPhiMETEle_vs_MET1stJet->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
+					      fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) );
+        h2_DeltaPhiMET2ndJet_vs_MET->Fill( getVariableValue("MET_PAS") , fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ) );
+        h2_DeltaPhiMET2ndJet_vs_MET1stJet->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ),
+						 fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ) );
+        h2_DeltaPhiMETEle_vs_MET2ndJet->Fill( fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ), 
+					      fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) );
+        h2_ST_vs_MET->Fill(getVariableValue("MET_PAS"), getVariableValue("sT_PAS") );
+        h2_ST_vs_MTnuj->Fill(getVariableValue("MTenu_PAS"), getVariableValue("sT_PAS") );	
+      }
+ 
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
   } // End of loop over events
@@ -672,6 +689,7 @@ void analysisClass::Loop()
   h2_DeltaPhiMETEle_vs_MET1stJet->Write();
   h2_DeltaPhiMETEle_vs_MET2ndJet->Write();
   h2_DeltaPhiMET2ndJet_vs_MET1stJet->Write();
+  h2_MT_vs_etaEle->Write();
 
   ////////////////////// User's code to write histos - END ///////////////////////
   
