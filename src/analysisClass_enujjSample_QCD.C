@@ -726,6 +726,28 @@ void analysisClass::Loop()
 	Me1j1 = jet1ele1.M();
 	Me1j2 = jet2ele1.M();
 
+	double deltaR_e1j1 = ele1.DeltaR(jet1);
+	double deltaR_e1j2 = ele1.DeltaR(jet2);
+
+	fillVariableWithValue("minDRej", min(deltaR_e1j1,deltaR_e1j2), p1 );
+
+	if( Me1j1 > Me1j2 )
+	  {
+	    fillVariableWithValue("Mej_1stPair", Me1j1, p1);       
+	    fillVariableWithValue("Mej_2ndPair", Me1j2, p1);
+	    //PAS June 2010
+	    fillVariableWithValue("Mej_1stPair_PAS", Me1j1, p1);       
+	    fillVariableWithValue("Mej_2ndPair_PAS", Me1j2, p1);
+	  }
+	else
+	  {
+	    fillVariableWithValue("Mej_1stPair", Me1j2, p1);       
+	    fillVariableWithValue("Mej_2ndPair", Me1j1, p1);
+	    //PAS June 2010
+	    fillVariableWithValue("Mej_1stPair_PAS", Me1j2, p1);       
+	    fillVariableWithValue("Mej_2ndPair_PAS", Me1j1, p1);
+	  }	   
+
 	//transverse mass neutrino-jet
 	TVector2 v_MET;
 	TVector2 v_jet1;
@@ -737,6 +759,24 @@ void analysisClass::Loop()
 	float deltaphi2 = v_MET.DeltaPhi(v_jet2);
 	MTn1j1 = sqrt(2 * thisMET * CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) * (1 - cos(deltaphi1)) );
 	MTn1j2 = sqrt(2 * thisMET * CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) * (1 - cos(deltaphi2)) );
+
+	if( MTn1j1 > MTn1j2 )
+	  {
+	    fillVariableWithValue("MTnuj_1stPair", MTn1j1, p1);       
+	    fillVariableWithValue("MTnuj_2ndPair", MTn1j2, p1);
+	    //PAS June 2010
+	    fillVariableWithValue("MTnuj_1stPair_PAS", MTn1j1, p1);       
+	    fillVariableWithValue("MTnuj_2ndPair_PAS", MTn1j2, p1);
+	  }
+	else
+	  {
+	    fillVariableWithValue("MTnuj_1stPair", MTn1j2, p1);       
+	    fillVariableWithValue("MTnuj_2ndPair", MTn1j1, p1);
+	    //PAS June 2010
+	    fillVariableWithValue("MTnuj_1stPair_PAS", MTn1j2, p1);       
+	    fillVariableWithValue("MTnuj_2ndPair_PAS", MTn1j1, p1);
+	  }	   
+	
       }
 
 
