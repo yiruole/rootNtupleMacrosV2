@@ -104,22 +104,22 @@ void analysisClass::Loop()
   TH2D *h2_ST_vs_MTnuj = new TH2D ("h2_ST_vs_MTnuj","h2_ST_vs_MTnuj;M_{T}(#nu,j) [GeV];S_{T} [GeV]",200,0,1000,200,0,2000);
   h2_ST_vs_MTnuj->Sumw2();
   
-  TH2D *h2_DeltaPhiMETEle_vs_MET = new TH2D ("h2_DeltaPhiMETEle_vs_MET","h2_DeltaPhiMETEle_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},e)",200,0,1000,100,0, 3.1416);
+  TH2D *h2_DeltaPhiMETEle_vs_MET = new TH2D ("h2_DeltaPhiMETEle_vs_MET","h2_DeltaPhiMETEle_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},e)",200,0,1000,100, 0, 3.1416);
   h2_DeltaPhiMETEle_vs_MET->Sumw2();
   
-  TH2D *h2_DeltaPhiMET1stJet_vs_MET = new TH2D ("h2_DeltaPhiMET1stJet_vs_MET","h2_DeltaPhiMET1stJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j1)",200,0,1000,100,0, 3.1416);
+  TH2D *h2_DeltaPhiMET1stJet_vs_MET = new TH2D ("h2_DeltaPhiMET1stJet_vs_MET","h2_DeltaPhiMET1stJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j1)",200,0,1000,100, 0, 3.1416);
   h2_DeltaPhiMET1stJet_vs_MET->Sumw2();
   
-  TH2D *h2_DeltaPhiMET2ndJet_vs_MET = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET","h2_DeltaPhiMET2ndJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j2)",200,0,1000,100,0, 3.1416);
+  TH2D *h2_DeltaPhiMET2ndJet_vs_MET = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET","h2_DeltaPhiMET2ndJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j2)",200,0,1000,100, 0, 3.1416);
   h2_DeltaPhiMET2ndJet_vs_MET->Sumw2();
   
-  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet","h2_DeltaPhiMETEle_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
+  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet","h2_DeltaPhiMETEle_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",100, 0, 3.1416,100, 0, 3.1416);
   h2_DeltaPhiMETEle_vs_MET1stJet->Sumw2();
   
-  TH2D *h2_DeltaPhiMETEle_vs_MET2ndJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET2ndJet","h2_DeltaPhiMETEle_vs_MET2ndJet;#Delta#phi(#slash{E}_{T},j2);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
+  TH2D *h2_DeltaPhiMETEle_vs_MET2ndJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET2ndJet","h2_DeltaPhiMETEle_vs_MET2ndJet;#Delta#phi(#slash{E}_{T},j2);#Delta#phi(#slash{E}_{T},e)",100, 0, 3.1416,100, 0, 3.1416);
   h2_DeltaPhiMETEle_vs_MET2ndJet->Sumw2();
   
-  TH2D *h2_DeltaPhiMET2ndJet_vs_MET1stJet = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET1stJet","h2_DeltaPhiMET2ndJet_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},j2)",100,0, 3.1416,100,0, 3.1416);
+  TH2D *h2_DeltaPhiMET2ndJet_vs_MET1stJet = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET1stJet","h2_DeltaPhiMET2ndJet_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},j2)",100, 0, 3.1416,100, 0, 3.1416);
   h2_DeltaPhiMET2ndJet_vs_MET1stJet->Sumw2();
 
   TH2D *h2_MT_vs_etaEle = new TH2D ("h2_MT_vs_etaEle","h2_MT_vs_etaEle;#eta;M_{T}(#nu,e) [GeV]",100,-5,5,200,0,1000);
@@ -524,6 +524,20 @@ void analysisClass::Loop()
 	//PAS Sept 2010
 	fillVariableWithValue( "mDeltaPhiMET1stJet_PAS", fabs(deltaphi) );
         DeltaPhiMET1stJet = fabs(deltaphi);
+
+	if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 )
+	  {
+	    //distance from (pi,0) in (DeltaPhiMETj, DeltaPhiMETe) plane
+	    double d1_DPhi_METe_METj = sqrt( pow(TMath::Pi() - DeltaPhiMET1stJet , 2) 
+					     + pow(DeltaPhiMETEle , 2) );
+	    //distance from (0,pi) in (DeltaPhiMETj, DeltaPhiMETe) plane
+	    double d2_DPhi_METe_METj = sqrt( pow(DeltaPhiMET1stJet , 2) 
+					     + pow( TMath::Pi() - DeltaPhiMETEle , 2) );
+
+	    fillVariableWithValue( "d1_DPhi_METe_METj", d1_DPhi_METe_METj );
+	    fillVariableWithValue( "d2_DPhi_METe_METj", d2_DPhi_METe_METj );	    
+	  }
+
       }
 
 
@@ -690,7 +704,7 @@ void analysisClass::Loop()
 	h_MTnuj->Fill(MTn1j2);
       }
     
-    if( passedAllPreviousCuts("Pt1stEle_PAS") 
+    if( passedAllPreviousCuts("d1_DPhi_METe_METj")
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("Eta1stEle_PAS") 
 	&& variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("MET_PAS")  
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS") && variableIsFilled("mDeltaPhiMET2ndJet_PAS")  

@@ -86,6 +86,8 @@ mEta1stJet_noOvrlp_ID           -inf         3.0                -               
 mEta2ndJet_noOvrlp_ID           -inf         3.0                -               -               2       50 0 5
 maxMEtaJets_noOvrlp_ID          -inf         +inf               -               -               2       50 0 5
 minDRej				0.7	     +inf		-		-		2	100 0 10
+d1_DPhi_METe_METj		0.6	     +inf		-		-		2	50 0 5
+d2_DPhi_METe_METj		0.6	     +inf		-		-		2	50 0 5
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
@@ -109,7 +111,7 @@ MTnuj_2ndPair_PAS               -inf	     +inf               -               -  
 #
 nMuon_PtCut_IDISO               -1           0                  -               -               4       16 -0.5 15.5
 mDeltaPhiMETEle                 -inf         +inf               -               -               4       100 0 3.1416
-mDeltaPhiMET1stJet              0.3          +inf               -               -               4       100 0 3.1416
+mDeltaPhiMET1stJet              -inf         +inf               -               -               4       100 0 3.1416
 mDeltaPhiMET2ndJet              -inf         +inf               -               -               4       100 0 3.1416
 minMETPt1stEle                  70           +inf               -               -               4       200 0 1000
 MTenu                           125          +inf               -               -               5       200 0 1000
