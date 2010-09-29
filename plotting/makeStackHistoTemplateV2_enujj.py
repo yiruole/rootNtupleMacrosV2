@@ -38,6 +38,7 @@ def GetFile(filename):
 
 
 def GetHisto( histoName , file ):
+    file.cd()
     histo = file.Get( histoName )
     if( not histo):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
