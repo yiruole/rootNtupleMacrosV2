@@ -37,15 +37,16 @@ def GetFile(filename):
     return file
 
 
-def GetHisto( histoName , file ):
+def GetHisto( histoName , file , scale = 1 ):
     file.cd()
     histo = file.Get( histoName )
+    if(scale!=1):
+        histo.Scale(scale)
     if( not histo):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
         print "exiting..."
         sys.exit()
     return histo
-
 
 ## The Plot class: add members if needed
 class Plot:
