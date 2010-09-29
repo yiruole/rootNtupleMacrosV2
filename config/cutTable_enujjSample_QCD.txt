@@ -98,9 +98,9 @@ Pt2ndJet_PAS                    -inf         +inf               -               
 Eta1stJet_PAS                   -inf         +inf               -               -               3       100 -5 5
 Eta2ndJet_PAS                   -inf         +inf               -               -               3       100 -5 5
 nMuon_PtCut_IDISO_PAS           -inf         +inf               -               -               3       16 -0.5 15.5
-mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       40 0 4
-mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       40 0 4
-mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       40 0 4
+mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       100 0 3.1416
+mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
+mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
 Mjj_PAS				-inf	     +inf               -               -               3       200 0 2000
@@ -110,9 +110,9 @@ MTnuj_1stPair_PAS               -inf	     +inf               -               -  
 MTnuj_2ndPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 #
 nMuon_PtCut_IDISO               -1           0                  -               -               4       16 -0.5 15.5
-mDeltaPhiMETEle                 -inf         +inf               -               -               4       40 0 4
-mDeltaPhiMET1stJet              0.3          +inf               -               -               4       40 0 4
-mDeltaPhiMET2ndJet              -inf         +inf               -               -               4       40 0 4
+mDeltaPhiMETEle                 -inf         +inf               -               -               4       100 0 3.1416
+mDeltaPhiMET1stJet              0.3          +inf               -               -               4       100 0 3.1416
+mDeltaPhiMET2ndJet              -inf         +inf               -               -               4       100 0 3.1416
 minMETPt1stEle                  70           +inf               -               -               4       200 0 1000
 MTenu                           125          +inf               -               -               5       200 0 1000
 sT                              -inf         +inf               -               -               6       200 0 2000
