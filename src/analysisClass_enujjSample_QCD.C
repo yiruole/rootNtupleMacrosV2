@@ -639,6 +639,20 @@ void analysisClass::Loop()
 	//PAS Sept 2010
 	fillVariableWithValue( "mDeltaPhiMET1stJet_PAS", fabs(deltaphi), p1 );
         DeltaPhiMET1stJet = fabs(deltaphi);
+
+	if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 )
+	  {
+	    //distance from (pi,0) in (DeltaPhiMETj, DeltaPhiMETe) plane
+	    double d1_DPhi_METe_METj = sqrt( pow(TMath::Pi() - DeltaPhiMET1stJet , 2) 
+					     + pow(DeltaPhiMETEle , 2) );
+	    //distance from (0,pi) in (DeltaPhiMETj, DeltaPhiMETe) plane
+	    double d2_DPhi_METe_METj = sqrt( pow(DeltaPhiMET1stJet , 2) 
+					     + pow( TMath::Pi() - DeltaPhiMETEle , 2) );
+
+	    fillVariableWithValue( "d1_DPhi_METe_METj", d1_DPhi_METe_METj , p1);
+	    fillVariableWithValue( "d2_DPhi_METe_METj", d2_DPhi_METe_METj , p1);	    
+	  }
+
       }
 
 
@@ -796,7 +810,7 @@ void analysisClass::Loop()
 	h_MTnuj->Fill(MTn1j2, p1);
       }
 
-    if( passedAllPreviousCuts("Pt1stEle_PAS") 
+    if( passedAllPreviousCuts("d1_DPhi_METe_METj")
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("Eta1stEle_PAS") 
 	&& variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("MET_PAS")  
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS") && variableIsFilled("mDeltaPhiMET2ndJet_PAS")  
