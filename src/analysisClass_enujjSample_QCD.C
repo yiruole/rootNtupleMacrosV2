@@ -640,7 +640,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "mDeltaPhiMET1stJet_PAS", fabs(deltaphi), p1 );
         DeltaPhiMET1stJet = fabs(deltaphi);
 
-	if( v_idx_ele_PtCut_IDISO_noOverlap.size() >= 1 )
+	if( v_idx_sc_Iso.size() >= 1 )
 	  {
 	    //distance from (pi,0) in (DeltaPhiMETj, DeltaPhiMETe) plane
 	    double d1_DPhi_METe_METj = sqrt( pow(TMath::Pi() - DeltaPhiMET1stJet , 2) 
