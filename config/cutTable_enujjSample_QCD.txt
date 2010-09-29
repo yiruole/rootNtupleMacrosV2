@@ -98,9 +98,9 @@ Pt2ndJet_PAS                    -inf         +inf               -               
 Eta1stJet_PAS                   -inf         +inf               -               -               3       100 -5 5
 Eta2ndJet_PAS                   -inf         +inf               -               -               3       100 -5 5
 nMuon_PtCut_IDISO_PAS           -inf         +inf               -               -               3       16 -0.5 15.5
-mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       50 0 4
-mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       50 0 4
-mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       50 0 4
+mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       40 0 4
+mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       40 0 4
+mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       40 0 4
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
 Mjj_PAS				-inf	     +inf               -               -               3       200 0 2000
