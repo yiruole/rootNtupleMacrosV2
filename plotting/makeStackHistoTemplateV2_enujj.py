@@ -227,12 +227,12 @@ class Plot:
 
 
 #usually preselection and selection file are the same actual file (but we keep the name separate anyway)
-File_preselection = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v7/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
-File_selection    = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v7/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v8/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_selection    = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v8/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 UseQCDFromData    = 1 #set to zero if you don't use QCD from data
 #always put an existing file under File_QCD (otherwise the code will crash)
-File_QCD          = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v7_QCD_HLT/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v8_QCD/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 QCDscaleFactor    = 1.26 # ratio between integrated lumi of the signal sample (i.e. 2.9 pb-1) / integrated lumi of the QCD sample (i.e. 2.3 pb-1 from HLT Photon20)
 
                   
@@ -242,7 +242,7 @@ otherBkgsKey="Other Bkgs"
 zUncBand="no"
 
 pt_xmin=0
-pt_xmax=800
+pt_xmax=500
 pt_ymin=0.001
 pt_ymax=500
 
@@ -914,7 +914,7 @@ plot11.xtit            = "#Delta#phi(MET,e) (rad.)"
 plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
-plot11.rebin           = 1
+plot11.rebin           = 4
 plot11.xmin            = 0
 plot11.xmax            = 5
 plot11.ymin            = 0.001
@@ -962,7 +962,7 @@ plot12.xtit            = "#Delta#phi(MET,1^{st} jet) (rad.)"
 plot12.ytit            = "Number of events"
 #plot12.xlog            = "yes"
 plot12.ylog            = "yes"
-plot12.rebin           = 1
+plot12.rebin           = 4
 plot12.xmin            = 0
 plot12.xmax            = 5
 plot12.ymin            = 0.001
@@ -1010,7 +1010,7 @@ plot13.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.)"
 plot13.ytit            = "Number of events"
 #plot13.xlog            = "yes"
 plot13.ylog            = "yes"
-plot13.rebin           = 1
+plot13.rebin           = 4
 plot13.xmin            = 0
 plot13.xmax            = 5
 plot13.ymin            = 0.001
@@ -1094,7 +1094,7 @@ plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
 plot14_ylog.xmin            = 0
-plot14_ylog.xmax            = 500
+plot14_ylog.xmax            = 400
 plot14_ylog.ymin            = 0.001
 plot14_ylog.ymax            = 100
 #plot14_ylog.lpos = "bottom-center"
@@ -1143,7 +1143,7 @@ plot15.ytit            = "Number of events"
 plot15.ylog            = "yes"
 plot15.rebin           = 2
 plot15.xmin            = 50
-plot15.xmax            = 2000
+plot15.xmax            = 1000
 plot15.ymin            = 0.001
 plot15.ymax            = 1000
 #plot15.lpos = "bottom-center"
@@ -1198,7 +1198,7 @@ plot16.rebin           = 2
 plot16.ymin            = 0.001
 plot16.ymax            = 500
 plot16.xmin            = 0
-plot16.xmax            = 2000
+plot16.xmax            = 1500
 #plot16.lpos = "bottom-center"
 plot16.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
 plot16.addZUncBand     = zUncBand
@@ -1285,7 +1285,7 @@ plot17.ytit            = "Number of events x 2"
 plot17.ylog            = "yes"
 plot17.rebin           = 2
 plot17.xmin            = 0
-plot17.xmax            = 1000
+plot17.xmax            = 2000
 plot17.ymin            = 0.001
 plot17.ymax            = 500
 #plot17.lpos = "bottom-center"
