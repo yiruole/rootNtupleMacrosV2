@@ -673,6 +673,8 @@ void analysisClass::Loop()
 	       }
 	     }
 	     if (deltaR_ele_sc<0.3){  // Fill the numerator histograms
+// 	       STDOUT("FAKERATE: ------------------- Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
+// 	       STDOUT("FAKERATE: Barrel/Endcap, isc, v_idx_sc_dPhi[isc], SuperClusterPt, Eta, Phi = "<< Barrel<<"/"<<Endcap<<", "<<isc <<", "<< v_idx_sc_dPhi[isc] <<", "<< SuperClusterPt->at(v_idx_sc_dPhi[isc]) <<", "<< SuperClusterEta->at(v_idx_sc_dPhi[isc]) <<", "<< SuperClusterPhi->at(v_idx_sc_dPhi[isc]));
 		h_goodEleSCPt->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		h_goodEleSCEta->Fill(ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]));
 		
@@ -690,6 +692,9 @@ void analysisClass::Loop()
 		  if (Barrel) h_goodEle_EoP_Barrel->Fill(EoP);
 		  if (Endcap) h_goodEle_EoP_Endcap->Fill(EoP);
 		}
+// 	       STDOUT("FAKERATE: Barrel/Endcap, idx_HEEP, v_idx_ele_HEEP[idx_HEEP], ElectronSCPt, Eta, Phi = "<< Barrel<<"/"<<Endcap <<", "<<idx_HEEP <<", "<< v_idx_ele_HEEP[idx_HEEP] <<", "<< ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]) <<", "<< ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]) <<", "<< ElectronSCPhi->at(v_idx_ele_HEEP[idx_HEEP]) );
+	       CreateAndFillUserTH1D("SCPt_minus_ElePt", 100,0,100, ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP])-SuperClusterPt->at(v_idx_sc_dPhi[isc]) );    
+	       CreateAndFillUserTH2D("SCPt_vs_ElePt", 100,0,100, 100,0,100, ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]), SuperClusterPt->at(v_idx_sc_dPhi[isc]) );    
 
 		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
@@ -726,7 +731,6 @@ void analysisClass::Loop()
 
 	 } // if passed cuts "ALL"
     ////////////////////// User's code to be done for every event - END ///////////////////////
-    
   } // End of loop over events
   
 
