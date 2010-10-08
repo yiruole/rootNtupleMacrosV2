@@ -152,8 +152,8 @@ void analysisClass::Loop()
     bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
     //bool PassTrig=HLTBits->at(71); // results of HLTPhoton15 
     int TrigDiff = HLTBits->at(71) - HLTResults->at(1);
-    h_TrigDiff->Fill(TrigDiff);
-    h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
+//     h_TrigDiff->Fill(TrigDiff);
+//     h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
 
     // Electrons
     // look for HEEP electrons for the "actual" plots 
@@ -445,7 +445,7 @@ void analysisClass::Loop()
 		 idx_nearest_sc = isc;
 	      }
 	  }
-       if (minDR!=99) h_dR_JetSC->Fill(minDR);
+//        if (minDR!=99) h_dR_JetSC->Fill(minDR);
        if (minDR<smallest_ScJet_dR) smallest_ScJet_dR= minDR;
     }
 
