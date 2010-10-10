@@ -138,6 +138,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h_WsPt_d2Small__sT", 100,0,1000);       
       CreateUserTH1D("h_WsPt_d2DphiMETeLarge__sT", 100,0,1000);   
     }    
+
   CreateUserTH2D("h2_MTnuj_vs_MET", 200,0,1000,200,0,1000);
   CreateUserTH2D("h2_ST_vs_MET", 200,0,1000,200,0,2000);
   CreateUserTH2D("h2_ST_vs_MTnuj", 200,0,1000,200,0,2000);
@@ -159,6 +160,11 @@ void analysisClass::Loop()
   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_plus", 30, 0, 3.1416,30, 0, 3.1416);
   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_minus", 30, 0, 3.1416,30, 0, 3.1416);
+
+  CreateUserTH1D("h1_MTenu_PAS_plus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_MTenu_PAS_minus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_sT_PAS_plus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
+  CreateUserTH1D("h1_sT_PAS_minus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -817,6 +823,23 @@ void analysisClass::Loop()
     //---------------------------------------------
     //---------------------------------------------
 
+    //after pre-selection
+    if( passedAllPreviousCuts("Pt1stEle_PAS") 
+	&& variableIsFilled("MTenu_PAS") && variableIsFilled("sT_PAS") 
+	)
+      {
+	if( ElectronCharge->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) > 0 )
+	  {
+	    FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"));
+	    FillUserTH1D("h1_sT_PAS_plus", getVariableValue("sT_PAS"));
+	  }
+	else
+	  {
+	    FillUserTH1D("h1_MTenu_PAS_minus", getVariableValue("MTenu_PAS"));
+	    FillUserTH1D("h1_sT_PAS_minus", getVariableValue("sT_PAS"));
+	  }
+      }
+
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("Eta1stEle_PAS") 
 	&& variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("MET_PAS")  
@@ -921,7 +944,7 @@ void analysisClass::Loop()
 			 fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
 			 fabs( getVariableValue("mDeltaPhiMETEle_PAS")) );
 	  }
-		       	
+	
       }
  
     ////////////////////// User's code to be done for every event - END ///////////////////////
