@@ -76,55 +76,6 @@ void analysisClass::Loop()
   //STDOUT("analysisClass::Loop() begins");
   
   if (fChain == 0) return;
-   
-  ////////////////////// User's code to book histos - BEGIN ///////////////////////
-
-  TH1F *h_Mej = new TH1F ("h_Mej","h_Mej",200,0,2000);
-  h_Mej->Sumw2();
-
-  TH1F *h_MTnuj = new TH1F ("h_MTnuj","h_MTnuj",200,0,2000);
-  h_MTnuj->Sumw2();
-  
-  TH2D *h2_MTnuj_vs_MET = new TH2D ("h2_MTnuj_vs_MET","h2_MTnuj_vs_MET;#slash{E}_{T} [GeV];M_{T}(#nu,j) [GeV]",200,0,1000,200,0,1000);
-  h2_MTnuj_vs_MET->Sumw2();
-  
-  TH2D *h2_ST_vs_MET = new TH2D ("h2_ST_vs_MET","h2_ST_vs_MET;#slash{E}_{T} [GeV];S_{T} [GeV]",200,0,1000,200,0,2000);
-  h2_ST_vs_MET->Sumw2();
-  
-  TH2D *h2_ST_vs_MTnuj = new TH2D ("h2_ST_vs_MTnuj","h2_ST_vs_MTnuj;M_{T}(#nu,j) [GeV];S_{T} [GeV]",200,0,1000,200,0,2000);
-  h2_ST_vs_MTnuj->Sumw2();
-  
-  TH2D *h2_DeltaPhiMETEle_vs_MET = new TH2D ("h2_DeltaPhiMETEle_vs_MET","h2_DeltaPhiMETEle_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},e)",200,0,1000,100,0, 3.1416);
-  h2_DeltaPhiMETEle_vs_MET->Sumw2();
-  
-  TH2D *h2_DeltaPhiMET1stJet_vs_MET = new TH2D ("h2_DeltaPhiMET1stJet_vs_MET","h2_DeltaPhiMET1stJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j1)",200,0,1000,100,0, 3.1416);
-  h2_DeltaPhiMET1stJet_vs_MET->Sumw2();
-  
-  TH2D *h2_DeltaPhiMET2ndJet_vs_MET = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET","h2_DeltaPhiMET2ndJet_vs_MET;#slash{E}_{T} [GeV];#Delta#phi(#slash{E}_{T},j2)",200,0,1000,100,0, 3.1416);
-  h2_DeltaPhiMET2ndJet_vs_MET->Sumw2();
-  
-  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet","h2_DeltaPhiMETEle_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
-  h2_DeltaPhiMETEle_vs_MET1stJet->Sumw2();
-
-  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe","h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
-  h2_DeltaPhiMETEle_vs_MET1stJet->Sumw2();
-
-  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet__MTenu = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet__MTenu","h2_DeltaPhiMETEle_vs_MET1stJet__MTenu;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
-  h2_DeltaPhiMETEle_vs_MET1stJet->Sumw2();
-
-  TH2D *h2_DeltaPhiMETEle_vs_MET1stJet__sT = new TH2D ("h2_DeltaPhiMETEle_vs_MET1stJet__sT","h2_DeltaPhiMETEle_vs_MET1stJet__sT;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
-  h2_DeltaPhiMETEle_vs_MET1stJet->Sumw2();
-
-  TH2D *h2_DeltaPhiMETEle_vs_MET2ndJet = new TH2D ("h2_DeltaPhiMETEle_vs_MET2ndJet","h2_DeltaPhiMETEle_vs_MET2ndJet;#Delta#phi(#slash{E}_{T},j2);#Delta#phi(#slash{E}_{T},e)",100,0, 3.1416,100,0, 3.1416);
-  h2_DeltaPhiMETEle_vs_MET2ndJet->Sumw2();
-  
-  TH2D *h2_DeltaPhiMET2ndJet_vs_MET1stJet = new TH2D ("h2_DeltaPhiMET2ndJet_vs_MET1stJet","h2_DeltaPhiMET2ndJet_vs_MET1stJet;#Delta#phi(#slash{E}_{T},j1);#Delta#phi(#slash{E}_{T},j2)",100,0, 3.1416,100,0, 3.1416);
-  h2_DeltaPhiMET2ndJet_vs_MET1stJet->Sumw2();
-
-  TH2D *h2_MT_vs_etaEle = new TH2D ("h2_MT_vs_etaEle","h2_MT_vs_etaEle;#eta;M_{T}(#nu,e) [GeV]",100,-5,5,200,0,1000);
-  h2_MT_vs_etaEle->Sumw2();
-
-  ////////////////////// User's code to book histos - END ///////////////////////
 
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
 
@@ -157,6 +108,33 @@ void analysisClass::Loop()
   double EndcapSlope = getPreCutValue2("fakeRate_Endcap");
 
   ////////////////////// User's code to get preCut values - END /////////////////
+   
+  ////////////////////// User's code to book histos - BEGIN ///////////////////////
+
+  CreateUserTH2D("h2_MTnuj_vs_MET", 200,0,1000,200,0,1000);
+  CreateUserTH2D("h2_ST_vs_MET", 200,0,1000,200,0,2000);
+  CreateUserTH2D("h2_ST_vs_MTnuj", 200,0,1000,200,0,2000);
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET", 200,0,1000,30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMET1stJet_vs_MET", 200,0,1000,30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET", 200,0,1000,30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet", 30, 0, 3.1416,30, 0, 3.1416);  
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet_plus", 30, 0, 3.1416,30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet_minus", 30, 0, 3.1416,30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET2ndJet", 30, 0, 3.1416, 30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET1stJet", 30, 0, 3.1416, 30, 0, 3.1416);
+  CreateUserTH2D("h2_MT_vs_etaEle", 100,-5,5,200,0,1000);
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe", 30, 0, 3.1416, 30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe_plus", 30, 0, 3.1416,30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe_minus", 30, 0, 3.1416,30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__MTenu", 30, 0, 3.1416, 30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__MTenu_plus", 30, 0, 3.1416,30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__MTenu_minus", 30, 0, 3.1416,30, 0, 3.1416); 
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_plus", 30, 0, 3.1416,30, 0, 3.1416);
+  //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_minus", 30, 0, 3.1416,30, 0, 3.1416);
+
+  ////////////////////// User's code to book histos - END ///////////////////////
+
     
   Long64_t nentries = fChain->GetEntriesFast();
   STDOUT("analysisClass::Loop(): nentries = " << nentries);   
@@ -166,7 +144,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////    
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-    //for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
+    //for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -805,20 +783,10 @@ void analysisClass::Loop()
 
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
-
+    
     // Fill histograms and do analysis based on cut evaluation
-    //h_nEleFinal->Fill( ElectronPt->size() );
-
-    if( passedCut("all") )
-      {
-	//Mej
-	h_Mej->Fill(Me1j1, p1);
-	h_Mej->Fill(Me1j2, p1);
-	//MTnuj
-	h_MTnuj->Fill(MTn1j1, p1);
-	h_MTnuj->Fill(MTn1j2, p1);
-      }
-
+    
+    
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("Eta1stEle_PAS") 
 	&& variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("MET_PAS")  
@@ -826,37 +794,45 @@ void analysisClass::Loop()
 	&& variableIsFilled("sT_PAS") 
 	)
       {
-	h2_MT_vs_etaEle->Fill( getVariableValue("Eta1stEle_PAS") , getVariableValue("MTenu_PAS") , p1 );
-        h2_DeltaPhiMETEle_vs_MET->Fill(getVariableValue("MET_PAS"), fabs( getVariableValue("mDeltaPhiMETEle_PAS") ), p1 );
-        h2_MTnuj_vs_MET->Fill(getVariableValue("MET_PAS"), getVariableValue("MTenu_PAS"), p1);
-        h2_DeltaPhiMET1stJet_vs_MET->Fill( getVariableValue("MET_PAS"), fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), p1 );
-        h2_DeltaPhiMETEle_vs_MET1stJet->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
-					      fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) , p1);
-        h2_DeltaPhiMET2ndJet_vs_MET->Fill( getVariableValue("MET_PAS") , fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ), p1 );
-        h2_DeltaPhiMET2ndJet_vs_MET1stJet->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ),
-						 fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ) , p1 );
-        h2_DeltaPhiMETEle_vs_MET2ndJet->Fill( fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ), 
-					      fabs( getVariableValue("mDeltaPhiMETEle_PAS") ), p1);
-        h2_ST_vs_MET->Fill(getVariableValue("MET_PAS"), getVariableValue("sT_PAS"), p1);
-        h2_ST_vs_MTnuj->Fill(getVariableValue("MTenu_PAS"), getVariableValue("sT_PAS"), p1);	
-      }
+	FillUserTH2D("h2_MTnuj_vs_MET", getVariableValue("MET_PAS"), getVariableValue("MTenu_PAS") , p1);
+	FillUserTH2D("h2_ST_vs_MET", getVariableValue("MET_PAS"), getVariableValue("sT_PAS") , p1);
+	FillUserTH2D("h2_ST_vs_MTnuj", getVariableValue("MTenu_PAS"), getVariableValue("sT_PAS") , p1);
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET", getVariableValue("MET_PAS"), 
+		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
+	FillUserTH2D("h2_DeltaPhiMET1stJet_vs_MET", getVariableValue("MET_PAS"), 
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS")) , p1);
+	FillUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET", getVariableValue("MET_PAS") , 
+		     fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS")) , p1);
+	
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet",
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
+		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
 
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET2ndJet",
+		     fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS")), fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
+	FillUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET1stJet", 
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS")) , p1);
+	FillUserTH2D("h2_MT_vs_etaEle", getVariableValue("Eta1stEle_PAS") , getVariableValue("MTenu_PAS") , p1);
+      }
+    
     if( passedAllPreviousCuts("minMETPt1stEle") && passedCut("minMETPt1stEle")
 	&& variableIsFilled("mDeltaPhiMETEle_PAS")
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
 	)
       {
-        h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
-							 fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) , p1);
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe",
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
+		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
       }
-
+    
     if( passedAllPreviousCuts("MTenu") && passedCut("MTenu")
 	&& variableIsFilled("mDeltaPhiMETEle_PAS")
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
 	)
       {
-        h2_DeltaPhiMETEle_vs_MET1stJet__MTenu->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
-						     fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) , p1);	
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__MTenu", 
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
+		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
       }
     
     if( passedAllPreviousCuts("sT_MLQ200") && passedCut("sT_MLQ200")
@@ -864,9 +840,11 @@ void analysisClass::Loop()
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
 	)
       {
-        h2_DeltaPhiMETEle_vs_MET1stJet__sT->Fill( fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
-						  fabs( getVariableValue("mDeltaPhiMETEle_PAS") ) , p1);		
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT",
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
+		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
       }
+
 
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
@@ -876,33 +854,12 @@ void analysisClass::Loop()
     //      // reject events that did not pass level 0 cuts
     //      if( !passedCut("0") ) continue;
     //      // ......
-
-        
+    
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
   } // End of loop over events
   
-
   ////////////////////// User's code to write histos - BEGIN ///////////////////////
-
-  h_Mej->Write();
-  h_MTnuj->Write();
-  h2_MTnuj_vs_MET->Write();
-  h2_ST_vs_MET->Write();
-  h2_ST_vs_MTnuj->Write();
-  h2_DeltaPhiMETEle_vs_MET->Write();
-  h2_DeltaPhiMET1stJet_vs_MET->Write();
-  h2_DeltaPhiMET2ndJet_vs_MET->Write();
-  h2_DeltaPhiMETEle_vs_MET1stJet->Write();
-  h2_DeltaPhiMETEle_vs_MET1stJet__minMETpTe->Write();
-  h2_DeltaPhiMETEle_vs_MET1stJet__MTenu->Write();
-  h2_DeltaPhiMETEle_vs_MET1stJet__sT->Write();
-  h2_DeltaPhiMETEle_vs_MET2ndJet->Write();
-  h2_DeltaPhiMET2ndJet_vs_MET1stJet->Write();
-  h2_MT_vs_etaEle->Write();
-
-
-
 
   ////////////////////// User's code to write histos - END ///////////////////////
   
