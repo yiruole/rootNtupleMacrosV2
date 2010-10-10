@@ -133,6 +133,11 @@ void analysisClass::Loop()
   //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_plus", 30, 0, 3.1416,30, 0, 3.1416);
   //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_minus", 30, 0, 3.1416,30, 0, 3.1416);
 
+  //   CreateUserTH1D("h1_MTenu_PAS_plus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  //   CreateUserTH1D("h1_MTenu_PAS_minus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  //   CreateUserTH1D("h1_sT_PAS_plus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
+  //   CreateUserTH1D("h1_sT_PAS_minus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
     
@@ -785,8 +790,19 @@ void analysisClass::Loop()
     evaluateCuts();
     
     // Fill histograms and do analysis based on cut evaluation
+
+    //     //after pre-selection
+    //     if( passedAllPreviousCuts("Pt1stEle_PAS") 
+    // 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("sT_PAS") 
+    // 	)
+    //       {
+    // 	FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"), p1_plus);
+    // 	FillUserTH1D("h1_sT_PAS_plus", getVariableValue("sT_PAS"), p1_plus);
     
-    
+    // 	FillUserTH1D("h1_MTenu_PAS_minus", getVariableValue("MTenu_PAS"), p1_minus);
+    // 	FillUserTH1D("h1_sT_PAS_minus", getVariableValue("sT_PAS"), p1_minus);
+    //       }
+       
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("Eta1stEle_PAS") 
 	&& variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("MET_PAS")  
