@@ -39,7 +39,7 @@ EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
 fakeRate_Barrel	      0.0061	   0			-		-		-1
 fakeRate_Endcap	      0.0399	   0			-		-		-1
-doGenLevelStudies     0		   -			-		-		-1
+doGenLevelStudies     1		   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -87,8 +87,8 @@ mEta1stJet_noOvrlp_ID           -inf         3.0                -               
 mEta2ndJet_noOvrlp_ID           -inf         3.0                -               -               2       50 0 5
 maxMEtaJets_noOvrlp_ID          -inf         +inf               -               -               2       50 0 5
 minDRej				0.7	     +inf		-		-		2	100 0 10
-d1_DPhi_METe_METj		-inf	     +inf		-		-		2	50 0 5
-d2_DPhi_METe_METj		-inf	     +inf		-		-		2	50 0 5
+d1_DPhi_METe_METj		0.6	     +inf		-		-		2	50 0 5
+d2_DPhi_METe_METj		0.6	     +inf		-		-		2	50 0 5
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
