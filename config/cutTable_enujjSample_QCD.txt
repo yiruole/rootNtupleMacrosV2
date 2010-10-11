@@ -27,10 +27,10 @@ muon_PtCut            10           -                    -               -       
 jet_ele_DeltaRcut     0.3          -                    -               -               -1
 muFidRegion           2.1          -                    -               -               -1
 muNHits_minThresh     11           -                    -               -               -1
-muTrkD0Maximum        0.2         -                    -               -               -1
-## 'HLT_Mu9','HLT_Photon15_L1R','HLT_Photon20_L1R','HLT_Photon30_L1R_8E29','HLT_Ele15_LW_L1R','HLT_Jet30U','HLT_MET45','HLT_MinBiasBSC','HLT_Photon15_Cleaned_L1R','HLT_Photon20_Cleaned_L1R'
-HLTTrigger            2            9                    -1              -1              -1
-HLTFromRun	      0		   138409		999999999	999999999	-1
+muTrkD0Maximum        0.2          -                    -               -               -1
+## refer to the current tag of http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/RootTupleMakerV2/python/RootTupleMakerV2_Trigger_cfi.py?view=log
+HLTTrigger            20           -1                   -1              -1              -1
+HLTFromRun	      0		   999999999		999999999	999999999	-1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
