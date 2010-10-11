@@ -948,7 +948,7 @@ void analysisClass::Loop()
       }
 
 
-    if( passedAllPreviousCuts("sT") )
+    if( passedAllPreviousCuts("sT") && isData )
       {
 
 	STDOUT("PassFullSelection: ----------- START ------------");
