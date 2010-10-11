@@ -947,7 +947,6 @@ void analysisClass::Loop()
 	
       }
 
-
     if( passedAllPreviousCuts("sT") && isData )
       {
 
@@ -974,7 +973,13 @@ void analysisClass::Loop()
 	  STDOUT("PassFullSelection: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
 		 <<getVariableValue("MTnuj_1stPair_PAS")
 		 <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
-		
+	if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS") 
+	    && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+	  STDOUT("PassFullSelection: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+		 <<getVariableValue("mDeltaPhiMETEle_PAS")
+		 <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+		 <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+	
 	STDOUT("PassFullSelection: ------------ END -------------");
 
       }
