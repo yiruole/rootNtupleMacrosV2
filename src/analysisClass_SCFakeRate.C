@@ -74,6 +74,10 @@ void analysisClass::Loop()
   
   if (fChain == 0) return;
 
+  CreateUserTH1D("SCPt_minus_ElePt", 100,0,100 );    
+  CreateUserTH2D("SCPt_vs_ElePt", 100,0,100, 100,0,100 );    
+
+
    TH1F *h_TrigDiff = new TH1F("TrigDiff","TrigDiff",3.0,-1.5,1.5);
    TH2F *h2_DebugTrig = new TH2F("DebugTrig","DebugTrig;HLTResults;HLTBits",2,0,2,2,0,2);
    
@@ -185,12 +189,34 @@ void analysisClass::Loop()
     //if (PtHat>=30) continue;   // to be used with samples that have lower PtHat cut only
 
     //## HLT
-
-    bool PassTrig=HLTResults->at(1); // results of HLTPhoton15 
-    //bool PassTrig=HLTBits->at(71); // results of HLTPhoton15 
-    int TrigDiff = HLTBits->at(71) - HLTResults->at(1);
-    h_TrigDiff->Fill(TrigDiff);
-    h2_DebugTrig->Fill(HLTResults->at(1),HLTBits->at(71));
+    int PassTrig = 0;
+    int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
+			 getPreCutValue2("HLTFromRun"),
+			 getPreCutValue3("HLTFromRun"),
+			 getPreCutValue4("HLTFromRun")};
+    int HLTTrigger[4] = {getPreCutValue1("HLTTrigger"),
+			 getPreCutValue2("HLTTrigger"),
+			 getPreCutValue3("HLTTrigger"),
+			 getPreCutValue4("HLTTrigger")};
+    int HLTTrgUsed;
+    for (int i=0; i<4; i++) {
+      if ( !isData ) 
+	{
+	  PassTrig = 1; // for MC pass by default since most triggers are not in the currently used MC roottuples
+	  if(jentry == 0 && i == 0) STDOUT("PassTrig set to 1 for MC for all events.");
+	  continue;
+	}
+      if ( HLTFromRun[i] <= run ) {
+ 	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
+	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
+	  PassTrig=HLTResults->at(HLTTrigger[i]);
+	  HLTTrgUsed=HLTTrigger[i];
+	} else {
+	  STDOUT("ERROR: HLTTrigger out of range of HLTResults: HLTTrigger = "<<HLTTrigger[i] <<"and HLTResults size = "<< HLTResults->size());
+	}
+      }
+    }
+    if(jentry == 0 && isData) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
 
     // Electrons
     // Choose the electrons for the numerator here
@@ -539,7 +565,7 @@ void analysisClass::Loop()
     // Set the value of the variableNames listed in the cutFile to their current value
     
     // HLT
-    fillVariableWithValue( "HLT", PassTrig ) ;
+    fillVariableWithValue( "PassHLT", PassTrig ) ;
 
     // dR SC-Jet
     fillVariableWithValue( "dR_SCJet", smallest_ScJet_dR );
@@ -597,7 +623,7 @@ void analysisClass::Loop()
      }
 
      // Fill histograms and do analysis based on cut evaluation
-     if (v_idx_sc_dPhi.size()>0 && !passedCut("HLT")){
+     if (v_idx_sc_dPhi.size()>0 && !passedCut("PassHLT")){
        NFailHLT++;
        h_eta_failHLT->Fill(SuperClusterEta->at(v_idx_sc_dPhi[0]));
        h_phi_failHLT->Fill(SuperClusterPhi->at(v_idx_sc_dPhi[0]));
@@ -693,8 +719,8 @@ void analysisClass::Loop()
 		  if (Endcap) h_goodEle_EoP_Endcap->Fill(EoP);
 		}
 // 	       STDOUT("FAKERATE: Barrel/Endcap, idx_HEEP, v_idx_ele_HEEP[idx_HEEP], ElectronSCPt, Eta, Phi = "<< Barrel<<"/"<<Endcap <<", "<<idx_HEEP <<", "<< v_idx_ele_HEEP[idx_HEEP] <<", "<< ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]) <<", "<< ElectronSCEta->at(v_idx_ele_HEEP[idx_HEEP]) <<", "<< ElectronSCPhi->at(v_idx_ele_HEEP[idx_HEEP]) );
-	       CreateAndFillUserTH1D("SCPt_minus_ElePt", 100,0,100, ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP])-SuperClusterPt->at(v_idx_sc_dPhi[isc]) );    
-	       CreateAndFillUserTH2D("SCPt_vs_ElePt", 100,0,100, 100,0,100, ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]), SuperClusterPt->at(v_idx_sc_dPhi[isc]) );    
+	       FillUserTH1D("SCPt_minus_ElePt", ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP])-SuperClusterPt->at(v_idx_sc_dPhi[isc]) );    
+	       FillUserTH2D("SCPt_vs_ElePt", ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]), SuperClusterPt->at(v_idx_sc_dPhi[isc]) );    
 
 		if (Barrel) h_goodEleSCPt_Barrel->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
 		if (Endcap) h_goodEleSCPt_Endcap->Fill(ElectronSCPt->at(v_idx_ele_HEEP[idx_HEEP]));
