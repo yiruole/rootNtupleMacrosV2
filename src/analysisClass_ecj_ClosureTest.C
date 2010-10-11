@@ -166,7 +166,12 @@ void analysisClass::Loop()
 			 getPreCutValue4("HLTTrigger")};
     int HLTTrgUsed;
     for (int i=0; i<4; i++) {
-      if ( !isData && i != 0) continue; // For MC use HLTPhoton15 as the cleaned trigger is not in MC yet as of July 20, 2010
+      if ( !isData ) 
+	{
+	  PassTrig = 1; // for MC pass by default since most triggers are not in the currently used MC roottuples
+	  if(jentry == 0 && i == 0) STDOUT("PassTrig set to 1 for MC for all events.");
+	  continue;
+	}
       if ( HLTFromRun[i] <= run ) {
  	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
 	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
@@ -177,7 +182,7 @@ void analysisClass::Loop()
 	}
       }
     }
-    if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
+    if(jentry == 0 && isData) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
     
     // Superclusters
     vector<int> v_idx_sc_all;
@@ -474,8 +479,8 @@ void analysisClass::Loop()
       if (fabs(SuperClusterEta->at(v_idx_sc_Iso[2]))>eleEta_end_min) p3 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_Iso[2]);
     }
 
-//     double weight = p1+p2;
-    double weight = 1;
+    double weight = p1+p2;
+    //double weight = 1;
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
@@ -656,6 +661,7 @@ void analysisClass::Loop()
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) ; //+
 // 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
 	fillVariableWithValue("sT", calc_sT, weight);
+	fillVariableWithValue("sT_MLQ100", calc_sT, weight);
 	fillVariableWithValue("sT_MLQ200", calc_sT, weight);
 	fillVariableWithValue("sT_MLQ250", calc_sT, weight);
 	fillVariableWithValue("sT_MLQ300", calc_sT, weight);
