@@ -946,6 +946,38 @@ void analysisClass::Loop()
 	  }
 	
       }
+
+
+    if( passedAllPreviousCuts("sT") )
+      {
+
+	STDOUT("PassFullSelection: ----------- START ------------");
+	
+	STDOUT("PassFullSelection: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);	    
+	if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )	      
+	  STDOUT("PassFullSelection: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+	if( variableIsFilled("MET_PAS") )	      
+	  STDOUT("PassFullSelection: MET_PAS = "<<getVariableValue("MET_PAS"));
+	if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )	      
+	  STDOUT("PassFullSelection: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+	if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )	      
+	  STDOUT("PassFullSelection: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+	if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )	      
+	  STDOUT("PassFullSelection: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+	if( variableIsFilled("sT_PAS") )
+	  STDOUT("PassFullSelection: sT_PAS = "<<getVariableValue("sT_PAS"));
+	if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )	      
+	  STDOUT("PassFullSelection: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+		 <<getVariableValue("Mej_1stPair_PAS")
+		 <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+	if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )	      
+	  STDOUT("PassFullSelection: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+		 <<getVariableValue("MTnuj_1stPair_PAS")
+		 <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+		
+	STDOUT("PassFullSelection: ------------ END -------------");
+
+      }
  
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
