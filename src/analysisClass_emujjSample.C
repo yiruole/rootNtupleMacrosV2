@@ -738,14 +738,14 @@ void analysisClass::Loop()
 	    STDOUT("pfMET>60GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);	    
 	    if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )	      
 	      STDOUT("pfMET>60GeV: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
-	    if( variableIsFilled("Pt2ndEle_PAS") && variableIsFilled("Eta2ndEle_PAS") )	      
-	      STDOUT("pfMET>60GeV: Pt2ndEle_PAS,Eta2ndEle_PAS = "<<getVariableValue("Pt2ndEle_PAS")<<",\t"<<getVariableValue("Eta2ndEle_PAS"));
+	    if( variableIsFilled("Pt1stMu_PAS") && variableIsFilled("Eta1stMu_PAS") )	      
+	      STDOUT("pfMET>60GeV: Pt1stMu_PAS,Eta1stMu_PAS = "<<getVariableValue("Pt1stMu_PAS")<<",\t"<<getVariableValue("Eta1stMu_PAS"));
 	    if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )	      
 	      STDOUT("pfMET>60GeV: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
 	    if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )	      
 	      STDOUT("pfMET>60GeV: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
-	    if( variableIsFilled("Mee_PAS") && variableIsFilled("Mjj_PAS") )	      
-	      STDOUT("pfMET>60GeV: Mee_PAS,Mjj_PAS = "<<getVariableValue("Mee_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+	    if( variableIsFilled("Memu_PAS") && variableIsFilled("Mjj_PAS") )	      
+	      STDOUT("pfMET>60GeV: Memu_PAS,Mjj_PAS = "<<getVariableValue("Memu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
 	    if( variableIsFilled("Mlj_1stPair_PAS") && variableIsFilled("Mlj_2ndPair_PAS") )	      
 	      STDOUT("pfMET>60GeV: Mlj_1stPair_PAS,Mlj_2ndPair_PAS = "<<getVariableValue("Mlj_1stPair_PAS")
 		     <<",\t"<<getVariableValue("Mlj_2ndPair_PAS"));
