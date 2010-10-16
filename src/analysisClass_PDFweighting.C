@@ -73,9 +73,7 @@ void analysisClass::Loop()
 
   TH1F *h_Mej_PAS = new TH1F ("h_Mej_PAS","h_Mej_PAS",200,0,2000);  h_Mej_PAS->Sumw2();
 
-  TH1F *h_PDFWeight_eff_200 = new TH1F ("PDFWeight_eff_200","PDFWeight_eff_200",41,-0.5,40.5); h_PDFWeight_eff_200->Sumw2();
-  TH1F *h_PDFWeight_eff_300 = new TH1F ("PDFWeight_eff_300","PDFWeight_eff_300",41,-0.5,40.5); h_PDFWeight_eff_300->Sumw2();
-  TH1F *h_PDFWeight_eff_400 = new TH1F ("PDFWeight_eff_400","PDFWeight_eff_400",41,-0.5,40.5); h_PDFWeight_eff_400->Sumw2();
+  TH1F *h_PDFWeight_Ntot = new TH1F ("PDFWeight_Ntot","PDFWeight_Ntot",41,-0.5,40.5); h_PDFWeight_Ntot->Sumw2();
 
   TH1F *h_PDFWeight_Npass_200 = new TH1F ("PDFWeight_Npass_200","PDFWeight_Npass_200",41,-0.5,40.5); h_PDFWeight_Npass_200->Sumw2();
   TH1F *h_PDFWeight_Npass_300 = new TH1F ("PDFWeight_Npass_300","PDFWeight_Npass_300",41,-0.5,40.5); h_PDFWeight_Npass_300->Sumw2();
@@ -144,6 +142,7 @@ void analysisClass::Loop()
       double tmp = (PDFWeights->at(pdf)/CentralWeight);
       if (tmp!=tmp) continue; // solves nan problem
       N_events[pdf]=N_events[pdf]+tmp;
+      h_PDFWeight_Ntot->Fill(pdf,tmp);
     }
 
     // EES and JES
@@ -721,7 +720,6 @@ void analysisClass::Loop()
       for(int pdf=0;pdf<PDFWeights->size();pdf++){
 	double tmp = (PDFWeights->at(pdf)/CentralWeight);
 	if (tmp!=tmp) continue; // solves nan problem
-    	cum_weights_PASS_200[pdf]=cum_weights_PASS_200[pdf]+tmp;
     	h_PDFWeight_Npass_200->Fill(pdf,tmp);
       }
     }
@@ -731,7 +729,6 @@ void analysisClass::Loop()
       for(int pdf=0;pdf<PDFWeights->size();pdf++){
 	double tmp = (PDFWeights->at(pdf)/CentralWeight);
 	if (tmp!=tmp) continue; // solves nan problem
-    	cum_weights_PASS_300[pdf]=cum_weights_PASS_300[pdf]+tmp;
     	h_PDFWeight_Npass_300->Fill(pdf,tmp);
       }
     }
@@ -741,7 +738,6 @@ void analysisClass::Loop()
       for(int pdf=0;pdf<PDFWeights->size();pdf++){
 	double tmp = (PDFWeights->at(pdf)/CentralWeight);
 	if (tmp!=tmp) continue; // solves nan problem
-    	cum_weights_PASS_400[pdf]=cum_weights_PASS_400[pdf]+tmp;
     	h_PDFWeight_Npass_400->Fill(pdf,tmp);
       }
     }
@@ -756,14 +752,7 @@ void analysisClass::Loop()
 
   h_Mej_PAS->Write();
 
-  for (int i=0;i<41;i++) {
-    if (N_events[i]!=0) h_PDFWeight_eff_200->Fill(i,cum_weights_PASS_200[i]/N_events[i]);
-    if (N_events[i]!=0) h_PDFWeight_eff_300->Fill(i,cum_weights_PASS_300[i]/N_events[i]);
-    if (N_events[i]!=0) h_PDFWeight_eff_400->Fill(i,cum_weights_PASS_400[i]/N_events[i]);
-    }
-  h_PDFWeight_eff_200->Write();
-  h_PDFWeight_eff_300->Write();
-  h_PDFWeight_eff_400->Write();
+  h_PDFWeight_Ntot->Write();
   h_PDFWeight_Npass_200->Write();
   h_PDFWeight_Npass_300->Write();
   h_PDFWeight_Npass_400->Write();
