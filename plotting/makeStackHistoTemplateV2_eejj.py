@@ -103,7 +103,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "2.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "6.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -262,7 +262,7 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/collisions/38X_2.9pb-1/output_cutTable_eejjSample_elePt25_jetPt20_withDEtaInEE/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/collisions/6.7pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -274,7 +274,7 @@ zUncBand="no"
 pt_xmin=0
 pt_xmax=400
 pt_ymin=0.001
-pt_ymax=300
+pt_ymax=600
 
 eta_rebin=10
 eta_ymin=0
@@ -291,8 +291,8 @@ histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 samplesForStackHistos = ["TTbar_Madgraph","ZJetAlpgen","OTHERBKG"]
 keysStack =             ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
-samplesForHistos = ["LQeejj_M200", "LQeejj_M300"]
-keys             = ["LQ eejj M200","LQ eejj M300"]
+samplesForHistos = ["LQeejj_M200", "LQeejj_M300", "LQeejj_M400"]
+keys             = ["LQ eejj M200","LQ eejj M300","LQ eejj M400"]
 
 sampleForDataHisto = "DATA"
 
@@ -331,7 +331,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 700
+plot0.ymax            = 1000
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -351,7 +351,7 @@ plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 1
 plot0_ylog.ymin            = 0.001
-plot0_ylog.ymax            = 1000
+plot0_ylog.ymax            = 5000
 plot0_ylog.xmin            = 0
 plot0_ylog.xmax            = 1000
 #plot0_ylog.lpos = "bottom-center"
@@ -708,7 +708,7 @@ plot13.ytit            = "Number of events"
 plot13.ylog            = "no"
 plot13.rebin           = 1
 plot13.ymin            = 0
-plot13.ymax            = 40
+plot13.ymax            = 30
 plot13.xmin            = 0
 plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
@@ -757,7 +757,7 @@ plot14.ytit            = "Number of events"
 # plot14.ymin            = 0.00000001
 # plot14.ymax            = 20
 plot14.ylog            = "no"
-plot14.rebin           = 1
+plot14.rebin           = 2
 plot14.ymin            = 0
 plot14.ymax            = 10
 plot14.xmin            = 0
@@ -780,7 +780,7 @@ plot14_ylog.keys            = keys
 plot14_ylog.xtit            = "M(jj) (GeV/c^{2})"
 plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
-plot14_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
+plot14_ylog.rebin           = 2
 plot14_ylog.ymin            = 0.001
 plot14_ylog.ymax            = 100
 plot14_ylog.xmin            = 0
@@ -970,7 +970,7 @@ plot3_nojet.xtit            = "#eta 1st electron"
 plot3_nojet.ytit            = "Number of events"
 plot3_nojet.rebin           = eta_rebin
 plot3_nojet.ymin            = eta_ymin
-plot3_nojet.ymax            = eta_ymax*10
+plot3_nojet.ymax            = eta_ymax*20
 plot3_nojet.lpos = "top-left"
 plot3_nojet.name            = "Eta1stEle_nojet_allPreviousCuts"
 plot3_nojet.addZUncBand     = zUncBand
@@ -1015,7 +1015,7 @@ plot5_nojet.xtit            = "#eta 2nd electron"
 plot5_nojet.ytit            = "Number of events"
 plot5_nojet.rebin           = eta_rebin
 plot5_nojet.ymin            = eta_ymin
-plot5_nojet.ymax            = eta_ymax*10
+plot5_nojet.ymax            = eta_ymax*20
 plot5_nojet.lpos = "top-left"
 plot5_nojet.name            = "Eta2ndEle_nojet_allPreviousCuts"
 plot5_nojet.addZUncBand     = zUncBand
@@ -1075,9 +1075,11 @@ plot21.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto,
 
 
 # List of plots to be plotted
-plots = [plot0, plot0_ylog, plot1, plot2_nojet, plot2, plot3_nojet, plot3, plot4_nojet, plot4, plot5_nojet, plot5,
-         plot2and4, plot3and5, plot6, plot7, plot8,
-         plot9, plot10, plot7and9, plot8and10, plot11, plot11_ele, plot11_jet, plot12, plot13, plot13_ylog, plot14, plot14_ylog,
+plots = [plot0, plot0_ylog, plot1, plot2_nojet, plot3_nojet, plot4_nojet, plot5_nojet, 
+         plot6, plot2, plot3, plot4, plot5,
+         plot2and4, plot3and5, plot7, plot8, plot9, plot10, plot7and9, plot8and10,
+         plot11, plot11_ele, plot11_jet,
+         plot12, plot13, plot13_ylog, plot14, plot14_ylog,
          plot15, plot16,  # produced using preselection root file
          plot20, plot21] # produced using full selection root file
 
