@@ -58,6 +58,23 @@ bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits
   return jetidtight;
 }
 
+bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
+  bool jetidloose=false;
+  bool jetidChHadFrac=true;
+
+  double chHadFrac = 0.;
+  double chEmFrac = 1.;
+  double neutHadFrac = 1.;
+  double neutEmFrac = 1.;
+
+  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac) jetidChHadFrac=false;
+
+  if(jetidChHadFrac && ak5ChargedEmFraction<chEmFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
+    jetidloose=true;
+  }
+  return jetidloose;
+}
+
 //-----------------------------
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
@@ -106,6 +123,9 @@ void analysisClass::Loop()
   double BarrelSlope = getPreCutValue2("fakeRate_Barrel");
   double EndcapCross = getPreCutValue1("fakeRate_Endcap");
   double EndcapSlope = getPreCutValue2("fakeRate_Endcap");
+
+  int jetAlgorithm = getPreCutValue1("jetAlgorithm");
+  int metAlgorithm = getPreCutValue1("metAlgorithm");
 
   ////////////////////// User's code to get preCut values - END /////////////////
    
@@ -158,7 +178,66 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
-    //if (PtHat>=30) continue;
+
+    //## Define new jet collection
+    std::auto_ptr<std::vector<double> >  JetPt  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetPtRaw  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetEta  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetPhi  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<int> >     JetPassID  ( new std::vector<int>()  );
+    
+    if(jetAlgorithm==1) //PF jets
+      {
+	for (int ijet=0 ; ijet< PFJetPt->size() ; ijet++)
+	  {
+	    JetPt->push_back( PFJetPt->at(ijet) );
+	    JetPtRaw->push_back( PFJetPtRaw->at(ijet) );
+	    JetEta->push_back( PFJetEta->at(ijet) );
+	    JetPhi->push_back( PFJetPhi->at(ijet) );
+	    JetPassID->push_back( 
+				 PFJetIdloose(PFJetChargedHadronEnergyFraction->at(ijet), 
+					      PFJetChargedEmEnergyFraction->at(ijet), 
+					      PFJetNeutralHadronEnergyFraction->at(ijet), 
+					      PFJetNeutralEmEnergyFraction->at(ijet), 
+					      PFJetEta->at(ijet) )
+				 ); 
+	  }//end loop over pf jets
+      }//end if "pf jets"
+    
+    if(jetAlgorithm==2) //Calo jets
+      {
+	for (int ijet=0 ; ijet < CaloJetPt->size() ; ijet++)
+	  {
+	    JetPt->push_back( CaloJetPt->at(ijet) );
+	    JetPtRaw->push_back( CaloJetPtRaw->at(ijet) );
+	    JetEta->push_back( CaloJetEta->at(ijet) );
+	    JetPhi->push_back( CaloJetPhi->at(ijet) );
+	    JetPassID->push_back( 
+				 JetIdloose(CaloJetresEMF->at(ijet),
+					    CaloJetfHPD->at(ijet),
+					    CaloJetn90Hits->at(ijet), 
+					    CaloJetEta->at(ijet) )
+				 );
+	  }//end loop over calo jets	
+      }//end if "calo jets"
+    
+    //## Define new met collection
+    double thisMET;
+    double thisMETPhi;
+    if(metAlgorithm==1) 	// --> PFMET
+      {
+	thisMET = PFMET->at(0);
+	thisMETPhi = PFMETPhi->at(0);
+      }
+    if(metAlgorithm==2) 	// --> CaloMET
+      {
+	thisMET = CaloMET->at(0);
+	thisMETPhi = CaloMETPhi->at(0);
+      }
+    // --> TCMET
+    //     thisMET = TCMET->at(0);
+    //     thisMETPhi = TCMETPhi->at(0);
+    
 
     // EES and JES
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
@@ -173,9 +252,9 @@ void analysisClass::Loop()
       }
     if( JetEnergyScale != 1 )
       {
-	for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+	for(int ijet=0; ijet<JetPt->size(); ijet++)
 	  {
-	    CaloJetPt->at(ijet) *= JetEnergyScale;
+	    JetPt->at(ijet) *= JetEnergyScale;
 	  }
       }
 
@@ -320,13 +399,13 @@ void analysisClass::Loop()
     vector<int> v_idx_jet_PtCut_noOverlap_ID_EtaCut;
 
     // Loop over jets
-    for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+    for(int ijet=0; ijet<JetPt->size(); ijet++)
       {
 	//no cut on reco jets
 	v_idx_jet_all.push_back(ijet);
 
 	//pT pre-cut on reco jets
-	if ( CaloJetPt->at(ijet) < jet_PtCut ) continue;
+	if ( JetPt->at(ijet) < jet_PtCut ) continue;
 	v_idx_jet_PtCut.push_back(ijet);
       }
 
@@ -345,9 +424,9 @@ void analysisClass::Loop()
           {
 	    if ( jetFlags[ijet] == 1 ) 
 	      continue;
-            jet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
-			     CaloJetEta->at(v_idx_jet_PtCut[ijet]),
-			     CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+            jet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),0);
 	    double DR = jet.DeltaR(sc);
 	    if (DR<minDR) 
 	      {
@@ -377,9 +456,9 @@ void analysisClass::Loop()
     // 	TLorentzVector thisjet;
     // 	for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
     // 	  {
-    // 	    thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
-    // 				 CaloJetEta->at(v_idx_jet_PtCut[ijet]),
-    // 				 CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+    // 	    thisjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut[ijet]),
+    // 				 JetEta->at(v_idx_jet_PtCut[ijet]),
+    // 				 JetPhi->at(v_idx_jet_PtCut[ijet]),0);
     // 	    STDOUT("CLEANING: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<" jetFlags="<<jetFlags[ijet] );
     // 	  }
     //       } // printouts for jet cleaning
@@ -387,9 +466,10 @@ void analysisClass::Loop()
 
     for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
       {	
-	bool passjetID = JetIdloose(CaloJetresEMF->at(v_idx_jet_PtCut[ijet]),CaloJetfHPD->at(v_idx_jet_PtCut[ijet]),CaloJetn90Hits->at(v_idx_jet_PtCut[ijet]), CaloJetEta->at(v_idx_jet_PtCut[ijet]));
+	bool passjetID = JetPassID->at(v_idx_jet_PtCut[ijet]);
+
 	// ---- use the flag stored in rootTuples
-	//if( (CaloJetOverlaps->at(v_idx_jet_PtCut[ijet]) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
+	//if( (JetOverlaps->at(v_idx_jet_PtCut[ijet]) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
 	// ----
 
 	if( jetFlags[ijet] == 0  )                         /* NO overlap with electrons */  
@@ -404,7 +484,7 @@ void analysisClass::Loop()
 
 	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
 	    && passjetID == true                             /* pass JetID */
-	    && fabs( CaloJetEta->at(v_idx_jet_PtCut[ijet]) ) < jet_EtaCut )
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jet_EtaCut )
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
 	  v_idx_jet_PtCut_noOverlap_ID_EtaCut.push_back(v_idx_jet_PtCut[ijet]);
 	
@@ -572,10 +652,7 @@ void analysisClass::Loop()
     //PAS Sept 2010
     fillVariableWithValue( "nMuon_PtCut_IDISO_PAS", v_idx_muon_PtCut_IDISO.size(), p1 ) ;
 
-    // --> PFMET
-    double thisMET = PFMET->at(0);
-    double thisMETPhi = PFMETPhi->at(0);
-    //#
+    // MET
     fillVariableWithValue("MET", thisMET, p1);
     //PAS Sept 2010
     fillVariableWithValue("MET_PAS", thisMET, p1);
@@ -617,18 +694,18 @@ void analysisClass::Loop()
     double DeltaPhiMET1stJet = -999;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 ) 
       {
-	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
-	fillVariableWithValue( "Eta1stJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
-	fillVariableWithValue( "mEta1stJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0])), p1 );
+	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
+	fillVariableWithValue( "Eta1stJet_noOvrlp_ID", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
+	fillVariableWithValue( "mEta1stJet_noOvrlp_ID", fabs(JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0])), p1 );
 	//PAS Sept 2010
-	fillVariableWithValue( "Pt1stJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
-	fillVariableWithValue( "Eta1stJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
+	fillVariableWithValue( "Pt1stJet_PAS", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
+	fillVariableWithValue( "Eta1stJet_PAS", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
 
 	//DeltaPhi - MET vs 1st jet
 	TVector2 v_MET;
 	TVector2 v_jet;
 	v_MET.SetMagPhi( 1 , thisMETPhi );
-	v_jet.SetMagPhi( 1 , CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	v_jet.SetMagPhi( 1 , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
 	float deltaphi = v_MET.DeltaPhi(v_jet);
 	fillVariableWithValue( "mDeltaPhiMET1stJet", fabs(deltaphi), p1 );
 	//PAS Sept 2010
@@ -654,19 +731,19 @@ void analysisClass::Loop()
     // 2nd jet and deltaphi jet-MET
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 ) 
       {
-	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
-	fillVariableWithValue( "Eta2ndJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
-	fillVariableWithValue( "mEta2ndJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1])), p1 );
+	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
+	fillVariableWithValue( "Eta2ndJet_noOvrlp_ID", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
+	fillVariableWithValue( "mEta2ndJet_noOvrlp_ID", fabs(JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1])), p1 );
 	fillVariableWithValue( "maxMEtaJets_noOvrlp_ID", max( getVariableValue("mEta1stJet_noOvrlp_ID"), getVariableValue("mEta2ndJet_noOvrlp_ID") ), p1 );
 	//PAS Sept 2010
-	fillVariableWithValue( "Pt2ndJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
-	fillVariableWithValue( "Eta2ndJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
+	fillVariableWithValue( "Pt2ndJet_PAS", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
+	fillVariableWithValue( "Eta2ndJet_PAS", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
 
 	//DeltaPhi - MET vs 2nd jet
 	TVector2 v_MET;
 	TVector2 v_jet;
 	v_MET.SetMagPhi( 1 , thisMETPhi );
-	v_jet.SetMagPhi( 1 , CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	v_jet.SetMagPhi( 1 , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
 	float deltaphi = v_MET.DeltaPhi(v_jet);
 	fillVariableWithValue( "mDeltaPhiMET2ndJet", fabs(deltaphi), p1 );
 	//PAS Sept 2010
@@ -684,12 +761,12 @@ void analysisClass::Loop()
     if (TwoJets)
       {
 	TLorentzVector jet1, jet2, jj;
-	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
-	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
+	jet1.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
+	jet2.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	jj = jet1+jet2;
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M(), p1);
@@ -700,8 +777,8 @@ void analysisClass::Loop()
       {
 	double calc_sT = 
 	  SuperClusterPt->at(v_idx_sc_Iso[0]) +
-	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
-	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) + 
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) + 
 	  thisMET;
 	fillVariableWithValue("sT", calc_sT, p1);
 	fillVariableWithValue("sT_MLQ200", calc_sT, p1);
@@ -723,12 +800,12 @@ void analysisClass::Loop()
 	ele1.SetPtEtaPhiM(SuperClusterPt->at(v_idx_sc_Iso[0]),
 			  SuperClusterEta->at(v_idx_sc_Iso[0]),
 			  SuperClusterPhi->at(v_idx_sc_Iso[0]),0);
-	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
-	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
+	jet1.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
+	jet2.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	TLorentzVector jet1ele1, jet2ele1;
 	jet1ele1 = jet1 + ele1;
 	jet2ele1 = jet2 + ele1;
@@ -762,12 +839,12 @@ void analysisClass::Loop()
 	TVector2 v_jet1;
 	TVector2 v_jet2;
 	v_MET.SetMagPhi( 1 , thisMETPhi);
-	v_jet1.SetMagPhi(1 , CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]));
-	v_jet2.SetMagPhi(1 , CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]));
+	v_jet1.SetMagPhi(1 , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]));
+	v_jet2.SetMagPhi(1 , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]));
 	float deltaphi1 = v_MET.DeltaPhi(v_jet1);
 	float deltaphi2 = v_MET.DeltaPhi(v_jet2);
-	MTn1j1 = sqrt(2 * thisMET * CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) * (1 - cos(deltaphi1)) );
-	MTn1j2 = sqrt(2 * thisMET * CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) * (1 - cos(deltaphi2)) );
+	MTn1j1 = sqrt(2 * thisMET * JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) * (1 - cos(deltaphi1)) );
+	MTn1j2 = sqrt(2 * thisMET * JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) * (1 - cos(deltaphi2)) );
 
 	if( MTn1j1 > MTn1j2 )
 	  {
