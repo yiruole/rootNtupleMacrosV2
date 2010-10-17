@@ -67,6 +67,7 @@ PassPrimaryVertex               0            1                  -               
 #
 PassHLT                         0	     1                  -               -               1       2 -0.5 1.5
 nIsoSC				-inf	     +inf		-		-		1	16 -0.5 15.5
+nIsoEle                         -1           0                  -               -               1       16 -0.5 15.5
 #nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 #nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut_IDISO_noOvrlp        0            1                  -               -               1       16 -0.5 15.5

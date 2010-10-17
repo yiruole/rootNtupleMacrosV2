@@ -552,6 +552,9 @@ void analysisClass::Loop()
     //Fill number of isolated superclusters per event
     fillVariableWithValue( "nIsoSC" , v_idx_sc_Iso.size() ) ;    
 
+    //Fill number of isolated electrons per event
+    fillVariableWithValue( "nIsoEle" , v_idx_ele_PtCut_IDISO_noOverlap.size() ) ;    
+   
     ///  Just fill all histograms assuming exactly 1 supercluster.
     //     if (v_idx_sc_all.size()>=2) fillVariableWithValue( "nEle_all",v_idx_sc_all.size() , p1*p2 ) ;
     //     if (v_idx_sc_PtCut.size()>=2) fillVariableWithValue( "nEle_PtCut",v_idx_sc_PtCut.size(), p1*p2) ;
