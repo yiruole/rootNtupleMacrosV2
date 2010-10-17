@@ -66,7 +66,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "2.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "6.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -212,6 +212,7 @@ class Plot:
         gPad.Modified()
         canvas.SaveAs(plot.name + ".eps","eps")
         canvas.SaveAs(plot.name + ".pdf","pdf")
+        canvas.SaveAs(plot.name + ".root","root")
         canvas.Print(fileps)
 
 
@@ -227,13 +228,20 @@ class Plot:
 
 
 #usually preselection and selection file are the same actual file (but we keep the name separate anyway)
-File_preselection = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v8/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
-File_selection    = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v8/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v2_Brussels/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_selection    = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v2_Brussels/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+
 
 UseQCDFromData    = 1 #set to zero if you don't use QCD from data
 #always put an existing file under File_QCD (otherwise the code will crash)
-File_QCD          = GetFile("$LQDATA/enujj_analysis/2.9pb-1_v8_QCD/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-QCDscaleFactor    = 1.26 # ratio between integrated lumi of the signal sample (i.e. 2.9 pb-1) / integrated lumi of the QCD sample (i.e. 2.3 pb-1 from HLT Photon20)
+
+#Photon20
+File_QCD          = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v2_Brussels_QCD_HLT20_noEle/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+QCDscaleFactor    = 2.6461 # ratio between integrated lumi of the signal sample (i.e. 6.7 pb-1) / integrated lumi of the QCD sample (i.e. 2.532 pb-1 from HLT Photon20)
+
+#Photon30
+#File_QCD          = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v1_Brussels_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+#QCDscaleFactor    = 1.5757 # ratio between integrated lumi of the signal sample (i.e. 6.7 pb-1) / integrated lumi of the QCD sample (i.e. 4.252 pb-1 from HLT Photon30)
 
                   
 #### Common values for plots:
@@ -242,13 +250,13 @@ otherBkgsKey="Other Bkgs"
 zUncBand="no"
 
 pt_xmin=0
-pt_xmax=500
+pt_xmax=800
 pt_ymin=0.001
-pt_ymax=500
+pt_ymax=1000
 
 eta_rebin=4
 eta_ymin=0
-eta_ymax=60
+eta_ymax=150
 
 
 #--- Final plots are defined here
@@ -431,7 +439,7 @@ plot3.rebin           = 1
 plot3.xmin            = 0
 plot3.xmax            = 500
 plot3.ymin            = 0.001
-plot3.ymax            = 500
+plot3.ymax            = 1000
 #plot3.lpos = "bottom-center"
 plot3.name            = "MET_allPreviousCuts"
 plot3.addZUncBand     = zUncBand
@@ -478,9 +486,9 @@ plot4.ytit            = "Number of events"
 plot4.ylog            = "yes"
 plot4.rebin           = 1
 plot4.xmin            = 0
-plot4.xmax            = 500
+plot4.xmax            = 300
 plot4.ymin            = 0.001
-plot4.ymax            = 500
+plot4.ymax            = 1000
 #plot4.lpos = "bottom-center"
 plot4.name            = "minMETPt1stEle_allPreviousCuts"
 plot4.addZUncBand     = zUncBand
@@ -867,7 +875,7 @@ plot10.ytit            = "Number of events"
 plot10.ylog            = "yes"
 plot10.rebin           = 1
 plot10.xmin            = 0
-plot10.xmax            = 12
+plot10.xmax            = 5
 plot10.ymin            = 0.01
 plot10.ymax            = 10000
 #plot10.lpos = "bottom-center"
@@ -914,11 +922,11 @@ plot11.xtit            = "#Delta#phi(MET,e) (rad.)"
 plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
-plot11.rebin           = 4
+plot11.rebin           = 6
 plot11.xmin            = 0
 plot11.xmax            = 5
 plot11.ymin            = 0.001
-plot11.ymax            = 10000
+plot11.ymax            = 100000
 #plot11.lpos = "bottom-center"
 plot11.name            = "mDeltaPhiMETEle_allPreviousCuts"
 plot11.addZUncBand     = zUncBand
@@ -962,11 +970,11 @@ plot12.xtit            = "#Delta#phi(MET,1^{st} jet) (rad.)"
 plot12.ytit            = "Number of events"
 #plot12.xlog            = "yes"
 plot12.ylog            = "yes"
-plot12.rebin           = 4
+plot12.rebin           = 6
 plot12.xmin            = 0
 plot12.xmax            = 5
 plot12.ymin            = 0.001
-plot12.ymax            = 10000
+plot12.ymax            = 100000
 #plot12.lpos = "bottom-center"
 plot12.name            = "mDeltaPhiMET1stJet_allPreviousCuts"
 plot12.addZUncBand     = zUncBand
@@ -1010,11 +1018,11 @@ plot13.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.)"
 plot13.ytit            = "Number of events"
 #plot13.xlog            = "yes"
 plot13.ylog            = "yes"
-plot13.rebin           = 4
+plot13.rebin           = 6
 plot13.xmin            = 0
 plot13.xmax            = 5
 plot13.ymin            = 0.001
-plot13.ymax            = 10000
+plot13.ymax            = 100000
 #plot13.lpos = "bottom-center"
 plot13.name            = "mDeltaPhiMET2ndJet_allPreviousCuts"
 plot13.addZUncBand     = zUncBand
@@ -1068,7 +1076,7 @@ plot14.rebin           = 1
 plot14.xmin            = 0
 plot14.xmax            = 400
 plot14.ymin            = 0
-plot14.ymax            = 60
+plot14.ymax            = 150
 #plot14.lpos = "bottom-center"
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
@@ -1094,9 +1102,9 @@ plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
 plot14_ylog.xmin            = 0
-plot14_ylog.xmax            = 400
+plot14_ylog.xmax            = 500
 plot14_ylog.ymin            = 0.001
-plot14_ylog.ymax            = 100
+plot14_ylog.ymax            = 1000
 #plot14_ylog.lpos = "bottom-center"
 plot14_ylog.name            = "MTenu_allPreviousCuts"
 plot14_ylog.addZUncBand     = zUncBand
@@ -1143,7 +1151,7 @@ plot15.ytit            = "Number of events"
 plot15.ylog            = "yes"
 plot15.rebin           = 2
 plot15.xmin            = 50
-plot15.xmax            = 1000
+plot15.xmax            = 1500
 plot15.ymin            = 0.001
 plot15.ymax            = 1000
 #plot15.lpos = "bottom-center"
@@ -1196,9 +1204,9 @@ plot16.ytit            = "Number of events"
 plot16.ylog            = "yes"
 plot16.rebin           = 2
 plot16.ymin            = 0.001
-plot16.ymax            = 500
+plot16.ymax            = 1000
 plot16.xmin            = 0
-plot16.xmax            = 1500
+plot16.xmax            = 2000
 #plot16.lpos = "bottom-center"
 plot16.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
 plot16.addZUncBand     = zUncBand
@@ -1287,7 +1295,7 @@ plot17.rebin           = 2
 plot17.xmin            = 0
 plot17.xmax            = 2000
 plot17.ymin            = 0.001
-plot17.ymax            = 500
+plot17.ymax            = 1000
 #plot17.lpos = "bottom-center"
 plot17.name            = "Mej_allPreviousCuts"
 plot17.addZUncBand     = zUncBand
@@ -1348,7 +1356,7 @@ plot18.rebin           = 2
 plot18.xmin            = 0
 plot18.xmax            = 1000
 plot18.ymin            = 0.001
-plot18.ymax            = 500
+plot18.ymax            = 1000
 #plot18.lpos = "bottom-center"
 plot18.name            = "MTnuj_allPreviousCuts"
 plot18.addZUncBand     = zUncBand
@@ -1401,7 +1409,7 @@ plot19_d1.ytit            = "Number of events"
 plot19_d1.ylog            = "yes"
 plot19_d1.rebin           = 2
 plot19_d1.ymin            = 0.001
-plot19_d1.ymax            = 10000
+plot19_d1.ymax            = 100000
 plot19_d1.xmin            = 0
 plot19_d1.xmax            = 5
 #plot19_d1.lpos = "bottom-center"
@@ -1456,7 +1464,7 @@ plot19_d2.ytit            = "Number of events"
 plot19_d2.ylog            = "yes"
 plot19_d2.rebin           = 2
 plot19_d2.ymin            = 0.001
-plot19_d2.ymax            = 10000
+plot19_d2.ymax            = 100000
 plot19_d2.xmin            = 0
 plot19_d2.xmax            = 5
 #plot19_d2.lpos = "bottom-center"
@@ -1513,7 +1521,7 @@ plot30.ytit            = "Number of events"
 plot30.ylog            = "yes"
 plot30.rebin           = 10
 plot30.xmin            = 100
-plot30.xmax            = 1000
+plot30.xmax            = 2000
 plot30.ymin            = 0.001
 plot30.ymax            = 100
 #plot30.lpos = "bottom-center"
@@ -1574,7 +1582,7 @@ plot31.ytit            = "Number of events x 2"
 plot31.ylog            = "yes"
 plot31.rebin           = 10
 plot31.xmin            = 0
-plot31.xmax            = 1000
+plot31.xmax            = 2000
 plot31.ymin            = 0.001
 plot31.ymax            = 500
 #plot31.lpos = "bottom-center"
@@ -1635,7 +1643,7 @@ plot32.ytit            = "Number of events x 2"
 plot32.ylog            = "yes"
 plot32.rebin           = 10
 plot32.xmin            = 0
-plot32.xmax            = 1000
+plot32.xmax            = 2000
 plot32.ymin            = 0.001
 plot32.ymax            = 500
 #plot32.lpos = "bottom-center"
@@ -1647,7 +1655,7 @@ plot32.histodata       = h_MTnuj_fullsel_DATA
 
 
 # List of plots to be plotted
-plots = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot6and8, plot7and9, 
+plots = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, #plot6and8, plot7and9, 
          plot10, plot11, plot12, plot13,
          plot14, plot14_ylog, plot15, plot16, #plot16_ylog,
          plot17, plot18, plot19_d1, plot19_d2, # produced using preselection root file
