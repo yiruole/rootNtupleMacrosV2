@@ -40,6 +40,10 @@ JetEnergyScale        1.0	   -			-		-		-1
 fakeRate_Barrel	      0.005092     0			-		-		-1
 fakeRate_Endcap	      0.018364     0			-		-		-1
 doGenLevelStudies     1		   -			-		-		-1
+## 1=PFJets , 2=CaloJets
+jetAlgorithm	      1		   -			-		-		-1
+## 1=PFMET  , 2=CaloMET
+metAlgorithm	      1		   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
