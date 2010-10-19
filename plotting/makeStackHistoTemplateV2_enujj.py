@@ -71,7 +71,10 @@ class Plot:
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
     ZScaleUnc   = 0.20 # uncertainty of the data-MC Z+jets scale factor
+    makeRatio   = "" # 1=simple ratio, 2=ratio of cumulative histograms
+    xbins       = "" #array with variable bin structure
     histodata   = "" # data histogram
+
 
     def Draw(self, fileps):
 
@@ -79,11 +82,28 @@ class Plot:
         canvas = TCanvas()
         stack = {}
 
+        if(plot.makeRatio==1):    
+            fPads1 = TPad("pad1", "", 0.00, 0.20, 0.99, 0.99)
+            fPads2 = TPad("pad2", "", 0.00, 0.00, 0.99, 0.20)
+            fPads1.SetFillColor(0)
+            fPads1.SetLineColor(0)
+            fPads2.SetFillColor(0)
+            fPads2.SetLineColor(0)
+            fPads1.Draw()
+            fPads2.Draw()
+        else:
+            fPads1 = TPad("pad1", "", 0.00, 0.0, 0.99, 0.99)
+            fPads1.SetFillColor(0)
+            fPads1.SetLineColor(0)
+            fPads1.Draw()
+            
+        #-- 1st pad
+        fPads1.cd()
         #-- log scale
-#             xlog may npot work         if (plot.xlog     == "yes"):
-#             canvas.SetLogx();
+        #             xlog may npot work         if (plot.xlog     == "yes"):
+        #             fPads1.SetLogx()
         if (plot.ylog     == "yes"):
-            canvas.SetLogy();
+            fPads1.SetLogy()
 
         #-- legend
         hsize=0.20
@@ -205,11 +225,51 @@ class Plot:
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + plot.lint)
 
-        #-- end
         legend.Draw()
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
+
+        #-- 2nd pad (ratio)
+        if(plot.makeRatio==1):    
+            fPads2.cd()
+            h_bkgTot = stack[0].Clone() 
+            h_ratio = plot.histodata.Clone()
+
+            if( plot.xbins!="" ): ## Variable binning
+                xbinsFinal = array( 'd', plot.xbins )
+                lenght = len(xbinsFinal)-1            
+                h_bkgTot1 = h_bkgTot.Rebin( lenght , "h_bkgTot1", xbinsFinal) 
+                h_ratio1 = h_ratio.Rebin( lenght , "h_ratio1" , xbinsFinal)
+            else:                 ## Fixed binning
+                h_bkgTot1 = h_bkgTot.Rebin( 1 , "h_bkgTot1" ) 
+                h_ratio1 = h_ratio.Rebin( 1 , "h_ratio1" )            
+
+            h_ratio1.SetStats(0)
+            if (plot.xmin!="" and plot.xmax!=""):
+                h_bkgTot1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
+                h_ratio1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
+            h_ratio1.Divide(h_bkgTot1)            
+            h_ratio1.GetXaxis().SetTitle("")
+            h_ratio1.GetXaxis().SetTitleSize(0.06)
+            h_ratio1.GetXaxis().SetLabelSize(0.1)
+            h_ratio1.GetYaxis().SetLimits(0,4)
+            h_ratio1.GetYaxis().SetRangeUser(0,4)
+            h_ratio1.GetYaxis().SetTitle("Data/MC")
+            h_ratio1.GetYaxis().SetLabelSize(0.1)
+            h_ratio1.GetYaxis().SetTitleSize(0.13)
+            h_ratio1.GetYaxis().SetTitleOffset(0.3)
+            
+            h_ratio1.Draw("p")        
+            
+            if (plot.xmin!="" and plot.xmax!=""):
+                lineAtOne = TLine(plot.xmin,1,plot.xmax,1)
+            else:
+                lineAtOne = TLine(h_ratio.GetXaxis().GetXmin(),1,h_ratio.GetXaxis().GetXmax(),1)
+            lineAtOne.SetLineColor(2)
+            lineAtOne.Draw()
+            
+        #-- end
         canvas.SaveAs(plot.name + ".eps","eps")
         canvas.SaveAs(plot.name + ".pdf","pdf")
         canvas.SaveAs(plot.name + ".root","root")
@@ -228,15 +288,15 @@ class Plot:
 
 
 #usually preselection and selection file are the same actual file (but we keep the name separate anyway)
-File_preselection = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v2_Brussels/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
-File_selection    = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v2_Brussels/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v3_usePF/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_selection    = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v3_usePF/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 
 UseQCDFromData    = 1 #set to zero if you don't use QCD from data
 #always put an existing file under File_QCD (otherwise the code will crash)
 
 #Photon20
-File_QCD          = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v2_Brussels_QCD_HLT20_noEle/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("$LQDATA/enujj_analysis/6.7pb-1_v3_usePF_QCD_HLT20/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 QCDscaleFactor    = 2.6461 # ratio between integrated lumi of the signal sample (i.e. 6.7 pb-1) / integrated lumi of the QCD sample (i.e. 2.532 pb-1 from HLT Photon20)
 
 #Photon30
@@ -248,6 +308,7 @@ QCDscaleFactor    = 2.6461 # ratio between integrated lumi of the signal sample 
 #otherBkgsKey="single top, VV+jets, Z/Z*/gamma+jets, QCD?"
 otherBkgsKey="Other Bkgs"
 zUncBand="no"
+makeRatio=1
 
 pt_xmin=0
 pt_xmax=800
@@ -257,7 +318,6 @@ pt_ymax=1000
 eta_rebin=4
 eta_ymin=0
 eta_ymax=150
-
 
 #--- Final plots are defined here
 
@@ -306,7 +366,7 @@ plot0.ymax            = 100000000
 plot0.name            = "nEle_allPreviousCuts"
 plot0.addZUncBand     = zUncBand
 plot0.histodata       = h_nEle_DATA
-
+plot0.makeRatio       = makeRatio
 
 #--- Pt1stEle_PAS  ---
 
@@ -352,7 +412,7 @@ plot1.ymax            = pt_ymax
 plot1.name            = "pT1stEle_allPreviousCuts"
 plot1.addZUncBand     = zUncBand
 plot1.histodata       = h_pT1stEle_DATA
-
+plot1.makeRatio     = makeRatio
 
 #--- Eta1stEle_PAS  ---
 
@@ -395,7 +455,7 @@ plot2.lpos = "top-left"
 plot2.name            = "Eta1stEle_allPreviousCuts"
 plot2.addZUncBand     = zUncBand
 plot2.histodata       = h_Eta1stEle_DATA
-
+plot2.makeRatio     = makeRatio
 
 #--- MET ---
 
@@ -444,7 +504,7 @@ plot3.ymax            = 1000
 plot3.name            = "MET_allPreviousCuts"
 plot3.addZUncBand     = zUncBand
 plot3.histodata       = h_MET_DATA
-
+plot3.makeRatio     = makeRatio
 
 #--- minMETPt1stEle_PAS ---
 
@@ -493,7 +553,7 @@ plot4.ymax            = 1000
 plot4.name            = "minMETPt1stEle_allPreviousCuts"
 plot4.addZUncBand     = zUncBand
 plot4.histodata       = h_minMETPt1stEle_DATA
-
+plot4.makeRatio     = makeRatio
 
 #--- nJet_WithJetEtaCut ---
 
@@ -531,15 +591,15 @@ plot5.xtit            = "Number of jets"
 plot5.ytit            = "Number of events"
 plot5.ylog            = "yes"
 plot5.rebin           = 1
-plot5.xmin            = 0
-plot5.xmax            = 12
+plot5.xmin            = -0.5
+plot5.xmax            = 11.5
 plot5.ymin            = 0.01
 plot5.ymax            = 100000000
 #plot5.lpos = "bottom-center"
 plot5.name            = "nJet_allPreviousCuts"
 plot5.addZUncBand     = zUncBand
 plot5.histodata       = h_nJet_DATA
-
+plot5.makeRatio     = makeRatio
 
 
 #--- Pt1stJet_PAS ---
@@ -585,7 +645,7 @@ plot6.ymax            = pt_ymax
 plot6.name            = "Pt1stJet_allPreviousCuts"
 plot6.addZUncBand     = zUncBand
 plot6.histodata       = h_Pt1stJet_DATA
-
+plot6.makeRatio     = makeRatio
 
 #--- Eta1stJet_PAS ---
 
@@ -627,7 +687,7 @@ plot7.lpos = "top-left"
 plot7.name            = "Eta1stJet_allPreviousCuts"
 plot7.addZUncBand     = zUncBand
 plot7.histodata       = h_Eta1stJet_DATA
-
+plot7.makeRatio     = makeRatio
 
 #--- Pt2ndJet_PAS ---
 
@@ -672,6 +732,7 @@ plot8.ymax            = pt_ymax
 plot8.name            = "Pt2ndJet_allPreviousCuts"
 plot8.addZUncBand     = zUncBand
 plot8.histodata       = h_Pt2ndJet_DATA
+plot8.makeRatio     = makeRatio
     
 #--- Eta2ndJet_PAS ---
 
@@ -713,7 +774,7 @@ plot9.lpos = "top-left"
 plot9.name            = "Eta2ndJet_allPreviousCuts"
 plot9.addZUncBand     = zUncBand
 plot9.histodata       = h_Eta2ndJet_DATA
-
+plot9.makeRatio     = makeRatio
 
 ##--- Pt Jets AllPreviousCuts ---
 
@@ -776,6 +837,7 @@ plot6and8.ymax            = pt_ymax
 plot6and8.name            = "pTJets_allPreviousCuts"
 plot6and8.addZUncBand     = zUncBand
 plot6and8.histodata       = h_pTJets_DATA
+plot6and8.makeRatio     = makeRatio
 
 ##--- Eta Eles AllPreviousCuts ---
 
@@ -836,7 +898,7 @@ plot7and9.lpos            = "top-left"
 plot7and9.name            = "etaJets_allPreviousCuts"
 plot7and9.addZUncBand     = zUncBand
 plot7and9.histodata       = h_etaJets_DATA
-
+plot7and9.makeRatio     = makeRatio
 
 #--- nMuon_PtCut_IDISO_PAS ---
 
@@ -874,14 +936,15 @@ plot10.xtit            = "Number of muons"
 plot10.ytit            = "Number of events"
 plot10.ylog            = "yes"
 plot10.rebin           = 1
-plot10.xmin            = 0
-plot10.xmax            = 5
+plot10.xmin            = -0.5
+plot10.xmax            = 4.5
 plot10.ymin            = 0.01
 plot10.ymax            = 10000
 #plot10.lpos = "bottom-center"
 plot10.name            = "nMuon_allPreviousCuts"
 plot10.addZUncBand     = zUncBand
 plot10.histodata       = h_nMuon_DATA
+plot10.makeRatio     = makeRatio
 
 
 #--- mDeltaPhiMETEle_PAS ---
@@ -923,15 +986,15 @@ plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
 plot11.rebin           = 6
-plot11.xmin            = 0
-plot11.xmax            = 5
+#plot11.xmin            = 0
+#plot11.xmax            = 3.14
 plot11.ymin            = 0.001
 plot11.ymax            = 100000
 #plot11.lpos = "bottom-center"
 plot11.name            = "mDeltaPhiMETEle_allPreviousCuts"
 plot11.addZUncBand     = zUncBand
 plot11.histodata       = h_mDeltaPhiMETEle_DATA
-
+plot11.makeRatio     = makeRatio
 
 #--- mDeltaPhiMET1stJet_PAS ---
 
@@ -971,15 +1034,15 @@ plot12.ytit            = "Number of events"
 #plot12.xlog            = "yes"
 plot12.ylog            = "yes"
 plot12.rebin           = 6
-plot12.xmin            = 0
-plot12.xmax            = 5
+#plot12.xmin            = 0
+#plot12.xmax            = 3.146
 plot12.ymin            = 0.001
 plot12.ymax            = 100000
 #plot12.lpos = "bottom-center"
 plot12.name            = "mDeltaPhiMET1stJet_allPreviousCuts"
 plot12.addZUncBand     = zUncBand
 plot12.histodata       = h_mDeltaPhiMET1stJet_DATA
-
+plot12.makeRatio     = makeRatio
 
 #--- mDeltaPhiMET2ndJet_PAS ---
 
@@ -1019,15 +1082,15 @@ plot13.ytit            = "Number of events"
 #plot13.xlog            = "yes"
 plot13.ylog            = "yes"
 plot13.rebin           = 6
-plot13.xmin            = 0
-plot13.xmax            = 5
+#plot13.xmin            = 0
+#plot13.xmax            = 3.146
 plot13.ymin            = 0.001
 plot13.ymax            = 100000
 #plot13.lpos = "bottom-center"
 plot13.name            = "mDeltaPhiMET2ndJet_allPreviousCuts"
 plot13.addZUncBand     = zUncBand
 plot13.histodata       = h_mDeltaPhiMET2ndJet_DATA
-
+plot13.makeRatio     = makeRatio
 
 #--- MTenu_PAS (after preselection) ---
 
@@ -1081,6 +1144,8 @@ plot14.ymax            = 150
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
 plot14.histodata       = h_MTenu_FullPreSel_DATA
+plot14.makeRatio       = makeRatio
+plot14.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,400]
 
 plot14_ylog = Plot()
 ## inputs for stacked histograms
@@ -1109,8 +1174,8 @@ plot14_ylog.ymax            = 1000
 plot14_ylog.name            = "MTenu_allPreviousCuts"
 plot14_ylog.addZUncBand     = zUncBand
 plot14_ylog.histodata       = h_MTenu_FullPreSel_DATA
-
-
+plot14_ylog.makeRatio     = makeRatio
+plot14_ylog.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,500]
 
 #--- sT ---
 
@@ -1157,6 +1222,8 @@ plot15.ymax            = 1000
 #plot15.lpos = "bottom-center"
 plot15.name            = "sT_allPreviousCuts"
 plot15.addZUncBand     = zUncBand
+plot15.makeRatio     = makeRatio
+plot15.xbins           = [50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,700,1500]
 plot15.histodata       = h_sT_DATA
 
 #--- Mjj_PAS (after preselection) ---
@@ -1210,7 +1277,10 @@ plot16.xmax            = 2000
 #plot16.lpos = "bottom-center"
 plot16.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
 plot16.addZUncBand     = zUncBand
+plot16.makeRatio     = makeRatio
+plot16.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,250,300,350,400,500,800,1000,2000]
 plot16.histodata       = h_Mjj_FullPreSel_DATA
+
 
 # plot16_ylog = Plot()
 # ## inputs for stacked histograms
@@ -1300,7 +1370,8 @@ plot17.ymax            = 1000
 plot17.name            = "Mej_allPreviousCuts"
 plot17.addZUncBand     = zUncBand
 plot17.histodata       = h_Mej_presel_DATA
-
+plot17.makeRatio       = makeRatio
+plot17.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,250,300,350,400,500,800,1000,2000]
 
 ##--- MTnuj preselection
 
@@ -1361,7 +1432,7 @@ plot18.ymax            = 1000
 plot18.name            = "MTnuj_allPreviousCuts"
 plot18.addZUncBand     = zUncBand
 plot18.histodata       = h_MTnuj_presel_DATA
-
+plot18.makeRatio     = makeRatio
 
 
 #--- d1_DPhi_METe_METj (after preselection) ---
@@ -1416,7 +1487,7 @@ plot19_d1.xmax            = 5
 plot19_d1.name            = "d1_FullPreSel_allPreviousCuts"
 plot19_d1.addZUncBand     = zUncBand
 plot19_d1.histodata       = h_d1_FullPreSel_DATA
-
+plot19_d1.makeRatio     = makeRatio
 
 
 #--- d2_DPhi_METe_METj (after preselection) ---
@@ -1471,7 +1542,7 @@ plot19_d2.xmax            = 5
 plot19_d2.name            = "d2_FullPreSel_allPreviousCuts"
 plot19_d2.addZUncBand     = zUncBand
 plot19_d2.histodata       = h_d2_FullPreSel_DATA
-
+plot19_d2.makeRatio     = makeRatio
 
 
 
@@ -1528,7 +1599,7 @@ plot30.ymax            = 100
 plot30.name            = "sT_fullSelection"
 plot30.addZUncBand     = zUncBand
 plot30.histodata       = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________sT", File_selection).Clone()
-
+plot30.makeRatio     = makeRatio
 
 ##--- Mej fullselection --
 
@@ -1589,7 +1660,7 @@ plot31.ymax            = 500
 plot31.name            = "Mej_fullSelection"
 plot31.addZUncBand     = zUncBand
 plot31.histodata       = h_Mej_fullsel_DATA
-
+plot31.makeRatio     = makeRatio
 
 ##--- MTnuj fullselection --
 
@@ -1650,6 +1721,7 @@ plot32.ymax            = 500
 plot32.name            = "MTnuj_fullSelection"
 plot32.addZUncBand     = zUncBand
 plot32.histodata       = h_MTnuj_fullsel_DATA
+plot32.makeRatio       = makeRatio
 
 #-----------------------------------------------------------------------------------
 
@@ -1660,8 +1732,6 @@ plots = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, #
          plot14, plot14_ylog, plot15, plot16, #plot16_ylog,
          plot17, plot18, plot19_d1, plot19_d2, # produced using preselection root file
          plot30, plot31, plot32] # produced using full selection root file
-
-
 
 ############# USER CODE - END ################################################
 ##############################################################################
