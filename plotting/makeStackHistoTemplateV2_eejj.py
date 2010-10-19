@@ -40,13 +40,15 @@ def GetFile(filename):
 def GetHisto( histoName , file , scale = 1 ):
     file.cd()
     histo = file.Get( histoName )
+    new = histo.Clone()
+    #ROOT.SetOwnership( new, True )
     if(scale!=1):
-        histo.Scale(scale)
-    if( not histo):
+        new.Scale(scale)
+    if( not new):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
         print "exiting..."
         sys.exit()
-    return histo
+    return new
 
 def generateHistoList( histoBaseName , samples , variableName, fileName , scale = 1):
     histolist = []
