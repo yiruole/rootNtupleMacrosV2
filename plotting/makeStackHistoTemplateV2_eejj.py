@@ -103,7 +103,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "6.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "10.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -322,7 +322,7 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("/home/prumerio/cms/lq/data/output_fromAFS/collisions/6.7pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -334,11 +334,11 @@ zUncBand="no"
 pt_xmin=0
 pt_xmax=400
 pt_ymin=0.001
-pt_ymax=600
+pt_ymax=1000
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=30
+eta_ymax=50
 
 makeRatio = 0
 
@@ -391,7 +391,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 1000
+plot0.ymax            = 1500
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -560,7 +560,7 @@ plot6.rebin           = 1
 plot6.xmin            = 0
 plot6.xmax            = 12
 plot6.ymin            = 0.01
-plot6.ymax            = 2000
+plot6.ymax            = 5000
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.addZUncBand     = zUncBand
@@ -785,7 +785,7 @@ plot13.ytit            = "Number of events"
 plot13.ylog            = "no"
 plot13.rebin           = 1
 plot13.ymin            = 0
-plot13.ymax            = 30
+plot13.ymax            = 50
 plot13.xmin            = 0
 plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
@@ -838,7 +838,7 @@ plot14.ytit            = "Number of events"
 plot14.ylog            = "no"
 plot14.rebin           = 2
 plot14.ymin            = 0
-plot14.ymax            = 10
+plot14.ymax            = 20
 plot14.xmin            = 0
 plot14.xmax            = 1000
 #plot14.lpos = "bottom-center"
