@@ -125,14 +125,14 @@ caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 Mee                             100	     +inf               -               -               3       200 0 1000
 sT                              -inf	     +inf               -               -               3       200 0 2000
 sT_MLQ200                       280	     +inf               -               -               3       200 0 2000
+sT_MLQ250                       330	     +inf               -               -               3       200 0 2000
+sT_MLQ300                       380	     +inf               -               -               3       200 0 2000
 #
 minDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
 maxDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
 Mej_1stPair                     -inf	     +inf               -               -               4       200 0 2000
 Mej_2ndPair                     -inf	     +inf               -               -               4       200 0 2000
 #
-sT_MLQ250                       330	     +inf               -               -               3       200 0 2000
-sT_MLQ300                       380	     +inf               -               -               3       200 0 2000
 sT_MLQ400                       460	     +inf               -               -               3       200 0 2000
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
