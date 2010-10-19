@@ -248,7 +248,7 @@ class Plot:
         gPad.RedrawAxis()
         gPad.Modified()
         canvas.SaveAs(plot.name + ".eps","eps")
-        canvas.SaveAs(plot.name + ".pdf","pdf")
+        #canvas.SaveAs(plot.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
         canvas.Print(fileps)
 
 
@@ -730,7 +730,7 @@ plot13_ylog.rebin           = 1 # don't change it (since a rebinning is already 
 plot13_ylog.ymin            = 0.001
 plot13_ylog.ymax            = 100
 plot13_ylog.xmin            = 0
-plot13_ylog.xmax            = 1000
+plot13_ylog.xmax            = 500
 #plot13_ylog.lpos = "bottom-center"
 plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
 plot13_ylog.addZUncBand     = zUncBand
@@ -1095,3 +1095,17 @@ c.Print("allPlots.ps[")
 for plot in plots:
     plot.Draw("allPlots.ps")
 c.Print("allPlots.ps]")
+
+# Uncomment the 3 lines below to create (not rotated) pdf files,
+# but keep them commented out in cvs since may slow down the execution 
+# print "Converting eps files into pdf files ..."
+# for plot in plots:
+#     system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
+
+# create a file with list of eps and pdf files, to facilitate copying them to svn area for AN/PAS/PAPER
+print "Creating file listOfEpsFiles.txt and listOfPdfFiles.txt ..."
+system("rm listOfEpsFiles.txt listOfPdfFiles.txt")
+for plot in plots:
+    system("echo "+plot.name+".eps >> listOfEpsFiles.txt; echo "+plot.name+".pdf >> listOfPdfFiles.txt") 
+print "Use for example: scp `cat listOfPdfFiles.txt` pcuscms41:/home/prumerio/doc/cms/phys/leptoquark/ANPAS2010/papers/EXO-10-005/trunk/plots"
+
