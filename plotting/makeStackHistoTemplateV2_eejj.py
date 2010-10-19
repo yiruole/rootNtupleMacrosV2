@@ -48,40 +48,40 @@ def GetHisto( histoName , file , scale = 1 ):
         sys.exit()
     return histo
 
-def generateHistoList( histoBaseName , samples , variableName, fileName ):
+def generateHistoList( histoBaseName , samples , variableName, fileName , scale = 1):
     histolist = []
     for sample in samples:
         hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
-        histolist.append(GetHisto(hname, fileName).Clone())
+        histolist.append(GetHisto(hname, fileName, scale).Clone())
     return histolist
                                                     
-def generateAndAddHistoList( histoBaseName , samples , variableNames, fileName ):
+def generateAndAddHistoList( histoBaseName , samples , variableNames, fileName , scale = 1):
     histolist = []
     for sample in samples:
         iv=0
         for variableName in variableNames:
             hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
             if (iv==0):
-                histo = GetHisto(hname, fileName).Clone()
+                histo = GetHisto(hname, fileName, scale).Clone()
             else:
-                histo.Add(GetHisto(hname, fileName).Clone())
+                histo.Add(GetHisto(hname, fileName, scale).Clone())
             iv=iv+1
         histolist.append(histo)
     return histolist
 
-def generateHisto( histoBaseName , sample , variableName, fileName ):
+def generateHisto( histoBaseName , sample , variableName, fileName , scale = 1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
     histo = GetHisto(hname, fileName).Clone()
     return histo
 
-def generateAndAddHisto( histoBaseName , sample , variableNames, fileName ):
+def generateAndAddHisto( histoBaseName , sample , variableNames, fileName , scale = 1):
     iv=0
     for variableName in variableNames:
         hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
         if (iv==0):
-            histo = GetHisto(hname, fileName).Clone()
+            histo = GetHisto(hname, fileName, scale).Clone()
         else:
-            histo.Add(GetHisto(hname, fileName).Clone())
+            histo.Add(GetHisto(hname, fileName, scale).Clone())
         iv=iv+1
     return histo
 
