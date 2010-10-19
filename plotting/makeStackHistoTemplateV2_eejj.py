@@ -108,6 +108,8 @@ class Plot:
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
     ZScaleUnc   = 0.20 # uncertainty of the data-MC Z+jets scale factor
+    makeRatio   = "" # 1=simple ratio, 2=ratio of cumulative histograms
+    xbins       = "" #array with variable bin structure
     histodata   = "" # data histogram
 
     def Draw(self, fileps):
@@ -116,11 +118,28 @@ class Plot:
         canvas = TCanvas()
         stack = {}
 
+        if(plot.makeRatio==1):    
+            fPads1 = TPad("pad1", "", 0.00, 0.20, 0.99, 0.99)
+            fPads2 = TPad("pad2", "", 0.00, 0.00, 0.99, 0.20)
+            fPads1.SetFillColor(0)
+            fPads1.SetLineColor(0)
+            fPads2.SetFillColor(0)
+            fPads2.SetLineColor(0)
+            fPads1.Draw()
+            fPads2.Draw()
+        else:
+            fPads1 = TPad("pad1", "", 0.00, 0.0, 0.99, 0.99)
+            fPads1.SetFillColor(0)
+            fPads1.SetLineColor(0)
+            fPads1.Draw()
+
+        #-- 1st pad
+        fPads1.cd()
         #-- log scale
-#             xlog may npot work         if (plot.xlog     == "yes"):
-#             canvas.SetLogx();
+        #             xlog may npot work         if (plot.xlog     == "yes"):
+        #             fPads1.SetLogx()
         if (plot.ylog     == "yes"):
-            canvas.SetLogy();
+            fPads1.SetLogy()
 
         #-- legend
         hsize=0.20
@@ -242,11 +261,52 @@ class Plot:
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + plot.lint)
 
-        #-- end
         legend.Draw()
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
+
+        #-- 2nd pad (ratio)
+        if(plot.makeRatio==1):    
+            fPads2.cd()
+            h_bkgTot = stack[0].Clone() 
+            h_ratio = plot.histodata.Clone()
+
+            if( plot.xbins!="" ): ## Variable binning
+                xbinsFinal = array( 'd', plot.xbins )
+                lenght = len(xbinsFinal)-1            
+                h_bkgTot1 = h_bkgTot.Rebin( lenght , "h_bkgTot1", xbinsFinal) 
+                h_ratio1 = h_ratio.Rebin( lenght , "h_ratio1" , xbinsFinal)
+            else:                 ## Fixed binning
+                h_bkgTot1 = h_bkgTot.Rebin( 1 , "h_bkgTot1" ) 
+                h_ratio1 = h_ratio.Rebin( 1 , "h_ratio1" )            
+
+            h_ratio1.SetStats(0)
+            if (plot.xmin!="" and plot.xmax!=""):
+                h_bkgTot1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
+                h_ratio1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
+            h_ratio1.Divide(h_bkgTot1)            
+            h_ratio1.GetXaxis().SetTitle("")
+            h_ratio1.GetXaxis().SetTitleSize(0.06)
+            h_ratio1.GetXaxis().SetLabelSize(0.1)
+            h_ratio1.GetYaxis().SetLimits(0,4)
+            h_ratio1.GetYaxis().SetRangeUser(0,4)
+            h_ratio1.GetYaxis().SetTitle("Data/MC")
+            h_ratio1.GetYaxis().SetLabelSize(0.1)
+            h_ratio1.GetYaxis().SetTitleSize(0.13)
+            h_ratio1.GetYaxis().SetTitleOffset(0.3)
+            
+            h_ratio1.Draw("p")        
+            
+            if (plot.xmin!="" and plot.xmax!=""):
+                lineAtOne = TLine(plot.xmin,1,plot.xmax,1)
+            else:
+                lineAtOne = TLine(h_ratio.GetXaxis().GetXmin(),1,h_ratio.GetXaxis().GetXmax(),1)
+            lineAtOne.SetLineColor(2)
+            lineAtOne.Draw()
+
+
+        #-- end
         canvas.SaveAs(plot.name + ".eps","eps")
         #canvas.SaveAs(plot.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
         canvas.Print(fileps)
@@ -262,7 +322,7 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/collisions/6.7pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("/home/prumerio/cms/lq/data/output_fromAFS/collisions/6.7pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -280,7 +340,7 @@ eta_rebin=10
 eta_ymin=0
 eta_ymax=30
 
-
+makeRatio = 0
 
 #--- Final plots are defined here
 
@@ -337,7 +397,9 @@ plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
 plot0.name            = "Mee_allPreviousCuts_ylin"
 plot0.addZUncBand     = zUncBand
+plot0.makeRatio       = makeRatio
 plot0.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
 
 plot0_ylog = Plot()
 ## inputs for stacked histograms
@@ -357,6 +419,7 @@ plot0_ylog.xmax            = 1000
 #plot0_ylog.lpos = "bottom-center"
 plot0_ylog.name            = "Mee_allPreviousCuts"
 plot0_ylog.addZUncBand     = zUncBand
+plot0_ylog.makeRatio       = makeRatio
 plot0_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -379,6 +442,7 @@ plot1.ymax            = 60000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
 plot1.addZUncBand     = zUncBand
+plot1.makeRatio       = makeRatio
 plot1.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -405,6 +469,7 @@ plot2.ymax            = pt_ymax
 #plot2.lpos = "bottom-center"
 plot2.name            = "pT1stEle_allPreviousCuts"
 plot2.addZUncBand     = zUncBand
+plot2.makeRatio       = makeRatio
 plot2.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -426,6 +491,7 @@ plot3.ymax            = eta_ymax
 plot3.lpos = "top-left"
 plot3.name            = "Eta1stEle_allPreviousCuts"
 plot3.addZUncBand     = zUncBand
+plot3.makeRatio       = makeRatio
 plot3.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -451,6 +517,7 @@ plot4.ymax            = pt_ymax
 #plot4.lpos = "bottom-center"
 plot4.name            = "pT2ndEle_allPreviousCuts"
 plot4.addZUncBand     = zUncBand
+plot4.makeRatio       = makeRatio
 plot4.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -472,6 +539,7 @@ plot5.ymax            = eta_ymax
 plot5.lpos = "top-left"
 plot5.name            = "Eta2ndEle_allPreviousCuts"
 plot5.addZUncBand     = zUncBand
+plot5.makeRatio       = makeRatio
 plot5.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -496,6 +564,7 @@ plot6.ymax            = 2000
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.addZUncBand     = zUncBand
+plot6.makeRatio       = makeRatio
 plot6.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -521,6 +590,7 @@ plot7.ymax            = pt_ymax
 #plot7.lpos = "bottom-center"
 plot7.name            = "Pt1stJet_allPreviousCuts"
 plot7.addZUncBand     = zUncBand
+plot7.makeRatio       = makeRatio
 plot7.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -542,6 +612,7 @@ plot8.ymax            = eta_ymax
 plot8.lpos = "top-left"
 plot8.name            = "Eta1stJet_allPreviousCuts"
 plot8.addZUncBand     = zUncBand
+plot8.makeRatio       = makeRatio
 plot8.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -565,6 +636,7 @@ plot9.ymax            = pt_ymax
 #plot9.lpos = "bottom-center"
 plot9.name            = "Pt2ndJet_allPreviousCuts"
 plot9.addZUncBand     = zUncBand
+plot9.makeRatio       = makeRatio
 plot9.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -586,6 +658,7 @@ plot10.ymax            = eta_ymax
 plot10.lpos = "top-left"
 plot10.name            = "Eta2ndJet_allPreviousCuts"
 plot10.addZUncBand     = zUncBand
+plot10.makeRatio       = makeRatio
 plot10.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 #--- sT ---
@@ -610,6 +683,7 @@ plot11.ymax            = 100
 #plot11.lpos = "bottom-center"
 plot11.name            = "sT_allPreviousCuts"
 plot11.addZUncBand     = zUncBand
+plot11.makeRatio       = makeRatio
 plot11.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -635,6 +709,7 @@ plot11_ele.ymax            = 100
 #plot11_ele.lpos = "bottom-center"
 plot11_ele.name            = "sTele_allPreviousCuts"
 plot11_ele.addZUncBand     = zUncBand
+plot11_ele.makeRatio       = makeRatio
 plot11_ele.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -660,6 +735,7 @@ plot11_jet.ymax            = 100
 #plot11_jet.lpos = "bottom-center"
 plot11_jet.name            = "sTjet_allPreviousCuts"
 plot11_jet.addZUncBand     = zUncBand
+plot11_jet.makeRatio       = makeRatio
 plot11_jet.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -686,6 +762,7 @@ plot12.ymax            = 500
 #plot12.lpos = "bottom-center"
 plot12.name            = "Mej_allPreviousCuts"
 plot12.addZUncBand     = zUncBand
+plot12.makeRatio       = makeRatio
 #plot12.histodata       = h_Mej_presel_DATA
 plot12.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
@@ -714,6 +791,7 @@ plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
 plot13.name            = "Mee_FullPreSel_allPreviousCuts_ylin"
 plot13.addZUncBand     = zUncBand
+plot13.makeRatio       = makeRatio
 plot13.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 plot13_ylog = Plot()
@@ -734,6 +812,7 @@ plot13_ylog.xmax            = 500
 #plot13_ylog.lpos = "bottom-center"
 plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
 plot13_ylog.addZUncBand     = zUncBand
+plot13_ylog.makeRatio       = makeRatio
 plot13_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -765,6 +844,7 @@ plot14.xmax            = 1000
 #plot14.lpos = "bottom-center"
 plot14.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
+plot14.makeRatio       = makeRatio
 plot14.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 plot14_ylog = Plot()
@@ -788,6 +868,7 @@ plot14_ylog.xmax            = 1000
 #plot14_ylog.lpos = "bottom-center"
 plot14_ylog.name            = "Mjj_FullPreSel_allPreviousCuts"
 plot14_ylog.addZUncBand     = zUncBand
+plot14_ylog.makeRatio       = makeRatio
 plot14_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -812,6 +893,7 @@ plot2and4.ymax            = pt_ymax
 #plot2and4.lpos = "bottom-center"
 plot2and4.name            = "pTEles_allPreviousCuts"
 plot2and4.addZUncBand     = zUncBand
+plot2and4.makeRatio       = makeRatio
 plot2and4.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
@@ -834,6 +916,7 @@ plot3and5.lpos            = "top-left"
 #plot3and5.lpos = "bottom-center"
 plot3and5.name            = "etaEles_allPreviousCuts"
 plot3and5.addZUncBand     = zUncBand
+plot3and5.makeRatio       = makeRatio
 plot3and5.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
@@ -858,6 +941,7 @@ plot7and9.ymax            = pt_ymax
 #plot7and9.lpos = "bottom-center"
 plot7and9.name            = "pTJets_allPreviousCuts"
 plot7and9.addZUncBand     = zUncBand
+plot7and9.makeRatio       = makeRatio
 plot7and9.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 ##--- Eta Eles AllPreviousCuts ---
@@ -879,6 +963,7 @@ plot8and10.lpos            = "top-left"
 #plot8and10.lpos = "bottom-center"
 plot8and10.name            = "etaJets_allPreviousCuts"
 plot8and10.addZUncBand     = zUncBand
+plot8and10.makeRatio       = makeRatio
 plot8and10.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
@@ -904,6 +989,7 @@ plot15.ymax            = 400
 #plot15.lpos = "bottom-center"
 plot15.name            = "pfMET_allPreviousCuts"
 plot15.addZUncBand     = zUncBand
+plot15.makeRatio       = makeRatio
 plot15.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -929,6 +1015,7 @@ plot16.ymax            = 500
 #plot16.lpos = "bottom-center"
 plot16.name            = "caloMET_allPreviousCuts"
 plot16.addZUncBand     = zUncBand
+plot16.makeRatio       = makeRatio
 plot16.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -953,6 +1040,7 @@ plot2_nojet.ymax            = pt_ymax*10
 #plot2_nojet.lpos = "bottom-center"
 plot2_nojet.name            = "pT1stEle_nojet_allPreviousCuts"
 plot2_nojet.addZUncBand     = zUncBand
+plot2_nojet.makeRatio       = makeRatio
 plot2_nojet.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -974,6 +1062,7 @@ plot3_nojet.ymax            = eta_ymax*20
 plot3_nojet.lpos = "top-left"
 plot3_nojet.name            = "Eta1stEle_nojet_allPreviousCuts"
 plot3_nojet.addZUncBand     = zUncBand
+plot3_nojet.makeRatio       = makeRatio
 plot3_nojet.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -998,6 +1087,7 @@ plot4_nojet.ymax            = pt_ymax*10
 #plot4_nojet.lpos = "bottom-center"
 plot4_nojet.name            = "pT2ndEle_nojet_allPreviousCuts"
 plot4_nojet.addZUncBand     = zUncBand
+plot4_nojet.makeRatio       = makeRatio
 plot4_nojet.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1019,6 +1109,7 @@ plot5_nojet.ymax            = eta_ymax*20
 plot5_nojet.lpos = "top-left"
 plot5_nojet.name            = "Eta2ndEle_nojet_allPreviousCuts"
 plot5_nojet.addZUncBand     = zUncBand
+plot5_nojet.makeRatio       = makeRatio
 plot5_nojet.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1045,6 +1136,7 @@ plot20.ymax            = 100
 #plot20.lpos = "bottom-center"
 plot20.name            = "sT_allOtherCuts"
 plot20.addZUncBand     = zUncBand
+plot20.makeRatio       = makeRatio
 plot20.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
 
@@ -1068,6 +1160,7 @@ plot21.ymax            = 20
 #plot21.lpos = "bottom-center"
 plot21.name            = "Mej_allOtherCuts"
 plot21.addZUncBand     = zUncBand
+plot21.makeRatio       = makeRatio
 plot21.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_selection)
 
 
