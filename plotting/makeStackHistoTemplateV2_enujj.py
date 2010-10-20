@@ -271,6 +271,7 @@ class Plot:
         #-- 2nd pad (ratio)
         if(plot.makeRatio==1):    
             fPads2.cd()
+            fPads2.SetLogy()
             h_bkgTot = stack[0].Clone() 
             h_ratio = plot.histodata.Clone()
 
@@ -291,8 +292,8 @@ class Plot:
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0,3)
-            h_ratio1.GetYaxis().SetRangeUser(0,3)
+            h_ratio1.GetYaxis().SetLimits(0.1,10)
+            h_ratio1.GetYaxis().SetRangeUser(0.1,10)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
             h_ratio1.GetYaxis().SetTitleSize(0.13)
@@ -848,6 +849,181 @@ plot15.xbins           = [50,70,90,110,130,150,170,190,210,230,250,270,290,310,3
 plot15.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
+#--- Mjj_PAS (after preselection) ---
+variableName = "Mjj_PAS"
+
+plot16 = Plot()
+## inputs for stacked histograms
+plot16.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot16.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot16.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot16.keys            = keys
+plot16.xtit            = "M(jj) (GeV/c^{2})"
+plot16.ytit            = "Number of events"
+plot16.ylog            = "yes"
+plot16.rebin           = 2
+plot16.ymin            = 0.001
+plot16.ymax            = 1000
+plot16.xmin            = 0
+plot16.xmax            = 2000
+#plot16.lpos = "bottom-center"
+plot16.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
+plot16.addZUncBand     = zUncBand
+plot16.makeRatio       = makeRatio
+plot16.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,250,300,350,400,500,800,1000,2000]
+plot16.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+#--- Mej (after preselection) ---
+variableNames = ["Mej_1stPair_PAS","Mej_2ndPair_PAS"]
+
+plot17 = Plot()
+## inputs for stacked histograms
+plot17.histosStack     = generateAndAddHistoList( histoBaseName, samplesForStackHistosQCD, variableNames, File_QCD, QCDscaleFactor) + generateAndAddHistoList( histoBaseName, samplesForStackHistos, variableNames, File_preselection)
+plot17.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot17.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
+plot17.keys            = keys
+plot17.xtit            = "M(ej) (GeV/c^{2})"
+plot17.ytit            = "Number of events x 2"
+plot17.ylog            = "no"
+plot17.rebin           = 2
+plot17.xmin            = 0
+plot17.xmax            = 1500
+plot17.ymin            = 0.
+plot17.ymax            = 350
+#plot17.lpos = "bottom-center"
+plot17.name            = "Mej_allPreviousCuts_ylin"
+plot17.addZUncBand     = zUncBand
+plot17.makeRatio       = makeRatio
+plot17.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,325,350,375,400,425,450,475,500,550,600,800,1000,1500]
+plot17.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
+
+plot17_ylog = Plot()
+## inputs for stacked histograms
+plot17_ylog.histosStack     = generateAndAddHistoList( histoBaseName, samplesForStackHistosQCD, variableNames, File_QCD, QCDscaleFactor) + generateAndAddHistoList( histoBaseName, samplesForStackHistos, variableNames, File_preselection)
+plot17_ylog.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot17_ylog.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
+plot17_ylog.keys            = keys
+plot17_ylog.xtit            = "M(ej) (GeV/c^{2})"
+plot17_ylog.ytit            = "Number of events x 2"
+plot17_ylog.ylog            = "yes"
+plot17_ylog.rebin           = 2
+plot17_ylog.xmin            = 0
+plot17_ylog.xmax            = 2000
+plot17_ylog.ymin            = 0.001
+plot17_ylog.ymax            = 1000
+#plot17_ylog.lpos = "bottom-center"
+plot17_ylog.name            = "Mej_allPreviousCuts"
+plot17_ylog.addZUncBand     = zUncBand
+plot17_ylog.makeRatio       = makeRatio
+plot17_ylog.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,325,350,375,400,425,450,475,500,550,600,800,1000,1500,2000]
+plot17_ylog.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
+
+
+##--- MTnuj (after preselection) ---
+variableNames = ["MTnuj_1stPair_PAS","MTnuj_2ndPair_PAS"]
+
+plot18 = Plot()
+## inputs for stacked histograms
+plot18.histosStack     = generateAndAddHistoList( histoBaseName, samplesForStackHistosQCD, variableNames, File_QCD, QCDscaleFactor) + generateAndAddHistoList( histoBaseName, samplesForStackHistos, variableNames, File_preselection)
+plot18.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot18.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
+plot18.keys            = keys
+plot18.xtit            = "M_{T}(\\nuj) (GeV/c^{2})"
+plot18.ytit            = "Number of events x 2"
+plot18.ylog            = "yes"
+plot18.rebin           = 2
+plot18.xmin            = 0
+plot18.xmax            = 1000
+plot18.ymin            = 0.001
+plot18.ymax            = 1000
+#plot18.lpos = "bottom-center"
+plot18.name            = "MTnuj_allPreviousCuts"
+plot18.addZUncBand     = zUncBand
+plot18.makeRatio       = makeRatio
+plot18.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,425,450,475,500,550,600,800,1000]
+plot18.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
+
+
+# ############################ Plots below to be done after full selection ######################
+
+
+##--- sT (after full selection) ---
+variableName = "sT"
+
+plot30 = Plot()
+## inputs for stacked histograms
+plot30.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot30.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot30.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot30.keys            = keys
+plot30.xtit            = "St (GeV/c)"
+plot30.ytit            = "Number of events"
+plot30.ylog            = "yes"
+plot30.rebin           = 10
+plot30.xmin            = 100
+plot30.xmax            = 2000
+plot30.ymin            = 0.001
+plot30.ymax            = 100
+#plot30.lpos = "bottom-center"
+plot30.name            = "sT_fullSelection"
+plot30.addZUncBand     = zUncBand
+plot30.makeRatio       = makeRatio
+plot30.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- Mej (after full selection) ---
+variableNames = ["Mej_1stPair","Mej_2ndPair"]
+
+plot31 = Plot()
+## inputs for stacked histograms
+plot31.histosStack     = generateAndAddHistoList( histoBaseName, samplesForStackHistosQCD, variableNames, File_QCD, QCDscaleFactor) + generateAndAddHistoList( histoBaseName, samplesForStackHistos, variableNames, File_preselection)
+plot31.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot31.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
+plot31.keys            = keys
+plot31.xtit            = "M(ej) (GeV/c^{2})"
+plot31.ytit            = "Number of events x 2"
+plot31.ylog            = "yes"
+plot31.rebin           = 10
+plot31.xmin            = 0
+plot31.xmax            = 2000
+plot31.ymin            = 0.001
+plot31.ymax            = 500
+#plot31.lpos = "bottom-center"
+plot31.name            = "Mej_fullSelection"
+plot31.addZUncBand     = zUncBand
+plot31.makeRatio       = makeRatio
+plot31.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
+
+
+##--- MTnuj (after full selection) ---
+variableNames = ["MTnuj_1stPair","MTnuj_2ndPair"]
+
+plot32 = Plot()
+## inputs for stacked histograms
+plot32.histosStack     = generateAndAddHistoList( histoBaseName, samplesForStackHistosQCD, variableNames, File_QCD, QCDscaleFactor) + generateAndAddHistoList( histoBaseName, samplesForStackHistos, variableNames, File_preselection)
+plot32.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot32.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
+plot32.keys            = keys
+plot32.xtit            = "M_{T}(\\nuj) (GeV/c^{2})"
+plot32.ytit            = "Number of events x 2"
+plot32.ylog            = "yes"
+plot32.rebin           = 10
+plot32.xmin            = 0
+plot32.xmax            = 2000
+plot32.ymin            = 0.001
+plot32.ymax            = 500
+#plot32.lpos = "bottom-center"
+plot32.name            = "MTnuj_fullSelection"
+plot32.addZUncBand     = zUncBand
+plot32.makeRatio       = makeRatio
+plot32.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
 
@@ -857,7 +1033,9 @@ plot15.histodata       = generateHisto( histoBaseName, sampleForDataHisto, varia
 # List of plots to be plotted
 plots  = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9
           , plot6and8, plot7and9
-          , plot10, plot11, plot12, plot13, plot14, plot14_ylog, plot15]
+          , plot10, plot11, plot12, plot13, plot14, plot14_ylog, plot15, plot16
+          , plot17, plot17_ylog, plot18
+          , plot30, plot31, plot32]
 
 
 
