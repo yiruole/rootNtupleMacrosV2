@@ -122,7 +122,7 @@ pfMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 tcMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 #
-Mee                             100	     +inf               -               -               3       200 0 1000
+Mee                             110	     +inf               -               -               3       200 0 1000
 sT                              -inf	     +inf               -               -               3       200 0 2000
 sT_MLQ250                       394	     +inf               -               -               3       200 0 2000
 sT_MLQ280                       422	     +inf               -               -               3       200 0 2000
