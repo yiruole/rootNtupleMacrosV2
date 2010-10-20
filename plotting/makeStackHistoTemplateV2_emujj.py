@@ -103,7 +103,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "2.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "6.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -263,7 +263,7 @@ class Plot:
 #--- Input root file
 
 #File_preselection = GetFile("$LQDATA/collisions/38X_2.9pb-1/output_cutTable_eejjSample_elePt25_jetPt20_withDEtaInEE/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/emujj/38X_2.9pb-1/output_cutTable_emujjSample/analysisClass_emujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/emujj/6.7pb-1/output_cutTable_emujjSample/analysisClass_emujjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -279,7 +279,7 @@ pt_ymax=10
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=5
+eta_ymax=10
 
 
 
@@ -332,9 +332,9 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 5
 plot0.ymin            = 0
-plot0.ymax            = 5
+plot0.ymax            = 10
 plot0.xmin            = 0
-plot0.xmax            = 200
+plot0.xmax            = 300
 #plot0.lpos = "bottom-center"
 plot0.name            = "Memu_allPreviousCuts_ylin"
 plot0.addZUncBand     = zUncBand
@@ -351,8 +351,8 @@ plot0_ylog.xtit            = "M(e#mu) (GeV/c^{2})"
 plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 5
-plot0_ylog.ymin            = 0.001
-plot0_ylog.ymax            = 10
+plot0_ylog.ymin            = 0.01
+plot0_ylog.ymax            = 50
 plot0_ylog.xmin            = 0
 plot0_ylog.xmax            = 1000
 #plot0_ylog.lpos = "bottom-center"
@@ -418,7 +418,7 @@ plot1c.ytit            = "Number of events"
 plot1c.ylog            = "yes"
 plot1c.rebin           = 1
 plot1c.ymin            = 0.0001
-plot1c.ymax            = 60000000
+plot1c.ymax            = 1000
 #plot1c.lpos = "bottom-center"
 plot1c.name            = "nMu_allPreviousCuts"
 plot1c.addZUncBand     = zUncBand
@@ -752,7 +752,7 @@ plot13.rebin           = 5
 plot13.ymin            = 0
 plot13.ymax            = 10
 plot13.xmin            = 0
-plot13.xmax            = 200
+plot13.xmax            = 300
 #plot13.lpos = "bottom-center"
 plot13.name            = "Memu_FullPreSel_allPreviousCuts_ylin"
 plot13.addZUncBand     = zUncBand
