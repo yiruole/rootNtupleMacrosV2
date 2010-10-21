@@ -86,6 +86,7 @@ Eta1stMu_IDISO			-inf	     +inf               -               -               1 
 mEta1stMu_IDISO			-inf	     2.5                -               -               1       50 0 5
 maxMEtaEleMu_IDISO		-inf	     +inf               -               -               1       50 0 5
 #
+Memu_presel			50	     +inf               -               -               2       200 0 1000
 Memu_OneEleOneMu		-inf	     +inf               -               -               1       200 0 1000
 nJet_OneEleOneMu_All		-inf	     +inf               -               -               1       16 -0.5 15.5
 nJet_OneEleOneMu_EtaCut		-inf	     +inf               -               -               1       16 -0.5 15.5
@@ -103,7 +104,6 @@ mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -           
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               2       50 0 5
 minDRlj_selecPairs		0.7	     +inf		-		-		2	100 0 10
 minDRlj_unselPairs		0.7	     +inf		-		-		2	100 0 10
-Memu_presel			50	     +inf               -               -               2       200 0 1000
 #
 nJet_PAS_All			-inf	     +inf               -               -               2       16 -0.5 15.5
 nJet_PAS_EtaCut			-inf	     +inf               -               -               2       16 -0.5 15.5
@@ -128,16 +128,18 @@ caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 #
 Memu                            100	     +inf               -               -               3       200 0 1000
 sT                              -inf	     +inf               -               -               3       200 0 2000
-sT_MLQ200                       280	     +inf               -               -               3       200 0 2000
+sT_MLQ250                       394	     +inf               -               -               3       200 0 2000
+sT_MLQ280                       422	     +inf               -               -               3       200 0 2000
+sT_MLQ300                       440	     +inf               -               -               3       200 0 2000
 #
 minDeltaR_lj                    -inf	     +inf               -               -               4       100 0 10
 maxDeltaR_lj                    -inf	     +inf               -               -               4       100 0 10
 Mlj_1stPair                     -inf	     +inf               -               -               4       200 0 2000
 Mlj_2ndPair                     -inf	     +inf               -               -               4       200 0 2000
 #
-sT_MLQ250                       330	     +inf               -               -               3       200 0 2000
-sT_MLQ300                       380	     +inf               -               -               3       200 0 2000
-sT_MLQ400                       460	     +inf               -               -               3       200 0 2000
+sT_MLQ320                       457	     +inf               -               -               3       200 0 2000
+sT_MLQ340                       473	     +inf               -               -               3       200 0 2000
+sT_MLQ400                       520	     +inf               -               -               3       200 0 2000
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
