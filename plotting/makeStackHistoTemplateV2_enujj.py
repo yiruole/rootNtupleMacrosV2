@@ -271,7 +271,7 @@ class Plot:
         #-- 2nd pad (ratio)
         if(plot.makeRatio==1):    
             fPads2.cd()
-            fPads2.SetLogy()
+            #fPads2.SetLogy()
             h_bkgTot = stack[0].Clone() 
             h_ratio = plot.histodata.Clone()
 
@@ -292,8 +292,8 @@ class Plot:
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0.1,10)
-            h_ratio1.GetYaxis().SetRangeUser(0.1,10)
+            h_ratio1.GetYaxis().SetLimits(0.,3)
+            h_ratio1.GetYaxis().SetRangeUser(0.,3)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
             h_ratio1.GetYaxis().SetTitleSize(0.13)
@@ -663,7 +663,7 @@ plot7and9.rebin           = eta_rebin
 plot7and9.ymin            = eta_ymin
 plot7and9.ymax            = eta_ymax*2
 #plot7and9.lpos            = "top-left"
-plot7and9.name            = "Eta1stJet_allPreviousCuts"
+plot7and9.name            = "EtaJets_allPreviousCuts"
 plot7and9.addZUncBand     = zUncBand
 plot7and9.makeRatio       = makeRatio
 plot7and9.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
