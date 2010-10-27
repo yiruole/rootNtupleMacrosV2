@@ -189,7 +189,7 @@ class Plot:
                 stack[iter].GetXaxis().SetTitle(plot.xtit)
                 stack[iter].GetYaxis().SetTitle(plot.ytit + " / ( "+ str(newBinning) + " )")
                 if (plot.xmin!="" and plot.xmax!=""):
-                    stack[iter].GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
+                    stack[iter].GetXaxis().SetRangeUser(plot.xmin,plot.xmax-0.000001)
                 if (plot.ymin!="" and plot.ymax!=""):
                     stack[iter].GetYaxis().SetLimits(plot.ymin,plot.ymax)
                     stack[iter].GetYaxis().SetRangeUser(plot.ymin,plot.ymax)
@@ -232,7 +232,7 @@ class Plot:
                 histo.Rebin(plot.rebin)
             histo.SetMarkerStyle(20+2*ih)
             histo.SetMarkerColor(2+2*ih)
-            histo.SetLineColor(  2+2*ih)
+            histo.SetLineColor(  2+1*ih)
             legend.AddEntry(histo, plot.keys[ih],"l")
             histo.Draw("HISTsame")
             ih=ih+1
@@ -271,6 +271,7 @@ class Plot:
         #-- 2nd pad (ratio)
         if(plot.makeRatio==1):    
             fPads2.cd()
+            fPads2.SetLogy()
             h_bkgTot = stack[0].Clone() 
             h_ratio = plot.histodata.Clone()
 
@@ -285,14 +286,14 @@ class Plot:
 
             h_ratio1.SetStats(0)
             if (plot.xmin!="" and plot.xmax!=""):
-                h_bkgTot1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
-                h_ratio1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax)
+                h_bkgTot1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax-0.000001)
+                h_ratio1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax-0.000001)
             h_ratio1.Divide(h_bkgTot1)            
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0,4)
-            h_ratio1.GetYaxis().SetRangeUser(0,4)
+            h_ratio1.GetYaxis().SetLimits(0.1,10)
+            h_ratio1.GetYaxis().SetRangeUser(0.1,10)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
             h_ratio1.GetYaxis().SetTitleSize(0.13)
@@ -353,8 +354,8 @@ histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 samplesForStackHistos = ["TTbar_Madgraph","ZJetAlpgen","OTHERBKG"]
 keysStack =             ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 
-samplesForHistos = ["LQeejj_M200", "LQeejj_M300", "LQeejj_M400"]
-keys             = ["LQ eejj M200","LQ eejj M300","LQ eejj M400"]
+samplesForHistos = ["LQeejj_M250", "LQeejj_M300", "LQeejj_M400"]
+keys             = ["LQ eejj M250","LQ eejj M300","LQ eejj M400"]
 
 sampleForDataHisto = "DATA"
 
@@ -384,7 +385,7 @@ plot0.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot0.keys            = keys
-plot0.xtit            = "M(ee) (GeV/c^{2})"
+plot0.xtit            = "Mee (GeV/c^{2})"
 plot0.ytit            = "Number of events"
 # plot0.ylog            = "yes"
 # plot0.rebin           = 1
@@ -410,7 +411,7 @@ plot0_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot0_ylog.keys            = keys
-plot0_ylog.xtit            = "M(ee) (GeV/c^{2})"
+plot0_ylog.xtit            = "Mee (GeV/c^{2})"
 plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 1
@@ -765,6 +766,7 @@ plot12.ymax            = 500
 plot12.name            = "Mej_allPreviousCuts"
 plot12.addZUncBand     = zUncBand
 plot12.makeRatio       = makeRatio
+plot12.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,300,400,1000]
 #plot12.histodata       = h_Mej_presel_DATA
 plot12.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
@@ -778,7 +780,7 @@ plot13.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13.keys            = keys
-plot13.xtit            = "M(ee) (GeV/c^{2})"
+plot13.xtit            = "Mee (GeV/c^{2})"
 plot13.ytit            = "Number of events"
 # plot13.ylog            = "yes"
 # plot13.rebin           = 1
@@ -794,6 +796,7 @@ plot13.xmax            = 200
 plot13.name            = "Mee_FullPreSel_allPreviousCuts_ylin"
 plot13.addZUncBand     = zUncBand
 plot13.makeRatio       = makeRatio
+plot13.xbins           = [0,50,60,70,75,80,85,90,95,100,110,120,140,200]
 plot13.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 plot13_ylog = Plot()
@@ -803,7 +806,7 @@ plot13_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13_ylog.keys            = keys
-plot13_ylog.xtit            = "M(ee) (GeV/c^{2})"
+plot13_ylog.xtit            = "Mee (GeV/c^{2})"
 plot13_ylog.ytit            = "Number of events"
 plot13_ylog.ylog            = "yes"
 plot13_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
@@ -815,6 +818,7 @@ plot13_ylog.xmax            = 500
 plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
 plot13_ylog.addZUncBand     = zUncBand
 plot13_ylog.makeRatio       = makeRatio
+plot13_ylog.xbins           = [0,50,60,70,75,80,85,90,95,100,110,120,140,200,500]
 plot13_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -831,7 +835,7 @@ plot14.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot14.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14.keys            = keys
-plot14.xtit            = "M(jj) (GeV/c^{2})"
+plot14.xtit            = "Mjj (GeV/c^{2})"
 plot14.ytit            = "Number of events"
 # plot14.ylog            = "yes"
 # plot14.rebin           = 1
@@ -859,7 +863,7 @@ plot14_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot14_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14_ylog.keys            = keys
-plot14_ylog.xtit            = "M(jj) (GeV/c^{2})"
+plot14_ylog.xtit            = "Mjj (GeV/c^{2})"
 plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = 2
