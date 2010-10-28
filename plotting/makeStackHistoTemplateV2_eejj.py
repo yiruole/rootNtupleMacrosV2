@@ -105,7 +105,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "10.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "15.1 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -325,7 +325,7 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj/15.1pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -341,9 +341,9 @@ pt_ymax=1000
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=50
+eta_ymax=100
 
-makeRatio = 0
+makeRatio = 1
 
 #--- Final plots are defined here
 
@@ -376,7 +376,7 @@ variableName = "Mee_TwoEleOnly"
 # h_Mee_SingleTop = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
 # h_Mee_VVjets = GetHisto("histo1D__VVjets__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
 # h_Mee_WJetAlpgen = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
-h_Mee_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
+# h_Mee_DATA = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_TwoEleOnly", File_preselection).Clone()
 
 plot0 = Plot()
 ## inputs for stacked histograms
@@ -394,7 +394,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 1500
+plot0.ymax            = 2000
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
