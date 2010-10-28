@@ -325,14 +325,18 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v1/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v2/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("$LQDATA/enujj_analysis/2.5pb-1_v3_usePF_QCD_HLT20/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-QCDscaleFactor    = 5.964 # ratio between integrated lumi of the signal
+File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v2_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+QCDscaleFactor    = 2.04 # ratio between integrated lumi of the signal
+                        # sample (i.e. 15.1 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon20)
+
+##File_QCD          = GetFile("$LQDATA/enujj_analysis/2.5pb-1_v3_usePF_QCD_HLT20/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+##QCDscaleFactor    = 5.964 # ratio between integrated lumi of the signal
                           # sample (i.e. 15.1 pb-1) / integrated lumi of the QCD sample (i.e. 2.532 pb-1 from HLT Photon20)
 
 #### Common values for plots:
@@ -871,7 +875,7 @@ plot16.xmax            = 2000
 plot16.name            = "Mjj_FullPreSel_allPreviousCuts_ylin"
 plot16.addZUncBand     = zUncBand
 plot16.makeRatio       = makeRatio
-plot16.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,250,300,350,400,500,800,1000,2000]
+plot16.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,350,400,500,800,1000,2000]
 plot16.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 #--- Mej (after preselection) ---
