@@ -16,8 +16,8 @@
   float STcut[Nmass]={140,280,380,460}; 
 
   //MLQ values for which you need an optimal sT cut
-  const int Nmass_extrapolate = 2;
-  float MLQ_extrapolate[Nmass_extrapolate]={150,250}; 
+  const int Nmass_extrapolate = 5;
+  float MLQ_extrapolate[Nmass_extrapolate]={250, 280, 320, 340, 370}; 
 
   //range for fit
   float minMLQfit = MLQ[0];
