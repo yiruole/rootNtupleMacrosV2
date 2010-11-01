@@ -154,6 +154,10 @@ void analysisClass::Loop()
   double muNHits_minThresh = getPreCutValue1("muNHits_minThresh");
   double muTrkD0Maximum = getPreCutValue1("muTrkD0Maximum");
 
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
+
   ////////////////////// User's code to get preCut values - END /////////////////
     
   Long64_t nentries = fChain->GetEntriesFast();
@@ -455,6 +459,20 @@ void analysisClass::Loop()
 
     }// end loop over muons
 
+//     // vertexes
+//     vector<int> v_idx_vertex_good;
+//     // loop over vertexes
+//     for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+//       if ( !(VertexIsFake->at(ivertex)) 
+// 	   && VertexNDF->at(ivertex) > vertexMinimumNDOF 
+// 	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+// 	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+// 	{
+// 	  v_idx_vertex_good.push_back(ivertex);
+// 	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+// 	}
+//     }
+
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
@@ -475,6 +493,7 @@ void analysisClass::Loop()
       }
 
     fillVariableWithValue( "PassHLT", PassTrig ) ;
+//     fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
@@ -578,6 +597,7 @@ void analysisClass::Loop()
 	fillVariableWithValue("sT_MLQ300", calc_sT);
 	fillVariableWithValue("sT_MLQ320", calc_sT);
 	fillVariableWithValue("sT_MLQ340", calc_sT);
+	fillVariableWithValue("sT_MLQ370", calc_sT);
 	fillVariableWithValue("sT_MLQ400", calc_sT);       
 	//PAS June 2010
 	fillVariableWithValue("sT_PAS", calc_sT);
@@ -735,39 +755,36 @@ void analysisClass::Loop()
 	fillVariableWithValue("minDeltaR_ej", minDeltaR_ej);
 	fillVariableWithValue("maxDeltaR_ej", maxDeltaR_ej);
 
-	// printouts for small Mej
-	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
-	  {
-	    STDOUT("Mej<20GeV: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
-	    STDOUT("Mej<20GeV: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair = "<< Mej_2ndPair );
-	    STDOUT("Mej<20GeV: e1j1.M = "<<e1j1.M() <<", e2j2.M = "<<e2j2.M() <<", e1j2.M = "<<e1j2.M()  <<", e2j1.M = "<<e2j1.M()  );
-	    STDOUT("Mej<20GeV: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
-	    STDOUT("Mej<20GeV: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
-// 	    STDOUT("Mej<20GeV: 1st ele Pt, eta, phi = "<< ele1.Pt() <<",\t"<< ele1.Eta() <<",\t"<< ele1.Phi() );
-// 	    STDOUT("Mej<20GeV: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<",\t"<< ele2.Eta() <<",\t"<< ele2.Phi() );
-// 	    STDOUT("Mej<20GeV: 1st jet Pt, eta, phi = "<< jet1.Pt() <<",\t"<< jet1.Eta() <<",\t"<< jet1.Phi() );
-// 	    STDOUT("Mej<20GeV: 2nd jet Pt, eta, phi = "<< jet2.Pt() <<",\t"<< jet2.Eta() <<",\t"<< jet2.Phi() );
-	    TLorentzVector thisele;
-	    for(int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++)
-	      {
-		thisele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
-				     ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
-				     ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),0);
-		STDOUT("Mej<20GeV: e"<<iele+1<<" Pt, eta, phi = " 
-		       << ", "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi()<<"; DR_j1, DR_j2 = "<< thisele.DeltaR(jet1)<<", "<<thisele.DeltaR(jet2));
-	      }
-	    TLorentzVector thisjet;
-	    TLorentzVector thisjet_e1, thisjet_e2;
-	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
-	      {
-		thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-				     CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-				     CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
-		thisjet_e1 = thisjet + ele1;
-		thisjet_e2 = thisjet + ele2;
-		STDOUT("Mej<20GeV: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<"; DR_e1, DR_e2 = "<< thisjet.DeltaR(ele1)<<", "<<thisjet.DeltaR(ele2) << "; M_e1, M_e2 = " <<thisjet_e1.M() <<", "<<thisjet_e2.M() );
-	      }
-	  } // printouts for low Mej 
+// 	// printouts for TwoElesTwoJets
+// 	//	if(isData==true && ( Mej_1stPair<20 || Mej_2ndPair<20 ) ) // printouts for low Mej 
+// 	if( isData==true ) 
+// 	  {
+// 	    STDOUT("TwoElesTwoJets: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+// 	    STDOUT("TwoElesTwoJets: sT, Mee, Mjj_PAS = "<< getVariableValue("sT") <<", "<< getVariableValue("Mee")<<", "<< getVariableValue("Mjj_PAS") );
+// 	    STDOUT("TwoElesTwoJets: Mej_1stPair = "<<Mej_1stPair <<", Mej_2ndPair = "<< Mej_2ndPair );
+// 	    STDOUT("TwoElesTwoJets: e1j1.M = "<<e1j1.M() <<", e2j2.M = "<<e2j2.M() <<", e1j2.M = "<<e1j2.M()  <<", e2j1.M = "<<e2j1.M()  );
+// 	    STDOUT("TwoElesTwoJets: deltaM_e1j1_e2j2 = "<<deltaM_e1j1_e2j2 <<", deltaM_e1j2_e2j1 = "<<deltaM_e1j2_e2j1  );
+// 	    STDOUT("TwoElesTwoJets: deltaR_e1j1 = "<<deltaR_e1j1 <<", deltaR_e2j2 = "<<deltaR_e2j2 <<", deltaR_e1j2 = "<<deltaR_e1j2  <<", deltaR_e2j1 = "<<deltaR_e2j1  );
+// 	    TLorentzVector thisele;
+// 	    for(int iele=0; iele<v_idx_ele_PtCut_IDISO_noOverlap.size(); iele++)
+// 	      {
+// 		thisele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+// 				     ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),
+// 				     ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[iele]),0);
+// 		STDOUT("TwoElesTwoJets: e"<<iele+1<<" Pt, eta, phi = "<<thisele.Pt()<<", "<< thisele.Eta() <<", "<< thisele.Phi()<<"; DR_j1, DR_j2 = "<< thisele.DeltaR(jet1)<<", "<<thisele.DeltaR(jet2));
+// 	      }
+// 	    TLorentzVector thisjet;
+// 	    TLorentzVector thisjet_e1, thisjet_e2;
+// 	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+// 	      {
+// 		thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+// 				     CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+// 				     CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
+// 		thisjet_e1 = thisjet + ele1;
+// 		thisjet_e2 = thisjet + ele2;
+// 		STDOUT("TwoElesTwoJets: j"<<ijet+1<<" Pt, eta, phi = "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<"; DR_e1, DR_e2 = "<< thisjet.DeltaR(ele1)<<", "<<thisjet.DeltaR(ele2) << "; M_e1, M_e2 = " <<thisjet_e1.M() <<", "<<thisjet_e2.M() );
+// 	      }
+// 	  } // printouts for TwoElesTwoJets:
 
       } // TwoEle and TwoJets
 
@@ -871,6 +888,19 @@ void analysisClass::Loop()
 	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
 	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
       }
+
+    // printouts for TwoElesTwoJets
+    if( isData==true && passedAllPreviousCuts("Mee") ) 
+      {
+	STDOUT("TwoElesTwoJets: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+	STDOUT("TwoElesTwoJets: sT, Mee, Mjj_PAS = "<< getVariableValue("sT") <<", "<< getVariableValue("Mee")<<", "<< getVariableValue("Mjj_PAS") );
+	STDOUT("TwoElesTwoJets: Mej_1stPair, Mej_2ndPair = "<< getVariableValue("Mej_1stPair")<<", "<< getVariableValue("Mej_2ndPair") );
+	STDOUT("TwoElesTwoJets: 1stEle Pt, eta, phi = "<<getVariableValue("Pt1stEle_PAS") <<", "<< getVariableValue("Eta1stEle_PAS") );
+	STDOUT("TwoElesTwoJets: 2ndEle Pt, eta, phi = "<<getVariableValue("Pt2ndEle_PAS") <<", "<< getVariableValue("Eta2ndEle_PAS") );
+	STDOUT("TwoElesTwoJets: 1stJet Pt, eta, phi = "<<getVariableValue("Pt1stJet_PAS") <<", "<< getVariableValue("Eta1stJet_PAS") );
+	STDOUT("TwoElesTwoJets: 2ndJet Pt, eta, phi = "<<getVariableValue("Pt2ndJet_PAS") <<", "<< getVariableValue("Eta2ndJet_PAS") );
+      } // printouts for TwoElesTwoJets:
+
 
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
