@@ -4,7 +4,7 @@
 
 FILE=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_tables.dat
 
-MASSES="250 300 320 340 400"
+MASSES="250 300 320 340 370 400"
 
 ##########  USER'S INPUTS END HERE ###############################################################
 
