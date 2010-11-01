@@ -35,6 +35,9 @@ eleEta_bar            1.442        -                    -               -       
 eleEta_end            1.560        2.5                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
 muonEta_end           1.2          2.4                  -               -               -1
+vertexMinimumNDOF     4            -			-               -               -1
+vertexMaxAbsZ         24           -			-               -               -1
+vertexMaxd0           2            -			-               -               -1
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
@@ -66,6 +69,8 @@ PassPrimaryVertex		0	     1			-		-		0	2 -0.5 1.5
 #PassHBHENoiseFilter		-inf	     +inf		-		-		0	2 -0.5 1.5
 #
 PassHLT				-inf	     +inf		-		-		1	2 -0.5 1.5
+#
+#nVertex_good 			-inf	     +inf		-		-		1	11 -0.5 10.5
 #
 #nMu_all 			-inf	     +inf		-		-		1	16 -0.5 15.5
 #nMu_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
@@ -124,8 +129,9 @@ caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 #
 Mee                             110	     +inf               -               -               3       200 0 1000
 sT                              -inf	     +inf               -               -               3       200 0 2000
-sT_MLQ250                       394	     +inf               -               -               3       200 0 2000
-sT_MLQ280                       422	     +inf               -               -               3       200 0 2000
+390, 440, 460, 470, 520
+sT_MLQ250                       390	     +inf               -               -               3       200 0 2000
+sT_MLQ280                       420	     +inf               -               -               3       200 0 2000
 sT_MLQ300                       440	     +inf               -               -               3       200 0 2000
 #
 minDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
@@ -133,9 +139,9 @@ maxDeltaR_ej                    -inf	     +inf               -               -  
 Mej_1stPair                     -inf	     +inf               -               -               4       200 0 2000
 Mej_2ndPair                     -inf	     +inf               -               -               4       200 0 2000
 #
-sT_MLQ320                       457	     +inf               -               -               3       200 0 2000
-sT_MLQ340                       473	     +inf               -               -               3       200 0 2000
-sT_MLQ370                       497	     +inf               -               -               3       200 0 2000
+sT_MLQ320                       460	     +inf               -               -               3       200 0 2000
+sT_MLQ340                       470	     +inf               -               -               3       200 0 2000
+sT_MLQ370                       500	     +inf               -               -               3       200 0 2000
 sT_MLQ400                       520	     +inf               -               -               3       200 0 2000
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
