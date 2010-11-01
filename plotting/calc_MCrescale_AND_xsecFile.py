@@ -97,7 +97,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     #rebin      = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "828 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "10.9 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     fileXsectionNoRescale = "" #cross section file (with no rescale
     datasetName = "" # string for pattern recognition of dataset name (rescaling will be done only on matched datasets)
 
@@ -108,11 +108,11 @@ class Plot:
         #check
         if(plot.histoMCall.GetNbinsX()!=plot.histoDATA.GetNbinsX()):
             print "WARNING! number of bins is different between DATA and MC"
-            print "existing..."
+            print "exiting..."
             sys.exit()
         if(plot.histoMCall.GetBinWidth(1)!=plot.histoDATA.GetBinWidth(1)):
             print "WARNING! bin width is different between DATA and MC"
-            print "existing..."
+            print "exiting..."
             sys.exit()
 
         #integrals
@@ -197,15 +197,19 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection = GetFile("$LQDATA/eejj_analysis/830nb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_preSt250/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 
 #--- Rescaling of Z/gamma + jet background
 
 #-----------------------------------------
-h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC all
-h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC Z
-h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() #DATA
+# h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC all
+# h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC Z
+# h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() #DATA
+h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() # MC all
+h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() # MC Z
+h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() #DATA
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_Mee
@@ -214,7 +218,7 @@ plot0.histoMCZ = h_ZJetAlpgen_Mee
 plot0.xmin = 80  
 plot0.xmax = 100 
 plot0.name = "Zrescale"
-plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/santanas/scratch0/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
+plot0.fileXsectionNoRescale = "/afs/cern.ch/user/p/prumerio/cms/lq/emujj/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0

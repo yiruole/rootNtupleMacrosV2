@@ -2,7 +2,7 @@
 
 ##########  USER'S INPUTS BEGIN HERE ############################################################
 
-FILE=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_tables.dat
+FILE=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_tables.dat
 
 MASSES="250 300 320 340 400"
 
@@ -24,7 +24,7 @@ do
     elif [ $SAMPLE == "DATA" ]; then
 	THISSTRING=`echo $STRING | awk '{printf("& %i \n", $4*1000)}'`
     else
-	THISSTRING=`echo $STRING | awk '{printf("& %.3g$pm$%.1g \n",$4,$5)}'`
+	THISSTRING=`echo $STRING | awk '{printf("& %.2g$pm$%.1g \n",$4,$5)}'`
     fi
     ALLSTRINGS="$ALLSTRINGS $THISSTRING"
   done

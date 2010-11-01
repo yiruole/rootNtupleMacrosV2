@@ -105,7 +105,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "15.1 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "10.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -258,13 +258,13 @@ class Plot:
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
 #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + plot.lint)
         if (plot.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
+            l.DrawLatex(0.35,0.20,"CMS 2010")
             l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
         if (plot.lpos=="top-left"):
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS 2010")
             l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.08,"L_{int} = " + plot.lint)
         else:
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS 2010")
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + plot.lint)
 
         legend.Draw()
@@ -329,7 +329,7 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/eejj/15.1pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -345,9 +345,9 @@ pt_ymax=1000
 
 eta_rebin=10
 eta_ymin=0
-eta_ymax=100
+eta_ymax=50
 
-makeRatio = 1
+makeRatio = 0
 
 #--- Final plots are defined here
 
@@ -398,7 +398,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 2000
+plot0.ymax            = 1500
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -1202,8 +1202,8 @@ c.Print("allPlots.ps]")
 # Uncomment the 3 lines below to create (not rotated) pdf files,
 # but keep them commented out in cvs since may slow down the execution 
 # print "Converting eps files into pdf files ..."
-# for plot in plots:
-#     system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
+for plot in plots:
+    system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
 
 # create a file with list of eps and pdf files, to facilitate copying them to svn area for AN/PAS/PAPER
 print "Creating file listOfEpsFiles.txt and listOfPdfFiles.txt ..."

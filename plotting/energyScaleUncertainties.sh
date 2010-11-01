@@ -2,19 +2,19 @@
 
 ##########  USER'S INPUTS BEGIN HERE ############################################################
 
-FILE________STD=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_stdEneScale/analysisClass_eejjSample_tables.dat
-FILE_EES_EB_POS=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_EES_EB_1.01/analysisClass_eejjSample_tables.dat
-FILE_EES_EB_NEG=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_EES_EB_0.99/analysisClass_eejjSample_tables.dat
-FILE_EES_EE_POS=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_EES_EE_1.03/analysisClass_eejjSample_tables.dat
-FILE_EES_EE_NEG=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_EES_EE_0.97/analysisClass_eejjSample_tables.dat
-FILE_JES____POS=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_JES_1.10/analysisClass_eejjSample_tables.dat
-FILE_JES____NEG=$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_JES_0.90/analysisClass_eejjSample_tables.dat
+FILE________STD=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_stdEneScale/analysisClass_eejjSample_tables.dat
+FILE_EES_EB_POS=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_EES_EB_1.01/analysisClass_eejjSample_tables.dat
+FILE_EES_EB_NEG=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_EES_EB_0.99/analysisClass_eejjSample_tables.dat
+FILE_EES_EE_POS=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_EES_EE_1.03/analysisClass_eejjSample_tables.dat
+FILE_EES_EE_NEG=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_EES_EE_0.97/analysisClass_eejjSample_tables.dat
+FILE_JES____POS=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_JES_1.10/analysisClass_eejjSample_tables.dat
+FILE_JES____NEG=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_JES_0.90/analysisClass_eejjSample_tables.dat
 
 SAMPLES='LQeejj_M300 TTbar_Madgraph ZJetAlpgen ALLBKG'
 
 ##########  USER'S INPUTS END HERE ###############################################################
 
-#files=`ls $LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_stdEneScale/analysisClass_eejjSample_tables.dat $LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_[E,J]ES*/analysisClass_eejjSample_tables.dat
+#files=`ls $LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_stdEneScale/analysisClass_eejjSample_tables.dat $LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_[E,J]ES*/analysisClass_eejjSample_tables.dat
 files="$FILE________STD $FILE_EES_EB_POS $FILE_EES_EB_NEG $FILE_EES_EE_POS $FILE_EES_EE_NEG $FILE_JES____POS $FILE_JES____NEG"
 
 
