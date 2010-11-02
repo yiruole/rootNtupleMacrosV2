@@ -152,6 +152,8 @@ void analysisClass::Loop()
   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
   //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_plus", 30, 0, 3.1416,30, 0, 3.1416);
   //   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT_minus", 30, 0, 3.1416,30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET2ndJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
+  CreateUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET1stJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
 
   //   CreateUserTH1D("h1_MTenu_PAS_plus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
   //   CreateUserTH1D("h1_MTenu_PAS_minus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
@@ -952,11 +954,20 @@ void analysisClass::Loop()
     if( passedAllPreviousCuts("sT_MLQ200") && passedCut("sT_MLQ200")
 	&& variableIsFilled("mDeltaPhiMETEle_PAS")
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
+	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS")
 	)
       {
 	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET1stJet__sT",
 		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
 		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1);
+
+	FillUserTH2D("h2_DeltaPhiMETEle_vs_MET2ndJet__sT", 
+		     fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS") ), 
+		     fabs( getVariableValue("mDeltaPhiMETEle_PAS")) , p1 );
+	
+	FillUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET1stJet__sT", 
+		     fabs( getVariableValue("mDeltaPhiMET1stJet_PAS") ), 
+		     fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS")) , p1 );	
       }
 
 
