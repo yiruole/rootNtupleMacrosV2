@@ -325,13 +325,13 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v2/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v3/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v2_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v3_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 QCDscaleFactor    = 2.04 # ratio between integrated lumi of the signal
                         # sample (i.e. 15.1 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon20)
 
@@ -359,6 +359,7 @@ eta_ymax=200
 # Simply add or remove plots and update the list plots = [plot0, plot1, ...] below
 
 histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
+histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["TTbar_Madgraph","WJetAlpgen","OTHERBKG"]
@@ -774,6 +775,32 @@ plot13.addZUncBand     = zUncBand
 plot13.makeRatio       = makeRatio
 plot13.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
+#--- mDeltaPhiMET2ndJet_PAS ---
+variableName = "mDeltaPhiMET2ndJet"
+
+plot13_afterOtherDfCuts = Plot()
+## inputs for stacked histograms
+plot13_afterOtherDfCuts.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot13_afterOtherDfCuts.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot13_afterOtherDfCuts.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot13_afterOtherDfCuts.keys            = keys
+plot13_afterOtherDfCuts.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.)"
+plot13_afterOtherDfCuts.ytit            = "Number of events"
+#plot13_afterOtherDfCuts.xlog            = "yes"
+plot13_afterOtherDfCuts.ylog            = "yes"
+plot13_afterOtherDfCuts.rebin           = 6
+#plot13_afterOtherDfCuts.xmin            = 0
+#plot13_afterOtherDfCuts.xmax            = 3.146
+plot13_afterOtherDfCuts.ymin            = 0.001
+plot13_afterOtherDfCuts.ymax            = 1000000
+#plot13_afterOtherDfCuts.lpos = "bottom-center"
+plot13_afterOtherDfCuts.name            = "mDeltaPhiMET2ndJet_afterOtherDeltaPhiCuts"
+plot13_afterOtherDfCuts.addZUncBand     = zUncBand
+plot13_afterOtherDfCuts.makeRatio       = makeRatio
+plot13_afterOtherDfCuts.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
 
 #--- MTenu_PAS ---
 variableName = "MTenu_PAS"
@@ -825,6 +852,95 @@ plot14_ylog.addZUncBand     = zUncBand
 plot14_ylog.makeRatio       = makeRatio
 plot14_ylog.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
 plot14_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+#--- MTenu_PAS DeltaPhi (0,1) ---
+variableName = "h1_MTenu_PAS_DeltaPhiMET2ndJet_0_1"
+
+plot14_0_1 = Plot()
+## inputs for stacked histograms
+plot14_0_1.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot14_0_1.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot14_0_1.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot14_0_1.keys            = keys
+plot14_0_1.xtit            = "M_{T}(e\\nu) (GeV/c^{2}) - #Delta#phi(MET,2nd jet)<=1"
+plot14_0_1.ytit            = "Number of events"
+# plot14_0_1.ylog            = "yes"
+# plot14_0_1.rebin           = 1
+# plot14_0_1.ymin            = 0.00000001
+# plot14_0_1.ymax            = 20
+plot14_0_1.ylog            = "no"
+plot14_0_1.rebin           = 1
+plot14_0_1.xmin            = 0
+plot14_0_1.xmax            = 400
+plot14_0_1.ymin            = 0
+plot14_0_1.ymax            = 100
+#plot14_0_1.lpos = "bottom-center"
+plot14_0_1.name            = "MTenu_allPreviousCuts_ylin_Low_DfMETe"
+plot14_0_1.addZUncBand     = zUncBand
+plot14_0_1.makeRatio       = makeRatio
+plot14_0_1.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
+plot14_0_1.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+#--- MTenu_PAS DeltaPhi 1_2 ---
+variableName = "h1_MTenu_PAS_DeltaPhiMET2ndJet_1_2"
+
+plot14_1_2 = Plot()
+## inputs for stacked histograms
+plot14_1_2.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot14_1_2.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot14_1_2.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot14_1_2.keys            = keys
+plot14_1_2.xtit            = "M_{T}(e\\nu) (GeV/c^{2}) - 1<#Delta#phi(MET,2nd jet)<2"
+plot14_1_2.ytit            = "Number of events"
+# plot14_1_2.ylog            = "yes"
+# plot14_1_2.rebin           = 1
+# plot14_1_2.ymin            = 0.00000001
+# plot14_1_2.ymax            = 20
+plot14_1_2.ylog            = "no"
+plot14_1_2.rebin           = 1
+plot14_1_2.xmin            = 0
+plot14_1_2.xmax            = 400
+plot14_1_2.ymin            = 0
+plot14_1_2.ymax            = 100
+#plot14_1_2.lpos = "bottom-center"
+plot14_1_2.name            = "MTenu_allPreviousCuts_ylin_Mid_DfMETe"
+plot14_1_2.addZUncBand     = zUncBand
+plot14_1_2.makeRatio       = makeRatio
+plot14_1_2.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
+plot14_1_2.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- MTenu_PAS DeltaPhi 2_pi ---
+variableName = "h1_MTenu_PAS_DeltaPhiMET2ndJet_2_pi"
+
+plot14_2_pi = Plot()
+## inputs for stacked histograms
+plot14_2_pi.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot14_2_pi.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot14_2_pi.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot14_2_pi.keys            = keys
+plot14_2_pi.xtit            = "M_{T}(e\\nu) (GeV/c^{2}) - #Delta#phi(MET,2nd jet)>=2"
+plot14_2_pi.ytit            = "Number of events"
+# plot14_2_pi.ylog            = "yes"
+# plot14_2_pi.rebin           = 1
+# plot14_2_pi.ymin            = 0.00000001
+# plot14_2_pi.ymax            = 20
+plot14_2_pi.ylog            = "no"
+plot14_2_pi.rebin           = 1
+plot14_2_pi.xmin            = 0
+plot14_2_pi.xmax            = 400
+plot14_2_pi.ymin            = 0
+plot14_2_pi.ymax            = 100
+#plot14_2_pi.lpos = "bottom-center"
+plot14_2_pi.name            = "MTenu_allPreviousCuts_ylin_Large_DfMETe"
+plot14_2_pi.addZUncBand     = zUncBand
+plot14_2_pi.makeRatio       = makeRatio
+plot14_2_pi.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
+plot14_2_pi.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
 
 
 #--- sT_PAS ---
@@ -1037,7 +1153,9 @@ plot32.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto,
 # List of plots to be plotted
 plots  = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9
           , plot6and8, plot7and9
-          , plot10, plot11, plot12, plot13, plot14, plot14_ylog, plot15, plot16
+          , plot10, plot11, plot12, plot13, plot13_afterOtherDfCuts, plot14, plot14_ylog
+          , plot14_0_1, plot14_1_2, plot14_2_pi  
+          , plot15, plot16
           , plot17, plot17_ylog, plot18
           , plot30, plot31, plot32]
 
