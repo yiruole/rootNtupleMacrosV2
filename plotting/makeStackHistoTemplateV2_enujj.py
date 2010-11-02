@@ -325,13 +325,13 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v3/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v4/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v3_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v4_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 QCDscaleFactor    = 2.04 # ratio between integrated lumi of the signal
                         # sample (i.e. 15.1 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon20)
 
