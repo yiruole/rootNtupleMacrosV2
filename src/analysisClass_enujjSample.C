@@ -167,6 +167,10 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_sT_PAS_plus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
   CreateUserTH1D("h1_sT_PAS_minus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
 
+  CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_0_1", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_1_2", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_2_pi", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   Long64_t nentries = fChain->GetEntriesFast();
@@ -877,6 +881,7 @@ void analysisClass::Loop()
     //after pre-selection
     if( passedAllPreviousCuts("Pt1stEle_PAS") 
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("sT_PAS") 
+	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS")  
 	)
       {
 	if( ElectronCharge->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) > 0 )
@@ -888,6 +893,20 @@ void analysisClass::Loop()
 	  {
 	    FillUserTH1D("h1_MTenu_PAS_minus", getVariableValue("MTenu_PAS"));
 	    FillUserTH1D("h1_sT_PAS_minus", getVariableValue("sT_PAS"));
+	  }
+
+	if( fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS"))<=1 )
+	  {
+	    FillUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_0_1", getVariableValue("MTenu_PAS"));
+	  }
+	if( fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS"))>1 && 
+	    fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS"))<2 )
+	  {
+	    FillUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_1_2", getVariableValue("MTenu_PAS"));
+	  }
+	if( fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS"))>=2 )
+	  {
+	    FillUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_2_pi", getVariableValue("MTenu_PAS"));
 	  }
       }
 
