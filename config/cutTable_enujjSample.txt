@@ -98,7 +98,7 @@ mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               
 #
 d1_DPhi_METe_METj		-inf	     +inf		-		-		2	50 0 5
 d2_DPhi_METe_METj		-inf	     +inf		-		-		2	50 0 5
-mDeltaPhiMETEle                 0.5          +inf               -               -               2       100 0 3.1416
+mDeltaPhiMETEle                 0.7          +inf               -               -               2       100 0 3.1416
 mDeltaPhiMET1stJet              0.5          +inf               -               -               2       100 0 3.1416
 mDeltaPhiMET2ndJet              -inf         +inf               -               -               2       100 0 3.1416
 #
