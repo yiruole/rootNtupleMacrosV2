@@ -172,6 +172,10 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_0_1", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
   CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_1_2", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
   CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_2_pi", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  
+  CreateUserTH2D("h2_phi_VS_eta_1stEle", 100, -5, 5, 60, -3.1416, 3.1416);
+  CreateUserTH2D("h2_phi_VS_eta_1stJet", 100, -5, 5, 60, -3.1416, 3.1416);
+  CreateUserTH2D("h2_phi_VS_eta_2ndJet", 100, -5, 5, 60, -3.1416, 3.1416);
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -524,6 +528,8 @@ void analysisClass::Loop()
     fillVariableWithValue("MET", thisMET);
     //PAS Sept 2010
     fillVariableWithValue("MET_PAS", thisMET);
+    fillVariableWithValue("METPhi_PAS", thisMETPhi);
+
 
     // Loop over GenParticles to calculate the GenMET
     //     TLorentzVector nu_p4 = 0.;
@@ -554,6 +560,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Pt1stEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "Eta1stEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
         fillVariableWithValue( "minMETPt1stEle_PAS", min(thisMET, ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0])) );
+	fillVariableWithValue( "Phi1stEle_PAS", ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 
 	// DeltaPhi - MET vs 1st ele
 	TVector2 v_MET;
@@ -584,6 +591,7 @@ void analysisClass::Loop()
 	//PAS Sept 2010
 	fillVariableWithValue( "Pt1stJet_PAS", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
 	fillVariableWithValue( "Eta1stJet_PAS", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Phi1stJet_PAS", JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
 
 	//DeltaPhi - MET vs 1st jet
 	TVector2 v_MET;
@@ -622,6 +630,7 @@ void analysisClass::Loop()
 	//PAS Sept 2010
 	fillVariableWithValue( "Pt2ndJet_PAS", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
 	fillVariableWithValue( "Eta2ndJet_PAS", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Phi2ndJet_PAS", JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
 
 	//DeltaPhi - MET vs 2nd jet
 	TVector2 v_MET;
@@ -884,8 +893,15 @@ void analysisClass::Loop()
     if( passedAllPreviousCuts("Pt1stEle_PAS") 
 	&& variableIsFilled("MTenu_PAS") && variableIsFilled("sT_PAS") 
 	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS")  
+	&& variableIsFilled("Eta1stEle_PAS")
+	&& variableIsFilled("Phi1stEle_PAS")
+	&& variableIsFilled("Eta1stJet_PAS")
+	&& variableIsFilled("Phi1stJet_PAS")
+	&& variableIsFilled("Eta2ndJet_PAS")
+	&& variableIsFilled("Phi2ndJet_PAS")
 	)
       {
+
 	if( ElectronCharge->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) > 0 )
 	  {
 	    FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"));
@@ -910,6 +926,10 @@ void analysisClass::Loop()
 	  {
 	    FillUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_2_pi", getVariableValue("MTenu_PAS"));
 	  }
+
+	FillUserTH2D("h2_phi_VS_eta_1stEle", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS") );
+	FillUserTH2D("h2_phi_VS_eta_1stJet", getVariableValue("Eta1stJet_PAS"), getVariableValue("Phi1stJet_PAS") );
+	FillUserTH2D("h2_phi_VS_eta_2ndJet", getVariableValue("Eta2ndJet_PAS"), getVariableValue("Phi2ndJet_PAS") );
       }
 
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
