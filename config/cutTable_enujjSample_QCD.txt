@@ -106,12 +106,16 @@ mDeltaPhiMET2ndJet              -inf         +inf               -               
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
+Phi1stEle_PAS                   -inf         +inf               -               -               3       60 -3.1416 +3.1416
 MET_PAS                         -inf         +inf               -               -               3       200 0 1000
+METPhi_PAS                      -inf         +inf               -               -               3       60 -3.1416 +3.1416
 minMETPt1stEle_PAS              -inf         +inf               -               -               3       200 0 1000
 Pt1stJet_PAS                    -inf         +inf               -               -               3       100 0 1000
 Pt2ndJet_PAS                    -inf         +inf               -               -               3       100 0 1000
 Eta1stJet_PAS                   -inf         +inf               -               -               3       100 -5 5
 Eta2ndJet_PAS                   -inf         +inf               -               -               3       100 -5 5
+Phi1stJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
+Phi2ndJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 nMuon_PtCut_IDISO_PAS           -inf         +inf               -               -               3       16 -0.5 15.5
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
@@ -137,8 +141,8 @@ sT_MLQ250                       420	     +inf               -               -   
 sT_MLQ280                       460	     +inf               -               -               7       200 0 2000
 sT_MLQ300                       470	     +inf               -               -               7       200 0 2000
 sT_MLQ320                       510	     +inf               -               -               7       200 0 2000
-#Mej                            -inf        +inf               -               -               7       200 0 2000
-#MTnuj                          -inf        +inf               -               -               7       200 0 2000
+#Mej                            -inf         +inf               -               -               7       200 0 2000
+#MTnuj                          -inf         +inf               -               -               7       200 0 2000
 #
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
