@@ -105,7 +105,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "15.1 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "21.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -292,8 +292,8 @@ class Plot:
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0.,3)
-            h_ratio1.GetYaxis().SetRangeUser(0.,3)
+            h_ratio1.GetYaxis().SetLimits(0.,2)
+            h_ratio1.GetYaxis().SetRangeUser(0.,2)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
             h_ratio1.GetYaxis().SetTitleSize(0.13)
@@ -325,15 +325,15 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/15.1pb-1_v4/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/21.9pb-1_v1/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
 File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v4_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-QCDscaleFactor    = 2.04 # ratio between integrated lumi of the signal
-                        # sample (i.e. 15.1 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon20)
+QCDscaleFactor    = 2.96 # ratio between integrated lumi of the signal
+                        # sample (i.e. 21.9 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon20)
 
 ##File_QCD          = GetFile("$LQDATA/enujj_analysis/2.5pb-1_v3_usePF_QCD_HLT20/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 ##QCDscaleFactor    = 5.964 # ratio between integrated lumi of the signal
@@ -352,7 +352,7 @@ pt_ymax=1000
 
 eta_rebin=4
 eta_ymin=0
-eta_ymax=200
+eta_ymax=220
 
 #--- Final plots are defined here
 
@@ -365,8 +365,8 @@ samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["TTbar_Madgraph","WJetAlpgen","OTHERBKG"]
 keysStack =             ["QCD","ttbar", "W/W* + jets", otherBkgsKey]
 
-samplesForHistos = ["LQenujj_M200", "LQenujj_M300"]
-keys             = ["LQ e\\nujj M200","LQ e\\nujj M300"]
+samplesForHistos = ["LQenujj_M200", "LQenujj_M250","LQenujj_M300"]
+keys             = ["LQ e\\nujj M200","LQ e\\nujj M250","LQ e\\nujj M300"]
 
 sampleForDataHisto = "DATA"
 
@@ -823,7 +823,7 @@ plot14.rebin           = 1
 plot14.xmin            = 0
 plot14.xmax            = 400
 plot14.ymin            = 0
-plot14.ymax            = 200
+plot14.ymax            = 250
 #plot14.lpos = "bottom-center"
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
@@ -958,14 +958,14 @@ plot15.ytit            = "Number of events"
 plot15.ylog            = "yes"
 plot15.rebin           = 2
 plot15.xmin            = 50
-plot15.xmax            = 1500
+plot15.xmax            = 2000
 plot15.ymin            = 0.001
 plot15.ymax            = 1000
 #plot15.lpos = "bottom-center"
 plot15.name            = "sT_allPreviousCuts"
 plot15.addZUncBand     = zUncBand
 plot15.makeRatio       = makeRatio
-plot15.xbins           = [50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000,1500]
+plot15.xbins           = [50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000,1500,2000]
 plot15.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1011,7 +1011,7 @@ plot17.rebin           = 1
 plot17.xmin            = 0
 plot17.xmax            = 1500
 plot17.ymin            = 0.
-plot17.ymax            = 250 #450
+plot17.ymax            = 300 #450
 #plot17.lpos = "bottom-center"
 plot17.name            = "Mej_allPreviousCuts_ylin"
 plot17.addZUncBand     = zUncBand
@@ -1109,7 +1109,7 @@ plot31.keys            = keys
 plot31.xtit            = "M(ej) (GeV/c^{2})"
 plot31.ytit            = "Number of events x 2"
 plot31.ylog            = "yes"
-plot31.rebin           = 10
+plot31.rebin           = 1
 plot31.xmin            = 0
 plot31.xmax            = 2000
 plot31.ymin            = 0.001
@@ -1134,7 +1134,7 @@ plot32.keys            = keys
 plot32.xtit            = "M_{T}(\\nuj) (GeV/c^{2})"
 plot32.ytit            = "Number of events x 2"
 plot32.ylog            = "yes"
-plot32.rebin           = 10
+plot32.rebin           = 1
 plot32.xmin            = 0
 plot32.xmax            = 2000
 plot32.ymin            = 0.001
