@@ -325,13 +325,13 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/21.9pb-1_v1/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/21.9pb-1_v2/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v4_QCD_HLT30/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v5_QCD_HLT30_AllDeltaPhi/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 QCDscaleFactor    = 2.96 # ratio between integrated lumi of the signal
                         # sample (i.e. 21.9 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon20)
 
@@ -1068,6 +1068,97 @@ plot18.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,
 plot18.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
+#--- Phi1stEle_PAS  ---
+variableName = "Phi1stEle_PAS"
+
+plot19 = Plot()
+## inputs for stacked histograms
+plot19.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot19.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot19.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot19.keys            = keys
+plot19.xtit            = "#phi 1st electron (rad.)"
+plot19.ytit            = "Number of events"
+plot19.rebin           = eta_rebin
+#plot19.xmin            = -3.15
+#plot19.xmax            = 3.15
+plot19.ymin            = eta_ymin
+plot19.ymax            = eta_ymax
+#plot19.lpos            = "top-left"
+plot19.name            = "Phi1stEle_allPreviousCuts"
+plot19.addZUncBand     = zUncBand
+plot19.makeRatio       = makeRatio
+plot19.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- Phi1stJet_PAS ---
+variableName = "Phi1stJet_PAS"
+
+plot20 = Plot()
+## inputs for stacked histograms
+plot20.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot20.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot20.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot20.keys            = keys
+plot20.xtit            = "#phi 1st jet (rad.)"
+plot20.ytit            = "Number of events"
+plot20.rebin           = eta_rebin
+plot20.ymin            = eta_ymin
+plot20.ymax            = eta_ymax
+#plot20.lpos            = "top-left"
+plot20.name            = "Phi1stJet_allPreviousCuts"
+plot20.addZUncBand     = zUncBand
+plot20.makeRatio       = makeRatio
+plot20.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- Phi2ndJet_PAS ---
+variableName = "Phi2ndJet_PAS"
+
+plot21 = Plot()
+## inputs for stacked histograms
+plot21.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot21.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot21.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot21.keys            = keys
+plot21.xtit            = "#phi 2nd jet (rad.)"
+plot21.ytit            = "Number of events"
+plot21.rebin           = eta_rebin
+plot21.ymin            = eta_ymin
+plot21.ymax            = eta_ymax
+#plot21.lpos            = "top-left"
+plot21.name            = "Phi2ndJet_allPreviousCuts"
+plot21.addZUncBand     = zUncBand
+plot21.makeRatio       = makeRatio
+plot21.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- METPhi_PAS  ---
+variableName = "METPhi_PAS"
+
+plot22 = Plot()
+## inputs for stacked histograms
+plot22.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot22.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot22.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot22.keys            = keys
+plot22.xtit            = "pfMET #phi (rad.)"
+plot22.ytit            = "Number of events"
+plot22.rebin           = eta_rebin
+plot22.ymin            = eta_ymin
+plot22.ymax            = eta_ymax
+#plot22.lpos = "bottom-center"
+plot22.name            = "METPhi_allPreviousCuts"
+plot22.addZUncBand     = zUncBand
+plot22.makeRatio       = makeRatio
+plot22.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+
 # ############################ Plots below to be done after full selection ######################
 
 
@@ -1109,7 +1200,7 @@ plot31.keys            = keys
 plot31.xtit            = "M(ej) (GeV/c^{2})"
 plot31.ytit            = "Number of events x 2"
 plot31.ylog            = "yes"
-plot31.rebin           = 1
+plot31.rebin           = 10
 plot31.xmin            = 0
 plot31.xmax            = 2000
 plot31.ymin            = 0.001
@@ -1134,7 +1225,7 @@ plot32.keys            = keys
 plot32.xtit            = "M_{T}(\\nuj) (GeV/c^{2})"
 plot32.ytit            = "Number of events x 2"
 plot32.ylog            = "yes"
-plot32.rebin           = 1
+plot32.rebin           = 10
 plot32.xmin            = 0
 plot32.xmax            = 2000
 plot32.ymin            = 0.001
@@ -1157,6 +1248,7 @@ plots  = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9
           , plot14_0_1, plot14_1_2, plot14_2_pi  
           , plot15, plot16
           , plot17, plot17_ylog, plot18
+          , plot19, plot20, plot21, plot22 
           , plot30, plot31, plot32]
 
 
