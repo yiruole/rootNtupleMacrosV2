@@ -127,6 +127,10 @@ void analysisClass::Loop()
   int jetAlgorithm = getPreCutValue1("jetAlgorithm");
   int metAlgorithm = getPreCutValue1("metAlgorithm");
 
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
+
   ////////////////////// User's code to get preCut values - END /////////////////
    
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -529,6 +533,20 @@ void analysisClass::Loop()
     }// end loop over muons
 
 
+    //     // vertexes
+    //     vector<int> v_idx_vertex_good;
+    //     // loop over vertexes
+    //     for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+    //       if ( !(VertexIsFake->at(ivertex)) 
+    //     	   && VertexNDF->at(ivertex) > vertexMinimumNDOF 
+    //     	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+    //     	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+    //     	{
+    //     	  v_idx_vertex_good.push_back(ivertex);
+    //     	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+    //     	}
+    //     }
+
     /////  Define the fake rate for QCD and calculate prob. for each sc to be an ele
 
     double p1 = 0, p2 = 0, p3 = 0;
@@ -633,6 +651,7 @@ void analysisClass::Loop()
       }
 
     fillVariableWithValue( "PassHLT", PassTrig ) ;
+    //fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
