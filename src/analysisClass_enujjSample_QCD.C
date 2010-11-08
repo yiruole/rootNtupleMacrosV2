@@ -172,6 +172,15 @@ void analysisClass::Loop()
   CreateUserTH2D("h2_phi_VS_eta_1stJet", 100, -5, 5, 60, -3.1416, 3.1416);
   CreateUserTH2D("h2_phi_VS_eta_2ndJet", 100, -5, 5, 60, -3.1416, 3.1416);
 
+  CreateUserTH1D("h1_Phi1stEle_PAS_EleBarrel", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));
+  CreateUserTH1D("h1_Phi1stEle_PAS_EleEndcap", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));
+  CreateUserTH1D("h1_METPhi_PAS_EleBarrel", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));
+  CreateUserTH1D("h1_METPhi_PAS_EleEndcap", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));
+  
+  CreateUserTH2D("h2_Phi1stEle_vs_METPhi", 60, -3.1416, 3.1416 , 60, -3.1416, 3.1416 );
+  CreateUserTH2D("h2_Phi1stEle_vs_PtEleOverST", 10, 0, 1 , 60, -3.1416, 3.1416 );
+  CreateUserTH2D("h2_METPhi_vs_PtEleOverST", 10, 0, 1 , 60, -3.1416, 3.1416 );
+  
   ////////////////////// User's code to book histos - END ///////////////////////
 
     
@@ -827,6 +836,24 @@ void analysisClass::Loop()
 	fillVariableWithValue("sT_PAS", calc_sT, p1);
       }
 
+    // ST leptons (electron and MET)
+    if (OneEle)
+      {
+	double calc_sTlep = 
+	  SuperClusterPt->at(v_idx_sc_Iso[0]) +
+	  thisMET;
+	fillVariableWithValue("sTlep_PAS", calc_sTlep, p1);
+      }
+
+    // ST jets
+    if (TwoJets)
+      {
+	double calc_sTjet = 
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
+	fillVariableWithValue("sTjet_PAS", calc_sTjet, p1);
+      } 
+    
 
     // Mej , MTnuj
     double Me1j1, Me1j2, MTn1j1, MTn1j2 = -999;
@@ -918,6 +945,8 @@ void analysisClass::Loop()
 	&& variableIsFilled("Phi1stJet_PAS")
 	&& variableIsFilled("Eta2ndJet_PAS")
 	&& variableIsFilled("Phi2ndJet_PAS")
+	&& variableIsFilled("METPhi_PAS") 
+	&& variableIsFilled("Pt1stEle_PAS")
      	)
       {
 	FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"), p1_plus);
@@ -942,6 +971,22 @@ void analysisClass::Loop()
 	FillUserTH2D("h2_phi_VS_eta_1stEle", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS"), p1 );
 	FillUserTH2D("h2_phi_VS_eta_1stJet", getVariableValue("Eta1stJet_PAS"), getVariableValue("Phi1stJet_PAS"), p1 );
 	FillUserTH2D("h2_phi_VS_eta_2ndJet", getVariableValue("Eta2ndJet_PAS"), getVariableValue("Phi2ndJet_PAS"), p1 );
+
+	//ele and MET phi for electrons in barrel/endcap
+	if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar ) 
+	  {//barrel
+	    FillUserTH1D("h1_Phi1stEle_PAS_EleBarrel", getVariableValue("Phi1stEle_PAS"), p1);          
+	    FillUserTH1D("h1_METPhi_PAS_EleBarrel", getVariableValue("METPhi_PAS"), p1);                       
+	  }
+	else 
+	  {//endcap
+	    FillUserTH1D("h1_Phi1stEle_PAS_EleEndcap", getVariableValue("Phi1stEle_PAS"), p1);          
+	    FillUserTH1D("h1_METPhi_PAS_EleEndcap", getVariableValue("METPhi_PAS"), p1);                       
+	  }
+	
+	FillUserTH2D("h2_Phi1stEle_vs_METPhi", getVariableValue("METPhi_PAS") , getVariableValue("Phi1stEle_PAS"), p1 );
+	FillUserTH2D("h2_Phi1stEle_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("Phi1stEle_PAS"), p1 );
+	FillUserTH2D("h2_METPhi_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("METPhi_PAS"), p1 );	
       }
        
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
