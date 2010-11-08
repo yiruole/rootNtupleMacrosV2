@@ -865,7 +865,7 @@ void analysisClass::Loop()
 	for(int wboson=0; wboson < Ws.size(); wboson++)
 	  FillUserTH1D("h_WsPt", Ws[wboson].Pt() );
 	
-	if( passedAllPreviousCuts("sT_MLQ200") && passedCut("sT_MLQ200")
+	if( passedAllPreviousCuts("sT_MLQ280") && passedCut("sT_MLQ280")
 	    //&& variableIsFilled("d1_DPhi_METe_METj")
 	    && variableIsFilled("mDeltaPhiMETEle_PAS")
 	    && variableIsFilled("d2_DPhi_METe_METj")
@@ -1035,7 +1035,7 @@ void analysisClass::Loop()
 	  }
       }
     
-    if( passedAllPreviousCuts("sT_MLQ200") && passedCut("sT_MLQ200")
+    if( passedAllPreviousCuts("sT_MLQ280") && passedCut("sT_MLQ280")
 	&& variableIsFilled("mDeltaPhiMETEle_PAS")
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
 	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS")
