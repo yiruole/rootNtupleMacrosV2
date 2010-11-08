@@ -34,6 +34,9 @@ eleEta_bar            1.442        -                    -               -       
 eleEta_end            1.560        2.5                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
 muonEta_end           1.2          2.4                  -               -               -1
+vertexMinimumNDOF     4            -			-               -               -1
+vertexMaxAbsZ         24           -			-               -               -1
+vertexMaxd0           2            -			-               -               -1
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
@@ -70,6 +73,9 @@ PassPrimaryVertex               0            1                  -               
 #PassHBHENoiseFilter            0            1                  -               -               0       2 -0.5 1.5
 #
 PassHLT                         0	     1                  -               -               1       2 -0.5 1.5
+#
+#nVertex_good 			-inf	     1			-		-		1	11 -0.5 10.5
+#
 nIsoSC				-inf	     +inf		-		-		1	16 -0.5 15.5
 nIsoEle                         -1           0                  -               -               1       16 -0.5 15.5
 #nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
