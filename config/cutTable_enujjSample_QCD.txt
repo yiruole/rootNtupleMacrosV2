@@ -106,9 +106,9 @@ mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               
 #
 d1_DPhi_METe_METj               -inf         +inf               -               -               2       50 0 5
 d2_DPhi_METe_METj               -inf         +inf               -               -               2       50 0 5
-mDeltaPhiMETEle                 0.7	     +inf               -               -               2       100 0 3.1416
+mDeltaPhiMETEle                 0.8	     +inf               -               -               2       100 0 3.1416
 mDeltaPhiMET1stJet              0.5	     +inf               -               -               2       100 0 3.1416
-mDeltaPhiMET2ndJet              0.5	     +inf               -               -               2       100 0 3.1416
+mDeltaPhiMET2ndJet              -inf	     +inf               -               -               2       100 0 3.1416
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
@@ -132,21 +132,21 @@ MTnuj_1stPair_PAS               -inf	     +inf               -               -  
 MTnuj_2ndPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 #
 nMuon_PtCut_IDISO               -1           0                  -               -               4       16 -0.5 15.5
-minMETPt1stEle                  70           +inf               -               -               4       200 0 1000
+minMETPt1stEle                  80           +inf               -               -               4       200 0 1000
 MTenu                           125          +inf               -               -               5       200 0 1000
 sT                              -inf         +inf               -               -               6       200 0 2000
 sT_MLQ200                       350	     +inf               -               -               6       200 0 2000
-#remeber that sT_MLQ200 is hardcoded in the .C file (to make some 2D histograms)
+sT_MLQ250                       410	     +inf               -               -               7       200 0 2000
+sT_MLQ280                       460	     +inf               -               -               7       200 0 2000
+#remember that sT_MLQ280 is hardcoded in the .C file (to make some 2D histograms)
 #
 Mej_1stPair                     -inf	     +inf               -               -               7       200 0 2000
 Mej_2ndPair                     -inf	     +inf               -               -               7       200 0 2000
 MTnuj_1stPair                   -inf	     +inf               -               -               7       200 0 2000
 MTnuj_2ndPair                   -inf	     +inf               -               -               7       200 0 2000
 #
-sT_MLQ250                       420	     +inf               -               -               7       200 0 2000
-sT_MLQ280                       460	     +inf               -               -               7       200 0 2000
-sT_MLQ300                       470	     +inf               -               -               7       200 0 2000
-sT_MLQ320                       510	     +inf               -               -               7       200 0 2000
+sT_MLQ300                       490	     +inf               -               -               7       200 0 2000
+sT_MLQ320                       520	     +inf               -               -               7       200 0 2000
 #Mej                            -inf         +inf               -               -               7       200 0 2000
 #MTnuj                          -inf         +inf               -               -               7       200 0 2000
 #
