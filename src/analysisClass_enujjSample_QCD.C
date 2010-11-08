@@ -159,10 +159,10 @@ void analysisClass::Loop()
   CreateUserTH2D("h2_DeltaPhiMETEle_vs_MET2ndJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
   CreateUserTH2D("h2_DeltaPhiMET2ndJet_vs_MET1stJet__sT", 30, 0, 3.1416, 30, 0, 3.1416);
 
-  //   CreateUserTH1D("h1_MTenu_PAS_plus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
-  //   CreateUserTH1D("h1_MTenu_PAS_minus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
-  //   CreateUserTH1D("h1_sT_PAS_plus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
-  //   CreateUserTH1D("h1_sT_PAS_minus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
+  CreateUserTH1D("h1_MTenu_PAS_plus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_MTenu_PAS_minus", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_sT_PAS_plus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
+  CreateUserTH1D("h1_sT_PAS_minus", getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS"));
 
   CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_0_1", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
   CreateUserTH1D("h1_MTenu_PAS_DeltaPhiMET2ndJet_1_2", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
@@ -563,6 +563,11 @@ void analysisClass::Loop()
       if (fabs(SuperClusterEta->at(v_idx_sc_Iso[2]))>eleEta_end_min) p3 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_Iso[2]);
     }
 
+    //fake rate for ele+ and ele- 
+    //NOTE: need to verify that + and - are indeed the same
+    double p1_plus = p1/2;
+    double p1_minus = p1/2;
+	  
     //don't apply any fake rate probability
     //p1 = 1;
 
@@ -915,10 +920,10 @@ void analysisClass::Loop()
 	&& variableIsFilled("Phi2ndJet_PAS")
      	)
       {
-	// 	FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"), p1_plus);
-	// 	FillUserTH1D("h1_sT_PAS_plus", getVariableValue("sT_PAS"), p1_plus);	
-	// 	FillUserTH1D("h1_MTenu_PAS_minus", getVariableValue("MTenu_PAS"), p1_minus);
-	// 	FillUserTH1D("h1_sT_PAS_minus", getVariableValue("sT_PAS"), p1_minus);
+	FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"), p1_plus);
+	FillUserTH1D("h1_sT_PAS_plus", getVariableValue("sT_PAS"), p1_plus);	
+	FillUserTH1D("h1_MTenu_PAS_minus", getVariableValue("MTenu_PAS"), p1_minus);
+	FillUserTH1D("h1_sT_PAS_minus", getVariableValue("sT_PAS"), p1_minus);
 	
 	if( fabs( getVariableValue("mDeltaPhiMET2ndJet_PAS"))<=1 )
 	  {
