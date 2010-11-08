@@ -122,6 +122,8 @@ Phi1stJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 Phi2ndJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 nMuon_PtCut_IDISO_PAS           -inf         +inf               -               -               3       16 -0.5 15.5
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
+sTlep_PAS                       -inf	     +inf               -               -               3       200 0 2000
+sTjet_PAS                       -inf	     +inf               -               -               3       200 0 2000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
 Mjj_PAS				-inf	     +inf               -               -               3       200 0 2000
 Mej_1stPair_PAS                 -inf	     +inf               -               -               3       200 0 2000
