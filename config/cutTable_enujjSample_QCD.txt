@@ -113,6 +113,7 @@ mDeltaPhiMET2ndJet              -inf	     +inf               -               -  
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
 Phi1stEle_PAS                   -inf         +inf               -               -               3       60 -3.1416 +3.1416
+Charge1stEle_PAS		-inf         +inf               -               -               3       2 -1.0001 1.0001
 MET_PAS                         -inf         +inf               -               -               3       200 0 1000
 METPhi_PAS                      -inf         +inf               -               -               3       60 -3.1416 +3.1416
 minMETPt1stEle_PAS              -inf         +inf               -               -               3       200 0 1000
@@ -124,6 +125,7 @@ Phi1stJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 Phi2ndJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 nMuon_PtCut_IDISO_PAS           -inf         +inf               -               -               3       16 -0.5 15.5
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
+Ptenu_PAS			-inf         +inf               -               -               3       200 0 2000
 sTlep_PAS                       -inf	     +inf               -               -               3       200 0 2000
 sTjet_PAS                       -inf	     +inf               -               -               3       200 0 2000
 sT_PAS                          -inf         +inf               -               -               3       200 0 2000
@@ -146,6 +148,7 @@ Mej_1stPair                     -inf	     +inf               -               -  
 Mej_2ndPair                     -inf	     +inf               -               -               7       200 0 2000
 MTnuj_1stPair                   -inf	     +inf               -               -               7       200 0 2000
 MTnuj_2ndPair                   -inf	     +inf               -               -               7       200 0 2000
+Ptenu                           -inf         +inf               -               -               7       200 0 2000
 #
 sT_MLQ300                       490	     +inf               -               -               7       200 0 2000
 sT_MLQ320                       520	     +inf               -               -               7       200 0 2000
