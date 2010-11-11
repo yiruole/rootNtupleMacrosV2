@@ -105,7 +105,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "21.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "34.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -337,15 +337,15 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/21.9pb-1_v2/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/enujj_analysis/34.7pb-1_v1/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v5_QCD_HLT30_AllDeltaPhi/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-QCDscaleFactor    = 2.96 # ratio between integrated lumi of the signal
-                        # sample (i.e. 21.9 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon30)
+File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v6_QCD_HLT30_SarahComments/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+QCDscaleFactor    = 4.689 # ratio between integrated lumi of the signal
+                          # sample (i.e. 34.7 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon30)
 
 ##File_QCD          = GetFile("$LQDATA/enujj_analysis/2.5pb-1_v3_usePF_QCD_HLT20/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 ##QCDscaleFactor    = 5.964 # ratio between integrated lumi of the signal
@@ -360,11 +360,11 @@ makeRatio=1
 pt_xmin=0
 pt_xmax=800
 pt_ymin=0.01
-pt_ymax=1000
+pt_ymax=5000
 
-eta_rebin=4
+eta_rebin=2
 eta_ymin=0
-eta_ymax=220
+eta_ymax=200
 
 #--- Final plots are defined here
 
@@ -487,7 +487,7 @@ plot3.rebin           = 2
 plot3.xmin            = 0
 plot3.xmax            = 500
 plot3.ymin            = 0.01
-plot3.ymax            = 1000
+plot3.ymax            = 5000
 #plot3.lpos = "bottom-center"
 plot3.name            = "MET_allPreviousCuts"
 plot3.addZUncBand     = zUncBand
@@ -513,7 +513,7 @@ plot4.rebin           = 1
 plot4.xmin            = 0
 plot4.xmax            = 300
 plot4.ymin            = 0.01
-plot4.ymax            = 1000
+plot4.ymax            = 5000
 #plot4.lpos = "bottom-center"
 plot4.name            = "minMETPt1stEle_allPreviousCuts"
 plot4.addZUncBand     = zUncBand
@@ -835,7 +835,7 @@ plot14.rebin           = 1
 plot14.xmin            = 0
 plot14.xmax            = 400
 plot14.ymin            = 0
-plot14.ymax            = 250
+plot14.ymax            = 500
 #plot14.lpos = "bottom-center"
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
@@ -886,7 +886,7 @@ plot14_0_1.rebin           = 1
 plot14_0_1.xmin            = 0
 plot14_0_1.xmax            = 400
 plot14_0_1.ymin            = 0
-plot14_0_1.ymax            = 100
+plot14_0_1.ymax            = 200
 #plot14_0_1.lpos = "bottom-center"
 plot14_0_1.name            = "MTenu_allPreviousCuts_ylin_Low_DfMETe"
 plot14_0_1.addZUncBand     = zUncBand
@@ -915,7 +915,7 @@ plot14_1_2.rebin           = 1
 plot14_1_2.xmin            = 0
 plot14_1_2.xmax            = 400
 plot14_1_2.ymin            = 0
-plot14_1_2.ymax            = 100
+plot14_1_2.ymax            = 200
 #plot14_1_2.lpos = "bottom-center"
 plot14_1_2.name            = "MTenu_allPreviousCuts_ylin_Mid_DfMETe"
 plot14_1_2.addZUncBand     = zUncBand
@@ -945,7 +945,7 @@ plot14_2_pi.rebin           = 1
 plot14_2_pi.xmin            = 0
 plot14_2_pi.xmax            = 400
 plot14_2_pi.ymin            = 0
-plot14_2_pi.ymax            = 100
+plot14_2_pi.ymax            = 200
 #plot14_2_pi.lpos = "bottom-center"
 plot14_2_pi.name            = "MTenu_allPreviousCuts_ylin_Large_DfMETe"
 plot14_2_pi.addZUncBand     = zUncBand
@@ -1023,7 +1023,7 @@ plot17.rebin           = 1
 plot17.xmin            = 0
 plot17.xmax            = 1500
 plot17.ymin            = 0.
-plot17.ymax            = 300 #450
+plot17.ymax            = 500
 #plot17.lpos = "bottom-center"
 plot17.name            = "Mej_allPreviousCuts_ylin"
 plot17.addZUncBand     = zUncBand
@@ -1045,7 +1045,7 @@ plot17_ylog.rebin           = 2
 plot17_ylog.xmin            = 0
 plot17_ylog.xmax            = 2000
 plot17_ylog.ymin            = 0.01
-plot17_ylog.ymax            = 1000
+plot17_ylog.ymax            = 5000
 #plot17_ylog.lpos = "bottom-center"
 plot17_ylog.name            = "Mej_allPreviousCuts"
 plot17_ylog.addZUncBand     = zUncBand
@@ -1071,7 +1071,7 @@ plot18.rebin           = 2
 plot18.xmin            = 0
 plot18.xmax            = 1000
 plot18.ymin            = 0.01
-plot18.ymax            = 1000
+plot18.ymax            = 5000
 #plot18.lpos = "bottom-center"
 plot18.name            = "MTnuj_allPreviousCuts"
 plot18.addZUncBand     = zUncBand
