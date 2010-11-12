@@ -11,13 +11,13 @@
   //USER PART (modify here)  -  BEGIN
 
   //available optimized sT cuts vs MLQ
-  const int Nmass = 4;
-  float MLQ[Nmass]={100,200,300,400}; 
-  float STcut[Nmass]={140,280,380,460}; 
+  const int Nmass = 5;
+  float MLQ[Nmass]={200,250,280,300, 320}; 
+  float STcut[Nmass]={350,410,460,490,520}; 
 
   //MLQ values for which you need an optimal sT cut
-  const int Nmass_extrapolate = 5;
-  float MLQ_extrapolate[Nmass_extrapolate]={250, 280, 320, 340, 370}; 
+  const int Nmass_extrapolate = 1;
+  float MLQ_extrapolate[Nmass_extrapolate]={340}; 
 
   //range for fit
   float minMLQfit = MLQ[0];
@@ -34,7 +34,7 @@
   g_STcut_vs_MLQ->GetYaxis()->SetTitle("sT cut (GeV/c)");
   g_STcut_vs_MLQ->Draw("ap");
 
-  TF1 *fitST = new TF1("fitST","pol3",minMLQfit,maxMLQfit);
+  TF1 *fitST = new TF1("fitST","pol2",minMLQfit,maxMLQfit);
   g_STcut_vs_MLQ->Fit(fitST);
   fitST->Draw("same");
 
