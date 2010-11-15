@@ -158,10 +158,11 @@ sT_MLQ320                       520	     +inf               -               -   
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
 #minMETPt1stEle                  OPT           >         55              100             1
-#MTenu                           OPT           >         90              135             1
-#sT                              OPT           >         460             550             1
-#mDeltaPhiMET1stJet             OPT           >         0               0.9             1
-#Pt1stEle_IDISO_NoOvrlp         OPT           >         25              70              1
-#Pt2ndJet_noOvrlp_ID            OPT           >         10              100             1
-#maxMEtaEles_IDISO_NoOvrl       OPT           <         1.6             2.5             1
-#maxMEtaJets_noOvrlp_ID         OPT           <         1.65            3.0             1
+#MTenu                           OPT           >         115             160             1
+#sT                              OPT           >         450             540             1
+#mDeltaPhiMETEle                 OPT           >         0.3             1.2             1
+#mDeltaPhiMET1stJet              OPT           >         0               0.9             1
+#mDeltaPhiMET2ndJet              OPT           >         0               0.9             1
+#minDRej                         OPT           >         0               0.9             1
+#mEta1stEle_IDISO_NoOvrlp        OPT           <         0.7             2.5             1
+#maxMEtaJets_noOvrlp_ID          OPT           <         1.2             3.0             1

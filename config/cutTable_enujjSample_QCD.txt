@@ -3,18 +3,18 @@
 #
 #
 #------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
-# This first list of variable names and values are used to pass configurable values to the user code associated 
+# This first list of variable names and values are used to pass configurable values to the user code associated
 # to a variable name.
 # The user can retrieve the values associated to a variable name via a provided function call
 # [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
-# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in 
-# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1. 
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1.
 # Variable names must be unique.
 #
 #VariableName         value1		value2		value3		value4		level
 #------------	      ------------	-------------	------------	-------------	-----
-#eleFidRegion	      2.5		-		-		-		-1	
-#jetFidRegion	      2.5		-		-		-		-1	
+#eleFidRegion	      2.5		-		-		-		-1
+#jetFidRegion	      2.5		-		-		-		-1
 ele_PtCut	      35		-		-		-		-1
 # no longer used since using heepBitMask # eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
@@ -56,8 +56,8 @@ metAlgorithm	      1		   -			-		-		-1
 # The variable names in the user code has to match the names provided here.
 # Variable names must be unique.
 # The cut will be declared "passed" if
-#    ( minValue1 < VariableName <= maxValue1 ) 
-# in case only the first range (minValue1, maxValue1) is provided, 
+#    ( minValue1 < VariableName <= maxValue1 )
+# in case only the first range (minValue1, maxValue1) is provided,
 # otherwise the cut will be declared "passed" if
 #    ( minValue1 < VariableName <= maxValue1 )  OR  ( minValue2 < VariableName <= maxValue2 )
 # in case even the second range (minValue2, maxValue2) is provided.
@@ -159,9 +159,12 @@ sT_MLQ320                       520	     +inf               -               -   
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
-#Mee                            OPT           >         95              140             1
-#sT                             OPT           >         320             500             1
-#Pt2ndEle_IDISO_NoOvrlp         OPT           >         10              100             1
-#Pt2ndJet_noOvrlp_ID            OPT           >         10              100             1
-#maxMEtaEles_IDISO_NoOvrl       OPT           <         1.6             2.5             1
-#maxMEtaJets_noOvrlp_ID         OPT           <         1.65            3.0             1
+#minMETPt1stEle                  OPT           >         55              100             1
+#MTenu                           OPT           >         115             160             1
+#sT                              OPT           >         450             540             1
+#mDeltaPhiMETEle                 OPT           >         0.3             1.2             1
+#mDeltaPhiMET1stJet              OPT           >         0               0.9             1
+#mDeltaPhiMET2ndJet              OPT           >         0               0.9             1
+#minDRej                         OPT           >         0               0.9             1
+#mEta1stEle_IDISO_NoOvrlp        OPT           <         0.7             2.5             1
+#maxMEtaJets_noOvrlp_ID          OPT           <         1.2             3.0             1
