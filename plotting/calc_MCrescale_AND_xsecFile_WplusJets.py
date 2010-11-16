@@ -217,6 +217,16 @@ h_ALLBKG_MTenu = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________MTen
 h_WJetAlpgen_MTenu = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC W
 h_DATA_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) #DATA
 h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD, float(34.7/7.4)) #QCD (data-driven) scaled to the correct integrated luminosity
+# W- only
+#h_ALLBKG_MTenu = GetHisto("histo1D__ALLBKG__h1_MTenu_PAS_minus", File_preselection) # MC all
+#h_WJetAlpgen_MTenu = GetHisto("histo1D__WJetAlpgen__h1_MTenu_PAS_minus", File_preselection) # MC W
+##h_DATA_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_minus", File_preselection) #DATA
+#h_QCD_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_minus", File_preselection_QCD, float(34.7/7.4)) #QCD (data-driven) scaled to the correct integrated luminosity
+# W+ only
+#h_ALLBKG_MTenu = GetHisto("histo1D__ALLBKG__h1_MTenu_PAS_plus", File_preselection) # MC all
+#h_WJetAlpgen_MTenu = GetHisto("histo1D__WJetAlpgen__h1_MTenu_PAS_plus", File_preselection) # MC W
+#h_DATA_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_plus", File_preselection) #DATA
+#h_QCD_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_plus", File_preselection_QCD, float(34.7/7.4)) #QCD (data-driven) scaled to the correct integrated luminosity
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_MTenu
