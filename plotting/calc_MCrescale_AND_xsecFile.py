@@ -46,9 +46,9 @@ def GetHisto( histoName , file ):
     return histo
 
 def GetIntegralTH1( histo, xmin, xmax):
-    #get integral 
+    #get integral
     axis = histo.GetXaxis()
-    bmin = axis.FindBin(xmin) 
+    bmin = axis.FindBin(xmin)
     bmax = axis.FindBin(xmax)
     bminResidual = histo.GetBinContent(bmin)*(xmin-axis.GetBinLowEdge(bmin)) / axis.GetBinWidth(bmin)
     bmaxResidual = histo.GetBinContent(bmax)*(axis.GetBinUpEdge(bmax)-xmax) / axis.GetBinWidth(bmax)
@@ -58,9 +58,9 @@ def GetIntegralTH1( histo, xmin, xmax):
 def GetErrorIntegralTH1( histo, xmin, xmax):
     print "## calculating error for integral of histo " + str(histo)
     print "## in the x range [" + str(xmin) + "," + str(xmax) + "]"
-    #get integral 
+    #get integral
     axis = histo.GetXaxis()
-    bmin = axis.FindBin(xmin) 
+    bmin = axis.FindBin(xmin)
     bmax = axis.FindBin(xmax)
     bminResidual = histo.GetBinContent(bmin)*(xmin-axis.GetBinLowEdge(bmin)) / axis.GetBinWidth(bmin)
     bmaxResidual = histo.GetBinContent(bmax)*(axis.GetBinUpEdge(bmax)-xmax) / axis.GetBinWidth(bmax)
@@ -70,8 +70,8 @@ def GetErrorIntegralTH1( histo, xmin, xmax):
 	print "bin: " +str(bin)
         if(bin==bmax and bmaxResidual==histo.GetBinContent(bmax)): # skip last bin if out of range
             print "     --> skip bin: " + str(bin)
-        else:           
-            error = error + histo.GetBinError(bin)**2    
+        else:
+            error = error + histo.GetBinError(bin)**2
             print "error**2 : " + str(error)
 
     error = sqrt(error)
@@ -85,7 +85,7 @@ class Plot:
     histoMCZ    = "" # MCZ
     histoMCall  = "" # MCall
     xtit        = "" # xtitle
-    ytit        = "" # ytitle 
+    ytit        = "" # ytitle
     xmin        = "" # set xmin to calculate rescaling factor (-- please take into account the bin size of histograms --)
     xmax        = "" # # set xmax to calculate rescaling factor (-- please take into account the bin size of histograms --)
     xminplot    = "" # min x axis range (need to set both min and max. Leave it as is for full range)
@@ -97,7 +97,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     #rebin      = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "10.9 nb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "10.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     fileXsectionNoRescale = "" #cross section file (with no rescale
     datasetName = "" # string for pattern recognition of dataset name (rescaling will be done only on matched datasets)
 
@@ -122,31 +122,31 @@ class Plot:
         ERRintegralMCall = GetErrorIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
         integralMCZ = GetIntegralTH1(plot.histoMCZ,plot.xmin,plot.xmax)
         ERRintegralMCZ = GetErrorIntegralTH1(plot.histoMCZ,plot.xmin,plot.xmax)
-        
+
         #contamination from other backgrounds (except Z) in the integral range
         integralMCothers = integralMCall - integralMCZ
         ERRintegralMCothers = sqrt(ERRintegralMCall**2 + ERRintegralMCZ**2)
-        contamination = integralMCothers / integralMCall            
+        contamination = integralMCothers / integralMCall
 
         #DATA corrected for other bkg contamination --> best estimate of DATA (due to Z only)
-        integralDATAcorr = (integralDATA - integralMCothers) 
+        integralDATAcorr = (integralDATA - integralMCothers)
         ERRintegralDATAcorr = sqrt(ERRintegralDATA**2 + ERRintegralMCothers**2)
 
         #rescale factor
         rescale = integralDATAcorr / integralMCZ
         relERRintegralDATAcorr = ERRintegralDATAcorr / integralDATAcorr
         relERRintegralMCZ = ERRintegralMCZ / integralMCZ
-        ERRrescale = sqrt(relERRintegralDATAcorr**2 + relERRintegralMCZ**2)
+        relERRrescale = sqrt(relERRintegralDATAcorr**2 + relERRintegralMCZ**2)
 
         #draw histo
         plot.histoMCall.SetFillColor(kBlue)
         plot.histoDATA.SetMarkerStyle(20)
-        
+
         plot.histoMCall.Draw("HIST")
         plot.histoDATA.Draw("psame")
         plot.histoMCall.GetXaxis().SetRangeUser(plot.xminplot,plot.xmaxplot)
         plot.histoMCall.GetYaxis().SetRangeUser(plot.yminplot,plot.ymaxplot)
-        
+
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
@@ -162,13 +162,13 @@ class Plot:
         print "integral DATA: "   + str( integralDATA ) + " +/- " + str( ERRintegralDATA )
         print "contribution from other bkgs (except Z+jet): " + str(contamination*100) + "%"
         print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr ) + " +/- " + str( ERRintegralDATAcorr )
-        print "rescale factor for Z background: " + str(rescale) + " +\- " + str(ERRrescale*rescale)
-        print "systematical uncertainty of Z+jet background modeling: " + str(ERRrescale*100) + "%"
+        print "rescale factor for Z background: " + str(rescale) + " +\- " + str(relERRrescale*rescale)
+        print "systematical uncertainty of Z+jet background modeling: " + str(relERRrescale*100) + "%"
         print "######################################## "
         print " "
 
-        #create new cross section file        
-        originalFileName = string.split( string.split(plot0.fileXsectionNoRescale, "/" )[-1], "." ) [0]  
+        #create new cross section file
+        originalFileName = string.split( string.split(self.fileXsectionNoRescale, "/" )[-1], "." ) [0]
         newFileName = originalFileName + "_" + plot.name +".txt"
         os.system('rm -f '+ newFileName)
         outputFile = open(newFileName,'w')
@@ -177,16 +177,16 @@ class Plot:
             line = string.strip(line,"\n")
 
             if( re.search(plot.datasetName, line) ):
-                list = re.split( '\s+' , line  )                
+                list = re.split( '\s+' , line  )
                 newline = str(list[0]) + "    "  + str("%.6f" % (float(list[1])*float(rescale)) )
                 print >> outputFile, newline
             else:
                 print >> outputFile, line
-                
+
         outputFile.close
         print "New xsection file (after Z rescaling) is: " + newFileName
-        print " " 
-        
+        print " "
+
 
 ############# DON'T NEED TO MODIFY ANYTHING HERE - END #######################
 ##############################################################################
@@ -215,8 +215,8 @@ plot0 = Plot()
 plot0.histoDATA = h_DATA_Mee
 plot0.histoMCall = h_ALLBKG_Mee
 plot0.histoMCZ = h_ZJetAlpgen_Mee
-plot0.xmin = 80  
-plot0.xmax = 100 
+plot0.xmin = 80
+plot0.xmax = 100
 plot0.name = "Zrescale"
 plot0.fileXsectionNoRescale = "/afs/cern.ch/user/p/prumerio/cms/lq/emujj/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
