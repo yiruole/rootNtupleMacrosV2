@@ -14,8 +14,8 @@ from optparse import OptionParser
 import os.path
 from ROOT import *
 import re
-import ROOT
 from array import array
+import copy
 
 #--- ROOT general options
 gROOT.SetBatch(kTRUE);
@@ -43,7 +43,10 @@ def GetHisto( histoName , file ):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
         print "exiting..."
         sys.exit()
-    return histo
+    new = copy.deepcopy(histo)
+    if(scale!=1):
+        new.Scale(scale)
+    return new
 
 def GetIntegralTH1( histo, xmin, xmax):
     #get integral
@@ -204,12 +207,12 @@ File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSam
 #--- Rescaling of Z/gamma + jet background
 
 #-----------------------------------------
-# h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC all
-# h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() # MC Z
-# h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection).Clone() #DATA
-h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() # MC all
-h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() # MC Z
-h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection).Clone() #DATA
+# h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection) # MC all
+# h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection) # MC Z
+# h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection) #DATA
+h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection) # MC all
+h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection) # MC Z
+h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection) #DATA
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_Mee

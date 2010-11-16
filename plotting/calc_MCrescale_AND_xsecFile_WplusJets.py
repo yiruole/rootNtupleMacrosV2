@@ -14,8 +14,8 @@ from optparse import OptionParser
 import os.path
 from ROOT import *
 import re
-import ROOT
 from array import array
+import copy
 
 #--- ROOT general options
 gROOT.SetBatch(kTRUE);
@@ -37,13 +37,16 @@ def GetFile(filename):
     return file
 
 
-def GetHisto( histoName , file ):
+def GetHisto( histoName , file, scale = 1 ):
     histo = file.Get( histoName )
     if( not histo):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
         print "exiting..."
         sys.exit()
-    return histo
+    new = copy.deepcopy(histo)
+    if(scale!=1):
+        new.Scale(scale)
+    return new
 
 def GetIntegralTH1( histo, xmin, xmax):
     #get integral
@@ -98,8 +101,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     #rebin      = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "" # integrated luminosity of the sample ( in pb-1 )
-    lintQCD     = "" # integrated luminosity of the sample used to determine the QCD background contribution ( in pb-1 )
+    lint        = "34.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     fileXsectionNoRescale = "" #cross section file (with no rescale
     datasetName = "" # string for pattern recognition of dataset name (rescaling will be done only on matched datasets)
 
@@ -116,9 +118,6 @@ class Plot:
             print "WARNING! bin width is different between DATA and MC"
             print "exiting..."
             sys.exit()
-
-        #scale the QCD background to the correct integrated luminosity
-        plot.histoQCD.Scale(self.lint/self.lintQCD)
 
         #integrals
         integralDATA = GetIntegralTH1(plot.histoDATA,plot.xmin,plot.xmax)
@@ -208,16 +207,16 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/analysisClass_enujjSample_QCD_plots.root")
 File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/analysisClass_enujjSample_QCD_plots.root")
 
 #--- Rescaling of W + jet background
 
 #-----------------------------------------
-h_ALLBKG_MTenu = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection).Clone() # MC all
-h_WJetAlpgen_MTenu = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection).Clone() # MC W
-h_DATA_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection).Clone() #DATA
-h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD).Clone() #QCD (data-driven)
+h_ALLBKG_MTenu = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC all
+h_WJetAlpgen_MTenu = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC W
+h_DATA_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) #DATA
+h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD, float(34.7/7.4)) #QCD (data-driven) scaled to the correct integrated luminosity
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_MTenu
@@ -232,8 +231,6 @@ plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
 plot0.ymaxplot = 320
-plot0.lint = 34.7
-plot0.lintQCD = 7.4
 plot0.datasetName = "W.+Jets_Pt.+alpgen"
 # example: this match with /W3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
 
