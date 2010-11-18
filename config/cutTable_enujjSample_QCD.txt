@@ -13,6 +13,7 @@
 #
 #VariableName         value1		value2		value3		value4		level
 #------------	      ------------	-------------	------------	-------------	-----
+#produceSkim           1                 -               -               -               -1
 #eleFidRegion	      2.5		-		-		-		-1
 #jetFidRegion	      2.5		-		-		-		-1
 ele_PtCut	      35		-		-		-		-1
