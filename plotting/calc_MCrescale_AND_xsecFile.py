@@ -37,7 +37,7 @@ def GetFile(filename):
     return file
 
 
-def GetHisto( histoName , file ):
+def GetHisto( histoName , file, scale = 1 ):
     histo = file.Get( histoName )
     if( not histo):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
@@ -201,7 +201,9 @@ class Plot:
 #--- Input files
 #preselection
 #File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_preSt250/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("/home/prumerio/cms/lq/output_fromAFS/eejj/34.7pb-1/output_cutTable_eejjSample_preSt250/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("/home/prumerio/cms/lq/output_fromAFS/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
 
 
 #--- Rescaling of Z/gamma + jet background
@@ -221,7 +223,7 @@ plot0.histoMCZ = h_ZJetAlpgen_Mee
 plot0.xmin = 80
 plot0.xmax = 100
 plot0.name = "Zrescale"
-plot0.fileXsectionNoRescale = "/afs/cern.ch/user/p/prumerio/cms/lq/emujj/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
+plot0.fileXsectionNoRescale = "../../rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
