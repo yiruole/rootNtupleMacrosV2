@@ -133,7 +133,7 @@ fout = open("table_CutFlow_enujj.tex", "w")
 #fout.write(r"\begin{table}[]"+"\n")
 for idx, cutName in enumerate(cutNames):
   print cutName
-  fout.write(r" %s & %.2f\pm%.2f & %.3f & %.2f\pm%.2f & %.2f\pm%.2f & %.2f\pm%.2f & %.2f\pm%.2f & %.2f\pm%.2f & %i \\" % 
+  fout.write(r" %s & %.2f$\pm$%.2f & %.3f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %i \\" % 
              ( 
                #cutNames[cutName]['label'], 
                cutLabels[idx], 
