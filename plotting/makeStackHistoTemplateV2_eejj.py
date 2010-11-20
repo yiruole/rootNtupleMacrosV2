@@ -181,6 +181,7 @@ class Plot:
             stack[iter].SetMarkerStyle(20+2*iter)
             stack[iter].SetMarkerColor(stackColorIndexes[iter])
             stack[iter].SetLineColor(  stackColorIndexes[iter])
+            stack[iter].SetLineWidth(  2 )
             stack[iter].SetFillColor(  stackColorIndexes[iter])
             stack[iter].SetFillStyle(  stackFillStyleIds[iter])
             legend.AddEntry(stack[iter], plot.keysStack[Nstacked - iter - 1],"lf")
@@ -226,8 +227,8 @@ class Plot:
 
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
-        dataColorIndexes = [2,4,1]
-        dataLineIndexes = [1,2,3]
+        dataColorIndexes = [1,1,1]
+        dataLineIndexes = [2,3,4]
         for histo in plot.histos:
             if(plot.rebin!=""):
                 histo.Rebin(plot.rebin)
@@ -235,6 +236,7 @@ class Plot:
             histo.SetMarkerColor(dataColorIndexes[ih])
             histo.SetLineColor(  dataColorIndexes[ih])
             histo.SetLineStyle(  dataLineIndexes[ih])
+            histo.SetLineWidth(2)
             legend.AddEntry(histo, plot.keys[ih],"l")
             histo.Draw("HISTsame")
             ih=ih+1
