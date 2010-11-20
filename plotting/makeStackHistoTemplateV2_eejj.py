@@ -228,7 +228,7 @@ class Plot:
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
         dataColorIndexes = [1,1,1]
-        dataLineIndexes = [2,3,4]
+        dataLineIndexes = [2,1,3]
         for histo in plot.histos:
             if(plot.rebin!=""):
                 histo.Rebin(plot.rebin)
@@ -362,8 +362,8 @@ histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 samplesForStackHistos = ["OTHERBKG"  ,"TTbar_Madgraph","ZJetAlpgen"]
 keysStack =             [otherBkgsKey,"ttbar"         , "Z/#gamma/Z* + jets"]
 
-samplesForHistos = ["LQeejj_M300", "LQeejj_M370", "LQeejj_M400"]
-keys             = ["LQ eejj M300","LQ eejj M370","LQ eejj M400"]
+samplesForHistos = ["LQeejj_M300", "LQeejj_M400", "LQeejj_M500"]
+keys             = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
 
 sampleForDataHisto = "DATA"
 
@@ -1226,9 +1226,9 @@ for plot in plots:
 c.Print("allPlots.ps]")
 
 # Uncomment the 3 lines below to create (not rotated) pdf files, but keep them commented out in cvs since may slow down the execution 
-# print "Converting eps files into pdf files ..."
-# for plot in plots:
-#     system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
+print "Converting eps files into pdf files ..."
+for plot in plots:
+    system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
 
 # create a file with list of eps and pdf files, to facilitate copying them to svn area for AN/PAS/PAPER
 print "Creating file listOfEpsFiles.txt and listOfPdfFiles.txt ..."
