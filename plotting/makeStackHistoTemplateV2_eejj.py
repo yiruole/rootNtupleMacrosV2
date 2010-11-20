@@ -106,7 +106,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "34.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "33.2 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -119,7 +119,6 @@ class Plot:
 
         #-- create canvas
         canvas = TCanvas()
-        stack = {}
 
         if(plot.makeRatio==1):    
             fPads1 = TPad("pad1", "", 0.00, 0.20, 0.99, 0.99)
@@ -162,10 +161,13 @@ class Plot:
 
         #-- loop over histograms (stacked)
         Nstacked = len(plot.histosStack)
-        stackColorIndexes = [14,20,38]
+        stackColorIndexes = [2,4,3]
+        stackFillStyleIds = [3254,3245,3295]
+        stack = []
+        stkcp = []
         for iter in range(0, Nstacked):
             #make this stack
-            stack[iter] = TH1F()
+            stack.append(TH1F())
             Nloop = Nstacked - iter
             for iter1 in range(0,Nloop):
                 histo = plot.histosStack[iter1]
@@ -180,6 +182,7 @@ class Plot:
             stack[iter].SetMarkerColor(stackColorIndexes[iter])
             stack[iter].SetLineColor(  stackColorIndexes[iter])
             stack[iter].SetFillColor(  stackColorIndexes[iter])
+            stack[iter].SetFillStyle(  stackFillStyleIds[iter])
             legend.AddEntry(stack[iter], plot.keysStack[Nstacked - iter - 1],"lf")
             #draw stack
             if iter==0:
@@ -195,22 +198,16 @@ class Plot:
                 if (plot.ymin!="" and plot.ymax!=""):
                     stack[iter].GetYaxis().SetLimits(plot.ymin,plot.ymax)
                     stack[iter].GetYaxis().SetRangeUser(plot.ymin,plot.ymax)
-                #search for maximum of histograms
-                #maxHisto = stack[iter].GetMaximum()
-                #print maxHisto
-                #for hh in plot.histos:
-                #    if(plot.rebin!=""):
-                #        if(hh.GetMaximum()*plot.rebin > maxHisto):
-                #            maxHisto = hh.GetMaximum()*plot.rebin
-                #    else:
-                #        if(hh.GetMaximum() > maxHisto):
-                #            maxHisto = hh.GetMaximum()
-                #stack[iter].GetYaxis().SetLimits(0.,maxHisto*1.2)
-                #stack[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)
                 #draw first histo
                 stack[iter].Draw("HIST")
+                stkcp.append(stack[iter].Clone())
             else:
+                stkcp.append(stack[iter].Clone()) # this is the only way that I figured out to cover the previous histogram!
+                stkcp[iter].SetFillStyle(1001)
+                stkcp[iter].SetFillColor(10)
+                stkcp[iter].Draw("HISTsame")
                 stack[iter].Draw("HISTsame")
+                
 
         #-- Z+jets uncertainty band
         if(plot.addZUncBand == "yes"):
@@ -331,7 +328,8 @@ class Plot:
 #--- Input root file
 
 #File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_noPreStCut_ZjetsRescaled/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -357,8 +355,10 @@ makeRatio = 0
 
 histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 
-samplesForStackHistos = ["TTbar_Madgraph","ZJetAlpgen","OTHERBKG"]
-keysStack =             ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+# samplesForStackHistos = ["TTbar_Madgraph","ZJetAlpgen","OTHERBKG"]
+# keysStack =             ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
+samplesForStackHistos = ["OTHERBKG"  ,"TTbar_Madgraph","ZJetAlpgen"]
+keysStack =             [otherBkgsKey,"ttbar"         , "Z/#gamma/Z* + jets"]
 
 samplesForHistos = ["LQeejj_M300", "LQeejj_M370", "LQeejj_M400"]
 keys             = ["LQ eejj M300","LQ eejj M370","LQ eejj M400"]
@@ -1150,6 +1150,29 @@ plot20.addZUncBand     = zUncBand
 plot20.makeRatio       = makeRatio
 plot20.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
+##--- sT_fullSeleNoPreStCut ---
+variableName = "sT_fullSeleNoPreStCut"
+
+plot20full = Plot()
+plot20full.histosStack     = generateHistoList( "histo1D__SAMPLE__VARIABLE", samplesForStackHistos, variableName, File_selection)
+plot20full.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot20full.histos          = generateHistoList( "histo1D__SAMPLE__VARIABLE", samplesForHistos, variableName, File_selection)
+plot20full.keys            = keys
+plot20full.xtit            = "St (GeV)"
+plot20full.ytit            = "Number of events"
+plot20full.ylog            = "yes"
+plot20full.rebin           = 5
+plot20full.xmin            = 0
+plot20full.xmax            = 1000
+plot20full.ymin            = 0.01
+plot20full.ymax            = 500
+#plot20full.lpos = "bottom-center"
+plot20full.name            = "sT_fullSeleNoPreStCut"
+plot20full.addZUncBand     = zUncBand
+plot20full.makeRatio       = makeRatio
+plot20full.histodata       = generateHisto( "histo1D__SAMPLE__VARIABLE", sampleForDataHisto, variableName, File_selection)
+
 
 ##--- Mej AllOtherCuts ---
 variableNames = ["Mej_1stPair","Mej_2ndPair"]
@@ -1185,7 +1208,7 @@ plots = [plot0, plot0_ylog, plot1, plot2_nojet, plot3_nojet, plot4_nojet, plot5_
          plot11, plot11_ele, plot11_jet,                                               #p21-23
          plot12, plot13, plot13_ylog, plot14, plot14_ylog,                             #p24-28
          plot15, plot16,  # produced using preselection root file                      #p29-30
-         plot20, plot21] # produced using full selection root file                     #p31-32
+         plot20, plot20full, plot21] # produced using full selection root file         #p31-33
 
 
 
@@ -1201,9 +1224,9 @@ for plot in plots:
 c.Print("allPlots.ps]")
 
 # Uncomment the 3 lines below to create (not rotated) pdf files, but keep them commented out in cvs since may slow down the execution 
-print "Converting eps files into pdf files ..."
-for plot in plots:
-    system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
+# print "Converting eps files into pdf files ..."
+# for plot in plots:
+#     system("convert "+plot.name+".eps "+plot.name+".pdf") # instead, uncomment this line to create pdf plots (a bit slow)
 
 # create a file with list of eps and pdf files, to facilitate copying them to svn area for AN/PAS/PAPER
 print "Creating file listOfEpsFiles.txt and listOfPdfFiles.txt ..."
