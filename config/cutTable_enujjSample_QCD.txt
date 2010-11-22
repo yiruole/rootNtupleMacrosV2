@@ -48,6 +48,8 @@ doGenLevelStudies     1		   -			-		-		-1
 jetAlgorithm	      1		   -			-		-		-1
 ## 1=PFMET  , 2=CaloMET
 metAlgorithm	      1		   -			-		-		-1
+met_Thresh            200               -               -               -               -1
+minMETPt1stEle_Thresh 100               -               -               -               -1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -67,6 +69,7 @@ metAlgorithm	      1		   -			-		-		-1
 #
 #VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
 #------------			------------ -------------	------------	-------------	-----	----------------
+PassGoodRunList                 0            1                  -               -               0       2 -0.5 1.5
 PassBPTX0                       0            1                  -               -               0       2 -0.5 1.5
 PassPhysDecl                    -inf         +inf               -               -               0       2 -0.5 1.5
 PassBeamScraping                0            1                  -               -               0       2 -0.5 1.5
@@ -110,6 +113,7 @@ d2_DPhi_METe_METj               -inf         +inf               -               
 mDeltaPhiMETEle                 0.8	     +inf               -               -               2       100 0 3.1416
 mDeltaPhiMET1stJet              0.5	     +inf               -               -               2       100 0 3.1416
 mDeltaPhiMET2ndJet              -inf	     +inf               -               -               2       100 0 3.1416
+sT_presel                       250          +inf               -               -               2       200 0 2000
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
@@ -143,16 +147,17 @@ sT                              -inf         +inf               -               
 sT_MLQ200                       350	     +inf               -               -               6       200 0 2000
 sT_MLQ250                       410	     +inf               -               -               7       200 0 2000
 sT_MLQ280                       460	     +inf               -               -               7       200 0 2000
-#remember that sT_MLQ280 is hardcoded in the .C file (to make some 2D histograms)
+sT_MLQ300                       490	     +inf               -               -               7       200 0 2000
+#remember that sT_MLQ300 is hardcoded in the .C file (to make some 2D histograms)
 #
-Mej_1stPair                     -inf	     +inf               -               -               7       200 0 2000
-Mej_2ndPair                     -inf	     +inf               -               -               7       200 0 2000
-MTnuj_1stPair                   -inf	     +inf               -               -               7       200 0 2000
-MTnuj_2ndPair                   -inf	     +inf               -               -               7       200 0 2000
+Mej_1stPair                     -inf         +inf               -               -               7       200 0 2000
+Mej_2ndPair                     -inf         +inf               -               -               7       200 0 2000
+MTnuj_1stPair                   -inf         +inf               -               -               7       200 0 2000
+MTnuj_2ndPair                   -inf         +inf               -               -               7       200 0 2000
 Ptenu                           -inf         +inf               -               -               7       200 0 2000
 #
-sT_MLQ300                       490	     +inf               -               -               7       200 0 2000
 sT_MLQ320                       520	     +inf               -               -               7       200 0 2000
+sT_MLQ340                       555          +inf               -               -               7       200 0 2000
 #Mej                            -inf         +inf               -               -               7       200 0 2000
 #MTnuj                          -inf         +inf               -               -               7       200 0 2000
 #
