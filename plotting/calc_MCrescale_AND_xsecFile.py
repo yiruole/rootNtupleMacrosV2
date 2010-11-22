@@ -109,22 +109,22 @@ class Plot:
         canvas = TCanvas()
 
         #check
-        if(plot.histoMCall.GetNbinsX()!=plot.histoDATA.GetNbinsX()):
+        if(self.histoMCall.GetNbinsX()!=self.histoDATA.GetNbinsX()):
             print "WARNING! number of bins is different between DATA and MC"
             print "exiting..."
             sys.exit()
-        if(plot.histoMCall.GetBinWidth(1)!=plot.histoDATA.GetBinWidth(1)):
+        if(self.histoMCall.GetBinWidth(1)!=self.histoDATA.GetBinWidth(1)):
             print "WARNING! bin width is different between DATA and MC"
             print "exiting..."
             sys.exit()
 
         #integrals
-        integralDATA = GetIntegralTH1(plot.histoDATA,plot.xmin,plot.xmax)
-        ERRintegralDATA = GetErrorIntegralTH1(plot.histoDATA,plot.xmin,plot.xmax)
-        integralMCall = GetIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
-        ERRintegralMCall = GetErrorIntegralTH1(plot.histoMCall,plot.xmin,plot.xmax)
-        integralMCZ = GetIntegralTH1(plot.histoMCZ,plot.xmin,plot.xmax)
-        ERRintegralMCZ = GetErrorIntegralTH1(plot.histoMCZ,plot.xmin,plot.xmax)
+        integralDATA = GetIntegralTH1(self.histoDATA,self.xmin,self.xmax)
+        ERRintegralDATA = GetErrorIntegralTH1(self.histoDATA,self.xmin,self.xmax)
+        integralMCall = GetIntegralTH1(self.histoMCall,self.xmin,self.xmax)
+        ERRintegralMCall = GetErrorIntegralTH1(self.histoMCall,self.xmin,self.xmax)
+        integralMCZ = GetIntegralTH1(self.histoMCZ,self.xmin,self.xmax)
+        ERRintegralMCZ = GetErrorIntegralTH1(self.histoMCZ,self.xmin,self.xmax)
 
         #contamination from other backgrounds (except Z) in the integral range
         integralMCothers = integralMCall - integralMCZ
@@ -142,25 +142,25 @@ class Plot:
         relERRrescale = sqrt(relERRintegralDATAcorr**2 + relERRintegralMCZ**2)
 
         #draw histo
-        plot.histoMCall.SetFillColor(kBlue)
-        plot.histoDATA.SetMarkerStyle(20)
+        self.histoMCall.SetFillColor(kBlue)
+        self.histoDATA.SetMarkerStyle(20)
 
-        plot.histoMCall.Draw("HIST")
-        plot.histoDATA.Draw("psame")
-        plot.histoMCall.GetXaxis().SetRangeUser(plot.xminplot,plot.xmaxplot)
-        plot.histoMCall.GetYaxis().SetRangeUser(plot.yminplot,plot.ymaxplot)
+        self.histoMCall.Draw("HIST")
+        self.histoDATA.Draw("psame")
+        self.histoMCall.GetXaxis().SetRangeUser(self.xminplot,self.xmaxplot)
+        self.histoMCall.GetYaxis().SetRangeUser(self.yminplot,self.ymaxplot)
 
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
-        #canvas.SaveAs(plot.name + ".eps","eps")
-        #canvas.SaveAs(plot.name + ".pdf","pdf")
+        #canvas.SaveAs(self.name + ".eps","eps")
+        #canvas.SaveAs(self.name + ".pdf","pdf")
         canvas.Print(fileps)
 
         #printout
         print " "
         print "######################################## "
-        print "integral range: " + str(plot.xmin) + " < Mee < " + str(plot.xmax) + " GeV/c2"
+        print "integral range: " + str(self.xmin) + " < Mee < " + str(self.xmax) + " GeV/c2"
         print "integral MC Z: "   + str( integralMCZ ) + " +/- " + str( ERRintegralMCZ )
         print "integral DATA: "   + str( integralDATA ) + " +/- " + str( ERRintegralDATA )
         print "contribution from other bkgs (except Z+jet): " + str(contamination*100) + "%"
@@ -172,14 +172,14 @@ class Plot:
 
         #create new cross section file
         originalFileName = string.split( string.split(self.fileXsectionNoRescale, "/" )[-1], "." ) [0]
-        newFileName = originalFileName + "_" + plot.name +".txt"
+        newFileName = originalFileName + "_" + self.name +".txt"
         os.system('rm -f '+ newFileName)
         outputFile = open(newFileName,'w')
 
-        for line in open( plot.fileXsectionNoRescale ):
+        for line in open( self.fileXsectionNoRescale ):
             line = string.strip(line,"\n")
 
-            if( re.search(plot.datasetName, line) ):
+            if( re.search(self.datasetName, line) ):
                 list = re.split( '\s+' , line  )
                 newline = str(list[0]) + "    "  + str("%.6f" % (float(list[1])*float(rescale)) )
                 print >> outputFile, newline
