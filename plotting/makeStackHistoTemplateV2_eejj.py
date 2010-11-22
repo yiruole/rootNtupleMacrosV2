@@ -246,7 +246,7 @@ class Plot:
             if(plot.rebin!=""):
                 plot.histodata.Rebin(plot.rebin)
             plot.histodata.SetMarkerStyle(20)
-            legend.AddEntry(plot.histodata, "data","p")
+            legend.AddEntry(plot.histodata, "Data","p")
             plot.histodata.Draw("psame")
 
         #-- draw label
@@ -337,7 +337,7 @@ File_selection    = File_preselection
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
-otherBkgsKey="Other Bkgs"
+otherBkgsKey="Other backgrounds"
 zUncBand="no"
 
 pt_xmin=0
