@@ -1191,8 +1191,10 @@ void analysisClass::Loop()
         }
       }
 
-    // Events in the tails of the MET distribution
-    if( isData && variableIsFilled("MET") )
+    // Events in the tails of the MET distribution that pass event pre-selection
+    if( isData && variableIsFilled("MET")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
       {
         if( getVariableValue("MET")>getPreCutValue1("met_Thresh") ) {
           STDOUT("PassMETThreshold: ----------- START ------------");
@@ -1229,8 +1231,10 @@ void analysisClass::Loop()
         }
       }
 
-    // Events in the tails of the minMETPt1stEle distribution
-    if( isData && variableIsFilled("minMETPt1stEle") )
+    // Events in the tails of the minMETPt1stEle distribution that pass event pre-selection
+    if( isData && variableIsFilled("minMETPt1stEle")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
       {
         if( getVariableValue("minMETPt1stEle")>getPreCutValue1("minMETPt1stEle_Thresh") ) {
           STDOUT("PassMinMETPt1stEleThreshold: ----------- START ------------");
