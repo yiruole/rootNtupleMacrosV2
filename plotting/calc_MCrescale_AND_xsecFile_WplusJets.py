@@ -114,7 +114,7 @@ class Plot:
     datasetName = "" # string for pattern recognition of dataset name (rescaling will be done only on matched datasets)
 
     def CalculateRescaleFactor(self, fileps):
-        #calculate rescaling factor for W+jet background and create new cross section file
+        #calculate rescaling factor for W+jets background and create new cross section file
         canvas = TCanvas()
 
         #check
@@ -166,10 +166,12 @@ class Plot:
 
         #draw histo
         histoAll = copy.deepcopy(self.histoMCW)
-        histoAll.Add(self.histoQCD)
-        histoAll.Add(self.histoQCD)
-        histoAll.Add(self.histoQCD)
-        histoAll.Add(self.histoQCD)
+        histoAll.Add(self.histoMCZ)
+        histoAll.Add(self.histoMCTTbar)
+        histoAll.Add(self.histoMCSingleTop)
+        histoAll.Add(self.histoMCWW)
+        histoAll.Add(self.histoMCWZ)
+        histoAll.Add(self.histoMCZZ)
         histoAll.Add(self.histoQCD)
         histoAll.SetFillColor(kBlue)
         self.histoDATA.SetMarkerStyle(20)
@@ -194,10 +196,10 @@ class Plot:
         print "integral MC All: "   + str( integralMCall ) + " +/- " + str( ERRintegralMCall )
         print "integral QCD: "   + str( integralQCD ) + " +/- " + str( ERRintegralQCD )
         print "integral MC W: "   + str( integralMCW ) + " +/- " + str( ERRintegralMCW )
-        print "contribution from other bkgs (except W+jet): " + str(contamination*100) + "%"
+        print "contribution from other bkgs (except W+jets): " + str(contamination*100) + "%"
         print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr ) + " +/- " + str( ERRintegralDATAcorr )
         print "rescale factor for W background: " + str(rescale) + " +\- " + str(relERRrescale*rescale)
-        print "systematical uncertainty of W+jet background modeling: " + str(relERRrescale*100) + "%"
+        print "systematical uncertainty of W+jets background modeling: " + str(relERRrescale*100) + "%"
         print "######################################## "
         print " "
 
@@ -231,12 +233,10 @@ class Plot:
 
 #--- Input files
 #preselection
-#File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/analysisClass_enujjSample_plots.root")
-#File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/analysisClass_enujjSample_QCD_plots.root")
-File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_plots.root")
-File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_QCD_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/33.2pb-1_sT_presel_250_Zrescale1.20/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/6.1pb-1_QCD_HLT30_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
 
-#--- Rescaling of W + jet background
+#--- Rescaling of W+jets background
 
 #-----------------------------------------
 h_DATA_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) #DATA
@@ -292,7 +292,7 @@ plot0.fileXsectionNoRescale = "/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
-plot0.ymaxplot = 320
+plot0.ymaxplot = 120
 plot0.datasetName = "W.+Jets_Pt.+alpgen"
 # example: this match with /W3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
 
