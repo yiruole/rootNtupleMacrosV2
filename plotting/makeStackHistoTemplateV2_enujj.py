@@ -105,7 +105,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "34.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "33.2 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -337,34 +337,30 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("$LQDATA/enujj_analysis/34.7pb-1_v7_EleEtaCut2.2/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("$LQDATA/enujj_analysis/7.4pb-1_v7_QCD_HLT30_EleEtaCut2.2/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-QCDscaleFactor    = 4.689 # ratio between integrated lumi of the signal
-                          # sample (i.e. 34.7 pb-1) / integrated lumi of the QCD sample (i.e. 7.4 pb-1 from HLT Photon30)
-
-##File_QCD          = GetFile("$LQDATA/enujj_analysis/2.5pb-1_v3_usePF_QCD_HLT20/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-##QCDscaleFactor    = 5.964 # ratio between integrated lumi of the signal
-                          # sample (i.e. 15.1 pb-1) / integrated lumi of the QCD sample (i.e. 2.532 pb-1 from HLT Photon20)
+File_QCD          = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
+QCDscaleFactor    = 5.4 # 5.4426 # ratio between integrated lumi of the signal
+                        # sample (i.e. 33.2 pb-1) / integrated lumi of the QCD sample (i.e. 6.1 pb-1 from HLT Photon30)
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
 otherBkgsKey="Other Bkgs"
 zUncBand="no"
-makeRatio=1
+makeRatio=0
 
 pt_xmin=0
 pt_xmax=800
 pt_ymin=0.01
-pt_ymax=5000
+pt_ymax=1000
 
 eta_rebin=2
 eta_ymin=0
-eta_ymax=200
+eta_ymax=100
 
 #--- Final plots are defined here
 
@@ -543,7 +539,7 @@ plot4.ymax            = 5000
 plot4.name            = "minMETPt1stEle_allPreviousCuts"
 plot4.addZUncBand     = zUncBand
 plot4.makeRatio       = makeRatio
-plot4.xbins           = [0,5,10,20,25,30,35,40,45,50,55,60,65,70,75,80,90,100,125,150,200,300]
+plot4.xbins           = [0,5,10,20,25,30,35,40,45,50,55,60,65,70,75,80,90,100,125,200,300]
 plot4.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -860,7 +856,7 @@ plot14.rebin           = 1
 plot14.xmin            = 0
 plot14.xmax            = 400
 plot14.ymin            = 0
-plot14.ymax            = 500
+plot14.ymax            = 150
 #plot14.lpos = "bottom-center"
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
@@ -911,7 +907,7 @@ plot14_0_1.rebin           = 1
 plot14_0_1.xmin            = 0
 plot14_0_1.xmax            = 400
 plot14_0_1.ymin            = 0
-plot14_0_1.ymax            = 200
+plot14_0_1.ymax            = 100
 #plot14_0_1.lpos = "bottom-center"
 plot14_0_1.name            = "MTenu_allPreviousCuts_ylin_Low_DfMETe"
 plot14_0_1.addZUncBand     = zUncBand
@@ -940,7 +936,7 @@ plot14_1_2.rebin           = 1
 plot14_1_2.xmin            = 0
 plot14_1_2.xmax            = 400
 plot14_1_2.ymin            = 0
-plot14_1_2.ymax            = 200
+plot14_1_2.ymax            = 100
 #plot14_1_2.lpos = "bottom-center"
 plot14_1_2.name            = "MTenu_allPreviousCuts_ylin_Mid_DfMETe"
 plot14_1_2.addZUncBand     = zUncBand
@@ -970,7 +966,7 @@ plot14_2_pi.rebin           = 1
 plot14_2_pi.xmin            = 0
 plot14_2_pi.xmax            = 400
 plot14_2_pi.ymin            = 0
-plot14_2_pi.ymax            = 200
+plot14_2_pi.ymax            = 100
 #plot14_2_pi.lpos = "bottom-center"
 plot14_2_pi.name            = "MTenu_allPreviousCuts_ylin_Large_DfMETe"
 plot14_2_pi.addZUncBand     = zUncBand
@@ -1000,7 +996,7 @@ plot14_plus.rebin           = 1
 plot14_plus.xmin            = 0
 plot14_plus.xmax            = 400
 plot14_plus.ymin            = 0
-plot14_plus.ymax            = 300
+plot14_plus.ymax            = 70
 #plot14_plus.lpos = "bottom-center"
 plot14_plus.name            = "MTenu_plus_allPreviousCuts_ylin"
 plot14_plus.addZUncBand     = zUncBand
@@ -1052,7 +1048,7 @@ plot14_minus.rebin           = 1
 plot14_minus.xmin            = 0
 plot14_minus.xmax            = 400
 plot14_minus.ymin            = 0
-plot14_minus.ymax            = 300
+plot14_minus.ymax            = 70
 #plot14_minus.lpos = "bottom-center"
 plot14_minus.name            = "MTenu_minus_allPreviousCuts_ylin"
 plot14_minus.addZUncBand     = zUncBand
@@ -1109,6 +1105,7 @@ plot15.makeRatio       = makeRatio
 plot15.xbins           = [50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000,1500,2000]
 plot15.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
+
 #--- sTlep_PAS ---
 variableName = "sTlep_PAS"
 
@@ -1126,12 +1123,12 @@ plot15_lep.rebin           = 2
 plot15_lep.xmin            = 50
 plot15_lep.xmax            = 1000
 plot15_lep.ymin            = 0.01
-plot15_lep.ymax            = 5000
+plot15_lep.ymax            = 1000
 #plot15_lep.lpos = "bottom-center"
 plot15_lep.name            = "sTlep_allPreviousCuts"
 plot15_lep.addZUncBand     = zUncBand
 plot15_lep.makeRatio       = makeRatio
-plot15_lep.xbins           = [50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot15_lep.xbins           = [50,70,90,110,130,150,170,190,210,230,250,300,400,500,600,700,800,1000]
 plot15_lep.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 #--- sTjet_PAS ---
@@ -1203,7 +1200,7 @@ plot17.rebin           = 1
 plot17.xmin            = 0
 plot17.xmax            = 1500
 plot17.ymin            = 0.
-plot17.ymax            = 500
+plot17.ymax            = 150
 #plot17.lpos = "bottom-center"
 plot17.name            = "Mej_allPreviousCuts_ylin"
 plot17.addZUncBand     = zUncBand
@@ -1225,12 +1222,12 @@ plot17_ylog.rebin           = 2
 plot17_ylog.xmin            = 0
 plot17_ylog.xmax            = 2000
 plot17_ylog.ymin            = 0.01
-plot17_ylog.ymax            = 5000
+plot17_ylog.ymax            = 1000
 #plot17_ylog.lpos = "bottom-center"
 plot17_ylog.name            = "Mej_allPreviousCuts"
 plot17_ylog.addZUncBand     = zUncBand
 plot17_ylog.makeRatio       = makeRatio
-plot17_ylog.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,325,350,375,400,425,450,475,500,550,600,800,1000,1500,2000]
+plot17_ylog.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,325,350,375,400,425,450,475,500,550,600,800,1500,2000]
 plot17_ylog.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
@@ -1251,16 +1248,16 @@ plot18.rebin           = 2
 plot18.xmin            = 0
 plot18.xmax            = 1000
 plot18.ymin            = 0.01
-plot18.ymax            = 5000
+plot18.ymax            = 1000
 #plot18.lpos = "bottom-center"
 plot18.name            = "MTnuj_allPreviousCuts"
 plot18.addZUncBand     = zUncBand
 plot18.makeRatio       = makeRatio
-plot18.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,425,450,475,500,550,600,800,1000]
+plot18.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,500,600,800,1000]
 plot18.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
 
-#--- Phi1stEle_PAS  ---
+#--- Phi1stEle_PAS ---
 variableName = "Phi1stEle_PAS"
 
 plot19 = Plot()
@@ -1276,7 +1273,7 @@ plot19.rebin           = eta_rebin*2
 #plot19.xmin            = -3.15
 #plot19.xmax            = 3.15
 plot19.ymin            = eta_ymin
-plot19.ymax            = eta_ymax*2
+plot19.ymax            = eta_ymax
 #plot19.lpos            = "top-left"
 plot19.name            = "Phi1stEle_allPreviousCuts"
 plot19.addZUncBand     = zUncBand
@@ -1299,7 +1296,7 @@ plot19_EleBarrel.rebin           = eta_rebin*2
 #plot19_EleBarrel.xmin            = -3.15
 #plot19_EleBarrel.xmax            = 3.15
 plot19_EleBarrel.ymin            = eta_ymin
-plot19_EleBarrel.ymax            = eta_ymax*2/1.5
+plot19_EleBarrel.ymax            = eta_ymax
 #plot19_EleBarrel.lpos            = "top-left"
 plot19_EleBarrel.name            = "Phi1stEle_EleBarrel_allPreviousCuts"
 plot19_EleBarrel.addZUncBand     = zUncBand
@@ -1322,7 +1319,7 @@ plot19_EleEndcap.rebin           = eta_rebin*2
 #plot19_EleEndcap.xmin            = -3.15
 #plot19_EleEndcap.xmax            = 3.15
 plot19_EleEndcap.ymin            = eta_ymin
-plot19_EleEndcap.ymax            = eta_ymax*2/1.5
+plot19_EleEndcap.ymax            = eta_ymax
 #plot19_EleEndcap.lpos            = "top-left"
 plot19_EleEndcap.name            = "Phi1stEle_EleEndcap_allPreviousCuts"
 plot19_EleEndcap.addZUncBand     = zUncBand
@@ -1344,7 +1341,7 @@ plot20.xtit            = "#phi 1st jet (rad.)"
 plot20.ytit            = "Number of events"
 plot20.rebin           = eta_rebin*2
 plot20.ymin            = eta_ymin
-plot20.ymax            = eta_ymax*2
+plot20.ymax            = eta_ymax
 #plot20.lpos            = "top-left"
 plot20.name            = "Phi1stJet_allPreviousCuts"
 plot20.addZUncBand     = zUncBand
@@ -1366,7 +1363,7 @@ plot21.xtit            = "#phi 2nd jet (rad.)"
 plot21.ytit            = "Number of events"
 plot21.rebin           = eta_rebin*2
 plot21.ymin            = eta_ymin
-plot21.ymax            = eta_ymax*2
+plot21.ymax            = eta_ymax
 #plot21.lpos            = "top-left"
 plot21.name            = "Phi2ndJet_allPreviousCuts"
 plot21.addZUncBand     = zUncBand
@@ -1388,7 +1385,7 @@ plot22.xtit            = "pfMET #phi (rad.)"
 plot22.ytit            = "Number of events"
 plot22.rebin           = eta_rebin*2
 plot22.ymin            = eta_ymin
-plot22.ymax            = eta_ymax*2
+plot22.ymax            = eta_ymax
 #plot22.lpos = "bottom-center"
 plot22.name            = "METPhi_allPreviousCuts"
 plot22.addZUncBand     = zUncBand
@@ -1412,7 +1409,7 @@ plot22_EleBarrel.rebin           = eta_rebin*2
 #plot22_EleBarrel.xmin            = -3.15
 #plot22_EleBarrel.xmax            = 3.15
 plot22_EleBarrel.ymin            = eta_ymin
-plot22_EleBarrel.ymax            = eta_ymax*2/1.5
+plot22_EleBarrel.ymax            = eta_ymax
 #plot22_EleBarrel.lpos            = "top-left"
 plot22_EleBarrel.name            = "METPhi_EleBarrel_allPreviousCuts"
 plot22_EleBarrel.addZUncBand     = zUncBand
@@ -1435,7 +1432,7 @@ plot22_EleEndcap.rebin           = eta_rebin*2
 #plot22_EleEndcap.xmin            = -3.15
 #plot22_EleEndcap.xmax            = 3.15
 plot22_EleEndcap.ymin            = eta_ymin
-plot22_EleEndcap.ymax            = eta_ymax/1.5
+plot22_EleEndcap.ymax            = eta_ymax
 #plot22_EleEndcap.lpos            = "top-left"
 plot22_EleEndcap.name            = "METPhi_EleEndcap_allPreviousCuts"
 plot22_EleEndcap.addZUncBand     = zUncBand
@@ -1458,15 +1455,41 @@ plot23.ytit            = "Number of events"
 plot23.ylog            = "yes"
 plot23.rebin           = 2
 plot23.xmin            = 0
-plot23.xmax            = 1000
+plot23.xmax            = 600
 plot23.ymin            = 0.01
-plot23.ymax            = 5000
+plot23.ymax            = 1000
 #plot23.lpos = "bottom-center"
 plot23.name            = "Ptenu_allPreviousCuts"
 plot23.addZUncBand     = zUncBand
 plot23.makeRatio       = makeRatio
-plot23.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot23.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,300,400,500,600,700,800,1000]
 plot23.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- minDRej ---
+variableName = "minDRej"
+
+plot24 = Plot()
+## inputs for stacked histograms
+plot24.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot24.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot24.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot24.keys            = keys
+plot24.xtit            = "min#Delta R(e,jets)"
+plot24.ytit            = "Number of events"
+plot24.ylog            = "yes"
+plot24.rebin           = 2
+plot24.xmin            = 0
+plot24.xmax            = 7
+plot24.ymin            = 0.01
+plot24.ymax            = 5000
+#plot24.lpos = "bottom-center"
+plot24.name            = "minDRej_allPreviousCuts"
+plot24.addZUncBand     = zUncBand
+plot24.makeRatio       = makeRatio
+#plot24.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot24.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
 
@@ -1635,7 +1658,7 @@ plots  = [plot0, plot1, plot2, plot_after2, plot3, plot4, plot5, plot6, plot7, p
           , plot14_0_1, plot14_1_2, plot14_2_pi  
           , plot15, plot15_lep, plot15_jet, plot16
           , plot17, plot17_ylog, plot18
-          , plot19, plot19_EleBarrel, plot19_EleEndcap, plot20, plot21, plot22, plot22_EleBarrel, plot22_EleEndcap, plot23 
+          , plot19, plot19_EleBarrel, plot19_EleEndcap, plot20, plot21, plot22, plot22_EleBarrel, plot22_EleEndcap, plot23, plot24 
           , plot30, plot31, plot32, plot33, plot34, plot35]
 
 
