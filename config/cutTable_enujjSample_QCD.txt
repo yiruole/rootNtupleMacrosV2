@@ -22,6 +22,7 @@ ele_PtCut	      35		-		-		-		-1
 heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
 jet_PtCut             30           -                    -               -               -1
+jet_PtCut_forMetScale 15	   -                    -               -               -1
 jet_EtaCut            3.0          -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.3          -                    -               -               -1

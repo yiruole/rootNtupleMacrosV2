@@ -103,6 +103,7 @@ void analysisClass::Loop()
   double eleEta_end_max = getPreCutValue2("eleEta_end");
 
   double jet_PtCut =    getPreCutValue1("jet_PtCut");
+  double jet_PtCut_forMetScale =    getPreCutValue1("jet_PtCut_forMetScale");
   double jet_EtaCut = getPreCutValue1("jet_EtaCut");
   double jet_ele_DeltaRcut =   getPreCutValue1("jet_ele_DeltaRcut");
 
@@ -267,7 +268,7 @@ void analysisClass::Loop()
     //     thisMETPhi = TCMETPhi->at(0);
 
 
-    // EES and JES
+     //## EES, JES and MET energy scale
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
 	for(int iele=0; iele<SuperClusterPt->size(); iele++)
@@ -279,12 +280,41 @@ void analysisClass::Loop()
 	  }
       }
     if( JetEnergyScale != 1 )
-      {
+      { //use fix JES scaling passed from cut file
+
+	TVector2 v_MET_old;
+	TVector2 v_MET_new;
+
 	for(int ijet=0; ijet<JetPt->size(); ijet++)
 	  {
 	    JetPt->at(ijet) *= JetEnergyScale;
-	  }
+
+	    //for MET energy scale
+	    TVector2 v_jet_pt_old;
+	    TVector2 v_jet_pt_new;
+	    v_jet_pt_old.SetMagPhi( JetPt->at(ijet)/JetEnergyScale , JetPhi->at(ijet) );
+	    v_jet_pt_new.SetMagPhi( JetPt->at(ijet) , JetPhi->at(ijet) );
+	    //pT pre-cut on reco jets
+	    if ( v_jet_pt_old.Mod() < jet_PtCut_forMetScale ) continue;
+	    v_MET_new += v_jet_pt_old - v_jet_pt_new; 	   
+	  }	
+
+	//for MET energy scale
+	v_MET_old.SetMagPhi( thisMET , thisMETPhi );
+	v_MET_new += v_MET_old;
+	thisMET = v_MET_new.Mod();
+	thisMETPhi = v_MET_new.Phi();
+
+	//## for debug
+	//double METscale_diff = thisMET - v_MET_old.Mod() ;
+	// 	cout << "old MET = " << v_MET_old.Mod() 
+	// 	     << " " << "new MET = " << thisMET 
+	// 	     << " " << "new-old = " << METscale_diff   
+	// 	     << endl;
+	//CreateAndFillUserTH1D("h1_METscale_diff", 400, -100, 100, METscale_diff);
+	//## 
       }
+
 
     // The following data were processed but were declared as bad in
     // https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions10/7TeV/StreamExpress/Cert_132440-149442_7TeV_StreamExpress_Collisions10_JSON_v3.txt
