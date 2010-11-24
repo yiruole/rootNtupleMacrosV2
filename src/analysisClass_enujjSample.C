@@ -274,7 +274,7 @@ void analysisClass::Loop()
     //     thisMET = TCMET->at(0);
     //     thisMETPhi = TCMETPhi->at(0);
 
-    //## EES, JES and MET energy scale
+    //## EES and JES 
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
 	for(int iele=0; iele<ElectronPt->size(); iele++)
@@ -288,37 +288,10 @@ void analysisClass::Loop()
     if( JetEnergyScale != 1 )
       { //use fix JES scaling passed from cut file
 
-	TVector2 v_MET_old;
-	TVector2 v_MET_new;
-
 	for(int ijet=0; ijet<JetPt->size(); ijet++)
 	  {
 	    JetPt->at(ijet) *= JetEnergyScale;
-
-	    //for MET energy scale
-	    TVector2 v_jet_pt_old;
-	    TVector2 v_jet_pt_new;
-	    v_jet_pt_old.SetMagPhi( JetPt->at(ijet)/JetEnergyScale , JetPhi->at(ijet) );
-	    v_jet_pt_new.SetMagPhi( JetPt->at(ijet) , JetPhi->at(ijet) );
-	    //pT pre-cut on reco jets
-	    if ( v_jet_pt_old.Mod() < jet_PtCut_forMetScale ) continue;
-	    v_MET_new += v_jet_pt_old - v_jet_pt_new; 	   
 	  }	
-
-	//for MET energy scale
-	v_MET_old.SetMagPhi( thisMET , thisMETPhi );
-	v_MET_new += v_MET_old;
-	thisMET = v_MET_new.Mod();
-	thisMETPhi = v_MET_new.Phi();
-
-	//## for debug
-	//double METscale_diff = thisMET - v_MET_old.Mod() ;
-	// 	cout << "old MET = " << v_MET_old.Mod() 
-	// 	     << " " << "new MET = " << thisMET 
-	// 	     << " " << "new-old = " << METscale_diff   
-	// 	     << endl;
-	//CreateAndFillUserTH1D("h1_METscale_diff", 400, -100, 100, METscale_diff);
-	//## 
       }
     
     
@@ -507,6 +480,43 @@ void analysisClass::Loop()
 
 	//NOTE: We should verify that caloJetOverlaps match with the code above
       } // End loop over jets
+
+
+    //## MET scale uncert.
+    if( JetEnergyScale != 1 )
+      { //use fix JES scaling passed from cut file
+
+	TVector2 v_MET_old;
+	TVector2 v_MET_new;
+
+	//use only good jets (after electron-jet overlap) for re-doing MET
+	for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+	  {
+	    TVector2 v_jet_pt_old;
+	    TVector2 v_jet_pt_new;
+	    v_jet_pt_old.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet])/JetEnergyScale , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+	    v_jet_pt_new.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+	    //pT pre-cut on reco jets
+	    if ( v_jet_pt_old.Mod() < jet_PtCut_forMetScale ) continue;
+	    v_MET_new += v_jet_pt_old - v_jet_pt_new; 	   
+	  }	
+
+	//for MET energy scale
+	v_MET_old.SetMagPhi( thisMET , thisMETPhi );
+	v_MET_new += v_MET_old;
+ 	thisMET = v_MET_new.Mod();
+ 	thisMETPhi = v_MET_new.Phi();
+
+	//## for debug
+	//double METscale_diff = thisMET - v_MET_old.Mod() ;
+	// 	cout << "old MET = " << v_MET_old.Mod() 
+	// 	     << " " << "new MET = " << thisMET 
+	// 	     << " " << "new-old = " << METscale_diff   
+	// 	     << endl;
+	//CreateAndFillUserTH1D("h1_METscale_diff", 400, -100, 100, METscale_diff);
+	//## 
+      }
+
 
 
     //## Muons
