@@ -184,12 +184,16 @@ fout.close()
 #############
 
 
-errDataALL = (
-   (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-   + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-   + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
-   + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
-   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+errDataALL = math.sqrt(
+                        (
+                          (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+                          + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
+                        )**2
+                        +
+                        ( d[CutForSystematics]['QCD']["DATA"]['errNpass'] )**2
+                      )        /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 errJESALL = (
   (systUncert['JES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
@@ -276,7 +280,7 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
               systUncert['data']['LQ'] ,
               systUncert['data']['WJetAlpgen'] ,
               systUncert['data']['TTbar_Madgraph'] ,
-              systUncert['data']['QCD'] ,
+              math.sqrt( (systUncert['data']['QCD'])**2 + (100 * d[CutForSystematics]['QCD']["DATA"]['errNpass'] / d[CutForSystematics]['QCD']["DATA"]['Npass'])**2 ),
               systUncert['data']['OTHERBKG'] ,
               errDataALL,
               ) + "\n"
@@ -333,7 +337,8 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
               100 * d[CutForSystematics]['all'][SampleForSystematics]['errNpass'] / d[CutForSystematics]['all'][SampleForSystematics]['Npass'] ,
               100 * d[CutForSystematics]['all']["WJetAlpgen"]['errNpass'] / d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ,
               100 * d[CutForSystematics]['all']["TTbar_Madgraph"]['errNpass'] / d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ,
-              100 * d[CutForSystematics]['QCD']["DATA"]['errNpass'] / d[CutForSystematics]['QCD']["DATA"]['Npass'] ,
+              0,
+              #              100 * d[CutForSystematics]['QCD']["DATA"]['errNpass'] / d[CutForSystematics]['QCD']["DATA"]['Npass'] ,
               100 * d[CutForSystematics]['all']["OTHERBKG"]['errNpass'] / d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ,
               100 * d[CutForSystematics]['all']["ALLBKG+QCD"]['errNpass'] / d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'],
               ) + "\n"
