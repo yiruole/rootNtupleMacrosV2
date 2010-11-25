@@ -300,7 +300,7 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
 #EES
 fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
               (
-              'Electron Energy Scale' ,
+              'Electron Energy Scale EB(EE)' ,
               systUncert['EES']['magnitude'] ,
               systUncert['EES']['LQ'] ,
               systUncert['EES']['WJetAlpgen'] ,
