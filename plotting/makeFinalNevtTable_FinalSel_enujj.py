@@ -40,6 +40,14 @@ LQsampleForEachCut = [ "LQenujj_M200",
                        "LQenujj_M340",
                        ]
 
+systUncert = { 'data': {'TTbar_Madgraph': 41, 'WJetAlpgen': 17, 'QCD': 20, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '-'} ,
+               'JES':  {'TTbar_Madgraph': 17, 'WJetAlpgen': 9, 'QCD': 0, 'OTHERBKG': 15, 'LQ': 5, 'magnitude': '5'} ,
+               'EES':  {'TTbar_Madgraph': 5, 'WJetAlpgen': 1, 'QCD': 0, 'OTHERBKG': 2, 'LQ': 1, 'magnitude': '1(3)'} ,
+               'lumi': {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 11, 'LQ': 0, 'magnitude': '11'} ,
+               'ele':  {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 6, 'LQ': 6, 'magnitude': '6'} ,
+               }
+CutForSystematics = 'sT_MLQ300'
+SampleForSystematics = 'LQenujj_M300'
 
 ## List of samples
 blocks = { 'all' : {"ALLBKG":         {"rescale": 0.001, "label":  "All Bkgs"},
@@ -171,5 +179,212 @@ for idx, cutName in enumerate(cutNames):
 fout.close()
 
 
-        
+#############
+# systematics        
+#############
+
+
+errDataALL = (
+   (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+   + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+   + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+   + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+
+errJESALL = (
+  (systUncert['JES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+  + (systUncert['JES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+  + (systUncert['JES']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+  + (systUncert['JES']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+  
+errEESALL = (
+  (systUncert['EES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+  + (systUncert['EES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+  + (systUncert['EES']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+  + (systUncert['EES']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+
+errlumiALL = (
+  (systUncert['lumi']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+  + (systUncert['lumi']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+  + (systUncert['lumi']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+  + (systUncert['lumi']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+
+erreleALL = (
+  (systUncert['ele']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+  + (systUncert['ele']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+  + (systUncert['ele']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+  + (systUncert['ele']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+
+
+
+
+errALL = math.sqrt(errDataALL**2 + errJESALL**2 + errEESALL**2 + errlumiALL**2 + erreleALL**2
+                   + (100 * d[CutForSystematics]['all']["ALLBKG+QCD"]['errNpass'] / d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'])**2 )
+
+
+errLQ = math.sqrt ( systUncert['data']['LQ']**2
+                    + systUncert['JES']['LQ']**2
+                    + systUncert['EES']['LQ']**2
+                    + systUncert['lumi']['LQ']**2
+                    + (100 * d[CutForSystematics]['all'][SampleForSystematics]['errNpass'] / d[CutForSystematics]['all'][SampleForSystematics]['Npass'])**2
+                    + systUncert['ele']['LQ']**2
+                    )
+
+errW = math.sqrt ( systUncert['data']['WJetAlpgen']**2
+                   + systUncert['JES']['WJetAlpgen']**2
+                   + systUncert['EES']['WJetAlpgen']**2
+                   + systUncert['lumi']['WJetAlpgen']**2
+                   + (100 * d[CutForSystematics]['all']["WJetAlpgen"]['errNpass'] / d[CutForSystematics]['all']["WJetAlpgen"]['Npass'])**2
+                   + systUncert['ele']['WJetAlpgen']**2
+                   )
+
+errTTBAR = math.sqrt ( systUncert['data']['TTbar_Madgraph']**2
+                       + systUncert['JES']['TTbar_Madgraph']**2
+                       + systUncert['EES']['TTbar_Madgraph']**2
+                       + systUncert['lumi']['TTbar_Madgraph']**2
+                       + (100 * d[CutForSystematics]['all']["TTbar_Madgraph"]['errNpass'] / d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'])**2
+                       + systUncert['ele']['TTbar_Madgraph']**2
+                       )
+
+errQCD = math.sqrt ( systUncert['data']['QCD']**2
+                     + systUncert['JES']['QCD']**2
+                     + systUncert['EES']['QCD']**2
+                     + systUncert['lumi']['QCD']**2
+                     + (100 * d[CutForSystematics]['QCD']["DATA"]['errNpass'] / d[CutForSystematics]['QCD']["DATA"]['Npass'])**2
+                     + systUncert['ele']['QCD']**2
+                     )
+
+errOTHER = math.sqrt ( systUncert['data']['OTHERBKG']**2
+                       + systUncert['JES']['OTHERBKG']**2
+                       + systUncert['EES']['OTHERBKG']**2
+                       + systUncert['lumi']['OTHERBKG']**2
+                       + (100 * d[CutForSystematics]['all']["OTHERBKG"]['errNpass'] / d[CutForSystematics]['all']["OTHERBKG"]['Npass'])**2
+                       + systUncert['ele']["OTHERBKG"]**2
+                       )
+
+fout2 = open("table_systematics_enujj.tex", "w")
+
+# Data-Driven Uncert.
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'Data-Driven Uncert.' ,
+              systUncert['data']['magnitude'] ,
+              systUncert['data']['LQ'] ,
+              systUncert['data']['WJetAlpgen'] ,
+              systUncert['data']['TTbar_Madgraph'] ,
+              systUncert['data']['QCD'] ,
+              systUncert['data']['OTHERBKG'] ,
+              errDataALL,
+              ) + "\n"
+            )
+
+#JES
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'Jet/MET Energy Scale' ,
+              systUncert['JES']['magnitude'] ,
+              systUncert['JES']['LQ'] ,
+              systUncert['JES']['WJetAlpgen'] ,
+              systUncert['JES']['TTbar_Madgraph'] ,
+              systUncert['JES']['QCD'] ,
+              systUncert['JES']['OTHERBKG'] ,
+              errJESALL,
+              ) + "\n"
+            )
+
+
+#EES
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'Electron Energy Scale' ,
+              systUncert['EES']['magnitude'] ,
+              systUncert['EES']['LQ'] ,
+              systUncert['EES']['WJetAlpgen'] ,
+              systUncert['EES']['TTbar_Madgraph'] ,
+              systUncert['EES']['QCD'] ,
+              systUncert['EES']['OTHERBKG'] ,
+              errEESALL,
+              ) + "\n"
+            )
+
+#Integrated luminosity
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'Integrated Luminosity' ,
+              systUncert['lumi']['magnitude'] ,
+              systUncert['lumi']['LQ'] ,
+              systUncert['lumi']['WJetAlpgen'] ,
+              systUncert['lumi']['TTbar_Madgraph'] ,
+              systUncert['lumi']['QCD'] ,
+              systUncert['lumi']['OTHERBKG'] ,
+              errlumiALL,
+              ) + "\n"
+            )
+
+#MC Statistics
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'MC Statistics' ,
+              '-' ,
+              100 * d[CutForSystematics]['all'][SampleForSystematics]['errNpass'] / d[CutForSystematics]['all'][SampleForSystematics]['Npass'] ,
+              100 * d[CutForSystematics]['all']["WJetAlpgen"]['errNpass'] / d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ,
+              100 * d[CutForSystematics]['all']["TTbar_Madgraph"]['errNpass'] / d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ,
+              100 * d[CutForSystematics]['QCD']["DATA"]['errNpass'] / d[CutForSystematics]['QCD']["DATA"]['Npass'] ,
+              100 * d[CutForSystematics]['all']["OTHERBKG"]['errNpass'] / d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ,
+              100 * d[CutForSystematics]['all']["ALLBKG+QCD"]['errNpass'] / d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'],
+              ) + "\n"
+            )
+
+#Electron HLT/Reco/ID/Iso
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'Electron HLT/Reco/ID/Iso' ,
+              systUncert['ele']['magnitude'] ,
+              systUncert['ele']['LQ'] ,
+              systUncert['ele']['WJetAlpgen'] ,
+              systUncert['ele']['TTbar_Madgraph'] ,
+              systUncert['ele']['QCD'] ,
+              systUncert['ele']['OTHERBKG'] ,
+              erreleALL,
+              ) + "\n"
+            )
+
+#Total
+fout2.write(r"\hline\hline" + "\n" )
+fout2.write(r"   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              r'\multicolumn{2}{|l||}{Total}' ,
+              errLQ ,
+              errW ,
+              errTTBAR ,
+              errQCD ,
+              errOTHER ,
+              errALL ,
+              ) + "\n"
+            )
+
+  
+fout2.close()
+
+
+# examples
+# ##uncorrelated
+#               math.sqrt(
+#                            (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) **2
+#                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) **2
+#                          + (systUncert['data']['QCD']            * d[CutForSystematics]['all']["QCD"]['Npass'] ) **2
+#                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) **2
+#                          )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'],
+# #fully correlated
+#               systUncert['data']['OTHERBKG'] ,                                           
+#                          (
+#                            (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
+#                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
+#                          + (systUncert['data']['QCD']            * d[CutForSystematics]['all']["QCD"]['Npass'] ) 
+#                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+#                          )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'],
 
