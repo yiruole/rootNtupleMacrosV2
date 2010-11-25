@@ -6,22 +6,30 @@
 
 ##########  USER'S INPUTS BEGIN HERE ############################################################
 
-FILE________STD=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_SYST_STD_preSt250/analysisClass_eejjSample_tables.dat
-#FILE________STD=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_preSt250/analysisClass_eejjSample_tables.dat
-FILE_EES_EB_POS=$FILE________STD
-FILE_EES_EB_NEG=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_EES_EB_0.99_preSt250/analysisClass_eejjSample_tables.dat
-FILE_EES_EE_POS=$FILE________STD
-FILE_EES_EE_NEG=$FILE________STD
-FILE_JES____POS=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_JES_1.10_preSt250/analysisClass_eejjSample_tables.dat
-FILE_JES____NEG=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample_JES_0.90_preSt250/analysisClass_eejjSample_tables.dat
+FILE________STD=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_STD/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat
+FILE_EES_EB_POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EB_1.01/output_cutTable_enujjSample_EES_EB_POS/analysisClass_enujjSample_tables.dat
+FILE_EES_EB_NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EB_0.99/output_cutTable_enujjSample_EES_EB_NEG/analysisClass_enujjSample_tables.dat
+FILE_EES_EE_POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EE_1.03/output_cutTable_enujjSample_EES_EE_POS/analysisClass_enujjSample_tables.dat
+FILE_EES_EE_NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EE_0.97/output_cutTable_enujjSample_EES_EE_NEG/analysisClass_enujjSample_tables.dat
+FILE_JES____POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_JES_1.05/output_cutTable_enujjSample_JES_POS/analysisClass_enujjSample_tables.dat
+FILE_JES____NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_JES_0.95/output_cutTable_enujjSample_JES_NEG/analysisClass_enujjSample_tables.dat
 
 # ## TTbar inputs (preselection):
-# SAMPLES='TTbar_Madgraph'
-# CUTS='sT_PAS sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+#SAMPLES='TTbar_Madgraph'
+#CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+
+SAMPLES='OTHERBKG'
+CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
 
 ## Z+jets inputs (preselection + preliminary sT cut)
-SAMPLES='ZJetAlpgen'
-CUTS='sT sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+#SAMPLES='WJetAlpgen'
+#CUTS='sT_presel sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+
+## Z+jets inputs (preselection + preliminary sT cut)
+#SAMPLES='LQenujj_M300'
+#CUTS='nocut sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+
+
 
 ##########  USER'S INPUTS END HERE ###############################################################
 
