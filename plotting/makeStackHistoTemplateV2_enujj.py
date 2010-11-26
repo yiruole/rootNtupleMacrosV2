@@ -351,7 +351,7 @@ QCDscaleFactor    = 5.4 # 5.4426 # ratio between integrated lumi of the signal
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
 otherBkgsKey="Other Bkgs"
 zUncBand="no"
-makeRatio=0
+makeRatio=1
 
 pt_xmin=0
 pt_xmax=800
@@ -1537,7 +1537,7 @@ plot31.ytit            = "Number of events x 2"
 plot31.ylog            = "yes"
 plot31.rebin           = 10
 plot31.xmin            = 0
-plot31.xmax            = 2000
+plot31.xmax            = 1000
 plot31.ymin            = 0.01
 plot31.ymax            = 100
 #plot31.lpos = "bottom-center"
