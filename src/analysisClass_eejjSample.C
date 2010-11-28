@@ -126,6 +126,8 @@ void analysisClass::Loop()
   h_CaloJetFHPD_looseID->Sumw2();
   h_CaloJetN90Hits_looseID->Sumw2();
 
+  CreateUserTH1D("sT_fullSeleNoPreStCut", 200, 0, 2000);
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
@@ -219,6 +221,20 @@ void analysisClass::Loop()
       }
     }
     if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
+
+    if ( isData==true)
+      {
+	// Skip runs declared bad for HCAL reasons
+	if ( run == 146511 ) continue;
+	if ( run == 146513 ) continue;
+	if ( run == 146514 ) continue;
+	if ( run == 146644 ) continue;
+	// Skip runs declared bad for other reasons
+	if ( run == 141874 ) continue;
+	if ( run == 141876 ) continue;
+	if ( run == 142414 ) continue;
+	if ( run == 147929 and ls == 619 ) continue;
+      }
 
     // Electrons
     vector<int> v_idx_ele_all;
@@ -591,7 +607,10 @@ void analysisClass::Loop()
 	  ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) +
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
 	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
+	fillVariableWithValue("sT_preliminary", calc_sT);
 	fillVariableWithValue("sT", calc_sT);
+	fillVariableWithValue("sT_MLQ150", calc_sT);
+	fillVariableWithValue("sT_MLQ200", calc_sT);
 	fillVariableWithValue("sT_MLQ250", calc_sT);
 	fillVariableWithValue("sT_MLQ280", calc_sT);
 	fillVariableWithValue("sT_MLQ300", calc_sT);
@@ -599,6 +618,8 @@ void analysisClass::Loop()
 	fillVariableWithValue("sT_MLQ340", calc_sT);
 	fillVariableWithValue("sT_MLQ370", calc_sT);
 	fillVariableWithValue("sT_MLQ400", calc_sT);       
+	fillVariableWithValue("sT_MLQ450", calc_sT);       
+	fillVariableWithValue("sT_MLQ500", calc_sT);       
 	//PAS June 2010
 	fillVariableWithValue("sT_PAS", calc_sT);
       }
@@ -899,8 +920,16 @@ void analysisClass::Loop()
 	STDOUT("TwoElesTwoJets: 2ndEle Pt, eta, phi = "<<getVariableValue("Pt2ndEle_PAS") <<", "<< getVariableValue("Eta2ndEle_PAS") );
 	STDOUT("TwoElesTwoJets: 1stJet Pt, eta, phi = "<<getVariableValue("Pt1stJet_PAS") <<", "<< getVariableValue("Eta1stJet_PAS") );
 	STDOUT("TwoElesTwoJets: 2ndJet Pt, eta, phi = "<<getVariableValue("Pt2ndJet_PAS") <<", "<< getVariableValue("Eta2ndJet_PAS") );
+	if ( passedCut("Mee") )
+	  {
+	    STDOUT("PassedMeeAndAllPrevious: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event<<", sT = "<< getVariableValue("sT"));
+	  }
       } // printouts for TwoElesTwoJets:
 
+    if( passedAllPreviousCuts("sT_preliminary") && passedCut("Mee") )
+      {
+	FillUserTH1D( "sT_fullSeleNoPreStCut", getVariableValue("sT") );
+      }
 
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)

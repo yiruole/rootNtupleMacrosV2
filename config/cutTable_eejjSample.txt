@@ -44,6 +44,7 @@ JetEnergyScale        1.0	   -			-		-		-1
 fakeRate_Barrel	      0.0061	   0			-		-		-1
 fakeRate_Endcap	      0.0399	   0			-		-		-1
 #
+produceSkim           0            -			-               -               -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -106,6 +107,7 @@ maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -          
 minDRej_selecPairs		0.7	     +inf		-		-		2	100 0 10
 minDRej_unselPairs		0.7	     +inf		-		-		2	100 0 10
 #
+sT_preliminary                  250	     +inf               -               -               3       200 0 2000
 nJet_PAS_All			-inf	     +inf               -               -               2       16 -0.5 15.5
 nJet_PAS_EtaCut			-inf	     +inf               -               -               2       16 -0.5 15.5
 Pt1stEle_PAS			-inf	     +inf               -               -               2       100 0 1000
@@ -127,21 +129,25 @@ pfMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 tcMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 #
-Mee                             110	     +inf               -               -               3       200 0 1000
+Mee                             125	     +inf               -               -               3       200 0 1000
 sT                              -inf	     +inf               -               -               3       200 0 2000
-sT_MLQ250                       390	     +inf               -               -               3       200 0 2000
-sT_MLQ280                       420	     +inf               -               -               3       200 0 2000
-sT_MLQ300                       440	     +inf               -               -               3       200 0 2000
+sT_MLQ150                       260	     +inf               -               -               3       200 0 2000
+sT_MLQ200                       340	     +inf               -               -               3       200 0 2000
+sT_MLQ250                       400	     +inf               -               -               3       200 0 2000
+sT_MLQ280                       450	     +inf               -               -               3       200 0 2000
+sT_MLQ300                       470	     +inf               -               -               3       200 0 2000
 #
 minDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
 maxDeltaR_ej                    -inf	     +inf               -               -               4       100 0 10
 Mej_1stPair                     -inf	     +inf               -               -               4       200 0 2000
 Mej_2ndPair                     -inf	     +inf               -               -               4       200 0 2000
 #
-sT_MLQ320                       460	     +inf               -               -               3       200 0 2000
-sT_MLQ340                       470	     +inf               -               -               3       200 0 2000
-sT_MLQ370                       500	     +inf               -               -               3       200 0 2000
-sT_MLQ400                       520	     +inf               -               -               3       200 0 2000
+sT_MLQ320                       490	     +inf               -               -               3       200 0 2000
+sT_MLQ340                       510	     +inf               -               -               3       200 0 2000
+sT_MLQ370                       540	     +inf               -               -               3       200 0 2000
+sT_MLQ400                       560	     +inf               -               -               3       200 0 2000
+sT_MLQ450                       620	     +inf               -               -               3       200 0 2000
+sT_MLQ500                       660	     +inf               -               -               3       200 0 2000
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused

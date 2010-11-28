@@ -162,7 +162,7 @@ class Plot:
         #-- loop over histograms (stacked)
         Nstacked = len(plot.histosStack)
         stackColorIndexes = [2,4,3]
-        stackFillStyleIds = [3254,3245,3295]
+        stackFillStyleIds = [3354,3345,3395]
         stack = []
         stkcp = []
         for iter in range(0, Nstacked):
@@ -252,20 +252,20 @@ class Plot:
         #-- draw label
         l = TLatex()
         l.SetTextAlign(12)
-        l.SetTextSize(0.04)
+        l.SetTextSize(0.06)
         l.SetTextFont(62)
         l.SetNDC()
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
 #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + plot.lint)
         if (plot.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS 2010")
-            l.DrawLatex(0.35,0.15,"L_{int} = " + plot.lint)
+            l.DrawLatex(0.35,0.19,"CMS 2010")
+            l.DrawLatex(0.35,0.13,"L_{int} = " + plot.lint)
         if (plot.lpos=="top-left"):
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS 2010")
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.08,"L_{int} = " + plot.lint)
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.04,"CMS 2010")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.10,"L_{int} = " + plot.lint)
         else:
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS 2010")
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + plot.lint)
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.04,"CMS 2010")
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.10,"L_{int} = " + plot.lint)
 
         legend.Draw()
         canvas.Update()
@@ -393,7 +393,7 @@ plot0.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot0.keys            = keys
-plot0.xtit            = "Mee (GeV)"
+plot0.xtit            = "M_{ee} (GeV)"
 plot0.ytit            = "Number of events"
 # plot0.ylog            = "yes"
 # plot0.rebin           = 1
@@ -419,7 +419,7 @@ plot0_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot0_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot0_ylog.keys            = keys
-plot0_ylog.xtit            = "Mee (GeV)"
+plot0_ylog.xtit            = "M_{ee} (GeV)"
 plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 1
@@ -470,7 +470,7 @@ plot2.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot2.keys            = keys
-plot2.xtit            = "pT 1st electron (GeV)"
+plot2.xtit            = "p_{T} 1^{st} electron (GeV)"
 plot2.ytit            = "Number of events"
 plot2.ylog            = "yes"
 plot2.rebin           = 1
@@ -495,7 +495,7 @@ plot3.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot3.keys            = keys
-plot3.xtit            = "#eta 1st electron"
+plot3.xtit            = "#eta 1^{st} electron"
 plot3.ytit            = "Number of events"
 plot3.rebin           = eta_rebin
 plot3.ymin            = eta_ymin
@@ -518,7 +518,7 @@ plot4.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot4.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot4.keys            = keys
-plot4.xtit            = "pT 2nd electron (GeV)"
+plot4.xtit            = "p_{T} 2^{nd} electron (GeV)"
 plot4.ytit            = "Number of events"
 plot4.ylog            = "yes"
 plot4.rebin           = 1
@@ -543,7 +543,7 @@ plot5.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot5.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot5.keys            = keys
-plot5.xtit            = "#eta 2nd electron"
+plot5.xtit            = "#eta 2^{nd} electron"
 plot5.ytit            = "Number of events"
 plot5.rebin           = eta_rebin
 plot5.ymin            = eta_ymin
@@ -592,7 +592,7 @@ plot7.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot7.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot7.keys            = keys
-plot7.xtit            = "pT 1st jet (GeV)"
+plot7.xtit            = "p_{T} 1^{st} jet (GeV)"
 plot7.ytit            = "Number of events"
 plot7.ylog            = "yes"
 plot7.rebin           = 1
@@ -617,7 +617,7 @@ plot8.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot8.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot8.keys            = keys
-plot8.xtit            = "#eta 1st jet"
+plot8.xtit            = "#eta 1^{st} jet"
 plot8.ytit            = "Number of events"
 plot8.rebin           = eta_rebin
 plot8.ymin            = eta_ymin
@@ -639,7 +639,7 @@ plot9.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot9.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot9.keys            = keys
-plot9.xtit            = "pT 2nd jet (GeV)"
+plot9.xtit            = "p_{T} 2^{nd} jet (GeV)"
 plot9.ytit            = "Number of events"
 plot9.ylog            = "yes"
 plot9.xmin            = pt_xmin
@@ -663,7 +663,7 @@ plot10.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot10.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot10.keys            = keys
-plot10.xtit            = "#eta 2nd jet"
+plot10.xtit            = "#eta 2^{nd} jet"
 plot10.ytit            = "Number of events"
 plot10.rebin           = eta_rebin
 plot10.ymin            = eta_ymin
@@ -685,7 +685,7 @@ plot11.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot11.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot11.keys            = keys
-plot11.xtit            = "St (GeV)"
+plot11.xtit            = "S_{T} (GeV)"
 plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
@@ -711,7 +711,7 @@ plot11_ele.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot11_ele.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot11_ele.keys            = keys
-plot11_ele.xtit            = "St electrons (GeV)"
+plot11_ele.xtit            = "S_{T} electrons (GeV)"
 plot11_ele.ytit            = "Number of events"
 #plot11_ele.xlog            = "yes"
 plot11_ele.ylog            = "yes"
@@ -737,7 +737,7 @@ plot11_jet.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot11_jet.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot11_jet.keys            = keys
-plot11_jet.xtit            = "St jets (GeV)"
+plot11_jet.xtit            = "S_{T} jets (GeV)"
 plot11_jet.ytit            = "Number of events"
 #plot11_jet.xlog            = "yes"
 plot11_jet.ylog            = "yes"
@@ -765,7 +765,7 @@ plot12.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot12.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot12.keys            = keys
-plot12.xtit            = "Mej (GeV)"
+plot12.xtit            = "M_{ej} (GeV)"
 plot12.ytit            = "Number of events x 2"
 plot12.ylog            = "yes"
 plot12.rebin           = 2
@@ -791,7 +791,7 @@ plot13.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13.keys            = keys
-plot13.xtit            = "Mee (GeV)"
+plot13.xtit            = "M_{ee} (GeV)"
 plot13.ytit            = "Number of events"
 # plot13.ylog            = "yes"
 # plot13.rebin           = 1
@@ -817,7 +817,7 @@ plot13_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13_ylog.keys            = keys
-plot13_ylog.xtit            = "Mee (GeV)"
+plot13_ylog.xtit            = "M_{ee} (GeV)"
 plot13_ylog.ytit            = "Number of events"
 plot13_ylog.ylog            = "yes"
 plot13_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
@@ -846,7 +846,7 @@ plot14.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot14.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14.keys            = keys
-plot14.xtit            = "Mjj (GeV)"
+plot14.xtit            = "M_{jj} (GeV)"
 plot14.ytit            = "Number of events"
 plot14.ylog            = "no"
 plot14.rebin           = 2
@@ -870,7 +870,7 @@ plot14_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot14_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14_ylog.keys            = keys
-plot14_ylog.xtit            = "Mjj (GeV)"
+plot14_ylog.xtit            = "M_{jj} (GeV)"
 plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = 2
@@ -895,7 +895,7 @@ plot2and4.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2and4.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot2and4.keys            = keys
-plot2and4.xtit            = "pT electrons (GeV)"
+plot2and4.xtit            = "p_{T} electrons (GeV)"
 plot2and4.ytit            = "Number of events x 2"
 plot2and4.ylog            = "yes"
 plot2and4.rebin           = 1
@@ -943,7 +943,7 @@ plot7and9.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot7and9.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot7and9.keys            = keys
-plot7and9.xtit            = "pT jets (GeV)"
+plot7and9.xtit            = "p_{T} jets (GeV)"
 plot7and9.ytit            = "Number of events x 2"
 plot7and9.ylog            = "yes"
 plot7and9.rebin           = 1
@@ -1042,7 +1042,7 @@ plot2_nojet.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2_nojet.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot2_nojet.keys            = keys
-plot2_nojet.xtit            = "pT 1st electron (GeV)"
+plot2_nojet.xtit            = "p_{T} 1^{st} electron (GeV)"
 plot2_nojet.ytit            = "Number of events"
 plot2_nojet.ylog            = "yes"
 plot2_nojet.rebin           = 1
@@ -1067,7 +1067,7 @@ plot3_nojet.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3_nojet.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot3_nojet.keys            = keys
-plot3_nojet.xtit            = "#eta 1st electron"
+plot3_nojet.xtit            = "#eta 1^{st} electron"
 plot3_nojet.ytit            = "Number of events"
 plot3_nojet.rebin           = eta_rebin
 plot3_nojet.ymin            = eta_ymin
@@ -1089,7 +1089,7 @@ plot4_nojet.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot4_nojet.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot4_nojet.keys            = keys
-plot4_nojet.xtit            = "pT 2nd electron (GeV)"
+plot4_nojet.xtit            = "p_{T} 2^{nd} electron (GeV)"
 plot4_nojet.ytit            = "Number of events"
 plot4_nojet.ylog            = "yes"
 plot4_nojet.rebin           = 1
@@ -1114,7 +1114,7 @@ plot5_nojet.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot5_nojet.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot5_nojet.keys            = keys
-plot5_nojet.xtit            = "#eta 2nd electron"
+plot5_nojet.xtit            = "#eta 2^{nd} electron"
 plot5_nojet.ytit            = "Number of events"
 plot5_nojet.rebin           = eta_rebin
 plot5_nojet.ymin            = eta_ymin
@@ -1138,7 +1138,7 @@ plot20.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot20.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
 plot20.keys            = keys
-plot20.xtit            = "St (GeV)"
+plot20.xtit            = "S_{T} (GeV)"
 plot20.ytit            = "Number of events"
 plot20.ylog            = "yes"
 plot20.rebin           = 5
@@ -1161,7 +1161,7 @@ plot20full.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot20full.histos          = generateHistoList( "histo1D__SAMPLE__VARIABLE", samplesForHistos, variableName, File_selection)
 plot20full.keys            = keys
-plot20full.xtit            = "St (GeV)"
+plot20full.xtit            = "S_{T} (GeV)"
 plot20full.ytit            = "Number of events"
 plot20full.ylog            = "yes"
 plot20full.rebin           = 5
@@ -1185,7 +1185,7 @@ plot21.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot21.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_selection)
 plot21.keys            = keys
-plot21.xtit            = "Mej (GeV)"
+plot21.xtit            = "M_{ej} (GeV)"
 plot21.ytit            = "Number of events x 2"
 plot21.ylog            = "yes"
 plot21.rebin           = 4
