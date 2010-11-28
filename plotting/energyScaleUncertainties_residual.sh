@@ -6,30 +6,25 @@
 
 ##########  USER'S INPUTS BEGIN HERE ############################################################
 
-FILE________STD=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_STD/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat
-FILE_EES_EB_POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EB_1.01/output_cutTable_enujjSample_EES_EB_POS/analysisClass_enujjSample_tables.dat
-FILE_EES_EB_NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EB_0.99/output_cutTable_enujjSample_EES_EB_NEG/analysisClass_enujjSample_tables.dat
-FILE_EES_EE_POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EE_1.03/output_cutTable_enujjSample_EES_EE_POS/analysisClass_enujjSample_tables.dat
-FILE_EES_EE_NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EE_0.97/output_cutTable_enujjSample_EES_EE_NEG/analysisClass_enujjSample_tables.dat
-FILE_JES____POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_JES_1.05/output_cutTable_enujjSample_JES_POS/analysisClass_enujjSample_tables.dat
-FILE_JES____NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_JES_0.95/output_cutTable_enujjSample_JES_NEG/analysisClass_enujjSample_tables.dat
+FILE________STD=$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_tables.dat
+FILE_EES_EB_POS=$FILE________STD
+FILE_EES_EB_NEG=$FILE________STD
+FILE_EES_EE_POS=$FILE________STD
+FILE_EES_EE_NEG=$FILE________STD
+FILE_JES____POS=$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_JES_1.05/analysisClass_eejjSample_tables.dat
+FILE_JES____NEG=$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_JES_0.95/analysisClass_eejjSample_tables.dat
 
 # ## TTbar inputs (preselection):
-#SAMPLES='TTbar_Madgraph'
-#CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
-
-SAMPLES='OTHERBKG'
-CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+# SAMPLES='TTbar_Madgraph'
+# CUTS='minDRej_unselPairs sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
 
 ## Z+jets inputs (preselection + preliminary sT cut)
-#SAMPLES='WJetAlpgen'
-#CUTS='sT_presel sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+SAMPLES='ZJetAlpgen'
+CUTS='sT_preliminary sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
 
-## Z+jets inputs (preselection + preliminary sT cut)
-#SAMPLES='LQenujj_M300'
-#CUTS='nocut sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
-
-
+## LQeejj_M300 inputs (from nocut to full selection)
+# SAMPLES='LQeejj_M300'
+# CUTS='nocut sT_MLQ300'
 
 ##########  USER'S INPUTS END HERE ###############################################################
 
@@ -42,7 +37,7 @@ echo "" > $outfile
 for CUT in $CUTS
 do
   #echo "The numbers below are the relative change of each energy scale variation w.r.t the default energy scale" > $outfile
-  echo "    SAMPLES            WHAT      DEFAULT        EES_EB_POS      EES_EB_NEG      EES_EE_POS      EES_EE_NEG      JES____POS      JES____NEG" >> $outfile
+  echo "    SAMPLES            WHAT                     DEFAULT        EES_EB_POS      EES_EB_NEG      EES_EE_POS      EES_EE_NEG      JES____POS      JES____NEG" >> $outfile
   for SAMPLE in $SAMPLES
     do
     NEVTS=""
@@ -55,7 +50,7 @@ do
       NEVTS="$NEVTS $THISNEVTS"
     done
     #echo $NEVTS | awk -v sample=$SAMPLE '{printf("%20s  RelChange\t%f\t%f\t%f\t%f\t%f\t%f\t%f \n",sample, $1/$1-1, $2/$1-1, $3/$1-1, $4/$1-1, $5/$1-1, $6/$1-1, $7/$1-1) }' >> $outfile
-    echo $NEVTS | awk -v sample=$SAMPLE '{printf("%20s  nEvtsPass\t%f\t%f\t%f\t%f\t%f\t%f\t%f \n",sample, $1     , $2     , $3     , $4     , $5     , $6     , $7     ) }' >> $outfile
+    echo $NEVTS | awk -v sample=$SAMPLE '{printf("%20s  nEvtsPass           \t%f\t%f\t%f\t%f\t%f\t%f\t%f \n",sample, $1     , $2     , $3     , $4     , $5     , $6     , $7     ) }' >> $outfile
   done
 done
 
