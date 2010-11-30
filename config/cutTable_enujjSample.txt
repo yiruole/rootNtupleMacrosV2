@@ -156,7 +156,11 @@ MTnuj_2ndPair                   -inf         +inf               -               
 Ptenu                           -inf         +inf               -               -               7       200 0 2000
 #
 sT_MLQ320                       520	     +inf               -               -               7       200 0 2000
-sT_MLQ340                       555          +inf               -               -               7       200 0 2000
+sT_MLQ340                       540          +inf               -               -               7       200 0 2000
+sT_MLQ370                       570          +inf               -               -               7       200 0 2000
+sT_MLQ400                       600          +inf               -               -               7       200 0 2000
+sT_MLQ450                       640          +inf               -               -               7       200 0 2000
+sT_MLQ500                       670          +inf               -               -               7       200 0 2000
 #Mej                            -inf        +inf                -               -               7       200 0 2000
 #MTnuj                          -inf        +inf                -               -               7       200 0 2000
 #

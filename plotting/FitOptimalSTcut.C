@@ -11,19 +11,19 @@
   //USER PART (modify here)  -  BEGIN
 
   //available optimized sT cuts vs MLQ
-  const int Nmass = 5;
-  float MLQ[Nmass]={200,250,280,300, 320}; 
-  float STcut[Nmass]={350,410,460,490,520}; 
+  const int Nmass = 7;
+  float MLQ[Nmass]={200, 250, 280, 300, 320, 400, 500};
+  float STcut[Nmass]={350, 410, 460, 490, 520, 600, 670};
 
   //MLQ values for which you need an optimal sT cut
   const int Nmass_extrapolate = 1;
-  float MLQ_extrapolate[Nmass_extrapolate]={340}; 
+  float MLQ_extrapolate[Nmass_extrapolate]={450};
 
   //range for fit
   float minMLQfit = MLQ[0];
   float maxMLQfit = MLQ[Nmass-1];
 
-  //USER PART                -  END  
+  //USER PART                -  END
   //-----------------------------------------------
 
   TGraph g_STcut_vs_MLQ(Nmass, MLQ, STcut);
@@ -44,7 +44,7 @@
   l.SetTextSize(0.04);
   l.SetTextFont(62);
   l.SetNDC();
-  l.DrawLatex(0.15,0.75,"Optimized sT cut vs M_{LQ}"); 
+  l.DrawLatex(0.15,0.75,"Optimized sT cut vs M_{LQ}");
 
   cout << endl;
   cout << "#########################" << endl;
@@ -53,7 +53,7 @@
 
 
       cout << "The optimized sT cut for MLQ of "
-	   << MLQ_extrapolate[mass] << " GeV/c2 is : " 
+	   << MLQ_extrapolate[mass] << " GeV/c2 is : "
 	   << fitST.Eval(MLQ_extrapolate[mass]) << " GeV/c" << endl;
 
     }
