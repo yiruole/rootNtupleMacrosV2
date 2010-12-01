@@ -49,8 +49,13 @@ doGenLevelStudies     1		   -			-		-		-1
 jetAlgorithm	      1		   -			-		-		-1
 ## 1=PFMET  , 2=CaloMET
 metAlgorithm	      1		   -			-		-		-1
-met_Thresh            200               -               -               -               -1
-minMETPt1stEle_Thresh 100               -               -               -               -1
+met_Thresh            200          -			-               -               -1
+minMETPt1stEle_Thresh 100          -			-               -               -1
+Pt1stEle_PAS_Thresh   200          -			-               -               -1
+Pt1stJet_PAS_Thresh   400          -			-               -               -1
+Pt2ndJet_PAS_Thresh   300          -			-               -               -1
+MTenu_Thresh	      200          -			-               -               -1
+sT_Thresh	      800          -			-               -               -1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
