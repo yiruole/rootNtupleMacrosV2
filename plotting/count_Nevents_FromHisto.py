@@ -109,6 +109,7 @@ h_QCD = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Pt1stEle_PAS", 
 
 
 #--- Range
+#variable = "MTenu"
 variable = "Pt1stEle"
 xmin = 250
 xmax = 1000
@@ -134,6 +135,10 @@ ERRintegralQCD = GetErrorIntegralTH1(h_QCD,xmin,xmax)
 integralMCall_plus_QCD = integralMCall + integralQCD
 ERRintegralMCall_plus_QCD = sqrt(ERRintegralMCall**2 + ERRintegralQCD**2)
 
+##Difference between data and background prediction
+diff_DATA_minus_Bkg = integralDATA - integralMCall_plus_QCD
+ERRdiff_DATA_minus_Bkg = sqrt(ERRintegralDATA**2 + ERRintegralMCall_plus_QCD**2)
+
 #printout
 print " "
 print "######################################## "
@@ -142,6 +147,7 @@ print "integral DATA: "           + str( integralDATA ) + " +/- " + str( ERRinte
 print "integral MC All: "         + str( integralMCall ) + " +/- " + str( ERRintegralMCall )
 print "integral QCD: "            + str( integralQCD ) + " +/- " + str( ERRintegralQCD )
 print "integral MC All + QCD: "   + str( integralMCall_plus_QCD ) + " +/- " + str( ERRintegralMCall_plus_QCD )
+print "difference DATA - TotBkg: "    + str( diff_DATA_minus_Bkg ) + " +/- " + str( ERRdiff_DATA_minus_Bkg )
 print "######################################## "
 print " "
     
