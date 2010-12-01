@@ -120,6 +120,14 @@ void analysisClass::Loop()
   double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
   double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
 
+  double met_Thresh = getPreCutValue1("met_Thresh");
+  double minMETPt1stEle_Thresh = getPreCutValue1("minMETPt1stEle_Thresh");
+  double Pt1stEle_PAS_Thresh = getPreCutValue1("Pt1stEle_PAS_Thresh");
+  double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh"); 
+  double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh"); 
+  double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");  
+  double sT_Thresh = getPreCutValue1("sT_Thresh");   
+
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -1230,6 +1238,11 @@ void analysisClass::Loop()
                    <<getVariableValue("mDeltaPhiMETEle_PAS")
                    <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
                    <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassFullSelection: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassFullSelection: minDRej = "<<getVariableValue("minDRej"));
+
 
           STDOUT("PassFullSelection: ------------ END -------------");
         }
@@ -1240,7 +1253,7 @@ void analysisClass::Loop()
         && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
       )
       {
-        if( getVariableValue("MET")>getPreCutValue1("met_Thresh") ) {
+        if( getVariableValue("MET")>met_Thresh ) {
           STDOUT("PassMETThreshold: ----------- START ------------");
 
           STDOUT("PassMETThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
@@ -1270,6 +1283,11 @@ void analysisClass::Loop()
                    <<getVariableValue("mDeltaPhiMETEle_PAS")
                    <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
                    <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassMETThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassMETThreshold: minDRej = "<<getVariableValue("minDRej"));
+
 
           STDOUT("PassMETThreshold: ------------ END -------------");
         }
@@ -1280,7 +1298,7 @@ void analysisClass::Loop()
         && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
       )
       {
-        if( getVariableValue("minMETPt1stEle")>getPreCutValue1("minMETPt1stEle_Thresh") ) {
+        if( getVariableValue("minMETPt1stEle")>minMETPt1stEle_Thresh ) {
           STDOUT("PassMinMETPt1stEleThreshold: ----------- START ------------");
 
           STDOUT("PassMinMETPt1stEleThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
@@ -1310,47 +1328,240 @@ void analysisClass::Loop()
                    <<getVariableValue("mDeltaPhiMETEle_PAS")
                    <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
                    <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassMinMETPt1stEleThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassMinMETPt1stEleThreshold: minDRej = "<<getVariableValue("minDRej"));
+
 
           STDOUT("PassMinMETPt1stEleThreshold: ------------ END -------------");
         }
       }
 
-//     if( passedAllPreviousCuts("sT") && isData )
-//       {
-//
-// 	STDOUT("PassFullSelection: ----------- START ------------");
-//
-// 	STDOUT("PassFullSelection: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
-// 	if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
-// 	  STDOUT("PassFullSelection: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
-// 	if( variableIsFilled("MET_PAS") )
-// 	  STDOUT("PassFullSelection: MET_PAS = "<<getVariableValue("MET_PAS"));
-// 	if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )
-// 	  STDOUT("PassFullSelection: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
-// 	if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )
-// 	  STDOUT("PassFullSelection: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
-// 	if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
-// 	  STDOUT("PassFullSelection: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
-// 	if( variableIsFilled("sT_PAS") )
-// 	  STDOUT("PassFullSelection: sT_PAS = "<<getVariableValue("sT_PAS"));
-// 	if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
-// 	  STDOUT("PassFullSelection: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
-// 		 <<getVariableValue("Mej_1stPair_PAS")
-// 		 <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
-// 	if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
-// 	  STDOUT("PassFullSelection: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
-// 		 <<getVariableValue("MTnuj_1stPair_PAS")
-// 		 <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
-// 	if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
-// 	    && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
-// 	  STDOUT("PassFullSelection: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
-// 		 <<getVariableValue("mDeltaPhiMETEle_PAS")
-// 		 <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
-// 		 <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
-//
-// 	STDOUT("PassFullSelection: ------------ END -------------");
-//
-//       }
+    // Events in the tails of the Pt1stEle_PAS distribution that pass event pre-selection
+    if( isData && variableIsFilled("Pt1stEle_PAS")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
+      {
+        if( getVariableValue("Pt1stEle_PAS")>Pt1stEle_PAS_Thresh ) {
+          STDOUT("PassPt1stEleThreshold: ----------- START ------------");
+
+          STDOUT("PassPt1stEleThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+          if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+            STDOUT("PassPt1stEleThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+          if( variableIsFilled("MET_PAS") )
+            STDOUT("PassPt1stEleThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+          if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )
+            STDOUT("PassPt1stEleThreshold: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+          if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )
+            STDOUT("PassPt1stEleThreshold: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+          if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+            STDOUT("PassPt1stEleThreshold: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+          if( variableIsFilled("sT_PAS") )
+            STDOUT("PassPt1stEleThreshold: sT_PAS = "<<getVariableValue("sT_PAS"));
+          if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+            STDOUT("PassPt1stEleThreshold: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                   <<getVariableValue("Mej_1stPair_PAS")
+                   <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+          if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+            STDOUT("PassPt1stEleThreshold: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                   <<getVariableValue("MTnuj_1stPair_PAS")
+                   <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+          if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+              && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+            STDOUT("PassPt1stEleThreshold: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                   <<getVariableValue("mDeltaPhiMETEle_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassPt1stEleThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassPt1stEleThreshold: minDRej = "<<getVariableValue("minDRej"));
+
+
+          STDOUT("PassPt1stEleThreshold: ------------ END -------------");
+        }
+      }
+
+
+    // Events in the tails of the Pt1stJet_PAS distribution that pass event pre-selection
+    if( isData && variableIsFilled("Pt1stJet_PAS")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
+      {
+        if( getVariableValue("Pt1stJet_PAS")>Pt1stJet_PAS_Thresh ) {
+          STDOUT("PassPt1stJetThreshold: ----------- START ------------");
+
+          STDOUT("PassPt1stJetThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+          if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+            STDOUT("PassPt1stJetThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+          if( variableIsFilled("MET_PAS") )
+            STDOUT("PassPt1stJetThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+          if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )
+            STDOUT("PassPt1stJetThreshold: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+          if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )
+            STDOUT("PassPt1stJetThreshold: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+          if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+            STDOUT("PassPt1stJetThreshold: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+          if( variableIsFilled("sT_PAS") )
+            STDOUT("PassPt1stJetThreshold: sT_PAS = "<<getVariableValue("sT_PAS"));
+          if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+            STDOUT("PassPt1stJetThreshold: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                   <<getVariableValue("Mej_1stPair_PAS")
+                   <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+          if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+            STDOUT("PassPt1stJetThreshold: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                   <<getVariableValue("MTnuj_1stPair_PAS")
+                   <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+          if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+              && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+            STDOUT("PassPt1stJetThreshold: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                   <<getVariableValue("mDeltaPhiMETEle_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassPt1stJetThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassPt1stJetThreshold: minDRej = "<<getVariableValue("minDRej"));
+
+          STDOUT("PassPt1stJetThreshold: ------------ END -------------");
+        }
+      }
+
+
+    // Events in the tails of the Pt2ndJet_PAS distribution that pass event pre-selection
+    if( isData && variableIsFilled("Pt2ndJet_PAS")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
+      {
+        if( getVariableValue("Pt2ndJet_PAS")>Pt2ndJet_PAS_Thresh ) {
+          STDOUT("PassPt2ndJetThreshold: ----------- START ------------");
+
+          STDOUT("PassPt2ndJetThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+          if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+            STDOUT("PassPt2ndJetThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+          if( variableIsFilled("MET_PAS") )
+            STDOUT("PassPt2ndJetThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+          if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )
+            STDOUT("PassPt2ndJetThreshold: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+          if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )
+            STDOUT("PassPt2ndJetThreshold: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+          if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+            STDOUT("PassPt2ndJetThreshold: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+          if( variableIsFilled("sT_PAS") )
+            STDOUT("PassPt2ndJetThreshold: sT_PAS = "<<getVariableValue("sT_PAS"));
+          if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+            STDOUT("PassPt2ndJetThreshold: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                   <<getVariableValue("Mej_1stPair_PAS")
+                   <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+          if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+            STDOUT("PassPt2ndJetThreshold: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                   <<getVariableValue("MTnuj_1stPair_PAS")
+                   <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+          if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+              && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+            STDOUT("PassPt2ndJetThreshold: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                   <<getVariableValue("mDeltaPhiMETEle_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassPt2ndJetThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassPt2ndJetThreshold: minDRej = "<<getVariableValue("minDRej"));
+
+          STDOUT("PassPt2ndJetThreshold: ------------ END -------------");
+        }
+      }
+
+
+    // Events in the tails of the MTenu distribution that pass event pre-selection
+    if( isData && variableIsFilled("MTenu")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
+      {
+        if( getVariableValue("MTenu")>MTenu_Thresh ) {
+          STDOUT("PassMTenuThreshold: ----------- START ------------");
+
+          STDOUT("PassMTenuThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+          if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+            STDOUT("PassMTenuThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+          if( variableIsFilled("MET_PAS") )
+            STDOUT("PassMTenuThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+          if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )
+            STDOUT("PassMTenuThreshold: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+          if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )
+            STDOUT("PassMTenuThreshold: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+          if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+            STDOUT("PassMTenuThreshold: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+          if( variableIsFilled("sT_PAS") )
+            STDOUT("PassMTenuThreshold: sT_PAS = "<<getVariableValue("sT_PAS"));
+          if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+            STDOUT("PassMTenuThreshold: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                   <<getVariableValue("Mej_1stPair_PAS")
+                   <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+          if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+            STDOUT("PassMTenuThreshold: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                   <<getVariableValue("MTnuj_1stPair_PAS")
+                   <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+          if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+              && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+            STDOUT("PassMTenuThreshold: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                   <<getVariableValue("mDeltaPhiMETEle_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PassMTenuThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PassMTenuThreshold: minDRej = "<<getVariableValue("minDRej"));
+
+
+          STDOUT("PassMTenuThreshold: ------------ END -------------");
+        }
+      }
+
+    // Events in the tails of the sT distribution that pass event pre-selection
+    if( isData && variableIsFilled("sT")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+      )
+      {
+        if( getVariableValue("sT")>sT_Thresh ) {
+          STDOUT("PasssTThreshold: ----------- START ------------");
+
+          STDOUT("PasssTThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+          if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+            STDOUT("PasssTThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+          if( variableIsFilled("MET_PAS") )
+            STDOUT("PasssTThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+          if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") )
+            STDOUT("PasssTThreshold: Pt1stJet_PAS,Eta1stJet_PAS = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS"));
+          if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") )
+            STDOUT("PasssTThreshold: Pt2ndJet_PAS,Eta2ndJet_PAS = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS"));
+          if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+            STDOUT("PasssTThreshold: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+          if( variableIsFilled("sT_PAS") )
+            STDOUT("PasssTThreshold: sT_PAS = "<<getVariableValue("sT_PAS"));
+          if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+            STDOUT("PasssTThreshold: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                   <<getVariableValue("Mej_1stPair_PAS")
+                   <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+          if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+            STDOUT("PasssTThreshold: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                   <<getVariableValue("MTnuj_1stPair_PAS")
+                   <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+          if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+              && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+            STDOUT("PasssTThreshold: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                   <<getVariableValue("mDeltaPhiMETEle_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                   <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+          if( variableIsFilled("nMuon_PtCut_IDISO") )
+            STDOUT("PasssTThreshold: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+          if( variableIsFilled("minDRej") )
+            STDOUT("PasssTThreshold: minDRej = "<<getVariableValue("minDRej"));
+
+          STDOUT("PasssTThreshold: ------------ END -------------");
+        }
+      }
 
     // Produce skim
     if( passedAllPreviousCuts("minDRej") ) fillSkimTree();
