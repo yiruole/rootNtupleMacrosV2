@@ -3,12 +3,14 @@ import pprint # for pretty printing
 import math
 
 # data files
-f1 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/analysisClass_enujjSample_tables.dat")
-f2 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/analysisClass_enujjSample_QCD_tables.dat")
+f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
+f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+
+#f1 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/analysisClass_enujjSample_tables.dat")
+#f2 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/analysisClass_enujjSample_QCD_tables.dat")
 
 #f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/34.7pb-1_v7_EleEtaCut2.2/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
 #f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/7.4pb-1_v7_QCD_HLT30_EleEtaCut2.2/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
-
 
 #dict containing all values
 d = {}
@@ -24,13 +26,21 @@ cutNames = [ "sT_MLQ200",
              "sT_MLQ300",
              "sT_MLQ320",
              "sT_MLQ340",
+             "sT_MLQ370",
+             "sT_MLQ400",
+             "sT_MLQ450",
+             "sT_MLQ500",
            ]
 cutLabels = [ r"200 (\st$>350$)",
               r"250 (\st$>410$)",
               r"280 (\st$>460$)",
               r"300 (\st$>490$)",
               r"320 (\st$>520$)",
-              r"340 (\st$>555$)",
+              r"340 (\st$>540$)",
+              r"370 (\st$>570$)",
+              r"400 (\st$>600$)",
+              r"450 (\st$>640$)",
+              r"500 (\st$>670$)",
             ]
 LQsampleForEachCut = [ "LQenujj_M200",
                        "LQenujj_M250",
@@ -38,6 +48,10 @@ LQsampleForEachCut = [ "LQenujj_M200",
                        "LQenujj_M300",
                        "LQenujj_M320",
                        "LQenujj_M340",
+                       "LQenujj_M370",
+                       "LQenujj_M400",
+                       "LQenujj_M450",
+                       "LQenujj_M500",
                        ]
 
 systUncert = { 'data': {'TTbar_Madgraph': 41, 'WJetAlpgen': 17, 'QCD': 20, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '-'} ,
@@ -61,6 +75,10 @@ blocks = { 'all' : {"ALLBKG":         {"rescale": 0.001, "label":  "All Bkgs"},
                     "LQenujj_M300":   {"rescale": 0.001, "label":  "LQenujj300"},
                     "LQenujj_M320":   {"rescale": 0.001, "label":  "LQenujj320"},
                     "LQenujj_M340":   {"rescale": 0.001, "label":  "LQenujj340"},
+                    "LQenujj_M370":   {"rescale": 0.001, "label":  "LQenujj370"},
+                    "LQenujj_M400":   {"rescale": 0.001, "label":  "LQenujj400"},
+                    "LQenujj_M450":   {"rescale": 0.001, "label":  "LQenujj450"},
+                    "LQenujj_M500":   {"rescale": 0.001, "label":  "LQenujj500"},
                     },
            'QCD' : {"DATA":           {"rescale": 5.4, "label": "QCD"},
                     }
