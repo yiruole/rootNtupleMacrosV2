@@ -13,6 +13,15 @@ inputFile = "*.log"
 
 #matching string for grep
 matchstring_sel = "PassFullSelection"
+#matchstring_sel = "PassMETThreshold"
+#matchstring_sel = "PassMinMETPt1stEleThreshold"
+#matchstring_sel = "PassPt1stEleThreshold"
+#matchstring_sel = "PassPt1stJetThreshold"
+#matchstring_sel = "PassPt2ndJetThreshold"
+#matchstring_sel = "PassMTenuThreshold"
+#matchstring_sel = "PasssTThreshold"
+
+#matching string to create list of run, ls, event number
 matchstring_run_lS_evNum = "Run"
 
 #exclude columns in this range
