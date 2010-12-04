@@ -56,6 +56,8 @@ Pt1stJet_PAS_Thresh   400          -			-               -               -1
 Pt2ndJet_PAS_Thresh   300          -			-               -               -1
 MTenu_Thresh	      200          -			-               -               -1
 sT_Thresh	      800          -			-               -               -1
+doPlot_Wmore0jet      1		   -			-		-		-1
+doPlot_Wmore1jet      1		   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------

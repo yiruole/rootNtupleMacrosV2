@@ -141,6 +141,9 @@ void analysisClass::Loop()
   double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");  
   double sT_Thresh = getPreCutValue1("sT_Thresh");   
 
+  int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet"); 
+  int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet"); 
+
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -195,6 +198,28 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_Charge1stEle_PAS__sT", getHistoNBins("Charge1stEle_PAS"), getHistoMin("Charge1stEle_PAS"), getHistoMax("Charge1stEle_PAS"));
   CreateUserTH1D("h1_Eta1stEle_PAS__sT", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
 
+  if(doPlot_Wmore0jet)
+    {
+      CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
+      CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
+      CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
+      CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
+      CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+    }
+  
+  if(doPlot_Wmore1jet)
+    {
+      CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
+      CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
+      CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
+      CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
+      CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+    }
+  
   ////////////////////// User's code to book histos - END ///////////////////////
 
 
@@ -1517,6 +1542,45 @@ void analysisClass::Loop()
         }
       }
 
+    //W + >=0 jets
+    if(doPlot_Wmore0jet)
+      {
+	if( passedAllPreviousCuts("nJet_all") 
+	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")  
+	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") 
+	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle") 
+	    && variableIsFilled("METPhi_PAS") 
+	    )
+	  {
+	    FillUserTH1D("h1_Pt1stEle_W0jet", getVariableValue("Pt1stEle_PAS"), p1 );	    
+	    FillUserTH1D("h1_Eta1stEle_W0jet", getVariableValue("Eta1stEle_PAS"), p1 );	    
+	    FillUserTH1D("h1_Phi1stEle_W0jet", getVariableValue("Phi1stEle_PAS"), p1 );	    
+	    FillUserTH1D("h1_MET_W0jet", getVariableValue("MET_PAS"), p1 );	    
+	    FillUserTH1D("h1_METPhi_W0jet", getVariableValue("METPhi_PAS"), p1 );	    
+	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS"), p1 );	    
+	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle"), p1 );	    
+	  }
+      }
+
+    //W + >=1 jetsPt1stEle_PAS
+    if(doPlot_Wmore1jet)
+      {
+	if( passedAllPreviousCuts("nJet_all") && passedCut("Pt1stJet_noOvrlp_ID") && passedCut("mEta1stJet_noOvrlp_ID")
+	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS") 
+	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") 
+	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle") 
+	    && variableIsFilled("METPhi_PAS") 
+	    )
+	  {
+	    FillUserTH1D("h1_Pt1stEle_W1jet", getVariableValue("Pt1stEle_PAS"), p1 );	    
+	    FillUserTH1D("h1_Eta1stEle_W1jet", getVariableValue("Eta1stEle_PAS"), p1 );	    
+	    FillUserTH1D("h1_Phi1stEle_W1jet", getVariableValue("Phi1stEle_PAS"), p1 );	    
+	    FillUserTH1D("h1_MET_W1jet", getVariableValue("MET_PAS"), p1 );	    
+	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS"), p1 );	    
+	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS"), p1 );	    
+	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle"), p1 );	    
+	  }
+      }
 
     // Produce skim
     if( passedAllPreviousCuts("minDRej") ) fillSkimTree();
