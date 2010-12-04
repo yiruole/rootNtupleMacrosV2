@@ -126,7 +126,10 @@ void analysisClass::Loop()
   double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh"); 
   double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh"); 
   double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");  
+  double MTenu_Thresh2 = getPreCutValue2("MTenu_Thresh");  
   double sT_Thresh = getPreCutValue1("sT_Thresh");   
+
+  int plotEleIDIsoVar = getPreCutValue1("plotEleIDIsoVar");
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -203,6 +206,38 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_Charge1stEle_PAS__sT", getHistoNBins("Charge1stEle_PAS"), getHistoMin("Charge1stEle_PAS"), getHistoMax("Charge1stEle_PAS"));
   CreateUserTH1D("h1_Eta1stEle_PAS__sT", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
 
+  if( plotEleIDIsoVar )
+    {
+      CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_highMT", 200,-0.05,0.05 );
+      CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_highMT", 200,-0.5,0.5 );
+      CreateUserTH1D("h1_ElectronHoE_highMT", 75,0,0.15 );
+      CreateUserTH1D("h1_ElectronSigmaIEtaIEta_highMT", 100,0,0.1 );
+      CreateUserTH1D("h1_ElectronEcalHcalIsoHeep_highMT", 500,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoD2Heep_highMT", 200,0,100 );
+      CreateUserTH1D("h1_ElectronTrkIsoHeep_highMT", 200,0,100 );
+      CreateUserTH1D("h1_ElectronE2x5OverE5x5_highMT", 100,0,1 );
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_highMT", 100,0,1 );	    
+      
+      CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_barrel_highMT", 200,-0.05,0.05 );
+      CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_barrel_highMT", 200,-0.5,0.5 );
+      CreateUserTH1D("h1_ElectronHoE_barrel_highMT", 75,0,0.15 );
+      CreateUserTH1D("h1_ElectronSigmaIEtaIEta_barrel_highMT", 100,0,0.1 );
+      CreateUserTH1D("h1_ElectronEcalHcalIsoHeep_barrel_highMT", 500,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoD2Heep_barrel_highMT", 200,0,100 );
+      CreateUserTH1D("h1_ElectronTrkIsoHeep_barrel_highMT", 200,0,100 );
+      CreateUserTH1D("h1_ElectronE2x5OverE5x5_barrel_highMT", 100,0,1 );
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_barrel_highMT", 100,0,1 );	    
+      
+      CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_endcap_highMT", 200,-0.05,0.05 );
+      CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_endcap_highMT", 200,-0.5,0.5 );
+      CreateUserTH1D("h1_ElectronHoE_endcap_highMT", 75,0,0.15 );
+      CreateUserTH1D("h1_ElectronSigmaIEtaIEta_endcap_highMT", 100,0,0.1 );
+      CreateUserTH1D("h1_ElectronEcalHcalIsoHeep_endcap_highMT", 500,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoD2Heep_endcap_highMT", 200,0,100 );
+      CreateUserTH1D("h1_ElectronTrkIsoHeep_endcap_highMT", 200,0,100 );
+      CreateUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT", 100,0,1 );
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT", 100,0,1 );	    
+    }
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -1075,6 +1110,47 @@ void analysisClass::Loop()
 	FillUserTH2D("h2_Phi1stEle_vs_METPhi", getVariableValue("METPhi_PAS") , getVariableValue("Phi1stEle_PAS") );
 	FillUserTH2D("h2_Phi1stEle_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("Phi1stEle_PAS") );
 	FillUserTH2D("h2_METPhi_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("METPhi_PAS") );
+
+	//HEEP electron id/isolation variables
+	int myEle = v_idx_ele_PtCut_IDISO_noOverlap[0]; 
+	if( getVariableValue("MTenu")>MTenu_Thresh2 && plotEleIDIsoVar )
+	  {
+	    FillUserTH1D("h1_ElectronDeltaEtaTrkSC_highMT", ElectronDeltaEtaTrkSC->at(myEle) );
+	    FillUserTH1D("h1_ElectronDeltaPhiTrkSC_highMT", ElectronDeltaPhiTrkSC->at(myEle) );
+	    FillUserTH1D("h1_ElectronHoE_highMT", ElectronHoE->at(myEle) );
+	    FillUserTH1D("h1_ElectronSigmaIEtaIEta_highMT", ElectronSigmaIEtaIEta->at(myEle) );
+	    FillUserTH1D("h1_ElectronEcalHcalIsoHeep_highMT",  ElectronEcalIsoHeep->at(myEle)+ElectronHcalIsoD1Heep->at(myEle) );
+	    FillUserTH1D("h1_ElectronHcalIsoD2Heep_highMT",  ElectronHcalIsoD2Heep->at(myEle) );
+	    FillUserTH1D("h1_ElectronTrkIsoHeep_highMT",  ElectronTrkIsoHeep->at(myEle) );
+	    FillUserTH1D("h1_ElectronE2x5OverE5x5_highMT",  ElectronE2x5OverE5x5->at(myEle) );
+	    FillUserTH1D("h1_ElectronE1x5OverE5x5_highMT",  ElectronE1x5OverE5x5->at(myEle) );	    
+
+	    if( fabs( ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ) <= eleEta_bar )
+	      {
+		FillUserTH1D("h1_ElectronDeltaEtaTrkSC_barrel_highMT", ElectronDeltaEtaTrkSC->at(myEle) );
+		FillUserTH1D("h1_ElectronDeltaPhiTrkSC_barrel_highMT", ElectronDeltaPhiTrkSC->at(myEle) );
+		FillUserTH1D("h1_ElectronHoE_barrel_highMT", ElectronHoE->at(myEle) );
+		FillUserTH1D("h1_ElectronSigmaIEtaIEta_barrel_highMT", ElectronSigmaIEtaIEta->at(myEle) );
+		FillUserTH1D("h1_ElectronEcalHcalIsoHeep_barrel_highMT",  ElectronEcalIsoHeep->at(myEle)+ElectronHcalIsoD1Heep->at(myEle) );
+		FillUserTH1D("h1_ElectronHcalIsoD2Heep_barrel_highMT",  ElectronHcalIsoD2Heep->at(myEle) );
+		FillUserTH1D("h1_ElectronTrkIsoHeep_barrel_highMT",  ElectronTrkIsoHeep->at(myEle) );
+		FillUserTH1D("h1_ElectronE2x5OverE5x5_barrel_highMT",  ElectronE2x5OverE5x5->at(myEle) );
+		FillUserTH1D("h1_ElectronE1x5OverE5x5_barrel_highMT",  ElectronE1x5OverE5x5->at(myEle) );	    
+	      }
+	    else 
+	      {
+		FillUserTH1D("h1_ElectronDeltaEtaTrkSC_endcap_highMT", ElectronDeltaEtaTrkSC->at(myEle) );
+		FillUserTH1D("h1_ElectronDeltaPhiTrkSC_endcap_highMT", ElectronDeltaPhiTrkSC->at(myEle) );
+		FillUserTH1D("h1_ElectronHoE_endcap_highMT", ElectronHoE->at(myEle) );
+		FillUserTH1D("h1_ElectronSigmaIEtaIEta_endcap_highMT", ElectronSigmaIEtaIEta->at(myEle) );
+		FillUserTH1D("h1_ElectronEcalHcalIsoHeep_endcap_highMT",  ElectronEcalIsoHeep->at(myEle)+ElectronHcalIsoD1Heep->at(myEle) );
+		FillUserTH1D("h1_ElectronHcalIsoD2Heep_endcap_highMT",  ElectronHcalIsoD2Heep->at(myEle) );
+		FillUserTH1D("h1_ElectronTrkIsoHeep_endcap_highMT",  ElectronTrkIsoHeep->at(myEle) );
+		FillUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT",  ElectronE2x5OverE5x5->at(myEle) );
+		FillUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT",  ElectronE1x5OverE5x5->at(myEle) );	    
+	      }
+	  }
+	
       }
 
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
