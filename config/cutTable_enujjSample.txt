@@ -57,6 +57,8 @@ Pt2ndJet_PAS_Thresh   300          -			-               -               -1
 MTenu_Thresh	      200          150			-               -               -1
 sT_Thresh	      800          -			-               -               -1
 plotEleIDIsoVar	      0		   -			-		-		-1
+doPlot_Wmore0jet      1		   -			-		-		-1
+doPlot_Wmore1jet      1		   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
