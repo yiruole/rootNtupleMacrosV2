@@ -242,30 +242,30 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT", 100,0,1 );
       CreateUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT", 100,0,1 );	    
     }
-
-    if(doPlot_Wmore0jet)
-      {
-	CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-	CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
-	CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
-	CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
-	CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
-	CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
-	CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
-      }
-
-    if(doPlot_Wmore1jet)
-      {
-	CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-	CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
-	CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
-	CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
-	CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
-	CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
-	CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
-      }
-
-
+  
+  if(doPlot_Wmore0jet)
+    {
+      CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
+      CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
+      CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
+      CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
+      CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+    }
+  
+  if(doPlot_Wmore1jet)
+    {
+      CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
+      CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
+      CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
+      CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
+      CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+    }
+  
+  
   ////////////////////// User's code to book histos - END ///////////////////////
 
   Long64_t nentries = fChain->GetEntriesFast();
