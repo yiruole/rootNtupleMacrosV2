@@ -11,13 +11,13 @@
   //USER PART (modify here)  -  BEGIN
 
   //available optimized sT cuts vs MLQ
-  const int Nmass = 7;
-  float MLQ[Nmass]={200, 250, 280, 300, 320, 400, 500};
-  float STcut[Nmass]={350, 410, 460, 490, 520, 600, 670};
+  const int Nmass = 10;
+  float MLQ[Nmass]=  {200, 250, 280, 300, 320, 340, 370, 400, 450, 500};
+  float STcut[Nmass]={350, 410, 460, 490, 520, 540, 570, 600, 640, 670};
 
   //MLQ values for which you need an optimal sT cut
-  const int Nmass_extrapolate = 1;
-  float MLQ_extrapolate[Nmass_extrapolate]={450};
+  const int Nmass_extrapolate = 10;
+  float MLQ_extrapolate[Nmass_extrapolate]={200, 250, 280, 300, 320, 340, 370, 400, 450, 500};
 
   //range for fit
   float minMLQfit = MLQ[0];
@@ -30,11 +30,13 @@
 
   g_STcut_vs_MLQ->SetTitle("");
   g_STcut_vs_MLQ->SetMarkerStyle(20);
-  g_STcut_vs_MLQ->GetXaxis()->SetTitle("M_{LQ} (GeV/c^{2})");
-  g_STcut_vs_MLQ->GetYaxis()->SetTitle("sT cut (GeV/c)");
+  g_STcut_vs_MLQ->SetMarkerColor(kBlue);
+  g_STcut_vs_MLQ->GetXaxis()->SetTitle("M_{LQ} (GeV)");
+  g_STcut_vs_MLQ->GetYaxis()->SetTitle("sT cut (GeV)");
   g_STcut_vs_MLQ->Draw("ap");
 
   TF1 *fitST = new TF1("fitST","pol2",minMLQfit,maxMLQfit);
+  fitST->SetLineStyle(2);
   g_STcut_vs_MLQ->Fit(fitST);
   fitST->Draw("same");
 
@@ -53,10 +55,12 @@
 
 
       cout << "The optimized sT cut for MLQ of "
-	   << MLQ_extrapolate[mass] << " GeV/c2 is : "
-	   << fitST.Eval(MLQ_extrapolate[mass]) << " GeV/c" << endl;
+	   << MLQ_extrapolate[mass] << " GeV is : "
+	   << fitST.Eval(MLQ_extrapolate[mass]) << " GeV" << endl;
 
     }
   cout << "#########################" << endl;
+
+  c1.SaveAs("Stcut_vs_LQmass.eps");
 
 }//end macro
