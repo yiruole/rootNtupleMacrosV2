@@ -11,10 +11,11 @@ import math
 #==============================================================
 
 #--- input file(s)
-inputFile = "*.log"
+#inputFile = "*.log"
+inputFile = "*Zrescale1.20_Wrescale1.06_W0jets_W1jets_HighPtElePrintOut.log"
 
 #--- matching string for grep
-matchstring_sel = "PassFullSelection"
+#matchstring_sel = "PassFullSelection"
 #matchstring_sel = "PassMETThreshold"
 #matchstring_sel = "PassMinMETPt1stEleThreshold"
 #matchstring_sel = "PassPt1stEleThreshold"
@@ -22,6 +23,8 @@ matchstring_sel = "PassFullSelection"
 #matchstring_sel = "PassPt2ndJetThreshold"
 #matchstring_sel = "PassMTenuThreshold"
 #matchstring_sel = "PasssTThreshold"
+#matchstring_sel = "PassPtEleW0jetThreshold"
+matchstring_sel = "PassPtEleW1jetThreshold"
 
 #--- matching string to create list of run, ls, event number
 matchstring_run_lS_evNum = "Run"
@@ -39,18 +42,24 @@ os.system("grep " + matchstring_sel + " " +  inputFile + " | awk -v f="+str(min)
 
 #--- read run, ls, event number --> put it in a dict --> sort it by run+ls
 d = {}
+index = 0
 for ln, line in enumerate( open(outputFile) ):
     line = line.strip()
-    if(  re.search(matchstring_run_lS_evNum, line) ):        
-        #print line
+    if(  re.search(matchstring_run_lS_evNum, line) ):
+        ##print index
+        ##index=index+1
+        #print ln
         line = line.split()
         run = string.split(line[4],",")[0]
         ls = string.split(line[5],",")[0]
         ev = string.split(line[6],",")[0]
         #print run+":"+ls+":"+ev
-        d[int(run)+int(ls)]=run+":"+ls+":"+ev
-        sum = d.keys()
-        sum.sort()
+        indice = int(100000*int(run))+int(ls)
+        d[indice]=run+":"+ls+":"+ev
+        #d[10000*int(run)+int(ls)]=run+":"+ls+":"+ev
+
+sum = d.keys()
+sum.sort()
 #print sum
 
 #--- create file with list of events to be used with "edmPickEvents.py"
