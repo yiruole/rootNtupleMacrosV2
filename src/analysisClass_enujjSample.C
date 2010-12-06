@@ -1683,6 +1683,25 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_METPhi_W0jet", getVariableValue("METPhi_PAS") );	    
 	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS") );	    
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle") );	    
+
+	    if( isData && getVariableValue("Pt1stEle_PAS")>150 && getVariableValue("Pt1stEle_PAS")<175 )
+	      {
+		STDOUT("PassPtEleW0jetThreshold: ----------- START ------------");
+		
+		STDOUT("PassPtEleW0jetThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+		if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+		  STDOUT("PassPtEleW0jetThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+		if( variableIsFilled("MET_PAS") )
+		  STDOUT("PassPtEleW0jetThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+		if( variableIsFilled("MTenu_PAS") )
+		  STDOUT("PassPtEleW0jetThreshold: MTenu_PAS = "<<getVariableValue("MTenu_PAS"));
+		if( variableIsFilled("mDeltaPhiMETEle_PAS") )
+		  STDOUT("PassPtEleW0jetThreshold: mDeltaPhiMETEle_PAS = "
+			 <<getVariableValue("mDeltaPhiMETEle_PAS"));
+
+		STDOUT("PassPtEleW0jetThreshold: ------------ END -------------");						
+	      }
+
 	  }
       }
 
@@ -1703,6 +1722,25 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS") );	    
 	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS") );	    
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle") );	    
+
+	    if( isData && getVariableValue("Pt1stEle_PAS")>150 && getVariableValue("Pt1stEle_PAS")<175 )
+	      {
+		STDOUT("PassPtEleW1jetThreshold: ----------- START ------------");
+		
+		STDOUT("PassPtEleW1jetThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+		if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
+		  STDOUT("PassPtEleW1jetThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
+		if( variableIsFilled("MET_PAS") )
+		  STDOUT("PassPtEleW1jetThreshold: MET_PAS = "<<getVariableValue("MET_PAS"));
+		if( variableIsFilled("MTenu_PAS") )
+		  STDOUT("PassPtEleW1jetThreshold: MTenu_PAS = "<<getVariableValue("MTenu_PAS"));
+		if( variableIsFilled("mDeltaPhiMETEle_PAS") )
+		  STDOUT("PassPtEleW1jetThreshold: mDeltaPhiMETEle_PAS = "
+			 <<getVariableValue("mDeltaPhiMETEle_PAS"));
+
+		STDOUT("PassPtEleW1jetThreshold: ------------ END -------------");						
+	      }
+
 	  }
       }
 

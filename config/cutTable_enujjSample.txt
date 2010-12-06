@@ -51,7 +51,7 @@ jetAlgorithm	      1		   -			-		-		-1
 metAlgorithm	      1		   -			-		-		-1
 met_Thresh            200          -			-               -               -1
 minMETPt1stEle_Thresh 100          -			-               -               -1
-Pt1stEle_PAS_Thresh   200          -			-               -               -1
+Pt1stEle_PAS_Thresh   175          -			-               -               -1
 Pt1stJet_PAS_Thresh   400          -			-               -               -1
 Pt2ndJet_PAS_Thresh   300          -			-               -               -1
 MTenu_Thresh	      200          150			-               -               -1
