@@ -312,7 +312,17 @@ def GetIntegralError(histo):
 
                 #output from /rootNtupleMacros/src/analysisClass_elecStudies2.C
 
-File2 = GetFile("Aug28_EcalIso/analysisClass_SCFakeRate_plots.root")
+#File2 = GetFile("$LQDATA/qcd/2.9pb-1/output_cutTable_SCFakeRate_fromEllie_cutCvs1.10_macroCvs1.26/analysisClass_SCFakeRate_plots.root")
+#File2 = GetFile("$LQDATA/qcd/2.9pb-1/output_cutTable_SCFakeRate_Pt1stSCgt25/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.9pb-1/output_cutTable_SCFakeRate_Pt1stSCgt25_nJetPtCut4orMore_MET20/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.9pb-1/output_cutTable_SCFakeRate_Pt1stSCgt25_nJetPtCut3orMore_MET20/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.9pb-1/output_cutTable_SCFakeRate_Pt1stSCgt25_nJetPtCut2orMore_MET20/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.9pb-1/output_cutTable_SCFakeRate_ele_PtCut25/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate_Pt1stSCgt30_nJetPtCut2orMore_MET20_noDEtaInEE/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate_Pt1stSCgt30_nJetPtCut2orMore_MET20_withDEtaInEE/analysisClass_SCFakeRate_plots.root")
+# File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate_Pt1stSCgt30_nJetPtCut3orMore_MET20_withDEtaInEE/analysisClass_SCFakeRate_plots.root")
+File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate/analysisClass_SCFakeRate_plots.root")
+
 
 #--- Define all the histograms
 MyBins = [10,15,20,25,30,40,60,80,100,200,300,400,500]
@@ -320,20 +330,36 @@ MyBins = [10,15,20,25,30,40,60,80,100,200,300,400,500]
 
 
 #PT ratios
-h_ele_pt_bottom_NewData_tight_barrel = GetHisto( "histo1D__data__goodSCPt_Barrel" , File2)
-h_ele_pt_heep_NewData_tight_barrel = GetHisto( "histo1D__data__goodEleSCPt_Barrel" , File2)
+h_ele_pt_bottom_NewData_tight_barrel = GetHisto( "histo1D__DATA__goodSCPt_Barrel" , File2)
+h_ele_pt_heep_NewData_tight_barrel = GetHisto( "histo1D__DATA__goodEleSCPt_Barrel" , File2)
 fakeRate_NewData_tight_barrel = GetEffFixBinning( h_ele_pt_heep_NewData_tight_barrel , h_ele_pt_bottom_NewData_tight_barrel
                                  , 1.2 , 20 , 1
                                  , "Supercluster Pt (GeV)" , "fake probability - Barrel"
                                  , 30 , 100, 10)
 
 
-h_ele_pt_bottom_NewData_tight_endcap = GetHisto( "histo1D__data__goodSCPt_Endcap" , File2)
-h_ele_pt_heep_NewData_tight_endcap = GetHisto( "histo1D__data__goodEleSCPt_Endcap" , File2)
+h_ele_pt_bottom_NewData_tight_endcap = GetHisto( "histo1D__DATA__goodSCPt_Endcap" , File2)
+h_ele_pt_heep_NewData_tight_endcap = GetHisto( "histo1D__DATA__goodEleSCPt_Endcap" , File2)
 fakeRate_NewData_tight_endcap = GetEffFixBinning( h_ele_pt_heep_NewData_tight_endcap , h_ele_pt_bottom_NewData_tight_endcap
                                  , 1.2 , 20 , 1
                                  , "Supercluster Pt (GeV)" , "fake probability - Endcap"
                                  , 30 , 100, 10)
+
+# #PT ratios
+# h_ele_pt_bottom_NewData_tight_barrel = GetHisto( "histo1D__PhotonJet_Pt15__goodSCPt_Barrel" , File2)
+# h_ele_pt_heep_NewData_tight_barrel = GetHisto( "histo1D__PhotonJet_Pt15__goodEleSCPt_Barrel" , File2)
+# fakeRate_NewData_tight_barrel = GetEffFixBinning( h_ele_pt_heep_NewData_tight_barrel , h_ele_pt_bottom_NewData_tight_barrel
+#                                  , 1.2 , 20 , 1
+#                                  , "Supercluster Pt (GeV)" , "fake probability - Barrel"
+#                                  , 30 , 100, 10)
+
+
+# h_ele_pt_bottom_NewData_tight_endcap = GetHisto( "histo1D__PhotonJet_Pt15__goodSCPt_Endcap" , File2)
+# h_ele_pt_heep_NewData_tight_endcap = GetHisto( "histo1D__PhotonJet_Pt15__goodEleSCPt_Endcap" , File2)
+# fakeRate_NewData_tight_endcap = GetEffFixBinning( h_ele_pt_heep_NewData_tight_endcap , h_ele_pt_bottom_NewData_tight_endcap
+#                                  , 1.2 , 20 , 1
+#                                  , "Supercluster Pt (GeV)" , "fake probability - Endcap"
+#                                  , 30 , 100, 10)
 
 
 #--- Final plots
@@ -345,6 +371,7 @@ cAll.Print("FakeRatePlots_fit.ps[");
 c2 = TCanvas()
 c2.SetGridy();
 c2.SetGridx();
+#fakeRate_NewData_tight_barrel.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_NewData_tight_barrel.GetYaxis().SetRangeUser(0,0.015)
 fakeRate_NewData_tight_barrel.GetXaxis().SetRangeUser(30,100)
 fakeRate_NewData_tight_barrel.Draw("ap")
@@ -359,7 +386,8 @@ c2.Print("FakeRatePlots_fit.ps");
 c3 = TCanvas()
 c3.SetGridy();
 c3.SetGridx();
-fakeRate_NewData_tight_endcap.GetYaxis().SetRangeUser(0,0.12)
+#fakeRate_NewData_tight_endcap.GetYaxis().SetRangeUser(0,0.2)
+fakeRate_NewData_tight_endcap.GetYaxis().SetRangeUser(0,0.06)
 fakeRate_NewData_tight_endcap.GetXaxis().SetRangeUser(30,100)
 fakeRate_NewData_tight_endcap.Draw("ap")
 fakeRate_NewData_tight_endcap.SetLineWidth(2)
