@@ -331,7 +331,8 @@ class Plot:
 
 #File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_noPreStCut_ZjetsRescaled/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled_DeltaMej/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -1199,6 +1200,78 @@ plot21.addZUncBand     = zUncBand
 plot21.makeRatio       = makeRatio
 plot21.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_selection)
 
+##--- DeltaMej ---
+variableName = "DeltaMej"
+
+plot22 = Plot()
+plot22.histosStack     = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
+plot22.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot22.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
+plot22.keys            = keys
+plot22.xtit            = "#DeltaM_{ej} (GeV)"
+plot22.ytit            = "Number of events"
+plot22.ylog            = "yes"
+plot22.rebin           = 2
+plot22.xmin            = -500
+plot22.xmax            =  500
+plot22.ymin            = 0.01
+plot22.ymax            = 50
+#plot22.lpos = "bottom-center"
+plot22.name            = "DeltaMej"
+plot22.addZUncBand     = zUncBand
+plot22.makeRatio       = makeRatio
+plot22.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
+
+##--- DeltaMejRel ---
+variableName = "DeltaMejRel"
+
+plot23 = Plot()
+plot23.histosStack     = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
+plot23.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot23.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
+plot23.keys            = keys
+plot23.xtit            = "#DeltaM_{ej} / <M_{ej}> (GeV)"
+plot23.ytit            = "Number of events"
+plot23.ylog            = "yes"
+plot23.rebin           = 2
+plot23.xmin            = -2
+plot23.xmax            =  2
+plot23.ymin            = 0.01
+plot23.ymax            = 50
+#plot23.lpos = "bottom-center"
+plot23.name            = "DeltaMejRel"
+plot23.addZUncBand     = zUncBand
+plot23.makeRatio       = makeRatio
+plot23.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
+
+
+
+##--- Mej ReallyAllOtherCuts ---
+histoBaseName_allOtherCuts = "histo1D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
+variableNames = ["Mej_1stPair","Mej_2ndPair"]
+
+plot21bis = Plot()
+plot21bis.histosStack     = generateAndAddHistoList( histoBaseName_allOtherCuts, samplesForStackHistos, variableNames, File_selection)
+plot21bis.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot21bis.histos          = generateAndAddHistoList( histoBaseName_allOtherCuts, samplesForHistos, variableNames, File_selection)
+plot21bis.keys            = keys
+plot21bis.xtit            = "M_{ej} (GeV)"
+plot21bis.ytit            = "Number of events x 2"
+plot21bis.ylog            = "yes"
+plot21bis.rebin           = 4
+plot21bis.xmin            = 0
+plot21bis.xmax            = 800
+plot21bis.ymin            = 0.01
+plot21bis.ymax            = 500
+#plot21bis.lpos = "bottom-center"
+plot21bis.name            = "Mej_ReallyAllOtherCuts"
+plot21bis.addZUncBand     = zUncBand
+plot21bis.makeRatio       = makeRatio
+plot21bis.histodata       = generateAndAddHisto( histoBaseName_allOtherCuts, sampleForDataHisto, variableNames, File_selection)
+
 
 #-----------------------------------------------------------------------------------
 
@@ -1210,8 +1283,8 @@ plots = [plot0, plot0_ylog, plot1, plot2_nojet, plot3_nojet, plot4_nojet, plot5_
          plot11, plot11_ele, plot11_jet,                                               #p21-23
          plot12, plot13, plot13_ylog, plot14, plot14_ylog,                             #p24-28
          plot15, plot16,  # produced using preselection root file                      #p29-30
-         plot20, plot20full, plot21] # produced using full selection root file         #p31-33
-
+         plot20, plot20full, plot21, plot21bis, # produced using full selection file   #p31-34
+         plot22, plot23]                                                               #p35-36
 
 
 ############# USER CODE - END ################################################
