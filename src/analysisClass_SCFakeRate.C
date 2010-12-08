@@ -169,6 +169,12 @@ void analysisClass::Loop()
   int looseBitMask_EE       =  getPreCutValue3("looseBitMask_EBGapEE") ;
   int looseBitMask_enabled  =  getPreCutValue4("looseBitMask_EBGapEE") ;
 
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
+
+  ////////////////////// User's code to get preCut values - END ///////////////
+
   Long64_t nentries = fChain->GetEntriesFast();
   STDOUT("analysisClass::Loop(): nentries = " << nentries);   
   
@@ -207,7 +213,7 @@ void analysisClass::Loop()
 	  continue;
 	}
       if ( HLTFromRun[i] <= run ) {
- 	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
+ 	if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
 	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
 	  PassTrig=HLTResults->at(HLTTrigger[i]);
 	  HLTTrgUsed=HLTTrigger[i];
@@ -389,6 +395,9 @@ void analysisClass::Loop()
       if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
       if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
 
+      if (Barrel && SuperClusterSigmaIEtaIEta->at(isc)>0.014 ) continue;
+      if (Endcap && SuperClusterSigmaIEtaIEta->at(isc)>0.035 ) continue;
+
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
 	idx_scNextPt = idx_scHighestPt;
@@ -558,6 +567,20 @@ void analysisClass::Loop()
        if (minDR<smallest_ScJet_dR) smallest_ScJet_dR= minDR;
     }
 
+    // vertexes
+    vector<int> v_idx_vertex_good;
+    // loop over vertexes
+    for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+      if ( !(VertexIsFake->at(ivertex))
+	   && VertexNDF->at(ivertex) > vertexMinimumNDOF
+	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+	{
+	  v_idx_vertex_good.push_back(ivertex);
+	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+	}
+    }
+
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
     
@@ -566,6 +589,9 @@ void analysisClass::Loop()
     
     // HLT
     fillVariableWithValue( "PassHLT", PassTrig ) ;
+
+    // N_goodVertex
+    fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
 
     // dR SC-Jet
     fillVariableWithValue( "dR_SCJet", smallest_ScJet_dR );

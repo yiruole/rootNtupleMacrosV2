@@ -22,11 +22,14 @@ heepBitMask_EBGapEE   0x000	        0x000           0x000           -           
 looseBitMask_EBGapEE  0xf00		0xf00           0xf00           0               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
 jet_PtCut             10           -                    -               -               -1
-jet_sc_DeltaRcut     0.3          -                    -               -               -1
+jet_sc_DeltaRcut      0.3          -                    -               -               -1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
-HLTTrigger            20           -1                    -1              -1              -1
-HLTFromRun	      0		   999999999		999999999	999999999	-1
+HLTTrigger            21           102                  -1              -1              -1
+HLTFromRun	      0		   148059		999999999	999999999	-1
+vertexMinimumNDOF     4            -                    -               -               -1
+vertexMaxAbsZ         24           -                    -               -               -1
+vertexMaxd0           2            -                    -               -               -1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -47,11 +50,12 @@ HLTFromRun	      0		   999999999		999999999	999999999	-1
 #VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
 #------------			------------ -------------	------------	-------------	-----	----------------
 PassHLT				0	     1			-		-		1	2 -0.5 1.5
+nVertex_good                   -inf         +inf               -               -               1       11 -0.5 10.5
 nIsoSC				0	     1			-		-		0	5 -0.5 4.5
-Pt1stSC_ISO			30         +inf                 -               -               0       100 0 1000
+Pt1stSC_ISO			43         +inf                 -               -               0       100 0 1000
 Eta1stSC_ISO			-inf       +inf                 -               -               0       100 -5 5
 #
-nJet_PtCut			2	   +inf			-               -               0       16 -0.5 15.5
+nJet_PtCut			1	   +inf			-               -               0       16 -0.5 15.5
 nSC_BackToBack			0	   1			-		-		0	6 -0.5 5.5
 dR_SCJet			0.7	   +inf			-		-		0	300 0.0	3.0
 Mee                             -1	   60			119.9             +inf            0       200 0 1000
