@@ -134,6 +134,7 @@ void analysisClass::Loop()
   int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet"); 
   int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet"); 
 
+  int doExtraChecks = getPreCutValue1("doExtraChecks");  
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -264,8 +265,46 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
       CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
     }
+
+
+  if(doExtraChecks)
+    {      
+      CreateUserTH2D("h2_Ngenlept_vs_Njets_highMT", 
+		     getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID"),
+		     getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID")
+		     );  
+    }
+  TH1F* h1_Ngenlept__ee_emu_etau_eonly_noe_others = new TH1F("h1_Ngenlept__ee_emu_etau_eonly_noe_others", "h1_Ngenlept__ee_emu_etau_eonly_noe_others", 6, 0, 6);
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->Sumw2();
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(1,"ee");
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(2,"e#mu");
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(3,"e#tau");
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(4,"e");
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(5,"no e");
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(6,"others");
   
-  
+  if(doExtraChecks)
+    {
+      CreateUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT", 
+		     getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"), 
+		     getHistoNBins("mDeltaPhiMET1stJet_PAS"), getHistoMin("mDeltaPhiMET1stJet_PAS"), getHistoMax("mDeltaPhiMET1stJet_PAS")
+		     );
+      CreateUserTH1D("h1_Njet_highMT", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
+      CreateUserTH1D("h1_minDRej_highMT", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
+      CreateUserTH1D("h1_mDeltaPhiMETEle_highMT", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle") );
+      CreateUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getHistoNBins("mDeltaPhiMET1stJet"), getHistoMin("mDeltaPhiMET1stJet"), getHistoMax("mDeltaPhiMET1stJet") );
+      CreateUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getHistoNBins("mDeltaPhiMET2ndJet"), getHistoMin("mDeltaPhiMET2ndJet"), getHistoMax("mDeltaPhiMET2ndJet") );
+      CreateUserTH1D("h1_DeltaRjets_PAS_highMT", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+
+      CreateUserTH1D("h1_Njet_fullSel", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
+      CreateUserTH1D("h1_minDRej_fullSel", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
+      CreateUserTH1D("h1_mDeltaPhiMETEle_fullSel", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle") );
+      CreateUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getHistoNBins("mDeltaPhiMET1stJet"), getHistoMin("mDeltaPhiMET1stJet"), getHistoMax("mDeltaPhiMET1stJet") );
+      CreateUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getHistoNBins("mDeltaPhiMET2ndJet"), getHistoMin("mDeltaPhiMET2ndJet"), getHistoMax("mDeltaPhiMET2ndJet") );
+      CreateUserTH1D("h1_DeltaRjets_PAS_fullSel", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+    }
+
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   Long64_t nentries = fChain->GetEntriesFast();
@@ -826,8 +865,11 @@ void analysisClass::Loop()
 			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
 			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	jj = jet1+jet2;
+
+		       
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M());
+	fillVariableWithValue("DeltaRjets_PAS", jet1.DeltaR(jet2));	  
       }
 
     // ST
@@ -967,10 +1009,18 @@ void analysisClass::Loop()
     //---------------------------------------------
     //------------ Gen level studies --------------
     //---------------------------------------------
+    int Ngenleptons = 0;
+    int Ngenelectrons = 0;
+    int Ngenmuons = 0;
+    int Ngentaus = 0;
+
     if(doGenLevelStudies)
       {
 	vector<TLorentzVector> Neutrinos;
 	vector<TLorentzVector> Ws;
+	vector<TLorentzVector> Electrons;
+	vector<TLorentzVector> Muons;
+	vector<TLorentzVector> Taus;
 
 	if(isData==0)
 	  {
@@ -1003,6 +1053,33 @@ void analysisClass::Loop()
 		      }
 		  }
 
+		//Electrons
+		if( GenParticleStatus->at(genp)==3 &&
+		    ( fabs(GenParticlePdgId->at(genp))==11 )
+		    )
+		  {
+		    tmp.SetPtEtaPhiE( GenParticlePt->at(genp), GenParticleEta->at(genp), GenParticlePhi->at(genp), GenParticleEnergy->at(genp) );
+		    Electrons.push_back(tmp);
+		  }
+
+		//Muons
+		if( GenParticleStatus->at(genp)==3 &&
+		    ( fabs(GenParticlePdgId->at(genp))==13 )
+		    )
+		  {
+		    tmp.SetPtEtaPhiE( GenParticlePt->at(genp), GenParticleEta->at(genp), GenParticlePhi->at(genp), GenParticleEnergy->at(genp) );
+		    Muons.push_back(tmp);
+		  }
+
+		//Taus
+		if( GenParticleStatus->at(genp)==3 &&
+		    ( fabs(GenParticlePdgId->at(genp))==15 )
+		    )
+		  {
+		    tmp.SetPtEtaPhiE( GenParticlePt->at(genp), GenParticleEta->at(genp), GenParticlePhi->at(genp), GenParticleEnergy->at(genp) );
+		    Taus.push_back(tmp);
+		  }
+
 	      }//end loop over gen particles
 
 	    //printout
@@ -1020,6 +1097,10 @@ void analysisClass::Loop()
 	//number of gen particles
 	FillUserTH1D("h_num_Neutrinos", Neutrinos.size() );
 	FillUserTH1D("h_num_Ws", Ws.size() );
+	Ngenleptons = Neutrinos.size();
+	Ngenelectrons = Electrons.size();
+	Ngenmuons = Muons.size();
+	Ngentaus = Taus.size();
 
 	//pfMET vs NeutrinosPt
 	FillUserTH2D("h2_pfMET_vs_neutrinoPt", NeutrinoSum.Pt(), thisMET );
@@ -1705,7 +1786,7 @@ void analysisClass::Loop()
 	  }
       }
 
-    //W + >=1 jetsPt1stEle_PAS
+    //W + >=1 jets
     if(doPlot_Wmore1jet)
       {
 	if( passedAllPreviousCuts("nJet_all") && passedCut("Pt1stJet_noOvrlp_ID") && passedCut("mEta1stJet_noOvrlp_ID")
@@ -1745,6 +1826,75 @@ void analysisClass::Loop()
       }
 
 
+    //EXTRA CHECKS
+    if( doExtraChecks && variableIsFilled("MTenu")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+	&& variableIsFilled("nJet_PtCut_noOvrlp_ID")
+	&& variableIsFilled("mDeltaPhiMETEle")
+	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
+	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS") 
+	&& variableIsFilled("minDRej")
+	&& variableIsFilled("DeltaRjets_PAS")
+	)
+      {
+
+	//FULL selection
+	if( passedAllPreviousCuts("sT_presel")
+	    && passedCut("nMuon_PtCut_IDISO")
+	    && passedCut("minMETPt1stEle")
+	    && passedCut("MTenu")
+	    )
+	  {
+	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID") );	    
+	    FillUserTH1D("h1_minDRej_fullSel", getVariableValue("minDRej") );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_fullSel", getVariableValue("mDeltaPhiMETEle") ); 
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getVariableValue("mDeltaPhiMET1stJet") ); 
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getVariableValue("mDeltaPhiMET2ndJet") ); 
+	    FillUserTH1D("h1_DeltaRjets_PAS_fullSel", getVariableValue("DeltaRjets_PAS") ); 
+	  }
+		
+	//High MT after pre-selection
+        if( getVariableValue("MTenu")>MTenu_Thresh ) 
+	  {
+	    //---------------------------------------------------------------
+	    //1D distributions
+	    FillUserTH1D("h1_Njet_highMT", getVariableValue("nJet_PtCut_noOvrlp_ID") );	    
+	    FillUserTH1D("h1_minDRej_highMT", getVariableValue("minDRej") );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_highMT", getVariableValue("mDeltaPhiMETEle") ); 
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getVariableValue("mDeltaPhiMET1stJet") ); 
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getVariableValue("mDeltaPhiMET2ndJet") ); 
+	    FillUserTH1D("h1_DeltaRjets_PAS_highMT", getVariableValue("DeltaRjets_PAS") ); 
+	    //---------------------------------------------------------------
+
+	    //---------------------------------------------------------------
+	    //2D distributions
+	    double minDeltaPhi = min( getVariableValue("mDeltaPhiMET1stJet_PAS"), getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+	    FillUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT", getVariableValue("minDRej"), minDeltaPhi );
+	    if(doGenLevelStudies && isData==0)
+	      {
+		FillUserTH2D("h2_Ngenlept_vs_Njets_highMT" , getVariableValue("nJet_PtCut_noOvrlp_ID") , Ngenleptons);
+
+		if( Ngenelectrons==2 )
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(1);
+		else if( Ngenelectrons==1 && Ngenmuons==1 )
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(2);
+		else if( Ngenelectrons==1 && Ngentaus==1 )
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(3);
+		else if( Ngenelectrons==1 )
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(4);
+		else if( Ngenelectrons==0 )
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(5);
+		else
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(6);		
+		// 		cout << "leptons, electrons, muons, taus: " 
+		// 		     << Ngenleptons << ", " << Ngenelectrons << ", " << Ngenmuons << ", " << Ngentaus << endl;
+	    //---------------------------------------------------------------
+
+	      }
+	  }
+      }//end do extra checks
+
+
     // Produce skim
     if( passedAllPreviousCuts("minDRej") ) fillSkimTree();
 
@@ -1755,6 +1905,7 @@ void analysisClass::Loop()
 
   ////////////////////// User's code to write histos - BEGIN ///////////////////////
 
+  h1_Ngenlept__ee_emu_etau_eonly_noe_others->Write();
 
   ////////////////////// User's code to write histos - END ///////////////////////
 

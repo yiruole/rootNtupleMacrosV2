@@ -144,6 +144,8 @@ void analysisClass::Loop()
   int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet"); 
   int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet"); 
 
+  int doExtraChecks = getPreCutValue1("doExtraChecks");  
+
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -219,6 +221,28 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
       CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
     }
+
+  if(doExtraChecks)
+    {
+      CreateUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT", 
+		     getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"), 
+		     getHistoNBins("mDeltaPhiMET1stJet_PAS"), getHistoMin("mDeltaPhiMET1stJet_PAS"), getHistoMax("mDeltaPhiMET1stJet_PAS")
+		     );
+      CreateUserTH1D("h1_Njet_highMT", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
+      CreateUserTH1D("h1_minDRej_highMT", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
+      CreateUserTH1D("h1_mDeltaPhiMETEle_highMT", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle") );
+      CreateUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getHistoNBins("mDeltaPhiMET1stJet"), getHistoMin("mDeltaPhiMET1stJet"), getHistoMax("mDeltaPhiMET1stJet") );
+      CreateUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getHistoNBins("mDeltaPhiMET2ndJet"), getHistoMin("mDeltaPhiMET2ndJet"), getHistoMax("mDeltaPhiMET2ndJet") );
+      CreateUserTH1D("h1_DeltaRjets_PAS_highMT", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+
+      CreateUserTH1D("h1_Njet_fullSel", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
+      CreateUserTH1D("h1_minDRej_fullSel", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
+      CreateUserTH1D("h1_mDeltaPhiMETEle_fullSel", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle") );
+      CreateUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getHistoNBins("mDeltaPhiMET1stJet"), getHistoMin("mDeltaPhiMET1stJet"), getHistoMax("mDeltaPhiMET1stJet") );
+      CreateUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getHistoNBins("mDeltaPhiMET2ndJet"), getHistoMin("mDeltaPhiMET2ndJet"), getHistoMax("mDeltaPhiMET2ndJet") );
+      CreateUserTH1D("h1_DeltaRjets_PAS_fullSel", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+    }
+
   
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -928,6 +952,7 @@ void analysisClass::Loop()
 	jj = jet1+jet2;
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M(), p1);
+	fillVariableWithValue("DeltaRjets_PAS", jet1.DeltaR(jet2), p1);	  
       }
 
     // ST
@@ -1562,7 +1587,7 @@ void analysisClass::Loop()
 	  }
       }
 
-    //W + >=1 jetsPt1stEle_PAS
+    //W + >=1 jets
     if(doPlot_Wmore1jet)
       {
 	if( passedAllPreviousCuts("nJet_all") && passedCut("Pt1stJet_noOvrlp_ID") && passedCut("mEta1stJet_noOvrlp_ID")
@@ -1581,6 +1606,54 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle"), p1 );	    
 	  }
       }
+
+    //EXTRA CHECKS
+    if( doExtraChecks && variableIsFilled("MTenu")
+        && passedAllPreviousCuts("sT_presel") && passedCut("sT_presel")
+	&& variableIsFilled("nJet_PtCut_noOvrlp_ID")
+	&& variableIsFilled("mDeltaPhiMETEle")
+	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
+	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS") 
+	&& variableIsFilled("minDRej")
+	&& variableIsFilled("DeltaRjets_PAS")
+	)
+      {
+	//FULL selection
+	if( passedAllPreviousCuts("sT_presel")
+	    && passedCut("nMuon_PtCut_IDISO")
+	    && passedCut("minMETPt1stEle")
+	    && passedCut("MTenu")
+	    )
+	  {
+	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );	    
+	    FillUserTH1D("h1_minDRej_fullSel", getVariableValue("minDRej"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_fullSel", getVariableValue("mDeltaPhiMETEle"), p1 ); 
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getVariableValue("mDeltaPhiMET1stJet"), p1 ); 
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getVariableValue("mDeltaPhiMET2ndJet"), p1 ); 
+	    FillUserTH1D("h1_DeltaRjets_PAS_fullSel", getVariableValue("DeltaRjets_PAS"), p1 ); 
+	  }
+		
+	//High MT after pre-selection
+        if( getVariableValue("MTenu")>MTenu_Thresh ) 
+	  {
+	    //---------------------------------------------------------------
+	    //1D distributions
+	    FillUserTH1D("h1_Njet_highMT", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );	    
+	    FillUserTH1D("h1_minDRej_highMT", getVariableValue("minDRej"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_highMT", getVariableValue("mDeltaPhiMETEle"), p1 ); 
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getVariableValue("mDeltaPhiMET1stJet"), p1 ); 
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getVariableValue("mDeltaPhiMET2ndJet"), p1 ); 
+	    FillUserTH1D("h1_DeltaRjets_PAS_highMT", getVariableValue("DeltaRjets_PAS"), p1 ); 
+	    //---------------------------------------------------------------
+
+	    //---------------------------------------------------------------
+	    //2D distributions
+	    double minDeltaPhi = min( getVariableValue("mDeltaPhiMET1stJet_PAS"), getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+	    FillUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT", getVariableValue("minDRej"), minDeltaPhi, p1 );
+	  }
+
+      }//end do extra checks
+
 
     // Produce skim
     if( passedAllPreviousCuts("minDRej") ) fillSkimTree();
