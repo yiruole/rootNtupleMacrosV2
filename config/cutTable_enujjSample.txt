@@ -59,6 +59,7 @@ sT_Thresh	      800          -			-               -               -1
 plotEleIDIsoVar	      0		   -			-		-		-1
 doPlot_Wmore0jet      1		   -			-		-		-1
 doPlot_Wmore1jet      1		   -			-		-		-1
+doExtraChecks         1            -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -114,6 +115,7 @@ minDRej				0.7	     +inf		-		-		2	100 0 10
 mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       100 0 3.1416
 mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
 mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
+DeltaRjets_PAS			-inf         +inf               -               -               3       100 0 10
 #
 d1_DPhi_METe_METj		-inf	     +inf		-		-		2	50 0 5
 d2_DPhi_METe_METj		-inf	     +inf		-		-		2	50 0 5
