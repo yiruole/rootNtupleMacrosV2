@@ -337,13 +337,15 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+##File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+##File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 QCDscaleFactor    = 5.4 # 5.4426 # ratio between integrated lumi of the signal
                         # sample (i.e. 33.2 pb-1) / integrated lumi of the QCD sample (i.e. 6.1 pb-1 from HLT Photon30)
 
@@ -1492,6 +1494,33 @@ plot24.makeRatio       = makeRatio
 plot24.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
+#--- DeltaRjets_PAS ---
+variableName = "DeltaRjets_PAS"
+
+plot25 = Plot()
+## inputs for stacked histograms
+plot25.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+plot25.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot25.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+plot25.keys            = keys
+plot25.xtit            = "#Delta R(j1,j2)"
+plot25.ytit            = "Number of events"
+plot25.ylog            = "yes"
+plot25.rebin           = 2
+plot25.xmin            = 0
+plot25.xmax            = 7
+plot25.ymin            = 0.01
+plot25.ymax            = 5000
+#plot25.lpos = "bottom-center"
+plot25.name            = "DRjets_allPreviousCuts"
+plot25.addZUncBand     = zUncBand
+plot25.makeRatio       = makeRatio
+#plot25.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot25.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+
+
+
 
 
 # ############################ Plots below to be done after full selection ######################
@@ -1647,6 +1676,324 @@ plot35.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHist
 
 
 
+#--- h1_mDeltaPhiMETEle_fullSel ---
+variableName = "h1_mDeltaPhiMETEle_fullSel"
+
+plot110 = Plot()
+## inputs for stacked histograms
+plot110.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot110.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot110.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot110.keys            = keys
+plot110.xtit            = "#Delta#phi(MET,e) (rad.) - fullSel"
+plot110.ytit            = "Number of events"
+#plot110.xlog            = "yes"
+plot110.ylog            = "no"
+plot110.rebin           = 20
+#plot110.xmin            = 0
+#plot110.xmax            = 3.14
+plot110.ymin            = 0
+plot110.ymax            = 20
+#plot110.lpos = "bottom-center"
+plot110.name            = "mDeltaPhiMETEle_presel_fullSel"
+plot110.addZUncBand     = zUncBand
+plot110.makeRatio       = makeRatio
+plot110.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_mDeltaPhiMET1stJet_fullSel ---
+variableName = "h1_mDeltaPhiMET1stJet_fullSel"
+
+plot111 = Plot()
+## inputs for stacked histograms
+plot111.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot111.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot111.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot111.keys            = keys
+plot111.xtit            = "#Delta#phi(MET,1^{st} jet) (rad.) - fullSel"
+plot111.ytit            = "Number of events"
+#plot111.xlog            = "yes"
+plot111.ylog            = "no"
+plot111.rebin           = 20
+#plot111.xmin            = 0
+#plot111.xmax            = 3.146
+plot111.ymin            = 0.
+plot111.ymax            = 20
+#plot111.lpos = "bottom-center"
+plot111.name            = "mDeltaPhiMET1stJet_presel_fullSel"
+plot111.addZUncBand     = zUncBand
+plot111.makeRatio       = makeRatio
+plot111.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_mDeltaPhiMET2ndJet_fullSel ---
+variableName = "h1_mDeltaPhiMET2ndJet_fullSel"
+
+plot112 = Plot()
+## inputs for stacked histograms
+plot112.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot112.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot112.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot112.keys            = keys
+plot112.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.) - fullSel"
+plot112.ytit            = "Number of events"
+#plot112.xlog            = "yes"
+plot112.ylog            = "no"
+plot112.rebin           = 20
+#plot112.xmin            = 0
+#plot112.xmax            = 3.146
+plot112.ymin            = 0.
+plot112.ymax            = 20
+#plot112.lpos = "bottom-center"
+plot112.name            = "mDeltaPhiMET2ndJet_presel_fullSel"
+plot112.addZUncBand     = zUncBand
+plot112.makeRatio       = makeRatio
+plot112.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_minDRej_fullSel ---
+variableName = "h1_minDRej_fullSel"
+
+plot113 = Plot()
+## inputs for stacked histograms
+plot113.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot113.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot113.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot113.keys            = keys
+plot113.xtit            = "min#Delta R(e,jets) - fullSel"
+plot113.ytit            = "Number of events"
+plot113.ylog            = "no"
+plot113.rebin           = 10
+plot113.xmin            = 0
+plot113.xmax            = 7
+plot113.ymin            = 0.
+plot113.ymax            = 25
+#plot113.lpos = "bottom-center"
+plot113.name            = "minDRej_presel_fullSel"
+plot113.addZUncBand     = zUncBand
+plot113.makeRatio       = makeRatio
+#plot113.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot113.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_DeltaRjets_PAS_fullSel ---
+variableName = "h1_DeltaRjets_PAS_fullSel"
+
+plot114 = Plot()
+## inputs for stacked histograms
+plot114.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot114.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot114.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot114.keys            = keys
+plot114.xtit            = "#Delta R(j1,j2) - fullSel"
+plot114.ytit            = "Number of events"
+plot114.ylog            = "no"
+plot114.rebin           = 10
+plot114.xmin            = 0
+plot114.xmax            = 7
+plot114.ymin            = 0.
+plot114.ymax            = 20
+#plot114.lpos = "bottom-center"
+plot114.name            = "DRjets_presel_fullSel"
+plot114.addZUncBand     = zUncBand
+plot114.makeRatio       = makeRatio
+#plot114.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot114.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_Njet_fullSel ---
+variableName = "h1_Njet_fullSel"
+
+plot115 = Plot()
+## inputs for stacked histograms
+plot115.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot115.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot115.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot115.keys            = keys
+plot115.xtit            = "Number of jets - fullSel"
+plot115.ytit            = "Number of events"
+plot115.ylog            = "no"
+plot115.rebin           = 1
+plot115.xmin            = -0.5
+plot115.xmax            = 11.5
+plot115.ymin            = 0.
+plot115.ymax            = 20
+#plot115.lpos = "bottom-center"
+plot115.name            = "nJet_presel_fullSel"
+plot115.addZUncBand     = zUncBand
+plot115.makeRatio       = makeRatio
+plot115.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+
+
+
+
+# ############################ Plots below to be done after pre-selection + high MT ######################
+
+#--- h1_mDeltaPhiMETEle_highMT ---
+variableName = "h1_mDeltaPhiMETEle_highMT"
+
+plot90 = Plot()
+## inputs for stacked histograms
+plot90.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot90.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot90.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot90.keys            = keys
+plot90.xtit            = "#Delta#phi(MET,e) (rad.) - highMT"
+plot90.ytit            = "Number of events"
+#plot90.xlog            = "yes"
+plot90.ylog            = "no"
+plot90.rebin           = 20
+#plot90.xmin            = 0
+#plot90.xmax            = 3.14
+plot90.ymin            = 0
+plot90.ymax            = 20
+#plot90.lpos = "bottom-center"
+plot90.name            = "mDeltaPhiMETEle_presel_highMT"
+plot90.addZUncBand     = zUncBand
+plot90.makeRatio       = makeRatio
+plot90.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_mDeltaPhiMET1stJet_highMT ---
+variableName = "h1_mDeltaPhiMET1stJet_highMT"
+
+plot91 = Plot()
+## inputs for stacked histograms
+plot91.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot91.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot91.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot91.keys            = keys
+plot91.xtit            = "#Delta#phi(MET,1^{st} jet) (rad.) - highMT"
+plot91.ytit            = "Number of events"
+#plot91.xlog            = "yes"
+plot91.ylog            = "no"
+plot91.rebin           = 20
+#plot91.xmin            = 0
+#plot91.xmax            = 3.146
+plot91.ymin            = 0.
+plot91.ymax            = 20
+#plot91.lpos = "bottom-center"
+plot91.name            = "mDeltaPhiMET1stJet_presel_highMT"
+plot91.addZUncBand     = zUncBand
+plot91.makeRatio       = makeRatio
+plot91.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_mDeltaPhiMET2ndJet_highMT ---
+variableName = "h1_mDeltaPhiMET2ndJet_highMT"
+
+plot92 = Plot()
+## inputs for stacked histograms
+plot92.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot92.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot92.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot92.keys            = keys
+plot92.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.) - highMT"
+plot92.ytit            = "Number of events"
+#plot92.xlog            = "yes"
+plot92.ylog            = "no"
+plot92.rebin           = 20
+#plot92.xmin            = 0
+#plot92.xmax            = 3.146
+plot92.ymin            = 0.
+plot92.ymax            = 20
+#plot92.lpos = "bottom-center"
+plot92.name            = "mDeltaPhiMET2ndJet_presel_highMT"
+plot92.addZUncBand     = zUncBand
+plot92.makeRatio       = makeRatio
+plot92.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_minDRej_highMT ---
+variableName = "h1_minDRej_highMT"
+
+plot93 = Plot()
+## inputs for stacked histograms
+plot93.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot93.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot93.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot93.keys            = keys
+plot93.xtit            = "min#Delta R(e,jets) - highMT"
+plot93.ytit            = "Number of events"
+plot93.ylog            = "no"
+plot93.rebin           = 10
+plot93.xmin            = 0
+plot93.xmax            = 7
+plot93.ymin            = 0.
+plot93.ymax            = 25
+#plot93.lpos = "bottom-center"
+plot93.name            = "minDRej_presel_highMT"
+plot93.addZUncBand     = zUncBand
+plot93.makeRatio       = makeRatio
+#plot93.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot93.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_DeltaRjets_PAS_highMT ---
+variableName = "h1_DeltaRjets_PAS_highMT"
+
+plot94 = Plot()
+## inputs for stacked histograms
+plot94.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot94.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot94.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot94.keys            = keys
+plot94.xtit            = "#Delta R(j1,j2) - highMT"
+plot94.ytit            = "Number of events"
+plot94.ylog            = "no"
+plot94.rebin           = 10
+plot94.xmin            = 0
+plot94.xmax            = 7
+plot94.ymin            = 0.
+plot94.ymax            = 20
+#plot94.lpos = "bottom-center"
+plot94.name            = "DRjets_presel_highMT"
+plot94.addZUncBand     = zUncBand
+plot94.makeRatio       = makeRatio
+#plot94.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot94.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+#--- h1_Njet_highMT ---
+variableName = "h1_Njet_highMT"
+
+plot95 = Plot()
+## inputs for stacked histograms
+plot95.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot95.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot95.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot95.keys            = keys
+plot95.xtit            = "Number of jets - highMT"
+plot95.ytit            = "Number of events"
+plot95.ylog            = "no"
+plot95.rebin           = 1
+plot95.xmin            = -0.5
+plot95.xmax            = 11.5
+plot95.ymin            = 0.
+plot95.ymax            = 20
+#plot95.lpos = "bottom-center"
+plot95.name            = "nJet_presel_highMT"
+plot95.addZUncBand     = zUncBand
+plot95.makeRatio       = makeRatio
+plot95.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+
+
 #-----------------------------------------------------------------------------------
 
 
@@ -1658,8 +2005,10 @@ plots  = [plot0, plot1, plot2, plot_after2, plot3, plot4, plot5, plot6, plot7, p
           , plot14_0_1, plot14_1_2, plot14_2_pi  
           , plot15, plot15_lep, plot15_jet, plot16
           , plot17, plot17_ylog, plot18
-          , plot19, plot19_EleBarrel, plot19_EleEndcap, plot20, plot21, plot22, plot22_EleBarrel, plot22_EleEndcap, plot23, plot24 
-          , plot30, plot31, plot32, plot33, plot34, plot35]
+          , plot19, plot19_EleBarrel, plot19_EleEndcap, plot20, plot21, plot22, plot22_EleBarrel, plot22_EleEndcap, plot23, plot24, plot25 
+          , plot30, plot31, plot32, plot33, plot34, plot35
+          , plot90, plot91, plot92, plot93, plot94, plot95 
+          , plot110, plot111, plot112, plot113, plot114, plot115 ]
 
 
 
