@@ -96,7 +96,7 @@ def GetEffFixBinning( num , den , m_size , m_style , m_color , xtitle , ytitle ,
             GraphEff.SetPointEYhigh(bin-1,sigma) # 0 is underflow bins for histo, but first point in TGraph
             GraphEff.SetPointEYlow(bin-1,sigma)
 
-    f1 = TF1("f1","pol0",30,90);
+    f1 = TF1("f1","pol0",30,200);
     GraphEff.Fit("f1","R")
 
     return GraphEff
@@ -321,7 +321,7 @@ def GetIntegralError(histo):
 # File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate_Pt1stSCgt30_nJetPtCut2orMore_MET20_noDEtaInEE/analysisClass_SCFakeRate_plots.root")
 # File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate_Pt1stSCgt30_nJetPtCut2orMore_MET20_withDEtaInEE/analysisClass_SCFakeRate_plots.root")
 # File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate_Pt1stSCgt30_nJetPtCut3orMore_MET20_withDEtaInEE/analysisClass_SCFakeRate_plots.root")
-File2 = GetFile("$LQDATA/qcd/2.47pb-1/output_cutTable_SCFakeRate/analysisClass_SCFakeRate_plots.root")
+File2 = GetFile("$LQDATA/qcd/2010dataset/output_cutTable_SCFakeRate/analysisClass_SCFakeRate_plots.root")
 
 
 #--- Define all the histograms
@@ -335,7 +335,7 @@ h_ele_pt_heep_NewData_tight_barrel = GetHisto( "histo1D__DATA__goodEleSCPt_Barre
 fakeRate_NewData_tight_barrel = GetEffFixBinning( h_ele_pt_heep_NewData_tight_barrel , h_ele_pt_bottom_NewData_tight_barrel
                                  , 1.2 , 20 , 1
                                  , "Supercluster Pt (GeV)" , "fake probability - Barrel"
-                                 , 30 , 100, 10)
+                                 , 30 , 200, 10)
 
 
 h_ele_pt_bottom_NewData_tight_endcap = GetHisto( "histo1D__DATA__goodSCPt_Endcap" , File2)
@@ -343,7 +343,7 @@ h_ele_pt_heep_NewData_tight_endcap = GetHisto( "histo1D__DATA__goodEleSCPt_Endca
 fakeRate_NewData_tight_endcap = GetEffFixBinning( h_ele_pt_heep_NewData_tight_endcap , h_ele_pt_bottom_NewData_tight_endcap
                                  , 1.2 , 20 , 1
                                  , "Supercluster Pt (GeV)" , "fake probability - Endcap"
-                                 , 30 , 100, 10)
+                                 , 30 , 200, 10)
 
 # #PT ratios
 # h_ele_pt_bottom_NewData_tight_barrel = GetHisto( "histo1D__PhotonJet_Pt15__goodSCPt_Barrel" , File2)
@@ -373,7 +373,7 @@ c2.SetGridy();
 c2.SetGridx();
 #fakeRate_NewData_tight_barrel.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_NewData_tight_barrel.GetYaxis().SetRangeUser(0,0.015)
-fakeRate_NewData_tight_barrel.GetXaxis().SetRangeUser(30,100)
+fakeRate_NewData_tight_barrel.GetXaxis().SetRangeUser(30,200)
 fakeRate_NewData_tight_barrel.Draw("ap")
 fakeRate_NewData_tight_barrel.SetLineWidth(2)
 fakeRate_NewData_tight_barrel.GetXaxis().SetTitle("Supercluster Pt (GeV)")
@@ -388,7 +388,7 @@ c3.SetGridy();
 c3.SetGridx();
 #fakeRate_NewData_tight_endcap.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_NewData_tight_endcap.GetYaxis().SetRangeUser(0,0.06)
-fakeRate_NewData_tight_endcap.GetXaxis().SetRangeUser(30,100)
+fakeRate_NewData_tight_endcap.GetXaxis().SetRangeUser(30,200)
 fakeRate_NewData_tight_endcap.Draw("ap")
 fakeRate_NewData_tight_endcap.SetLineWidth(2)
 fakeRate_NewData_tight_endcap.GetXaxis().SetTitle("Supercluster Pt (GeV)")

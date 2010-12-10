@@ -25,8 +25,8 @@ jet_PtCut             10           -                    -               -       
 jet_sc_DeltaRcut      0.3          -                    -               -               -1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
-HLTTrigger            21           102                  -1              -1              -1
-HLTFromRun	      0		   148059		999999999	999999999	-1
+HLTTrigger            -1           -1                  -1              -1              -1
+HLTFromRun	      99999999     999999999		999999999	999999999	-1
 vertexMinimumNDOF     4            -                    -               -               -1
 vertexMaxAbsZ         24           -                    -               -               -1
 vertexMaxd0           2            -                    -               -               -1
@@ -49,7 +49,7 @@ vertexMaxd0           2            -                    -               -       
 #
 #VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
 #------------			------------ -------------	------------	-------------	-----	----------------
-PassHLT				0	     1			-		-		1	2 -0.5 1.5
+PassHLT				0	     +inf		-		-		1	2 -0.5 1.5
 nVertex_good                   -inf         +inf               -               -               1       11 -0.5 10.5
 nIsoSC				0	     1			-		-		0	5 -0.5 4.5
 Pt1stSC_ISO			43         +inf                 -               -               0       100 0 1000

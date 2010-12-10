@@ -212,17 +212,31 @@ void analysisClass::Loop()
 	  if(jentry == 0 && i == 0) STDOUT("PassTrig set to 1 for MC for all events.");
 	  continue;
 	}
-      if ( HLTFromRun[i] <= run ) {
- 	if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
-	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
-	  PassTrig=HLTResults->at(HLTTrigger[i]);
-	  HLTTrgUsed=HLTTrigger[i];
-	} else {
-	  STDOUT("ERROR: HLTTrigger out of range of HLTResults: HLTTrigger = "<<HLTTrigger[i] <<"and HLTResults size = "<< HLTResults->size());
-	}
-      }
+//       if ( HLTFromRun[i] <= run ) {
+//  	if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
+// 	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
+// 	  PassTrig=HLTResults->at(HLTTrigger[i]);
+// 	  HLTTrgUsed=HLTTrigger[i];
+// 	  if(PassTrig == 1) continue;
+// 	} else {
+// 	  STDOUT("ERROR: HLTTrigger out of range of HLTResults: HLTTrigger = "<<HLTTrigger[i] <<"and HLTResults size = "<< HLTResults->size());
+// 	}
+//      }
     }
-    if(jentry == 0 && isData) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
+//    if(jentry == 0 && isData) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
+    if ( isData )
+      {
+	if(run < 147145) 
+	  {
+	    PassTrig=HLTResults->at(21);
+	  }
+	else
+	  {
+	    PassTrig=HLTResults->at(21)+HLTResults->at(27)+HLTResults->at(105);
+	  }
+      }
+//      if(isData && run < 147145) STDOUT("Run = "<<run <<", PassTrig = "<<PassTrig<<", HLTResults 21 = "<<HLTResults->at(21));
+//      if(isData && run >= 147145) STDOUT("Run = "<<run <<", PassTrig = "<<PassTrig<<", HLTResults 21 27 105 = "<<HLTResults->at(21)<<" "<<HLTResults->at(27)<<" "<<HLTResults->at(105));
 
     // Electrons
     // Choose the electrons for the numerator here
@@ -395,8 +409,8 @@ void analysisClass::Loop()
       if (Endcap && SuperClusterPt->at(isc)<50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*SuperClusterPt->at(isc)))) continue;
       if (Endcap && SuperClusterPt->at(isc)>=50 && SuperClusterHEEPEcalIso->at(isc)>(6+(0.01*(SuperClusterPt->at(isc)-50)))) continue;
 
-      if (Barrel && SuperClusterSigmaIEtaIEta->at(isc)>0.014 ) continue;
-      if (Endcap && SuperClusterSigmaIEtaIEta->at(isc)>0.035 ) continue;
+//       if (Barrel && SuperClusterSigmaIEtaIEta->at(isc)>0.014 ) continue;
+//       if (Endcap && SuperClusterSigmaIEtaIEta->at(isc)>0.035 ) continue;
 
       if (SuperClusterPt->at(isc)>scHighestPt){
 	scNextPt = scHighestPt;
