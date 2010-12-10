@@ -87,34 +87,34 @@ void analysisClass::Loop()
    TH1F *h_NisoSC = new TH1F ("NisoSC","NisoSC",6,-0.5,5.5);  h_NisoSC->Sumw2();
    TH1F *h_NisoSC_nearEle = new TH1F ("NisoSC_nearEle","NisoSC_nearEle",6,-0.5,5.5);  h_NisoSC_nearEle->Sumw2();
 
-   TH1F *h_goodEleSCPt = new TH1F ("goodEleSCPt","goodEleSCPt",100,0,100); h_goodEleSCPt->Sumw2();
+   TH1F *h_goodEleSCPt = new TH1F ("goodEleSCPt","goodEleSCPt",500,0,1000); h_goodEleSCPt->Sumw2();
    TH1F *h_goodEleSCEta = new TH1F ("goodEleSCEta","goodEleSCEta",100,-3.,3.); h_goodEleSCEta->Sumw2();
-   TH1F *h_goodEleSCPt_Barrel = new TH1F ("goodEleSCPt_Barrel","goodEleSCPt_Barrel",100,0,100); h_goodEleSCPt_Barrel->Sumw2();
-   TH1F *h_goodEleSCPt_Endcap = new TH1F ("goodEleSCPt_Endcap","goodEleSCPt_Endcap",100,0,100); h_goodEleSCPt_Endcap->Sumw2();
-   TH1F *h_goodEleSCPt_EcalIso_Barrel = new TH1F ("goodEleSCPt_EcalIso_Barrel","goodEleSCPt_EcalIso_Barrel",100,0,100); h_goodEleSCPt_EcalIso_Barrel->Sumw2();
-   TH1F *h_goodEleSCPt_EcalIso_Endcap = new TH1F ("goodEleSCPt_EcalIso_Endcap","goodEleSCPt_EcalIso_Endcap",100,0,100); h_goodEleSCPt_EcalIso_Endcap->Sumw2();
+   TH1F *h_goodEleSCPt_Barrel = new TH1F ("goodEleSCPt_Barrel","goodEleSCPt_Barrel",500,0,1000); h_goodEleSCPt_Barrel->Sumw2();
+   TH1F *h_goodEleSCPt_Endcap = new TH1F ("goodEleSCPt_Endcap","goodEleSCPt_Endcap",500,0,1000); h_goodEleSCPt_Endcap->Sumw2();
+   TH1F *h_goodEleSCPt_EcalIso_Barrel = new TH1F ("goodEleSCPt_EcalIso_Barrel","goodEleSCPt_EcalIso_Barrel",500,0,1000); h_goodEleSCPt_EcalIso_Barrel->Sumw2();
+   TH1F *h_goodEleSCPt_EcalIso_Endcap = new TH1F ("goodEleSCPt_EcalIso_Endcap","goodEleSCPt_EcalIso_Endcap",500,0,1000); h_goodEleSCPt_EcalIso_Endcap->Sumw2();
 
 
    TH1F *h_goodEle_EoP = new TH1F ("goodEle_EoP","goodEle_EoP",500,0,5); h_goodEle_EoP->Sumw2();
    TH1F *h_goodEle_EoP_Barrel = new TH1F ("goodEle_EoP_Barrel","goodEle_EoP_Barrel",500,0,5); h_goodEle_EoP_Barrel->Sumw2();
    TH1F *h_goodEle_EoP_Endcap = new TH1F ("goodEle_EoP_Endcap","goodEle_EoP_Endcap",500,0,5); h_goodEle_EoP_Endcap->Sumw2();
 
-   TH1F *h_goodSCPt = new TH1F ("goodSCPt","goodSCPt",100,0,100); h_goodSCPt->Sumw2();
+   TH1F *h_goodSCPt = new TH1F ("goodSCPt","goodSCPt",500,0,1000); h_goodSCPt->Sumw2();
    TH1F *h_goodSCEta = new TH1F ("goodSCEta","goodSCEta",100,-3.,3.); h_goodSCEta->Sumw2();
-   TH1F *h_goodSCPt_Barrel = new TH1F ("goodSCPt_Barrel","goodSCPt_Barrel",100,0,100); h_goodSCPt_Barrel->Sumw2();
-   TH1F *h_goodSCPt_Endcap = new TH1F ("goodSCPt_Endcap","goodSCPt_Endcap",100,0,100); h_goodSCPt_Endcap->Sumw2();
-   TH1F *h_goodSCPt_EcalIso_Barrel = new TH1F ("goodSCPt_EcalIso_Barrel","goodSCPt_EcalIso_Barrel",100,0,100); h_goodSCPt_EcalIso_Barrel->Sumw2();
-   TH1F *h_goodSCPt_EcalIso_Endcap = new TH1F ("goodSCPt_EcalIso_Endcap","goodSCPt_EcalIso_Endcap",100,0,100); h_goodSCPt_EcalIso_Endcap->Sumw2();
+   TH1F *h_goodSCPt_Barrel = new TH1F ("goodSCPt_Barrel","goodSCPt_Barrel",500,0,1000); h_goodSCPt_Barrel->Sumw2();
+   TH1F *h_goodSCPt_Endcap = new TH1F ("goodSCPt_Endcap","goodSCPt_Endcap",500,0,1000); h_goodSCPt_Endcap->Sumw2();
+   TH1F *h_goodSCPt_EcalIso_Barrel = new TH1F ("goodSCPt_EcalIso_Barrel","goodSCPt_EcalIso_Barrel",500,0,1000); h_goodSCPt_EcalIso_Barrel->Sumw2();
+   TH1F *h_goodSCPt_EcalIso_Endcap = new TH1F ("goodSCPt_EcalIso_Endcap","goodSCPt_EcalIso_Endcap",500,0,1000); h_goodSCPt_EcalIso_Endcap->Sumw2();
 
-   TH1F *h_loose_goodEleSCPt = new TH1F ("loose_goodEleSCPt","loose_goodEleSCPt",100,0,100); h_loose_goodEleSCPt->Sumw2();
+   TH1F *h_loose_goodEleSCPt = new TH1F ("loose_goodEleSCPt","loose_goodEleSCPt",500,0,1000); h_loose_goodEleSCPt->Sumw2();
    TH1F *h_loose_goodEleSCEta = new TH1F ("loose_goodEleSCEta","loose_goodEleSCEta",100,-3.,3.); h_loose_goodEleSCEta->Sumw2();
-   TH1F *h_loose_goodEleSCPt_Barrel = new TH1F ("loose_goodEleSCPt_Barrel","loose_goodEleSCPt_Barrel",100,0,100); h_loose_goodEleSCPt_Barrel->Sumw2();
-   TH1F *h_loose_goodEleSCPt_Endcap = new TH1F ("loose_goodEleSCPt_Endcap","loose_goodEleSCPt_Endcap",100,0,100); h_loose_goodEleSCPt_Endcap->Sumw2();
+   TH1F *h_loose_goodEleSCPt_Barrel = new TH1F ("loose_goodEleSCPt_Barrel","loose_goodEleSCPt_Barrel",500,0,1000); h_loose_goodEleSCPt_Barrel->Sumw2();
+   TH1F *h_loose_goodEleSCPt_Endcap = new TH1F ("loose_goodEleSCPt_Endcap","loose_goodEleSCPt_Endcap",500,0,1000); h_loose_goodEleSCPt_Endcap->Sumw2();
 
-   TH1F *h_loose_goodSCPt = new TH1F ("loose_goodSCPt","loose_goodSCPt",100,0,100); h_loose_goodSCPt->Sumw2();
+   TH1F *h_loose_goodSCPt = new TH1F ("loose_goodSCPt","loose_goodSCPt",500,0,1000); h_loose_goodSCPt->Sumw2();
    TH1F *h_loose_goodSCEta = new TH1F ("loose_goodSCEta","loose_goodSCEta",100,-3.,3.); h_loose_goodSCEta->Sumw2();
-   TH1F *h_loose_goodSCPt_Barrel = new TH1F ("loose_goodSCPt_Barrel","loose_goodSCPt_Barrel",100,0,100); h_loose_goodSCPt_Barrel->Sumw2();
-   TH1F *h_loose_goodSCPt_Endcap = new TH1F ("loose_goodSCPt_Endcap","loose_goodSCPt_Endcap",100,0,100); h_loose_goodSCPt_Endcap->Sumw2();
+   TH1F *h_loose_goodSCPt_Barrel = new TH1F ("loose_goodSCPt_Barrel","loose_goodSCPt_Barrel",500,0,1000); h_loose_goodSCPt_Barrel->Sumw2();
+   TH1F *h_loose_goodSCPt_Endcap = new TH1F ("loose_goodSCPt_Endcap","loose_goodSCPt_Endcap",500,0,1000); h_loose_goodSCPt_Endcap->Sumw2();
 
    TH1F *h_eta_failHLT = new TH1F("eta_failHLT","eta_failHLT",500,-3.0,3.0);
    TH1F *h_phi_failHLT = new TH1F("phi_failHLT","phi_failHLT",100,-3.5,3.5);
@@ -124,7 +124,7 @@ void analysisClass::Loop()
    TH1F *h_IsoSuperClusterHEEPTrkIso_barrel = new TH1F("IsoSuperClusterHEEPTrkIso_barrel","IsoSuperClusterHEEPTrkIso_barrel",100,0,15);
    TH1F *h_IsoSuperClusterHoE_barrel = new TH1F("IsoSuperClusterHoE_barrel","IsoSuperClusterHoE_barrel",200,0,0.2);
    TH1F *h_IsoSuperClusterPhi_barrel = new TH1F("IsoSuperClusterPhi_barrel","IsoSuperClusterPhi_barrel",100,-3.5,3.5);
-   TH1F *h_IsoSuperClusterPt_barrel = new TH1F("IsoSuperClusterPt_barrel","IsoSuperClusterPt_barrel",100,0,400);
+   TH1F *h_IsoSuperClusterPt_barrel = new TH1F("IsoSuperClusterPt_barrel","IsoSuperClusterPt_barrel",500,0,1000);
    TH1F *h_IsoSuperClusterS4S1_barrel = new TH1F("IsoSuperClusterS4S1_barrel","IsoSuperClusterS4S1_barrel",100,0,1.0);
    TH1F *h_IsoSuperClusterSigmaIEtaIEta_barrel = new TH1F("IsoSuperClusterSigmaIEtaIEta_barrel","IsoSuperClusterSigmaIEtaIEta_barrel",100,0,0.1);
    TH1F *h_IsoSuperClusterDrTrack1_barrel = new TH1F("IsoSuperClusterDrTrack1_barrel","IsoSuperClusterDrTrack1_barrel",300,0,3.0);
@@ -134,7 +134,7 @@ void analysisClass::Loop()
    TH1F *h_IsoSuperClusterHEEPTrkIso_endcap = new TH1F("IsoSuperClusterHEEPTrkIso_endcap","IsoSuperClusterHEEPTrkIso_endcap",100,0,15);
    TH1F *h_IsoSuperClusterHoE_endcap = new TH1F("IsoSuperClusterHoE_endcap","IsoSuperClusterHoE_endcap",200,0,0.2);
    TH1F *h_IsoSuperClusterPhi_endcap = new TH1F("IsoSuperClusterPhi_endcap","IsoSuperClusterPhi_endcap",100,-3.5,3.5);
-   TH1F *h_IsoSuperClusterPt_endcap = new TH1F("IsoSuperClusterPt_endcap","IsoSuperClusterPt_endcap",100,0,400);
+   TH1F *h_IsoSuperClusterPt_endcap = new TH1F("IsoSuperClusterPt_endcap","IsoSuperClusterPt_endcap",500,0,1000);
    TH1F *h_IsoSuperClusterS4S1_endcap = new TH1F("IsoSuperClusterS4S1_endcap","IsoSuperClusterS4S1_endcap",100,0,1.0);
    TH1F *h_IsoSuperClusterSigmaIEtaIEta_endcap = new TH1F("IsoSuperClusterSigmaIEtaIEta_endcap","IsoSuperClusterSigmaIEtaIEta_endcap",100,0,0.1);
    TH1F *h_IsoSuperClusterDrTrack1_endcap = new TH1F("IsoSuperClusterDrTrack1_endcap","IsoSuperClusterDrTrack1_endcap",300,0,3.0);
@@ -237,6 +237,14 @@ void analysisClass::Loop()
       }
 //      if(isData && run < 147145) STDOUT("Run = "<<run <<", PassTrig = "<<PassTrig<<", HLTResults 21 = "<<HLTResults->at(21));
 //      if(isData && run >= 147145) STDOUT("Run = "<<run <<", PassTrig = "<<PassTrig<<", HLTResults 21 27 105 = "<<HLTResults->at(21)<<" "<<HLTResults->at(27)<<" "<<HLTResults->at(105));
+
+// Run periods
+//     if ( isData )
+//       {
+// 	//if( run > 144114 ) continue; // first period
+// 	//if( run < 144114 || run > 148058 ) continue; // second period
+// 	if( run <= 148058 ) continue; //third period
+//       }
 
     // Electrons
     // Choose the electrons for the numerator here
