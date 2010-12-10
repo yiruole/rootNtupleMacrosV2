@@ -3,14 +3,11 @@ import pprint # for pretty printing
 import math
 
 # data files
-f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
-f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
+f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
 
-#f1 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/analysisClass_enujjSample_tables.dat")
-#f2 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/analysisClass_enujjSample_QCD_tables.dat")
-
-#f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/34.7pb-1_v7_EleEtaCut2.2/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
-#f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/7.4pb-1_v7_QCD_HLT30_EleEtaCut2.2/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+#f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
+#f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
 
 #dict containing all values
 d = {}
