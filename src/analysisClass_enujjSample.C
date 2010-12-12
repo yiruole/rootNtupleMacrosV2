@@ -304,6 +304,11 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_DeltaRjets_PAS_fullSel", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
     }
 
+  CreateUserTH1D("h1_MTenu_PAS_EleBarrel", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_minDRej_EleBarrel", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
+  CreateUserTH1D("h1_MTenu_PAS_EleEndcap", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_minDRej_EleEndcap", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
+
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -1172,6 +1177,7 @@ void analysisClass::Loop()
 	&& variableIsFilled("Phi2ndJet_PAS")
 	&& variableIsFilled("METPhi_PAS")
 	&& variableIsFilled("Pt1stEle_PAS")
+	&& variableIsFilled("minDRej")
 	)
       {
 	if( ElectronCharge->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) > 0 )
@@ -1208,11 +1214,17 @@ void analysisClass::Loop()
 	  {//barrel
 	    FillUserTH1D("h1_Phi1stEle_PAS_EleBarrel", getVariableValue("Phi1stEle_PAS"));
 	    FillUserTH1D("h1_METPhi_PAS_EleBarrel", getVariableValue("METPhi_PAS"));
+
+	    FillUserTH1D("h1_MTenu_PAS_EleBarrel", getVariableValue("MTenu_PAS") );
+	    FillUserTH1D("h1_minDRej_EleBarrel", getVariableValue("minDRej") );
 	  }
 	else
 	  {//endcap
 	    FillUserTH1D("h1_Phi1stEle_PAS_EleEndcap", getVariableValue("Phi1stEle_PAS"));
 	    FillUserTH1D("h1_METPhi_PAS_EleEndcap", getVariableValue("METPhi_PAS"));
+
+	    FillUserTH1D("h1_MTenu_PAS_EleEndcap", getVariableValue("MTenu_PAS") );
+	    FillUserTH1D("h1_minDRej_EleEndcap", getVariableValue("minDRej") );
 	  }
 
 	FillUserTH2D("h2_Phi1stEle_vs_METPhi", getVariableValue("METPhi_PAS") , getVariableValue("Phi1stEle_PAS") );
