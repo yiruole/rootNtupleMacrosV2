@@ -30,8 +30,15 @@ muFidRegion           2.1          -                    -               -       
 muNHits_minThresh     11           -                    -               -               -1
 muTrkD0Maximum        0.2          -                    -               -               -1
 ## refer to the current tag of http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/RootTupleMakerV2/python/RootTupleMakerV2_Trigger_cfi.py?view=log
-HLTTrigger            21           -1                   -1              -1              -1
-HLTFromRun	      0		   999999999		999999999	999999999	-1
+#---> OLD HLT SELECTION BY RUN NUMBER
+#HLTTrigger            21           -1                   -1              -1              -1
+#HLTFromRun	      0		   999999999		999999999	999999999	-1
+#---> NEW HLT SELECTION WITH DYNAMIC PRESCALE
+HLTTrigger            21           27                   105             -1              -1
+HLTFromRun	      147145	   999999999		148108		999999999	-1
+## 147119 is /cdaq/physics/Run2010/v7.1/HLT/V2
+## 147146 is /cdaq/physics/Run2010/v8.0/HLT/V2
+## 148108 is /cdaq/physics/Run2010/v9.0/HLT/V1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
@@ -84,15 +91,15 @@ PassPhysDecl                    -inf         +inf               -               
 PassBeamScraping                0            1                  -               -               0       2 -0.5 1.5
 PassPrimaryVertex               0            1                  -               -               0       2 -0.5 1.5
 #PassHBHENoiseFilter            0            1                  -               -               0       2 -0.5 1.5
-#
-PassHLT                         0	     1                  -               -               1       2 -0.5 1.5
-#
 #nVertex_good 			-inf	     1			-		-		1	11 -0.5 10.5
 #
 nIsoSC				-inf	     +inf		-		-		1	16 -0.5 15.5
 nIsoEle                         -1           0                  -               -               1       16 -0.5 15.5
 #nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 #nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
+#
+PassHLT                         0	     1                  -               -               1       2 -0.5 1.5
+#
 nEle_PtCut_IDISO_noOvrlp        0            1                  -               -               1       16 -0.5 15.5
 Pt1stEle_IDISO_NoOvrlp          35           +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf         +inf               -               -               1       100 -5 5

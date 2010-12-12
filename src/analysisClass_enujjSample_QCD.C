@@ -243,6 +243,11 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_DeltaRjets_PAS_fullSel", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
     }
 
+  CreateUserTH1D("h1_MTenu_PAS_EleBarrel", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_minDRej_EleBarrel", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
+  CreateUserTH1D("h1_MTenu_PAS_EleEndcap", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+  CreateUserTH1D("h1_minDRej_EleEndcap", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
+
   
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -361,30 +366,32 @@ void analysisClass::Loop()
     if ( run == 147929 and ls == 619 ) passGoodRunList = 0;
 
     //## HLT
-    int PassTrig = 0;
-    int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
-			 getPreCutValue2("HLTFromRun"),
-			 getPreCutValue3("HLTFromRun"),
-			 getPreCutValue4("HLTFromRun")};
-    int HLTTrigger[4] = {getPreCutValue1("HLTTrigger"),
-			 getPreCutValue2("HLTTrigger"),
-			 getPreCutValue3("HLTTrigger"),
-			 getPreCutValue4("HLTTrigger")};
-    int HLTTrgUsed;
-    for (int i=0; i<4; i++) {
-      if ( !isData && i != 0) continue; // For MC use HLTPhoton15 as the cleaned trigger is not in MC yet as of July 20, 2010
-      if ( HLTFromRun[i] <= run ) {
- 	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
-	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
-	  PassTrig=HLTResults->at(HLTTrigger[i]);
-	  HLTTrgUsed=HLTTrigger[i];
-	} else {
-	  STDOUT("ERROR: HLTTrigger out of range of HLTResults: HLTTrigger = "<<HLTTrigger[i] <<"and HLTResults size = "<< HLTResults->size());
-	}
-      }
-    }
-    if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
-
+         
+    //--> OLD HLT SELECTION BY RUN NUMBER
+    //     int PassTrig = 0;
+    //     int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
+    // 			 getPreCutValue2("HLTFromRun"),
+    // 			 getPreCutValue3("HLTFromRun"),
+    // 			 getPreCutValue4("HLTFromRun")};
+    //     int HLTTrigger[4] = {getPreCutValue1("HLTTrigger"),
+    // 			 getPreCutValue2("HLTTrigger"),
+    // 			 getPreCutValue3("HLTTrigger"),
+    // 			 getPreCutValue4("HLTTrigger")};
+    //     int HLTTrgUsed;
+    //     for (int i=0; i<4; i++) {
+    //       if ( !isData && i != 0) continue; // For MC use HLTPhoton15 as the cleaned trigger is not in MC yet as of July 20, 2010
+    //       if ( HLTFromRun[i] <= run ) {
+    //  	//if(jentry == 0 ) STDOUT("run, i, HLTTrigger[i], HLTFromRun[i] = "<<run<<"\t"<<i<<"\t"<<"\t"<<HLTTrigger[i]<<"\t"<<HLTFromRun[i]);
+    // 	if (HLTTrigger[i] > 0 && HLTTrigger[i] < HLTResults->size() ) {
+    // 	  PassTrig=HLTResults->at(HLTTrigger[i]);
+    // 	  HLTTrgUsed=HLTTrigger[i];
+    // 	} else {
+    // 	  STDOUT("ERROR: HLTTrigger out of range of HLTResults: HLTTrigger = "<<HLTTrigger[i] <<"and HLTResults size = "<< HLTResults->size());
+    // 	}
+    //       }
+    //     }
+    //     if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
+    
     // Superclusters
     vector<int> v_idx_sc_all;
     vector<int> v_idx_sc_PtCut;
@@ -657,6 +664,83 @@ void analysisClass::Loop()
     }// end loop over muons
 
 
+    // HLT
+    //--> NEW HLT SELECTION USING DYNAMIC PRESCALE
+    int PassTrig = 0;
+    double weight_HLT = 1;
+    
+    int HLTPhoton30          = getPreCutValue1("HLTTrigger");
+    int HLTPhoton50          = getPreCutValue2("HLTTrigger");
+    int HLTPhoton70          = getPreCutValue3("HLTTrigger");
+    int MaxRun_HLTPho30_Only = getPreCutValue1("HLTFromRun");
+    int FirstRun_HLTPho70    = getPreCutValue3("HLTFromRun");
+    
+    //cout << run << ", " << ls << ", " << event << endl; 
+    if( v_idx_sc_Iso.size()>=1 )
+      {
+	if( run <= MaxRun_HLTPho30_Only ) //---------------------------------> photon 30 only 
+	  {
+	    if( HLTPrescales->at( HLTPhoton30 ) == -1 )
+	      HLTPrescales->at( HLTPhoton30 ) = 1 ; 
+
+	    if( HLTResults->at( HLTPhoton30 ) ) //this trigger is un-prescaled in this run range
+	      {
+		PassTrig = 1;
+		weight_HLT = HLTPrescales->at( HLTPhoton30 ); 
+		//cout << "Pho30 1st period" << endl;
+	      }
+	  }
+	else if(run > MaxRun_HLTPho30_Only && run < FirstRun_HLTPho70) //--> photon 30 and photon50
+	  {
+	    if( HLTPrescales->at( HLTPhoton50 ) == -1 )
+	      HLTPrescales->at( HLTPhoton50 ) = 1 ; 		
+	    if( HLTPrescales->at( HLTPhoton30 ) == -1 )
+	      HLTPrescales->at( HLTPhoton30 ) = 1 ; 
+
+	    if( HLTResults->at( HLTPhoton50 ) ) //this trigger is un-prescaled in this run range
+	      {
+		PassTrig = 1;
+		weight_HLT = HLTPrescales->at( HLTPhoton50 ); 
+	      }
+	    else if( HLTResults->at( HLTPhoton30 ) && SuperClusterPt->at(v_idx_sc_Iso[0])>30 && SuperClusterPt->at(v_idx_sc_Iso[0])<50 )
+	      {
+		PassTrig = 1;
+		weight_HLT = HLTPrescales->at( HLTPhoton30 ); 
+	      }
+	  }
+	else //-------------------------------------------------------------> photon 70, photon50, and photon 30
+	  {
+	    // 	    cout << "Pho70" << endl;
+	    // 	    cout << HLTResults->at( HLTPhoton70 ) << endl;
+	    // 	    cout << "Pho50" << endl;
+	    // 	    cout << HLTResults->at( HLTPhoton50 ) << endl;
+	    // 	    cout << "Pho30" << endl;
+	    // 	    cout << HLTResults->at( HLTPhoton30 ) << endl;
+	    if( HLTPrescales->at( HLTPhoton70 ) == -1 )
+	      HLTPrescales->at( HLTPhoton70 ) = 1 ; 
+	    if( HLTPrescales->at( HLTPhoton50 ) == -1 )
+	      HLTPrescales->at( HLTPhoton50 ) = 1 ; 		
+	    if( HLTPrescales->at( HLTPhoton30 ) == -1 )
+	      HLTPrescales->at( HLTPhoton30 ) = 1 ; 
+
+	    if( HLTResults->at( HLTPhoton70 ) ) //this trigger is un-prescaled in this run range
+	      {
+		PassTrig = 1;
+		weight_HLT = HLTPrescales->at( HLTPhoton70 ); 
+	      }
+	    else if( HLTResults->at( HLTPhoton50 ) && SuperClusterPt->at(v_idx_sc_Iso[0])>50 && SuperClusterPt->at(v_idx_sc_Iso[0])<70 )
+	      {
+		PassTrig = 1;
+		weight_HLT = HLTPrescales->at( HLTPhoton50 ); 
+	      }
+	    else if( HLTResults->at( HLTPhoton30 ) && SuperClusterPt->at(v_idx_sc_Iso[0])>30 && SuperClusterPt->at(v_idx_sc_Iso[0])<50 )
+	      {
+		PassTrig = 1;
+		weight_HLT = HLTPrescales->at( HLTPhoton30 ); 
+	      }
+	  }
+      }
+    
     //     // vertexes
     //     vector<int> v_idx_vertex_good;
     //     // loop over vertexes
@@ -686,6 +770,9 @@ void analysisClass::Loop()
       if (fabs(SuperClusterEta->at(v_idx_sc_Iso[2]))<eleEta_bar) p3 = BarrelCross + BarrelSlope*SuperClusterPt->at(v_idx_sc_Iso[2]);
       if (fabs(SuperClusterEta->at(v_idx_sc_Iso[2]))>eleEta_end_min) p3 = EndcapCross + EndcapSlope*SuperClusterPt->at(v_idx_sc_Iso[2]);
     }
+
+    //FINAL EVENT WEIGHT: fake rate * event weight from HLT prescale
+    p1 = p1 * weight_HLT;    
 
     //fake rate for ele+ and ele-
     //NOTE: need to verify that + and - are indeed the same
@@ -781,7 +868,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "PassPhysDecl", true ) ;
       }
 
-    fillVariableWithValue( "PassHLT", PassTrig ) ;
+    fillVariableWithValue( "PassHLT", PassTrig, p1 ) ;
     //fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
 
     //Event filters at RECO level
@@ -1090,6 +1177,7 @@ void analysisClass::Loop()
 	&& variableIsFilled("Phi2ndJet_PAS")
 	&& variableIsFilled("METPhi_PAS")
 	&& variableIsFilled("Pt1stEle_PAS")
+	&& variableIsFilled("minDRej")
      	)
       {
 	FillUserTH1D("h1_MTenu_PAS_plus", getVariableValue("MTenu_PAS"), p1_plus);
@@ -1120,16 +1208,24 @@ void analysisClass::Loop()
 	  {//barrel
 	    FillUserTH1D("h1_Phi1stEle_PAS_EleBarrel", getVariableValue("Phi1stEle_PAS"), p1);
 	    FillUserTH1D("h1_METPhi_PAS_EleBarrel", getVariableValue("METPhi_PAS"), p1);
+
+	    FillUserTH1D("h1_MTenu_PAS_EleBarrel", getVariableValue("MTenu_PAS"), p1);
+	    FillUserTH1D("h1_minDRej_EleBarrel", getVariableValue("minDRej"), p1 );
 	  }
 	else
 	  {//endcap
 	    FillUserTH1D("h1_Phi1stEle_PAS_EleEndcap", getVariableValue("Phi1stEle_PAS"), p1);
 	    FillUserTH1D("h1_METPhi_PAS_EleEndcap", getVariableValue("METPhi_PAS"), p1);
+
+	    FillUserTH1D("h1_MTenu_PAS_EleEndcap", getVariableValue("MTenu_PAS"), p1);
+	    FillUserTH1D("h1_minDRej_EleEndcap", getVariableValue("minDRej"), p1 );
 	  }
 
 	FillUserTH2D("h2_Phi1stEle_vs_METPhi", getVariableValue("METPhi_PAS") , getVariableValue("Phi1stEle_PAS"), p1 );
 	FillUserTH2D("h2_Phi1stEle_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("Phi1stEle_PAS"), p1 );
 	FillUserTH2D("h2_METPhi_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("METPhi_PAS"), p1 );
+	
+
       }
 
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
