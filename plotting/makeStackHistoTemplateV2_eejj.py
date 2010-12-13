@@ -14,8 +14,8 @@ from optparse import OptionParser
 import os.path
 from ROOT import *
 import re
-import ROOT
 from array import array
+import copy
 
 #--- ROOT general options
 gROOT.SetBatch(kTRUE);
@@ -40,54 +40,117 @@ def GetFile(filename):
 def GetHisto( histoName , file , scale = 1 ):
     file.cd()
     histo = file.Get( histoName )
-    new = histo.Clone()
-    #ROOT.SetOwnership( new, True )
-    if(scale!=1):
-        new.Scale(scale)
-    if( not new):
+    if( not histo ):
         print "ERROR: histo " + histoName + " not found in " + file.GetName()
         print "exiting..."
         sys.exit()
+    new = copy.deepcopy(histo)
+    if(scale!=1):
+        new.Scale(scale)
     return new
 
 def generateHistoList( histoBaseName , samples , variableName, fileName , scale = 1):
     histolist = []
     for sample in samples:
         hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
-        histolist.append(GetHisto(hname, fileName, scale).Clone())
+        histolist.append(GetHisto(hname, fileName, scale))
     return histolist
-                                                    
+
 def generateAndAddHistoList( histoBaseName , samples , variableNames, fileName , scale = 1):
     histolist = []
     for sample in samples:
         iv=0
+        histo = TH1F()
         for variableName in variableNames:
             hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
             if (iv==0):
-                histo = GetHisto(hname, fileName, scale).Clone()
+                histo = GetHisto(hname, fileName, scale)
             else:
-                histo.Add(GetHisto(hname, fileName, scale).Clone())
+                histo.Add(GetHisto(hname, fileName, scale))
             iv=iv+1
         histolist.append(histo)
     return histolist
 
 def generateHisto( histoBaseName , sample , variableName, fileName , scale = 1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
-    histo = GetHisto(hname, fileName).Clone()
+    histo = GetHisto(hname, fileName)
     return histo
 
 def generateAndAddHisto( histoBaseName , sample , variableNames, fileName , scale = 1):
     iv=0
+    histo = TH1F()
     for variableName in variableNames:
         hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
         if (iv==0):
-            histo = GetHisto(hname, fileName, scale).Clone()
+            histo = GetHisto(hname, fileName, scale)
         else:
-            histo.Add(GetHisto(hname, fileName, scale).Clone())
+            histo.Add(GetHisto(hname, fileName, scale))
         iv=iv+1
     return histo
 
-                                                    
+def rebinHisto( histo, xmin, xmax, rebin, xbins ):
+    new_histo = TH1F()
+    if( xmin!="" and xmax!="" and rebin!="var" ):
+        if(rebin!=""):
+            histo.Rebin(rebin)
+        xbinmin = histo.GetXaxis().FindBin(xmin)
+        xbinmax = histo.GetXaxis().FindBin(xmax-0.000001)
+        underflowBinContent = 0
+        underflowBinError2 = 0
+        for iter in range(0,xbinmin):
+            underflowBinContent = underflowBinContent + histo.GetBinContent(iter)
+            underflowBinError2 = underflowBinError2 + histo.GetBinError(iter)**2
+        overflowBinContent = 0
+        overflowBinError2 = 0
+        for iter in range(xbinmax+1,histo.GetNbinsX()+2):
+            overflowBinContent = overflowBinContent + histo.GetBinContent(iter)
+            overflowBinError2 = overflowBinError2 + histo.GetBinError(iter)**2
+        nbins = (xbinmax-xbinmin+1)
+        xmin = histo.GetXaxis().GetBinLowEdge(xbinmin)
+        xmax = histo.GetXaxis().GetBinUpEdge(xbinmax)
+        new_histo.SetBins( nbins, xmin, xmax )
+        for iter in range(1,nbins+1):
+            new_histo.SetBinContent( iter, histo.GetBinContent(xbinmin+iter-1) )
+            new_histo.SetBinError( iter, histo.GetBinError(xbinmin+iter-1) )
+        new_histo.SetBinContent( 0, underflowBinContent )
+        new_histo.SetBinError( 0, sqrt(underflowBinError2) )
+        #new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
+        #new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+    elif( xbins!="" and rebin=="var" ):
+        xbinmin = histo.GetXaxis().FindBin(xbins[0])
+        xbinmax = histo.GetXaxis().FindBin(xbins[-1]-0.000001)
+        underflowBinContent = 0
+        underflowBinError2 = 0
+        for iter in range(0,xbinmin):
+            underflowBinContent = underflowBinContent + histo.GetBinContent(iter)
+            underflowBinError2 = underflowBinError2 + histo.GetBinError(iter)**2
+        overflowBinContent = 0
+        overflowBinError2 = 0
+        for iter in range(xbinmax+1,histo.GetNbinsX()+2):
+            overflowBinContent = overflowBinContent + histo.GetBinContent(iter)
+            overflowBinError2 = overflowBinError2 + histo.GetBinError(iter)**2
+        xbins[0] = histo.GetXaxis().GetBinLowEdge(xbinmin)
+        xbins[-1] = histo.GetXaxis().GetBinUpEdge(xbinmax)
+        xbinsFinal = array( 'd', xbins )
+        nbins = len(xbinsFinal)-1
+        new_histo = histo.Rebin( nbins , "new_histo", xbinsFinal )
+        new_histo.SetBinContent( 0, underflowBinContent )
+        new_histo.SetBinError( 0, sqrt(underflowBinError2) )
+        #new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
+        #new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+    else:
+        new_histo = histo
+    return new_histo
+
+def rebinHistos( histos, xmin, xmax, rebin, xbins ):
+    new_histos = []
+    for histo in histos:
+        new_histo = TH1F()
+        new_histo = rebinHisto( histo, xmin, xmax, rebin, xbins )
+        new_histos.append(new_histo)
+    return new_histos
+
+
 ## The Plot class: add members if needed
 class Plot:
     histos      = [] # list of histograms to be plotted in this plot
@@ -100,7 +163,6 @@ class Plot:
     xmax        = "" # max x axis range (need to set both min and max. Leave it as is for full range)
     ymin        = "" # min y axis range (need to set both min and max. Leave it as is for full range)
     ymax        = "" # max y axis range (need to set both min and max. Leave it as is for full range)
-    binUnit     = "GeV" # unit to be displayed on y-axis label after "Number events per XXX binUnit" 
     lpos        = "" # legend position (default = top-right, option="bottom-center", "top-left")
     #    xlog        = "" # log scale of X axis (default = no, option="yes") ### IT SEEMS IT DOES NOT WORK
     ylog        = "" # log scale of Y axis (default = no, option="yes")
@@ -117,10 +179,15 @@ class Plot:
 
     def Draw(self, fileps):
 
+        self.histos = rebinHistos( self.histos, self.xmin, self.xmax, self.rebin, self.xbins )
+        self.histosStack = rebinHistos( self.histosStack, self.xmin, self.xmax, self.rebin, self.xbins )
+        self.histodata = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins )
+
         #-- create canvas
         canvas = TCanvas()
+        stack = {}
 
-        if(plot.makeRatio==1):    
+        if(self.makeRatio==1):
             fPads1 = TPad("pad1", "", 0.00, 0.20, 0.99, 0.99)
             fPads2 = TPad("pad2", "", 0.00, 0.00, 0.99, 0.20)
             fPads1.SetFillColor(0)
@@ -138,18 +205,18 @@ class Plot:
         #-- 1st pad
         fPads1.cd()
         #-- log scale
-        #             xlog may npot work         if (plot.xlog     == "yes"):
+        #             xlog may npot work         if (self.xlog     == "yes"):
         #             fPads1.SetLogx()
-        if (plot.ylog     == "yes"):
+        if (self.ylog     == "yes"):
             fPads1.SetLogy()
 
         #-- legend
         hsize=0.20
         vsize=0.25
-        if (plot.lpos=="bottom-center"):
+        if (self.lpos=="bottom-center"):
             xstart=0.35
             ystart=0.25
-        elif(plot.lpos=="top-left"):
+        elif(self.lpos=="top-left"):
             xstart=0.12
             ystart=0.63
         else:
@@ -158,26 +225,26 @@ class Plot:
         legend = TLegend(xstart, ystart, xstart+hsize, ystart+vsize)
         legend.SetFillColor(kWhite)
         legend.SetMargin(0.2)
+        legend.AddEntry(plot.histodata, "Data, 33.2 pb^{-1}","p")
 
         #-- loop over histograms (stacked)
-        Nstacked = len(plot.histosStack)
+        Nstacked = len(self.histosStack)
+        #stackColorIndexes = [20,38,14,45,20,38,14,45]
         stackColorIndexes = [2,4,3]
         stackFillStyleIds = [3354,3345,3395]
-        stack = []
         stkcp = []
         for iter in range(0, Nstacked):
             #make this stack
-            stack.append(TH1F())
+            stack[iter] = TH1F()
             Nloop = Nstacked - iter
             for iter1 in range(0,Nloop):
-                histo = plot.histosStack[iter1]
+                histo = copy.deepcopy(self.histosStack[iter1])
                 if(iter1==0):
-                    stack[iter].SetBins( histo.GetNbinsX(), histo.GetXaxis().GetXmin(), histo.GetXaxis().GetXmax() )
-                    #stack[iter].SetName( plot.keysStack[iter] )
-                stack[iter].Add(histo)
+                    stack[iter] = histo
+                    #stack[iter].SetName( self.keysStack[iter] )
+                else:
+                    stack[iter].Add(histo)
             #define style
-            if(plot.rebin!=""):
-                stack[iter].Rebin(plot.rebin)
             stack[iter].SetMarkerStyle(20+2*iter)
             stack[iter].SetMarkerColor(stackColorIndexes[iter])
             stack[iter].SetLineColor(  stackColorIndexes[iter])
@@ -187,18 +254,25 @@ class Plot:
             legend.AddEntry(stack[iter], plot.keysStack[Nstacked - iter - 1],"lf")
             #draw stack
             if iter==0:
-                thisMin = stack[iter].GetXaxis().GetXmin()
-                thisMax = stack[iter].GetXaxis().GetXmax()
-                thisNbins = stack[iter].GetNbinsX()
-                newBinning = (thisMax - thisMin) / thisNbins
                 stack[iter].SetTitle("")
-                stack[iter].GetXaxis().SetTitle(plot.xtit)
-                stack[iter].GetYaxis().SetTitle(plot.ytit + " per "+ str(newBinning) + " " + plot.binUnit )
-                if (plot.xmin!="" and plot.xmax!=""):
-                    stack[iter].GetXaxis().SetRangeUser(plot.xmin,plot.xmax-0.000001)
-                if (plot.ymin!="" and plot.ymax!=""):
-                    stack[iter].GetYaxis().SetLimits(plot.ymin,plot.ymax)
-                    stack[iter].GetYaxis().SetRangeUser(plot.ymin,plot.ymax)
+                stack[iter].GetXaxis().SetTitle(self.xtit)
+                #thisMin = stack[iter].GetXaxis().GetXmin()
+                #thisMax = stack[iter].GetXaxis().GetXmax()
+                #thisNbins = stack[iter].GetNbinsX()
+                #newBinning = (thisMax - thisMin) / thisNbins
+                #stack[iter].GetYaxis().SetTitle(self.ytit + " / ( "+ str(newBinning) + " )")
+                stack[iter].GetYaxis().SetTitle(self.ytit + " / bin")
+                if (self.ymin!="" and self.ymax!=""):
+                    stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
+                    stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
+                #search for maximum of histograms
+                #maxHisto = stack[iter].GetMaximum()
+                #print maxHisto
+                #for hh in self.histos:
+                #    if(hh.GetMaximum() > maxHisto):
+                #        maxHisto = hh.GetMaximum()
+                #stack[iter].GetYaxis().SetLimits(0.,maxHisto*1.2)
+                #stack[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)
                 #draw first histo
                 stack[iter].Draw("HIST")
                 stkcp.append(stack[iter].Clone())
@@ -208,114 +282,110 @@ class Plot:
                 stkcp[iter].SetFillColor(10)
                 stkcp[iter].Draw("HISTsame")
                 stack[iter].Draw("HISTsame")
-                
 
         #-- Z+jets uncertainty band
-        if(plot.addZUncBand == "yes"):
-            Zhisto = plot.histosStack[plot.ZPlotIndex].Clone()
-            if(plot.rebin!=""):
-                Zhisto.Rebin(plot.rebin)
-            zUncHisto = stack[0].Clone()
+        if(self.addZUncBand == "yes"):
+            Zhisto = copy.deepcopy(self.histosStack[self.ZPlotIndex])
+            zUncHisto = copy.deepcopy(stack[0])
             for bin in range(0,Zhisto.GetNbinsX()):
-              zUncHisto.SetBinError(bin+1,plot.ZScaleUnc*Zhisto.GetBinContent(bin+1))
+              zUncHisto.SetBinError(bin+1,self.ZScaleUnc*Zhisto.GetBinContent(bin+1))
             zUncHisto.SetMarkerStyle(0)
             zUncHisto.SetLineColor(0)
             zUncHisto.SetFillColor(5)
             zUncHisto.SetFillStyle(3154)
             zUncHisto.Draw("E2same")
-            legend.AddEntry(zUncHisto, plot.ZUncKey,"f")
+            legend.AddEntry(zUncHisto, self.ZUncKey,"f")
 
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
         dataColorIndexes = [1,1,1]
-        dataLineIndexes = [2,1,3]
-        for histo in plot.histos:
-            if(plot.rebin!=""):
-                histo.Rebin(plot.rebin)
+        dataLineIndexes = [1,2,3]
+        for histo in self.histos:
             histo.SetMarkerStyle(dataColorIndexes[ih])
             histo.SetMarkerColor(dataColorIndexes[ih])
             histo.SetLineColor(  dataColorIndexes[ih])
             histo.SetLineStyle(  dataLineIndexes[ih])
+            #            histo.SetMarkerStyle(20+2*ih)
+            #            histo.SetMarkerColor(2+2*ih)
+            #            histo.SetLineColor(  2+2*ih)
             histo.SetLineWidth(2)
-            legend.AddEntry(histo, plot.keys[ih],"l")
+            legend.AddEntry(histo, self.keys[ih],"l")
             histo.Draw("HISTsame")
             ih=ih+1
 
         #-- plot data
-        if(plot.histodata!=""):
-            if(plot.rebin!=""):
-                plot.histodata.Rebin(plot.rebin)
-            plot.histodata.SetMarkerStyle(20)
-            legend.AddEntry(plot.histodata, "Data","p")
-            plot.histodata.Draw("psame")
+        if(self.histodata!=""):
+            self.histodata.SetMarkerStyle(20)
+            #legend.AddEntry(self.histodata, "data","p")
+            self.histodata.Draw("psame")
 
         #-- draw label
         l = TLatex()
         l.SetTextAlign(12)
-        l.SetTextSize(0.06)
+        l.SetTextSize(0.04)
         l.SetTextFont(62)
         l.SetNDC()
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
-#        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + plot.lint)
-        if (plot.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.19,"CMS 2010")
-            l.DrawLatex(0.35,0.13,"L_{int} = " + plot.lint)
-        if (plot.lpos=="top-left"):
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.04,"CMS 2010")
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.10,"L_{int} = " + plot.lint)
+#        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + self.lint)
+        if (self.lpos=="bottom-center"):
+            l.DrawLatex(0.35,0.20,"CMS 2010")
+            l.DrawLatex(0.35,0.15,"L_{int} = " + self.lint)
+        if (self.lpos=="top-left"):
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS 2010")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.08,"L_{int} = " + self.lint)
         else:
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.04,"CMS 2010")
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.10,"L_{int} = " + plot.lint)
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS 2010")
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.08,"L_{int} = " + self.lint)
 
-        legend.Draw()
+        legend.Draw("SAME")
         canvas.Update()
         gPad.RedrawAxis()
         gPad.Modified()
 
         #-- 2nd pad (ratio)
-        if(plot.makeRatio==1):    
+        if(self.makeRatio==1):
             fPads2.cd()
             #fPads2.SetLogy()
-            h_bkgTot = stack[0].Clone() 
-            h_ratio = plot.histodata.Clone()
+            h_bkgTot = copy.deepcopy(stack[0])
+            h_ratio = copy.deepcopy(self.histodata)
+            h_bkgTot1 = TH1F()
+            h_ratio1 = TH1F()
 
-            if( plot.xbins!="" ): ## Variable binning
-                xbinsFinal = array( 'd', plot.xbins )
-                lenght = len(xbinsFinal)-1            
-                h_bkgTot1 = h_bkgTot.Rebin( lenght , "h_bkgTot1", xbinsFinal) 
-                h_ratio1 = h_ratio.Rebin( lenght , "h_ratio1" , xbinsFinal)
-            else:                 ## Fixed binning
-                h_bkgTot1 = h_bkgTot.Rebin( 1 , "h_bkgTot1" ) 
-                h_ratio1 = h_ratio.Rebin( 1 , "h_ratio1" )            
+            if( self.xbins!="" and self.rebin!="var" ): ## Variable binning
+                xbinsFinal = array( 'd', self.xbins )
+                length = len(xbinsFinal)-1
+                h_bkgTot1 = h_bkgTot.Rebin( length , "h_bkgTot1", xbinsFinal)
+                h_ratio1 = h_ratio.Rebin( length , "h_ratio1" , xbinsFinal)
+            else:
+                h_bkgTot1 = h_bkgTot
+                h_ratio1 = h_ratio
 
             h_ratio1.SetStats(0)
-            if (plot.xmin!="" and plot.xmax!=""):
-                h_bkgTot1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax-0.000001)
-                h_ratio1.GetXaxis().SetRangeUser(plot.xmin,plot.xmax-0.000001)
-            h_ratio1.Divide(h_bkgTot1)            
+            if( self.xmin!="" and self.xmax!="" and self.rebin!="var" ):
+                h_bkgTot1.GetXaxis().SetRangeUser(self.xmin,self.xmax-0.000001)
+                h_ratio1.GetXaxis().SetRangeUser(self.xmin,self.xmax-0.000001)
+            h_ratio1.Divide(h_bkgTot1)
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0.,2.)
-            h_ratio1.GetYaxis().SetRangeUser(0.,2.)
+            h_ratio1.GetYaxis().SetLimits(0.,2)
+            h_ratio1.GetYaxis().SetRangeUser(0.,2)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
             h_ratio1.GetYaxis().SetTitleSize(0.13)
             h_ratio1.GetYaxis().SetTitleOffset(0.3)
-            
-            h_ratio1.Draw("p")        
-            
-            if (plot.xmin!="" and plot.xmax!=""):
-                lineAtOne = TLine(plot.xmin,1,plot.xmax,1)
-            else:
-                lineAtOne = TLine(h_ratio.GetXaxis().GetXmin(),1,h_ratio.GetXaxis().GetXmax(),1)
+
+            h_ratio1.Draw("p")
+
+            lineAtOne = TLine(h_ratio.GetXaxis().GetXmin(),1,h_ratio.GetXaxis().GetXmax(),1)
             lineAtOne.SetLineColor(2)
             lineAtOne.Draw()
 
 
         #-- end
-        canvas.SaveAs(plot.name + ".eps","eps")
-        #canvas.SaveAs(plot.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
+        canvas.SaveAs(self.name + ".eps","eps")
+        #canvas.SaveAs(self.name + ".root","root")
+        #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
         canvas.Print(fileps)
 
 
@@ -361,10 +431,10 @@ histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 # samplesForStackHistos = ["TTbar_Madgraph","ZJetAlpgen","OTHERBKG"]
 # keysStack =             ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
 samplesForStackHistos = ["OTHERBKG"  ,"TTbar_Madgraph","ZJetAlpgen"]
-keysStack =             [otherBkgsKey,"ttbar"         , "Z/#gamma/Z* + jets"]
+keysStack =             [otherBkgsKey,"t#bar{t}"      , "Z/#gamma* + jets"]
 
-samplesForHistos = ["LQeejj_M300", "LQeejj_M400", "LQeejj_M500"]
-keys             = ["LQ eejj M300","LQ eejj M400","LQ eejj M500"]
+samplesForHistos = ["LQeejj_M400"]
+keys             = ["LQ, M = 400 GeV"]
 
 sampleForDataHisto = "DATA"
 
@@ -821,7 +891,8 @@ plot13_ylog.keys            = keys
 plot13_ylog.xtit            = "M_{ee} (GeV)"
 plot13_ylog.ytit            = "Number of events"
 plot13_ylog.ylog            = "yes"
-plot13_ylog.rebin           = 1 # don't change it (since a rebinning is already applied above on the same histo)
+plot13_ylog.rebin           = "var"
+plot13_ylog.xbins           = [0,50,55,60,65,70,75,80,85,90,95,100,110,125,145,170,200,250,400]
 plot13_ylog.ymin            = 0.01
 plot13_ylog.ymax            = 500
 plot13_ylog.xmin            = 0
@@ -830,7 +901,6 @@ plot13_ylog.xmax            = 400
 plot13_ylog.name            = "Mee_FullPreSel_allPreviousCuts"
 plot13_ylog.addZUncBand     = zUncBand
 plot13_ylog.makeRatio       = makeRatio
-plot13_ylog.xbins           = [0,50,60,70,75,80,85,90,95,100,110,120,140,200,500]
 plot13_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1165,7 +1235,9 @@ plot20full.keys            = keys
 plot20full.xtit            = "S_{T} (GeV)"
 plot20full.ytit            = "Number of events"
 plot20full.ylog            = "yes"
-plot20full.rebin           = 5
+#plot20full.rebin           = 5
+plot20full.rebin           = "var"
+plot20full.xbins           = [0,50,100,150,200,250,300,350,450,600,1000]
 plot20full.xmin            = 0
 plot20full.xmax            = 1000
 plot20full.ymin            = 0.01
