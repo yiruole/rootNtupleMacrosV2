@@ -309,6 +309,10 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_MTenu_PAS_EleEndcap", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
   CreateUserTH1D("h1_minDRej_EleEndcap", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
 
+  CreateUserTH2D("h2_EToverPT_vs_ET_1stEle"
+		 , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
+		 , 200, 0, 20
+		 );
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -412,17 +416,17 @@ void analysisClass::Loop()
     // The following data were processed but were declared as bad in
     // https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions10/7TeV/StreamExpress/Cert_132440-149442_7TeV_StreamExpress_Collisions10_JSON_v3.txt
     int passGoodRunList = 1;
-    // Skip runs declared bad for HCAL reasons
-    if ( run == 146511 ) passGoodRunList = 0;
-    if ( run == 146513 ) passGoodRunList = 0;
-    if ( run == 146514 ) passGoodRunList = 0;
-    if ( run == 146644 ) passGoodRunList = 0;
-    // Skip runs declared bad for other reasons
-    if ( run == 141874 ) passGoodRunList = 0;
-    if ( run == 141876 ) passGoodRunList = 0;
-    if ( run == 142414 ) passGoodRunList = 0;
-    if ( run == 147929 and ls == 619 ) passGoodRunList = 0;
-
+    //     // Skip runs declared bad for HCAL reasons
+    //     if ( run == 146511 ) passGoodRunList = 0;
+    //     if ( run == 146513 ) passGoodRunList = 0;
+    //     if ( run == 146514 ) passGoodRunList = 0;
+    //     if ( run == 146644 ) passGoodRunList = 0;
+    //     // Skip runs declared bad for other reasons
+    //     if ( run == 141874 ) passGoodRunList = 0;
+    //     if ( run == 141876 ) passGoodRunList = 0;
+    //     if ( run == 142414 ) passGoodRunList = 0;
+    //     if ( run == 147929 and ls == 619 ) passGoodRunList = 0;
+    
     //## HLT
     int PassTrig = 0;
     int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
@@ -1214,17 +1218,13 @@ void analysisClass::Loop()
 	  {//barrel
 	    FillUserTH1D("h1_Phi1stEle_PAS_EleBarrel", getVariableValue("Phi1stEle_PAS"));
 	    FillUserTH1D("h1_METPhi_PAS_EleBarrel", getVariableValue("METPhi_PAS"));
-
 	    FillUserTH1D("h1_MTenu_PAS_EleBarrel", getVariableValue("MTenu_PAS") );
-	    FillUserTH1D("h1_minDRej_EleBarrel", getVariableValue("minDRej") );
 	  }
 	else
 	  {//endcap
 	    FillUserTH1D("h1_Phi1stEle_PAS_EleEndcap", getVariableValue("Phi1stEle_PAS"));
 	    FillUserTH1D("h1_METPhi_PAS_EleEndcap", getVariableValue("METPhi_PAS"));
-
 	    FillUserTH1D("h1_MTenu_PAS_EleEndcap", getVariableValue("MTenu_PAS") );
-	    FillUserTH1D("h1_minDRej_EleEndcap", getVariableValue("minDRej") );
 	  }
 
 	FillUserTH2D("h2_Phi1stEle_vs_METPhi", getVariableValue("METPhi_PAS") , getVariableValue("Phi1stEle_PAS") );
@@ -1271,6 +1271,10 @@ void analysisClass::Loop()
 	      }
 	  }
 	
+	//ET/PT vs ET
+	double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
+	FillUserTH2D("h2_EToverPT_vs_ET_1stEle", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]), EToverPT );
+
       }
 
     if( passedAllPreviousCuts("d1_DPhi_METe_METj")
@@ -1393,6 +1397,22 @@ void analysisClass::Loop()
 	FillUserTH1D("h1_Charge1stEle_PAS__sT", getVariableValue("Charge1stEle_PAS"));
 	FillUserTH1D("h1_Eta1stEle_PAS__sT", getVariableValue("Eta1stEle_PAS"));
 
+      }
+
+    //minDeltaR for barrel and endcaps
+    if( passedAllPreviousCuts("minDRej") 
+	&& variableIsFilled("minDRej") 
+	&& variableIsFilled("Eta1stEle_PAS")  
+	)
+      {
+	if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
+	  {//barrel
+	    FillUserTH1D("h1_minDRej_EleBarrel", getVariableValue("minDRej") );
+	  }
+	else
+	  {//endcap
+	    FillUserTH1D("h1_minDRej_EleEndcap", getVariableValue("minDRej") );
+	  }	
       }
 
     // Events passing all non-sT cuts
