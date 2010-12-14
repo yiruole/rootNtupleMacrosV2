@@ -90,9 +90,11 @@ def generateAndAddHisto( histoBaseName , sample , variableNames, fileName , scal
 
 def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
     new_histo = TH1F()
+    minBinWidth = 0
     if( xmin!="" and xmax!="" and rebin!="var" ):
         if(rebin!=""):
             histo.Rebin(rebin)
+        minBinWidth = histo.GetBinWidth(1)
         xbinmin = histo.GetXaxis().FindBin(xmin)
         xbinmax = histo.GetXaxis().FindBin(xmax-0.000001)
         underflowBinContent = 0
@@ -116,8 +118,12 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
         new_histo.SetBinError( 0, sqrt(underflowBinError2) )
         if( addOvfl=="yes"):
             new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
-            new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+            new_histo.SetBinError( nbins, sqrt(new_histo.GetBinError(nbins)**2 + overflowBinError2) )
     elif( xbins!="" and rebin=="var" ):
+        binWidths = []
+        for iter in range(0,len(xbins)-1):
+            binWidths.append(xbins[iter+1] - xbins[iter])
+        minBinWidth = min(binWidths)
         xbinmin = histo.GetXaxis().FindBin(xbins[0])
         xbinmax = histo.GetXaxis().FindBin(xbins[-1]-0.000001)
         underflowBinContent = 0
@@ -137,18 +143,25 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
         new_histo = histo.Rebin( nbins , "new_histo", xbinsFinal )
         new_histo.SetBinContent( 0, underflowBinContent )
         new_histo.SetBinError( 0, sqrt(underflowBinError2) )
+        for iter in range(1,nbins):
+            new_histo.SetBinContent( iter, new_histo.GetBinContent(iter)*(minBinWidth/binWidths[iter-1]) )
+            new_histo.SetBinError( iter, new_histo.GetBinError(iter)*(minBinWidth/binWidths[iter-1]) )
         if( addOvfl=="yes"):
-            new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
-            new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+            new_histo.SetBinContent( nbins, (new_histo.GetBinContent(nbins) + overflowBinContent)*(minBinWidth/binWidths[iter-1]) )
+            new_histo.SetBinError( nbins, sqrt(new_histo.GetBinError(nbins)**2 + overflowBinError2)*(minBinWidth/binWidths[iter-1]) )
+        else:
+            new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins)*(minBinWidth/binWidths[iter-1]) )
+            new_histo.SetBinError( nbins, new_histo.GetBinError(nbins)*(minBinWidth/binWidths[iter-1]) )
     else:
         new_histo = histo
-    return new_histo
+        minBinWidth = histo.GetBinWidth(1)
+    return [new_histo, minBinWidth]
 
 def rebinHistos( histos, xmin, xmax, rebin, xbins, addOvfl ):
     new_histos = []
     for histo in histos:
         new_histo = TH1F()
-        new_histo = rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl )
+        new_histo = rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl )[0]
         new_histos.append(new_histo)
     return new_histos
 
@@ -184,7 +197,9 @@ class Plot:
 
         self.histos = rebinHistos( self.histos, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
         self.histosStack = rebinHistos( self.histosStack, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
-        self.histodata = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
+        resultArray = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
+        self.histodata = resultArray[0]
+        minBinW = resultArray[1]
 
         #-- create canvas
         canvas = TCanvas()
@@ -257,12 +272,7 @@ class Plot:
             if iter==0:
                 stack[iter].SetTitle("")
                 stack[iter].GetXaxis().SetTitle(self.xtit)
-                #thisMin = stack[iter].GetXaxis().GetXmin()
-                #thisMax = stack[iter].GetXaxis().GetXmax()
-                #thisNbins = stack[iter].GetNbinsX()
-                #newBinning = (thisMax - thisMin) / thisNbins
-                #stack[iter].GetYaxis().SetTitle(self.ytit + " / ( "+ str(newBinning) + " )")
-                stack[iter].GetYaxis().SetTitle(self.ytit + " / bin")
+                stack[iter].GetYaxis().SetTitle(self.ytit + " / ( "+ str(minBinW) + " )")
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
