@@ -88,7 +88,7 @@ def generateAndAddHisto( histoBaseName , sample , variableNames, fileName , scal
         iv=iv+1
     return histo
 
-def rebinHisto( histo, xmin, xmax, rebin, xbins ):
+def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
     new_histo = TH1F()
     if( xmin!="" and xmax!="" and rebin!="var" ):
         if(rebin!=""):
@@ -114,8 +114,9 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins ):
             new_histo.SetBinError( iter, histo.GetBinError(xbinmin+iter-1) )
         new_histo.SetBinContent( 0, underflowBinContent )
         new_histo.SetBinError( 0, sqrt(underflowBinError2) )
-        new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
-        new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+        if( addOvfl=="yes"):
+            new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
+            new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
     elif( xbins!="" and rebin=="var" ):
         xbinmin = histo.GetXaxis().FindBin(xbins[0])
         xbinmax = histo.GetXaxis().FindBin(xbins[-1]-0.000001)
@@ -136,17 +137,18 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins ):
         new_histo = histo.Rebin( nbins , "new_histo", xbinsFinal )
         new_histo.SetBinContent( 0, underflowBinContent )
         new_histo.SetBinError( 0, sqrt(underflowBinError2) )
-        new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
-        new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+        if( addOvfl=="yes"):
+            new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
+            new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
     else:
         new_histo = histo
     return new_histo
 
-def rebinHistos( histos, xmin, xmax, rebin, xbins ):
+def rebinHistos( histos, xmin, xmax, rebin, xbins, addOvfl ):
     new_histos = []
     for histo in histos:
         new_histo = TH1F()
-        new_histo = rebinHisto( histo, xmin, xmax, rebin, xbins )
+        new_histo = rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl )
         new_histos.append(new_histo)
     return new_histos
 
@@ -167,6 +169,7 @@ class Plot:
     #    xlog        = "" # log scale of X axis (default = no, option="yes") ### IT SEEMS IT DOES NOT WORK
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
+    addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
     lint        = "33.2 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
@@ -179,9 +182,9 @@ class Plot:
 
     def Draw(self, fileps):
 
-        self.histos = rebinHistos( self.histos, self.xmin, self.xmax, self.rebin, self.xbins )
-        self.histosStack = rebinHistos( self.histosStack, self.xmin, self.xmax, self.rebin, self.xbins )
-        self.histodata = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins )
+        self.histos = rebinHistos( self.histos, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
+        self.histosStack = rebinHistos( self.histosStack, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
+        self.histodata = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
 
         #-- create canvas
         canvas = TCanvas()
@@ -261,7 +264,7 @@ class Plot:
                 #stack[iter].GetYaxis().SetTitle(self.ytit + " / ( "+ str(newBinning) + " )")
                 stack[iter].GetYaxis().SetTitle(self.ytit + " / bin")
                 if (self.ymin!="" and self.ymax!=""):
-                    stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
+                    #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
                 #search for maximum of histograms
                 #maxHisto = stack[iter].GetMaximum()
@@ -360,7 +363,7 @@ class Plot:
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0.,2)
+            #h_ratio1.GetYaxis().SetLimits(0.,2)
             h_ratio1.GetYaxis().SetRangeUser(0.,2)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
