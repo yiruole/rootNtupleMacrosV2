@@ -253,6 +253,10 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
       CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
       CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+      CreateUserTH2D("h2_EToverPT_vs_ET_1stEle_W0jet"
+		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
+		     , 200, 0, 20
+		     );
     }
   
   if(doPlot_Wmore1jet)
@@ -264,6 +268,10 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
       CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
       CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+      CreateUserTH2D("h2_EToverPT_vs_ET_1stEle_W1jet"
+		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
+		     , 200, 0, 20
+		     );
     }
 
 
@@ -1797,6 +1805,10 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS") );	    
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle") );	    
 
+	    //ET/PT vs ET
+	    double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
+	    FillUserTH2D("h2_EToverPT_vs_ET_1stEle_W0jet", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]), EToverPT );
+
 	    if( isData && getVariableValue("Pt1stEle_PAS")>150 && getVariableValue("Pt1stEle_PAS")<175 )
 	      {
 		STDOUT("PassPtEleW0jetThreshold: ----------- START ------------");
@@ -1835,6 +1847,10 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS") );	    
 	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS") );	    
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle") );	    
+
+	    //ET/PT vs ET
+	    double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
+	    FillUserTH2D("h2_EToverPT_vs_ET_1stEle_W1jet", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]), EToverPT );
 
 	    if( isData && getVariableValue("Pt1stEle_PAS")>150 && getVariableValue("Pt1stEle_PAS")<175 )
 	      {
