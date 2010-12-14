@@ -257,6 +257,12 @@ void analysisClass::Loop()
 		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
 		     , 200, 0, 20
 		     );
+      CreateUserTH1D("h1_Pt1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Pt1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Energy1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Energy1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_TrackPt1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_TrackPt1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));       
     }
   
   if(doPlot_Wmore1jet)
@@ -272,6 +278,12 @@ void analysisClass::Loop()
 		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
 		     , 200, 0, 20
 		     );
+      CreateUserTH1D("h1_Pt1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Pt1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Energy1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_Energy1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_TrackPt1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
+      CreateUserTH1D("h1_TrackPt1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));       
     }
 
 
@@ -1805,6 +1817,19 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS") );	    
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle") );	    
 
+	    if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
+	      {
+		FillUserTH1D("h1_Pt1stEle_W0jet_barrel", getVariableValue("Pt1stEle_PAS") ); 
+		FillUserTH1D("h1_Energy1stEle_W0jet_barrel", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+		FillUserTH1D("h1_TrackPt1stEle_W0jet_barrel", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+	      }
+	    else
+	      {
+		FillUserTH1D("h1_Pt1stEle_W0jet_endcap", getVariableValue("Pt1stEle_PAS") ); 
+		FillUserTH1D("h1_Energy1stEle_W0jet_endcap", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+		FillUserTH1D("h1_TrackPt1stEle_W0jet_endcap", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );       
+	      }
+
 	    //ET/PT vs ET
 	    double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
 	    FillUserTH2D("h2_EToverPT_vs_ET_1stEle_W0jet", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]), EToverPT );
@@ -1847,6 +1872,19 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS") );	    
 	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS") );	    
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle") );	    
+
+	    if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
+	      {
+		FillUserTH1D("h1_Pt1stEle_W1jet_barrel", getVariableValue("Pt1stEle_PAS") ); 
+		FillUserTH1D("h1_Energy1stEle_W1jet_barrel", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+		FillUserTH1D("h1_TrackPt1stEle_W1jet_barrel", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+	      }
+	    else
+	      {
+		FillUserTH1D("h1_Pt1stEle_W1jet_endcap", getVariableValue("Pt1stEle_PAS") ); 
+		FillUserTH1D("h1_Energy1stEle_W1jet_endcap", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+		FillUserTH1D("h1_TrackPt1stEle_W1jet_endcap", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );       
+	      }
 
 	    //ET/PT vs ET
 	    double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
