@@ -122,7 +122,7 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
     elif( xbins!="" and rebin=="var" ):
         binWidths = []
         for iter in range(0,len(xbins)-1):
-            binWidths.append(xbins[iter+1] - xbins[iter])
+            binWidths.append(float(xbins[iter+1] - xbins[iter]))
         minBinWidth = min(binWidths)
         xbinmin = histo.GetXaxis().FindBin(xbins[0])
         xbinmax = histo.GetXaxis().FindBin(xbins[-1]-0.000001)
@@ -272,7 +272,7 @@ class Plot:
             if iter==0:
                 stack[iter].SetTitle("")
                 stack[iter].GetXaxis().SetTitle(self.xtit)
-                stack[iter].GetYaxis().SetTitle(self.ytit + " / ( "+ str(minBinW) + " )")
+                stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)")
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
