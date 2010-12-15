@@ -184,7 +184,7 @@ class Plot:
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
-    lint        = "33.2 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "36.0 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -404,17 +404,16 @@ class Plot:
 
 #--- Input root file
 
-File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
-##File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.05pb-1_sT_presel_250_Zrescale1.20/analysisClass_enujjSample_plots.root")
+##File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-##File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-QCDscaleFactor    = 5.4 # 5.4426 # ratio between integrated lumi of the signal
-                        # sample (i.e. 33.2 pb-1) / integrated lumi of the QCD sample (i.e. 6.1 pb-1 from HLT Photon30)
+File_QCD          = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.84pb-1_QCD_UseHLTPrescales_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
+##File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+QCDscaleFactor    = 1 # no need to rescale anymore since we are using the HLT prescales (36/35.84 can be ignored)
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
@@ -1680,7 +1679,7 @@ plot33.keys            = keys
 plot33.xtit            = "Pt(e\\nu) (GeV)"
 plot33.ytit            = "Number of events"
 plot33.ylog            = "yes"
-plot33.rebin           = 5
+plot33.rebin           = 1
 plot33.xmin            = 0
 plot33.xmax            = 1000
 plot33.ymin            = 0.01
@@ -2075,7 +2074,8 @@ plots  = [plot0, plot1, plot2, plot_after2, plot3, plot4, plot5, plot6, plot7, p
           , plot19, plot19_EleBarrel, plot19_EleEndcap, plot20, plot21, plot22, plot22_EleBarrel, plot22_EleEndcap, plot23, plot24, plot25
           , plot30, plot31, plot32, plot33, plot34, plot35
           , plot90, plot91, plot92, plot93, plot94, plot95
-          , plot110, plot111, plot112, plot113, plot114, plot115 ]
+          , plot110, plot111, plot112, plot113, plot114, plot115
+          ]
 
 
 
