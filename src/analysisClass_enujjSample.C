@@ -51,16 +51,16 @@ bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits
 
 bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
   bool jetidloose=false;
-  bool jetidChHadFrac=true;
+  bool jetidChFrac=true;
 
   double chHadFrac = 0.;
   double chEmFrac = 0.99;
   double neutHadFrac = 0.99;
   double neutEmFrac = 0.99;
 
-  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChHadFrac=false;
+  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChFrac=false;
 
-  if(jetidChHadFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
+  if(jetidChFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
     jetidloose=true;
   }
   return jetidloose;
@@ -123,18 +123,18 @@ void analysisClass::Loop()
   double met_Thresh = getPreCutValue1("met_Thresh");
   double minMETPt1stEle_Thresh = getPreCutValue1("minMETPt1stEle_Thresh");
   double Pt1stEle_PAS_Thresh = getPreCutValue1("Pt1stEle_PAS_Thresh");
-  double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh"); 
-  double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh"); 
-  double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");  
-  double MTenu_Thresh2 = getPreCutValue2("MTenu_Thresh");  
-  double sT_Thresh = getPreCutValue1("sT_Thresh");   
+  double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh");
+  double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh");
+  double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");
+  double MTenu_Thresh2 = getPreCutValue2("MTenu_Thresh");
+  double sT_Thresh = getPreCutValue1("sT_Thresh");
 
   int plotEleIDIsoVar = getPreCutValue1("plotEleIDIsoVar");
 
-  int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet"); 
-  int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet"); 
+  int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet");
+  int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet");
 
-  int doExtraChecks = getPreCutValue1("doExtraChecks");  
+  int doExtraChecks = getPreCutValue1("doExtraChecks");
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -221,8 +221,8 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_ElectronHcalIsoD2Heep_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronTrkIsoHeep_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronE2x5OverE5x5_highMT", 100,0,1 );
-      CreateUserTH1D("h1_ElectronE1x5OverE5x5_highMT", 100,0,1 );	    
-      
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_highMT", 100,0,1 );
+
       CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_barrel_highMT", 200,-0.05,0.05 );
       CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_barrel_highMT", 200,-0.5,0.5 );
       CreateUserTH1D("h1_ElectronHoE_barrel_highMT", 75,0,0.15 );
@@ -231,8 +231,8 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_ElectronHcalIsoD2Heep_barrel_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronTrkIsoHeep_barrel_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronE2x5OverE5x5_barrel_highMT", 100,0,1 );
-      CreateUserTH1D("h1_ElectronE1x5OverE5x5_barrel_highMT", 100,0,1 );	    
-      
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_barrel_highMT", 100,0,1 );
+
       CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_endcap_highMT", 200,-0.05,0.05 );
       CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_endcap_highMT", 200,-0.5,0.5 );
       CreateUserTH1D("h1_ElectronHoE_endcap_highMT", 75,0,0.15 );
@@ -241,58 +241,58 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_ElectronHcalIsoD2Heep_endcap_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronTrkIsoHeep_endcap_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT", 100,0,1 );
-      CreateUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT", 100,0,1 );	    
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT", 100,0,1 );
     }
-  
+
   if(doPlot_Wmore0jet)
     {
-      CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
-      CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
-      CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
-      CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
-      CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
-      CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+      CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
+      CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));
+      CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));
+      CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));
+      CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));
       CreateUserTH2D("h2_EToverPT_vs_ET_1stEle_W0jet"
-		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
+		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")
 		     , 200, 0, 20
 		     );
-      CreateUserTH1D("h1_Pt1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Pt1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Energy1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Energy1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_TrackPt1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_TrackPt1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));       
+      CreateUserTH1D("h1_Pt1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Pt1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Energy1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Energy1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_TrackPt1stEle_W0jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_TrackPt1stEle_W0jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
     }
-  
+
   if(doPlot_Wmore1jet)
     {
-      CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
-      CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
-      CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
-      CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
-      CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
-      CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+      CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
+      CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));
+      CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));
+      CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));
+      CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));
       CreateUserTH2D("h2_EToverPT_vs_ET_1stEle_W1jet"
-		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
+		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")
 		     , 200, 0, 20
 		     );
-      CreateUserTH1D("h1_Pt1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Pt1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Energy1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Energy1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_TrackPt1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_TrackPt1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));       
+      CreateUserTH1D("h1_Pt1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Pt1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Energy1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Energy1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_TrackPt1stEle_W1jet_barrel", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_TrackPt1stEle_W1jet_endcap", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
     }
 
 
   if(doExtraChecks)
-    {      
-      CreateUserTH2D("h2_Ngenlept_vs_Njets_highMT", 
+    {
+      CreateUserTH2D("h2_Ngenlept_vs_Njets_highMT",
 		     getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID"),
 		     getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID")
-		     );  
+		     );
     }
   TH1F* h1_Ngenlept__ee_emu_etau_eonly_noe_others = new TH1F("h1_Ngenlept__ee_emu_etau_eonly_noe_others", "h1_Ngenlept__ee_emu_etau_eonly_noe_others", 6, 0, 6);
   h1_Ngenlept__ee_emu_etau_eonly_noe_others->Sumw2();
@@ -302,11 +302,11 @@ void analysisClass::Loop()
   h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(4,"e");
   h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(5,"no e");
   h1_Ngenlept__ee_emu_etau_eonly_noe_others->GetXaxis()->SetBinLabel(6,"others");
-  
+
   if(doExtraChecks)
     {
-      CreateUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT", 
-		     getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"), 
+      CreateUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT",
+		     getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"),
 		     getHistoNBins("mDeltaPhiMET1stJet_PAS"), getHistoMin("mDeltaPhiMET1stJet_PAS"), getHistoMax("mDeltaPhiMET1stJet_PAS")
 		     );
       CreateUserTH1D("h1_Njet_highMT", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
@@ -330,7 +330,7 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_minDRej_EleEndcap", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
 
   CreateUserTH2D("h2_EToverPT_vs_ET_1stEle"
-		 , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") 
+		 , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")
 		 , 200, 0, 20
 		 );
 
@@ -446,7 +446,7 @@ void analysisClass::Loop()
     //     if ( run == 141876 ) passGoodRunList = 0;
     //     if ( run == 142414 ) passGoodRunList = 0;
     //     if ( run == 147929 and ls == 619 ) passGoodRunList = 0;
-    
+
     //## HLT
     int PassTrig = 0;
     int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
@@ -895,10 +895,10 @@ void analysisClass::Loop()
 			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	jj = jet1+jet2;
 
-		       
+
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M());
-	fillVariableWithValue("DeltaRjets_PAS", jet1.DeltaR(jet2));	  
+	fillVariableWithValue("DeltaRjets_PAS", jet1.DeltaR(jet2));
       }
 
     // ST
@@ -1252,7 +1252,7 @@ void analysisClass::Loop()
 	FillUserTH2D("h2_METPhi_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("METPhi_PAS") );
 
 	//HEEP electron id/isolation variables
-	int myEle = v_idx_ele_PtCut_IDISO_noOverlap[0]; 
+	int myEle = v_idx_ele_PtCut_IDISO_noOverlap[0];
 	if( getVariableValue("MTenu")>MTenu_Thresh2 && plotEleIDIsoVar )
 	  {
 	    FillUserTH1D("h1_ElectronDeltaEtaTrkSC_highMT", ElectronDeltaEtaTrkSC->at(myEle) );
@@ -1263,7 +1263,7 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_ElectronHcalIsoD2Heep_highMT",  ElectronHcalIsoD2Heep->at(myEle) );
 	    FillUserTH1D("h1_ElectronTrkIsoHeep_highMT",  ElectronTrkIsoHeep->at(myEle) );
 	    FillUserTH1D("h1_ElectronE2x5OverE5x5_highMT",  ElectronE2x5OverE5x5->at(myEle) );
-	    FillUserTH1D("h1_ElectronE1x5OverE5x5_highMT",  ElectronE1x5OverE5x5->at(myEle) );	    
+	    FillUserTH1D("h1_ElectronE1x5OverE5x5_highMT",  ElectronE1x5OverE5x5->at(myEle) );
 
 	    if( fabs( ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ) <= eleEta_bar )
 	      {
@@ -1275,9 +1275,9 @@ void analysisClass::Loop()
 		FillUserTH1D("h1_ElectronHcalIsoD2Heep_barrel_highMT",  ElectronHcalIsoD2Heep->at(myEle) );
 		FillUserTH1D("h1_ElectronTrkIsoHeep_barrel_highMT",  ElectronTrkIsoHeep->at(myEle) );
 		FillUserTH1D("h1_ElectronE2x5OverE5x5_barrel_highMT",  ElectronE2x5OverE5x5->at(myEle) );
-		FillUserTH1D("h1_ElectronE1x5OverE5x5_barrel_highMT",  ElectronE1x5OverE5x5->at(myEle) );	    
+		FillUserTH1D("h1_ElectronE1x5OverE5x5_barrel_highMT",  ElectronE1x5OverE5x5->at(myEle) );
 	      }
-	    else 
+	    else
 	      {
 		FillUserTH1D("h1_ElectronDeltaEtaTrkSC_endcap_highMT", ElectronDeltaEtaTrkSC->at(myEle) );
 		FillUserTH1D("h1_ElectronDeltaPhiTrkSC_endcap_highMT", ElectronDeltaPhiTrkSC->at(myEle) );
@@ -1287,10 +1287,10 @@ void analysisClass::Loop()
 		FillUserTH1D("h1_ElectronHcalIsoD2Heep_endcap_highMT",  ElectronHcalIsoD2Heep->at(myEle) );
 		FillUserTH1D("h1_ElectronTrkIsoHeep_endcap_highMT",  ElectronTrkIsoHeep->at(myEle) );
 		FillUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT",  ElectronE2x5OverE5x5->at(myEle) );
-		FillUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT",  ElectronE1x5OverE5x5->at(myEle) );	    
+		FillUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT",  ElectronE1x5OverE5x5->at(myEle) );
 	      }
 	  }
-	
+
 	//ET/PT vs ET
 	double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
 	FillUserTH2D("h2_EToverPT_vs_ET_1stEle", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]), EToverPT );
@@ -1420,9 +1420,9 @@ void analysisClass::Loop()
       }
 
     //minDeltaR for barrel and endcaps
-    if( passedAllPreviousCuts("minDRej") 
-	&& variableIsFilled("minDRej") 
-	&& variableIsFilled("Eta1stEle_PAS")  
+    if( passedAllPreviousCuts("minDRej")
+	&& variableIsFilled("minDRej")
+	&& variableIsFilled("Eta1stEle_PAS")
 	)
       {
 	if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
@@ -1432,7 +1432,7 @@ void analysisClass::Loop()
 	else
 	  {//endcap
 	    FillUserTH1D("h1_minDRej_EleEndcap", getVariableValue("minDRej") );
-	  }	
+	  }
       }
 
     // Events passing all non-sT cuts
@@ -1802,32 +1802,32 @@ void analysisClass::Loop()
     //W + >=0 jets
     if(doPlot_Wmore0jet)
       {
-	if( passedAllPreviousCuts("nJet_all") 
-	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")  
-	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") 
-	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle") 
-	    && variableIsFilled("METPhi_PAS") 
+	if( passedAllPreviousCuts("nJet_all")
+	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")
+	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS")
+	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle")
+	    && variableIsFilled("METPhi_PAS")
 	    )
 	  {
-	    FillUserTH1D("h1_Pt1stEle_W0jet", getVariableValue("Pt1stEle_PAS") );	    
-	    FillUserTH1D("h1_Eta1stEle_W0jet", getVariableValue("Eta1stEle_PAS") );	    
-	    FillUserTH1D("h1_Phi1stEle_W0jet", getVariableValue("Phi1stEle_PAS") );	    
-	    FillUserTH1D("h1_MET_W0jet", getVariableValue("MET_PAS") );	    
-	    FillUserTH1D("h1_METPhi_W0jet", getVariableValue("METPhi_PAS") );	    
-	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS") );	    
-	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle") );	    
+	    FillUserTH1D("h1_Pt1stEle_W0jet", getVariableValue("Pt1stEle_PAS") );
+	    FillUserTH1D("h1_Eta1stEle_W0jet", getVariableValue("Eta1stEle_PAS") );
+	    FillUserTH1D("h1_Phi1stEle_W0jet", getVariableValue("Phi1stEle_PAS") );
+	    FillUserTH1D("h1_MET_W0jet", getVariableValue("MET_PAS") );
+	    FillUserTH1D("h1_METPhi_W0jet", getVariableValue("METPhi_PAS") );
+	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS") );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle") );
 
 	    if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
 	      {
-		FillUserTH1D("h1_Pt1stEle_W0jet_barrel", getVariableValue("Pt1stEle_PAS") ); 
-		FillUserTH1D("h1_Energy1stEle_W0jet_barrel", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
-		FillUserTH1D("h1_TrackPt1stEle_W0jet_barrel", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+		FillUserTH1D("h1_Pt1stEle_W0jet_barrel", getVariableValue("Pt1stEle_PAS") );
+		FillUserTH1D("h1_Energy1stEle_W0jet_barrel", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+		FillUserTH1D("h1_TrackPt1stEle_W0jet_barrel", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	      }
 	    else
 	      {
-		FillUserTH1D("h1_Pt1stEle_W0jet_endcap", getVariableValue("Pt1stEle_PAS") ); 
-		FillUserTH1D("h1_Energy1stEle_W0jet_endcap", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
-		FillUserTH1D("h1_TrackPt1stEle_W0jet_endcap", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );       
+		FillUserTH1D("h1_Pt1stEle_W0jet_endcap", getVariableValue("Pt1stEle_PAS") );
+		FillUserTH1D("h1_Energy1stEle_W0jet_endcap", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+		FillUserTH1D("h1_TrackPt1stEle_W0jet_endcap", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	      }
 
 	    //ET/PT vs ET
@@ -1837,7 +1837,7 @@ void analysisClass::Loop()
 	    if( isData && getVariableValue("Pt1stEle_PAS")>150 && getVariableValue("Pt1stEle_PAS")<175 )
 	      {
 		STDOUT("PassPtEleW0jetThreshold: ----------- START ------------");
-		
+
 		STDOUT("PassPtEleW0jetThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
 		if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
 		  STDOUT("PassPtEleW0jetThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
@@ -1849,7 +1849,7 @@ void analysisClass::Loop()
 		  STDOUT("PassPtEleW0jetThreshold: mDeltaPhiMETEle_PAS = "
 			 <<getVariableValue("mDeltaPhiMETEle_PAS"));
 
-		STDOUT("PassPtEleW0jetThreshold: ------------ END -------------");						
+		STDOUT("PassPtEleW0jetThreshold: ------------ END -------------");
 	      }
 
 	  }
@@ -1859,31 +1859,31 @@ void analysisClass::Loop()
     if(doPlot_Wmore1jet)
       {
 	if( passedAllPreviousCuts("nJet_all") && passedCut("Pt1stJet_noOvrlp_ID") && passedCut("mEta1stJet_noOvrlp_ID")
-	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS") 
-	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") 
-	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle") 
-	    && variableIsFilled("METPhi_PAS") 
+	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")
+	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS")
+	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle")
+	    && variableIsFilled("METPhi_PAS")
 	    )
 	  {
-	    FillUserTH1D("h1_Pt1stEle_W1jet", getVariableValue("Pt1stEle_PAS") );	    
-	    FillUserTH1D("h1_Eta1stEle_W1jet", getVariableValue("Eta1stEle_PAS") );	    
-	    FillUserTH1D("h1_Phi1stEle_W1jet", getVariableValue("Phi1stEle_PAS") );	    
-	    FillUserTH1D("h1_MET_W1jet", getVariableValue("MET_PAS") );	    
-	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS") );	    
-	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS") );	    
-	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle") );	    
+	    FillUserTH1D("h1_Pt1stEle_W1jet", getVariableValue("Pt1stEle_PAS") );
+	    FillUserTH1D("h1_Eta1stEle_W1jet", getVariableValue("Eta1stEle_PAS") );
+	    FillUserTH1D("h1_Phi1stEle_W1jet", getVariableValue("Phi1stEle_PAS") );
+	    FillUserTH1D("h1_MET_W1jet", getVariableValue("MET_PAS") );
+	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS") );
+	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS") );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle") );
 
 	    if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
 	      {
-		FillUserTH1D("h1_Pt1stEle_W1jet_barrel", getVariableValue("Pt1stEle_PAS") ); 
-		FillUserTH1D("h1_Energy1stEle_W1jet_barrel", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
-		FillUserTH1D("h1_TrackPt1stEle_W1jet_barrel", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
+		FillUserTH1D("h1_Pt1stEle_W1jet_barrel", getVariableValue("Pt1stEle_PAS") );
+		FillUserTH1D("h1_Energy1stEle_W1jet_barrel", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+		FillUserTH1D("h1_TrackPt1stEle_W1jet_barrel", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	      }
 	    else
 	      {
-		FillUserTH1D("h1_Pt1stEle_W1jet_endcap", getVariableValue("Pt1stEle_PAS") ); 
-		FillUserTH1D("h1_Energy1stEle_W1jet_endcap", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ); 
-		FillUserTH1D("h1_TrackPt1stEle_W1jet_endcap", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );       
+		FillUserTH1D("h1_Pt1stEle_W1jet_endcap", getVariableValue("Pt1stEle_PAS") );
+		FillUserTH1D("h1_Energy1stEle_W1jet_endcap", ElectronCaloEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+		FillUserTH1D("h1_TrackPt1stEle_W1jet_endcap", ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	      }
 
 	    //ET/PT vs ET
@@ -1893,7 +1893,7 @@ void analysisClass::Loop()
 	    if( isData && getVariableValue("Pt1stEle_PAS")>150 && getVariableValue("Pt1stEle_PAS")<175 )
 	      {
 		STDOUT("PassPtEleW1jetThreshold: ----------- START ------------");
-		
+
 		STDOUT("PassPtEleW1jetThreshold: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
 		if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") )
 		  STDOUT("PassPtEleW1jetThreshold: Pt1stEle_PAS,Eta1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS"));
@@ -1905,7 +1905,7 @@ void analysisClass::Loop()
 		  STDOUT("PassPtEleW1jetThreshold: mDeltaPhiMETEle_PAS = "
 			 <<getVariableValue("mDeltaPhiMETEle_PAS"));
 
-		STDOUT("PassPtEleW1jetThreshold: ------------ END -------------");						
+		STDOUT("PassPtEleW1jetThreshold: ------------ END -------------");
 	      }
 
 	  }
@@ -1918,7 +1918,7 @@ void analysisClass::Loop()
 	&& variableIsFilled("nJet_PtCut_noOvrlp_ID")
 	&& variableIsFilled("mDeltaPhiMETEle")
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
-	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS") 
+	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS")
 	&& variableIsFilled("minDRej")
 	&& variableIsFilled("DeltaRjets_PAS")
 	)
@@ -1931,25 +1931,25 @@ void analysisClass::Loop()
 	    && passedCut("MTenu")
 	    )
 	  {
-	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID") );	    
+	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID") );
 	    FillUserTH1D("h1_minDRej_fullSel", getVariableValue("minDRej") );
-	    FillUserTH1D("h1_mDeltaPhiMETEle_fullSel", getVariableValue("mDeltaPhiMETEle") ); 
-	    FillUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getVariableValue("mDeltaPhiMET1stJet") ); 
-	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getVariableValue("mDeltaPhiMET2ndJet") ); 
-	    FillUserTH1D("h1_DeltaRjets_PAS_fullSel", getVariableValue("DeltaRjets_PAS") ); 
+	    FillUserTH1D("h1_mDeltaPhiMETEle_fullSel", getVariableValue("mDeltaPhiMETEle") );
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getVariableValue("mDeltaPhiMET1stJet") );
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getVariableValue("mDeltaPhiMET2ndJet") );
+	    FillUserTH1D("h1_DeltaRjets_PAS_fullSel", getVariableValue("DeltaRjets_PAS") );
 	  }
-		
+
 	//High MT after pre-selection
-        if( getVariableValue("MTenu")>MTenu_Thresh ) 
+        if( getVariableValue("MTenu")>MTenu_Thresh )
 	  {
 	    //---------------------------------------------------------------
 	    //1D distributions
-	    FillUserTH1D("h1_Njet_highMT", getVariableValue("nJet_PtCut_noOvrlp_ID") );	    
+	    FillUserTH1D("h1_Njet_highMT", getVariableValue("nJet_PtCut_noOvrlp_ID") );
 	    FillUserTH1D("h1_minDRej_highMT", getVariableValue("minDRej") );
-	    FillUserTH1D("h1_mDeltaPhiMETEle_highMT", getVariableValue("mDeltaPhiMETEle") ); 
-	    FillUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getVariableValue("mDeltaPhiMET1stJet") ); 
-	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getVariableValue("mDeltaPhiMET2ndJet") ); 
-	    FillUserTH1D("h1_DeltaRjets_PAS_highMT", getVariableValue("DeltaRjets_PAS") ); 
+	    FillUserTH1D("h1_mDeltaPhiMETEle_highMT", getVariableValue("mDeltaPhiMETEle") );
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getVariableValue("mDeltaPhiMET1stJet") );
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getVariableValue("mDeltaPhiMET2ndJet") );
+	    FillUserTH1D("h1_DeltaRjets_PAS_highMT", getVariableValue("DeltaRjets_PAS") );
 	    //---------------------------------------------------------------
 
 	    //---------------------------------------------------------------
@@ -1971,8 +1971,8 @@ void analysisClass::Loop()
 		else if( Ngenelectrons==0 )
 		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(5);
 		else
-		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(6);		
-		// 		cout << "leptons, electrons, muons, taus: " 
+		  h1_Ngenlept__ee_emu_etau_eonly_noe_others->AddBinContent(6);
+		// 		cout << "leptons, electrons, muons, taus: "
 		// 		     << Ngenleptons << ", " << Ngenelectrons << ", " << Ngenmuons << ", " << Ngentaus << endl;
 	    //---------------------------------------------------------------
 
