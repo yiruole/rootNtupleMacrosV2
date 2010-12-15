@@ -61,16 +61,16 @@ bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits
 
 bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
   bool jetidloose=false;
-  bool jetidChHadFrac=true;
+  bool jetidChFrac=true;
 
   double chHadFrac = 0.;
   double chEmFrac = 0.99;
   double neutHadFrac = 0.99;
   double neutEmFrac = 0.99;
 
-  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChHadFrac=false;
+  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChFrac=false;
 
-  if(jetidChHadFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
+  if(jetidChFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
     jetidloose=true;
   }
   return jetidloose;
