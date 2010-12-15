@@ -61,16 +61,16 @@ bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits
 
 bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
   bool jetidloose=false;
-  bool jetidChHadFrac=true;
+  bool jetidChFrac=true;
 
   double chHadFrac = 0.;
   double chEmFrac = 0.99;
   double neutHadFrac = 0.99;
   double neutEmFrac = 0.99;
 
-  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChHadFrac=false;
+  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChFrac=false;
 
-  if(jetidChHadFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
+  if(jetidChFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
     jetidloose=true;
   }
   return jetidloose;
@@ -111,6 +111,15 @@ void analysisClass::Loop()
   double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
   double JetEnergyScale=getPreCutValue1("JetEnergyScale");
 
+  int HLTPhoton30          = getPreCutValue1("HLTTrigger");
+  int HLTPhoton50          = getPreCutValue2("HLTTrigger");
+  int HLTPhoton70          = getPreCutValue3("HLTTrigger");
+  int MaxRun_HLTPho30_Only = getPreCutValue1("HLTFromRun");
+  int FirstRun_HLTPho70    = getPreCutValue3("HLTFromRun");
+
+  int fakeRate_MaxRun1 = getPreCutValue1("fakeRate_MaxRun1");
+  int fakeRate_MaxRun2 = getPreCutValue1("fakeRate_MaxRun2");
+
   // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
   int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
   int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
@@ -120,11 +129,6 @@ void analysisClass::Loop()
   double muFidRegion = getPreCutValue1("muFidRegion"); // currently unused !!!
   double muNHits_minThresh = getPreCutValue1("muNHits_minThresh");
   double muTrkD0Maximum = getPreCutValue1("muTrkD0Maximum");
-
-  double BarrelCross = getPreCutValue1("fakeRate_Barrel");
-  double BarrelSlope = getPreCutValue2("fakeRate_Barrel");
-  double EndcapCross = getPreCutValue1("fakeRate_Endcap");
-  double EndcapSlope = getPreCutValue2("fakeRate_Endcap");
 
   int jetAlgorithm = getPreCutValue1("jetAlgorithm");
   int metAlgorithm = getPreCutValue1("metAlgorithm");
@@ -136,15 +140,15 @@ void analysisClass::Loop()
   double met_Thresh = getPreCutValue1("met_Thresh");
   double minMETPt1stEle_Thresh = getPreCutValue1("minMETPt1stEle_Thresh");
   double Pt1stEle_PAS_Thresh = getPreCutValue1("Pt1stEle_PAS_Thresh");
-  double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh"); 
-  double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh"); 
-  double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");  
-  double sT_Thresh = getPreCutValue1("sT_Thresh");   
+  double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh");
+  double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh");
+  double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");
+  double sT_Thresh = getPreCutValue1("sT_Thresh");
 
-  int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet"); 
-  int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet"); 
+  int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet");
+  int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet");
 
-  int doExtraChecks = getPreCutValue1("doExtraChecks");  
+  int doExtraChecks = getPreCutValue1("doExtraChecks");
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -202,30 +206,30 @@ void analysisClass::Loop()
 
   if(doPlot_Wmore0jet)
     {
-      CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
-      CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
-      CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
-      CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
-      CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
-      CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+      CreateUserTH1D("h1_Pt1stEle_W0jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Eta1stEle_W0jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
+      CreateUserTH1D("h1_Phi1stEle_W0jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));
+      CreateUserTH1D("h1_MET_W0jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));
+      CreateUserTH1D("h1_METPhi_W0jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));
+      CreateUserTH1D("h1_MTenu_W0jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W0jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));
     }
-  
+
   if(doPlot_Wmore1jet)
     {
-      CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")); 
-      CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));  
-      CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));  
-      CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));  
-      CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));  
-      CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));	    
-      CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));	    
+      CreateUserTH1D("h1_Pt1stEle_W1jet", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"));
+      CreateUserTH1D("h1_Eta1stEle_W1jet", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
+      CreateUserTH1D("h1_Phi1stEle_W1jet", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS"));
+      CreateUserTH1D("h1_MET_W1jet", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS"));
+      CreateUserTH1D("h1_METPhi_W1jet", getHistoNBins("METPhi_PAS"), getHistoMin("METPhi_PAS"), getHistoMax("METPhi_PAS"));
+      CreateUserTH1D("h1_MTenu_W1jet", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
+      CreateUserTH1D("h1_mDeltaPhiMETEle_W1jet", getHistoNBins("mDeltaPhiMETEle"), getHistoMin("mDeltaPhiMETEle"), getHistoMax("mDeltaPhiMETEle"));
     }
 
   if(doExtraChecks)
     {
-      CreateUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT", 
-		     getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"), 
+      CreateUserTH2D("h2_minDeltaPhiMETj_vs_minDeltaRej_highMT",
+		     getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"),
 		     getHistoNBins("mDeltaPhiMET1stJet_PAS"), getHistoMin("mDeltaPhiMET1stJet_PAS"), getHistoMax("mDeltaPhiMET1stJet_PAS")
 		     );
       CreateUserTH1D("h1_Njet_highMT", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
@@ -365,7 +369,7 @@ void analysisClass::Loop()
     //     if ( run == 147929 and ls == 619 ) passGoodRunList = 0;
 
     //## HLT
-         
+
     //--> OLD HLT SELECTION BY RUN NUMBER
     //     int PassTrig = 0;
     //     int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
@@ -390,7 +394,7 @@ void analysisClass::Loop()
     //       }
     //     }
     //     if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
-    
+
     // Superclusters
     vector<int> v_idx_sc_all;
     vector<int> v_idx_sc_PtCut;
@@ -667,44 +671,38 @@ void analysisClass::Loop()
     //--> NEW HLT SELECTION USING DYNAMIC PRESCALE
     int PassTrig = 0;
     double weight_HLT = 1;
-    
-    int HLTPhoton30          = getPreCutValue1("HLTTrigger");
-    int HLTPhoton50          = getPreCutValue2("HLTTrigger");
-    int HLTPhoton70          = getPreCutValue3("HLTTrigger");
-    int MaxRun_HLTPho30_Only = getPreCutValue1("HLTFromRun");
-    int FirstRun_HLTPho70    = getPreCutValue3("HLTFromRun");
-    
-    //cout << run << ", " << ls << ", " << event << endl; 
+
+    //cout << run << ", " << ls << ", " << event << endl;
     if( v_idx_sc_Iso.size()>=1 )
       {
-	if( run <= MaxRun_HLTPho30_Only ) //---------------------------------> photon 30 only 
+	if( run <= MaxRun_HLTPho30_Only ) //---------------------------------> photon 30 only
 	  {
 	    if( HLTPrescales->at( HLTPhoton30 ) == -1 )
-	      HLTPrescales->at( HLTPhoton30 ) = 1 ; 
+	      HLTPrescales->at( HLTPhoton30 ) = 1 ;
 
 	    if( HLTResults->at( HLTPhoton30 ) ) //this trigger is un-prescaled in this run range
 	      {
 		PassTrig = 1;
-		weight_HLT = HLTPrescales->at( HLTPhoton30 ); 
+		weight_HLT = HLTPrescales->at( HLTPhoton30 );
 		//cout << "Pho30 1st period" << endl;
 	      }
 	  }
 	else if(run > MaxRun_HLTPho30_Only && run < FirstRun_HLTPho70) //--> photon 30 and photon50
 	  {
 	    if( HLTPrescales->at( HLTPhoton50 ) == -1 )
-	      HLTPrescales->at( HLTPhoton50 ) = 1 ; 		
+	      HLTPrescales->at( HLTPhoton50 ) = 1 ;
 	    if( HLTPrescales->at( HLTPhoton30 ) == -1 )
-	      HLTPrescales->at( HLTPhoton30 ) = 1 ; 
+	      HLTPrescales->at( HLTPhoton30 ) = 1 ;
 
 	    if( HLTResults->at( HLTPhoton50 ) ) //this trigger is un-prescaled in this run range
 	      {
 		PassTrig = 1;
-		weight_HLT = HLTPrescales->at( HLTPhoton50 ); 
+		weight_HLT = HLTPrescales->at( HLTPhoton50 );
 	      }
 	    else if( HLTResults->at( HLTPhoton30 ) && SuperClusterPt->at(v_idx_sc_Iso[0])>30 && SuperClusterPt->at(v_idx_sc_Iso[0])<50 )
 	      {
 		PassTrig = 1;
-		weight_HLT = HLTPrescales->at( HLTPhoton30 ); 
+		weight_HLT = HLTPrescales->at( HLTPhoton30 );
 	      }
 	  }
 	else //-------------------------------------------------------------> photon 70, photon50, and photon 30
@@ -716,30 +714,30 @@ void analysisClass::Loop()
 	    // 	    cout << "Pho30" << endl;
 	    // 	    cout << HLTResults->at( HLTPhoton30 ) << endl;
 	    if( HLTPrescales->at( HLTPhoton70 ) == -1 )
-	      HLTPrescales->at( HLTPhoton70 ) = 1 ; 
+	      HLTPrescales->at( HLTPhoton70 ) = 1 ;
 	    if( HLTPrescales->at( HLTPhoton50 ) == -1 )
-	      HLTPrescales->at( HLTPhoton50 ) = 1 ; 		
+	      HLTPrescales->at( HLTPhoton50 ) = 1 ;
 	    if( HLTPrescales->at( HLTPhoton30 ) == -1 )
-	      HLTPrescales->at( HLTPhoton30 ) = 1 ; 
+	      HLTPrescales->at( HLTPhoton30 ) = 1 ;
 
 	    if( HLTResults->at( HLTPhoton70 ) ) //this trigger is un-prescaled in this run range
 	      {
 		PassTrig = 1;
-		weight_HLT = HLTPrescales->at( HLTPhoton70 ); 
+		weight_HLT = HLTPrescales->at( HLTPhoton70 );
 	      }
 	    else if( HLTResults->at( HLTPhoton50 ) && SuperClusterPt->at(v_idx_sc_Iso[0])>50 && SuperClusterPt->at(v_idx_sc_Iso[0])<70 )
 	      {
 		PassTrig = 1;
-		weight_HLT = HLTPrescales->at( HLTPhoton50 ); 
+		weight_HLT = HLTPrescales->at( HLTPhoton50 );
 	      }
 	    else if( HLTResults->at( HLTPhoton30 ) && SuperClusterPt->at(v_idx_sc_Iso[0])>30 && SuperClusterPt->at(v_idx_sc_Iso[0])<50 )
 	      {
 		PassTrig = 1;
-		weight_HLT = HLTPrescales->at( HLTPhoton30 ); 
+		weight_HLT = HLTPrescales->at( HLTPhoton30 );
 	      }
 	  }
       }
-    
+
     //     // vertexes
     //     vector<int> v_idx_vertex_good;
     //     // loop over vertexes
@@ -755,6 +753,24 @@ void analysisClass::Loop()
     //     }
 
     /////  Define the fake rate for QCD and calculate prob. for each sc to be an ele
+    ////   The fake rate is run period-dependent
+
+    double BarrelCross = getPreCutValue1("fakeRate_Barrel1");
+    double BarrelSlope = getPreCutValue2("fakeRate_Barrel1");
+    double EndcapCross = getPreCutValue1("fakeRate_Endcap1");
+    double EndcapSlope = getPreCutValue2("fakeRate_Endcap1");
+
+    if( run>fakeRate_MaxRun1 && run<=fakeRate_MaxRun2 ) {
+      BarrelCross = getPreCutValue1("fakeRate_Barrel2");
+      BarrelSlope = getPreCutValue2("fakeRate_Barrel2");
+      EndcapCross = getPreCutValue1("fakeRate_Endcap2");
+      EndcapSlope = getPreCutValue2("fakeRate_Endcap2");
+    } else if ( run>fakeRate_MaxRun2 ) {
+      BarrelCross = getPreCutValue1("fakeRate_Barrel3");
+      BarrelSlope = getPreCutValue2("fakeRate_Barrel3");
+      EndcapCross = getPreCutValue1("fakeRate_Endcap3");
+      EndcapSlope = getPreCutValue2("fakeRate_Endcap3");
+    }
 
     double p1 = 0, p2 = 0, p3 = 0;
     if (v_idx_sc_Iso.size()>=1){
@@ -771,7 +787,7 @@ void analysisClass::Loop()
     }
 
     //FINAL EVENT WEIGHT: fake rate * event weight from HLT prescale
-    p1 = p1 * weight_HLT;    
+    p1 = p1 * weight_HLT;
 
     //fake rate for ele+ and ele-
     //NOTE: need to verify that + and - are indeed the same
@@ -1038,7 +1054,7 @@ void analysisClass::Loop()
 	jj = jet1+jet2;
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M(), p1);
-	fillVariableWithValue("DeltaRjets_PAS", jet1.DeltaR(jet2), p1);	  
+	fillVariableWithValue("DeltaRjets_PAS", jet1.DeltaR(jet2), p1);
       }
 
     // ST
@@ -1219,7 +1235,7 @@ void analysisClass::Loop()
 	FillUserTH2D("h2_Phi1stEle_vs_METPhi", getVariableValue("METPhi_PAS") , getVariableValue("Phi1stEle_PAS"), p1 );
 	FillUserTH2D("h2_Phi1stEle_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("Phi1stEle_PAS"), p1 );
 	FillUserTH2D("h2_METPhi_vs_PtEleOverST", getVariableValue("Pt1stEle_PAS")/getVariableValue("sT_PAS") , getVariableValue("METPhi_PAS"), p1 );
-	
+
 
       }
 
@@ -1296,9 +1312,9 @@ void analysisClass::Loop()
       }
 
     //minDeltaR for barrel and endcaps
-    if( passedAllPreviousCuts("minDRej") 
-	&& variableIsFilled("minDRej") 
-	&& variableIsFilled("Eta1stEle_PAS")  
+    if( passedAllPreviousCuts("minDRej")
+	&& variableIsFilled("minDRej")
+	&& variableIsFilled("Eta1stEle_PAS")
 	)
       {
 	if( fabs(getVariableValue("Eta1stEle_PAS")) <= eleEta_bar )
@@ -1308,7 +1324,7 @@ void analysisClass::Loop()
 	else
 	  {//endcap
 	    FillUserTH1D("h1_minDRej_EleEndcap", getVariableValue("minDRej"), p1 );
-	  }	
+	  }
       }
 
 
@@ -1678,20 +1694,20 @@ void analysisClass::Loop()
     //W + >=0 jets
     if(doPlot_Wmore0jet)
       {
-	if( passedAllPreviousCuts("nJet_all") 
-	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")  
-	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") 
-	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle") 
-	    && variableIsFilled("METPhi_PAS") 
+	if( passedAllPreviousCuts("nJet_all")
+	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")
+	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS")
+	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle")
+	    && variableIsFilled("METPhi_PAS")
 	    )
 	  {
-	    FillUserTH1D("h1_Pt1stEle_W0jet", getVariableValue("Pt1stEle_PAS"), p1 );	    
-	    FillUserTH1D("h1_Eta1stEle_W0jet", getVariableValue("Eta1stEle_PAS"), p1 );	    
-	    FillUserTH1D("h1_Phi1stEle_W0jet", getVariableValue("Phi1stEle_PAS"), p1 );	    
-	    FillUserTH1D("h1_MET_W0jet", getVariableValue("MET_PAS"), p1 );	    
-	    FillUserTH1D("h1_METPhi_W0jet", getVariableValue("METPhi_PAS"), p1 );	    
-	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS"), p1 );	    
-	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle"), p1 );	    
+	    FillUserTH1D("h1_Pt1stEle_W0jet", getVariableValue("Pt1stEle_PAS"), p1 );
+	    FillUserTH1D("h1_Eta1stEle_W0jet", getVariableValue("Eta1stEle_PAS"), p1 );
+	    FillUserTH1D("h1_Phi1stEle_W0jet", getVariableValue("Phi1stEle_PAS"), p1 );
+	    FillUserTH1D("h1_MET_W0jet", getVariableValue("MET_PAS"), p1 );
+	    FillUserTH1D("h1_METPhi_W0jet", getVariableValue("METPhi_PAS"), p1 );
+	    FillUserTH1D("h1_MTenu_W0jet", getVariableValue("MTenu_PAS"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_W0jet", getVariableValue("mDeltaPhiMETEle"), p1 );
 	  }
       }
 
@@ -1699,19 +1715,19 @@ void analysisClass::Loop()
     if(doPlot_Wmore1jet)
       {
 	if( passedAllPreviousCuts("nJet_all") && passedCut("Pt1stJet_noOvrlp_ID") && passedCut("mEta1stJet_noOvrlp_ID")
-	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS") 
-	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") 
-	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle") 
-	    && variableIsFilled("METPhi_PAS") 
+	    && variableIsFilled("MTenu_PAS") && variableIsFilled("Pt1stEle_PAS")
+	    && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS")
+	    && variableIsFilled("MET_PAS") && variableIsFilled("mDeltaPhiMETEle")
+	    && variableIsFilled("METPhi_PAS")
 	    )
 	  {
-	    FillUserTH1D("h1_Pt1stEle_W1jet", getVariableValue("Pt1stEle_PAS"), p1 );	    
-	    FillUserTH1D("h1_Eta1stEle_W1jet", getVariableValue("Eta1stEle_PAS"), p1 );	    
-	    FillUserTH1D("h1_Phi1stEle_W1jet", getVariableValue("Phi1stEle_PAS"), p1 );	    
-	    FillUserTH1D("h1_MET_W1jet", getVariableValue("MET_PAS"), p1 );	    
-	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS"), p1 );	    
-	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS"), p1 );	    
-	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle"), p1 );	    
+	    FillUserTH1D("h1_Pt1stEle_W1jet", getVariableValue("Pt1stEle_PAS"), p1 );
+	    FillUserTH1D("h1_Eta1stEle_W1jet", getVariableValue("Eta1stEle_PAS"), p1 );
+	    FillUserTH1D("h1_Phi1stEle_W1jet", getVariableValue("Phi1stEle_PAS"), p1 );
+	    FillUserTH1D("h1_MET_W1jet", getVariableValue("MET_PAS"), p1 );
+	    FillUserTH1D("h1_METPhi_W1jet", getVariableValue("METPhi_PAS"), p1 );
+	    FillUserTH1D("h1_MTenu_W1jet", getVariableValue("MTenu_PAS"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle"), p1 );
 	  }
       }
 
@@ -1721,7 +1737,7 @@ void analysisClass::Loop()
 	&& variableIsFilled("nJet_PtCut_noOvrlp_ID")
 	&& variableIsFilled("mDeltaPhiMETEle")
 	&& variableIsFilled("mDeltaPhiMET1stJet_PAS")
-	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS") 
+	&& variableIsFilled("mDeltaPhiMET2ndJet_PAS")
 	&& variableIsFilled("minDRej")
 	&& variableIsFilled("DeltaRjets_PAS")
 	)
@@ -1733,25 +1749,25 @@ void analysisClass::Loop()
 	    && passedCut("MTenu")
 	    )
 	  {
-	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );	    
+	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );
 	    FillUserTH1D("h1_minDRej_fullSel", getVariableValue("minDRej"), p1 );
-	    FillUserTH1D("h1_mDeltaPhiMETEle_fullSel", getVariableValue("mDeltaPhiMETEle"), p1 ); 
-	    FillUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getVariableValue("mDeltaPhiMET1stJet"), p1 ); 
-	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getVariableValue("mDeltaPhiMET2ndJet"), p1 ); 
-	    FillUserTH1D("h1_DeltaRjets_PAS_fullSel", getVariableValue("DeltaRjets_PAS"), p1 ); 
+	    FillUserTH1D("h1_mDeltaPhiMETEle_fullSel", getVariableValue("mDeltaPhiMETEle"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_fullSel", getVariableValue("mDeltaPhiMET1stJet"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_fullSel", getVariableValue("mDeltaPhiMET2ndJet"), p1 );
+	    FillUserTH1D("h1_DeltaRjets_PAS_fullSel", getVariableValue("DeltaRjets_PAS"), p1 );
 	  }
-		
+
 	//High MT after pre-selection
-        if( getVariableValue("MTenu")>MTenu_Thresh ) 
+        if( getVariableValue("MTenu")>MTenu_Thresh )
 	  {
 	    //---------------------------------------------------------------
 	    //1D distributions
-	    FillUserTH1D("h1_Njet_highMT", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );	    
+	    FillUserTH1D("h1_Njet_highMT", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );
 	    FillUserTH1D("h1_minDRej_highMT", getVariableValue("minDRej"), p1 );
-	    FillUserTH1D("h1_mDeltaPhiMETEle_highMT", getVariableValue("mDeltaPhiMETEle"), p1 ); 
-	    FillUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getVariableValue("mDeltaPhiMET1stJet"), p1 ); 
-	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getVariableValue("mDeltaPhiMET2ndJet"), p1 ); 
-	    FillUserTH1D("h1_DeltaRjets_PAS_highMT", getVariableValue("DeltaRjets_PAS"), p1 ); 
+	    FillUserTH1D("h1_mDeltaPhiMETEle_highMT", getVariableValue("mDeltaPhiMETEle"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMET1stJet_highMT", getVariableValue("mDeltaPhiMET1stJet"), p1 );
+	    FillUserTH1D("h1_mDeltaPhiMET2ndJet_highMT", getVariableValue("mDeltaPhiMET2ndJet"), p1 );
+	    FillUserTH1D("h1_DeltaRjets_PAS_highMT", getVariableValue("DeltaRjets_PAS"), p1 );
 	    //---------------------------------------------------------------
 
 	    //---------------------------------------------------------------

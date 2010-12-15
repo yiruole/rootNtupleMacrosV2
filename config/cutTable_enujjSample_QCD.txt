@@ -49,8 +49,15 @@ vertexMaxd0           2            -			-               -               -1
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
-fakeRate_Barrel	      0.005092     0			-		-		-1
-fakeRate_Endcap	      0.018364     0			-		-		-1
+# new run period-dependent fake rates
+fakeRate_Barrel1      0.00422593   0.0000398918         -               -               -1
+fakeRate_Endcap1      0.0126513    0.000216097          -               -               -1
+fakeRate_MaxRun1      144114       -                    -               -               -1
+fakeRate_Barrel2      0.00898136   0                    -               -               -1
+fakeRate_Endcap2      0.030548     0.0000300153         -               -               -1
+fakeRate_MaxRun2      148058       -                    -               -               -1
+fakeRate_Barrel3      0.00607188   0.0000592657         -               -               -1
+fakeRate_Endcap3      0.0189957    0.000274027          -               -               -1
 doGenLevelStudies     1		   -			-		-		-1
 ## 1=PFJets , 2=CaloJets
 jetAlgorithm	      1		   -			-		-		-1
