@@ -233,8 +233,8 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/33.2pb-1_sT_presel_250_Zrescale1.20/analysisClass_enujjSample_plots.root")
-File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/6.1pb-1_QCD_HLT30_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_QCD_plots.root")
 
 #--- Rescaling of W+jets background
 
@@ -247,7 +247,7 @@ h_SingleTop_MTenu = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts______
 h_WW_MTenu = GetHisto("histo1D__WW__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC WW
 h_WZ_MTenu = GetHisto("histo1D__WZ__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC WZ
 h_ZZ_MTenu = GetHisto("histo1D__ZZ__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC ZZ
-h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD, float(33.2/6.1)) #QCD (data-driven) scaled to the correct integrated luminosity
+h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD, float(36.05/35.84)) #QCD (data-driven) scaled to the correct integrated luminosity
 
 ##-- W- only
 #h_DATA_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_minus", File_preselection) #DATA
