@@ -153,6 +153,8 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
             new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins)*(minBinWidth/binWidths[iter-1]) )
             new_histo.SetBinError( nbins, new_histo.GetBinError(nbins)*(minBinWidth/binWidths[iter-1]) )
     else:
+        if(rebin!=""):
+            histo.Rebin(rebin)
         new_histo = histo
         minBinWidth = histo.GetBinWidth(1)
     return [new_histo, minBinWidth]
