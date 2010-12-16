@@ -123,6 +123,7 @@ void analysisClass::Loop()
   double met_Thresh = getPreCutValue1("met_Thresh");
   double minMETPt1stEle_Thresh = getPreCutValue1("minMETPt1stEle_Thresh");
   double Pt1stEle_PAS_Thresh = getPreCutValue1("Pt1stEle_PAS_Thresh");
+  double Pt1stEle_PAS_Thresh2 = getPreCutValue2("Pt1stEle_PAS_Thresh");
   double Pt1stJet_PAS_Thresh = getPreCutValue1("Pt1stJet_PAS_Thresh");
   double Pt2ndJet_PAS_Thresh = getPreCutValue1("Pt2ndJet_PAS_Thresh");
   double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");
@@ -1253,6 +1254,8 @@ void analysisClass::Loop()
 
 	//HEEP electron id/isolation variables
 	int myEle = v_idx_ele_PtCut_IDISO_noOverlap[0];
+
+	//high MT tails
 	if( getVariableValue("MTenu")>MTenu_Thresh2 && plotEleIDIsoVar )
 	  {
 	    FillUserTH1D("h1_ElectronDeltaEtaTrkSC_highMT", ElectronDeltaEtaTrkSC->at(myEle) );
@@ -1289,7 +1292,64 @@ void analysisClass::Loop()
 		FillUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT",  ElectronE2x5OverE5x5->at(myEle) );
 		FillUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT",  ElectronE1x5OverE5x5->at(myEle) );
 	      }
+
+// 	    //XXXXXXXX DEBUG XXXXXXXXXX
+// 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highMT", 1000, 0, 1, ElectronRelIso->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highMT", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistZ_highMT", 200, -0.1, 0.1, ElectronVtxDistZ->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxIndex_highMT", 10, 0, 10, ElectronVtxIndex->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronCharge_highMT", 2, -1.001, 1.001, ElectronCharge->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronMissingHits_highMT", 10, 0, 10, ElectronMissingHits->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronSCkOutOfTime_highMT", 2, 0, 2, ElectronSCkOutOfTime->at(myEle) );	   
+
+// 	    CreateAndFillUserTH1D("h1_ElectronET_highMT", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"), getVariableValue("Pt1stEle_PAS") );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronEta_highMT", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"), getVariableValue("Eta1stEle_PAS") );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronEToverPT_highMT", 200, 0, 20, double ( getVariableValue("Pt1stEle_PAS") / ElectronTrackPt->at(myEle) ) );	   	  
+// 	    CreateAndFillUserTH1D("h1_nJet_PtCut_noOvrlp_ID_highMT", 20, 0, 20, getVariableValue("nJet_PtCut_noOvrlp_ID") );	   
+// 	    CreateAndFillUserTH1D("h1_mDeltaPhiMET2ndJet_PAS_highMT", getHistoNBins("mDeltaPhiMET2ndJet_PAS"), getHistoMin("mDeltaPhiMET2ndJet_PAS"), getHistoMax("mDeltaPhiMET2ndJet_PAS"), 
+// 				  getVariableValue("mDeltaPhiMET2ndJet_PAS") );	   
+// 	    CreateAndFillUserTH1D("h1_sT_highMT", getHistoNBins("sT"), getHistoMin("sT"), getHistoMax("sT"), getVariableValue("sT") );	   
+// 	    CreateAndFillUserTH1D("h1_MET_highMT", getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"), getVariableValue("MET") );	   
+
+// 	    if( getVariableValue("mDeltaPhiMET2ndJet_PAS") < 0.5 )
+// 	      {
+// 		CreateAndFillUserTH1D("h1_2ndJet_PTOverPTPlusMET_highMT", 100, 0, 1, double (getVariableValue("Pt2ndJet_PAS") / (getVariableValue("Pt2ndJet_PAS") + getVariableValue("MET")) ) );	 
+// 	      }
+// 	    //XXXXXXXXXXXXXXXXXXXXXXXXX
 	  }
+
+// 	//XXXXXXXX DEBUG XXXXXXXXXX
+// 	//high PT tails
+// 	if( getVariableValue("Pt1stEle_PAS")>Pt1stEle_PAS_Thresh2 && plotEleIDIsoVar )
+// 	  {
+// 	    CreateAndFillUserTH1D("h1_ElectronEcalHcalIsoHeep_highPTe", 500,0,100, ElectronEcalIsoHeep->at(myEle)+ElectronHcalIsoD1Heep->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronHcalIsoD2Heep_highPTe", 200,0,100,  ElectronHcalIsoD2Heep->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronTrkIsoHeep_highPTe",200,0,100,  ElectronTrkIsoHeep->at(myEle) );	    
+
+// 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highPTe", 1000, 0, 1, ElectronRelIso->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highPTe", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistZ_highPTe", 200, -0.1, 0.1, ElectronVtxDistZ->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxIndex_highPTe", 10, 0, 10, ElectronVtxIndex->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronCharge_highPTe", 2, -1.001, 1.001, ElectronCharge->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronMissingHits_highPTe", 10, 0, 10, ElectronMissingHits->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronSCkOutOfTime_highPTe", 2, 0, 2, ElectronSCkOutOfTime->at(myEle) );	   
+
+// 	    CreateAndFillUserTH1D("h1_ElectronET_highPTe", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"), getVariableValue("Pt1stEle_PAS") );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronEta_highPTe", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"), getVariableValue("Eta1stEle_PAS") );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronEToverPT_highPTe", 200, 0, 20, double ( getVariableValue("Pt1stEle_PAS") / ElectronTrackPt->at(myEle) ) );	   	  
+// 	    CreateAndFillUserTH1D("h1_nJet_PtCut_noOvrlp_ID_highPTe", 20, 0, 20, getVariableValue("nJet_PtCut_noOvrlp_ID") );	   
+// 	    CreateAndFillUserTH1D("h1_mDeltaPhiMET2ndJet_PAS_highPTe", getHistoNBins("mDeltaPhiMET2ndJet_PAS"), getHistoMin("mDeltaPhiMET2ndJet_PAS"), getHistoMax("mDeltaPhiMET2ndJet_PAS"), 
+// 				  getVariableValue("mDeltaPhiMET2ndJet_PAS") );	   
+// 	    CreateAndFillUserTH1D("h1_sT_highPTe", getHistoNBins("sT"), getHistoMin("sT"), getHistoMax("sT"), getVariableValue("sT") );	   
+// 	    CreateAndFillUserTH1D("h1_MET_highPTe", getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"), getVariableValue("MET") );	 
+
+// 	    if( getVariableValue("mDeltaPhiMET2ndJet_PAS") < 0.5 )
+// 	      {
+// 		CreateAndFillUserTH1D("h1_2ndJet_PTOverPTPlusMET_highPTe", 100, 0, 1, double (getVariableValue("Pt2ndJet_PAS") / (getVariableValue("Pt2ndJet_PAS") + getVariableValue("MET")) ) );	 
+// 	      }
+  
+// 	  }
+// 	//XXXXXXXXXXXXXXXXXXXXXXXXX
 
 	//ET/PT vs ET
 	double EToverPT = ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) ;
