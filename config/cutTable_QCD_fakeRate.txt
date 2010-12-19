@@ -29,6 +29,21 @@ jet_ele_DeltaRcut     0.3          -                    -               -       
 muFidRegion           2.1          -                    -               -               -1
 muNHits_minThresh     11           -                    -               -               -1
 muTrkD0Maximum        0.2          -                    -               -               -1
+## HEEP selection v3.0
+eleDeltaEtaTrkSC     0.005	   0.007		-		-		-1	   
+eleDeltaPhiTrkSC     0.09	   0.09			-		-		-1	   
+eleHoE		      0.05	   0.05			-		-		-1
+eleE2x5OverE5x5      0.94	   -			-		-		-1
+eleE1x5OverE5x5      0.83	   -			-		-		-1
+eleSigmaIetaIeta     -		   0.03			-		-		-1
+eleEcalHcalIso	     2		   0.03			2.5		0.03		-1
+eleEcalHcalIso_PTthr -		   50			-		-		-1
+eleHcalIsoD2	     -		   0.5			-		-		-1
+eleTrkIso	     7.5	   15			-		-		-1
+#eleEcalHcalIso	     999999	   999999		999999		999999		-1
+#eleEcalHcalIso_PTthr -		   50			-		-		-1
+#eleHcalIsoD2	     -		   999999		-		-		-1
+#eleTrkIso	     999999	   999999		-		-		-1
 ## refer to the current tag of http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/RootTupleMakerV2/python/RootTupleMakerV2_Trigger_cfi.py?view=log
 #---> OLD HLT SELECTION BY RUN NUMBER
 #HLTTrigger            21           -1                   -1              -1              -1
@@ -41,6 +56,8 @@ HLTFromRun	      147145	   999999999		148108		999999999	-1
 ## 148108 is /cdaq/physics/Run2010/v9.0/HLT/V1
 eleEta_bar            1.442        -                    -               -               -1
 eleEta_end            1.560        2.5                  -               -               -1
+eleEta_bar_forFR      0.8	   1.442                -               -               -1
+eleEta_end_forFR      1.560        2.2                  -               -               -1
 muonEta_bar           1.2          -                    -               -               -1
 muonEta_end           1.2          2.4                  -               -               -1
 vertexMinimumNDOF     4            -			-               -               -1
@@ -54,6 +71,8 @@ doGenLevelStudies     1		   -			-		-		-1
 jetAlgorithm	      1		   -			-		-		-1
 ## 1=PFMET  , 2=CaloMET
 metAlgorithm	      1		   -			-		-		-1
+## 1=HEEPmask  , 2=HEEPvariables
+eleAlgorithm	      1		   -			-		-		-1
 met_Thresh            200          -			-               -               -1
 minMETPt1stEle_Thresh 100          -			-               -               -1
 Pt1stEle_PAS_Thresh   175          -			-               -               -1
@@ -61,8 +80,6 @@ Pt1stJet_PAS_Thresh   400          -			-               -               -1
 Pt2ndJet_PAS_Thresh   300          -			-               -               -1
 MTenu_Thresh	      200          -			-               -               -1
 sT_Thresh	      800          -			-               -               -1
-doPlot_Wmore0jet      1		   -			-		-		-1
-doPlot_Wmore1jet      1		   -			-		-		-1
 doExtraChecks         1            -			-		-		-1
 #
 #
@@ -96,7 +113,7 @@ nIsoSC				0	     1			-		-		1	16 -0.5 15.5
 Pt1stSC				33           +inf               -               -               1       200 0 1000
 Eta1stSC			-inf         +inf               -               -               1       100 -5 5
 Phi1stSC			-inf         +inf               -               -               1       60 -3.1416 +3.1416
-nJet_PtCut_noOvrlp_ID           0            1                  -               -               1       16 -0.5 15.5
+nJet_PtCut_noOvrlp_ID           0            +inf               -               -               1       16 -0.5 15.5
 Pt1stJet			30           +inf               -               -               1       200 0 1000
 Eta1stJet			-inf         +inf               -               -               1       100 -5 5
 minDRscjets			0.7	     +inf		-		-		1	100 0 10
