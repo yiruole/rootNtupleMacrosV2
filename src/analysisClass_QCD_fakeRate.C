@@ -96,11 +96,37 @@ void analysisClass::Loop()
   if (fChain == 0) return;
 
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
-
   double ele_PtCut =  getPreCutValue1("ele_PtCut");
   double eleEta_bar = getPreCutValue1("eleEta_bar");
   double eleEta_end_min = getPreCutValue1("eleEta_end");
   double eleEta_end_max = getPreCutValue2("eleEta_end");
+  double eleDeltaEtaTrkSC_bar = getPreCutValue1("eleDeltaEtaTrkSC");
+  double eleDeltaEtaTrkSC_end = getPreCutValue2("eleDeltaEtaTrkSC");
+  double eleDeltaPhiTrkSC_bar = getPreCutValue1("eleDeltaPhiTrkSC");
+  double eleDeltaPhiTrkSC_end = getPreCutValue2("eleDeltaPhiTrkSC");
+  double eleHoE_bar = getPreCutValue1("eleHoE");
+  double eleHoE_end = getPreCutValue2("eleHoE");
+  double eleE2x5OverE5x5_bar = getPreCutValue1("eleE2x5OverE5x5");
+  //double eleE2x5OverE5x5_end = getPreCutValue2("eleE2x5OverE5x5");
+  double eleE1x5OverE5x5_bar = getPreCutValue1("eleE1x5OverE5x5");
+  //double eleE1x5OverE5x5_end = getPreCutValue2("eleE1x5OverE5x5");
+  //double eleSigmaIetaIeta_bar = getPreCutValue1("eleSigmaIetaIeta");
+  double eleSigmaIetaIeta_end = getPreCutValue2("eleSigmaIetaIeta");
+  double eleEcalHcalIso_1_bar = getPreCutValue1("eleEcalHcalIso");
+  double eleEcalHcalIso_2_bar = getPreCutValue2("eleEcalHcalIso");
+  double eleEcalHcalIso_1_end = getPreCutValue3("eleEcalHcalIso");
+  double eleEcalHcalIso_2_end = getPreCutValue4("eleEcalHcalIso");
+  //double eleEcalHcalIso_PTthr_bar = getPreCutValue1("eleEcalHcalIso_PTthr");
+  double eleEcalHcalIso_PTthr_end = getPreCutValue2("eleEcalHcalIso_PTthr");
+  //double eleHcalIsoD2_bar = getPreCutValue1("eleHcalIsoD2");
+  double eleHcalIsoD2_end = getPreCutValue2("eleHcalIsoD2");
+  double eleTrkIso_bar = getPreCutValue1("eleTrkIso");
+  double eleTrkIso_end = getPreCutValue2("eleTrkIso");
+
+  double eleEta_bar_forFR_1 = getPreCutValue1("eleEta_bar_forFR");
+  double eleEta_bar_forFR_2 = getPreCutValue2("eleEta_bar_forFR");
+  double eleEta_end_forFR_1 = getPreCutValue1("eleEta_end_forFR");
+  double eleEta_end_forFR_2 = getPreCutValue2("eleEta_end_forFR");
 
   double jet_PtCut =    getPreCutValue1("jet_PtCut");
   double jet_PtCut_forMetScale =    getPreCutValue1("jet_PtCut_forMetScale");
@@ -129,6 +155,7 @@ void analysisClass::Loop()
 
   int jetAlgorithm = getPreCutValue1("jetAlgorithm");
   int metAlgorithm = getPreCutValue1("metAlgorithm");
+  int eleAlgorithm = getPreCutValue1("eleAlgorithm"); 
 
   double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
   double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
@@ -142,38 +169,11 @@ void analysisClass::Loop()
   double MTenu_Thresh = getPreCutValue1("MTenu_Thresh");
   double sT_Thresh = getPreCutValue1("sT_Thresh");
 
-  int doPlot_Wmore0jet = getPreCutValue1("doPlot_Wmore0jet");
-  int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet");
-
   int doExtraChecks = getPreCutValue1("doExtraChecks");
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
-
-  CreateUserTH2D("h2_SCPt_vs_ElePt", 
-		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"), 
-		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC")); 
-  CreateUserTH2D("h2_MET_vs_ElePt", 
-		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"), 
-		 getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"));
-  CreateUserTH2D("h2_MET_vs_SumET", 
-		 getHistoNBins("SumET"), getHistoMin("SumET"), getHistoMax("SumET"),
-		 getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"));
-
-  CreateUserTH1D("h1_ElePt", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-  CreateUserTH1D("h1_EleEta", getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"));
-  CreateUserTH2D("h2_Ele_Pt_vs_Eta", 
-		 getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"),
-		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-  CreateUserTH1D("h1_ElePt_barrel1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-  CreateUserTH1D("h1_ElePt_barrel2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-  CreateUserTH1D("h1_ElePt_endcap1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-  CreateUserTH1D("h1_ElePt_endcap2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-
-  CreateUserTH1D("h1_Ele_EtOverPt", 2000, 0, 20);
-  CreateUserTH1D("h1_Ele_EtOverPt_barrel", 2000, 0, 20);
-  CreateUserTH1D("h1_Ele_EtOverPt_endcap", 2000, 0, 20);
 
   CreateUserTH1D("h1_SuperClusterPt", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
   CreateUserTH1D("h1_SuperClusterEta", getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"));
@@ -184,7 +184,37 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_SuperClusterPt_barrel2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
   CreateUserTH1D("h1_SuperClusterPt_endcap1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
   CreateUserTH1D("h1_SuperClusterPt_endcap2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH2D("h2_SuperCluster_Phi_vs_Eta", 
+		 getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"),
+		 getHistoNBins("Phi1stSC"), getHistoMin("Phi1stSC"), getHistoMax("Phi1stSC"));
+  
+  CreateUserTH1D("h1_ElePt", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH1D("h1_EleEta", getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"));
+  CreateUserTH2D("h2_Ele_Pt_vs_Eta", 
+		 getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"),
+		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH1D("h1_ElePt_barrel1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH1D("h1_ElePt_barrel2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH1D("h1_ElePt_endcap1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH1D("h1_ElePt_endcap2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+  CreateUserTH1D("h1_Ele_EtOverPt", 2000, 0, 20);
+  CreateUserTH1D("h1_Ele_EtOverPt_barrel1", 2000, 0, 20);
+  CreateUserTH1D("h1_Ele_EtOverPt_barrel2", 2000, 0, 20);
+  CreateUserTH1D("h1_Ele_EtOverPt_endcap1", 2000, 0, 20);
+  CreateUserTH1D("h1_Ele_EtOverPt_endcap2", 2000, 0, 20);
+  CreateUserTH2D("h2_Ele_Phi_vs_Eta", 
+		 getHistoNBins("Eta1stSC"), getHistoMin("Eta1stSC"), getHistoMax("Eta1stSC"),
+		 getHistoNBins("Phi1stSC"), getHistoMin("Phi1stSC"), getHistoMax("Phi1stSC"));
 
+  CreateUserTH2D("h2_SCPt_vs_ElePt", 
+		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"), 
+		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC")); 
+  CreateUserTH2D("h2_MET_vs_ElePt", 
+		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"), 
+		 getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"));
+  CreateUserTH2D("h2_MET_vs_SumET", 
+		 getHistoNBins("SumET"), getHistoMin("SumET"), getHistoMax("SumET"),
+		 getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"));
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -388,15 +418,14 @@ void analysisClass::Loop()
 
     }
 
-
-    //## Electrons
+   //## Electrons
     vector<int> v_idx_ele_all;
     vector<int> v_idx_ele_PtCut;
     vector<int> v_idx_ele_PtCut_IDISO_noOverlap;
     int heepBitMask;
 
     //Loop over electrons
-    for(int iele=0; iele<ElectronSCPt->size(); iele++)
+    for(int iele=0; iele<ElectronPt->size(); iele++)
       {
 
 	// Reject ECAL spikes
@@ -406,32 +435,89 @@ void analysisClass::Loop()
 	v_idx_ele_all.push_back(iele);
 
 	//pT pre-cut on ele
-	if( ElectronSCPt->at(iele) < ele_PtCut ) continue;
+	if( ElectronPt->at(iele) < ele_PtCut ) continue;
 	v_idx_ele_PtCut.push_back(iele);
+	
+	if(eleAlgorithm==1) 	//------> use HEEP mask
+	  {
+	    // get heepBitMask for EB, GAP, EE
+	    if( fabs(ElectronEta->at(iele)) < eleEta_bar )
+	      {
+		heepBitMask = heepBitMask_EB;
+	      }
+	    else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
+	      {
+		heepBitMask = heepBitMask_EE;
+	      }
+	    else {
+	      heepBitMask = heepBitMask_GAP;
+	    }
+	    
+	    //ID + ISO + NO overlap with good muons
+	    // int eleID = ElectronPassID->at(iele);
+	    // if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
+	    if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0
+		 // && ElectronOverlaps->at(iele)==0 //## + NO overlap with good muons (removed by default) ##
+		 )
+	      {
+		//STDOUT("ElectronHeepID = " << hex << ElectronHeepID->at(iele) << " ; ElectronPassID = " << ElectronPassID->at(iele) )
+		v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
+	      }
+	    
+	  }//end use HEEP mask
 
-	// get heepBitMask for EB, GAP, EE
-	if( fabs(ElectronSCEta->at(iele)) < eleEta_bar )
+	else if (eleAlgorithm==2) //------> use HEEP variables
 	  {
-	    heepBitMask = heepBitMask_EB;
-	  }
-	else if ( fabs(ElectronSCEta->at(iele)) > eleEta_end_min && fabs(ElectronSCEta->at(iele)) < eleEta_end_max )
-	  {
-	    heepBitMask = heepBitMask_EE;
-	  }
-	else {
-	  heepBitMask = heepBitMask_GAP;
-	}
+	    int passEleSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
 
-	//ID + ISO + NO overlap with good muons
-	// int eleID = ElectronPassID->at(iele);
-	// if ( (eleID & 1<<eleIDType) > 0  && ElectronOverlaps->at(iele)==0 )
-	if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0
-	     // && ElectronOverlaps->at(iele)==0 //## + NO overlap with good muons (removed by default) ##
-	     )
-	  {
-	    //STDOUT("ElectronHeepID = " << hex << ElectronHeepID->at(iele) << " ; ElectronPassID = " << ElectronPassID->at(iele) )
-	    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
-	  }
+	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
+	      isBarrel = 1;
+	    
+	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_bar //0.005
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar //0.09
+		   && ElectronHoE->at(iele) < eleHoE_bar //0.05 
+		   && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5_bar ) //0.94  , 0.83
+		   && ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele) < eleEcalHcalIso_1_bar + eleEcalHcalIso_2_bar*ElectronPt->at(iele)  // 2+0.03*ElectronPt->at(iele)
+		   && ElectronTrkIsoHeep->at(iele) <eleTrkIso_bar //7.5
+		   )
+		  passEleSel = 1;		
+	      }//end barrel
+	    
+	    if(isEndcap)
+	      {		
+		int passEcalHcalIsoCut=0;
+		if(ElectronPt->at(iele) < eleEcalHcalIso_PTthr_end // thr=50 
+		   && (ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele)) < eleEcalHcalIso_1_end) // value=2.5 
+		  passEcalHcalIsoCut=1;
+		if(ElectronPt->at(iele) > eleEcalHcalIso_PTthr_end // thr=50 
+		   && (ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele)) < eleEcalHcalIso_1_end+eleEcalHcalIso_2_end*(ElectronPt->at(iele)-eleEcalHcalIso_PTthr_end) ) //values=2.5, 0.03
+		  passEcalHcalIsoCut=1;
+		
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_end //0.007
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end //0.09
+		   && ElectronHoE->at(iele) < eleHoE_end //0.05 
+		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end //0.03
+		   && passEcalHcalIsoCut == 1
+		   && ElectronHcalIsoD2Heep->at(iele) < eleHcalIsoD2_end //0.5
+		   && ElectronTrkIsoHeep->at(iele) < eleTrkIso_end //15
+		   )
+		  passEleSel = 1;		
+	      }//end endcap
+
+	    //Pass User Defined Electron Selection
+	    if ( passEleSel )
+	      {
+		v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
+	      }
+
+	  }//end use HEEP variables
 
       } // End loop over electrons
 
@@ -837,43 +923,77 @@ void analysisClass::Loop()
     if( passedAllPreviousCuts("nEle_PtCut_IDISO_noOvrlp") 
 	&& variableIsFilled("Pt1stSC")  
 	&& variableIsFilled("Eta1stSC")  
+	&& variableIsFilled("Phi1stSC")  
 	)
       {
 	FillUserTH1D("h1_SuperClusterPt", getVariableValue("Pt1stSC"), p1);		     
 	FillUserTH1D("h1_SuperClusterEta", getVariableValue("Eta1stSC"), p1);		     
 	FillUserTH2D("h2_SuperCluster_Pt_vs_Eta", getVariableValue("Eta1stSC"), getVariableValue("Pt1stSC"), p1 );
-	// 	FillUserTH1D("h1_SuperClusterPt_barrel1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-	// 	FillUserTH1D("h1_SuperClusterPt_barrel2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-	// 	FillUserTH1D("h1_SuperClusterPt_endcap1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-	// 	FillUserTH1D("h1_SuperClusterPt_endcap2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
+	FillUserTH2D("h2_SuperCluster_Phi_vs_Eta", getVariableValue("Eta1stSC") , getVariableValue("Phi1stSC") , p1);
+
+	if( fabs(getVariableValue("Eta1stSC")) < eleEta_bar_forFR_1  )//barrel 1
+	  {
+	    FillUserTH1D("h1_SuperClusterPt_barrel1", getVariableValue("Pt1stSC"), p1);		     
+	  }
+	if( fabs(getVariableValue("Eta1stSC")) >= eleEta_bar_forFR_1 && fabs(getVariableValue("Eta1stSC")) < eleEta_bar_forFR_2 )//barrel 2
+	  {
+	    FillUserTH1D("h1_SuperClusterPt_barrel2", getVariableValue("Pt1stSC"), p1);		     
+	  }
+	if( fabs(getVariableValue("Eta1stSC")) >= eleEta_end_forFR_1 && fabs(getVariableValue("Eta1stSC")) < eleEta_end_forFR_2 )//endcap 1
+	  {
+	    FillUserTH1D("h1_SuperClusterPt_endcap1", getVariableValue("Pt1stSC"), p1);		     
+	  }
+	if( fabs(getVariableValue("Eta1stSC")) >= eleEta_end_forFR_2 )//endcap 2
+	  {
+	    FillUserTH1D("h1_SuperClusterPt_endcap2", getVariableValue("Pt1stSC"), p1);		     
+	  }
       }
 
     //pass electron selection
     if( passedCut("all") 
 	&& variableIsFilled("Pt1stEle")  
 	&& variableIsFilled("Eta1stEle") 
+	&& variableIsFilled("Phi1stEle") 
+	&& variableIsFilled("Pt1stSC")  
+	&& variableIsFilled("Eta1stSC")  
+	&& variableIsFilled("Phi1stSC")  
+	&& variableIsFilled("MET")
+	&& variableIsFilled("SumET")
 	)
       {
+	double EToverPT = double( getVariableValue("Pt1stEle") / ElectronTrackPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+
 	FillUserTH1D("h1_ElePt", getVariableValue("Pt1stEle"), p1);		     
 	FillUserTH1D("h1_EleEta", getVariableValue("Eta1stEle"), p1);		      
 	FillUserTH2D("h2_Ele_Pt_vs_Eta", getVariableValue("Eta1stEle"), getVariableValue("Pt1stEle"), p1 );
-	// 	FillUserTH1D("h1_ElePt_barrel1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-	// 	FillUserTH1D("h1_ElePt_barrel2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-	// 	FillUserTH1D("h1_ElePt_endcap1", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));
-	// 	FillUserTH1D("h1_ElePt_endcap2", getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"));		
+	FillUserTH1D("h1_Ele_EtOverPt", EToverPT, p1 );
+	FillUserTH2D("h2_Ele_Phi_vs_Eta", getVariableValue("Eta1stEle") , getVariableValue("Phi1stEle") , p1);
+
+	if( fabs(getVariableValue("Eta1stSC")) < eleEta_bar_forFR_1  )//barrel 1
+	  {
+	    FillUserTH1D("h1_ElePt_barrel1", getVariableValue("Pt1stEle"), p1);		     
+	    FillUserTH1D("h1_Ele_EtOverPt_barrel1", EToverPT, p1 );
+	  }
+	if( fabs(getVariableValue("Eta1stSC")) >= eleEta_bar_forFR_1 && fabs(getVariableValue("Eta1stSC")) < eleEta_bar_forFR_2 )//barrel 2
+	  {
+	    FillUserTH1D("h1_ElePt_barrel2", getVariableValue("Pt1stEle"), p1);		     
+	    FillUserTH1D("h1_Ele_EtOverPt_barrel2", EToverPT, p1 );
+	  }
+	if( fabs(getVariableValue("Eta1stSC")) >= eleEta_end_forFR_1 && fabs(getVariableValue("Eta1stSC")) < eleEta_end_forFR_2 )//endcap 1
+	  {
+	    FillUserTH1D("h1_ElePt_endcap1", getVariableValue("Pt1stEle"), p1);		     
+	    FillUserTH1D("h1_Ele_EtOverPt_endcap1", EToverPT, p1 );
+	  }
+	if( fabs(getVariableValue("Eta1stSC")) >= eleEta_end_forFR_2 )//endcap 2
+	  {
+	    FillUserTH1D("h1_Ele_EtOverPt_endcap2", EToverPT, p1 );
+	    FillUserTH1D("h1_ElePt_endcap2", getVariableValue("Pt1stEle"), p1);		     
+	  }
+
+	FillUserTH2D("h2_SCPt_vs_ElePt", getVariableValue("Pt1stEle") , getVariableValue("Pt1stSC") , p1 );
+	FillUserTH2D("h2_MET_vs_ElePt", getVariableValue("Pt1stEle") , getVariableValue("MET") , p1 );
+	FillUserTH2D("h2_MET_vs_SumET", getVariableValue("SumET") , getVariableValue("MET") , p1);
       }
-    //   CreateUserTH2D("h2_SCPt_vs_ElePt", 
-    // 		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"), 
-    // 		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC")); 
-    //   CreateUserTH2D("h2_MET_vs_ElePt", 
-    // 		 getHistoNBins("Pt1stSC"), getHistoMin("Pt1stSC"), getHistoMax("Pt1stSC"), 
-    // 		 getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"));
-    //   CreateUserTH2D("h2_MET_vs_SumET", 
-    // 		 getHistoNBins("SumET"), getHistoMin("SumET"), getHistoMax("SumET"),
-    // 		 getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"));
-    //   CreateUserTH1D("h1_Ele_EtOverPt", 2000, 0, 20);
-    //   CreateUserTH1D("h1_Ele_EtOverPt_barrel", 2000, 0, 20);
-    //   CreateUserTH1D("h1_Ele_EtOverPt_endcap", 2000, 0, 20);
 
 
     //     // Produce skim
