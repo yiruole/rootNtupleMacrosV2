@@ -117,7 +117,7 @@ nJet_PtCut_noOvrlp_ID           0            +inf               -               
 Pt1stJet			30           +inf               -               -               1       200 0 1000
 Eta1stJet			-inf         +inf               -               -               1       100 -5 5
 minDRscjets			0.7	     +inf		-		-		1	100 0 10
-METsel                          -inf         +inf               -               -               1       200 0 1000
+METsel                          -inf         35                 -               -               1       200 0 1000
 nEle_PtCut_IDISO_noOvrlp        0            1                  -               -               1       16 -0.5 15.5
 DeltaR_ele_sc			-inf	     0.3		-		-		1	100 0 1     
 Pt1stEle			-inf         +inf               -               -               1       200 0 1000
