@@ -326,10 +326,10 @@ void analysisClass::Loop()
     if(isData)
       {       
 	//select first period of run 2010 (low luminosity)
-	//if( run > 144114 ) passGoodRunList = 0;
+	if( run > 144114 ) passGoodRunList = 0;
 	
 	//select second period of run 2010 (high luminosity) 
-	if( run <= 144114 ) passGoodRunList = 0;		
+	//if( run <= 144114 ) passGoodRunList = 0;		
       } 
 
     //## HLT
@@ -691,6 +691,12 @@ void analysisClass::Loop()
     int PassTrig = 0;
     double weight_HLT = 1;
 
+    //HLT for MC samples
+    if(isData==0)
+      {
+	PassTrig = 1;
+      }
+
     //### TO BE COMMENTED OUT IF RUNNING ON SPRING10 MC NTUPLES !!! ###
     if(isData)
       {
@@ -760,7 +766,7 @@ void analysisClass::Loop()
 	      }
 	  }
       }//end use of HLT prescales
-    
+
 
     //     //## Vertexes
     //     vector<int> v_idx_vertex_good;
