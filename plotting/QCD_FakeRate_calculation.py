@@ -245,7 +245,12 @@ def GetRatioEff( num , den , m_size , m_style , m_color , xtitle , ytitle ):
 
 # %%%%%%% END %%%%%%% 
 
-File1 = GetFile("$LQDATA/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+#QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35
+File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+
+#QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1
+#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+
 
 #--- Define all the histograms
 #def GetEffFixBinning( num , den , m_size , m_style , m_color , xtitle , ytitle , min , max, rebin):
@@ -255,17 +260,20 @@ h1_SuperClusterPt_DATA_barrel1 = GetHisto( "histo1D__DATA__h1_SuperClusterPt_bar
 h1_SuperClusterPt_DATA_barrel2 = GetHisto( "histo1D__DATA__h1_SuperClusterPt_barrel2" , File1)
 h1_SuperClusterPt_DATA_endcap1 = GetHisto( "histo1D__DATA__h1_SuperClusterPt_endcap1" , File1)
 h1_SuperClusterPt_DATA_endcap2 = GetHisto( "histo1D__DATA__h1_SuperClusterPt_endcap2" , File1)
+#h1_SuperClusterEta_DATA_all = GetHisto( "histo1D__DATA__h1_SuperClusterEta" , File1)
 #sums
 h1_SuperClusterPt_DATA_barrel  = GetHisto( "histo1D__DATA__h1_SuperClusterPt_barrel1" , File1)
 h1_SuperClusterPt_DATA_barrel.Add(h1_SuperClusterPt_DATA_barrel2)
 h1_SuperClusterPt_DATA_endcap  = GetHisto( "histo1D__DATA__h1_SuperClusterPt_endcap1" , File1)
 h1_SuperClusterPt_DATA_endcap.Add(h1_SuperClusterPt_DATA_endcap2)
 
+
 h1_ElePt_DATA_all = GetHisto( "histo1D__DATA__h1_ElePt" , File1)
 h1_ElePt_DATA_barrel1 = GetHisto( "histo1D__DATA__h1_ElePt_barrel1" , File1)
 h1_ElePt_DATA_barrel2 = GetHisto( "histo1D__DATA__h1_ElePt_barrel2" , File1)
 h1_ElePt_DATA_endcap1 = GetHisto( "histo1D__DATA__h1_ElePt_endcap1" , File1)
 h1_ElePt_DATA_endcap2 = GetHisto( "histo1D__DATA__h1_ElePt_endcap2" , File1)
+#h1_EleEta_DATA_all = GetHisto( "histo1D__DATA__h1_EleEta" , File1)
 #sums
 h1_ElePt_DATA_barrel  = GetHisto( "histo1D__DATA__h1_ElePt_barrel1" , File1)
 h1_ElePt_DATA_barrel.Add(h1_ElePt_DATA_barrel2)
@@ -306,132 +314,150 @@ h1_ElePt_DATA_endcap.Add(h1_ElePt_DATA_endcap2)
 fakeRate_vs_Pt_DATA_all = GetEffFixBinning( h1_ElePt_DATA_all , h1_SuperClusterPt_DATA_all
                                             , 1.2 , 20 , 1
                                             , "SuperCluster Et (GeV)" , "Fake Probability - All"
-                                            , 30 , 1000, 1)
+                                            , 30 , 500, 10)
+# fakeRate_vs_Eta_DATA_all = GetEffFixBinning( h1_EleEta_DATA_all , h1_SuperClusterEta_DATA_all
+#                                              , 1.2 , 20 , 1
+#                                              , "SuperCluster Eta" , "Fake Probability - All"
+#                                              , -5 , 5, 1)
 
 fakeRate_vs_Pt_DATA_barrel = GetEffFixBinning( h1_ElePt_DATA_barrel , h1_SuperClusterPt_DATA_barrel
                                                , 1.2 , 20 , 1
                                                , "SuperCluster Et (GeV)" , "Fake Probability - Barrel"
-                                               , 30 , 1000, 1)
+                                               , 30 , 500, 10)
 fakeRate_vs_Pt_DATA_barrel1 = GetEffFixBinning( h1_ElePt_DATA_barrel1 , h1_SuperClusterPt_DATA_barrel1
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel1"
-                                                , 30 , 1000, 1)
+                                                , 30 , 500, 10)
 fakeRate_vs_Pt_DATA_barrel2 = GetEffFixBinning( h1_ElePt_DATA_barrel2 , h1_SuperClusterPt_DATA_barrel2
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel2"
-                                                , 30 , 1000, 1)
+                                                , 30 , 500, 10)
 
 fakeRate_vs_Pt_DATA_endcap = GetEffFixBinning( h1_ElePt_DATA_endcap , h1_SuperClusterPt_DATA_endcap
                                                , 1.2 , 20 , 1
                                                , "SuperCluster Et (GeV)" , "Fake Probability - Endcap"
-                                               , 30 , 1000, 1)
+                                               , 30 , 500, 10)
 fakeRate_vs_Pt_DATA_endcap1 = GetEffFixBinning( h1_ElePt_DATA_endcap1 , h1_SuperClusterPt_DATA_endcap1
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap1"
-                                                , 30 , 1000, 1)
+                                                , 30 , 500, 10)
 fakeRate_vs_Pt_DATA_endcap2 = GetEffFixBinning( h1_ElePt_DATA_endcap2 , h1_SuperClusterPt_DATA_endcap2
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap2"
-                                                , 30 , 1000, 1)
+                                                , 30 , 500, 10)
 
 
 #--- Final plots
-cTot = TCanvas();
-cTot.Print("FakeRatePlots.ps[");
+cTot = TCanvas()
+cTot.Print("FakeRatePlots.ps[")
 
-#fake rate (all)
+#fake rate pt (all)
 call = TCanvas()
-call.SetGridy();
-call.SetGridx();
+call.SetGridy()
+call.SetGridx()
 fakeRate_vs_Pt_DATA_all.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_all.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_all.Draw("ap")
 fakeRate_vs_Pt_DATA_all.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_all.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_all.GetYaxis().SetTitle("Fake Probability - All")
-call.Print("FakeRate_all.root","root");
-call.Print("FakeRatePlots.ps");
+call.Print("FakeRate_all.root","root")
+call.Print("FakeRatePlots.ps")
 
 #fake rate (barrel)
 cbarrel = TCanvas()
-cbarrel.SetGridy();
-cbarrel.SetGridx();
+cbarrel.SetGridy()
+cbarrel.SetGridx()
 fakeRate_vs_Pt_DATA_barrel.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_barrel.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_barrel.Draw("ap")
 fakeRate_vs_Pt_DATA_barrel.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_barrel.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_barrel.GetYaxis().SetTitle("Fake Probability - Barrel")
-cbarrel.Print("FakeRate_barrel.root","root");
-cbarrel.Print("FakeRatePlots.ps");
+cbarrel.Print("FakeRate_barrel.root","root")
+cbarrel.Print("FakeRatePlots.ps")
 
 #fake rate (barrel1)
 cbarrel1 = TCanvas()
-cbarrel1.SetGridy();
-cbarrel1.SetGridx();
+cbarrel1.SetGridy()
+cbarrel1.SetGridx()
 fakeRate_vs_Pt_DATA_barrel1.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_barrel1.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_barrel1.Draw("ap")
 fakeRate_vs_Pt_DATA_barrel1.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_barrel1.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_barrel1.GetYaxis().SetTitle("Fake Probability - Barrel1")
-cbarrel1.Print("FakeRate_barrel1.root","root");
-cbarrel1.Print("FakeRatePlots.ps");
+cbarrel1.Print("FakeRate_barrel1.root","root")
+cbarrel1.Print("FakeRatePlots.ps")
 
 #fake rate (barrel2)
 cbarrel2 = TCanvas()
-cbarrel2.SetGridy();
-cbarrel2.SetGridx();
+cbarrel2.SetGridy()
+cbarrel2.SetGridx()
 fakeRate_vs_Pt_DATA_barrel2.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_barrel2.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_barrel2.Draw("ap")
 fakeRate_vs_Pt_DATA_barrel2.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_barrel2.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_barrel2.GetYaxis().SetTitle("Fake Probability - Barrel2")
-cbarrel2.Print("FakeRate_barrel2.root","root");
-cbarrel2.Print("FakeRatePlots.ps");
+cbarrel2.Print("FakeRate_barrel2.root","root")
+cbarrel2.Print("FakeRatePlots.ps")
 
 #fake rate (endcap)
 cendcap = TCanvas()
-cendcap.SetGridy();
-cendcap.SetGridx();
+cendcap.SetGridy()
+cendcap.SetGridx()
 fakeRate_vs_Pt_DATA_endcap.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_endcap.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_endcap.Draw("ap")
 fakeRate_vs_Pt_DATA_endcap.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_endcap.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_endcap.GetYaxis().SetTitle("Fake Probability - Endcap")
-cendcap.Print("FakeRate_endcap.root","root");
-cendcap.Print("FakeRatePlots.ps");
+cendcap.Print("FakeRate_endcap.root","root")
+cendcap.Print("FakeRatePlots.ps")
 
 #fake rate (endcap1)
 cendcap1 = TCanvas()
-cendcap1.SetGridy();
-cendcap1.SetGridx();
+cendcap1.SetGridy()
+cendcap1.SetGridx()
 fakeRate_vs_Pt_DATA_endcap1.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_endcap1.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_endcap1.Draw("ap")
 fakeRate_vs_Pt_DATA_endcap1.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_endcap1.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_endcap1.GetYaxis().SetTitle("Fake Probability - Endcap1")
-cendcap1.Print("FakeRate_endcap1.root","root");
-cendcap1.Print("FakeRatePlots.ps");
+cendcap1.Print("FakeRate_endcap1.root","root")
+cendcap1.Print("FakeRatePlots.ps")
 
 #fake rate (endcap2)
 cendcap2 = TCanvas()
-cendcap2.SetGridy();
-cendcap2.SetGridx();
+cendcap2.SetGridy()
+cendcap2.SetGridx()
 fakeRate_vs_Pt_DATA_endcap2.GetYaxis().SetRangeUser(0,0.2)
 fakeRate_vs_Pt_DATA_endcap2.GetXaxis().SetRangeUser(30,1000)
 fakeRate_vs_Pt_DATA_endcap2.Draw("ap")
 fakeRate_vs_Pt_DATA_endcap2.SetLineWidth(2)
 fakeRate_vs_Pt_DATA_endcap2.GetXaxis().SetTitle("SuperCluster Et (GeV)")
 fakeRate_vs_Pt_DATA_endcap2.GetYaxis().SetTitle("Fake Probability - Endcap2")
-cendcap2.Print("FakeRate_endcap2.root","root");
-cendcap2.Print("FakeRatePlots.ps");
+cendcap2.Print("FakeRate_endcap2.root","root")
+cendcap2.Print("FakeRatePlots.ps")
+
+# #fake rate eta (all)
+# ceta = TCanvas()
+# ceta.SetGridy()
+# ceta.SetGridx()
+# fakeRate_vs_Eta_DATA_all.GetYaxis().SetRangeUser(0,10)
+# fakeRate_vs_Eta_DATA_all.GetXaxis().SetRangeUser(0,1)
+# fakeRate_vs_Eta_DATA_all.Draw("ap")
+# fakeRate_vs_Eta_DATA_all.SetLineWidth(2)
+# fakeRate_vs_Eta_DATA_all.GetXaxis().SetTitle("SuperCluster Eta")
+# fakeRate_vs_Eta_DATA_all.GetYaxis().SetTitle("Fake Probability - All")
+# ceta.Print("FakeRate_all_eta.root","root")
+# ceta.Print("FakeRatePlots.ps")
+
 
 #---
-cTot.Print("FakeRatePlots.ps]");
+cTot.Print("FakeRatePlots.ps]")
 
 ## Terminate the program
 #print "Press ENTER to terminate"
