@@ -186,6 +186,7 @@ class Plot:
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
+    #lint        = "3.0 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     lint        = "33.0 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
@@ -406,6 +407,10 @@ class Plot:
 
 #--- Input root file
 
+
+#QCD fake rate: 3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35
+#File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+
 #QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35
 File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
@@ -424,7 +429,7 @@ pt_ymax=1000000
 
 eta_rebin=1
 eta_ymin=0
-eta_ymax=20000
+eta_ymax=15000
 
 #--- Final plots are defined here
 
@@ -935,52 +940,77 @@ plot17.makeRatio       = makeRatio
 plot17.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
 
-# #--- Pt1stJet_PAS ---
-# variableName = "Pt1stJet_PAS"
+#--- minDRscjets ---
+variableName = "minDRscjets"
 
-# plot6 = Plot()
-# ## inputs for stacked histograms
-# plot6.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
-# plot6.keysStack       = keysStack
-# ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-# plot6.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
-# plot6.keys            = keys
-# plot6.xtit            = "pT 1st jet (GeV)"
-# plot6.ytit            = "Number of events"
-# plot6.ylog            = "yes"
-# plot6.rebin           = 1
-# plot6.xmin            = pt_xmin
-# plot6.xmax            = pt_xmax
-# plot6.ymin            = pt_ymin
-# plot6.ymax            = pt_ymax
-# #plot6.lpos = "bottom-center"
-# plot6.name            = "Pt1stJet_QCDfakeRate"
-# plot6.addZUncBand     = zUncBand
-# plot6.makeRatio       = makeRatio
-# plot6.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,800]
-# plot6.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
+plot18 = Plot()
+## inputs for stacked histograms
+plot18.histosStack     = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
+plot18.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot18.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
+plot18.keys            = keys
+plot18.xtit            = "min#Delta R(e,jets)"
+plot18.ytit            = "Number of events"
+plot18.ylog            = "yes"
+plot18.rebin           = 2
+plot18.xmin            = 0
+plot18.xmax            = 7
+plot18.ymin            = 0.01
+plot18.ymax            = 100000
+#plot18.lpos = "bottom-center"
+plot18.name            = "minDRej_QCDfakeRate"
+plot18.addZUncBand     = zUncBand
+plot18.makeRatio       = makeRatio
+#plot18.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot18.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
-# #--- Eta1stJet_PAS ---
-# variableName = "Eta1stJet_PAS"
 
-# plot7 = Plot()
-# ## inputs for stacked histograms
-# plot7.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
-# plot7.keysStack       = keysStack
-# ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-# plot7.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
-# plot7.keys            = keys
-# plot7.xtit            = "#eta 1st jet"
-# plot7.ytit            = "Number of events"
-# plot7.rebin           = eta_rebin
-# plot7.ymin            = eta_ymin
-# plot7.ymax            = eta_ymax
-# #plot7.lpos            = "top-left"
-# plot7.name            = "Eta1stJet_QCDfakeRate"
-# plot7.addZUncBand     = zUncBand
-# plot7.makeRatio       = makeRatio
-# plot7.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
+#--- Pt1stJet ---
+variableName = "Pt1stJet"
 
+plot19 = Plot()
+## inputs for stacked histograms
+plot19.histosStack     = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
+plot19.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot19.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
+plot19.keys            = keys
+plot19.xtit            = "pT 1st jet (GeV)"
+plot19.ytit            = "Number of events"
+plot19.ylog            = "yes"
+plot19.rebin           = 1
+plot19.xmin            = pt_xmin
+plot19.xmax            = pt_xmax
+plot19.ymin            = pt_ymin
+plot19.ymax            = pt_ymax
+#plot19.lpos = "bottom-center"
+plot19.name            = "Pt1stJet_QCDfakeRate"
+plot19.addZUncBand     = zUncBand
+plot19.makeRatio       = makeRatio
+plot19.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,800]
+plot19.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
+
+#--- Eta1stJet ---
+variableName = "Eta1stJet"
+
+plot20 = Plot()
+## inputs for stacked histograms
+plot20.histosStack     = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
+plot20.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot20.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
+plot20.keys            = keys
+plot20.xtit            = "#eta 1st jet"
+plot20.ytit            = "Number of events"
+plot20.rebin           = eta_rebin
+plot20.ymin            = eta_ymin
+plot20.ymax            = eta_ymax
+#plot20.lpos            = "top-left"
+plot20.name            = "Eta1stJet_QCDfakeRate"
+plot20.addZUncBand     = zUncBand
+plot20.makeRatio       = makeRatio
+plot20.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
 
 
@@ -1034,30 +1064,6 @@ plot17.histodata       = generateHisto( histoBaseName, sampleForDataHisto, varia
 # plot22.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
 
-# #--- minDRej ---
-# variableName = "minDRej"
-
-# plot24 = Plot()
-# ## inputs for stacked histograms
-# plot24.histosStack     = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_selection)
-# plot24.keysStack       = keysStack
-# ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
-# plot24.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_selection)
-# plot24.keys            = keys
-# plot24.xtit            = "min#Delta R(e,jets)"
-# plot24.ytit            = "Number of events"
-# plot24.ylog            = "yes"
-# plot24.rebin           = 2
-# plot24.xmin            = 0
-# plot24.xmax            = 7
-# plot24.ymin            = 0.01
-# plot24.ymax            = 5000
-# #plot24.lpos = "bottom-center"
-# plot24.name            = "minDRej_QCDfakeRate"
-# plot24.addZUncBand     = zUncBand
-# plot24.makeRatio       = makeRatio
-# #plot24.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
-# plot24.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_selection)
 
 
 #-----------------------------------------------------------------------------------
@@ -1066,7 +1072,8 @@ plot17.histodata       = generateHisto( histoBaseName, sampleForDataHisto, varia
 # List of plots to be plotted
 plots  = [plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8,
           plot9, plot10, plot11, plot11_ylog,
-          plot12, plot12_ylog, plot13, plot14, plot15, plot16, plot17
+          plot12, plot12_ylog, plot13, plot14, plot15, plot16, plot17,
+          plot18, plot19, plot20
           ]
 
 
