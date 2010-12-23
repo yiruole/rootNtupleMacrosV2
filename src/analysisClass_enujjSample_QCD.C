@@ -117,9 +117,6 @@ void analysisClass::Loop()
   int MaxRun_HLTPho30_Only = getPreCutValue1("HLTFromRun");
   int FirstRun_HLTPho70    = getPreCutValue3("HLTFromRun");
 
-  int fakeRate_MaxRun1 = getPreCutValue1("fakeRate_MaxRun1");
-  int fakeRate_MaxRun2 = getPreCutValue1("fakeRate_MaxRun2");
-
   // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
   int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
   int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
@@ -755,22 +752,10 @@ void analysisClass::Loop()
     /////  Define the fake rate for QCD and calculate prob. for each sc to be an ele
     ////   The fake rate is run period-dependent
 
-    double BarrelCross = getPreCutValue1("fakeRate_Barrel1");
-    double BarrelSlope = getPreCutValue2("fakeRate_Barrel1");
-    double EndcapCross = getPreCutValue1("fakeRate_Endcap1");
-    double EndcapSlope = getPreCutValue2("fakeRate_Endcap1");
-
-    if( run>fakeRate_MaxRun1 && run<=fakeRate_MaxRun2 ) {
-      BarrelCross = getPreCutValue1("fakeRate_Barrel2");
-      BarrelSlope = getPreCutValue2("fakeRate_Barrel2");
-      EndcapCross = getPreCutValue1("fakeRate_Endcap2");
-      EndcapSlope = getPreCutValue2("fakeRate_Endcap2");
-    } else if ( run>fakeRate_MaxRun2 ) {
-      BarrelCross = getPreCutValue1("fakeRate_Barrel3");
-      BarrelSlope = getPreCutValue2("fakeRate_Barrel3");
-      EndcapCross = getPreCutValue1("fakeRate_Endcap3");
-      EndcapSlope = getPreCutValue2("fakeRate_Endcap3");
-    }
+    double BarrelCross = getPreCutValue1("fakeRate_Barrel");
+    double BarrelSlope = getPreCutValue2("fakeRate_Barrel");
+    double EndcapCross = getPreCutValue1("fakeRate_Endcap");
+    double EndcapSlope = getPreCutValue2("fakeRate_Endcap");
 
     double p1 = 0, p2 = 0, p3 = 0;
     if (v_idx_sc_Iso.size()>=1){

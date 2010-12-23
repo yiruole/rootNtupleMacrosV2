@@ -1294,26 +1294,26 @@ void analysisClass::Loop()
 	      }
 
 // 	    //XXXXXXXX DEBUG XXXXXXXXXX
-// 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highMT", 1000, 0, 1, ElectronRelIso->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highMT", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistZ_highMT", 200, -0.1, 0.1, ElectronVtxDistZ->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronVtxIndex_highMT", 10, 0, 10, ElectronVtxIndex->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronCharge_highMT", 2, -1.001, 1.001, ElectronCharge->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronMissingHits_highMT", 10, 0, 10, ElectronMissingHits->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronSCkOutOfTime_highMT", 2, 0, 2, ElectronSCkOutOfTime->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highMT", 1000, 0, 1, ElectronRelIso->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highMT", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistZ_highMT", 200, -0.1, 0.1, ElectronVtxDistZ->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxIndex_highMT", 10, 0, 10, ElectronVtxIndex->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronCharge_highMT", 2, -1.001, 1.001, ElectronCharge->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronMissingHits_highMT", 10, 0, 10, ElectronMissingHits->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronSCkOutOfTime_highMT", 2, 0, 2, ElectronSCkOutOfTime->at(myEle) );
 
-// 	    CreateAndFillUserTH1D("h1_ElectronET_highMT", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"), getVariableValue("Pt1stEle_PAS") );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronEta_highMT", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"), getVariableValue("Eta1stEle_PAS") );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronEToverPT_highMT", 200, 0, 20, double ( getVariableValue("Pt1stEle_PAS") / ElectronTrackPt->at(myEle) ) );	   	  
-// 	    CreateAndFillUserTH1D("h1_nJet_PtCut_noOvrlp_ID_highMT", 20, 0, 20, getVariableValue("nJet_PtCut_noOvrlp_ID") );	   
-// 	    CreateAndFillUserTH1D("h1_mDeltaPhiMET2ndJet_PAS_highMT", getHistoNBins("mDeltaPhiMET2ndJet_PAS"), getHistoMin("mDeltaPhiMET2ndJet_PAS"), getHistoMax("mDeltaPhiMET2ndJet_PAS"), 
-// 				  getVariableValue("mDeltaPhiMET2ndJet_PAS") );	   
-// 	    CreateAndFillUserTH1D("h1_sT_highMT", getHistoNBins("sT"), getHistoMin("sT"), getHistoMax("sT"), getVariableValue("sT") );	   
-// 	    CreateAndFillUserTH1D("h1_MET_highMT", getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"), getVariableValue("MET") );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronET_highMT", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"), getVariableValue("Pt1stEle_PAS") );
+// 	    CreateAndFillUserTH1D("h1_ElectronEta_highMT", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"), getVariableValue("Eta1stEle_PAS") );
+// 	    CreateAndFillUserTH1D("h1_ElectronEToverPT_highMT", 200, 0, 20, double ( getVariableValue("Pt1stEle_PAS") / ElectronTrackPt->at(myEle) ) );
+// 	    CreateAndFillUserTH1D("h1_nJet_PtCut_noOvrlp_ID_highMT", 20, 0, 20, getVariableValue("nJet_PtCut_noOvrlp_ID") );
+// 	    CreateAndFillUserTH1D("h1_mDeltaPhiMET2ndJet_PAS_highMT", getHistoNBins("mDeltaPhiMET2ndJet_PAS"), getHistoMin("mDeltaPhiMET2ndJet_PAS"), getHistoMax("mDeltaPhiMET2ndJet_PAS"),
+// 				  getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+// 	    CreateAndFillUserTH1D("h1_sT_highMT", getHistoNBins("sT"), getHistoMin("sT"), getHistoMax("sT"), getVariableValue("sT") );
+// 	    CreateAndFillUserTH1D("h1_MET_highMT", getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"), getVariableValue("MET") );
 
 // 	    if( getVariableValue("mDeltaPhiMET2ndJet_PAS") < 0.5 )
 // 	      {
-// 		CreateAndFillUserTH1D("h1_2ndJet_PTOverPTPlusMET_highMT", 100, 0, 1, double (getVariableValue("Pt2ndJet_PAS") / (getVariableValue("Pt2ndJet_PAS") + getVariableValue("MET")) ) );	 
+// 		CreateAndFillUserTH1D("h1_2ndJet_PTOverPTPlusMET_highMT", 100, 0, 1, double (getVariableValue("Pt2ndJet_PAS") / (getVariableValue("Pt2ndJet_PAS") + getVariableValue("MET")) ) );
 // 	      }
 // 	    //XXXXXXXXXXXXXXXXXXXXXXXXX
 	  }
@@ -1324,30 +1324,30 @@ void analysisClass::Loop()
 // 	  {
 // 	    CreateAndFillUserTH1D("h1_ElectronEcalHcalIsoHeep_highPTe", 500,0,100, ElectronEcalIsoHeep->at(myEle)+ElectronHcalIsoD1Heep->at(myEle) );
 // 	    CreateAndFillUserTH1D("h1_ElectronHcalIsoD2Heep_highPTe", 200,0,100,  ElectronHcalIsoD2Heep->at(myEle) );
-// 	    CreateAndFillUserTH1D("h1_ElectronTrkIsoHeep_highPTe",200,0,100,  ElectronTrkIsoHeep->at(myEle) );	    
+// 	    CreateAndFillUserTH1D("h1_ElectronTrkIsoHeep_highPTe",200,0,100,  ElectronTrkIsoHeep->at(myEle) );
 
-// 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highPTe", 1000, 0, 1, ElectronRelIso->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highPTe", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistZ_highPTe", 200, -0.1, 0.1, ElectronVtxDistZ->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronVtxIndex_highPTe", 10, 0, 10, ElectronVtxIndex->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronCharge_highPTe", 2, -1.001, 1.001, ElectronCharge->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronMissingHits_highPTe", 10, 0, 10, ElectronMissingHits->at(myEle) );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronSCkOutOfTime_highPTe", 2, 0, 2, ElectronSCkOutOfTime->at(myEle) );	   
+// 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highPTe", 1000, 0, 1, ElectronRelIso->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highPTe", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxDistZ_highPTe", 200, -0.1, 0.1, ElectronVtxDistZ->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronVtxIndex_highPTe", 10, 0, 10, ElectronVtxIndex->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronCharge_highPTe", 2, -1.001, 1.001, ElectronCharge->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronMissingHits_highPTe", 10, 0, 10, ElectronMissingHits->at(myEle) );
+// 	    CreateAndFillUserTH1D("h1_ElectronSCkOutOfTime_highPTe", 2, 0, 2, ElectronSCkOutOfTime->at(myEle) );
 
-// 	    CreateAndFillUserTH1D("h1_ElectronET_highPTe", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"), getVariableValue("Pt1stEle_PAS") );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronEta_highPTe", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"), getVariableValue("Eta1stEle_PAS") );	   
-// 	    CreateAndFillUserTH1D("h1_ElectronEToverPT_highPTe", 200, 0, 20, double ( getVariableValue("Pt1stEle_PAS") / ElectronTrackPt->at(myEle) ) );	   	  
-// 	    CreateAndFillUserTH1D("h1_nJet_PtCut_noOvrlp_ID_highPTe", 20, 0, 20, getVariableValue("nJet_PtCut_noOvrlp_ID") );	   
-// 	    CreateAndFillUserTH1D("h1_mDeltaPhiMET2ndJet_PAS_highPTe", getHistoNBins("mDeltaPhiMET2ndJet_PAS"), getHistoMin("mDeltaPhiMET2ndJet_PAS"), getHistoMax("mDeltaPhiMET2ndJet_PAS"), 
-// 				  getVariableValue("mDeltaPhiMET2ndJet_PAS") );	   
-// 	    CreateAndFillUserTH1D("h1_sT_highPTe", getHistoNBins("sT"), getHistoMin("sT"), getHistoMax("sT"), getVariableValue("sT") );	   
-// 	    CreateAndFillUserTH1D("h1_MET_highPTe", getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"), getVariableValue("MET") );	 
+// 	    CreateAndFillUserTH1D("h1_ElectronET_highPTe", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS"), getVariableValue("Pt1stEle_PAS") );
+// 	    CreateAndFillUserTH1D("h1_ElectronEta_highPTe", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"), getVariableValue("Eta1stEle_PAS") );
+// 	    CreateAndFillUserTH1D("h1_ElectronEToverPT_highPTe", 200, 0, 20, double ( getVariableValue("Pt1stEle_PAS") / ElectronTrackPt->at(myEle) ) );
+// 	    CreateAndFillUserTH1D("h1_nJet_PtCut_noOvrlp_ID_highPTe", 20, 0, 20, getVariableValue("nJet_PtCut_noOvrlp_ID") );
+// 	    CreateAndFillUserTH1D("h1_mDeltaPhiMET2ndJet_PAS_highPTe", getHistoNBins("mDeltaPhiMET2ndJet_PAS"), getHistoMin("mDeltaPhiMET2ndJet_PAS"), getHistoMax("mDeltaPhiMET2ndJet_PAS"),
+// 				  getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+// 	    CreateAndFillUserTH1D("h1_sT_highPTe", getHistoNBins("sT"), getHistoMin("sT"), getHistoMax("sT"), getVariableValue("sT") );
+// 	    CreateAndFillUserTH1D("h1_MET_highPTe", getHistoNBins("MET"), getHistoMin("MET"), getHistoMax("MET"), getVariableValue("MET") );
 
 // 	    if( getVariableValue("mDeltaPhiMET2ndJet_PAS") < 0.5 )
 // 	      {
-// 		CreateAndFillUserTH1D("h1_2ndJet_PTOverPTPlusMET_highPTe", 100, 0, 1, double (getVariableValue("Pt2ndJet_PAS") / (getVariableValue("Pt2ndJet_PAS") + getVariableValue("MET")) ) );	 
+// 		CreateAndFillUserTH1D("h1_2ndJet_PTOverPTPlusMET_highPTe", 100, 0, 1, double (getVariableValue("Pt2ndJet_PAS") / (getVariableValue("Pt2ndJet_PAS") + getVariableValue("MET")) ) );
 // 	      }
-  
+
 // 	  }
 // 	//XXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -1971,6 +1971,117 @@ void analysisClass::Loop()
 	  }
       }
 
+    // Events with Pt1stEle>200 GeV passing enujj pre-selection
+    if( isData && (
+        (run==144089 && ls==257 && event==310079631) ||    // only in Nov4 re-reco
+        (run==146944 && ls==207 && event==130150965) ||    // only in Sep17+PromptReco
+        (run==147754 && ls==216 && event==258606954) ||    // only in Nov4 re-reco
+        (run==147926 && ls==199 && event==186563265) ||    // only in Nov4 re-reco
+        (run==148862 && ls==403 && event==596914505) ||    // both in Sep17+PromptReco and Nov4 re-reco
+        (run==149011 && ls==518 && event==741762875) ||    // only in Nov4 re-reco
+        (run==149011 && ls==521 && event==745453692) ||    // both in Sep17+PromptReco and Nov4 re-reco
+        (run==149181 && ls==1075 && event==1060203426) ||  // only in Nov4 re-reco
+        (run==149181 && ls==1611 && event==1548701490) ||  // only in Nov4 re-reco
+        (run==149181 && ls==1644 && event==1576395911) )   // both in Sep17+PromptReco and Nov4 re-reco
+      )
+      {
+        STDOUT("UserPt1stEle: ----------- START ------------");
+
+        STDOUT("UserPt1stEle: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+        if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") )
+//           STDOUT("UserPt1stEle: Pt1stEle_PAS,Eta1stEle_PAS,Phi1stEle,kOutOfTime = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS")<<",\t"<<getVariableValue("Phi1stEle_PAS")<<",\t"<<ElectronSCkOutOfTime->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+          STDOUT("UserPt1stEle: Pt1stEle_PAS,Eta1stEle_PAS,Phi1stEle = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS")<<",\t"<<getVariableValue("Phi1stEle_PAS"));
+        if( variableIsFilled("MET_PAS") && variableIsFilled("METPhi_PAS") )
+          STDOUT("UserPt1stEle: MET_PAS, METPhi_PAS = "<<getVariableValue("MET_PAS")<<",\t"<<getVariableValue("METPhi_PAS"));
+        if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") && variableIsFilled("Phi1stJet_PAS") )
+          STDOUT("UserPt1stEle: Pt1stJet_PAS,Eta1stJet_PAS,Phi1stJet = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS")<<",\t"<<getVariableValue("Phi1stJet_PAS"));
+        if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") && variableIsFilled("Phi2ndJet_PAS") )
+          STDOUT("UserPt1stEle: Pt2ndJet_PAS,Eta2ndJet_PAS,Phi2ndJet = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS")<<",\t"<<getVariableValue("Phi2ndJet_PAS"));
+        if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+          STDOUT("UserPt1stEle: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+        if( variableIsFilled("sT_PAS") )
+          STDOUT("UserPt1stEle: sT_PAS = "<<getVariableValue("sT_PAS"));
+        if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+          STDOUT("UserPt1stEle: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                 <<getVariableValue("Mej_1stPair_PAS")
+                 <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+        if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+          STDOUT("UserPt1stEle: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                 <<getVariableValue("MTnuj_1stPair_PAS")
+                 <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+        if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+            && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+          STDOUT("UserPt1stEle: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                 <<getVariableValue("mDeltaPhiMETEle_PAS")
+                 <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                 <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+        if( variableIsFilled("nMuon_PtCut_IDISO") )
+          STDOUT("UserPt1stEle: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+        if( variableIsFilled("minDRej") )
+          STDOUT("UserPt1stEle: minDRej = "<<getVariableValue("minDRej"));
+
+
+        STDOUT("UserPt1stEle: ------------ END -------------");
+      }
+
+    // Events with MTenu>200 GeV passing enujj pre-selection
+    if( isData && (
+        (run==142422 && ls==177 && event==116725694) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==147115 && ls==275 && event==327457974) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==147115 && ls==307 && event==363025814) ||   // only in Nov4 re-reco
+        (run==147926 && ls==199 && event==186563265) ||   // only in Nov4 re-reco
+        (run==147927 && ls==93 && event==98222777) ||     // both in Sep17+PromptReco and Nov4 re-reco
+        (run==148029 && ls==53 && event==9851751) ||      // both in Sep17+PromptReco and Nov4 re-reco
+        (run==148029 && ls==233 && event==174059244) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==148822 && ls==213 && event==227962384) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==148860 && ls==28 && event==38009489) ||     // both in Sep17+PromptReco and Nov4 re-reco
+        (run==148864 && ls==572 && event==646881145) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==149011 && ls==518 && event==741762875) ||   // only in Nov4 re-reco
+        (run==149011 && ls==521 && event==745453692) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==149181 && ls==292 && event==138356895) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==149181 && ls==1611 && event==1548701490) || // only in Nov4 re-reco
+        (run==149291 && ls==613 && event==639394420) ||   // both in Sep17+PromptReco and Nov4 re-reco
+        (run==149291 && ls==767 && event==772369563) )    // both in Sep17+PromptReco and Nov4 re-reco
+      )
+      {
+        STDOUT("UserMTenu: ----------- START ------------");
+
+        STDOUT("UserMTenu: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+        if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") )
+//           STDOUT("UserMTenu: Pt1stEle_PAS,Eta1stEle_PAS,Phi1stEle,kOutOfTime = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS")<<",\t"<<getVariableValue("Phi1stEle_PAS")<<",\t"<<ElectronSCkOutOfTime->at(v_idx_ele_PtCut_IDISO_noOverlap[0]));
+          STDOUT("UserPt1stEle: Pt1stEle_PAS,Eta1stEle_PAS,Phi1stEle = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS")<<",\t"<<getVariableValue("Phi1stEle_PAS"));
+        if( variableIsFilled("MET_PAS") && variableIsFilled("METPhi_PAS") )
+          STDOUT("UserMTenu: MET_PAS, METPhi_PAS = "<<getVariableValue("MET_PAS")<<",\t"<<getVariableValue("METPhi_PAS"));
+        if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") && variableIsFilled("Phi1stJet_PAS") )
+          STDOUT("UserMTenu: Pt1stJet_PAS,Eta1stJet_PAS,Phi1stJet = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS")<<",\t"<<getVariableValue("Phi1stJet_PAS"));
+        if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") && variableIsFilled("Phi2ndJet_PAS") )
+          STDOUT("UserMTenu: Pt2ndJet_PAS,Eta2ndJet_PAS,Phi2ndJet = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS")<<",\t"<<getVariableValue("Phi2ndJet_PAS"));
+        if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+          STDOUT("UserMTenu: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+        if( variableIsFilled("sT_PAS") )
+          STDOUT("UserMTenu: sT_PAS = "<<getVariableValue("sT_PAS"));
+        if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+          STDOUT("UserMTenu: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                 <<getVariableValue("Mej_1stPair_PAS")
+                 <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+        if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+          STDOUT("UserMTenu: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                 <<getVariableValue("MTnuj_1stPair_PAS")
+                 <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+        if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+            && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+          STDOUT("UserMTenu: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                 <<getVariableValue("mDeltaPhiMETEle_PAS")
+                 <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                 <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+        if( variableIsFilled("nMuon_PtCut_IDISO") )
+          STDOUT("UserMTenu: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+        if( variableIsFilled("minDRej") )
+          STDOUT("UserMTenu: minDRej = "<<getVariableValue("minDRej"));
+
+
+        STDOUT("UserMTenu: ------------ END -------------");
+      }
 
     //EXTRA CHECKS
     if( doExtraChecks && variableIsFilled("MTenu")
