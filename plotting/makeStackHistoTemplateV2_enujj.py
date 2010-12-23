@@ -408,6 +408,8 @@ class Plot:
 
 File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.05pb-1_sT_presel_250_Zrescale1.20/analysisClass_enujjSample_plots.root")
 ##File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/36.05pb-1_sT_presel_250_Zrescale1.20/analysisClass_enujjSample_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/36.05pb-1_sT_presel_250_MET_presel_45_Zrescale1.20_Wrescale1.19/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -415,6 +417,9 @@ UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise th
 
 File_QCD          = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.84pb-1_QCD_UseHLTPrescales_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
 ##File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD          = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/35.84pb-1_QCD_UseHLTPrescales_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD          = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/35.84pb-1_QCD_UseHLTPrescales_sT_presel_250_MET_presel_45/analysisClass_enujjSample_QCD_plots.root")
+
 QCDscaleFactor    = 1 # no need to rescale anymore since we are using the HLT prescales (36/35.84 can be ignored)
 
 #### Common values for plots:
@@ -696,6 +701,7 @@ plot8.keys            = keys
 plot8.xtit            = "pT 2nd jet (GeV)"
 plot8.ytit            = "Number of events"
 plot8.ylog            = "yes"
+plot8.rebin           = 1
 plot8.xmin            = pt_xmin
 plot8.xmax            = pt_xmax
 plot8.ymin            = pt_ymin
@@ -815,7 +821,7 @@ plot11.xtit            = "#Delta#phi(MET,e) (rad.)"
 plot11.ytit            = "Number of events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
-plot11.rebin           = 6
+plot11.rebin           = 5
 #plot11.xmin            = 0
 #plot11.xmax            = 3.14
 plot11.ymin            = 0.1
@@ -841,7 +847,7 @@ plot12.xtit            = "#Delta#phi(MET,1^{st} jet) (rad.)"
 plot12.ytit            = "Number of events"
 #plot12.xlog            = "yes"
 plot12.ylog            = "yes"
-plot12.rebin           = 6
+plot12.rebin           = 5
 #plot12.xmin            = 0
 #plot12.xmax            = 3.146
 plot12.ymin            = 0.1
@@ -867,7 +873,7 @@ plot13.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.)"
 plot13.ytit            = "Number of events"
 #plot13.xlog            = "yes"
 plot13.ylog            = "yes"
-plot13.rebin           = 6
+plot13.rebin           = 5
 #plot13.xmin            = 0
 #plot13.xmax            = 3.146
 plot13.ymin            = 0.1
@@ -892,7 +898,7 @@ plot13_afterOtherDfCuts.xtit            = "#Delta#phi(MET,2^{nd} jet) (rad.)"
 plot13_afterOtherDfCuts.ytit            = "Number of events"
 #plot13_afterOtherDfCuts.xlog            = "yes"
 plot13_afterOtherDfCuts.ylog            = "yes"
-plot13_afterOtherDfCuts.rebin           = 6
+plot13_afterOtherDfCuts.rebin           = 5
 #plot13_afterOtherDfCuts.xmin            = 0
 #plot13_afterOtherDfCuts.xmax            = 3.146
 plot13_afterOtherDfCuts.ymin            = 0.1
@@ -1532,7 +1538,7 @@ plot23.ymax            = 1000
 plot23.name            = "Ptenu_allPreviousCuts"
 plot23.addZUncBand     = zUncBand
 plot23.makeRatio       = makeRatio
-plot23.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,300,400,500,600,700,800,1000]
+plot23.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,300,400,500,600,700,800,1000]
 plot23.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1558,7 +1564,7 @@ plot24.ymax            = 5000
 plot24.name            = "minDRej_allPreviousCuts"
 plot24.addZUncBand     = zUncBand
 plot24.makeRatio       = makeRatio
-#plot24.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+#plot24.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot24.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1584,7 +1590,7 @@ plot25.ymax            = 5000
 plot25.name            = "DRjets_allPreviousCuts"
 plot25.addZUncBand     = zUncBand
 plot25.makeRatio       = makeRatio
-#plot25.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+#plot25.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot25.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1690,7 +1696,7 @@ plot33.ymax            = 100
 plot33.name            = "Ptenu_fullSelection"
 plot33.addZUncBand     = zUncBand
 plot33.makeRatio       = makeRatio
-plot33.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+plot33.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot33.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1844,7 +1850,7 @@ plot113.ymax            = 25
 plot113.name            = "minDRej_presel_fullSel"
 plot113.addZUncBand     = zUncBand
 plot113.makeRatio       = makeRatio
-#plot113.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+#plot113.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot113.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -1870,7 +1876,7 @@ plot114.ymax            = 20
 plot114.name            = "DRjets_presel_fullSel"
 plot114.addZUncBand     = zUncBand
 plot114.makeRatio       = makeRatio
-#plot114.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+#plot114.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot114.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -2005,7 +2011,7 @@ plot93.ymax            = 25
 plot93.name            = "minDRej_presel_highMT"
 plot93.addZUncBand     = zUncBand
 plot93.makeRatio       = makeRatio
-#plot93.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+#plot93.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot93.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -2031,7 +2037,7 @@ plot94.ymax            = 20
 plot94.name            = "DRjets_presel_highMT"
 plot94.addZUncBand     = zUncBand
 plot94.makeRatio       = makeRatio
-#plot94.xbins           = [30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
+#plot94.xbins           = [0,30,50,70,90,110,130,150,170,190,210,230,250,270,290,310,330,350,370,400,500,600,700,800,1000]
 plot94.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
