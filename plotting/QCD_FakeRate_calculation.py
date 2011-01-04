@@ -82,7 +82,7 @@ def GetErrorIntegralTH1( histo, xmin, xmax):
     print  " "
     return error
 
-def GetEffFixBinning( thenum , theden , m_size , m_style , m_color , xtitle , ytitle , min , max, rebin):
+def GetEffFixBinning( thenum , theden , m_size , m_style , m_color , xtitle , ytitle , min , max, rebin, fitType):
     #print num;
     num = copy.deepcopy(thenum)
     den = copy.deepcopy(theden)
@@ -121,9 +121,12 @@ def GetEffFixBinning( thenum , theden , m_size , m_style , m_color , xtitle , yt
             GraphEff.SetPointEYhigh(bin-1,sigma) # 0 is underflow bins for histo, but first point in TGraph
             GraphEff.SetPointEYlow(bin-1,sigma)
 
-#    f1 = TF1("f1","pol0",min,max);
-#    GraphEff.Fit("f1","R")
 
+    if(fitType==0):
+        GraphEff.Fit("pol0")
+    if(fitType==1):
+        GraphEff.Fit("pol1")
+        
     return GraphEff
 
 def GetEffVarBinning( thenum , theden , m_size , m_style , m_color , xtitle , ytitle , min , max, Bins):
@@ -249,7 +252,7 @@ def GetRatioEff( thenum , theden , m_size , m_style , m_color , xtitle , ytitle 
 
     return ratio
 
-def GetDiffEff( thenum , theden , m_size , m_style , m_color , xtitle , ytitle ):
+def GetDiffEff( thenum , theden , m_size , m_style , m_color , xtitle , ytitle, fitType ):
 
     num = copy.deepcopy(thenum)
     den = copy.deepcopy(theden)
@@ -305,8 +308,14 @@ def GetDiffEff( thenum , theden , m_size , m_style , m_color , xtitle , ytitle )
     diff.GetXaxis().SetTitle(xtitle)
     diff.GetYaxis().SetTitle(ytitle)
 
+    if(fitType==0):
+        diff.Fit("pol0")
+    if(fitType==1):
+        diff.Fit("pol1")
+
     return diff
 
+gStyle.SetOptFit()
 
 # %%%%%%% END %%%%%%% 
 
@@ -416,31 +425,31 @@ myrebin = 5
 fakeRate_vs_Pt_DATA_all = GetEffFixBinning( h1_ElePt_DATA_all , h1_SuperClusterPt_DATA_all
                                             , 1.2 , 20 , 1
                                             , "SuperCluster Et (GeV)" , "Fake Probability - All"
-                                            , 30 , 500, myrebin)
+                                            , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_DATA_barrel = GetEffFixBinning( h1_ElePt_DATA_barrel , h1_SuperClusterPt_DATA_barrel
                                                , 1.2 , 20 , 1
                                                , "SuperCluster Et (GeV)" , "Fake Probability - Barrel"
-                                               , 30 , 500, myrebin)
+                                               , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_DATA_barrel1 = GetEffFixBinning( h1_ElePt_DATA_barrel1 , h1_SuperClusterPt_DATA_barrel1
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel1"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_DATA_barrel2 = GetEffFixBinning( h1_ElePt_DATA_barrel2 , h1_SuperClusterPt_DATA_barrel2
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel2"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_DATA_endcap = GetEffFixBinning( h1_ElePt_DATA_endcap , h1_SuperClusterPt_DATA_endcap
                                                , 1.2 , 20 , 1
                                                , "SuperCluster Et (GeV)" , "Fake Probability - Endcap"
-                                               , 30 , 500, myrebin)
+                                               , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_DATA_endcap1 = GetEffFixBinning( h1_ElePt_DATA_endcap1 , h1_SuperClusterPt_DATA_endcap1
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap1"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_DATA_endcap2 = GetEffFixBinning( h1_ElePt_DATA_endcap2 , h1_SuperClusterPt_DATA_endcap2
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap2"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 
 
 ##########
@@ -449,31 +458,31 @@ fakeRate_vs_Pt_DATA_endcap2 = GetEffFixBinning( h1_ElePt_DATA_endcap2 , h1_Super
 fakeRate_vs_Pt_MC_all = GetEffFixBinning( h1_ElePt_MC_all , h1_SuperClusterPt_DATA_all
                                             , 1.2 , 20 , 1
                                             , "SuperCluster Et (GeV)" , "Fake Probability - All"
-                                            , 30 , 500, myrebin)
+                                            , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_MC_barrel = GetEffFixBinning( h1_ElePt_MC_barrel , h1_SuperClusterPt_DATA_barrel
                                                , 1.2 , 20 , 1
                                                , "SuperCluster Et (GeV)" , "Fake Probability - Barrel"
-                                               , 30 , 500, myrebin)
+                                               , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_MC_barrel1 = GetEffFixBinning( h1_ElePt_MC_barrel1 , h1_SuperClusterPt_DATA_barrel1
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel1"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_MC_barrel2 = GetEffFixBinning( h1_ElePt_MC_barrel2 , h1_SuperClusterPt_DATA_barrel2
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel2"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_MC_endcap = GetEffFixBinning( h1_ElePt_MC_endcap , h1_SuperClusterPt_DATA_endcap
                                                , 1.2 , 20 , 1
                                                , "SuperCluster Et (GeV)" , "Fake Probability - Endcap"
-                                               , 30 , 500, myrebin)
+                                               , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_MC_endcap1 = GetEffFixBinning( h1_ElePt_MC_endcap1 , h1_SuperClusterPt_DATA_endcap1
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap1"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 fakeRate_vs_Pt_MC_endcap2 = GetEffFixBinning( h1_ElePt_MC_endcap2 , h1_SuperClusterPt_DATA_endcap2
                                                 , 1.2 , 20 , 1
                                                 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap2"
-                                                , 30 , 500, myrebin)
+                                                , 30 , 500, myrebin, 1)
 
 #--- Final plots
 
@@ -586,7 +595,7 @@ cendcap2.Print("FakeRatePlots.ps")
 call_corr = TCanvas()
 call_corr.SetGridy()
 call_corr.SetGridx()
-fakeRate_vs_Pt_CORR_all = GetDiffEff( fakeRate_vs_Pt_DATA_all , fakeRate_vs_Pt_MC_all , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - All" )
+fakeRate_vs_Pt_CORR_all = GetDiffEff( fakeRate_vs_Pt_DATA_all , fakeRate_vs_Pt_MC_all , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - All" , 1)
 fakeRate_vs_Pt_CORR_all.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_all.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_all.Draw("ap")
@@ -600,7 +609,7 @@ call_corr.Print("FakeRatePlots.ps")
 cbarrel_corr = TCanvas()
 cbarrel_corr.SetGridy()
 cbarrel_corr.SetGridx()
-fakeRate_vs_Pt_CORR_barrel = GetDiffEff( fakeRate_vs_Pt_DATA_barrel , fakeRate_vs_Pt_MC_barrel , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel" )
+fakeRate_vs_Pt_CORR_barrel = GetDiffEff( fakeRate_vs_Pt_DATA_barrel , fakeRate_vs_Pt_MC_barrel , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel" , 0)
 fakeRate_vs_Pt_CORR_barrel.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_barrel.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_barrel.Draw("ap")
@@ -614,7 +623,7 @@ cbarrel_corr.Print("FakeRatePlots.ps")
 cbarrel_corr1 = TCanvas()
 cbarrel_corr1.SetGridy()
 cbarrel_corr1.SetGridx()
-fakeRate_vs_Pt_CORR_barrel1 = GetDiffEff( fakeRate_vs_Pt_DATA_barrel1 , fakeRate_vs_Pt_MC_barrel1 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel1" )
+fakeRate_vs_Pt_CORR_barrel1 = GetDiffEff( fakeRate_vs_Pt_DATA_barrel1 , fakeRate_vs_Pt_MC_barrel1 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel1", 0 )
 fakeRate_vs_Pt_CORR_barrel1.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_barrel1.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_barrel1.Draw("ap")
@@ -628,7 +637,7 @@ cbarrel_corr1.Print("FakeRatePlots.ps")
 cbarrel_corr2 = TCanvas()
 cbarrel_corr2.SetGridy()
 cbarrel_corr2.SetGridx()
-fakeRate_vs_Pt_CORR_barrel2 = GetDiffEff( fakeRate_vs_Pt_DATA_barrel2 , fakeRate_vs_Pt_MC_barrel2 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel2" )
+fakeRate_vs_Pt_CORR_barrel2 = GetDiffEff( fakeRate_vs_Pt_DATA_barrel2 , fakeRate_vs_Pt_MC_barrel2 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Barrel2" , 0)
 fakeRate_vs_Pt_CORR_barrel2.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_barrel2.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_barrel2.Draw("ap")
@@ -642,7 +651,7 @@ cbarrel_corr2.Print("FakeRatePlots.ps")
 cendcap_corr = TCanvas()
 cendcap_corr.SetGridy()
 cendcap_corr.SetGridx()
-fakeRate_vs_Pt_CORR_endcap = GetDiffEff( fakeRate_vs_Pt_DATA_endcap , fakeRate_vs_Pt_MC_endcap , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap" )
+fakeRate_vs_Pt_CORR_endcap = GetDiffEff( fakeRate_vs_Pt_DATA_endcap , fakeRate_vs_Pt_MC_endcap , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap" , 1)
 fakeRate_vs_Pt_CORR_endcap.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_endcap.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_endcap.Draw("ap")
@@ -656,7 +665,7 @@ cendcap_corr.Print("FakeRatePlots.ps")
 cendcap_corr1 = TCanvas()
 cendcap_corr1.SetGridy()
 cendcap_corr1.SetGridx()
-fakeRate_vs_Pt_CORR_endcap1 = GetDiffEff( fakeRate_vs_Pt_DATA_endcap1 , fakeRate_vs_Pt_MC_endcap1 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap1" )
+fakeRate_vs_Pt_CORR_endcap1 = GetDiffEff( fakeRate_vs_Pt_DATA_endcap1 , fakeRate_vs_Pt_MC_endcap1 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap1", 1 )
 fakeRate_vs_Pt_CORR_endcap1.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_endcap1.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_endcap1.Draw("ap")
@@ -670,7 +679,7 @@ cendcap_corr1.Print("FakeRatePlots.ps")
 cendcap_corr2 = TCanvas()
 cendcap_corr2.SetGridy()
 cendcap_corr2.SetGridx()
-fakeRate_vs_Pt_CORR_endcap2 = GetDiffEff( fakeRate_vs_Pt_DATA_endcap2 , fakeRate_vs_Pt_MC_endcap2 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap2" )
+fakeRate_vs_Pt_CORR_endcap2 = GetDiffEff( fakeRate_vs_Pt_DATA_endcap2 , fakeRate_vs_Pt_MC_endcap2 , 1.2 , 20 , 1 , "SuperCluster Et (GeV)" , "Fake Probability - Endcap2", 1 )
 fakeRate_vs_Pt_CORR_endcap2.GetYaxis().SetRangeUser(-0.2,0.2)
 fakeRate_vs_Pt_CORR_endcap2.GetXaxis().SetRangeUser(30,500)
 fakeRate_vs_Pt_CORR_endcap2.Draw("ap")
