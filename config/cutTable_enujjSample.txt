@@ -42,8 +42,10 @@ vertexMaxd0           2            -			-               -               -1
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
-fakeRate_Barrel	      0.005092     0			-		-		-1
-fakeRate_Endcap	      0.018364     0			-		-		-1
+# fake rates
+fakeRate_Barrel	      0.005164     0			-		-		-1
+fakeRate_Endcap	      0.01071      0.0001189		-		-		-1
+## fakeRate_Endcap2   0.01822      0.0002466		-		-		-1
 doGenLevelStudies     1		   -			-		-		-1
 ## 1=PFJets , 2=CaloJets
 jetAlgorithm	      1		   -			-		-		-1
@@ -96,7 +98,7 @@ nEle_PtCut_IDISO_noOvrlp        0            1                  -               
 Pt1stEle_IDISO_NoOvrlp          35           +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf         +inf               -               -               1       100 -5 5
 mEta1stEle_IDISO_NoOvrlp        -inf         2.2                -               -               1       50 0 5
-MET                             30           +inf               -               -               1       200 0 1000
+MET                             45           +inf               -               -               1       200 0 1000
 #
 nJet_all                        -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut                      -inf         +inf               -               -               2       16 -0.5 15.5
