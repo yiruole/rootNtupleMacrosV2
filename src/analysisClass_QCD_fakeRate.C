@@ -697,6 +697,7 @@ void analysisClass::Loop()
 	PassTrig = 1;
       }
 
+    
     //### TO BE COMMENTED OUT IF RUNNING ON SPRING10 MC NTUPLES !!! ###
     if(isData)
       {
@@ -766,7 +767,7 @@ void analysisClass::Loop()
 	      }
 	  }
       }//end use of HLT prescales
-
+    
 
     //     //## Vertexes
     //     vector<int> v_idx_vertex_good;
@@ -863,7 +864,23 @@ void analysisClass::Loop()
 		ijet_minDR = ijet;
 	      }
 	  }//end loop over jets	
-	fillVariableWithValue( "minDRscjets", minDR, p1 );	
+	fillVariableWithValue( "minDRscjets", minDR, p1 );
+
+	//deltaPhi sc and 1st jet
+	double deltaphi = 999;
+	if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 )
+	  {
+	    TLorentzVector jet1;
+	    jet1.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			      JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			      JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);		
+	    deltaphi = sc.DeltaPhi(jet1);
+	  }
+	fillVariableWithValue( "mDeltaPhiSC1stJet", fabs(deltaphi), p1);	    
+
+	//scEToverMET
+	fillVariableWithValue( "scEToverMET", double(SuperClusterPt->at(v_idx_sc_Iso[0])/thisMET), p1);	    
+
       }
 
     // 1st ele and transverse mass enu
@@ -900,6 +917,19 @@ void analysisClass::Loop()
 			SuperClusterPhi->at(v_idx_sc_Iso[0]),0);
 	double deltaR_ele_sc = ele.DeltaR(sc);
 	fillVariableWithValue( "DeltaR_ele_sc", deltaR_ele_sc , p1);
+	
+	//deltaPhi ele and 1st jet
+	double deltaphi2 = 999;
+	if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 )
+	  {
+	    TLorentzVector jet1;
+	    jet1.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			      JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			      JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);		
+	    deltaphi2 = ele.DeltaPhi(jet1);
+	  }
+	fillVariableWithValue( "mDeltaPhiEle1stJet", fabs(deltaphi2), p1);	    
+
       }
 
     // 1st jet and deltaphi jet-MET

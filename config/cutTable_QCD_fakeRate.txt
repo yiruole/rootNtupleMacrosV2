@@ -115,9 +115,11 @@ Eta1stSC			-inf         +inf               -               -               1    
 Phi1stSC			-inf         +inf               -               -               1       60 -3.1416 +3.1416
 nJet_PtCut_noOvrlp_ID           0            +inf               -               -               1       16 -0.5 15.5
 Pt1stJet			30           +inf               -               -               1       200 0 1000
-Eta1stJet			-inf         +inf               -               -               1       100 -5 5
+Eta1stJet			-inf	     +inf		-               -               1       100 -5 5
 minDRscjets			0.7	     +inf		-		-		1	100 0 10
 METsel                          -inf         35                 -               -               1       200 0 1000
+mDeltaPhiSC1stJet		-inf	     +inf		-		-		1	100 0 3.1416
+scEToverMET			-inf	     +inf		-		-		1	100 0 10
 nEle_PtCut_IDISO_noOvrlp        0            1                  -               -               1       16 -0.5 15.5
 DeltaR_ele_sc			-inf	     0.3		-		-		1	100 0 1     
 Pt1stEle			-inf         +inf               -               -               1       200 0 1000
@@ -130,6 +132,7 @@ METPhi				-inf         +inf               -               -               1     
 MTenu                           -inf         +inf               -               -               1       200 0 1000
 mDeltaPhiMETEle			-inf         +inf               -               -               1       100 0 3.1416
 mDeltaPhiMET1stJet		-inf         +inf               -               -               1       100 0 3.1416
+mDeltaPhiEle1stJet		-inf	     +inf		-		-		1	100 0 3.1416
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
