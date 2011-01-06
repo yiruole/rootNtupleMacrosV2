@@ -93,9 +93,9 @@ class Plot:
     histoMCWZ   = "" # MC WZ
     histoMCZZ   = "" # MC ZZ
     histoQCD    = "" # QCD (data-driven)
-    MCZSyst     = 0 # Systematic uncertainty on MC Z (0.1 = 10%)
-    MCTTbarSyst = 0 # Systematic uncertainty on MC TTbar (0.1 = 10%)
-    QCDSyst     = 0 # Systematic uncertainty on data-driven QCD (0.1 = 10%)
+    MCZSyst     = 0  # Systematic uncertainty on MC Z (0.1 = 10%)
+    MCTTbarSyst = 0  # Systematic uncertainty on MC TTbar (0.1 = 10%)
+    QCDSyst     = 0  # Systematic uncertainty on data-driven QCD (0.1 = 10%)
     xtit        = "" # xtitle
     ytit        = "" # ytitle
     xmin        = "" # set xmin to calculate rescaling factor (-- please take into account the bin size of histograms --)
@@ -109,7 +109,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     #rebin      = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "33.2 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "36.0 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     fileXsectionNoRescale = "" #cross section file (with no rescale
     datasetName = "" # string for pattern recognition of dataset name (rescaling will be done only on matched datasets)
 
@@ -233,8 +233,8 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_plots.root")
-File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_QCD_plots.root")
+File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_fullntuples_MET45/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 
 #--- Rescaling of W+jets background
 
@@ -288,7 +288,7 @@ plot0.QCDSyst = 0.20
 plot0.xmin = 50
 plot0.xmax = 110
 plot0.name = "Wrescale"
-plot0.fileXsectionNoRescale = "/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_5_7/test/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV_Zrescale.txt"
+plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/santanas/scratch0/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV_Zrescale.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
