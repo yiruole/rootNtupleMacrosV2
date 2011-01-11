@@ -2,12 +2,22 @@
 import pprint # for pretty printing
 import math
 
-# data files
-f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
-f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
 
+## 2011 pre-approval ##
+# data files (V00-01-04 to V00-01-06 MC ntuples)
+f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
+f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+# data files (V00-00-XX MC ntuples)
+#f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
+#f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+
+
+## Dec 2010 pre-approval ##
+#f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
+#f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250_extraPlotsDec9/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
 #f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
 #f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/6.1pb-1_QCD_HLT30_sT_presel_250/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+
 
 #dict containing all values
 d = {}
@@ -77,8 +87,11 @@ blocks = { 'all' : {"ALLBKG":         {"rescale": 0.001, "label":  "All Bkgs"},
                     "LQenujj_M450":   {"rescale": 0.001, "label":  "LQenujj450"},
                     "LQenujj_M500":   {"rescale": 0.001, "label":  "LQenujj500"},
                     },
-           'QCD' : {"DATA":           {"rescale": 5.4, "label": "QCD"},
+           'QCD' : {"DATA":           {"rescale": 1,     "label":  "QCD"},
                     }
+#           'QCD' : {"DATA":           {"rescale": 5.4, "label": "QCD"},
+#                    }
+
          }
 
 
