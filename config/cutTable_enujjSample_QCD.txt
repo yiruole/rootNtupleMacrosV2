@@ -56,7 +56,7 @@ fakeRate_Endcap	      0.01071      0.0001189		-		-		-1
 doGenLevelStudies     1		   -			-		-		-1
 ## 1=PFJets , 2=CaloJets
 jetAlgorithm	      1		   -			-		-		-1
-## 1=PFMET  , 2=CaloMET
+## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
 metAlgorithm	      1		   -			-		-		-1
 met_Thresh            200          -			-               -               -1
 minMETPt1stEle_Thresh 100          -			-               -               -1
