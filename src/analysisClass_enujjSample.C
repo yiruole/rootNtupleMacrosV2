@@ -13,58 +13,58 @@
 //-----------------------------
 //### JetID ### --> see https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaHighPtJets#JetId
 
-bool JetIdloose(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta){
-  bool jetidloose=false;
-  bool jetidresEMF=true;
-
-  double fhpdmax = 0.98;
-  double n90hitsmin =1;
-  double emf_min = 0.01;
-
-  if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
-
-  if(jetidresEMF && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin) {
-    jetidloose=true;
-  }
-  return jetidloose;
-}
-
-bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta, double ak5JetPt){
-  bool jetidtight=false;
-  bool jetidresEMF=true;
-  bool jetidfHPD_highPt=true;
-
-  double fhpdmax = 0.98;
-  double n90hitsmin =1;
-  double emf_min = 0.01;
-
-  if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
-  if(fabs(ak5JetEta)<2.6 && ak5JetPt>80 && ak5JetJIDresEMF>=1) jetidresEMF=false;
-  if(ak5JetPt>25 && ak5JetJIDfHPD>=0.95) jetidfHPD_highPt=false;
-
-  if(jetidresEMF && jetidfHPD_highPt && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin)
-    {
-      jetidtight=true;
-    }
-  return jetidtight;
-}
-
-bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
-  bool jetidloose=false;
-  bool jetidChFrac=true;
-
-  double chHadFrac = 0.;
-  double chEmFrac = 0.99;
-  double neutHadFrac = 0.99;
-  double neutEmFrac = 0.99;
-
-  if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChFrac=false;
-
-  if(jetidChFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
-    jetidloose=true;
-  }
-  return jetidloose;
-}
+// bool JetIdloose(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta){
+//   bool jetidloose=false;
+//   bool jetidresEMF=true;
+//
+//   double fhpdmax = 0.98;
+//   double n90hitsmin =1;
+//   double emf_min = 0.01;
+//
+//   if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
+//
+//   if(jetidresEMF && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin) {
+//     jetidloose=true;
+//   }
+//   return jetidloose;
+// }
+//
+// bool JetIdtight(double ak5JetJIDresEMF,double ak5JetJIDfHPD,int ak5JetJIDn90Hits, double ak5JetEta, double ak5JetPt){
+//   bool jetidtight=false;
+//   bool jetidresEMF=true;
+//   bool jetidfHPD_highPt=true;
+//
+//   double fhpdmax = 0.98;
+//   double n90hitsmin =1;
+//   double emf_min = 0.01;
+//
+//   if(fabs(ak5JetEta)<2.6 && ak5JetJIDresEMF<=emf_min) jetidresEMF=false;
+//   if(fabs(ak5JetEta)<2.6 && ak5JetPt>80 && ak5JetJIDresEMF>=1) jetidresEMF=false;
+//   if(ak5JetPt>25 && ak5JetJIDfHPD>=0.95) jetidfHPD_highPt=false;
+//
+//   if(jetidresEMF && jetidfHPD_highPt && ak5JetJIDfHPD<fhpdmax && ak5JetJIDn90Hits>n90hitsmin)
+//     {
+//       jetidtight=true;
+//     }
+//   return jetidtight;
+// }
+//
+// bool PFJetIdloose(const double ak5ChargedHadronFraction, const double ak5ChargedEmFraction, const double ak5NeutralHadronFraction, const double ak5NeutralEmFraction, const double ak5JetEta){
+//   bool jetidloose=false;
+//   bool jetidChFrac=true;
+//
+//   double chHadFrac = 0.;
+//   double chEmFrac = 0.99;
+//   double neutHadFrac = 0.99;
+//   double neutEmFrac = 0.99;
+//
+//   if(fabs(ak5JetEta)<2.4 && ak5ChargedHadronFraction<=chHadFrac && ak5ChargedEmFraction>=chEmFrac) jetidChFrac=false;
+//
+//   if(jetidChFrac && ak5NeutralHadronFraction<neutHadFrac && ak5NeutralEmFraction<neutEmFrac) {
+//     jetidloose=true;
+//   }
+//   return jetidloose;
+// }
 
 //-----------------------------
 
@@ -369,13 +369,14 @@ void analysisClass::Loop()
 	    JetPtRaw->push_back( PFJetPtRaw->at(ijet) );
 	    JetEta->push_back( PFJetEta->at(ijet) );
 	    JetPhi->push_back( PFJetPhi->at(ijet) );
-	    JetPassID->push_back(
-				 PFJetIdloose(PFJetChargedHadronEnergyFraction->at(ijet),
-					      PFJetChargedEmEnergyFraction->at(ijet),
-					      PFJetNeutralHadronEnergyFraction->at(ijet),
-					      PFJetNeutralEmEnergyFraction->at(ijet),
-					      PFJetEta->at(ijet) )
-				 );
+            JetPassID->push_back( PFJetPassLooseID->at(ijet) );
+// 	    JetPassID->push_back(
+// 				 PFJetIdloose(PFJetChargedHadronEnergyFraction->at(ijet),
+// 					      PFJetChargedEmEnergyFraction->at(ijet),
+// 					      PFJetNeutralHadronEnergyFraction->at(ijet),
+// 					      PFJetNeutralEmEnergyFraction->at(ijet),
+// 					      PFJetEta->at(ijet) )
+// 				 );
 	  }//end loop over pf jets
       }//end if "pf jets"
 
@@ -387,12 +388,13 @@ void analysisClass::Loop()
 	    JetPtRaw->push_back( CaloJetPtRaw->at(ijet) );
 	    JetEta->push_back( CaloJetEta->at(ijet) );
 	    JetPhi->push_back( CaloJetPhi->at(ijet) );
-	    JetPassID->push_back(
-				 JetIdloose(CaloJetresEMF->at(ijet),
-					    CaloJetfHPD->at(ijet),
-					    CaloJetn90Hits->at(ijet),
-					    CaloJetEta->at(ijet) )
-				 );
+            JetPassID->push_back( CaloJetPassLooseID->at(ijet) );
+// 	    JetPassID->push_back(
+// 				 JetIdloose(CaloJetresEMF->at(ijet),
+// 					    CaloJetfHPD->at(ijet),
+// 					    CaloJetn90Hits->at(ijet),
+// 					    CaloJetEta->at(ijet) )
+// 				 );
 	  }//end loop over calo jets
       }//end if "calo jets"
 
