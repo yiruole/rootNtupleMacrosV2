@@ -409,6 +409,11 @@ void analysisClass::Loop()
 	thisMET = CaloMET->at(0);
 	thisMETPhi = CaloMETPhi->at(0);
       }
+    if(metAlgorithm==3) 	// --> PFMET (with type-1 corrections)
+      {
+	thisMET = PFMETType1Cor->at(0);
+	thisMETPhi = PFMETPhiType1Cor->at(0);
+      }
     // --> TCMET
     //     thisMET = TCMET->at(0);
     //     thisMETPhi = TCMETPhi->at(0);
