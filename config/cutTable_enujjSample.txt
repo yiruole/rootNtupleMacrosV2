@@ -24,6 +24,7 @@ heepBitMask_EBGapEE   0x000	        0x000           0x000           -           
 jet_PtCut             30           -                    -               -               -1
 jet_PtCut_forMetScale 30	   -			-		-		-1
 jet_EtaCut            3.0          -                    -               -               -1
+jet_TCHELCut          1.7          -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.3          -                    -               -               -1
 muFidRegion           2.1          -                    -               -               -1
@@ -53,11 +54,12 @@ jetAlgorithm	      1		   -			-		-		-1
 metAlgorithm	      1		   -			-		-		-1
 met_Thresh            200          -			-               -               -1
 minMETPt1stEle_Thresh 100          -			-               -               -1
-Pt1stEle_PAS_Thresh   175          250			-               -               -1
-Pt1stJet_PAS_Thresh   400          -			-               -               -1
+Pt1stEle_PAS_Thresh   200          250			-               -               -1
+Pt1stJet_PAS_Thresh   300          -			-               -               -1
 Pt2ndJet_PAS_Thresh   300          -			-               -               -1
 MTenu_Thresh	      200          200			-               -               -1
 sT_Thresh	      800          -			-               -               -1
+Mej_Thresh            350          -                    -               -               -1
 plotEleIDIsoVar	      0		   -			-		-		-1
 doPlot_Wmore0jet      1		   -			-		-		-1
 doPlot_Wmore1jet      1		   -			-		-		-1
@@ -104,6 +106,7 @@ nJet_all                        -inf         +inf               -               
 nJet_PtCut                      -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp              -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_WithJetEtaCut              -inf         +inf               -               -               2       16 -0.5 15.5
+nJet_TCHELBTag                  -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID           1            +inf               -               -               2       16 -0.5 15.5
 Pt1stJet_noOvrlp_ID             30           +inf               -               -               2       100 0 1000
 Pt2ndJet_noOvrlp_ID             30           +inf               -               -               2       100 0 1000
@@ -130,6 +133,10 @@ Pt1stEle_PAS			-inf         +inf               -               -               3
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
 Phi1stEle_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 Charge1stEle_PAS		-inf	     +inf		-		-		3	2 -1.0001 1.0001
+Vtxd01stEle_PAS                 -inf         +inf               -               -               3       200 -0.01 0.01
+MissingHits1stEle_PAS           -inf         +inf               -               -               3       5 -0.5 4.5
+Dist1stEle_PAS                  -inf         +inf               -               -               3       200 0 2.0
+DCotTheta1stEle_PAS             -inf         +inf               -               -               3       200 0 2.0
 MET_PAS                         -inf         +inf               -               -               3       200 0 1000
 METPhi_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 minMETPt1stEle_PAS              -inf         +inf               -               -               3       200 0 1000
@@ -139,6 +146,8 @@ Eta1stJet_PAS                   -inf         +inf               -               
 Eta2ndJet_PAS                   -inf         +inf               -               -               3       100 -5 5
 Phi1stJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
 Phi2ndJet_PAS			-inf	     +inf		-		-		3	60 -3.1416 +3.1416
+TCHE1stJet_PAS                  -inf         +inf               -               -               3       100  0 20
+TCHE2ndJet_PAS                  -inf         +inf               -               -               3       100  0 20
 nMuon_PtCut_IDISO_PAS           -inf         +inf               -               -               3       16 -0.5 15.5
 MTenu_PAS                       -inf         +inf               -               -               3       200 0 1000
 Ptenu_PAS			-inf	     +inf               -               -               3       200 0 2000
