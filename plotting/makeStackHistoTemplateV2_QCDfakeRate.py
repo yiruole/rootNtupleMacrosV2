@@ -407,12 +407,20 @@ class Plot:
 
 #--- Input root file
 
+#QCD fake rate: 35.8pb-1_QCD_fakeRate_run_2010AandB_njet_2OrMore_MET_lt35_allPlots
+File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_3OrMore_MET_lt35_allPlots/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+
+#QCD fake rate: 35.8pb-1_QCD_fakeRate_run_2010AandB_njet_2OrMore_MET_lt35_allPlots
+#File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_2OrMore_MET_lt35_allPlots/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+
+#QCD fake rate: 35.8pb-1_QCD_fakeRate_run_2010AandB_njet_1OrMore_MET_lt35 (some plots missing)
+#File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_1OrMore_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
 #QCD fake rate: 3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35
 #File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
 #QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35
-File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+#File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
 #QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1
 #File_selection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
@@ -439,7 +447,7 @@ eta_ymax=15000
 histoBaseName = "histo1D__SAMPLE__cutHisto_allCuts________________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
-samplesForStackHistos = ["OTHERBKG","TTbar_Madgraph","PhotJetPt30","WJetAlpgen"]
+samplesForStackHistos = ["OTHERBKG","TTbar_Madgraph","PhotonJet","WJetAlpgen"]
 keysStack =             [otherBkgsKey,"ttbar", "\\gamma + jet" ,"W/W* + jets"]
 
 samplesForHistos = ["LQenujj_M200", "LQenujj_M250","LQenujj_M300"]
