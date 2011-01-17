@@ -128,6 +128,8 @@ minDRej				0.7	     +inf		-		-		2	100 0 10
 mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       100 0 3.1416
 mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
 mDeltaPhiMET2ndJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
+mDeltaPhiEle1stJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
+mDeltaPhiEle2ndJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
 DeltaRjets_PAS			-inf         +inf               -               -               3       100 0 10
 #
 d1_DPhi_METe_METj               -inf         +inf               -               -               2       50 0 5
