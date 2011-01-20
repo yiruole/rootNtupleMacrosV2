@@ -113,7 +113,7 @@ nIsoSC				0	     1			-		-		1	16 -0.5 15.5
 Pt1stSC				33           +inf               -               -               1       200 0 1000
 Eta1stSC			-inf         +inf               -               -               1       100 -5 5
 Phi1stSC			-inf         +inf               -               -               1       60 -3.1416 +3.1416
-nJet_PtCut_noOvrlp_ID           0            +inf               -               -               1       16 -0.5 15.5
+nJet_PtCut_noOvrlp_ID           1            +inf               -               -               1       16 -0.5 15.5
 Pt1stJet			30           +inf               -               -               1       200 0 1000
 Eta1stJet			-inf	     +inf		-               -               1       100 -5 5
 minDRscjets			0.7	     +inf		-		-		1	100 0 10

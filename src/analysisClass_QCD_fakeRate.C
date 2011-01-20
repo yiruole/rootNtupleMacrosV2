@@ -328,14 +328,14 @@ void analysisClass::Loop()
     //## Run selection
     int passGoodRunList = 1;
 
-    if(isData)
-      {       
-	//select first period of run 2010 (low luminosity)
-	if( run > 144114 ) passGoodRunList = 0;
-	
-	//select second period of run 2010 (high luminosity) 
-	//if( run <= 144114 ) passGoodRunList = 0;		
-      } 
+    //     if(isData)
+    //       {       
+    // 	//select first period of run 2010 (low luminosity)
+    // 	if( run > 144114 ) passGoodRunList = 0;
+    
+    // 	//select second period of run 2010 (high luminosity) 
+    // 	//if( run <= 144114 ) passGoodRunList = 0;		
+    //       } 
 
     //## HLT
     //--> OLD HLT SELECTION BY RUN NUMBER
