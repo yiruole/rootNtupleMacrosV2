@@ -320,26 +320,13 @@ gStyle.SetOptFit()
 # %%%%%%% END %%%%%%% 
 
 #QCD fake rate: 35.8pb-1_QCD_fakeRate_run_2010AandB_njet_3OrMore_MET_lt35_allPlots
-File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_3OrMore_MET_lt35_allPlots/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_3OrMore_MET_lt35_allPlots/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
 #QCD fake rate: 35.8pb-1_QCD_fakeRate_run_2010AandB_njet_2OrMore_MET_lt35_allPlots
-#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_2OrMore_MET_lt35_allPlots/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
+File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_2OrMore_MET_lt35_allPlots/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
 #QCD fake rate: 35.8pb-1_QCD_fakeRate_run_2010AandB_njet_1OrMore_MET_lt35
 #File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_fakeRate_run_2010AandB_njet_1OrMore_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
-
-
-#QCD fake rate: 3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35_OLDdataset
-#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35_OLDdataset/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
-
-#QCD fake rate: 3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35
-#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/3.0pb-1_QCD_fakeRate_run_lt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
-
-#QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35
-#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1_MET_lt35/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
-
-#QCD fake rate: 33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1
-#File1 = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.0pb-1_QCD_fakeRate_run_gt144114_njet_More1/output_cutTable_QCD_fakeRate/analysisClass_QCD_fakeRate_plots.root")
 
 
 #--- Define all the histograms
