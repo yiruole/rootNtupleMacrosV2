@@ -50,10 +50,21 @@ vertexMaxd0           2            -			-               -               -1
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
-# fake rates
-fakeRate_Barrel	      0.005164     0			-		-		-1
-fakeRate_Endcap	      0.01071      0.0001189		-		-		-1
-## fakeRate_Endcap2   0.01822      0.0002466		-		-		-1
+###
+### fake rates ###
+# 1c + Njet>=1 (PTj>30 GeV, PF jets)
+#fakeRate_Barrel      0.0051       0                    -               -               -1
+#fakeRate_Endcap      0.0093       0.00014              -               -               -1
+## fakeRate_Endcap2   0.017        0.00027              -               -               -1
+# 1c + Njet>=2 (PTj>30 GeV, PF jets)
+fakeRate_Barrel       0.004        0                    -               -               -1
+fakeRate_Endcap       0.0023       0.00021              -               -               -1
+## fakeRate_Endcap2   0.011        0.00028              -               -               -1
+# 1c + Njet>=3 (PTj>30 GeV, PF jets)
+#fakeRate_Barrel      0.0042       0                    -               -               -1
+#fakeRate_Endcap      0.0029       0.00018              -               -               -1
+## fakeRate_Endcap2   0.0084       0.00028              -               -               -1
+###
 doGenLevelStudies     1		   -			-		-		-1
 ## 1=PFJets , 2=CaloJets
 jetAlgorithm	      1		   -			-		-		-1
