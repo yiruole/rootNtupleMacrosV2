@@ -135,6 +135,7 @@ mEta1stJet_noOvrlp_ID           -inf         3.0                -               
 mEta2ndJet_noOvrlp_ID           -inf         3.0                -               -               2       50 0 5
 maxMEtaJets_noOvrlp_ID          -inf         +inf               -               -               2       50 0 5
 minDRej				0.7	     +inf		-		-		2	100 0 10
+maxDRej                         -inf         +inf               -               -               2       100 0 10
 #
 mDeltaPhiMETEle_PAS             -inf         +inf               -               -               3       100 0 3.1416
 mDeltaPhiMET1stJet_PAS          -inf         +inf               -               -               3       100 0 3.1416
