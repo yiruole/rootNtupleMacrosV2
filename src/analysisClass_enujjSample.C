@@ -387,6 +387,10 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 100 );
+      CreateUserTH1D("h1_minDR_1stPFjet_CaloJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 2 );
+      CreateUserTH1D("h1_PT1stJet_over_PTCaloJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 200, 0, 2 );
+      CreateUserTH1D("h1_NC1stJet_over_n90HitsCaloJet_1stPFjet_CaloJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 5 );
       CreateUserTH1D("h1_Pt2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt2ndJet_PAS"), getHistoMin("Pt2ndJet_PAS"), getHistoMax("Pt2ndJet_PAS") );
       CreateUserTH1D("h1_Eta2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta2ndJet_PAS"), getHistoMin("Eta2ndJet_PAS"), getHistoMax("Eta2ndJet_PAS") );
       CreateUserTH1D("h1_Phi2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Phi2ndJet_PAS"), getHistoMin("Phi2ndJet_PAS"), getHistoMax("Phi2ndJet_PAS") );
@@ -397,6 +401,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_E1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Pt1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Eta1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
@@ -410,6 +415,9 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_1stJet_PTOverPTPlusMET_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 1.0 );
       CreateUserTH1D("h1_Conversion1stEle_highMej_mDeltaPhiMET1stJet_gt_2.5", 2, -0.5, 1.5 );
       CreateUserTH1D("h1_MET_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_CaloMET_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_TCMET_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_MET_over_CaloMET_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 5 );
       CreateUserTH1D("h1_Njet_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_NjetTCHELBTag_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
@@ -428,6 +436,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_Pt2ndJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt2ndJet_PAS"), getHistoMin("Pt2ndJet_PAS"), getHistoMax("Pt2ndJet_PAS") );
       CreateUserTH1D("h1_Eta2ndJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta2ndJet_PAS"), getHistoMin("Eta2ndJet_PAS"), getHistoMax("Eta2ndJet_PAS") );
       CreateUserTH1D("h1_Phi2ndJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Phi2ndJet_PAS"), getHistoMin("Phi2ndJet_PAS"), getHistoMax("Phi2ndJet_PAS") );
@@ -438,6 +447,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_E1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Pt1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Eta1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
@@ -451,6 +461,9 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_1stJet_PTOverPTPlusMET_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 1.0 );
       CreateUserTH1D("h1_Conversion1stEle_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 2, -0.5, 1.5 );
       CreateUserTH1D("h1_MET_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_CaloMET_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_TCMET_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_MET_over_CaloMET_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 5 );
       CreateUserTH1D("h1_Njet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_NjetTCHELBTag_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_minDRej_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
@@ -469,6 +482,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_Pt2ndJet_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt2ndJet_PAS"), getHistoMin("Pt2ndJet_PAS"), getHistoMax("Pt2ndJet_PAS") );
       CreateUserTH1D("h1_Eta2ndJet_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta2ndJet_PAS"), getHistoMin("Eta2ndJet_PAS"), getHistoMax("Eta2ndJet_PAS") );
       CreateUserTH1D("h1_Phi2ndJet_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Phi2ndJet_PAS"), getHistoMin("Phi2ndJet_PAS"), getHistoMax("Phi2ndJet_PAS") );
@@ -479,6 +493,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_E1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Pt1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Eta1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
@@ -492,6 +507,9 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_1stJet_PTOverPTPlusMET_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 1.0 );
       CreateUserTH1D("h1_Conversion1stEle_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 2, -0.5, 1.5 );
       CreateUserTH1D("h1_MET_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_CaloMET_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_TCMET_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_MET_over_CaloMET_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, 0, 5 );
       CreateUserTH1D("h1_Njet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_NjetTCHELBTag_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_minDRej_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
@@ -510,6 +528,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_Pt2ndJet_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Pt2ndJet_PAS"), getHistoMin("Pt2ndJet_PAS"), getHistoMax("Pt2ndJet_PAS") );
       CreateUserTH1D("h1_Eta2ndJet_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Eta2ndJet_PAS"), getHistoMin("Eta2ndJet_PAS"), getHistoMax("Eta2ndJet_PAS") );
       CreateUserTH1D("h1_Phi2ndJet_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Phi2ndJet_PAS"), getHistoMin("Phi2ndJet_PAS"), getHistoMax("Phi2ndJet_PAS") );
@@ -520,6 +539,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", 100, 0, 100 );
       CreateUserTH1D("h1_E1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Pt1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Eta1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
@@ -533,6 +553,9 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_1stJet_PTOverPTPlusMET_highMej_mDeltaPhiMET1stJet_le_2.5", 100, 0, 1.0 );
       CreateUserTH1D("h1_Conversion1stEle_highMej_mDeltaPhiMET1stJet_le_2.5", 2, -0.5, 1.5 );
       CreateUserTH1D("h1_MET_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_CaloMET_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_TCMET_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_MET_over_CaloMET_highMej_mDeltaPhiMET1stJet_le_2.5", 100, 0, 5 );
       CreateUserTH1D("h1_Njet_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_NjetTCHELBTag_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
@@ -563,6 +586,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH1stJet_Eta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN1stJet_Eta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC1stJet_Eta1stJetBump", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass1stJet_Eta1stJetBump", 100, 0, 100 );
       CreateUserTH1D("h1_Pt2ndJet_PAS_Eta1stJetBump", getHistoNBins("Pt2ndJet_PAS"), getHistoMin("Pt2ndJet_PAS"), getHistoMax("Pt2ndJet_PAS") );
       CreateUserTH1D("h1_Eta2ndJet_PAS_Eta1stJetBump", getHistoNBins("Eta2ndJet_PAS"), getHistoMin("Eta2ndJet_PAS"), getHistoMax("Eta2ndJet_PAS") );
       CreateUserTH1D("h1_Phi2ndJet_PAS_Eta1stJetBump", getHistoNBins("Phi2ndJet_PAS"), getHistoMin("Phi2ndJet_PAS"), getHistoMax("Phi2ndJet_PAS") );
@@ -573,6 +597,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH2ndJet_Eta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN2ndJet_Eta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC2ndJet_Eta1stJetBump", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass2ndJet_Eta1stJetBump", 100, 0, 100 );
       CreateUserTH1D("h1_E1stEle_PAS_Eta1stJetBump", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Pt1stEle_PAS_Eta1stJetBump", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Eta1stEle_PAS_Eta1stJetBump", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
@@ -586,6 +611,9 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_1stJet_PTOverPTPlusMET_Eta1stJetBump", 100, 0, 1.0 );
       CreateUserTH1D("h1_Conversion1stEle_Eta1stJetBump", 2, -0.5, 1.5 );
       CreateUserTH1D("h1_MET_PAS_Eta1stJetBump", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_CaloMET_PAS_Eta1stJetBump", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_TCMET_PAS_Eta1stJetBump", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_MET_over_CaloMET_Eta1stJetBump", 100, 0, 5 );
       CreateUserTH1D("h1_Njet_Eta1stJetBump", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_NjetTCHELBTag_Eta1stJetBump", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_minDRej_Eta1stJetBump", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
@@ -601,6 +629,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH1stJet_OutsideEta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN1stJet_OutsideEta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC1stJet_OutsideEta1stJetBump", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass1stJet_OutsideEta1stJetBump", 100, 0, 100 );
       CreateUserTH1D("h1_Pt2ndJet_PAS_OutsideEta1stJetBump", getHistoNBins("Pt2ndJet_PAS"), getHistoMin("Pt2ndJet_PAS"), getHistoMax("Pt2ndJet_PAS") );
       CreateUserTH1D("h1_Eta2ndJet_PAS_OutsideEta1stJetBump", getHistoNBins("Eta2ndJet_PAS"), getHistoMin("Eta2ndJet_PAS"), getHistoMax("Eta2ndJet_PAS") );
       CreateUserTH1D("h1_Phi2ndJet_PAS_OutsideEta1stJetBump", getHistoNBins("Phi2ndJet_PAS"), getHistoMin("Phi2ndJet_PAS"), getHistoMax("Phi2ndJet_PAS") );
@@ -611,6 +640,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_NCH2ndJet_OutsideEta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NN2ndJet_OutsideEta1stJetBump", 100, -0.5, 99.5 );
       CreateUserTH1D("h1_NC2ndJet_OutsideEta1stJetBump", 100, -0.5, 99.5 );
+      CreateUserTH1D("h1_Mass2ndJet_OutsideEta1stJetBump", 100, 0, 100 );
       CreateUserTH1D("h1_E1stEle_PAS_OutsideEta1stJetBump", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Pt1stEle_PAS_OutsideEta1stJetBump", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
       CreateUserTH1D("h1_Eta1stEle_PAS_OutsideEta1stJetBump", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
@@ -624,6 +654,9 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_1stJet_PTOverPTPlusMET_OutsideEta1stJetBump", 100, 0, 1.0 );
       CreateUserTH1D("h1_Conversion1stEle_OutsideEta1stJetBump", 2, -0.5, 1.5 );
       CreateUserTH1D("h1_MET_PAS_OutsideEta1stJetBump", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_CaloMET_PAS_OutsideEta1stJetBump", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_TCMET_PAS_OutsideEta1stJetBump", getHistoNBins("MET_PAS"), getHistoMin("MET_PAS"), getHistoMax("MET_PAS") );
+      CreateUserTH1D("h1_MET_over_CaloMET_OutsideEta1stJetBump", 100, 0, 5 );
       CreateUserTH1D("h1_Njet_OutsideEta1stJetBump", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_NjetTCHELBTag_OutsideEta1stJetBump", getHistoNBins("nJet_PtCut_noOvrlp_ID"), getHistoMin("nJet_PtCut_noOvrlp_ID"), getHistoMax("nJet_PtCut_noOvrlp_ID") );
       CreateUserTH1D("h1_minDRej_OutsideEta1stJetBump", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
@@ -663,6 +696,7 @@ void analysisClass::Loop()
     //## Define new jet collection
     std::auto_ptr<std::vector<double> >  JetPt  ( new std::vector<double>()  );
     std::auto_ptr<std::vector<double> >  JetPtRaw  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetEnergy  ( new std::vector<double>()  );
     std::auto_ptr<std::vector<double> >  JetEta  ( new std::vector<double>()  );
     std::auto_ptr<std::vector<double> >  JetPhi  ( new std::vector<double>()  );
     std::auto_ptr<std::vector<int> >     JetPassID  ( new std::vector<int>()  );
@@ -674,6 +708,7 @@ void analysisClass::Loop()
 	  {
 	    JetPt->push_back( PFJetPt->at(ijet) );
 	    JetPtRaw->push_back( PFJetPtRaw->at(ijet) );
+	    JetEnergy->push_back( PFJetEnergy->at(ijet) );
 	    JetEta->push_back( PFJetEta->at(ijet) );
 	    JetPhi->push_back( PFJetPhi->at(ijet) );
             JetPassID->push_back( PFJetPassLooseID->at(ijet) );
@@ -694,6 +729,7 @@ void analysisClass::Loop()
 	  {
 	    JetPt->push_back( CaloJetPt->at(ijet) );
 	    JetPtRaw->push_back( CaloJetPtRaw->at(ijet) );
+	    JetEnergy->push_back( CaloJetEnergy->at(ijet) );
 	    JetEta->push_back( CaloJetEta->at(ijet) );
 	    JetPhi->push_back( CaloJetPhi->at(ijet) );
             JetPassID->push_back( CaloJetPassLooseID->at(ijet) );
@@ -746,6 +782,7 @@ void analysisClass::Loop()
 	for(int ijet=0; ijet<JetPt->size(); ijet++)
 	  {
 	    JetPt->at(ijet) *= JetEnergyScale;
+	    JetEnergy->at(ijet) *= JetEnergyScale;
 	  }
       }
 
@@ -1147,6 +1184,7 @@ void analysisClass::Loop()
 
     // 1st jet and deltaphi jet-MET
     double DeltaPhiMET1stJet = -999;
+    double Mass1stJet = -999;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 )
       {
 	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
@@ -1182,10 +1220,18 @@ void analysisClass::Loop()
 	    fillVariableWithValue( "d2_DPhi_METe_METj", d2_DPhi_METe_METj );
 	  }
 
+	//jet mass
+	TLorentzVector thisjet;
+	thisjet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			     JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			     JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			     JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[0]));
+	Mass1stJet = thisjet.M();
       }
 
 
     // 2nd jet and deltaphi jet-MET
+    double Mass2ndJet = -999;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 )
       {
 	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
@@ -1207,6 +1253,14 @@ void analysisClass::Loop()
 	fillVariableWithValue( "mDeltaPhiMET2ndJet", fabs(deltaphi) );
 	//PAS Sept 2010
 	fillVariableWithValue( "mDeltaPhiMET2ndJet_PAS", fabs(deltaphi) );
+
+	//jet mass
+	TLorentzVector thisjet;
+	thisjet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			     JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			     JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			     JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[1]));
+	Mass2ndJet = thisjet.M();
       }
 
     // define "1ele" and "2jets" booleans
@@ -2583,8 +2637,11 @@ void analysisClass::Loop()
               FillUserTH1D("h1_DCotTheta1stEle_PAS_highMej", getVariableValue("DCotTheta1stEle_PAS") );
               FillUserTH1D("h1_Conversion1stEle_highMej", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
               //---------------------------------------------------------------
-              // mDeltaPhiMET1stJet>2.5
-              if( getVariableValue("mDeltaPhiMET1stJet")>2.5 ) {
+              // mDeltaPhiMET1stJet>2.5 && 20 <= PFJetNConstituents <= 30
+              if( getVariableValue("mDeltaPhiMET1stJet")>2.5 
+		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])>=20 
+		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])<=30  
+		  ) {
                 //---------------------------------------------------------------
                 //1D distributions
                 FillUserTH1D("h1_Pt1stJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt1stJet_PAS") );
@@ -2597,6 +2654,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                 FillUserTH1D("h1_NN1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                 FillUserTH1D("h1_NC1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+                FillUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet); 
                 FillUserTH1D("h1_Pt2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt2ndJet_PAS") );
                 FillUserTH1D("h1_Eta2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta2ndJet_PAS") );
                 FillUserTH1D("h1_Phi2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Phi2ndJet_PAS") );
@@ -2607,6 +2665,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                 FillUserTH1D("h1_NN2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                 FillUserTH1D("h1_NC2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+                FillUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet); 
                 FillUserTH1D("h1_E1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
                 FillUserTH1D("h1_Pt1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt1stEle_PAS") );
                 FillUserTH1D("h1_Eta1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS") );
@@ -2620,16 +2679,55 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_1stJet_PTOverPTPlusMET_highMej_mDeltaPhiMET1stJet_gt_2.5", (getVariableValue("Pt1stJet_PAS") / (getVariableValue("Pt1stJet_PAS") + getVariableValue("MET"))) );
                 FillUserTH1D("h1_Conversion1stEle_highMej_mDeltaPhiMET1stJet_gt_2.5", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
                 FillUserTH1D("h1_MET_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MET_PAS") );
+                FillUserTH1D("h1_CaloMET_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", CaloMET->at(0) );
+                FillUserTH1D("h1_TCMET_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", TCMET->at(0) );
+                FillUserTH1D("h1_MET_over_CaloMET_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MET_PAS") / CaloMET->at(0) );
                 FillUserTH1D("h1_Njet_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_PtCut_noOvrlp_ID") );
                 FillUserTH1D("h1_NjetTCHELBTag_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_TCHELBTag") );
                 FillUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
                 FillUserTH1D("h1_maxDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("maxDRej") );
-                FillUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );
+                FillUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );	       
                 //---------------------------------------------------------------
                 //2D distributions
                 FillUserTH2D("h2_EtaPhi1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS") );
                 FillUserTH2D("h2_MinMaxMej_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Mej_1stPair_PAS"), getVariableValue("Mej_2ndPair_PAS") );
                 //---------------------------------------------------------------
+		//Comparison - CaloJet vs PFJet - for the 1st PF jet
+		TLorentzVector the1stPFjet;
+		the1stPFjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+					 JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+					 JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);		   
+		double myMinDeltaR = 9999;
+		double myIdxJet_MinDeltaR = -1;
+		for (int myijet=0 ; myijet < CaloJetPt->size() ; myijet++)
+		  {
+		    TLorentzVector theCaloJet;
+		    theCaloJet.SetPtEtaPhiM(CaloJetPt->at(myijet),
+					    CaloJetEta->at(myijet),
+					    CaloJetPhi->at(myijet),0);		   
+		    
+		    double mydeltaR = the1stPFjet.DeltaR(theCaloJet);
+		    if(mydeltaR < myMinDeltaR)
+		      {
+			myMinDeltaR = mydeltaR;
+			myIdxJet_MinDeltaR = myijet; 
+		      }
+		  }
+		if(myIdxJet_MinDeltaR != -1)
+		  {
+		    double myPTratio = double(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0])/CaloJetPt->at(myIdxJet_MinDeltaR));
+		    double myNCratio = double(PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]))/double(CaloJetn90Hits->at(myIdxJet_MinDeltaR)) ;
+		    // 		    cout << "---------" << endl;
+		    // 		    cout << "myMinDeltaR: " << myMinDeltaR << endl;
+		    // 		    cout << "PFJetPT/CaloJetPT: " << myPTratio << endl;
+		    // 		    cout << "PFJetNC/CaloJetN90Hits: " << myNCratio << endl;
+		    // 		    cout << "PFJetNConstituents 1st jet: " << PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) << endl;
+		    // 		    cout << "CaloJetn90Hits matched CaloJet: " << CaloJetn90Hits->at(myIdxJet_MinDeltaR) << endl;
+		    FillUserTH1D("h1_minDR_1stPFjet_CaloJet_highMej_mDeltaPhiMET1stJet_gt_2.5", myMinDeltaR );
+		    FillUserTH1D("h1_PT1stJet_over_PTCaloJet_highMej_mDeltaPhiMET1stJet_gt_2.5", myPTratio );
+		    FillUserTH1D("h1_NC1stJet_over_n90HitsCaloJet_1stPFjet_CaloJet_highMej_mDeltaPhiMET1stJet_gt_2.5", myNCratio );
+		  }
+		//---------------------------------------------------------------
                 if( getVariableValue("Charge1stEle_PAS")>0 ) {
                   //---------------------------------------------------------------
                   //1D distributions
@@ -2643,6 +2741,7 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_NCH1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                   FillUserTH1D("h1_NN1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                   FillUserTH1D("h1_NC1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+                  FillUserTH1D("h1_Mass1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet );
                   FillUserTH1D("h1_Pt2ndJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt2ndJet_PAS") );
                   FillUserTH1D("h1_Eta2ndJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta2ndJet_PAS") );
                   FillUserTH1D("h1_Phi2ndJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Phi2ndJet_PAS") );
@@ -2653,6 +2752,7 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_NCH2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                   FillUserTH1D("h1_NN2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                   FillUserTH1D("h1_NC2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+                  FillUserTH1D("h1_Mass2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet );
                   FillUserTH1D("h1_E1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
                   FillUserTH1D("h1_Pt1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt1stEle_PAS") );
                   FillUserTH1D("h1_Eta1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS") );
@@ -2666,6 +2766,9 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_1stJet_PTOverPTPlusMET_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", (getVariableValue("Pt1stJet_PAS") / (getVariableValue("Pt1stJet_PAS") + getVariableValue("MET"))) );
                   FillUserTH1D("h1_Conversion1stEle_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
                   FillUserTH1D("h1_MET_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MET_PAS") );
+                  FillUserTH1D("h1_CaloMET_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", CaloMET->at(0) );
+                  FillUserTH1D("h1_TCMET_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", TCMET->at(0) );
+		  FillUserTH1D("h1_MET_over_CaloMET_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MET_PAS") / CaloMET->at(0) );
                   FillUserTH1D("h1_Njet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_PtCut_noOvrlp_ID") );
                   FillUserTH1D("h1_NjetTCHELBTag_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_TCHELBTag") );
                   FillUserTH1D("h1_minDRej_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
@@ -2689,6 +2792,7 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_NCH1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                   FillUserTH1D("h1_NN1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                   FillUserTH1D("h1_NC1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+                  FillUserTH1D("h1_Mass1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet );
                   FillUserTH1D("h1_Pt2ndJet_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt2ndJet_PAS") );
                   FillUserTH1D("h1_Eta2ndJet_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta2ndJet_PAS") );
                   FillUserTH1D("h1_Phi2ndJet_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Phi2ndJet_PAS") );
@@ -2699,6 +2803,7 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_NCH2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                   FillUserTH1D("h1_NN2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                   FillUserTH1D("h1_NC2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+                  FillUserTH1D("h1_Mass2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet );
                   FillUserTH1D("h1_E1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
                   FillUserTH1D("h1_Pt1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt1stEle_PAS") );
                   FillUserTH1D("h1_Eta1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS") );
@@ -2712,6 +2817,9 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_1stJet_PTOverPTPlusMET_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", (getVariableValue("Pt1stJet_PAS") / (getVariableValue("Pt1stJet_PAS") + getVariableValue("MET"))) );
                   FillUserTH1D("h1_Conversion1stEle_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
                   FillUserTH1D("h1_MET_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MET_PAS") );
+                  FillUserTH1D("h1_CaloMET_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", CaloMET->at(0) );
+                  FillUserTH1D("h1_TCMET_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", TCMET->at(0) );
+		  FillUserTH1D("h1_MET_over_CaloMET_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MET_PAS") / CaloMET->at(0) );
                   FillUserTH1D("h1_Njet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_PtCut_noOvrlp_ID") );
                   FillUserTH1D("h1_NjetTCHELBTag_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_TCHELBTag") );
                   FillUserTH1D("h1_minDRej_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
@@ -2776,6 +2884,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                 FillUserTH1D("h1_NN1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                 FillUserTH1D("h1_NC1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+                FillUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_le_2.5", Mass1stJet );
                 FillUserTH1D("h1_Pt2ndJet_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("Pt2ndJet_PAS") );
                 FillUserTH1D("h1_Eta2ndJet_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("Eta2ndJet_PAS") );
                 FillUserTH1D("h1_Phi2ndJet_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("Phi2ndJet_PAS") );
@@ -2786,6 +2895,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                 FillUserTH1D("h1_NN2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                 FillUserTH1D("h1_NC2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+                FillUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5", Mass2ndJet );
                 FillUserTH1D("h1_E1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
                 FillUserTH1D("h1_Pt1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("Pt1stEle_PAS") );
                 FillUserTH1D("h1_Eta1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("Eta1stEle_PAS") );
@@ -2799,6 +2909,9 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_1stJet_PTOverPTPlusMET_highMej_mDeltaPhiMET1stJet_le_2.5", (getVariableValue("Pt1stJet_PAS") / (getVariableValue("Pt1stJet_PAS") + getVariableValue("MET"))) );
                 FillUserTH1D("h1_Conversion1stEle_highMej_mDeltaPhiMET1stJet_le_2.5", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
                 FillUserTH1D("h1_MET_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("MET_PAS") );
+                FillUserTH1D("h1_CaloMET_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", CaloMET->at(0) );
+                FillUserTH1D("h1_TCMET_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", TCMET->at(0) );
+		FillUserTH1D("h1_MET_over_CaloMET_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("MET_PAS") / CaloMET->at(0) );
                 FillUserTH1D("h1_Njet_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("nJet_PtCut_noOvrlp_ID") );
                 FillUserTH1D("h1_NjetTCHELBTag_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("nJet_TCHELBTag") );
                 FillUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("minDRej") );
@@ -2825,6 +2938,7 @@ void analysisClass::Loop()
           FillUserTH1D("h1_NCH1stJet_Eta1stJetBump", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
           FillUserTH1D("h1_NN1stJet_Eta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
           FillUserTH1D("h1_NC1stJet_Eta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+          FillUserTH1D("h1_Mass1stJet_Eta1stJetBump", Mass1stJet);
           FillUserTH1D("h1_Pt2ndJet_PAS_Eta1stJetBump", getVariableValue("Pt2ndJet_PAS") );
           FillUserTH1D("h1_Eta2ndJet_PAS_Eta1stJetBump", getVariableValue("Eta2ndJet_PAS") );
           FillUserTH1D("h1_Phi2ndJet_PAS_Eta1stJetBump", getVariableValue("Phi2ndJet_PAS") );
@@ -2835,6 +2949,7 @@ void analysisClass::Loop()
           FillUserTH1D("h1_NCH2ndJet_Eta1stJetBump", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
           FillUserTH1D("h1_NN2ndJet_Eta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
           FillUserTH1D("h1_NC2ndJet_Eta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+          FillUserTH1D("h1_Mass2ndJet_Eta1stJetBump", Mass2ndJet);
           FillUserTH1D("h1_E1stEle_PAS_Eta1stJetBump", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
           FillUserTH1D("h1_Pt1stEle_PAS_Eta1stJetBump", getVariableValue("Pt1stEle_PAS") );
           FillUserTH1D("h1_Eta1stEle_PAS_Eta1stJetBump", getVariableValue("Eta1stEle_PAS") );
@@ -2848,6 +2963,9 @@ void analysisClass::Loop()
           FillUserTH1D("h1_1stJet_PTOverPTPlusMET_Eta1stJetBump", (getVariableValue("Pt1stJet_PAS") / (getVariableValue("Pt1stJet_PAS") + getVariableValue("MET"))) );
           FillUserTH1D("h1_Conversion1stEle_Eta1stJetBump", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
           FillUserTH1D("h1_MET_PAS_Eta1stJetBump", getVariableValue("MET_PAS") );
+          FillUserTH1D("h1_CaloMET_PAS_Eta1stJetBump", CaloMET->at(0) );
+          FillUserTH1D("h1_TCMET_PAS_Eta1stJetBump", TCMET->at(0) );
+	  FillUserTH1D("h1_MET_over_CaloMET_Eta1stJetBump", getVariableValue("MET_PAS") / CaloMET->at(0) );
           FillUserTH1D("h1_Njet_Eta1stJetBump", getVariableValue("nJet_PtCut_noOvrlp_ID") );
           FillUserTH1D("h1_NjetTCHELBTag_Eta1stJetBump", getVariableValue("nJet_TCHELBTag") );
           FillUserTH1D("h1_minDRej_Eta1stJetBump", getVariableValue("minDRej") );
@@ -2907,6 +3025,7 @@ void analysisClass::Loop()
           FillUserTH1D("h1_NCH1stJet_OutsideEta1stJetBump", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
           FillUserTH1D("h1_NN1stJet_OutsideEta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
           FillUserTH1D("h1_NC1stJet_OutsideEta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+          FillUserTH1D("h1_Mass1stJet_OutsideEta1stJetBump", Mass1stJet );
           FillUserTH1D("h1_Pt2ndJet_PAS_OutsideEta1stJetBump", getVariableValue("Pt2ndJet_PAS") );
           FillUserTH1D("h1_Eta2ndJet_PAS_OutsideEta1stJetBump", getVariableValue("Eta2ndJet_PAS") );
           FillUserTH1D("h1_Phi2ndJet_PAS_OutsideEta1stJetBump", getVariableValue("Phi2ndJet_PAS") );
@@ -2917,6 +3036,7 @@ void analysisClass::Loop()
           FillUserTH1D("h1_NCH2ndJet_OutsideEta1stJetBump", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
           FillUserTH1D("h1_NN2ndJet_OutsideEta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
           FillUserTH1D("h1_NC2ndJet_OutsideEta1stJetBump", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+          FillUserTH1D("h1_Mass2ndJet_OutsideEta1stJetBump", Mass2ndJet );
           FillUserTH1D("h1_E1stEle_PAS_OutsideEta1stJetBump", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
           FillUserTH1D("h1_Pt1stEle_PAS_OutsideEta1stJetBump", getVariableValue("Pt1stEle_PAS") );
           FillUserTH1D("h1_Eta1stEle_PAS_OutsideEta1stJetBump", getVariableValue("Eta1stEle_PAS") );
@@ -2930,6 +3050,9 @@ void analysisClass::Loop()
           FillUserTH1D("h1_1stJet_PTOverPTPlusMET_OutsideEta1stJetBump", (getVariableValue("Pt1stJet_PAS") / (getVariableValue("Pt1stJet_PAS") + getVariableValue("MET"))) );
           FillUserTH1D("h1_Conversion1stEle_OutsideEta1stJetBump", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
           FillUserTH1D("h1_MET_PAS_OutsideEta1stJetBump", getVariableValue("MET_PAS") );
+          FillUserTH1D("h1_CaloMET_PAS_OutsideEta1stJetBump", CaloMET->at(0) );
+          FillUserTH1D("h1_TCMET_PAS_OutsideEta1stJetBump", TCMET->at(0) );
+	  FillUserTH1D("h1_MET_over_CaloMET_OutsideEta1stJetBump", getVariableValue("MET_PAS") / CaloMET->at(0) );
           FillUserTH1D("h1_Njet_OutsideEta1stJetBump", getVariableValue("nJet_PtCut_noOvrlp_ID") );
           FillUserTH1D("h1_NjetTCHELBTag_OutsideEta1stJetBump", getVariableValue("nJet_TCHELBTag") );
           FillUserTH1D("h1_minDRej_OutsideEta1stJetBump", getVariableValue("minDRej") );
