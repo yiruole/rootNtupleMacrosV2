@@ -423,8 +423,11 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
       CreateUserTH1D("h1_maxDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("maxDRej"), getHistoMin("maxDRej"), getHistoMax("maxDRej") );
       CreateUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+      CreateUserTH1D("h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS") );
       CreateUserTH2D("h2_EtaPhi1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", 100, -5, 5, 60, -3.1416, 3.1416 );
       CreateUserTH2D("h2_MinMaxMej_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Mej_1stPair_PAS"), getHistoMin("Mej_1stPair_PAS"), getHistoMax("Mej_1stPair_PAS"), getHistoNBins("Mej_2ndPair_PAS"), getHistoMin("Mej_2ndPair_PAS"), getHistoMax("Mej_2ndPair_PAS") );
+      CreateUserTH2D("h2_MTnuj2_vs_Mej1_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Mej_1stPair_PAS"), getHistoMin("Mej_1stPair_PAS"), getHistoMax("Mej_1stPair_PAS"), getHistoNBins("MTnuj_1stPair_PAS"), getHistoMin("MTnuj_1stPair_PAS"), getHistoMax("MTnuj_1stPair_PAS") );
+      CreateUserTH2D("h2_MTnuj1_vs_Mej2_highMej_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Mej_1stPair_PAS"), getHistoMin("Mej_1stPair_PAS"), getHistoMax("Mej_1stPair_PAS"), getHistoNBins("MTnuj_1stPair_PAS"), getHistoMin("MTnuj_1stPair_PAS"), getHistoMax("MTnuj_1stPair_PAS") );
 
       CreateUserTH1D("h1_Pt1stJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Pt1stJet_PAS"), getHistoMin("Pt1stJet_PAS"), getHistoMax("Pt1stJet_PAS") );
       CreateUserTH1D("h1_Eta1stJet_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Eta1stJet_PAS"), getHistoMin("Eta1stJet_PAS"), getHistoMax("Eta1stJet_PAS") );
@@ -469,6 +472,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_minDRej_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
       CreateUserTH1D("h1_maxDRej_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("maxDRej"), getHistoMin("maxDRej"), getHistoMax("maxDRej") );
       CreateUserTH1D("h1_DRjets_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+      CreateUserTH1D("h1_MTenu_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS") );
       CreateUserTH2D("h2_EtaPhi1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", 100, -5, 5, 60, -3.1416, 3.1416 );
       CreateUserTH2D("h2_MinMaxMej_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Mej_1stPair_PAS"), getHistoMin("Mej_1stPair_PAS"), getHistoMax("Mej_1stPair_PAS"), getHistoNBins("Mej_2ndPair_PAS"), getHistoMin("Mej_2ndPair_PAS"), getHistoMax("Mej_2ndPair_PAS") );
 
@@ -515,6 +519,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_minDRej_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
       CreateUserTH1D("h1_maxDRej_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("maxDRej"), getHistoMin("maxDRej"), getHistoMax("maxDRej") );
       CreateUserTH1D("h1_DRjets_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+      CreateUserTH1D("h1_MTenu_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS") );
       CreateUserTH2D("h2_EtaPhi1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", 100, -5, 5, 60, -3.1416, 3.1416 );
       CreateUserTH2D("h2_MinMaxMej_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getHistoNBins("Mej_1stPair_PAS"), getHistoMin("Mej_1stPair_PAS"), getHistoMax("Mej_1stPair_PAS"), getHistoNBins("Mej_2ndPair_PAS"), getHistoMin("Mej_2ndPair_PAS"), getHistoMax("Mej_2ndPair_PAS") );
 
@@ -561,6 +566,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
       CreateUserTH1D("h1_maxDRej_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("maxDRej"), getHistoMin("maxDRej"), getHistoMax("maxDRej") );
       CreateUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+      CreateUserTH1D("h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS") );
       CreateUserTH2D("h2_EtaPhi1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", 100, -5, 5, 60, -3.1416, 3.1416 );
       CreateUserTH2D("h2_MinMaxMej_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getHistoNBins("Mej_1stPair_PAS"), getHistoMin("Mej_1stPair_PAS"), getHistoMax("Mej_1stPair_PAS"), getHistoNBins("Mej_2ndPair_PAS"), getHistoMin("Mej_2ndPair_PAS"), getHistoMax("Mej_2ndPair_PAS") );
 
@@ -619,6 +625,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_minDRej_Eta1stJetBump", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
       CreateUserTH1D("h1_maxDRej_Eta1stJetBump", getHistoNBins("maxDRej"), getHistoMin("maxDRej"), getHistoMax("maxDRej") );
       CreateUserTH1D("h1_DRjets_Eta1stJetBump", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+      CreateUserTH1D("h1_MTenu_PAS_Eta1stJetBump", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS") );
 
       CreateUserTH1D("h1_Pt1stJet_PAS_OutsideEta1stJetBump", getHistoNBins("Pt1stJet_PAS"), getHistoMin("Pt1stJet_PAS"), getHistoMax("Pt1stJet_PAS") );
       CreateUserTH1D("h1_Phi1stJet_PAS_OutsideEta1stJetBump", getHistoNBins("Phi1stJet_PAS"), getHistoMin("Phi1stJet_PAS"), getHistoMax("Phi1stJet_PAS") );
@@ -662,6 +669,7 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_minDRej_OutsideEta1stJetBump", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej") );
       CreateUserTH1D("h1_maxDRej_OutsideEta1stJetBump", getHistoNBins("maxDRej"), getHistoMin("maxDRej"), getHistoMax("maxDRej") );
       CreateUserTH1D("h1_DRjets_OutsideEta1stJetBump", getHistoNBins("DeltaRjets_PAS"), getHistoMin("DeltaRjets_PAS"), getHistoMax("DeltaRjets_PAS") );
+      CreateUserTH1D("h1_MTenu_PAS_OutsideEta1stJetBump", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS") );
     }
 
   CreateUserTH1D("h1_MTenu_PAS_EleBarrel", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
@@ -2687,10 +2695,13 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
                 FillUserTH1D("h1_maxDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("maxDRej") );
                 FillUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );	       
+		FillUserTH1D("h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MTenu_PAS") );
                 //---------------------------------------------------------------
                 //2D distributions
                 FillUserTH2D("h2_EtaPhi1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS") );
                 FillUserTH2D("h2_MinMaxMej_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Mej_1stPair_PAS"), getVariableValue("Mej_2ndPair_PAS") );
+		FillUserTH2D("h2_MTnuj2_vs_Mej1_highMej_mDeltaPhiMET1stJet_gt_2.5", Me1j1 , MTn1j2 );
+		FillUserTH2D("h2_MTnuj1_vs_Mej2_highMej_mDeltaPhiMET1stJet_gt_2.5", Me1j2 , MTn1j1 );
                 //---------------------------------------------------------------
 		//Comparison - CaloJet vs PFJet - for the 1st PF jet
 		TLorentzVector the1stPFjet;
@@ -2774,6 +2785,7 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_minDRej_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
                   FillUserTH1D("h1_maxDRej_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("maxDRej") );
                   FillUserTH1D("h1_DRjets_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );
+		  FillUserTH1D("h1_MTenu_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MTenu_PAS") );
                   //---------------------------------------------------------------
                   //2D distributions
                   FillUserTH2D("h2_EtaPhi1stEle_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS") );
@@ -2825,6 +2837,7 @@ void analysisClass::Loop()
                   FillUserTH1D("h1_minDRej_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
                   FillUserTH1D("h1_maxDRej_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("maxDRej") );
                   FillUserTH1D("h1_DRjets_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );
+		  FillUserTH1D("h1_MTenu_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MTenu_PAS") );
                   //---------------------------------------------------------------
                   //2D distributions
                   FillUserTH2D("h2_EtaPhi1stEle_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS") );
@@ -2917,6 +2930,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("minDRej") );
                 FillUserTH1D("h1_maxDRej_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("maxDRej") );
                 FillUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("DeltaRjets_PAS") );
+		FillUserTH1D("h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("MTenu_PAS") );
                 //---------------------------------------------------------------
                 //2D distributions
                 FillUserTH2D("h2_EtaPhi1stEle_PAS_highMej_mDeltaPhiMET1stJet_le_2.5", getVariableValue("Eta1stEle_PAS"), getVariableValue("Phi1stEle_PAS") );
@@ -2971,6 +2985,7 @@ void analysisClass::Loop()
           FillUserTH1D("h1_minDRej_Eta1stJetBump", getVariableValue("minDRej") );
           FillUserTH1D("h1_maxDRej_Eta1stJetBump", getVariableValue("maxDRej") );
           FillUserTH1D("h1_DRjets_Eta1stJetBump", getVariableValue("DeltaRjets_PAS") );
+	  FillUserTH1D("h1_MTenu_PAS_Eta1stJetBump", getVariableValue("MTenu_PAS") );
           //---------------------------------------------------------------
           // Event printout
           if( isData ) {
@@ -3058,6 +3073,7 @@ void analysisClass::Loop()
           FillUserTH1D("h1_minDRej_OutsideEta1stJetBump", getVariableValue("minDRej") );
           FillUserTH1D("h1_maxDRej_OutsideEta1stJetBump", getVariableValue("maxDRej") );
           FillUserTH1D("h1_DRjets_OutsideEta1stJetBump", getVariableValue("DeltaRjets_PAS") );
+	  FillUserTH1D("h1_MTenu_PAS_OutsideEta1stJetBump", getVariableValue("MTenu_PAS") );
           //---------------------------------------------------------------
         }
       }//end do extra checks
