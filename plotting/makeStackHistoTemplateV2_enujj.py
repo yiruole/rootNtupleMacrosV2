@@ -407,7 +407,7 @@ class Plot:
 #--- Input root file
 
 
-File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_enujjskim_MejStudies_v2/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_enujjskim_MejStudies_v3/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_enujjskim_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45_Jan11Prod_type1PFMET/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
@@ -420,7 +420,7 @@ File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_enujjskim_MejStudies_v2/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_enujjskim_MejStudies_v3/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 #File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_enujjskim_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 #File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 #File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45_type1PFMET/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
@@ -4964,6 +4964,32 @@ if doExtraPlots:
   plot745.makeRatio       = makeRatio
   plot745.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
+  #--- h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5 ---
+  variableName = "h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5"
+
+  plot746 = Plot()
+  ## inputs for stacked histograms
+  plot746.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+  plot746.keysStack       = keysStack
+  ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+  plot746.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+  plot746.keys            = keys
+  plot746.xtit            = "MTenu - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
+  plot746.ytit            = "Number of events"
+  plot746.ylog            = "no"
+  plot746.rebin           = "var"
+  #plot746.xmin            = 0
+  #plot746.xmax            = 1000
+  plot746.ymin            = 0
+  plot746.ymax            = 20
+  #plot746.lpos = "bottom-center"
+  plot746.name            = "MTenu_presel_highMej_mDeltaPhiMET1stJet_gt_2.5"
+  plot746.addZUncBand     = zUncBand
+  plot746.makeRatio       = makeRatio
+  plot746.xbins           = [0,20,40,60,80,100,120,160,200,300,600]
+  plot746.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
 
 
   # mDeltaPhiMET1stJet>2.5, e+ only
@@ -6050,6 +6076,32 @@ if doExtraPlots:
   plot845.addZUncBand     = zUncBand
   plot845.makeRatio       = makeRatio
   plot845.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+  #--- h1_MTenu_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5 ---
+  variableName = "h1_MTenu_PAS_highMePlusj_mDeltaPhiMET1stJet_gt_2.5"
+
+  plot846 = Plot()
+  ## inputs for stacked histograms
+  plot846.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+  plot846.keysStack       = keysStack
+  ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+  plot846.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+  plot846.keys            = keys
+  plot846.xtit            = "MTenu - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
+  plot846.ytit            = "Number of events"
+  plot846.ylog            = "no"
+  plot846.rebin           = "var"
+  #plot846.xmin            = 0
+  #plot846.xmax            = 1000
+  plot846.ymin            = 0
+  plot846.ymax            = 20
+  #plot846.lpos = "bottom-center"
+  plot846.name            = "MTenu_presel_highMePlusj_mDeltaPhiMET1stJet_gt_2.5"
+  plot846.addZUncBand     = zUncBand
+  plot846.makeRatio       = makeRatio
+  plot846.xbins           = [0,20,40,60,80,100,120,160,200,300,600]
+  plot846.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 
@@ -7139,6 +7191,31 @@ if doExtraPlots:
   plot945.makeRatio       = makeRatio
   plot945.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
+  #--- h1_MTenu_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5 ---
+  variableName = "h1_MTenu_PAS_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5"
+
+  plot946 = Plot()
+  ## inputs for stacked histograms
+  plot946.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+  plot946.keysStack       = keysStack
+  ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+  plot946.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+  plot946.keys            = keys
+  plot946.xtit            = "MTenu - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
+  plot946.ytit            = "Number of events"
+  plot946.ylog            = "no"
+  plot946.rebin           = "var"
+  #plot946.xmin            = 0
+  #plot946.xmax            = 1000
+  plot946.ymin            = 0
+  plot946.ymax            = 20
+  #plot946.lpos = "bottom-center"
+  plot946.name            = "MTenu_presel_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5"
+  plot946.addZUncBand     = zUncBand
+  plot946.makeRatio       = makeRatio
+  plot946.xbins           = [0,20,40,60,80,100,120,160,200,300,600]
+  plot946.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
 
 
   # mDeltaPhiMET1stJet<2.5
@@ -8227,6 +8304,31 @@ if doExtraPlots:
   plot1045.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
+  #--- h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_le_2.5 ---
+  variableName = "h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_le_2.5"
+
+  plot1046 = Plot()
+  ## inputs for stacked histograms
+  plot1046.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+  plot1046.keysStack       = keysStack
+  ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+  plot1046.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+  plot1046.keys            = keys
+  plot1046.xtit            = "MTenu - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
+  plot1046.ytit            = "Number of events"
+  plot1046.ylog            = "no"
+  plot1046.rebin           = "var"
+  #plot1046.xmin            = 0
+  #plot1046.xmax            = 1000
+  plot1046.ymin            = 0
+  plot1046.ymax            = 20
+  #plot1046.lpos = "bottom-center"
+  plot1046.name            = "MTenu_presel_highMej_mDeltaPhiMET1stJet_le_2.5"
+  plot1046.addZUncBand     = zUncBand
+  plot1046.makeRatio       = makeRatio
+  plot1046.xbins           = [0,20,40,60,80,100,120,160,200,300,600]
+  plot1046.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
 
   # ## Additional plots to investigate bump in Eta1stJet distribution
 
@@ -9312,6 +9414,31 @@ if doExtraPlots:
   plot1145.addZUncBand     = zUncBand
   plot1145.makeRatio       = makeRatio
   plot1145.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+  #--- h1_MTenu_PAS_Eta1stJetBump ---
+  variableName = "h1_MTenu_PAS_Eta1stJetBump"
+
+  plot1146 = Plot()
+  ## inputs for stacked histograms
+  plot1146.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+  plot1146.keysStack       = keysStack
+  ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+  plot1146.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+  plot1146.keys            = keys
+  plot1146.xtit            = "MTenu - Eta1stJetBump"
+  plot1146.ytit            = "Number of events"
+  plot1146.ylog            = "no"
+  plot1146.rebin           = "var"
+  #plot1146.xmin            = 0
+  #plot1146.xmax            = 1000
+  plot1146.ymin            = 0
+  plot1146.ymax            = 20
+  #plot1146.lpos = "bottom-center"
+  plot1146.name            = "MTenu_presel_Eta1stJetBump"
+  plot1146.addZUncBand     = zUncBand
+  plot1146.makeRatio       = makeRatio
+  plot1146.xbins           = [0,20,40,60,80,100,120,160,200,300,600]
+  plot1146.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 
@@ -10399,6 +10526,31 @@ if doExtraPlots:
   plot1245.makeRatio       = makeRatio
   plot1245.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
+  #--- h1_MTenu_PAS_OutsideEta1stJetBump ---
+  variableName = "h1_MTenu_PAS_OutsideEta1stJetBump"
+
+  plot1246 = Plot()
+  ## inputs for stacked histograms
+  plot1246.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+  plot1246.keysStack       = keysStack
+  ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+  plot1246.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+  plot1246.keys            = keys
+  plot1246.xtit            = "MTenu - OutsideEta1stJetBump"
+  plot1246.ytit            = "Number of events"
+  plot1246.ylog            = "no"
+  plot1246.rebin           = "var"
+  #plot1246.xmin            = 0
+  #plot1246.xmax            = 1000
+  plot1246.ymin            = 0
+  plot1246.ymax            = 100
+  #plot1246.lpos = "bottom-center"
+  plot1246.name            = "MTenu_presel_OutsideEta1stJetBump"
+  plot1246.addZUncBand     = zUncBand
+  plot1246.makeRatio       = makeRatio
+  plot1246.xbins           = [0,20,40,60,80,100,120,160,200,300,600]
+  plot1246.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
 
 
 #-----------------------------------------------------------------------------------
@@ -10425,17 +10577,17 @@ if doExtraPlots:
                 ,plot500, plot501, plot502, plot503, plot504, plot505, plot506, plot507, plot508, plot509, plot510
                 ,plot600, plot601, plot602, plot603, plot604, plot605, plot606, plot607, plot608, plot609, plot610, plot611
 
-                ,plot700, plot701, plot702, plot703, plot704, plot705, plot706, plot707, plot708, plot709,     plot738, plot739, plot740, plot741,     plot710, plot711, plot712, plot713, plot714, plot715, plot716, plot717, plot718, plot719,    plot742,    plot720, plot721, plot722, plot723, plot724, plot725, plot726, plot727, plot728, plot729, plot730, plot731, plot732,     plot743, plot744, plot745,    plot733, plot734, plot735, plot736, plot737 
+                ,plot700, plot701, plot702, plot703, plot704, plot705, plot706, plot707, plot708, plot709,     plot738, plot739, plot740, plot741,     plot710, plot711, plot712, plot713, plot714, plot715, plot716, plot717, plot718, plot719,    plot742,    plot720, plot721, plot722, plot723, plot724, plot725, plot726, plot727, plot728, plot729, plot730, plot731, plot732,     plot743, plot744, plot745,    plot733, plot734, plot735, plot736, plot737, plot746 
 
-                ,plot800, plot801, plot802, plot803, plot804, plot805, plot806, plot807, plot808, plot809,     plot838,                                plot810, plot811, plot812, plot813, plot814, plot815, plot816, plot817, plot818, plot819,    plot842,    plot820, plot821, plot822, plot823, plot824, plot825, plot826, plot827, plot828, plot829, plot830, plot831, plot832,     plot843, plot844, plot845,    plot833, plot834, plot835, plot836, plot837
+                ,plot800, plot801, plot802, plot803, plot804, plot805, plot806, plot807, plot808, plot809,     plot838,                                plot810, plot811, plot812, plot813, plot814, plot815, plot816, plot817, plot818, plot819,    plot842,    plot820, plot821, plot822, plot823, plot824, plot825, plot826, plot827, plot828, plot829, plot830, plot831, plot832,     plot843, plot844, plot845,    plot833, plot834, plot835, plot836, plot837, plot846
 
-                ,plot900, plot901, plot902, plot903, plot904, plot905, plot906, plot907, plot908, plot909,     plot938,                                plot910, plot911, plot912, plot913, plot914, plot915, plot916, plot917, plot918, plot919,    plot942,    plot920, plot921, plot922, plot923, plot924, plot925, plot926, plot927, plot928, plot929, plot930, plot931, plot932,     plot943, plot944, plot945,    plot933, plot934, plot935, plot936, plot937
+                ,plot900, plot901, plot902, plot903, plot904, plot905, plot906, plot907, plot908, plot909,     plot938,                                plot910, plot911, plot912, plot913, plot914, plot915, plot916, plot917, plot918, plot919,    plot942,    plot920, plot921, plot922, plot923, plot924, plot925, plot926, plot927, plot928, plot929, plot930, plot931, plot932,     plot943, plot944, plot945,    plot933, plot934, plot935, plot936, plot937, plot946
 
-                ,plot1000, plot1001, plot1002, plot1003, plot1004, plot1005, plot1006, plot1007, plot1008, plot1009,   plot1038,   plot1010, plot1011, plot1012, plot1013, plot1014, plot1015, plot1016, plot1017, plot1018, plot1019,   plot1042,   plot1020, plot1021, plot1022, plot1023, plot1024, plot1025, plot1026, plot1027, plot1028, plot1029, plot1030, plot1031, plot1032,    plot1043, plot1044, plot1045,    plot1033, plot1034, plot1035, plot1036, plot1037
+                ,plot1000, plot1001, plot1002, plot1003, plot1004, plot1005, plot1006, plot1007, plot1008, plot1009,   plot1038,   plot1010, plot1011, plot1012, plot1013, plot1014, plot1015, plot1016, plot1017, plot1018, plot1019,   plot1042,   plot1020, plot1021, plot1022, plot1023, plot1024, plot1025, plot1026, plot1027, plot1028, plot1029, plot1030, plot1031, plot1032,    plot1043, plot1044, plot1045,    plot1033, plot1034, plot1035, plot1036, plot1037, plot1046
 
-                ,plot1100, plot1102, plot1103, plot1104, plot1105, plot1106, plot1107, plot1108, plot1109,             plot1138,   plot1110, plot1111, plot1112, plot1113, plot1114, plot1115, plot1116, plot1117, plot1118, plot1119,   plot1142,   plot1120, plot1121, plot1122, plot1123, plot1124, plot1125, plot1126, plot1127, plot1128, plot1129, plot1130, plot1131, plot1132,    plot1143, plot1144, plot1145,    plot1133, plot1134, plot1135, plot1136, plot1137
+                ,plot1100, plot1102, plot1103, plot1104, plot1105, plot1106, plot1107, plot1108, plot1109,             plot1138,   plot1110, plot1111, plot1112, plot1113, plot1114, plot1115, plot1116, plot1117, plot1118, plot1119,   plot1142,   plot1120, plot1121, plot1122, plot1123, plot1124, plot1125, plot1126, plot1127, plot1128, plot1129, plot1130, plot1131, plot1132,    plot1143, plot1144, plot1145,    plot1133, plot1134, plot1135, plot1136, plot1137, plot1146
 
-                ,plot1200, plot1202, plot1203, plot1204, plot1205, plot1206, plot1207, plot1208, plot1209,             plot1238,   plot1210, plot1211, plot1212, plot1213, plot1214, plot1215, plot1216, plot1217, plot1218, plot1219,   plot1242,   plot1220, plot1221, plot1222, plot1223, plot1224, plot1225, plot1226, plot1227, plot1228, plot1229, plot1230, plot1231, plot1232,    plot1243, plot1244, plot1245,    plot1233, plot1234, plot1235, plot1236, plot1237
+                ,plot1200, plot1202, plot1203, plot1204, plot1205, plot1206, plot1207, plot1208, plot1209,             plot1238,   plot1210, plot1211, plot1212, plot1213, plot1214, plot1215, plot1216, plot1217, plot1218, plot1219,   plot1242,   plot1220, plot1221, plot1222, plot1223, plot1224, plot1225, plot1226, plot1227, plot1228, plot1229, plot1230, plot1231, plot1232,    plot1243, plot1244, plot1245,    plot1233, plot1234, plot1235, plot1236, plot1237, plot1246
                 ]
 
   plots = plots + extra_plots
