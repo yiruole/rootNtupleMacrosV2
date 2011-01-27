@@ -2883,6 +2883,46 @@ void analysisClass::Loop()
                     STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5: minDRej = "<<getVariableValue("minDRej"));
 
                   STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5: ------------ END -------------");
+
+                  int NC1stJet = PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]);
+                  if( NC1stJet>=20 && NC1stJet<=30 ) {
+
+                    STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: ----------- START ------------");
+
+                    STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
+                    if( variableIsFilled("Pt1stEle_PAS") && variableIsFilled("Eta1stEle_PAS") && variableIsFilled("Phi1stEle_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: Pt1stEle_PAS,Eta1stEle_PAS,Phi1stEle_PAS,Charge1stEle_PAS = "<<getVariableValue("Pt1stEle_PAS")<<",\t"<<getVariableValue("Eta1stEle_PAS")<<",\t"<<getVariableValue("Phi1stEle_PAS")<<",\t"<<getVariableValue("Charge1stEle_PAS"));
+                    if( variableIsFilled("MET_PAS") && variableIsFilled("METPhi_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: MET_PAS, METPhi_PAS = "<<getVariableValue("MET_PAS")<<",\t"<<getVariableValue("METPhi_PAS"));
+                    if( variableIsFilled("Pt1stJet_PAS") && variableIsFilled("Eta1stJet_PAS") && variableIsFilled("Phi1stJet_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: Pt1stJet_PAS,Eta1stJet_PAS,Phi1stJet = "<<getVariableValue("Pt1stJet_PAS")<<",\t"<<getVariableValue("Eta1stJet_PAS")<<",\t"<<getVariableValue("Phi1stJet_PAS"));
+                    if( variableIsFilled("Pt2ndJet_PAS") && variableIsFilled("Eta2ndJet_PAS") && variableIsFilled("Phi2ndJet_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: Pt2ndJet_PAS,Eta2ndJet_PAS,Phi2ndJet = "<<getVariableValue("Pt2ndJet_PAS")<<",\t"<<getVariableValue("Eta2ndJet_PAS")<<",\t"<<getVariableValue("Phi2ndJet_PAS"));
+                    if( variableIsFilled("MTenu_PAS") && variableIsFilled("Mjj_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: MTenu_PAS,Mjj_PAS = "<<getVariableValue("MTenu_PAS")<<",\t"<<getVariableValue("Mjj_PAS"));
+                    if( variableIsFilled("sT_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: sT_PAS = "<<getVariableValue("sT_PAS"));
+                    if( variableIsFilled("Mej_1stPair_PAS") && variableIsFilled("Mej_2ndPair_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: Mej_1stPair_PAS,Mej_2ndPair_PAS = "
+                             <<getVariableValue("Mej_1stPair_PAS")
+                             <<",\t"<<getVariableValue("Mej_2ndPair_PAS"));
+                    if( variableIsFilled("MTnuj_1stPair_PAS") && variableIsFilled("MTnuj_2ndPair_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: MTnuj_1stPair_PAS,MTnuj_2ndPair_PAS = "
+                             <<getVariableValue("MTnuj_1stPair_PAS")
+                             <<",\t"<<getVariableValue("MTnuj_2ndPair_PAS"));
+                    if( variableIsFilled("mDeltaPhiMETEle_PAS") && variableIsFilled("mDeltaPhiMET1stJet_PAS")
+                        && variableIsFilled("mDeltaPhiMET2ndJet_PAS") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: mDeltaPhiMETEle_PAS,mDeltaPhiMET1stJet_PAS,mDeltaPhiMET2ndJet_PAS = "
+                             <<getVariableValue("mDeltaPhiMETEle_PAS")
+                             <<",\t"<<getVariableValue("mDeltaPhiMET1stJet_PAS")
+                             <<",\t"<<getVariableValue("mDeltaPhiMET2ndJet_PAS") );
+                    if( variableIsFilled("nMuon_PtCut_IDISO") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: nMuon_PtCut_IDISO = "<<getVariableValue("nMuon_PtCut_IDISO"));
+                    if( variableIsFilled("minDRej") )
+                      STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: minDRej = "<<getVariableValue("minDRej"));
+
+                    STDOUT("UserHighMejDeltaPhiMET1stJetGt2.5NC1stJet20To30: ------------ END -------------");
+                  }
                 }
               } else {
                 //---------------------------------------------------------------
