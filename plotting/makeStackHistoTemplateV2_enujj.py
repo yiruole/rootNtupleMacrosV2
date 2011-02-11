@@ -406,27 +406,26 @@ class Plot:
 
 #--- Input root file
 
-
-File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_enujjskim_MejStudies_v3/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
+File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_plots.root")
+#File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_enujjskim_MejStudies_v3/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_enujjskim_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45_Jan11Prod_type1PFMET/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.05pb-1_sT_presel_250_Zrescale1.20/analysisClass_enujjSample_plots.root")
 ##File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/33.2pb-1_sT_presel_250_Zrescale1.20_Wrescale1.06_extraPlotsDec9/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
-#File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_enujjskim_MejStudies_v3/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-#File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_enujjskim_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-#File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-#File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45_type1PFMET/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
-#File_QCD          = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45_more1SC/output_cutTable_enujjSample_QCD_more1SC/analysisClass_enujjSample_QCD_more1SC_plots.root")
-#File_QCD          = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.84pb-1_QCD_UseHLTPrescales_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
-#File_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_QCD_plots.root")
+File_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_enujjskim_MejStudies_v3/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_enujjskim_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45_type1PFMET/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45_more1SC/output_cutTable_enujjSample_QCD_more1SC/analysisClass_enujjSample_QCD_more1SC_plots.root")
+#File_QCD  = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.84pb-1_QCD_UseHLTPrescales_sT_presel_250/analysisClass_enujjSample_QCD_plots.root")
 
 QCDscaleFactor    = 1 # no need to rescale anymore since we are using the HLT prescales (36/35.84 can be ignored)
 
@@ -435,7 +434,7 @@ QCDscaleFactor    = 1 # no need to rescale anymore since we are using the HLT pr
 otherBkgsKey="Other Bkgs"
 zUncBand="no"
 makeRatio=1
-doExtraPlots = True
+doExtraPlots = False
 
 pt_xmin=0
 pt_xmax=800
@@ -867,7 +866,7 @@ plot7and9.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHis
 
 
 #--- nMuon_PtCut_IDISO_PAS ---
-variableName = "nMuon_PtCut_IDISO_PAS"
+variableName = "nMuon_PtCut_IDISO"
 
 plot10 = Plot()
 ## inputs for stacked histograms
@@ -1019,7 +1018,7 @@ plot14.ymax            = 150
 #plot14.lpos = "bottom-center"
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
-plot14.makeRatio       = makeRatio
+plot14.makeRatio       = 0
 plot14.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
 plot14.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
@@ -1041,7 +1040,7 @@ plot14_ylog.ymax            = 1000
 #plot14_ylog.lpos = "bottom-center"
 plot14_ylog.name            = "MTenu_allPreviousCuts"
 plot14_ylog.addZUncBand     = zUncBand
-plot14_ylog.makeRatio       = makeRatio
+plot14_ylog.makeRatio       = 0
 plot14_ylog.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
 plot14_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
@@ -1777,7 +1776,8 @@ plot25.histodata       = generateHisto( histoBaseName, sampleForDataHisto, varia
 
 
 ##--- sT (after full selection) ---
-variableName = "sT"
+#variableName = "sT"
+variableName = "sT_MLQ250"
 
 plot30 = Plot()
 ## inputs for stacked histograms
@@ -1795,9 +1795,10 @@ plot30.xmax            = 2000
 plot30.ymin            = 0.01
 plot30.ymax            = 100
 #plot30.lpos = "bottom-center"
-plot30.name            = "sT_fullSelection"
+#plot30.name            = "sT_fullSelection"
+plot30.name            = "sT_fullSelection_M200"
 plot30.addZUncBand     = zUncBand
-plot30.makeRatio       = makeRatio
+plot30.makeRatio       = 0
 plot30.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
@@ -4768,7 +4769,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5 ---
-  variableName = "h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5"                
+  variableName = "h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5"
 
   plot738 = Plot()
   ## inputs for stacked histograms
@@ -4865,7 +4866,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5 ---
-  variableName = "h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5"                
+  variableName = "h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5"
 
   plot742 = Plot()
   ## inputs for stacked histograms
@@ -5953,7 +5954,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5 ---
-  variableName = "h1_Mass1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5"                
+  variableName = "h1_Mass1stJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5"
 
   plot838 = Plot()
   ## inputs for stacked histograms
@@ -5978,7 +5979,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5 ---
-  variableName = "h1_Mass2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5"                
+  variableName = "h1_Mass2ndJet_highMePlusj_mDeltaPhiMET1stJet_gt_2.5"
 
   plot842 = Plot()
   ## inputs for stacked histograms
@@ -7067,7 +7068,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5 ---
-  variableName = "h1_Mass1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5"                
+  variableName = "h1_Mass1stJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5"
 
   plot938 = Plot()
   ## inputs for stacked histograms
@@ -7092,7 +7093,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5 ---
-  variableName = "h1_Mass2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5"                
+  variableName = "h1_Mass2ndJet_highMeMinusj_mDeltaPhiMET1stJet_gt_2.5"
 
   plot942 = Plot()
   ## inputs for stacked histograms
@@ -8179,7 +8180,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_le_2.5 ---
-  variableName = "h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_le_2.5"                
+  variableName = "h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_le_2.5"
 
   plot1038 = Plot()
   ## inputs for stacked histograms
@@ -8204,7 +8205,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5 ---
-  variableName = "h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5"                
+  variableName = "h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_le_2.5"
 
   plot1042 = Plot()
   ## inputs for stacked histograms
@@ -9291,7 +9292,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass1stJet_Eta1stJetBump ---
-  variableName = "h1_Mass1stJet_Eta1stJetBump"                
+  variableName = "h1_Mass1stJet_Eta1stJetBump"
 
   plot1138 = Plot()
   ## inputs for stacked histograms
@@ -9316,7 +9317,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass2ndJet_Eta1stJetBump ---
-  variableName = "h1_Mass2ndJet_Eta1stJetBump"                
+  variableName = "h1_Mass2ndJet_Eta1stJetBump"
 
   plot1142 = Plot()
   ## inputs for stacked histograms
@@ -10402,7 +10403,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass1stJet_OutsideEta1stJetBump ---
-  variableName = "h1_Mass1stJet_OutsideEta1stJetBump"                
+  variableName = "h1_Mass1stJet_OutsideEta1stJetBump"
 
   plot1238 = Plot()
   ## inputs for stacked histograms
@@ -10427,7 +10428,7 @@ if doExtraPlots:
 
 
   #--- h1_Mass2ndJet_OutsideEta1stJetBump ---
-  variableName = "h1_Mass2ndJet_OutsideEta1stJetBump"                
+  variableName = "h1_Mass2ndJet_OutsideEta1stJetBump"
 
   plot1242 = Plot()
   ## inputs for stacked histograms
@@ -10577,7 +10578,7 @@ if doExtraPlots:
                 ,plot500, plot501, plot502, plot503, plot504, plot505, plot506, plot507, plot508, plot509, plot510
                 ,plot600, plot601, plot602, plot603, plot604, plot605, plot606, plot607, plot608, plot609, plot610, plot611
 
-                ,plot700, plot701, plot702, plot703, plot704, plot705, plot706, plot707, plot708, plot709,     plot738, plot739, plot740, plot741,     plot710, plot711, plot712, plot713, plot714, plot715, plot716, plot717, plot718, plot719,    plot742,    plot720, plot721, plot722, plot723, plot724, plot725, plot726, plot727, plot728, plot729, plot730, plot731, plot732,     plot743, plot744, plot745,    plot733, plot734, plot735, plot736, plot737, plot746 
+                ,plot700, plot701, plot702, plot703, plot704, plot705, plot706, plot707, plot708, plot709,     plot738, plot739, plot740, plot741,     plot710, plot711, plot712, plot713, plot714, plot715, plot716, plot717, plot718, plot719,    plot742,    plot720, plot721, plot722, plot723, plot724, plot725, plot726, plot727, plot728, plot729, plot730, plot731, plot732,     plot743, plot744, plot745,    plot733, plot734, plot735, plot736, plot737, plot746
 
                 ,plot800, plot801, plot802, plot803, plot804, plot805, plot806, plot807, plot808, plot809,     plot838,                                plot810, plot811, plot812, plot813, plot814, plot815, plot816, plot817, plot818, plot819,    plot842,    plot820, plot821, plot822, plot823, plot824, plot825, plot826, plot827, plot828, plot829, plot830, plot831, plot832,     plot843, plot844, plot845,    plot833, plot834, plot835, plot836, plot837, plot846
 

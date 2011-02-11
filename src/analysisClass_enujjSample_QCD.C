@@ -1685,8 +1685,8 @@ void analysisClass::Loop()
     // Events passing all non-sT cuts
     if( passedAllPreviousCuts("sT_presel")
         && passedCut("nMuon_PtCut_IDISO")
-        && passedCut("minMETPt1stEle")
         && passedCut("MTenu")
+        && passedCut("minMETPt1stEle")
         )
       {
         FillUserTH1D("h1_sT_AllNonSTCuts", getVariableValue("sT_PAS"), p1);
@@ -2092,9 +2092,10 @@ void analysisClass::Loop()
       {
 	//FULL selection
 	if( passedAllPreviousCuts("sT_presel")
-	    && passedCut("nMuon_PtCut_IDISO")
+            && passedCut("sT_presel")
+            && passedCut("nMuon_PtCut_IDISO")
+            && passedCut("MTenu")
 	    && passedCut("minMETPt1stEle")
-	    && passedCut("MTenu")
 	    )
 	  {
 	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID"), p1 );
@@ -2191,8 +2192,8 @@ void analysisClass::Loop()
               //---------------------------------------------------------------
               // mDeltaPhiMET1stJet>2.5 && 20 <= PFJetNConstituents <= 30
               if( getVariableValue("mDeltaPhiMET1stJet")>2.5
-		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])>=20 
-		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])<=30  
+		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])>=20
+		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])<=30
 		  ) {
                 //---------------------------------------------------------------
                 //1D distributions
@@ -2206,7 +2207,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
                 FillUserTH1D("h1_NN1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
                 FillUserTH1D("h1_NC1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]), p1 );
-                FillUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet, p1); 
+                FillUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet, p1);
                 FillUserTH1D("h1_Pt2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt2ndJet_PAS"), p1 );
                 FillUserTH1D("h1_Eta2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta2ndJet_PAS"), p1 );
                 FillUserTH1D("h1_Phi2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Phi2ndJet_PAS"), p1 );
@@ -2217,7 +2218,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
                 FillUserTH1D("h1_NN2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
                 FillUserTH1D("h1_NC2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]), p1 );
-                FillUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet, p1); 
+                FillUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet, p1);
                 FillUserTH1D("h1_E1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", SuperClusterPt->at(v_idx_sc_Iso[0])*cosh(SuperClusterEta->at(v_idx_sc_Iso[0])), p1 );
                 FillUserTH1D("h1_Pt1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt1stEle_PAS"), p1 );
                 FillUserTH1D("h1_Eta1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS"), p1 );
@@ -2250,7 +2251,7 @@ void analysisClass::Loop()
 		TLorentzVector the1stPFjet;
 		the1stPFjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
 					 JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-					 JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);		   
+					 JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
 		double myMinDeltaR = 9999;
 		double myIdxJet_MinDeltaR = -1;
 		for (int myijet=0 ; myijet < CaloJetPt->size() ; myijet++)
@@ -2258,13 +2259,13 @@ void analysisClass::Loop()
 		    TLorentzVector theCaloJet;
 		    theCaloJet.SetPtEtaPhiM(CaloJetPt->at(myijet),
 					    CaloJetEta->at(myijet),
-					    CaloJetPhi->at(myijet),0);		   
-		    
+					    CaloJetPhi->at(myijet),0);
+
 		    double mydeltaR = the1stPFjet.DeltaR(theCaloJet);
 		    if(mydeltaR < myMinDeltaR)
 		      {
 			myMinDeltaR = mydeltaR;
-			myIdxJet_MinDeltaR = myijet; 
+			myIdxJet_MinDeltaR = myijet;
 		      }
 		  }
 		if(myIdxJet_MinDeltaR != -1)

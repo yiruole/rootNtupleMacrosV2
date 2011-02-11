@@ -58,7 +58,7 @@ fakeRate_Endcap       0.0023       0.00021              -               -       
 #fakeRate_Endcap      0.0029       0.00018              -               -               -1
 ## fakeRate_Endcap2   0.0084       0.00028              -               -               -1
 ###
-doGenLevelStudies     1		   -			-		-		-1
+doGenLevelStudies     0		   -			-		-		-1
 ## 1=PFJets , 2=CaloJets
 jetAlgorithm	      1		   -			-		-		-1
 ## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
@@ -72,9 +72,9 @@ MTenu_Thresh	      200          200			-               -               -1
 sT_Thresh	      800          -			-               -               -1
 Mej_Thresh            350          -                    -               -               -1
 plotEleIDIsoVar	      0		   -			-		-		-1
-doPlot_Wmore0jet      1		   -			-		-		-1
-doPlot_Wmore1jet      1		   -			-		-		-1
-doExtraChecks         1            -			-		-		-1
+doPlot_Wmore0jet      0		   -			-		-		-1
+doPlot_Wmore1jet      0		   -			-		-		-1
+doExtraChecks         0            -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -103,7 +103,8 @@ PassPrimaryVertex               0            1                  -               
 #
 PassHLT                         -inf         +inf               -               -               1       2 -0.5 1.5
 #
-#nVertex_good 			-inf	     +inf		-		-		1	11 -0.5 10.5
+nVertex 			-inf	     +inf		-		-		1	11 -0.5 10.5
+nVertex_good 			-inf	     +inf		-		-		1	11 -0.5 10.5
 #
 nEle_all                        -inf         +inf               -               -               1       16 -0.5 15.5
 nEle_PtCut                      -inf         +inf               -               -               1       16 -0.5 15.5
@@ -112,6 +113,8 @@ Pt1stEle_IDISO_NoOvrlp          35           +inf               -               
 Eta1stEle_IDISO_NoOvrlp         -inf         +inf               -               -               1       100 -5 5
 mEta1stEle_IDISO_NoOvrlp        -inf         2.2                -               -               1       50 0 5
 MET                             45           +inf               -               -               1       200 0 1000
+SumET				-inf	     +inf		-		-		1	300 0 3000
+GenSumET			-inf	     +inf		-		-		1	300 0 3000
 #
 nJet_all                        -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut                      -inf         +inf               -               -               2       16 -0.5 15.5
@@ -142,6 +145,7 @@ mDeltaPhiMETEle                 0.8          +inf               -               
 mDeltaPhiMET1stJet              0.5          +inf               -               -               2       100 0 3.1416
 mDeltaPhiMET2ndJet              -inf	     +inf               -               -               2       100 0 3.1416
 sT_presel                       250          +inf               -               -               2       200 0 2000
+nMuon_PtCut_IDISO               -1           0                  -               -               2       16 -0.5 15.5
 #
 Pt1stEle_PAS			-inf         +inf               -               -               3       100 0 1000
 Eta1stEle_PAS			-inf         +inf               -               -               3       100 -5 5
@@ -174,9 +178,8 @@ Mej_2ndPair_PAS                 -inf	     +inf               -               -  
 MTnuj_1stPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 MTnuj_2ndPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 #
-nMuon_PtCut_IDISO               -1           0                  -               -               4       16 -0.5 15.5
-minMETPt1stEle                  85           +inf               -               -               4       200 0 1000
-MTenu                           125          +inf               -               -               5       200 0 1000
+MTenu                           125          +inf               -               -               4       200 0 1000
+minMETPt1stEle                  85           +inf               -               -               5       200 0 1000
 sT                              -inf         +inf               -               -               6       200 0 2000
 sT_MLQ200                       350	     +inf               -               -               6       200 0 2000
 sT_MLQ250                       410	     +inf               -               -               7       200 0 2000

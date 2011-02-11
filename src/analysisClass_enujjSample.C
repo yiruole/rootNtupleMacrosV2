@@ -162,6 +162,18 @@ void analysisClass::Loop()
       CreateUserTH1D("h_WsPt_DphiMETeSmall__sT", 100,0,1000);
       CreateUserTH1D("h_WsPt_d2Small__sT", 100,0,1000);
       CreateUserTH1D("h_WsPt_d2DphiMETeLarge__sT", 100,0,1000);
+      CreateUserTH1D("h1_LQGenEle_Pt", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
+      CreateUserTH1D("h1_LQGenEle_Eta", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
+      CreateUserTH1D("h1_LQGenEle_Phi", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS") );
+      CreateUserTH1D("h1_GenEle_Pt", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
+      CreateUserTH1D("h1_GenEle_Eta", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
+      CreateUserTH1D("h1_GenEle_Phi", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS") );
+      CreateUserTH1D("h1_PtReco_over_PtGen_Ele", 200, 0, 2 );
+      CreateUserTH2D("h2_PtReco_over_PtGen_vs_GenEle_Pt"
+		     , getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS")
+		     , 200, 0, 2
+		     );
+      CreateUserTH1D("h1_deltaR_RecoEle_GenEle", 100, 0, 5  );
     }
 
   CreateUserTH2D("h2_MTnuj_vs_MET", 200,0,1000,200,0,1000);
@@ -214,8 +226,24 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_Charge1stEle_PAS__sT", getHistoNBins("Charge1stEle_PAS"), getHistoMin("Charge1stEle_PAS"), getHistoMax("Charge1stEle_PAS"));
   CreateUserTH1D("h1_Eta1stEle_PAS__sT", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS"));
 
+  CreateUserTH1D("h1_ElectronPt_all", getHistoNBins("Pt1stEle_PAS"), getHistoMin("Pt1stEle_PAS"), getHistoMax("Pt1stEle_PAS") );
+  CreateUserTH1D("h1_ElectronEta_all", getHistoNBins("Eta1stEle_PAS"), getHistoMin("Eta1stEle_PAS"), getHistoMax("Eta1stEle_PAS") );
+  CreateUserTH1D("h1_ElectronPhi_all", getHistoNBins("Phi1stEle_PAS"), getHistoMin("Phi1stEle_PAS"), getHistoMax("Phi1stEle_PAS") );
+
   if( plotEleIDIsoVar )
     {
+      CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_all", 200,-0.05,0.05 );
+      CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_all", 200,-0.5,0.5 );
+      CreateUserTH1D("h1_ElectronHoE_all", 75,0,0.15 );
+      CreateUserTH1D("h1_ElectronSigmaIEtaIEta_all", 100,0,0.1 );
+      CreateUserTH1D("h1_ElectronEcalHcalIsoHeep_all", 500,0,100 );
+      CreateUserTH1D("h1_ElectronEcalIsoHeep_all", 500,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoD1Heep_all", 500,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoD2Heep_all", 200,0,100 );
+      CreateUserTH1D("h1_ElectronTrkIsoHeep_all", 200,0,100 );
+      CreateUserTH1D("h1_ElectronE2x5OverE5x5_all", 100,0,1 );
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_all", 100,0,1 );
+
       CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_highMT", 200,-0.05,0.05 );
       CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_highMT", 200,-0.5,0.5 );
       CreateUserTH1D("h1_ElectronHoE_highMT", 75,0,0.15 );
@@ -754,20 +782,31 @@ void analysisClass::Loop()
     //## Define new met collection
     double thisMET;
     double thisMETPhi;
+    double thisSumET;
+    double thisGenSumET;
+
+    if(isData==0)
+      thisGenSumET = GenSumETTrue->at(0);
+    else
+      thisGenSumET = -1;
+
     if(metAlgorithm==1) 	// --> PFMET
       {
 	thisMET = PFMET->at(0);
 	thisMETPhi = PFMETPhi->at(0);
+	thisSumET = PFSumET->at(0);
       }
     if(metAlgorithm==2) 	// --> CaloMET
       {
 	thisMET = CaloMET->at(0);
 	thisMETPhi = CaloMETPhi->at(0);
+	thisSumET = CaloSumET->at(0);
       }
     if(metAlgorithm==3) 	// --> PFMET (with type-1 corrections)
       {
 	thisMET = PFMETType1Cor->at(0);
 	thisMETPhi = PFMETPhiType1Cor->at(0);
+	thisSumET = PFSumETType1Cor->at(0);
       }
     // --> TCMET
     //     thisMET = TCMET->at(0);
@@ -878,6 +917,24 @@ void analysisClass::Loop()
 	    //STDOUT("ElectronHeepID = " << hex << ElectronHeepID->at(iele) << " ; ElectronPassID = " << ElectronPassID->at(iele) )
 	    v_idx_ele_PtCut_IDISO_noOverlap.push_back(iele);
 	  }
+
+        if( plotEleIDIsoVar ) {
+
+          FillUserTH1D("h1_ElectronPt_all", ElectronPt->at(iele) );
+          FillUserTH1D("h1_ElectronEta_all", ElectronEta->at(iele) );
+          FillUserTH1D("h1_ElectronPhi_all", ElectronPhi->at(iele) );
+          FillUserTH1D("h1_ElectronDeltaEtaTrkSC_all", ElectronDeltaEtaTrkSC->at(iele) );
+          FillUserTH1D("h1_ElectronDeltaPhiTrkSC_all", ElectronDeltaPhiTrkSC->at(iele) );
+          FillUserTH1D("h1_ElectronHoE_all", ElectronHoE->at(iele) );
+          FillUserTH1D("h1_ElectronSigmaIEtaIEta_all", ElectronSigmaIEtaIEta->at(iele) );
+          FillUserTH1D("h1_ElectronEcalHcalIsoHeep_all",  ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele) );
+          FillUserTH1D("h1_ElectronEcalIsoHeep_all",  ElectronEcalIsoHeep->at(iele) );
+          FillUserTH1D("h1_ElectronHcalIsoD1Heep_all",  ElectronHcalIsoD1Heep->at(iele) );
+          FillUserTH1D("h1_ElectronHcalIsoD2Heep_all",  ElectronHcalIsoD2Heep->at(iele) );
+          FillUserTH1D("h1_ElectronTrkIsoHeep_all",  ElectronTrkIsoHeep->at(iele) );
+          FillUserTH1D("h1_ElectronE2x5OverE5x5_all",  ElectronE2x5OverE5x5->at(iele) );
+          FillUserTH1D("h1_ElectronE1x5OverE5x5_all",  ElectronE1x5OverE5x5->at(iele) );
+        }
 
       } // End loop over electrons
 
@@ -1054,19 +1111,19 @@ void analysisClass::Loop()
     }// end loop over muons
 
 
-    //     // vertexes
-    //     vector<int> v_idx_vertex_good;
-    //     // loop over vertexes
-    //     for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
-    //       if ( !(VertexIsFake->at(ivertex))
-    // 	   && VertexNDF->at(ivertex) > vertexMinimumNDOF
-    // 	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
-    // 	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
-    // 	{
-    // 	  v_idx_vertex_good.push_back(ivertex);
-    // 	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
-    // 	}
-    //     }
+    // vertices
+    vector<int> v_idx_vertex_good;
+    // loop over vertices
+    for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+      if ( !(VertexIsFake->at(ivertex))
+    	   && VertexNDF->at(ivertex) > vertexMinimumNDOF
+    	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+    	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+    	{
+    	  v_idx_vertex_good.push_back(ivertex);
+    	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+    	}
+    }
 
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
@@ -1090,7 +1147,8 @@ void analysisClass::Loop()
       }
 
     fillVariableWithValue( "PassHLT", PassTrig ) ;
-    //    fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
+    fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
+    fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
@@ -1126,6 +1184,9 @@ void analysisClass::Loop()
     fillVariableWithValue("MET_PAS", thisMET);
     fillVariableWithValue("METPhi_PAS", thisMETPhi);
 
+    //SUMET
+    fillVariableWithValue("SumET", thisSumET);
+    fillVariableWithValue("GenSumET", thisGenSumET);
 
     // Loop over GenParticles to calculate the GenMET
     //     TLorentzVector nu_p4 = 0.;
@@ -1466,11 +1527,12 @@ void analysisClass::Loop()
 		TLorentzVector tmp;
 
 		//printout
-		// 	    cout << "idx: " << genp
-		// 		 << " GenParticlePdgId: " << GenParticlePdgId->at(genp)
-		// 		 << " GenParticleMotherIndex: " << GenParticleMotherIndex->at(genp)
-		// 		 << " GenParticleStatus: " << GenParticleStatus->at(genp)
-		// 		 << endl;
+// 			    cout << "idx: " << genp
+// 				 << " GenParticlePdgId: " << GenParticlePdgId->at(genp)
+// 				 << " GenParticleMotherIndex: " << GenParticleMotherIndex->at(genp)
+// 				 << " GenParticleStatus: " << GenParticleStatus->at(genp)
+//                                  << " GenParticlePt: " << GenParticlePt->at(genp)
+// 				 << endl;
 
 		//Neutrinos and Ws
 		if( GenParticleStatus->at(genp)==1 &&
@@ -1497,6 +1559,33 @@ void analysisClass::Loop()
 		  {
 		    tmp.SetPtEtaPhiE( GenParticlePt->at(genp), GenParticleEta->at(genp), GenParticlePhi->at(genp), GenParticleEnergy->at(genp) );
 		    Electrons.push_back(tmp);
+
+                    FillUserTH1D("h1_GenEle_Pt", GenParticlePt->at(genp) );
+                    FillUserTH1D("h1_GenEle_Eta", GenParticleEta->at(genp) );
+                    FillUserTH1D("h1_GenEle_Phi", GenParticlePhi->at(genp) );
+
+		    //Loop over electrons
+		    double minDeltaR = 999;
+		    int index_minDeltaR = -1;
+		    for(int iele=0; iele<ElectronPt->size(); iele++)
+		      {
+			TLorentzVector electron;
+			electron.SetPtEtaPhiM(ElectronPt->at(iele),
+					      ElectronEta->at(iele),
+					      ElectronPhi->at(iele),0);
+			double deltaR = electron.DeltaR(tmp);
+			if(deltaR < minDeltaR )
+			  {
+			    minDeltaR = deltaR;
+			    index_minDeltaR = iele;
+			  }
+		      }
+		    if(index_minDeltaR!=-1)
+		      {
+			FillUserTH1D("h1_deltaR_RecoEle_GenEle", minDeltaR  );
+			FillUserTH1D("h1_PtReco_over_PtGen_Ele",  ElectronPt->at(index_minDeltaR) / tmp.Pt() );
+			FillUserTH2D("h2_PtReco_over_PtGen_vs_GenEle_Pt", tmp.Pt() , ElectronPt->at(index_minDeltaR) / tmp.Pt()  );
+		      }
 		  }
 
 		//Muons
@@ -1516,6 +1605,17 @@ void analysisClass::Loop()
 		    tmp.SetPtEtaPhiE( GenParticlePt->at(genp), GenParticleEta->at(genp), GenParticlePhi->at(genp), GenParticleEnergy->at(genp) );
 		    Taus.push_back(tmp);
 		  }
+
+                //Electrons from LQ
+                if( GenParticleStatus->at(genp)==3 &&
+                    ( fabs(GenParticlePdgId->at(genp))==11 ) &&
+                    ( fabs(GenParticlePdgId->at( GenParticleMotherIndex->at(genp) ))==42 )
+                    )
+                  {
+                    FillUserTH1D("h1_LQGenEle_Pt", GenParticlePt->at(genp) );
+                    FillUserTH1D("h1_LQGenEle_Eta", GenParticleEta->at(genp) );
+                    FillUserTH1D("h1_LQGenEle_Phi", GenParticlePhi->at(genp) );
+                  }
 
 	      }//end loop over gen particles
 
@@ -1905,8 +2005,8 @@ void analysisClass::Loop()
     // Events passing all non-sT cuts
     if( passedAllPreviousCuts("sT_presel")
         && passedCut("nMuon_PtCut_IDISO")
-        && passedCut("minMETPt1stEle")
         && passedCut("MTenu")
+        && passedCut("minMETPt1stEle")
         )
       {
         FillUserTH1D("h1_sT_AllNonSTCuts", getVariableValue("sT_PAS"));
@@ -2498,9 +2598,10 @@ void analysisClass::Loop()
 
 	//FULL selection
 	if( passedAllPreviousCuts("sT_presel")
-	    && passedCut("nMuon_PtCut_IDISO")
+            && passedCut("sT_presel")
+            && passedCut("nMuon_PtCut_IDISO")
+            && passedCut("MTenu")
 	    && passedCut("minMETPt1stEle")
-	    && passedCut("MTenu")
 	    )
 	  {
 	    FillUserTH1D("h1_Njet_fullSel", getVariableValue("nJet_PtCut_noOvrlp_ID") );
@@ -2646,9 +2747,9 @@ void analysisClass::Loop()
               FillUserTH1D("h1_Conversion1stEle_highMej", (getVariableValue("MissingHits1stEle_PAS")>=1 && getVariableValue("DCotTheta1stEle_PAS")<0.02 && getVariableValue("DCotTheta1stEle_PAS")<0.02) ? 1 : 0 );
               //---------------------------------------------------------------
               // mDeltaPhiMET1stJet>2.5 && 20 <= PFJetNConstituents <= 30
-              if( getVariableValue("mDeltaPhiMET1stJet")>2.5 
-		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])>=20 
-		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])<=30  
+              if( getVariableValue("mDeltaPhiMET1stJet")>2.5
+		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])>=20
+		  // 		  && PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0])<=30
 		  ) {
                 //---------------------------------------------------------------
                 //1D distributions
@@ -2662,7 +2763,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                 FillUserTH1D("h1_NN1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
                 FillUserTH1D("h1_NC1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-                FillUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet); 
+                FillUserTH1D("h1_Mass1stJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass1stJet);
                 FillUserTH1D("h1_Pt2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt2ndJet_PAS") );
                 FillUserTH1D("h1_Eta2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta2ndJet_PAS") );
                 FillUserTH1D("h1_Phi2ndJet_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Phi2ndJet_PAS") );
@@ -2673,7 +2774,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NCH2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                 FillUserTH1D("h1_NN2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) - PFJetChargedMultiplicity->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
                 FillUserTH1D("h1_NC2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", PFJetNConstituents->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-                FillUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet); 
+                FillUserTH1D("h1_Mass2ndJet_highMej_mDeltaPhiMET1stJet_gt_2.5", Mass2ndJet);
                 FillUserTH1D("h1_E1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", ElectronEnergy->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
                 FillUserTH1D("h1_Pt1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Pt1stEle_PAS") );
                 FillUserTH1D("h1_Eta1stEle_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("Eta1stEle_PAS") );
@@ -2694,7 +2795,7 @@ void analysisClass::Loop()
                 FillUserTH1D("h1_NjetTCHELBTag_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("nJet_TCHELBTag") );
                 FillUserTH1D("h1_minDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("minDRej") );
                 FillUserTH1D("h1_maxDRej_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("maxDRej") );
-                FillUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );	       
+                FillUserTH1D("h1_DRjets_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("DeltaRjets_PAS") );
 		FillUserTH1D("h1_MTenu_PAS_highMej_mDeltaPhiMET1stJet_gt_2.5", getVariableValue("MTenu_PAS") );
                 //---------------------------------------------------------------
                 //2D distributions
@@ -2707,7 +2808,7 @@ void analysisClass::Loop()
 		TLorentzVector the1stPFjet;
 		the1stPFjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
 					 JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-					 JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);		   
+					 JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
 		double myMinDeltaR = 9999;
 		double myIdxJet_MinDeltaR = -1;
 		for (int myijet=0 ; myijet < CaloJetPt->size() ; myijet++)
@@ -2715,13 +2816,13 @@ void analysisClass::Loop()
 		    TLorentzVector theCaloJet;
 		    theCaloJet.SetPtEtaPhiM(CaloJetPt->at(myijet),
 					    CaloJetEta->at(myijet),
-					    CaloJetPhi->at(myijet),0);		   
-		    
+					    CaloJetPhi->at(myijet),0);
+
 		    double mydeltaR = the1stPFjet.DeltaR(theCaloJet);
 		    if(mydeltaR < myMinDeltaR)
 		      {
 			myMinDeltaR = mydeltaR;
-			myIdxJet_MinDeltaR = myijet; 
+			myIdxJet_MinDeltaR = myijet;
 		      }
 		  }
 		if(myIdxJet_MinDeltaR != -1)

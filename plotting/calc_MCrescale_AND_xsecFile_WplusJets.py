@@ -86,14 +86,16 @@ def GetErrorIntegralTH1( histo, xmin, xmax):
 class Plot:
     histoDATA   = "" # DATA
     histoMCW    = "" # MC W
-    histoMCZ    = "" # MC Z
     histoMCTTbar = "" #MC TTbar
+    histoMCZ    = "" # MC Z
     histoMCSingleTop = "" # MC SingleTop
     histoMCWW   = "" # MC WW
     histoMCWZ   = "" # MC WZ
     histoMCZZ   = "" # MC ZZ
+    histoMCPhotonJets   = "" # MC PhotonJets
+    histoMCBJets   = "" # MC BJets
     histoQCD    = "" # QCD (data-driven)
-    MCZSyst     = 0  # Systematic uncertainty on MC Z (0.1 = 10%)
+    MCSyst     = 0  # Systematic uncertainty on MC samples other than TTbar (0.1 = 10%)
     MCTTbarSyst = 0  # Systematic uncertainty on MC TTbar (0.1 = 10%)
     QCDSyst     = 0  # Systematic uncertainty on data-driven QCD (0.1 = 10%)
     xtit        = "" # xtitle
@@ -132,26 +134,30 @@ class Plot:
         ERRintegralDATA = GetErrorIntegralTH1(self.histoDATA,self.xmin,self.xmax)
         integralMCW = GetIntegralTH1(self.histoMCW,self.xmin,self.xmax)
         ERRintegralMCW = GetErrorIntegralTH1(self.histoMCW,self.xmin,self.xmax)
-        integralMCZ = GetIntegralTH1(self.histoMCZ,self.xmin,self.xmax)
-        ERRintegralMCZ = sqrt(GetErrorIntegralTH1(self.histoMCZ,self.xmin,self.xmax)**2 + (self.MCZSyst*integralMCZ)**2)
         integralMCTTbar = GetIntegralTH1(self.histoMCTTbar,self.xmin,self.xmax)
-        ERRintegralMCTTbar = sqrt(GetErrorIntegralTH1(self.histoMCTTbar,self.xmin,self.xmax)**2 + (self.MCTTbarSyst*integralMCTTbar)**2)
+        ERRintegralMCTTbar = sqrt( GetErrorIntegralTH1(self.histoMCTTbar,self.xmin,self.xmax)**2 + (self.MCTTbarSyst*integralMCTTbar)**2 )
+        integralMCZ = GetIntegralTH1(self.histoMCZ,self.xmin,self.xmax)
+        ERRintegralMCZ = sqrt( GetErrorIntegralTH1(self.histoMCZ,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCZ)**2 )
         integralMCSingleTop = GetIntegralTH1(self.histoMCSingleTop,self.xmin,self.xmax)
-        ERRintegralMCSingleTop = GetErrorIntegralTH1(self.histoMCSingleTop,self.xmin,self.xmax)
+        ERRintegralMCSingleTop = sqrt( GetErrorIntegralTH1(self.histoMCSingleTop,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCSingleTop)**2 )
         integralMCWW = GetIntegralTH1(self.histoMCWW,self.xmin,self.xmax)
-        ERRintegralMCWW = GetErrorIntegralTH1(self.histoMCWW,self.xmin,self.xmax)
+        ERRintegralMCWW = sqrt( GetErrorIntegralTH1(self.histoMCWW,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCWW)**2 )
         integralMCWZ = GetIntegralTH1(self.histoMCWZ,self.xmin,self.xmax)
-        ERRintegralMCWZ = GetErrorIntegralTH1(self.histoMCWZ,self.xmin,self.xmax)
+        ERRintegralMCWZ = sqrt( GetErrorIntegralTH1(self.histoMCWZ,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCWZ)**2 )
         integralMCZZ = GetIntegralTH1(self.histoMCZZ,self.xmin,self.xmax)
-        ERRintegralMCZZ = GetErrorIntegralTH1(self.histoMCZZ,self.xmin,self.xmax)
+        ERRintegralMCZZ = sqrt( GetErrorIntegralTH1(self.histoMCZZ,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCZZ)**2 )
+        integralMCPhotonJets = GetIntegralTH1(self.histoMCPhotonJets,self.xmin,self.xmax)
+        ERRintegralMCPhotonJets = sqrt( GetErrorIntegralTH1(self.histoMCPhotonJets,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCPhotonJets)**2 )
+        integralMCBJets = GetIntegralTH1(self.histoMCBJets,self.xmin,self.xmax)
+        ERRintegralMCBJets = sqrt( GetErrorIntegralTH1(self.histoMCBJets,self.xmin,self.xmax)**2 + (self.MCSyst*integralMCBJets)**2 )
         integralQCD = GetIntegralTH1(self.histoQCD,self.xmin,self.xmax)
-        ERRintegralQCD = sqrt(GetErrorIntegralTH1(self.histoQCD,self.xmin,self.xmax)**2 + (self.QCDSyst*integralQCD)**2)
+        ERRintegralQCD = sqrt( GetErrorIntegralTH1(self.histoQCD,self.xmin,self.xmax)**2 + (self.QCDSyst*integralQCD)**2 )
 
-        #contamination from other backgrounds (except W) in the integral range
-        integralOthers = integralMCZ + integralMCTTbar + integralMCSingleTop + integralMCWW + integralMCWZ + integralMCZZ + integralQCD
-        ERRintegralOthers = sqrt(ERRintegralMCZ**2 + ERRintegralMCTTbar**2 + ERRintegralMCSingleTop**2 + ERRintegralMCWW**2 + ERRintegralMCWZ**2 + ERRintegralMCZZ**2 + ERRintegralQCD**2)
-        integralMCall = integralMCW + integralMCZ + integralMCTTbar + integralMCSingleTop + integralMCWW + integralMCWZ + integralMCZZ
-        ERRintegralMCall = sqrt(ERRintegralMCW**2 + ERRintegralMCZ**2 + ERRintegralMCTTbar**2 + ERRintegralMCSingleTop**2 + ERRintegralMCWW**2 + ERRintegralMCWZ**2 + ERRintegralMCZZ**2)
+        #contamination from other backgrounds (other than W+jets) in the integral range
+        integralOthers =  integralMCTTbar + integralMCZ + integralMCSingleTop + integralMCWW + integralMCWZ + integralMCZZ + integralMCPhotonJets + integralMCBJets + integralQCD
+        ERRintegralOthers = sqrt( ERRintegralMCTTbar**2 + ERRintegralMCZ**2 + ERRintegralMCSingleTop**2 + ERRintegralMCWW**2 + ERRintegralMCWZ**2 + ERRintegralMCZZ**2 + ERRintegralMCPhotonJets**2 + ERRintegralMCBJets**2 + ERRintegralQCD**2 )
+        integralMCall = integralMCW+ integralMCTTbar + integralMCZ  + integralMCSingleTop + integralMCWW + integralMCWZ + integralMCZZ + integralMCPhotonJets + integralMCBJets
+        ERRintegralMCall = sqrt( ERRintegralMCW**2 + ERRintegralMCTTbar**2 + ERRintegralMCZ**2 + ERRintegralMCSingleTop**2 + ERRintegralMCWW**2 + ERRintegralMCWZ**2 + ERRintegralMCZZ**2 + ERRintegralMCPhotonJets**2 + ERRintegralMCBJets**2 )
         contamination = integralOthers / (integralMCW + integralOthers)
 
         #DATA corrected for other bkg contamination --> best estimate of DATA (due to W only)
@@ -166,12 +172,14 @@ class Plot:
 
         #draw histo
         histoAll = copy.deepcopy(self.histoMCW)
-        histoAll.Add(self.histoMCZ)
         histoAll.Add(self.histoMCTTbar)
+        histoAll.Add(self.histoMCZ)
         histoAll.Add(self.histoMCSingleTop)
         histoAll.Add(self.histoMCWW)
         histoAll.Add(self.histoMCWZ)
         histoAll.Add(self.histoMCZZ)
+        histoAll.Add(self.histoMCPhotonJets)
+        histoAll.Add(self.histoMCBJets)
         histoAll.Add(self.histoQCD)
         histoAll.SetFillColor(kBlue)
         self.histoDATA.SetMarkerStyle(20)
@@ -196,7 +204,7 @@ class Plot:
         print "integral MC All: "   + str( integralMCall ) + " +/- " + str( ERRintegralMCall )
         print "integral QCD: "   + str( integralQCD ) + " +/- " + str( ERRintegralQCD )
         print "integral MC W: "   + str( integralMCW ) + " +/- " + str( ERRintegralMCW )
-        print "contribution from other bkgs (except W+jets): " + str(contamination*100) + "%"
+        print "contribution from other bkgs (other than W+jets): " + str(contamination*100) + "%"
         print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr ) + " +/- " + str( ERRintegralDATAcorr )
         print "rescale factor for W background: " + str(rescale) + " +\- " + str(relERRrescale*rescale)
         print "systematical uncertainty of W+jets background modeling: " + str(relERRrescale*100) + "%"
@@ -229,25 +237,27 @@ class Plot:
 
 
 ##############################################################################
-############# USER CODE - BEGING #############################################
+############# USER CODE - BEGIN ##############################################
 
 #--- Input files
 #preselection
-File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_fullntuples_MET45/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
-File_preselection_QCD = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
+File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
 
 #--- Rescaling of W+jets background
 
 #-----------------------------------------
 h_DATA_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) #DATA
 h_WJetAlpgen_MTenu = GetHisto("histo1D__WJetAlpgen__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC W
-h_ZJetAlpgen_MTenu = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC Z
 h_TTbar_Madgraph_MTenu = GetHisto("histo1D__TTbar_Madgraph__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC TTbar
+h_ZJetAlpgen_MTenu = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC Z
 h_SingleTop_MTenu = GetHisto("histo1D__SingleTop__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC SingleTop
 h_WW_MTenu = GetHisto("histo1D__WW__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC WW
 h_WZ_MTenu = GetHisto("histo1D__WZ__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC WZ
 h_ZZ_MTenu = GetHisto("histo1D__ZZ__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC ZZ
-h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD, float(36.05/35.84)) #QCD (data-driven) scaled to the correct integrated luminosity
+h_PhotonJets_MTenu = GetHisto("histo1D__PhotonJets__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC PhotonJets
+h_BJets_MTenu = GetHisto("histo1D__BJets__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection) # MC BJets
+h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS", File_preselection_QCD, 1. ) #QCD (data-driven) scaled to the correct integrated luminosity (36.05/35.84~=1)
 
 ##-- W- only
 #h_DATA_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_minus", File_preselection) #DATA
@@ -258,7 +268,9 @@ h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS
 #h_WW_MTenu = GetHisto("histo1D__WW__h1_MTenu_PAS_minus", File_preselection) # MC WW
 #h_WZ_MTenu = GetHisto("histo1D__WZ__h1_MTenu_PAS_minus", File_preselection) # MC WZ
 #h_ZZ_MTenu = GetHisto("histo1D__ZZ__h1_MTenu_PAS_minus", File_preselection) # MC ZZ
-#h_QCD_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_minus", File_preselection_QCD, float(33.2/6.1)) #QCD (data-driven) scaled to the correct integrated luminosity
+#h_PhotonJets_MTenu = GetHisto("histo1D__PhotonJets__h1_MTenu_PAS_minus", File_preselection) # MC PhotonJets
+#h_BJets_MTenu = GetHisto("histo1D__BJets__h1_MTenu_PAS_minus", File_preselection) # MC BJets
+#h_QCD_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_minus", File_preselection_QCD, 1. ) #QCD (data-driven) scaled to the correct integrated luminosity (36.05/35.84~=1)
 
 ##-- W+ only
 #h_DATA_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_plus", File_preselection) #DATA
@@ -269,26 +281,30 @@ h_QCD_MTenu = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________MTenu_PAS
 #h_WW_MTenu = GetHisto("histo1D__WW__h1_MTenu_PAS_plus", File_preselection) # MC WW
 #h_WZ_MTenu = GetHisto("histo1D__WZ__h1_MTenu_PAS_plus", File_preselection) # MC WZ
 #h_ZZ_MTenu = GetHisto("histo1D__ZZ__h1_MTenu_PAS_plus", File_preselection) # MC ZZ
-#h_QCD_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_plus", File_preselection_QCD, float(33.2/6.1)) #QCD (data-driven) scaled to the correct integrated luminosity
+#h_PhotonJets_MTenu = GetHisto("histo1D__PhotonJets__h1_MTenu_PAS_plus", File_preselection) # MC PhotonJets
+#h_BJets_MTenu = GetHisto("histo1D__BJets__h1_MTenu_PAS_plus", File_preselection) # MC BJets
+#h_QCD_MTenu = GetHisto("histo1D__DATA__h1_MTenu_PAS_plus", File_preselection_QCD, 1. ) #QCD (data-driven) scaled to the correct integrated luminosity (36.05/35.84~=1)
 
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_MTenu
 plot0.histoMCW = h_WJetAlpgen_MTenu
-plot0.histoMCZ = h_ZJetAlpgen_MTenu
 plot0.histoMCTTbar = h_TTbar_Madgraph_MTenu
+plot0.histoMCZ = h_ZJetAlpgen_MTenu
 plot0.histoMCSingleTop = h_SingleTop_MTenu
 plot0.histoMCWW = h_WW_MTenu
 plot0.histoMCWZ = h_WZ_MTenu
 plot0.histoMCZZ = h_ZZ_MTenu
+plot0.histoMCPhotonJets = h_PhotonJets_MTenu
+plot0.histoMCBJets = h_BJets_MTenu
 plot0.histoQCD = h_QCD_MTenu
-plot0.MCZSyst = 0.12
-plot0.MCTTbarSyst = 0.41
-plot0.QCDSyst = 0.20
+plot0.MCSyst = 0.11
+plot0.MCTTbarSyst = 0.17
+plot0.QCDSyst = 0.25
 plot0.xmin = 50
 plot0.xmax = 110
 plot0.name = "Wrescale"
-plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/santanas/scratch0/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV_Zrescale.txt"
+plot0.fileXsectionNoRescale = "/home/ferencek/work/Leptoquarks/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
@@ -309,7 +325,7 @@ plots = [plot0]
 #--- Generate and print the plots from the list 'plots' define above
 
 #--- Output files
-fileps = "allPlots_calc_MCrescale_AND_xsecFile_WplusJets.ps"
+fileps = "WplusJets_MCrescale.ps"
 
 #--- Generate and print the plots from the list 'plots' define above
 c = TCanvas()

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 import pprint # for pretty printing
 import math
@@ -5,8 +6,8 @@ import math
 
 ## 2011 pre-approval ##
 # data files (V00-01-04 to V00-01-06 MC ntuples, enujj skim, jetid flags + QCD fake rate for Njet>=2 and full dataset)
-f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_enujjskim_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
-f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_enujjskim_MET45_FRnjet2orMore/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
+f1 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_tables.dat")
+f2 = open("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_tables.dat")
 # data files (V00-01-04 to V00-01-06 MC ntuples, enujj skim, jetid flags)
 #f1 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_enujjskim_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat")
 #f2 = open("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_enujjskim_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_tables.dat")
@@ -106,17 +107,17 @@ blocks = { 'all' : {"ALLBKG":         {"rescale": 0.001, "label":  "All Bkgs"},
 
 ################################################
 ### HOW TO SORT A DICT ACCORDINGLY WITH THE ORIGINAL ORDERING ??
-#cutNames = { "Pt1stEle_PAS": r"$e\nu jj$ pre-sel.", 
-#             "nMuon_PtCut_IDISO": r"\nmuon$=0$", 
+#cutNames = { "Pt1stEle_PAS": r"$e\nu jj$ pre-sel.",
+#             "nMuon_PtCut_IDISO": r"\nmuon$=0$",
 #             "minMETPt1stEle": r"\minptmet$>85$ \GeVmom",
 #             "MTenu": r"\mt$>125$ \GeVmass",
 #             "sT_MLQ280": r"\st$>460$ \GeVmom",
 #           }
-#cutNames = { "Pt1stEle_PAS":        {"label": r"$e\nu jj$ pre-sel.", "level": 1}, 
-#             "nMuon_PtCut_IDISO":   {"label": r"\nmuon$=0$"        , "level": 2},   
-#             "minMETPt1stEle":      {"label": r"\minptmet$>85$ \GeVmom", "level": 3}, 
-#             "MTenu":               {"label": r"\mt$>125$ \GeVmass", "level": 4}, 
-#             "sT_MLQ280":           {"label": r"\st$>460$ \GeVmom", "level": 5}, 
+#cutNames = { "Pt1stEle_PAS":        {"label": r"$e\nu jj$ pre-sel.", "level": 1},
+#             "nMuon_PtCut_IDISO":   {"label": r"\nmuon$=0$"        , "level": 2},
+#             "minMETPt1stEle":      {"label": r"\minptmet$>85$ \GeVmom", "level": 3},
+#             "MTenu":               {"label": r"\mt$>125$ \GeVmass", "level": 4},
+#             "sT_MLQ280":           {"label": r"\st$>460$ \GeVmom", "level": 5},
 #           }
 ################################################
 
@@ -144,27 +145,27 @@ for sample in blocks:
             cutName = col[0].strip()
             #print cutName
             if cutName in cutNames:
-                
+
                 cut = float(col[1].strip())
                 Npass = float(col[5].strip())
                 errNpass = float(col[6].strip())
                 EffAbs = float(col[9].strip())
                 errEffAbs = float(col[10].strip())
-            
+
                 if not cutName in d:
                     d[cutName] = {}
-                if not sample in d[cutName]:    
+                if not sample in d[cutName]:
                     d[cutName][sample] = {}
                 if not block in d[cutName][sample]:
                     d[cutName][sample][block] = {}
-                d[cutName][sample][block]['cut'] = cut 
+                d[cutName][sample][block]['cut'] = cut
                 d[cutName][sample][block]['Npass'] = Npass * blocks[sample][block]['rescale']
                 d[cutName][sample][block]['errNpass'] = errNpass * blocks[sample][block]['rescale']
                 d[cutName][sample][block]['EffAbs'] = EffAbs
                 d[cutName][sample][block]['errEffAbs'] = errEffAbs
 
 
-            
+
 ######################
 # Operations on values
 ######################
@@ -173,7 +174,7 @@ for cut in cutNames:
   if not 'ALLBKG+QCD' in d[cut]['all']:
     d[cut]['all']['ALLBKG+QCD'] = {}
   d[cut]['all']['ALLBKG+QCD']['Npass']=d[cut]['all']['ALLBKG']['Npass'] + d[cut]['QCD']['DATA']['Npass']
-  d[cut]['all']['ALLBKG+QCD']['errNpass']=math.sqrt( d[cut]['all']['ALLBKG']['errNpass']**2 
+  d[cut]['all']['ALLBKG+QCD']['errNpass']=math.sqrt( d[cut]['all']['ALLBKG']['errNpass']**2
                                                      + (d[cut]['QCD']['DATA']['errNpass'])**2 )
 
 
@@ -191,41 +192,41 @@ fout = open("table_FinalSel_enujj.tex", "w")
 #fout.write(r"\begin{table}[]"+"\n")
 for idx, cutName in enumerate(cutNames):
   print cutName
-  fout.write(r" %s & %.3f$\pm$%.3f & %.3f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %i \\" % 
-             ( 
-               #cutNames[cutName]['label'], 
-               cutLabels[idx], 
+  fout.write(r" %s & %.3f$\pm$%.3f & %.3f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %.2f$\pm$%.2f & %i \\" %
+             (
+               #cutNames[cutName]['label'],
+               cutLabels[idx],
                d[cutName]['all'][LQsampleForEachCut[idx]]['Npass'],
                d[cutName]['all'][LQsampleForEachCut[idx]]['errNpass'],
                d[cutName]['all'][LQsampleForEachCut[idx]]['EffAbs'],
                #d[cutName]['all'][LQsampleForEachCut[idx]]['errEffAbs'],
                d[cutName]['all']["TTbar_Madgraph"]['Npass'],
-               d[cutName]['all']["TTbar_Madgraph"]['errNpass'],                         
+               d[cutName]['all']["TTbar_Madgraph"]['errNpass'],
                d[cutName]['all']["WJetAlpgen"]['Npass'],
-               d[cutName]['all']["WJetAlpgen"]['errNpass'],                         
+               d[cutName]['all']["WJetAlpgen"]['errNpass'],
                d[cutName]['all']["OTHERBKG"]['Npass'],
-               d[cutName]['all']["OTHERBKG"]['errNpass'],                         
+               d[cutName]['all']["OTHERBKG"]['errNpass'],
                d[cutName]['QCD']["DATA"]['Npass'],
-               d[cutName]['QCD']["DATA"]['errNpass'],                         
+               d[cutName]['QCD']["DATA"]['errNpass'],
                d[cutName]['all']["ALLBKG+QCD"]['Npass'],
-               d[cutName]['all']["ALLBKG+QCD"]['errNpass'],                         
+               d[cutName]['all']["ALLBKG+QCD"]['errNpass'],
                d[cutName]['all']["DATA"]['Npass'],
                ) + "\n"
              )
-        
+
 fout.close()
 
 
 #############
-# systematics        
+# systematics
 #############
 
 
 errDataALL = math.sqrt(
                         (
-                          (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-                          + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
+                          (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+                          + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
                           + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
                         )**2
                         +
@@ -233,31 +234,31 @@ errDataALL = math.sqrt(
                       )        /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 errJESALL = (
-  (systUncert['JES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-  + (systUncert['JES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-  + (systUncert['JES']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
-  + (systUncert['JES']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  (systUncert['JES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+  + (systUncert['JES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+  + (systUncert['JES']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
+  + (systUncert['JES']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
-  
+
 errEESALL = (
-  (systUncert['EES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-  + (systUncert['EES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-  + (systUncert['EES']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
-  + (systUncert['EES']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  (systUncert['EES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+  + (systUncert['EES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+  + (systUncert['EES']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
+  + (systUncert['EES']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 errlumiALL = (
-  (systUncert['lumi']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-  + (systUncert['lumi']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-  + (systUncert['lumi']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
-  + (systUncert['lumi']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  (systUncert['lumi']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+  + (systUncert['lumi']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+  + (systUncert['lumi']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
+  + (systUncert['lumi']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 erreleALL = (
-  (systUncert['ele']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-  + (systUncert['ele']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-  + (systUncert['ele']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] ) 
-  + (systUncert['ele']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+  (systUncert['ele']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+  + (systUncert['ele']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+  + (systUncert['ele']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
+  + (systUncert['ele']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 
@@ -409,7 +410,7 @@ fout2.write(r"   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &  
               ) + "\n"
             )
 
-  
+
 fout2.close()
 
 
@@ -422,11 +423,11 @@ fout2.close()
 #                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) **2
 #                          )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'],
 # #fully correlated
-#               systUncert['data']['OTHERBKG'] ,                                           
+#               systUncert['data']['OTHERBKG'] ,
 #                          (
-#                            (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] ) 
-#                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] ) 
-#                          + (systUncert['data']['QCD']            * d[CutForSystematics]['all']["QCD"]['Npass'] ) 
-#                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] ) 
+#                            (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+#                          + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+#                          + (systUncert['data']['QCD']            * d[CutForSystematics]['all']["QCD"]['Npass'] )
+#                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
 #                          )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'],
 
