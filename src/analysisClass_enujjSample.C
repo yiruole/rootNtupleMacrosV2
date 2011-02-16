@@ -8,6 +8,7 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
+#include <TRandom3.h>
 
 
 //-----------------------------
@@ -138,6 +139,9 @@ void analysisClass::Loop()
   int doPlot_Wmore1jet = getPreCutValue1("doPlot_Wmore1jet");
 
   int doExtraChecks = getPreCutValue1("doExtraChecks");
+
+  int doPUMETSmearing = getPreCutValue1("doPUMETSmearing");
+  double METxySigmaPerPU = getPreCutValue1("METxySigmaPerPU");
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -710,6 +714,30 @@ void analysisClass::Loop()
 		 , 200, 0, 20
 		 );
 
+  // Pile-up vertex multiplicity distribution
+  TH1D *h1_nPUVertex = new TH1D("h1_nPUVertex","h1_nPUVertex",11,-0.5,10.5);
+  h1_nPUVertex->SetBinContent(1,850);
+  h1_nPUVertex->SetBinContent(2,1123);
+  h1_nPUVertex->SetBinContent(3,778);
+  h1_nPUVertex->SetBinContent(4,386);
+  h1_nPUVertex->SetBinContent(5,135);
+  h1_nPUVertex->SetBinContent(6,36);
+  h1_nPUVertex->SetBinContent(7,4);
+  h1_nPUVertex->SetBinContent(8,1);
+  h1_nPUVertex->SetBinError(1,29.15476);
+  h1_nPUVertex->SetBinError(2,33.51119);
+  h1_nPUVertex->SetBinError(3,27.89265);
+  h1_nPUVertex->SetBinError(4,19.64688);
+  h1_nPUVertex->SetBinError(5,11.61895);
+  h1_nPUVertex->SetBinError(6,6);
+  h1_nPUVertex->SetBinError(7,2);
+  h1_nPUVertex->SetBinError(8,1);
+  h1_nPUVertex->SetEntries(3313);
+
+  // Random number generator
+  TRandom3 *randomNumGen = new TRandom3;
+  randomNumGen->SetSeed();
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   Long64_t nentries = fChain->GetEntriesFast();
@@ -811,6 +839,15 @@ void analysisClass::Loop()
     // --> TCMET
     //     thisMET = TCMET->at(0);
     //     thisMETPhi = TCMETPhi->at(0);
+
+    // MET smearing due to pile-up
+    if( !isData && doPUMETSmearing ) {
+
+      double nPU = (int)(h1_nPUVertex->GetRandom()+0.5);
+      double thisMETx = thisMET*cos(thisMETPhi) + sqrt(nPU)*METxySigmaPerPU*randomNumGen->Gaus();
+      double thisMETy = thisMET*sin(thisMETPhi) + sqrt(nPU)*METxySigmaPerPU*randomNumGen->Gaus();
+      thisMET = sqrt( thisMETx*thisMETx + thisMETy*thisMETy );
+    }
 
     //## EES and JES
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
@@ -1148,7 +1185,9 @@ void analysisClass::Loop()
 
     fillVariableWithValue( "PassHLT", PassTrig ) ;
     fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
+    fillVariableWithValue( "nVertex_PAS", VertexChi2->size() ) ;
     fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
+    fillVariableWithValue( "nVertex_good_PAS", v_idx_vertex_good.size() ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
@@ -3234,6 +3273,8 @@ void analysisClass::Loop()
 
   ////////////////////// User's code to write histos - END ///////////////////////
 
+  delete h1_nPUVertex;
+  delete randomNumGen;
 
   //STDOUT("analysisClass::Loop() ends");
 }

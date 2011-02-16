@@ -75,6 +75,8 @@ plotEleIDIsoVar	      0		   -			-		-		-1
 doPlot_Wmore0jet      0		   -			-		-		-1
 doPlot_Wmore1jet      0		   -			-		-		-1
 doExtraChecks         0            -			-		-		-1
+doPUMETSmearing       0            -                    -               -               -1
+METxySigmaPerPU       3            -                    -               -               -1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -177,6 +179,8 @@ Mej_1stPair_PAS                 -inf	     +inf               -               -  
 Mej_2ndPair_PAS                 -inf	     +inf               -               -               3       200 0 2000
 MTnuj_1stPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 MTnuj_2ndPair_PAS               -inf	     +inf               -               -               3       200 0 2000
+nVertex_PAS                     -inf         +inf               -               -               1       11 -0.5 10.5
+nVertex_good_PAS                -inf         +inf               -               -               1       11 -0.5 10.5
 #
 MTenu                           125          +inf               -               -               4       200 0 1000
 minMETPt1stEle                  85           +inf               -               -               5       200 0 1000
