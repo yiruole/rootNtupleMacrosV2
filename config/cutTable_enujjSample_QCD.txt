@@ -106,7 +106,6 @@ PassPhysDecl                    -inf         +inf               -               
 PassBeamScraping                0            1                  -               -               0       2 -0.5 1.5
 PassPrimaryVertex               0            1                  -               -               0       2 -0.5 1.5
 #PassHBHENoiseFilter            0            1                  -               -               0       2 -0.5 1.5
-#nVertex_good 			-inf	     1			-		-		1	11 -0.5 10.5
 #
 nIsoSC				-inf	     +inf		-		-		1	16 -0.5 15.5
 nIsoEle                         -1           0                  -               -               1       16 -0.5 15.5
@@ -114,6 +113,9 @@ nIsoEle                         -1           0                  -               
 #nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 #
 PassHLT                         0	     1                  -               -               1       2 -0.5 1.5
+#
+nVertex                         -inf         +inf               -               -               1       11 -0.5 10.5
+nVertex_good                    -inf         +inf               -               -               1       11 -0.5 10.5
 #
 nEle_PtCut_IDISO_noOvrlp        0            1                  -               -               1       16 -0.5 15.5
 Pt1stEle_IDISO_NoOvrlp          35           +inf               -               -               1       100 0 1000
@@ -178,6 +180,8 @@ Mej_1stPair_PAS                 -inf	     +inf               -               -  
 Mej_2ndPair_PAS                 -inf	     +inf               -               -               3       200 0 2000
 MTnuj_1stPair_PAS               -inf	     +inf               -               -               3       200 0 2000
 MTnuj_2ndPair_PAS               -inf	     +inf               -               -               3       200 0 2000
+nVertex_PAS                     -inf         +inf               -               -               1       11 -0.5 10.5
+nVertex_good_PAS                -inf         +inf               -               -               1       11 -0.5 10.5
 #
 MTenu                           125          +inf               -               -               4       200 0 1000
 minMETPt1stEle                  85           +inf               -               -               5       200 0 1000

@@ -999,6 +999,21 @@ void analysisClass::Loop()
     }// end loop over muons
 
 
+    // vertices
+    vector<int> v_idx_vertex_good;
+    // loop over vertices
+    for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+      if ( !(VertexIsFake->at(ivertex))
+           && VertexNDF->at(ivertex) > vertexMinimumNDOF
+           && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+           && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+        {
+          v_idx_vertex_good.push_back(ivertex);
+          //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+        }
+    }
+
+
     // HLT
     //--> NEW HLT SELECTION USING DYNAMIC PRESCALE
     int PassTrig = 0;
@@ -1070,19 +1085,6 @@ void analysisClass::Loop()
 	  }
       }
 
-    //     // vertexes
-    //     vector<int> v_idx_vertex_good;
-    //     // loop over vertexes
-    //     for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
-    //       if ( !(VertexIsFake->at(ivertex))
-    //     	   && VertexNDF->at(ivertex) > vertexMinimumNDOF
-    //     	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
-    //     	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
-    //     	{
-    //     	  v_idx_vertex_good.push_back(ivertex);
-    //     	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
-    //     	}
-    //     }
 
     /////  Define the fake rate for QCD and calculate prob. for each sc to be an ele
     ////   The fake rate is run period-dependent
@@ -1204,7 +1206,10 @@ void analysisClass::Loop()
       }
 
     fillVariableWithValue( "PassHLT", PassTrig, p1 ) ;
-    //fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
+    fillVariableWithValue( "nVertex", VertexChi2->size(), p1 ) ;
+    fillVariableWithValue( "nVertex_PAS", VertexChi2->size(), p1 ) ;
+    fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size(), p1 ) ;
+    fillVariableWithValue( "nVertex_good_PAS", v_idx_vertex_good.size(), p1 ) ;
 
     //Event filters at RECO level
     fillVariableWithValue( "PassBeamScraping", !isBeamScraping ) ;
