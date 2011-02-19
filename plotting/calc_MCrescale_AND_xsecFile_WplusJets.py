@@ -206,7 +206,7 @@ class Plot:
         print "integral MC W: "   + str( integralMCW ) + " +/- " + str( ERRintegralMCW )
         print "contribution from other bkgs (other than W+jets): " + str(contamination*100) + "%"
         print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr ) + " +/- " + str( ERRintegralDATAcorr )
-        print "rescale factor for W background: " + str(rescale) + " +\- " + str(relERRrescale*rescale)
+        print "rescale factor for W background: " + str(rescale) + " +/- " + str(relERRrescale*rescale)
         print "systematical uncertainty of W+jets background modeling: " + str(relERRrescale*100) + "%"
         print "######################################## "
         print " "
@@ -241,8 +241,8 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_plots.root")
-File_preselection_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_QCD_plots.root")
 
 #--- Rescaling of W+jets background
 
@@ -304,7 +304,7 @@ plot0.QCDSyst = 0.25
 plot0.xmin = 50
 plot0.xmax = 110
 plot0.name = "Wrescale"
-plot0.fileXsectionNoRescale = "/home/ferencek/work/Leptoquarks/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
+plot0.fileXsectionNoRescale = "/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
