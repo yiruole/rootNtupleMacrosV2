@@ -6,30 +6,29 @@
 
 ##########  USER'S INPUTS BEGIN HERE ############################################################
 
-FILE________STD=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_STD/output_cutTable_enujjSample/analysisClass_enujjSample_tables.dat
-FILE_EES_EB_POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EB_1.01/output_cutTable_enujjSample_EES_EB_POS/analysisClass_enujjSample_tables.dat
-FILE_EES_EB_NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EB_0.99/output_cutTable_enujjSample_EES_EB_NEG/analysisClass_enujjSample_tables.dat
-FILE_EES_EE_POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EE_1.03/output_cutTable_enujjSample_EES_EE_POS/analysisClass_enujjSample_tables.dat
-FILE_EES_EE_NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_EES_EE_0.97/output_cutTable_enujjSample_EES_EE_NEG/analysisClass_enujjSample_tables.dat
-FILE_JES____POS=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_JES_1.05/output_cutTable_enujjSample_JES_POS/analysisClass_enujjSample_tables.dat
-FILE_JES____NEG=$LQDATA/enujj_analysis/33.2pb-1_ST250PreSel_syst_JES_0.95/output_cutTable_enujjSample_JES_NEG/analysisClass_enujjSample_tables.dat
+FILE________STD=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_tables.dat
+FILE_EES_EB_POS=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_EES_EB1.01_FullNtuples_Mar012011/analysisClass_enujjSample_tables.dat
+FILE_EES_EB_NEG=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_EES_EB0.99_FullNtuples_Mar012011/analysisClass_enujjSample_tables.dat
+FILE_EES_EE_POS=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_EES_EE1.03_FullNtuples_Mar012011/analysisClass_enujjSample_tables.dat
+FILE_EES_EE_NEG=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_EES_EE0.97_FullNtuples_Mar012011/analysisClass_enujjSample_tables.dat
+FILE_JES____POS=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_JES1.05_FullNtuples_Mar012011/analysisClass_enujjSample_tables.dat
+FILE_JES____NEG=/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_JES0.95_FullNtuples_Mar012011/analysisClass_enujjSample_tables.dat
 
-# ## TTbar inputs (preselection):
-#SAMPLES='TTbar_Madgraph'
-#CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+## LQ M300 signal
+# SAMPLES='LQenujj_M300'
+# CUTS='nocut sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
 
+## TTbar inputs (preselection):
+# SAMPLES='TTbar_Madgraph'
+# CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+
+## W+jets inputs (preselection + preliminary sT cut)
+# SAMPLES='WJetAlpgen'
+# CUTS='nMuon_PtCut_IDISO sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
+
+## Other backgrounds
 SAMPLES='OTHERBKG'
-CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
-
-## Z+jets inputs (preselection + preliminary sT cut)
-#SAMPLES='WJetAlpgen'
-#CUTS='sT_presel sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
-
-## Z+jets inputs (preselection + preliminary sT cut)
-#SAMPLES='LQenujj_M300'
-#CUTS='nocut sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
-
-
+CUTS='nocut sT_MLQ300' # first cut is the one where data-MC comparison is done, second cut is the final cut
 
 ##########  USER'S INPUTS END HERE ###############################################################
 
@@ -37,7 +36,7 @@ CUTS='maxMEtaJets_noOvrlp_ID sT_MLQ300' # first cut is the one where data-MC com
 files="$FILE________STD $FILE_EES_EB_POS $FILE_EES_EB_NEG $FILE_EES_EE_POS $FILE_EES_EE_NEG $FILE_JES____POS $FILE_JES____NEG"
 
 outfile='temp.txt'
-echo "" > $outfile 
+echo "" > $outfile
 
 for CUT in $CUTS
 do
@@ -66,13 +65,13 @@ cat temp.txt
 echo ""
 echo "The variation in the relative efficiencies are:"
 echo ""
-echo "    SAMPLES           WHAT                      DEFAULT        EES_EB_POS      EES_EB_NEG      EES_EE_POS      EES_EE_NEG      JES____POS      JES____NEG" 
+echo "    SAMPLES           WHAT                      DEFAULT        EES_EB_POS      EES_EB_NEG      EES_EE_POS      EES_EE_NEG      JES____POS      JES____NEG"
 for SAMP in $SAMPLES
   do
   TWOLINES=`cat $outfile | grep $SAMP`
   #echo $TWOLINES
   EFFRATIOS=`echo $TWOLINES | awk -v sample=$SAMP '{printf("%20s  effRatio\t%.5e\t%.5e\t%.5e\t%.5e\t%.5e\t%.5e\t%.5e \n",sample, $12/$3, $13/$4, $14/$5, $15/$6, $16/$7, $17/$8, $18/$9  ) }'`
   #echo $EFFRATIOS
-  echo $EFFRATIOS | awk -v sample=$SAMP '{printf("%20s  EffRatio_variation\t%f\t%f\t%f\t%f\t%f\t%f\t%f \n",sample, $3/$3-1, $4/$3-1, $5/$3-1, $6/$3-1, $7/$3-1, $8/$3-1, $9/$3-1) }' 
+  echo $EFFRATIOS | awk -v sample=$SAMP '{printf("%20s  EffRatio_variation\t%f\t%f\t%f\t%f\t%f\t%f\t%f \n",sample, $3/$3-1, $4/$3-1, $5/$3-1, $6/$3-1, $7/$3-1, $8/$3-1, $9/$3-1) }'
 done
 

@@ -72,8 +72,9 @@ LQsampleForEachCut = [ "LQenujj_M200",
                        ]
 
 systUncert = { 'data': {'TTbar_Madgraph': 17, 'WJetAlpgen': 10, 'QCD': 25, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '-'} ,
-               'JES':  {'TTbar_Madgraph': 17, 'WJetAlpgen': 9, 'QCD': 0, 'OTHERBKG': 15, 'LQ': 5, 'magnitude': '5'} ,
-               'EES':  {'TTbar_Madgraph': 5, 'WJetAlpgen': 1, 'QCD': 0, 'OTHERBKG': 2, 'LQ': 1, 'magnitude': '1(3)'} ,
+               'Wshape': {'TTbar_Madgraph': 0, 'WJetAlpgen': 44, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '44'} ,
+               'JES':  {'TTbar_Madgraph': 9, 'WJetAlpgen': 6, 'QCD': 0, 'OTHERBKG': 9, 'LQ': 5, 'magnitude': '5'} ,
+               'EES':  {'TTbar_Madgraph': 4, 'WJetAlpgen': 2, 'QCD': 0, 'OTHERBKG': 1, 'LQ': 1, 'magnitude': '1(3)'} ,
                'lumi': {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 11, 'LQ': 0, 'magnitude': '11'} ,
                'ele':  {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 6, 'LQ': 6, 'magnitude': '6'} ,
                }
@@ -233,6 +234,10 @@ errDataALL = math.sqrt(
                         ( d[CutForSystematics]['QCD']["DATA"]['errNpass'] )**2
                       )        /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
+errWshapeALL = (
+  (systUncert['Wshape']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+  )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
+
 errJESALL = (
   (systUncert['JES']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
   + (systUncert['JES']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
@@ -264,7 +269,7 @@ erreleALL = (
 
 
 
-errALL = math.sqrt(errDataALL**2 + errJESALL**2 + errEESALL**2 + errlumiALL**2 + erreleALL**2
+errALL = math.sqrt(errDataALL**2 + errWshapeALL**2 + errJESALL**2 + errEESALL**2 + errlumiALL**2 + erreleALL**2
                    + (100 * d[CutForSystematics]['all']["ALLBKG+QCD"]['errNpass'] / d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'])**2 )
 
 
@@ -277,6 +282,7 @@ errLQ = math.sqrt ( systUncert['data']['LQ']**2
                     )
 
 errW = math.sqrt ( systUncert['data']['WJetAlpgen']**2
+                   + systUncert['Wshape']['WJetAlpgen']**2
                    + systUncert['JES']['WJetAlpgen']**2
                    + systUncert['EES']['WJetAlpgen']**2
                    + systUncert['lumi']['WJetAlpgen']**2
@@ -321,6 +327,20 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
               math.sqrt( (systUncert['data']['QCD'])**2 + (100 * d[CutForSystematics]['QCD']["DATA"]['errNpass'] / d[CutForSystematics]['QCD']["DATA"]['Npass'])**2 ),
               systUncert['data']['OTHERBKG'] ,
               errDataALL,
+              ) + "\n"
+            )
+
+#W+jets Shape
+fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
+              (
+              'W+jets Background Shape' ,
+              systUncert['Wshape']['magnitude'] ,
+              systUncert['Wshape']['LQ'] ,
+              systUncert['Wshape']['WJetAlpgen'] ,
+              systUncert['Wshape']['TTbar_Madgraph'] ,
+              systUncert['Wshape']['QCD'] ,
+              systUncert['Wshape']['OTHERBKG'] ,
+              errWshapeALL,
               ) + "\n"
             )
 
