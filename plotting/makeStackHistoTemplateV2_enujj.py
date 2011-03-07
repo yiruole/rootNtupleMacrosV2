@@ -246,6 +246,8 @@ class Plot:
             ystart=0.63
         legend = TLegend(xstart, ystart, xstart+hsize, ystart+vsize)
         legend.SetFillColor(kWhite)
+        legend.SetBorderSize(0)
+        legend.SetShadowColor(10)
         legend.SetMargin(0.2)
         legend.SetTextFont(132)
 
@@ -327,7 +329,8 @@ class Plot:
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
         dataColorIndexes = [1,4,1,1,4,1]
-        dataLineIndexes = [1,2,3,1,2,3]
+        #dataLineIndexes = [1,2,3,1,2,3]
+        dataLineIndexes = [2,1,3,1,2,3]
         for histo in self.histos:
             histo.SetMarkerStyle(dataColorIndexes[ih])
             histo.SetMarkerColor(dataColorIndexes[ih])
@@ -356,13 +359,13 @@ class Plot:
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
 #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + self.lint)
         if (self.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS Preliminary")
+            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
             l.DrawLatex(0.35,0.09,"#intLdt = " + self.lint)
         if (self.lpos=="top-left"):
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
             l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.11,"#intLdt = " + self.lint)
         else:
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary")
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.11,"#intLdt = " + self.lint)
 
         legend.Draw()
@@ -479,8 +482,10 @@ samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["OTHERBKG","TTbar_Madgraph","WJetAlpgen"]
 keysStack =             ["QCD",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
 
-samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
-keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
+#samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
+#keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
+samplesForHistos = ["LQenujj_M300"]
+keys             = ["LQ, M=300 GeV"]
 
 sampleForDataHisto = "DATA"
 
@@ -1812,7 +1817,7 @@ plot30.keys            = keys
 plot30.xtit            = "S_{T} [GeV]"
 plot30.ytit            = "Number of events"
 plot30.ylog            = "yes"
-plot30.rebin           = 10
+plot30.rebin           = "var"
 plot30.xmin            = 100
 plot30.xmax            = 2000
 plot30.ymin            = 0.01
@@ -1822,6 +1827,7 @@ plot30.ymax            = 100
 plot30.name            = "sT_fullSelection_M200"
 plot30.addZUncBand     = zUncBand
 plot30.makeRatio       = makeRatio
+plot30.xbins           = [0,100,200,300,400,500,600,700,900,1200,1500,2000]
 plot30.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
