@@ -186,7 +186,7 @@ class Plot:
     #    xlog        = "" # log scale of X axis (default = no, option="yes") ### IT SEEMS IT DOES NOT WORK
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
-    addOvfl     = "yes" # add the overflow bin to the laS_{T} visible bin (default = "yes", option="no")
+    addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
     lint        = "36.0 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
@@ -224,7 +224,7 @@ class Plot:
             fPads1.SetLineColor(0)
             fPads1.Draw()
 
-        #-- 1S_{T} pad
+        #-- 1st pad
         fPads1.cd()
         #-- log scale
         # xlog may not work if (self.xlog == "yes"):
@@ -282,7 +282,6 @@ class Plot:
                 stack[iter].GetXaxis().SetTitleFont(132)
                 stack[iter].GetXaxis().SetLabelFont(132)
                 stack[iter].GetXaxis().SetTitleOffset(1.0)
-                #stack[iter].GetXaxis().SetLabelOffset(0.0)
                 stack[iter].GetXaxis().SetTitleSize(0.05)
                 stack[iter].GetXaxis().SetLabelSize(0.045)
                 stack[iter].GetYaxis().SetTitleFont(132)
@@ -302,7 +301,7 @@ class Plot:
                 #        maxHisto = hh.GetMaximum()
                 #stack[iter].GetYaxis().SetLimits(0.,maxHisto*1.2)
                 #stack[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)
-                #draw firS_{T} histo
+                #draw first histo
                 stack[iter].Draw("HIST")
                 stkcp.append(copy.deepcopy(stack[iter]))
             else:
@@ -428,8 +427,8 @@ class Plot:
 
 #--- Input root file
 
-#File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.16_PuMETSmearing_FullNtuples_Feb182011/analysisClass_enujjSample_plots.root")
 File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_plots.root")
+#File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.16_PuMETSmearing_FullNtuples_Feb182011/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_enujjskim_MejStudies_v3/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_enujjskim_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
 #File_preselection = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/36.0pb-1_sT_presel_250_Zrescale1.20_Wrescale1.19_fullntuples_MET45_Jan11Prod/output_cutTable_enujjSample/analysisClass_enujjSample_plots.root")
@@ -442,8 +441,8 @@ File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-#File_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_FullNtuples_Feb182011/analysisClass_enujjSample_QCD_plots.root")
 File_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
+#File_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_FullNtuples_Feb182011/analysisClass_enujjSample_QCD_plots.root")
 #File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_enujjskim_MejStudies_v3/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 #File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_enujjskim_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
 #File_QCD  = GetFile("/home/santanas/Leptoquarks/data/output_fromAFS/enujj_analysis/35.8pb-1_QCD_sT_presel_250_UseHLTPrescales_fullntuples_MET45/output_cutTable_enujjSample_QCD/analysisClass_enujjSample_QCD_plots.root")
@@ -1728,7 +1727,7 @@ plot23.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot23.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot23.keys            = keys
-plot23.xtit            = "Pt(e#nu) [GeV]"
+plot23.xtit            = "p_{T}(e#nu) [GeV]"
 plot23.ytit            = "Number of events"
 plot23.ylog            = "yes"
 plot23.rebin           = "var"
@@ -1885,7 +1884,7 @@ plot33.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot33.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot33.keys            = keys
-plot33.xtit            = "Pt(e#nu) [GeV]"
+plot33.xtit            = "p_{T}(e#nu) [GeV]"
 plot33.ytit            = "Number of events"
 plot33.ylog            = "yes"
 plot33.rebin           = 1
@@ -4850,7 +4849,7 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot740.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot740.keys            = keys
-  plot740.xtit            = "PT(1S_{T} PF jet)/PT(CloseS_{T} Calo jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
+  plot740.xtit            = "PT(1^{st} PF jet)/PT(Closest Calo jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
   plot740.ytit            = "Number of events"
   plot740.ylog            = "no"
   plot740.rebin           = 5
@@ -4874,7 +4873,7 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot741.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot741.keys            = keys
-  plot741.xtit            = "NC(1S_{T} PF jet)/n90Hits(CloseS_{T} Calo jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
+  plot741.xtit            = "NC(1^{st} PF jet)/n90Hits(Closest Calo jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
   plot741.ytit            = "Number of events"
   plot741.ylog            = "no"
   plot741.rebin           = 5
