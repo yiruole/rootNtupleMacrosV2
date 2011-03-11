@@ -188,7 +188,7 @@ class Plot:
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
-    lint        = "36.0 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "36 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -347,26 +347,26 @@ class Plot:
         #-- plot data
         if(self.histodata!=""):
             self.histodata.SetMarkerStyle(20)
-            legend.AddEntry(self.histodata, "Data","p")
+            legend.AddEntry(self.histodata, "Data","lp")
             self.histodata.Draw("psame")
 
         #-- draw label
         l = TLatex()
         l.SetTextAlign(12)
         l.SetTextFont(132)
-        l.SetTextSize(0.04)
+        l.SetTextSize(0.05)
         l.SetNDC()
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
 #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + self.lint)
         if (self.lpos=="bottom-center"):
             l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
-            l.DrawLatex(0.35,0.09,"#intLdt = " + self.lint)
+            l.DrawLatex(0.35,0.10,"#intLdt = " + self.lint)
         if (self.lpos=="top-left"):
             l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.11,"#intLdt = " + self.lint)
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.13,"#intLdt = " + self.lint)
         else:
             l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.11,"#intLdt = " + self.lint)
+            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.13,"#intLdt = " + self.lint)
 
         legend.Draw()
         canvas.Update()
@@ -415,6 +415,7 @@ class Plot:
 
         #-- end
         canvas.SaveAs(self.name + ".eps","eps")
+        canvas.SaveAs(self.name + ".png","png")
         #canvas.SaveAs(self.name + ".root","root")
         #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
         canvas.Print(fileps)
@@ -994,7 +995,7 @@ plot13.addZUncBand     = zUncBand
 plot13.makeRatio       = makeRatio
 plot13.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
-#--- mDeltaPhiMET2ndJet_PAS ---
+#--- mDeltaPhiMET2ndJet ---
 variableName = "mDeltaPhiMET2ndJet"
 
 plot13_afterOtherDfCuts = Plot()
@@ -1817,7 +1818,7 @@ plot30.keys            = keys
 plot30.xtit            = "S_{T} [GeV]"
 plot30.ytit            = "Number of events"
 plot30.ylog            = "yes"
-plot30.rebin           = "var"
+plot30.rebin           = 10#"var"
 plot30.xmin            = 100
 plot30.xmax            = 2000
 plot30.ymin            = 0.01
@@ -1827,7 +1828,7 @@ plot30.ymax            = 100
 plot30.name            = "sT_fullSelection_M200"
 plot30.addZUncBand     = zUncBand
 plot30.makeRatio       = makeRatio
-plot30.xbins           = [0,100,200,300,400,500,600,700,900,1200,1500,2000]
+#plot30.xbins           = [0,100,200,300,400,500,600,700,900,1200,1500,2000]
 plot30.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
