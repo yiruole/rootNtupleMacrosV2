@@ -4,7 +4,8 @@
 
 #FILE=$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_tables.dat
 #FILE=$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_noPreStCut_ZjetsRescaled/analysisClass_eejjSample_tables.dat
-FILE=$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_tables.dat
+#FILE=$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_tables.dat
+FILE=$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_ZjetsRescaled_ttbarRescaled/analysisClass_eejjSample_tables.dat
 
 MASSES="200 250 280 300 320 340 370 400 450 500"
 

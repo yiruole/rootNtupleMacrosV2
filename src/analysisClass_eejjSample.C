@@ -553,6 +553,7 @@ void analysisClass::Loop()
 	//PAS June 2010
 	fillVariableWithValue( "Pt1stEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
 	fillVariableWithValue( "Eta1stEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
+	fillVariableWithValue( "Phi1stEle_PAS", ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) );
       }
 
     // 2nd ele
@@ -565,6 +566,7 @@ void analysisClass::Loop()
 	//PAS June 2010
 	fillVariableWithValue( "Pt2ndEle_PAS", ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
 	fillVariableWithValue( "Eta2ndEle_PAS", ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
+	fillVariableWithValue( "Phi2ndEle_PAS", ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) );
       }
 
     // 1st jet
@@ -576,6 +578,7 @@ void analysisClass::Loop()
 	//PAS June 2010
 	fillVariableWithValue( "Pt1stJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
 	fillVariableWithValue( "Eta1stJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Phi1stJet_PAS", CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
       }
 
 
@@ -590,6 +593,7 @@ void analysisClass::Loop()
 	//PAS June 2010
 	fillVariableWithValue( "Pt2ndJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
 	fillVariableWithValue( "Eta2ndJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Phi2ndJet_PAS", CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
       }
 
     //## define "2ele" and "2jets" booleans
@@ -748,6 +752,11 @@ void analysisClass::Loop()
 	  } 
 	fillVariableWithValue("Mej_1stPair", Mej_1stPair);       
 	fillVariableWithValue("Mej_2ndPair", Mej_2ndPair);
+	fillVariableWithValue("DeltaMej", Mej_1stPair-Mej_2ndPair);
+	fillVariableWithValue("DeltaMejRel", 2*(Mej_1stPair-Mej_2ndPair)/(Mej_1stPair+Mej_2ndPair));
+	fillVariableWithValue("DeltaMejRel_1", 2*(Mej_1stPair-Mej_2ndPair)/(Mej_1stPair+Mej_2ndPair));
+	fillVariableWithValue("DeltaMejRel_2", 2*(Mej_1stPair-Mej_2ndPair)/(Mej_1stPair+Mej_2ndPair));
+	fillVariableWithValue("DeltaMejRel_3", 2*(Mej_1stPair-Mej_2ndPair)/(Mej_1stPair+Mej_2ndPair));
 	//PAS June 2010
 	h_Mej_PAS->Fill(Mej_1stPair);
 	h_Mej_PAS->Fill(Mej_2ndPair);
