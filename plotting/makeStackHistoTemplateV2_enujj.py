@@ -1056,7 +1056,8 @@ plot14.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot14.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14.keys            = keys
-plot14.xtit            = "M_{T}(e#nu) [GeV]"
+#plot14.xtit            = "M_{T}(e#nu) [GeV]"
+plot14.xtit            = "m_{T,e#nu} [GeV]"
 plot14.ytit            = "Number of events"
 # plot14.ylog            = "yes"
 # plot14.rebin           = 1
@@ -1082,7 +1083,8 @@ plot14_ylog.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot14_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14_ylog.keys            = keys
-plot14_ylog.xtit            = "M_{T}(e#nu) [GeV]"
+#plot14_ylog.xtit            = "M_{T}(e#nu) [GeV]"
+plot14_ylog.xtit            = "m_{T,e#nu} [GeV]"
 plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = "var" # don't change it (since a rebinning is already applied above on the same histo)
