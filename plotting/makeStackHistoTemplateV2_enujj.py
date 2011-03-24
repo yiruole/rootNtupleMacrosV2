@@ -233,23 +233,29 @@ class Plot:
             fPads1.SetLogy()
 
         #-- legend
-        hsize=0.22
-        vsize=0.26
+#        hsize=0.22
+#        vsize=0.26
+        hsize=0.33
+        vsize=0.33
         if (self.lpos=="bottom-center"):
             xstart=0.35
             ystart=0.25
         elif(self.lpos=="top-left"):
             xstart=0.12
-            ystart=0.63
+#            ystart=0.63
+            ystart=0.54
         else:
-            xstart=0.65
-            ystart=0.63
+            xstart=0.58
+            ystart=0.54
+#            xstart=0.65
+#            ystart=0.63
         legend = TLegend(xstart, ystart, xstart+hsize, ystart+vsize)
         legend.SetFillColor(kWhite)
         legend.SetBorderSize(0)
         legend.SetShadowColor(10)
         legend.SetMargin(0.2)
         legend.SetTextFont(132)
+        legend.AddEntry(plot.histodata, "Data, 36 pb^{-1}","lp")
 
         #-- loop over histograms (stacked)
         Nstacked = len(self.histosStack)
@@ -282,15 +288,28 @@ class Plot:
                 stack[iter].SetTitle("")
                 stack[iter].GetXaxis().SetTitle(self.xtit)
                 stack[iter].GetXaxis().SetTitleFont(132)
-                stack[iter].GetXaxis().SetLabelFont(132)
-                stack[iter].GetXaxis().SetTitleOffset(1.0)
-                stack[iter].GetXaxis().SetTitleSize(0.05)
+                stack[iter].GetXaxis().SetTitleOffset(0.7)
+                stack[iter].GetXaxis().SetLabelOffset(0.0)
+                stack[iter].GetXaxis().SetTitleSize(0.07)
                 stack[iter].GetXaxis().SetLabelSize(0.045)
+                stack[iter].GetXaxis().SetLabelFont(132)
                 stack[iter].GetYaxis().SetTitleFont(132)
-                stack[iter].GetYaxis().SetLabelFont(132)
-                stack[iter].GetYaxis().SetTitleOffset(0.8)
-                stack[iter].GetYaxis().SetTitleSize(0.05)
+                stack[iter].GetYaxis().SetTitleOffset(0.75)
+                stack[iter].GetYaxis().SetTitleSize(0.055)
                 stack[iter].GetYaxis().SetLabelSize(0.045)
+                stack[iter].GetYaxis().SetLabelOffset(0.0)
+                stack[iter].GetYaxis().SetLabelFont(132)
+#                stack[iter].GetXaxis().SetTitleFont(132)
+#                stack[iter].GetXaxis().SetTitleOffset(0.62)
+#                stack[iter].GetXaxis().SetTitleSize(0.05)
+#                stack[iter].GetXaxis().SetLabelFont(132)
+#                stack[iter].GetXaxis().SetTitleSize(0.05)
+#                stack[iter].GetXaxis().SetLabelSize(0.045)
+#                stack[iter].GetYaxis().SetTitleFont(132)
+#                stack[iter].GetYaxis().SetLabelFont(132)
+#                stack[iter].GetYaxis().SetTitleOffset(0.8)
+#                stack[iter].GetYaxis().SetTitleSize(0.05)
+#                stack[iter].GetYaxis().SetLabelSize(0.045)
                 stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)")
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
@@ -347,26 +366,31 @@ class Plot:
         #-- plot data
         if(self.histodata!=""):
             self.histodata.SetMarkerStyle(20)
-            legend.AddEntry(self.histodata, "Data","lp")
+            self.histodata.SetLineWidth(2)
+            #legend.AddEntry(self.histodata, "Data","lp")
             self.histodata.Draw("psame")
 
         #-- draw label
         l = TLatex()
         l.SetTextAlign(12)
         l.SetTextFont(132)
-        l.SetTextSize(0.05)
+        l.SetTextSize(0.065)
         l.SetNDC()
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
 #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + self.lint)
         if (self.lpos=="bottom-center"):
-            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
-            l.DrawLatex(0.35,0.10,"#intLdt = " + self.lint)
+            l.DrawLatex(0.35,0.20,"CMS")
+            #            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
+            #            l.DrawLatex(0.35,0.10,"#intLdt = " + self.lint)
         if (self.lpos=="top-left"):
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
-            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.13,"#intLdt = " + self.lint)
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS")
+#            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
+#            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.13,"#intLdt = " + self.lint)
         else:
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
-            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.13,"#intLdt = " + self.lint)
+            l.DrawLatex(xstart-hsize+0.17,ystart+vsize-0.05,"CMS")
+            l.DrawLatex(xstart-hsize+0.15,ystart+vsize-0.15,"#sqrt{s}=7 TeV")
+#            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
+#            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.13,"#intLdt = " + self.lint)
 
         legend.Draw()
         canvas.Update()
@@ -481,7 +505,7 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["OTHERBKG","TTbar_Madgraph","WJetAlpgen"]
-keysStack =             ["QCD",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
+keysStack =             ["QCD multi-jet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
 
 #samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
 #keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
@@ -595,7 +619,7 @@ plot_after2.rebin           = 1
 #plot_after2.xmin            = -1.0001
 #plot_after2.xmax            = 1.0001
 plot_after2.ymin            = 1
-plot_after2.ymax            = pt_ymax*50
+plot_after2.ymax            = pt_ymax*50*2
 #plot_after2.lpos = "bottom-center"
 plot_after2.name            = "charge1stEle_allPreviousCuts"
 plot_after2.addZUncBand     = zUncBand
@@ -1765,8 +1789,8 @@ plot24.ylog            = "yes"
 plot24.rebin           = 2
 plot24.xmin            = 0
 plot24.xmax            = 7
-plot24.ymin            = 0.01
-plot24.ymax            = 5000
+plot24.ymin            = 0.1
+plot24.ymax            = 10000
 #plot24.lpos = "bottom-center"
 plot24.name            = "minDRej_allPreviousCuts"
 plot24.addZUncBand     = zUncBand
@@ -1791,8 +1815,8 @@ plot25.ylog            = "yes"
 plot25.rebin           = 2
 plot25.xmin            = 0
 plot25.xmax            = 7
-plot25.ymin            = 0.01
-plot25.ymax            = 5000
+plot25.ymin            = 0.1
+plot25.ymax            = 10000
 #plot25.lpos = "bottom-center"
 plot25.name            = "DRjets_allPreviousCuts"
 plot25.addZUncBand     = zUncBand
@@ -1818,17 +1842,17 @@ plot30.keys            = keys
 plot30.xtit            = "S_{T} [GeV]"
 plot30.ytit            = "Number of events"
 plot30.ylog            = "yes"
-plot30.rebin           = 10#"var"
+plot30.rebin           = "var" #10
 plot30.xmin            = 100
 plot30.xmax            = 2000
 plot30.ymin            = 0.01
-plot30.ymax            = 100
+plot30.ymax            = 500
 #plot30.lpos = "bottom-center"
 #plot30.name            = "sT_fullSelection"
 plot30.name            = "sT_fullSelection_M200"
 plot30.addZUncBand     = zUncBand
 plot30.makeRatio       = makeRatio
-#plot30.xbins           = [0,100,200,300,400,500,600,700,900,1200,1500,2000]
+plot30.xbins           = [200,300,400,500,600,700,1200]
 plot30.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
