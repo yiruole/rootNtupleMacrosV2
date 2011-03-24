@@ -77,6 +77,8 @@ doPlot_Wmore1jet      0		   -			-		-		-1
 doExtraChecks         0            -			-		-		-1
 doPUMETSmearing       0            -                    -               -               -1
 METxySigmaPerPU       3            -                    -               -               -1
+doJetOversmearing     0            -                    -               -               -1
+JetOverSmearingSigma  0.05         -                    -               -               -1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------

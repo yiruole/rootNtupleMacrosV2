@@ -143,6 +143,9 @@ void analysisClass::Loop()
   int doPUMETSmearing = getPreCutValue1("doPUMETSmearing");
   double METxySigmaPerPU = getPreCutValue1("METxySigmaPerPU");
 
+  int doJetOversmearing = getPreCutValue1("doJetOversmearing");
+  double JetOversmearingSigma = getPreCutValue1("JetOversmearingSigma");
+  
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -870,7 +873,17 @@ void analysisClass::Loop()
 	  }
       }
 
-
+    // Jet oversmearing
+    if( !isData && doJetOversmearing )
+      {
+        for(int ijet=0; ijet<JetPt->size(); ijet++)
+          {
+            double rnd = randomNumGen->Gaus();
+            JetPt->at(ijet) *= (1 + JetOversmearingSigma*rnd);
+            JetEnergy->at(ijet) *= (1 + JetOversmearingSigma*rnd);
+          }
+      }
+      
     // The following data were processed but were declared as bad in
     // https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions10/7TeV/StreamExpress/Cert_132440-149442_7TeV_StreamExpress_Collisions10_JSON_v3.txt
     int passGoodRunList = 1;
@@ -1085,7 +1098,7 @@ void analysisClass::Loop()
 
 
     //## MET scale uncert.
-    if( JetEnergyScale != 1 )
+    if( JetEnergyScale != 1 || (!isData && doJetOversmearing) )
       { //use fix JES scaling passed from cut file
 
 	TVector2 v_MET_old;
