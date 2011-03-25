@@ -874,16 +874,17 @@ void analysisClass::Loop()
       }
 
     // Jet oversmearing
+    std::auto_ptr<std::vector<double> >  JetOversmearingFactor ( new std::vector<double>(JetPt->size(), 1)  );
     if( !isData && doJetOversmearing )
       {
         for(int ijet=0; ijet<JetPt->size(); ijet++)
           {
-            double rnd = randomNumGen->Gaus();
-            JetPt->at(ijet) *= (1 + JetOversmearingSigma*rnd);
-            JetEnergy->at(ijet) *= (1 + JetOversmearingSigma*rnd);
+            JetOversmearingFactor->at(ijet) = (1 + JetOversmearingSigma*randomNumGen->Gaus());
+            JetPt->at(ijet) *= JetOversmearingFactor->at(ijet);
+            JetEnergy->at(ijet) *= JetOversmearingFactor->at(ijet);
           }
       }
-      
+
     // The following data were processed but were declared as bad in
     // https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions10/7TeV/StreamExpress/Cert_132440-149442_7TeV_StreamExpress_Collisions10_JSON_v3.txt
     int passGoodRunList = 1;
@@ -1109,7 +1110,7 @@ void analysisClass::Loop()
 	  {
 	    TVector2 v_jet_pt_old;
 	    TVector2 v_jet_pt_new;
-	    v_jet_pt_old.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet])/JetEnergyScale , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+	    v_jet_pt_old.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet])/JetEnergyScale/JetOversmearingFactor->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
 	    v_jet_pt_new.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
 	    //pT pre-cut on reco jets
 	    if ( v_jet_pt_old.Mod() < jet_PtCut_forMetScale ) continue;
