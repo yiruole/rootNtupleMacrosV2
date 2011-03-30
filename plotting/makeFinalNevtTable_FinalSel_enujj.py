@@ -75,7 +75,7 @@ systUncert = { 'data': {'TTbar_Madgraph': 17, 'WJetAlpgen': 10, 'QCD': 25, 'OTHE
                'Wshape': {'TTbar_Madgraph': 0, 'WJetAlpgen': 44, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '44'} ,
                'JES':  {'TTbar_Madgraph': 9, 'WJetAlpgen': 6, 'QCD': 0, 'OTHERBKG': 9, 'LQ': 5, 'magnitude': '5'} ,
                'EES':  {'TTbar_Madgraph': 4, 'WJetAlpgen': 2, 'QCD': 0, 'OTHERBKG': 1, 'LQ': 1, 'magnitude': '1(3)'} ,
-               'lumi': {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 11, 'LQ': 0, 'magnitude': '11'} ,
+               'lumi': {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 4, 'LQ': 0, 'magnitude': '4'} ,
                'ele':  {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 6, 'LQ': 6, 'magnitude': '6'} ,
                }
 CutForSystematics = 'sT_MLQ300'
