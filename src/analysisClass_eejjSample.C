@@ -679,13 +679,13 @@ void analysisClass::Loop()
 	   ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) ;
 	fillVariableWithValue("sTele_PAS", calc_sTele);
 
-	if(isData==true) 
-	  {
-	    STDOUT("Two electrons: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
-	    STDOUT("Two electrons: M_ee, Pt_ee, Eta_ee, Phi_ee = "<<ee.M() <<", "<< ee.Pt() <<", "<< ee.Eta() <<", "<< ee.Phi());
-	    STDOUT("Two electrons: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
-	    STDOUT("Two electrons: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
-	  }
+// 	if(isData==true) 
+// 	  {
+// 	    STDOUT("Two electrons: Run, LS, Event = "<<run<<", "<<ls<<", "<<event);
+// 	    STDOUT("Two electrons: M_ee, Pt_ee, Eta_ee, Phi_ee = "<<ee.M() <<", "<< ee.Pt() <<", "<< ee.Eta() <<", "<< ee.Phi());
+// 	    STDOUT("Two electrons: 1st ele Pt, eta, phi = "<< ele1.Pt() <<", "<< ele1.Eta() <<", "<< ele1.Phi() );
+// 	    STDOUT("Two electrons: 2nd ele Pt, eta, phi = "<< ele2.Pt() <<", "<< ele2.Eta() <<", "<< ele2.Phi() );
+// 	  }
       }
 
     // Mej 
@@ -925,10 +925,10 @@ void analysisClass::Loop()
 	STDOUT("TwoElesTwoJets: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event);
 	STDOUT("TwoElesTwoJets: sT, Mee, Mjj_PAS = "<< getVariableValue("sT") <<", "<< getVariableValue("Mee")<<", "<< getVariableValue("Mjj_PAS") );
 	STDOUT("TwoElesTwoJets: Mej_1stPair, Mej_2ndPair = "<< getVariableValue("Mej_1stPair")<<", "<< getVariableValue("Mej_2ndPair") );
-	STDOUT("TwoElesTwoJets: 1stEle Pt, eta, phi = "<<getVariableValue("Pt1stEle_PAS") <<", "<< getVariableValue("Eta1stEle_PAS") );
-	STDOUT("TwoElesTwoJets: 2ndEle Pt, eta, phi = "<<getVariableValue("Pt2ndEle_PAS") <<", "<< getVariableValue("Eta2ndEle_PAS") );
-	STDOUT("TwoElesTwoJets: 1stJet Pt, eta, phi = "<<getVariableValue("Pt1stJet_PAS") <<", "<< getVariableValue("Eta1stJet_PAS") );
-	STDOUT("TwoElesTwoJets: 2ndJet Pt, eta, phi = "<<getVariableValue("Pt2ndJet_PAS") <<", "<< getVariableValue("Eta2ndJet_PAS") );
+	STDOUT("TwoElesTwoJets: 1stEle Pt, eta, phi = "<<getVariableValue("Pt1stEle_PAS") <<", "<< getVariableValue("Eta1stEle_PAS") <<", "<< getVariableValue("Phi1stEle_PAS") );
+	STDOUT("TwoElesTwoJets: 2ndEle Pt, eta, phi = "<<getVariableValue("Pt2ndEle_PAS") <<", "<< getVariableValue("Eta2ndEle_PAS") <<", "<< getVariableValue("Phi2ndEle_PAS") );
+	STDOUT("TwoElesTwoJets: 1stJet Pt, eta, phi = "<<getVariableValue("Pt1stJet_PAS") <<", "<< getVariableValue("Eta1stJet_PAS") <<", "<< getVariableValue("Phi1stJet_PAS") );
+	STDOUT("TwoElesTwoJets: 2ndJet Pt, eta, phi = "<<getVariableValue("Pt2ndJet_PAS") <<", "<< getVariableValue("Eta2ndJet_PAS") <<", "<< getVariableValue("Phi2ndJet_PAS") );
 	if ( passedCut("Mee") )
 	  {
 	    STDOUT("PassedMeeAndAllPrevious: Run, LS, Event = "<<run<<",\t"<<ls<<",\t"<<event<<", sT = "<< getVariableValue("sT"));
