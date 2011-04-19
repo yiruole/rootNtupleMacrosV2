@@ -439,7 +439,7 @@ class Plot:
 
         #-- end
         canvas.SaveAs(self.name + ".eps","eps")
-        canvas.SaveAs(self.name + ".png","png")
+        #canvas.SaveAs(self.name + ".png","png")
         #canvas.SaveAs(self.name + ".root","root")
         #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
         canvas.Print(fileps)
@@ -1830,9 +1830,9 @@ plot25.histodata       = generateHisto( histoBaseName, sampleForDataHisto, varia
 # ############################ Plots below to be done after full selection ######################
 
 
-##--- sT (after full selection) ---
+##--- sT (after full selection with the pre-selection ST>250 GeV cut) ---
 #variableName = "sT"
-variableName = "sT_MLQ250"
+variableName = "sT_MLQ200"
 
 plot30 = Plot()
 ## inputs for stacked histograms
@@ -1851,10 +1851,10 @@ plot30.ymin            = 0.01
 plot30.ymax            = 500
 #plot30.lpos = "bottom-center"
 #plot30.name            = "sT_fullSelection"
-plot30.name            = "sT_fullSelection_M200"
+plot30.name            = "sT_MLQ200_allPreviousCuts"
 plot30.addZUncBand     = zUncBand
 plot30.makeRatio       = makeRatio
-plot30.xbins           = [200,300,400,500,600,700,1200]
+plot30.xbins           = [150,250,350,450,550,650,750,1200]
 plot30.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 
