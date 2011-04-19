@@ -103,7 +103,7 @@ class Plot:
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     name        = "" # name of the final plots
-    lint        = "6.7 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "10.9 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -262,8 +262,7 @@ class Plot:
 
 #--- Input root file
 
-#File_preselection = GetFile("$LQDATA/collisions/38X_2.9pb-1/output_cutTable_eejjSample_elePt25_jetPt20_withDEtaInEE/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/emujj/6.7pb-1/output_cutTable_emujjSample/analysisClass_emujjSample_plots.root")
+File_preselection = GetFile("$LQDATA/emujj/10.9pb-1/output_cutTable_emujjSample/analysisClass_emujjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -801,7 +800,7 @@ plot14.ytit            = "Number of events"
 plot14.ylog            = "no"
 plot14.rebin           = 5
 plot14.ymin            = 0
-plot14.ymax            = 5
+plot14.ymax            = 10
 plot14.xmin            = 0
 plot14.xmax            = 500
 #plot14.lpos = "bottom-center"
