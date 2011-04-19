@@ -280,6 +280,18 @@ void analysisClass::Loop()
       CreateUserTH1D("h1_ElectronTrkIsoHeep_endcap_highMT", 200,0,100 );
       CreateUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT", 100,0,1 );
       CreateUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT", 100,0,1 );
+
+      CreateUserTH1D("h1_ElectronDeltaEtaTrkSC_MT90to130", 200,-0.05,0.05 );
+      CreateUserTH1D("h1_ElectronDeltaPhiTrkSC_MT90to130", 200,-0.5,0.5 );
+      CreateUserTH1D("h1_ElectronHoE_MT90to130", 75,0,0.15 );
+      CreateUserTH1D("h1_ElectronSigmaIEtaIEta_MT90to130", 100,0,0.1 );
+      CreateUserTH1D("h1_ElectronEcalIsoHeep_MT90to130", 1000,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoHeep_MT90to130", 1000,0,100 );
+      CreateUserTH1D("h1_ElectronEcalHcalIsoHeep_MT90to130", 1000,0,100 );
+      CreateUserTH1D("h1_ElectronHcalIsoD2Heep_MT90to130", 200,0,100 );
+      CreateUserTH1D("h1_ElectronTrkIsoHeep_MT90to130", 200,0,100 );
+      CreateUserTH1D("h1_ElectronE2x5OverE5x5_MT90to130", 100,0,1 );
+      CreateUserTH1D("h1_ElectronE1x5OverE5x5_MT90to130", 100,0,1 );
     }
 
   if(doPlot_Wmore0jet)
@@ -1852,7 +1864,7 @@ void analysisClass::Loop()
 		FillUserTH1D("h1_ElectronE2x5OverE5x5_endcap_highMT",  ElectronE2x5OverE5x5->at(myEle) );
 		FillUserTH1D("h1_ElectronE1x5OverE5x5_endcap_highMT",  ElectronE1x5OverE5x5->at(myEle) );
 	      }
-
+//
 // 	    //XXXXXXXX DEBUG XXXXXXXXXX
 // 	    CreateAndFillUserTH1D("h1_ElectronRelIso_highMT", 1000, 0, 1, ElectronRelIso->at(myEle) );
 // 	    CreateAndFillUserTH1D("h1_ElectronVtxDistXY_highMT", 200, -0.01, 0.01, ElectronVtxDistXY->at(myEle) );
@@ -1877,6 +1889,22 @@ void analysisClass::Loop()
 // 	      }
 // 	    //XXXXXXXXXXXXXXXXXXXXXXXXX
 	  }
+
+        //MT between 90 and 130 GeV
+        if( getVariableValue("MTenu")>90 && getVariableValue("MTenu")<130 && plotEleIDIsoVar )
+          {
+             FillUserTH1D("h1_ElectronDeltaEtaTrkSC_MT90to130", ElectronDeltaEtaTrkSC->at(myEle) );
+             FillUserTH1D("h1_ElectronDeltaPhiTrkSC_MT90to130", ElectronDeltaPhiTrkSC->at(myEle) );
+             FillUserTH1D("h1_ElectronHoE_MT90to130", ElectronHoE->at(myEle) );
+             FillUserTH1D("h1_ElectronSigmaIEtaIEta_MT90to130", ElectronSigmaIEtaIEta->at(myEle) );
+             FillUserTH1D("h1_ElectronEcalIsoHeep_MT90to130",  ElectronEcalIsoHeep->at(myEle) );
+             FillUserTH1D("h1_ElectronHcalIsoHeep_MT90to130",  ElectronHcalIsoD1Heep->at(myEle) );
+             FillUserTH1D("h1_ElectronEcalHcalIsoHeep_MT90to130",  ElectronEcalIsoHeep->at(myEle)+ElectronHcalIsoD1Heep->at(myEle) );
+             FillUserTH1D("h1_ElectronHcalIsoD2Heep_MT90to130",  ElectronHcalIsoD2Heep->at(myEle) );
+             FillUserTH1D("h1_ElectronTrkIsoHeep_MT90to130",  ElectronTrkIsoHeep->at(myEle) );
+             FillUserTH1D("h1_ElectronE2x5OverE5x5_MT90to130",  ElectronE2x5OverE5x5->at(myEle) );
+             FillUserTH1D("h1_ElectronE1x5OverE5x5_MT90to130",  ElectronE1x5OverE5x5->at(myEle) );
+          }
 
 // 	//XXXXXXXX DEBUG XXXXXXXXXX
 // 	//high PT tails
