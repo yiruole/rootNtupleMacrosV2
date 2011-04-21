@@ -416,7 +416,8 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled_DeltaMej/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_ZjetsRescaled_ttbarRescaled/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_ZjetsRescaled_ttbarRescaled/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/eejj/18.8pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
