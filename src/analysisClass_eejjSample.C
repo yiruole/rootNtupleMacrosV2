@@ -118,13 +118,13 @@ void analysisClass::Loop()
   h_ElectronTrkIsoHeep_endcap_heep->Sumw2();
 
   
-  TH1F *h_CaloJetResEMF_looseID = new TH1F ("h_CaloJetResEMF_looseID","h_CaloJetResEMF_looseID",100,-2,2);
-  TH1F *h_CaloJetFHPD_looseID = new TH1F ("h_CaloJetFHPD_looseID","h_CaloJetFHPD_looseID",100,-2,2);
-  TH1F *h_CaloJetN90Hits_looseID = new TH1F ("h_CaloJetN90Hits_looseID","h_CaloJetN90Hits_looseID",50,0,100);
+//   TH1F *h_CaloJetResEMF_looseID = new TH1F ("h_CaloJetResEMF_looseID","h_CaloJetResEMF_looseID",100,-2,2);
+//   TH1F *h_CaloJetFHPD_looseID = new TH1F ("h_CaloJetFHPD_looseID","h_CaloJetFHPD_looseID",100,-2,2);
+//   TH1F *h_CaloJetN90Hits_looseID = new TH1F ("h_CaloJetN90Hits_looseID","h_CaloJetN90Hits_looseID",50,0,100);
 
-  h_CaloJetResEMF_looseID->Sumw2();
-  h_CaloJetFHPD_looseID->Sumw2();
-  h_CaloJetN90Hits_looseID->Sumw2();
+//   h_CaloJetResEMF_looseID->Sumw2();
+//   h_CaloJetFHPD_looseID->Sumw2();
+//   h_CaloJetN90Hits_looseID->Sumw2();
 
   CreateUserTH1D("sT_fullSeleNoPreStCut", 200, 0, 2000);
 
@@ -156,6 +156,8 @@ void analysisClass::Loop()
   double muNHits_minThresh = getPreCutValue1("muNHits_minThresh");
   double muTrkD0Maximum = getPreCutValue1("muTrkD0Maximum");
 
+  int jetAlgorithm = getPreCutValue1("jetAlgorithm");
+
   double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
   double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
   double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
@@ -178,6 +180,57 @@ void analysisClass::Loop()
     
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    //## Define new jet collection
+    std::auto_ptr<std::vector<double> >  JetPt  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetPtRaw  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetEnergy  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetEta  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetPhi  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<int> >     JetPassID  ( new std::vector<int>()  );
+    std::auto_ptr<std::vector<double> >  JetTCHE  ( new std::vector<double>()  );
+
+    if(jetAlgorithm==1) //PF jets
+      {
+	for (int ijet=0 ; ijet< PFJetPt->size() ; ijet++)
+	  {
+	    JetPt->push_back( PFJetPt->at(ijet) );
+	    JetPtRaw->push_back( PFJetPtRaw->at(ijet) );
+	    JetEnergy->push_back( PFJetEnergy->at(ijet) );
+	    JetEta->push_back( PFJetEta->at(ijet) );
+	    JetPhi->push_back( PFJetPhi->at(ijet) );
+            JetPassID->push_back( PFJetPassLooseID->at(ijet) );
+	    //     JetPassID->push_back(
+	    //  PFJetIdloose(PFJetChargedHadronEnergyFraction->at(ijet),
+	    //       PFJetChargedEmEnergyFraction->at(ijet),
+	    //       PFJetNeutralHadronEnergyFraction->at(ijet),
+	    //       PFJetNeutralEmEnergyFraction->at(ijet),
+	    //       PFJetEta->at(ijet) )
+	    //  );
+            JetTCHE->push_back( PFJetTrackCountingHighEffBTag->at(ijet) );
+	  }//end loop over pf jets
+      }//end if "pf jets"
+
+    if(jetAlgorithm==2) //Calo jets
+      {
+	for (int ijet=0 ; ijet < CaloJetPt->size() ; ijet++)
+	  {
+	    JetPt->push_back( CaloJetPt->at(ijet) );
+	    JetPtRaw->push_back( CaloJetPtRaw->at(ijet) );
+	    JetEnergy->push_back( CaloJetEnergy->at(ijet) );
+	    JetEta->push_back( CaloJetEta->at(ijet) );
+	    JetPhi->push_back( CaloJetPhi->at(ijet) );
+            JetPassID->push_back( CaloJetPassLooseID->at(ijet) );
+	    //     JetPassID->push_back(
+	    //  JetIdloose(CaloJetresEMF->at(ijet),
+	    //     CaloJetfHPD->at(ijet),
+	    //     CaloJetn90Hits->at(ijet),
+	    //     CaloJetEta->at(ijet) )
+	    //  );
+            JetTCHE->push_back( CaloJetTrackCountingHighEffBTag->at(ijet) );
+	  }//end loop over calo jets
+      }//end if "calo jets"
+
+
     // EES and JES
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
@@ -191,9 +244,9 @@ void analysisClass::Loop()
       }
     if( JetEnergyScale != 1 )
       {
-	for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+	for(int ijet=0; ijet<JetPt->size(); ijet++)
 	  {
-	    CaloJetPt->at(ijet) *= JetEnergyScale;
+	    JetPt->at(ijet) *= JetEnergyScale;
 	  }
       }
 
@@ -222,19 +275,19 @@ void analysisClass::Loop()
     }
     if(jentry == 0 ) STDOUT("Run = "<<run <<", HLTTrgUsed is number = "<<HLTTrgUsed<<" of the list HLTPathsOfInterest");
 
-    if ( isData==true)
-      {
-	// Skip runs declared bad for HCAL reasons
-	if ( run == 146511 ) continue;
-	if ( run == 146513 ) continue;
-	if ( run == 146514 ) continue;
-	if ( run == 146644 ) continue;
-	// Skip runs declared bad for other reasons
-	if ( run == 141874 ) continue;
-	if ( run == 141876 ) continue;
-	if ( run == 142414 ) continue;
-	if ( run == 147929 and ls == 619 ) continue;
-      }
+//     if ( isData==true)
+//       {
+// 	// Skip runs declared bad for HCAL reasons
+// 	if ( run == 146511 ) continue;
+// 	if ( run == 146513 ) continue;
+// 	if ( run == 146514 ) continue;
+// 	if ( run == 146644 ) continue;
+// 	// Skip runs declared bad for other reasons
+// 	if ( run == 141874 ) continue;
+// 	if ( run == 141876 ) continue;
+// 	if ( run == 142414 ) continue;
+// 	if ( run == 147929 and ls == 619 ) continue;
+//       }
 
     // Electrons
     vector<int> v_idx_ele_all;
@@ -334,13 +387,13 @@ void analysisClass::Loop()
     vector<int> v_idx_jet_PtCut_noOverlap_ID_EtaCut;
 
     // Loop over jets
-    for(int ijet=0; ijet<CaloJetPt->size(); ijet++)
+    for(int ijet=0; ijet<JetPt->size(); ijet++)
       {
 	//no cut on reco jets
 	v_idx_jet_all.push_back(ijet);
 
 	//pT pre-cut on reco jets
-	if ( CaloJetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
+	if ( JetPt->at(ijet) < getPreCutValue1("jet_PtCut") ) continue;
 	v_idx_jet_PtCut.push_back(ijet);
       }
 
@@ -348,7 +401,7 @@ void analysisClass::Loop()
 // 	int JetOverlapsWithEle = 0; //don't change the default (0) 
 // 	float minDeltaR=9999.;
 // 	TVector3 jet_vec;
-// 	jet_vec.SetPtEtaPhi(CaloJetPt->at(ijet),CaloJetEta->at(ijet),CaloJetPhi->at(ijet));
+// 	jet_vec.SetPtEtaPhi(JetPt->at(ijet),JetEta->at(ijet),JetPhi->at(ijet));
 // 	for (int i=0; i < v_idx_ele_PtCut_IDISO_noOverlap.size(); i++){
 // 	  TVector3 ele_vec;	  
 // 	  ele_vec.SetPtEtaPhi(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[i])
@@ -362,7 +415,7 @@ void analysisClass::Loop()
 
 // 	//pT pre-cut + no overlaps with electrons
 // 	// ---- use the flag stored in rootTuples
-// 	//if( ( CaloJetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
+// 	//if( ( JetOverlaps->at(ijet) & 1 << eleIDType) == 0)/* NO overlap with electrons */  
 // 	// && (caloJetOverlaps[ijet] & 1 << 5)==0 )/* NO overlap with muons */   
 // 	// ----
 // 	if( JetOverlapsWithEle == 0 )  /* NO overlap with electrons */  
@@ -383,9 +436,9 @@ void analysisClass::Loop()
           {
 	    if ( jetFlags[ijet] == 1 ) 
 	      continue;
-            jet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
-			     CaloJetEta->at(v_idx_jet_PtCut[ijet]),
-			     CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+            jet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),0);
 	    double DR = jet.DeltaR(ele);
 	    if (DR<minDR) 
 	      {
@@ -415,9 +468,9 @@ void analysisClass::Loop()
 // 	TLorentzVector thisjet;
 // 	for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
 // 	  {
-// 	    thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut[ijet]),
-// 				 CaloJetEta->at(v_idx_jet_PtCut[ijet]),
-// 				 CaloJetPhi->at(v_idx_jet_PtCut[ijet]),0);
+// 	    thisjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut[ijet]),
+// 				 JetEta->at(v_idx_jet_PtCut[ijet]),
+// 				 JetPhi->at(v_idx_jet_PtCut[ijet]),0);
 // 	    STDOUT("CLEANING: j"<<ijet+1<<" Pt, eta, phi = " << ", "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<" jetFlags="<<jetFlags[ijet] );
 // 	  }
 //       } // printouts for jet cleaning
@@ -426,9 +479,10 @@ void analysisClass::Loop()
     float JetEtaCutValue = getPreCutValue1("jet_EtaCut");
     for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
       {	
-	bool passjetID = JetIdloose(CaloJetresEMF->at(v_idx_jet_PtCut[ijet]),CaloJetfHPD->at(v_idx_jet_PtCut[ijet]),CaloJetn90Hits->at(v_idx_jet_PtCut[ijet]), CaloJetEta->at(v_idx_jet_PtCut[ijet]));
+	bool passjetID = JetPassID->at(v_idx_jet_PtCut[ijet]);
+	//bool passjetID = JetIdloose(CaloJetresEMF->at(v_idx_jet_PtCut[ijet]),CaloJetfHPD->at(v_idx_jet_PtCut[ijet]),CaloJetn90Hits->at(v_idx_jet_PtCut[ijet]), CaloJetEta->at(v_idx_jet_PtCut[ijet]));
 	// ---- use the flag stored in rootTuples
-	//if( (CaloJetOverlaps->at(v_idx_jet_PtCut[ijet]) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
+	//if( (JetOverlaps->at(v_idx_jet_PtCut[ijet]) & 1 << eleIDType) == 0  /* NO overlap with electrons */  
 	// ----
 
 	if( jetFlags[ijet] == 0  )                         /* NO overlap with electrons */  
@@ -443,7 +497,7 @@ void analysisClass::Loop()
 
 	if( jetFlags[ijet] == 0                           /* NO overlap with electrons */  
 	    && passjetID == true                             /* pass JetID */
-	    && fabs( CaloJetEta->at(v_idx_jet_PtCut[ijet]) ) < JetEtaCutValue )
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < JetEtaCutValue )
 	  // && (caloJetOverlaps[ijet] & 1 << 5)==0 )         /* NO overlap with muons */      
 	  v_idx_jet_PtCut_noOverlap_ID_EtaCut.push_back(v_idx_jet_PtCut[ijet]);
 
@@ -572,13 +626,13 @@ void analysisClass::Loop()
     // 1st jet
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 ) 
       {
-	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "Eta1stJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "mEta1stJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0])) );
+	fillVariableWithValue( "Pt1stJet_noOvrlp_ID", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Eta1stJet_noOvrlp_ID", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "mEta1stJet_noOvrlp_ID", fabs(JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0])) );
 	//PAS June 2010
-	fillVariableWithValue( "Pt1stJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "Eta1stJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
-	fillVariableWithValue( "Phi1stJet_PAS", CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Pt1stJet_PAS", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Eta1stJet_PAS", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	fillVariableWithValue( "Phi1stJet_PAS", JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
       }
 
 
@@ -586,14 +640,14 @@ void analysisClass::Loop()
     //## 2nd jet
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 ) 
       {
-	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "Eta2ndJet_noOvrlp_ID", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "mEta2ndJet_noOvrlp_ID", fabs(CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1])) );
+	fillVariableWithValue( "Pt2ndJet_noOvrlp_ID", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Eta2ndJet_noOvrlp_ID", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "mEta2ndJet_noOvrlp_ID", fabs(JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1])) );
 	fillVariableWithValue( "maxMEtaJets_noOvrlp_ID", max( getVariableValue("mEta1stJet_noOvrlp_ID"), getVariableValue("mEta2ndJet_noOvrlp_ID") ) );
 	//PAS June 2010
-	fillVariableWithValue( "Pt2ndJet_PAS", CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "Eta2ndJet_PAS", CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
-	fillVariableWithValue( "Phi2ndJet_PAS", CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Pt2ndJet_PAS", JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Eta2ndJet_PAS", JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	fillVariableWithValue( "Phi2ndJet_PAS", JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
       }
 
     //## define "2ele" and "2jets" booleans
@@ -609,8 +663,8 @@ void analysisClass::Loop()
 	calc_sT = 
 	  ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[0]) +
 	  ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]) +
-	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
-	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]);
 	fillVariableWithValue("sT_preliminary", calc_sT);
 	fillVariableWithValue("sT", calc_sT);
 	fillVariableWithValue("sT_MLQ150", calc_sT);
@@ -633,8 +687,8 @@ void analysisClass::Loop()
       {
 	double calc_sTjet=-999.;
 	calc_sTjet =
-	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) + 
-	  CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) ;
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) + 
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) ;
 	fillVariableWithValue("sTjet_PAS", calc_sTjet);
       }
 
@@ -642,12 +696,12 @@ void analysisClass::Loop()
     if (TwoJets)
       {
 	TLorentzVector jet1, jet2, jj;
-	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
-	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
+	jet1.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
+	jet2.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	jj = jet1+jet2;
 	//PAS June 2010
 	fillVariableWithValue("Mjj_PAS", jj.M());
@@ -707,12 +761,12 @@ void analysisClass::Loop()
 	ele2.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
 			  ElectronEta->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),
 			  ElectronPhi->at(v_idx_ele_PtCut_IDISO_noOverlap[1]),0);
-	jet1.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
-	jet2.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
-			  CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
+	jet1.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),0);
+	jet2.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),0);
 	TLorentzVector e1j1, e1j2, e2j1, e2j2;
 	e1j1 = ele1 + jet1;
 	e2j2 = ele2 + jet2;
@@ -770,9 +824,9 @@ void analysisClass::Loop()
 	TLorentzVector thisjet;
 	for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
 	  {
-	    thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-				 CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-				 CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
+	    thisjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+				 JetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+				 JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
 	    DR_thisjet_e1 = thisjet.DeltaR(ele1);
 	    DR_thisjet_e2 = thisjet.DeltaR(ele2);
 	    thisMinDR = min(DR_thisjet_e1, DR_thisjet_e2);
@@ -807,9 +861,9 @@ void analysisClass::Loop()
 // 	    TLorentzVector thisjet_e1, thisjet_e2;
 // 	    for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
 // 	      {
-// 		thisjet.SetPtEtaPhiM(CaloJetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-// 				     CaloJetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
-// 				     CaloJetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
+// 		thisjet.SetPtEtaPhiM(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+// 				     JetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+// 				     JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),0);
 // 		thisjet_e1 = thisjet + ele1;
 // 		thisjet_e2 = thisjet + ele2;
 // 		STDOUT("TwoElesTwoJets: j"<<ijet+1<<" Pt, eta, phi = "<<thisjet.Pt()<<", "<< thisjet.Eta() <<", "<< thisjet.Phi()<<"; DR_e1, DR_e2 = "<< thisjet.DeltaR(ele1)<<", "<<thisjet.DeltaR(ele2) << "; M_e1, M_e2 = " <<thisjet_e1.M() <<", "<<thisjet_e2.M() );
@@ -906,18 +960,18 @@ void analysisClass::Loop()
 	  }
       }
     
-    if( passedAllPreviousCuts("Pt1stJet_PAS") && (TwoEle) && (TwoJets) )
-      {
-	//jet1
-	h_CaloJetResEMF_looseID->Fill( CaloJetresEMF->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
-	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
-	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
+//     if( passedAllPreviousCuts("Pt1stJet_PAS") && (TwoEle) && (TwoJets) )
+//       {
+// 	//jet1
+// 	h_CaloJetResEMF_looseID->Fill( CaloJetresEMF->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
+// 	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
+// 	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[0]) ) ;
     
-	//jet2
-	h_CaloJetResEMF_looseID->Fill( CaloJetresEMF->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
-	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
-	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
-      }
+// 	//jet2
+// 	h_CaloJetResEMF_looseID->Fill( CaloJetresEMF->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
+// 	h_CaloJetFHPD_looseID->Fill( CaloJetfHPD->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
+// 	h_CaloJetN90Hits_looseID->Fill( CaloJetn90Hits->at(v_idx_jet_PtCut_noOverlap_ID[1]) ) ;
+//       }
 
     // printouts for TwoElesTwoJets
     if( isData==true && passedAllPreviousCuts("Mee") ) 
@@ -981,9 +1035,9 @@ void analysisClass::Loop()
   h_ElectronHcalIsoD2Heep_endcap_heep->Write();
   h_ElectronTrkIsoHeep_endcap_heep->Write();
 
-  h_CaloJetResEMF_looseID->Write();
-  h_CaloJetFHPD_looseID->Write();
-  h_CaloJetN90Hits_looseID->Write();
+//   h_CaloJetResEMF_looseID->Write();
+//   h_CaloJetFHPD_looseID->Write();
+//   h_CaloJetN90Hits_looseID->Write();
 
 
   ////////////////////// User's code to write histos - END ///////////////////////

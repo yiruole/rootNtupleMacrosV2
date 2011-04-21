@@ -44,6 +44,9 @@ JetEnergyScale        1.0	   -			-		-		-1
 fakeRate_Barrel	      0.0061	   0			-		-		-1
 fakeRate_Endcap	      0.0399	   0			-		-		-1
 #
+## 1=PFJets , 2=CaloJets
+jetAlgorithm	      1		   -			-		-		-1
+#
 produceSkim           0            -			-               -               -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
