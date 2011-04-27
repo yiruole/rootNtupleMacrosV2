@@ -311,6 +311,7 @@ class Plot:
 #                stack[iter].GetYaxis().SetTitleSize(0.05)
 #                stack[iter].GetYaxis().SetLabelSize(0.045)
                 stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)")
+                #stack[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW))
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
@@ -505,7 +506,7 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["OTHERBKG","TTbar_Madgraph","WJetAlpgen"]
-keysStack =             ["QCD multi-jet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
+keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
 
 #samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
 #keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
