@@ -71,7 +71,7 @@ LQsampleForEachCut = [ "LQenujj_M200",
                        "LQenujj_M500",
                        ]
 
-systUncert = { 'data': {'TTbar_Madgraph': 17, 'WJetAlpgen': 10, 'QCD': 25, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '-'} ,
+systUncert = { 'data': {'TTbar_Madgraph': 14, 'WJetAlpgen': 10, 'QCD': 25, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '-'} ,
                'Wshape': {'TTbar_Madgraph': 0, 'WJetAlpgen': 44, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '44'} ,
                'JES':  {'TTbar_Madgraph': 9, 'WJetAlpgen': 6, 'QCD': 0, 'OTHERBKG': 9, 'LQ': 5, 'magnitude': '5'} ,
                'EES':  {'TTbar_Madgraph': 4, 'WJetAlpgen': 2, 'QCD': 0, 'OTHERBKG': 1, 'LQ': 1, 'magnitude': '1(3)'} ,
@@ -227,11 +227,10 @@ errDataALL = math.sqrt(
                         (
                           (systUncert['data']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
                           + (systUncert['data']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
-                          + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
-                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
                         )**2
-                        +
-                        ( d[CutForSystematics]['QCD']["DATA"]['errNpass'] )**2
+                          + (systUncert['data']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )**2
+                          + (systUncert['data']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )**2
+                          + ( d[CutForSystematics]['QCD']["DATA"]['errNpass'] )**2
                       )        /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 errWshapeALL = (
