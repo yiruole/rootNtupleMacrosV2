@@ -311,7 +311,7 @@ class Plot:
 #                stack[iter].GetYaxis().SetTitleSize(0.05)
 #                stack[iter].GetYaxis().SetLabelSize(0.045)
                 stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)")
-                #stack[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW))
+                #stack[iter].GetYaxis().SetTitle(("Events #times (%.0f GeV)/(bin width)")%(minBinW))
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
