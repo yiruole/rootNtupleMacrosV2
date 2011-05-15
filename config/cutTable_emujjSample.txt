@@ -25,6 +25,7 @@ jet_PtCut             30           -                    -               -       
 jet_EtaCut            3.0          -                    -               -               -1
 muon_PtCut            30           -                    -               -               -1
 jet_ele_DeltaRcut     0.3          -                    -               -               -1
+jet_muon_DeltaRcut    0.3          -                    -               -               -1
 muFidRegion           2.1          -                    -               -               -1
 muNHits_minThresh     11           -                    -               -               -1
 muTrkD0Maximum        0.2         -                    -               -               -1
@@ -41,6 +42,10 @@ JetEnergyScale        1.0	   -			-		-		-1
 fakeRate_Barrel	      0.0061	   0			-		-		-1
 fakeRate_Endcap	      0.0399	   0			-		-		-1
 #
+## 1=PFJets , 2=CaloJets
+jetAlgorithm          1		   -			-		-		-1
+## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
+metAlgorithm          1	           -			-		-		-1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -69,21 +74,21 @@ PassHLT				-inf	     +inf		-		-		1	2 -0.5 1.5
 #
 nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
-nEle_PtCut_IDISO_noOvrlp	0	     +inf		-		-		1	16 -0.5 15.5
+nEle_PtCut_IDISO_noOvrlp	0	     1			-		-		1	16 -0.5 15.5
 #
 nMu_all 			-inf	     +inf		-		-		1	16 -0.5 15.5
 nMu_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
-nMu_PtCut_IDISO			0	     +inf		-		-		1	16 -0.5 15.5
+nMu_PtCut_IDISO			0	     1			-		-		1	16 -0.5 15.5
 #
 nLept_PtCut_IDISO		-inf	     +inf		-		-		1	16 -0.5 15.5
 #
 Pt1stEle_IDISO_NoOvrlp          30	     +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf	     +inf               -               -               1       100 -5 5
-mEta1stEle_IDISO_NoOvrlp        -inf	     2.5                -               -               1       50 0 5
+mEta1stEle_IDISO_NoOvrlp        -inf	     2.2                -               -               1       50 0 5
 #
 Pt1stMu_IDISO			30	     +inf               -               -               1       100 0 1000
 Eta1stMu_IDISO			-inf	     +inf               -               -               1       100 -5 5
-mEta1stMu_IDISO			-inf	     2.5                -               -               1       50 0 5
+mEta1stMu_IDISO			-inf	     2.2                -               -               1       50 0 5
 maxMEtaEleMu_IDISO		-inf	     +inf               -               -               1       50 0 5
 #
 Memu_presel			50	     +inf               -               -               2       200 0 1000
@@ -109,22 +114,30 @@ nJet_PAS_All			-inf	     +inf               -               -               2   
 nJet_PAS_EtaCut			-inf	     +inf               -               -               2       16 -0.5 15.5
 Pt1stEle_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta1stEle_PAS			-inf	     +inf               -               -               2       100 -5 5
+Phi1stEle_PAS                   -inf         +inf               -               -               2       100 0 6.2832
 Pt1stMu_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta1stMu_PAS			-inf	     +inf               -               -               2       100 -5 5
+Phi1stMu_PAS                    -inf         +inf               -               -               2       100 0 6.2832
 Memu_PAS                        -inf	     +inf               -               -               2       200 0 1000
 sTemu_PAS                       -inf	     +inf               -               -               2       200 0 2000
 Pt1stJet_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta1stJet_PAS			-inf	     +inf               -               -               2       100 -5 5
+Phi1stJet_PAS                   -inf         +inf               -               -               2       100 0 6.2832
 Pt2ndJet_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta2ndJet_PAS			-inf	     +inf               -               -               2       100 -5 5
+Phi2ndJet_PAS                   -inf         +inf               -               -               2       100 0 6.2832
 Mjj_PAS				-inf	     +inf               -               -               2       200 0 2000
 sTjet_PAS                       -inf	     +inf               -               -               2       200 0 2000
 sT_PAS                          -inf	     +inf               -               -               2       200 0 2000
 Mlj_1stPair_PAS                 -inf	     +inf               -               -               2       200 0 2000
 Mlj_2ndPair_PAS                 -inf	     +inf               -               -               2       200 0 2000
+MET_PAS				-inf	     +inf		-		-		2	200 0 2000
 pfMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 tcMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
+METPhi_PAS			-inf         +inf               -               -               2       100 0 6.2832
+MT_eleMET                       -inf         +inf               -               -               3       200 0 1000
+MT_muonMET                      -inf         +inf               -               -               3       200 0 1000
 #
 Memu                            100	     +inf               -               -               3       200 0 1000
 sT                              -inf	     +inf               -               -               3       200 0 2000
