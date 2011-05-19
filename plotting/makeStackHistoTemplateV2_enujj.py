@@ -28,6 +28,7 @@ gStyle.SetPadTickX(1);
 gStyle.SetPadTickY(1);
 gStyle.SetPadTopMargin(0.08);
 gStyle.SetPadBottomMargin(0.12);
+#gStyle.SetTitleSize(0.05, "XYZ");
 #--- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
 
 def GetFile(filename):
@@ -235,8 +236,8 @@ class Plot:
         #-- legend
 #        hsize=0.22
 #        vsize=0.26
-        hsize=0.33
-        vsize=0.33
+        hsize=0.35
+        vsize=0.35
         if (self.lpos=="bottom-center"):
             xstart=0.35
             ystart=0.25
@@ -245,8 +246,8 @@ class Plot:
 #            ystart=0.63
             ystart=0.54
         else:
-            xstart=0.58
-            ystart=0.54
+            xstart=0.55
+            ystart=0.52
 #            xstart=0.65
 #            ystart=0.63
         legend = TLegend(xstart, ystart, xstart+hsize, ystart+vsize)
@@ -290,13 +291,13 @@ class Plot:
                 stack[iter].GetXaxis().SetTitleFont(132)
                 stack[iter].GetXaxis().SetTitleOffset(0.8)
                 stack[iter].GetXaxis().SetLabelOffset(0.0)
-                stack[iter].GetXaxis().SetTitleSize(0.055)
-                stack[iter].GetXaxis().SetLabelSize(0.045)
+                stack[iter].GetXaxis().SetTitleSize(0.065)
+                stack[iter].GetXaxis().SetLabelSize(0.055)
                 stack[iter].GetXaxis().SetLabelFont(132)
                 stack[iter].GetYaxis().SetTitleFont(132)
-                stack[iter].GetYaxis().SetTitleOffset(0.75)
-                stack[iter].GetYaxis().SetTitleSize(0.055)
-                stack[iter].GetYaxis().SetLabelSize(0.045)
+                stack[iter].GetYaxis().SetTitleOffset(0.7)
+                stack[iter].GetYaxis().SetTitleSize(0.065)
+                stack[iter].GetYaxis().SetLabelSize(0.055)
                 stack[iter].GetYaxis().SetLabelOffset(0.0)
                 stack[iter].GetYaxis().SetLabelFont(132)
 #                stack[iter].GetXaxis().SetTitleFont(132)
@@ -388,8 +389,8 @@ class Plot:
 #            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary 2010")
 #            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.13,"#intLdt = " + self.lint)
         else:
-            l.DrawLatex(xstart-hsize+0.17,ystart+vsize-0.05,"CMS")
-            l.DrawLatex(xstart-hsize+0.15,ystart+vsize-0.15,"#sqrt{s}=7 TeV")
+            l.DrawLatex(xstart-hsize+0.12,ystart+vsize-0.05,"CMS")
+            l.DrawLatex(xstart-hsize+0.12,ystart+vsize-0.15,"#sqrt{s} = 7 TeV")
 #            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
 #            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.13,"#intLdt = " + self.lint)
 
@@ -511,7 +512,7 @@ keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
 #samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
 #keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
 samplesForHistos = ["LQenujj_M300"]
-keys             = ["LQ, M=300 GeV"]
+keys             = ["LQ, M = 300 GeV"]
 
 sampleForDataHisto = "DATA"
 
