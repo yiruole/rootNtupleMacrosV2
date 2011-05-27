@@ -311,8 +311,8 @@ class Plot:
 #                stack[iter].GetYaxis().SetTitleOffset(0.8)
 #                stack[iter].GetYaxis().SetTitleSize(0.05)
 #                stack[iter].GetYaxis().SetLabelSize(0.045)
-                stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)")
-                #stack[iter].GetYaxis().SetTitle(("Events #times (%.0f GeV)/(bin width)")%(minBinW))
+                stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)") # units omitted or no units for x-axis
+                #stack[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW)) # for x-axis in units of GeV
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
@@ -542,7 +542,7 @@ plot0.keysStack       = keysStack
 plot0.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot0.keys            = keys
 plot0.xtit            = "Number of electrons"
-plot0.ytit            = "Number of events"
+plot0.ytit            = "Events"
 plot0.ylog            = "yes"
 plot0.rebin           = 1
 plot0.xmin            = -0.5
@@ -566,8 +566,8 @@ plot1.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot1.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot1.keys            = keys
-plot1.xtit            = "p_{T} 1^{st} electron [GeV]"
-plot1.ytit            = "Number of events"
+plot1.xtit            = "p_{T} electron [GeV]"
+plot1.ytit            = "Events"
 plot1.ylog            = "yes"
 plot1.rebin           = "var"
 plot1.xmin            = pt_xmin
@@ -591,8 +591,8 @@ plot2.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot2.keys            = keys
-plot2.xtit            = "#eta 1^{st} electron"
-plot2.ytit            = "Number of events"
+plot2.xtit            = "#eta electron"
+plot2.ytit            = "Events"
 plot2.rebin           = eta_rebin
 plot2.xmin            = -3
 plot2.xmax            = 3
@@ -615,7 +615,7 @@ plot_after2.keysStack       = keysStack
 plot_after2.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot_after2.keys            = keys
 plot_after2.xtit            = "Charge of reconstructed electron"
-plot_after2.ytit            = "Number of events"
+plot_after2.ytit            = "Events"
 plot_after2.ylog            = "yes"
 plot_after2.rebin           = 1
 #plot_after2.xmin            = -1.0001
@@ -639,8 +639,8 @@ plot3.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot3.keys            = keys
-plot3.xtit            = "pfMET [GeV]"
-plot3.ytit            = "Number of events"
+plot3.xtit            = "MET [GeV]"
+plot3.ytit            = "Events"
 plot3.ylog            = "yes"
 plot3.rebin           = "var"
 plot3.xmin            = 0
@@ -665,8 +665,8 @@ plot4.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot4.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot4.keys            = keys
-plot4.xtit            = "min(p_{T} 1^{st} electron,pfMET) [GeV]"
-plot4.ytit            = "Number of events"
+plot4.xtit            = "min(p_{T} electron,MET) [GeV]"
+plot4.ytit            = "Events"
 plot4.ylog            = "yes"
 plot4.rebin           = "var"
 plot4.xmin            = 0
@@ -692,7 +692,7 @@ plot5.keysStack       = keysStack
 plot5.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot5.keys            = keys
 plot5.xtit            = "Number of jets"
-plot5.ytit            = "Number of events"
+plot5.ytit            = "Events"
 plot5.ylog            = "yes"
 plot5.rebin           = 1
 plot5.xmin            = -0.5
@@ -717,7 +717,7 @@ plot_TCHELBTag.keysStack       = keysStack
 plot_TCHELBTag.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot_TCHELBTag.keys            = keys
 plot_TCHELBTag.xtit            = "Number of b-tagged jets (TCHEL)"
-plot_TCHELBTag.ytit            = "Number of events"
+plot_TCHELBTag.ytit            = "Events"
 plot_TCHELBTag.ylog            = "yes"
 plot_TCHELBTag.rebin           = 1
 plot_TCHELBTag.xmin            = -0.5
@@ -741,8 +741,8 @@ plot6.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot6.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot6.keys            = keys
-plot6.xtit            = "p_{T} 1^{st} jet [GeV]"
-plot6.ytit            = "Number of events"
+plot6.xtit            = "p_{T} 1st jet [GeV]"
+plot6.ytit            = "Events"
 plot6.ylog            = "yes"
 plot6.rebin           = "var"
 plot6.xmin            = pt_xmin
@@ -766,8 +766,8 @@ plot7.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot7.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot7.keys            = keys
-plot7.xtit            = "#eta 1^{st} jet"
-plot7.ytit            = "Number of events"
+plot7.xtit            = "#eta 1st jet"
+plot7.ytit            = "Events"
 plot7.rebin           = eta_rebin
 plot7.ymin            = eta_ymin
 plot7.ymax            = eta_ymax
@@ -787,8 +787,8 @@ plot8.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot8.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot8.keys            = keys
-plot8.xtit            = "p_{T} 2^{nd} jet [GeV]"
-plot8.ytit            = "Number of events"
+plot8.xtit            = "p_{T} 2nd jet [GeV]"
+plot8.ytit            = "Events"
 plot8.ylog            = "yes"
 plot8.rebin           = "var"
 plot8.xmin            = pt_xmin
@@ -812,8 +812,8 @@ plot9.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot9.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot9.keys            = keys
-plot9.xtit            = "#eta 2^{nd} jet"
-plot9.ytit            = "Number of events"
+plot9.xtit            = "#eta 2nd jet"
+plot9.ytit            = "Events"
 plot9.rebin           = eta_rebin
 plot9.ymin            = eta_ymin
 plot9.ymax            = eta_ymax
@@ -834,8 +834,8 @@ plot_TCHE1.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot_TCHE1.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot_TCHE1.keys            = keys
-plot_TCHE1.xtit            = "TCHE discriminator 1^{st} jet"
-plot_TCHE1.ytit            = "Number of events"
+plot_TCHE1.xtit            = "TCHE discriminator 1st jet"
+plot_TCHE1.ytit            = "Events"
 plot_TCHE1.ylog            = "yes"
 plot_TCHE1.rebin           = "var"
 plot_TCHE1.ymin            = 0.1
@@ -858,8 +858,8 @@ plot_TCHE2.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot_TCHE2.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot_TCHE2.keys            = keys
-plot_TCHE2.xtit            = "TCHE discriminator 2^{nd} jet"
-plot_TCHE2.ytit            = "Number of events"
+plot_TCHE2.xtit            = "TCHE discriminator 2nd jet"
+plot_TCHE2.ytit            = "Events"
 plot_TCHE2.ylog            = "yes"
 plot_TCHE2.rebin           = "var"
 plot_TCHE2.ymin            = 0.1
@@ -883,7 +883,7 @@ plot6and8.keysStack       = keysStack
 plot6and8.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot6and8.keys            = keys
 plot6and8.xtit            = "p_{T} jets [GeV]"
-plot6and8.ytit            = "Number of events"
+plot6and8.ytit            = "Events"
 plot6and8.ylog            = "yes"
 plot6and8.rebin           = "var"
 plot6and8.xmin            = pt_xmin
@@ -909,7 +909,7 @@ plot7and9.keysStack       = keysStack
 plot7and9.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot7and9.keys            = keys
 plot7and9.xtit            = "#eta jets"
-plot7and9.ytit            = "Number of events"
+plot7and9.ytit            = "Events"
 plot7and9.rebin           = eta_rebin
 plot7and9.ymin            = eta_ymin
 plot7and9.ymax            = eta_ymax*1.5
@@ -931,7 +931,7 @@ plot10.keysStack       = keysStack
 plot10.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot10.keys            = keys
 plot10.xtit            = "Number of muons"
-plot10.ytit            = "Number of events"
+plot10.ytit            = "Events"
 plot10.ylog            = "yes"
 plot10.rebin           = 1
 plot10.xmin            = -0.5
@@ -955,7 +955,7 @@ plot11.keysStack       = keysStack
 plot11.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot11.keys            = keys
 plot11.xtit            = "#Delta#phi(MET,e) [rad.]"
-plot11.ytit            = "Number of events"
+plot11.ytit            = "Events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
 plot11.rebin           = 5
@@ -980,8 +980,8 @@ plot12.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot12.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot12.keys            = keys
-plot12.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.]"
-plot12.ytit            = "Number of events"
+plot12.xtit            = "#Delta#phi(MET,1st jet) [rad.]"
+plot12.ytit            = "Events"
 #plot12.xlog            = "yes"
 plot12.ylog            = "yes"
 plot12.rebin           = 5
@@ -1006,8 +1006,8 @@ plot13.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13.keys            = keys
-plot13.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.]"
-plot13.ytit            = "Number of events"
+plot13.xtit            = "#Delta#phi(MET,2nd jet) [rad.]"
+plot13.ytit            = "Events"
 #plot13.xlog            = "yes"
 plot13.ylog            = "yes"
 plot13.rebin           = 5
@@ -1031,8 +1031,8 @@ plot13_afterOtherDfCuts.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13_afterOtherDfCuts.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13_afterOtherDfCuts.keys            = keys
-plot13_afterOtherDfCuts.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.]"
-plot13_afterOtherDfCuts.ytit            = "Number of events"
+plot13_afterOtherDfCuts.xtit            = "#Delta#phi(MET,2nd jet) [rad.]"
+plot13_afterOtherDfCuts.ytit            = "Events"
 #plot13_afterOtherDfCuts.xlog            = "yes"
 plot13_afterOtherDfCuts.ylog            = "yes"
 plot13_afterOtherDfCuts.rebin           = 5
@@ -1060,7 +1060,7 @@ plot14.histos          = generateHistoList( histoBaseName, samplesForHistos, var
 plot14.keys            = keys
 #plot14.xtit            = "M_{T}(e#nu) [GeV]"
 plot14.xtit            = "m_{T,e#nu} [GeV]"
-plot14.ytit            = "Number of events"
+plot14.ytit            = "Events"
 # plot14.ylog            = "yes"
 # plot14.rebin           = 1
 # plot14.ymin            = 0.00000001
@@ -1087,7 +1087,7 @@ plot14_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos
 plot14_ylog.keys            = keys
 #plot14_ylog.xtit            = "M_{T}(e#nu) [GeV]"
 plot14_ylog.xtit            = "m_{T,e#nu} [GeV]"
-plot14_ylog.ytit            = "Number of events"
+plot14_ylog.ytit            = "Events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = "var" # don't change it (since a rebinning is already applied above on the same histo)
 plot14_ylog.xmin            = 0
@@ -1112,7 +1112,7 @@ plot14_0_1.keysStack       = keysStack
 plot14_0_1.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_0_1.keys            = keys
 plot14_0_1.xtit            = "M_{T}(e#nu) [GeV] - #Delta#phi(MET,2nd jet)<=1"
-plot14_0_1.ytit            = "Number of events"
+plot14_0_1.ytit            = "Events"
 # plot14_0_1.ylog            = "yes"
 # plot14_0_1.rebin           = 1
 # plot14_0_1.ymin            = 0.00000001
@@ -1141,7 +1141,7 @@ plot14_1_2.keysStack       = keysStack
 plot14_1_2.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_1_2.keys            = keys
 plot14_1_2.xtit            = "M_{T}(e#nu) [GeV] - 1<#Delta#phi(MET,2nd jet)<2"
-plot14_1_2.ytit            = "Number of events"
+plot14_1_2.ytit            = "Events"
 # plot14_1_2.ylog            = "yes"
 # plot14_1_2.rebin           = 1
 # plot14_1_2.ymin            = 0.00000001
@@ -1171,7 +1171,7 @@ plot14_2_pi.keysStack       = keysStack
 plot14_2_pi.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_2_pi.keys            = keys
 plot14_2_pi.xtit            = "M_{T}(e#nu) [GeV] - #Delta#phi(MET,2nd jet)>=2"
-plot14_2_pi.ytit            = "Number of events"
+plot14_2_pi.ytit            = "Events"
 # plot14_2_pi.ylog            = "yes"
 # plot14_2_pi.rebin           = 1
 # plot14_2_pi.ymin            = 0.00000001
@@ -1201,7 +1201,7 @@ plot14_plus.keysStack       = keysStack
 plot14_plus.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_plus.keys            = keys
 plot14_plus.xtit            = "M_{T}(e+#nu) [GeV]"
-plot14_plus.ytit            = "Number of events"
+plot14_plus.ytit            = "Events"
 # plot14_plus.ylog            = "yes"
 # plot14_plus.rebin           = 1
 # plot14_plus.ymin            = 0.00000001
@@ -1227,7 +1227,7 @@ plot14_plus_ylog.keysStack       = keysStack
 plot14_plus_ylog.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_plus_ylog.keys            = keys
 plot14_plus_ylog.xtit            = "M_{T}(e+#nu) [GeV]"
-plot14_plus_ylog.ytit            = "Number of events"
+plot14_plus_ylog.ytit            = "Events"
 plot14_plus_ylog.ylog            = "yes"
 plot14_plus_ylog.rebin           = "var" # don't change it (since a rebinning is already applied above on the same histo)
 plot14_plus_ylog.xmin            = 0
@@ -1253,7 +1253,7 @@ plot14_minus.keysStack       = keysStack
 plot14_minus.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_minus.keys            = keys
 plot14_minus.xtit            = "M_{T}(e-#nu) [GeV]"
-plot14_minus.ytit            = "Number of events"
+plot14_minus.ytit            = "Events"
 # plot14_minus.ylog            = "yes"
 # plot14_minus.rebin           = 1
 # plot14_minus.ymin            = 0.00000001
@@ -1279,7 +1279,7 @@ plot14_minus_ylog.keysStack       = keysStack
 plot14_minus_ylog.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot14_minus_ylog.keys            = keys
 plot14_minus_ylog.xtit            = "M_{T}(e-#nu) [GeV]"
-plot14_minus_ylog.ytit            = "Number of events"
+plot14_minus_ylog.ytit            = "Events"
 plot14_minus_ylog.ylog            = "yes"
 plot14_minus_ylog.rebin           = "var" # don't change it (since a rebinning is already applied above on the same histo)
 plot14_minus_ylog.xmin            = 0
@@ -1305,7 +1305,7 @@ plot15.keysStack       = keysStack
 plot15.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot15.keys            = keys
 plot15.xtit            = "S_{T} [GeV]"
-plot15.ytit            = "Number of events"
+plot15.ytit            = "Events"
 plot15.ylog            = "yes"
 plot15.rebin           = "var"
 plot15.xmin            = 50
@@ -1331,7 +1331,7 @@ plot15_lep.keysStack       = keysStack
 plot15_lep.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot15_lep.keys            = keys
 plot15_lep.xtit            = "S_{T} leptons [GeV]"
-plot15_lep.ytit            = "Number of events"
+plot15_lep.ytit            = "Events"
 plot15_lep.ylog            = "yes"
 plot15_lep.rebin           = "var"
 plot15_lep.xmin            = 50
@@ -1357,7 +1357,7 @@ plot15_jet.keysStack       = keysStack
 plot15_jet.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot15_jet.keys            = keys
 plot15_jet.xtit            = "S_{T} jets [GeV]"
-plot15_jet.ytit            = "Number of events"
+plot15_jet.ytit            = "Events"
 plot15_jet.ylog            = "yes"
 plot15_jet.rebin           = "var"
 plot15_jet.xmin            = 50
@@ -1383,7 +1383,7 @@ plot16.keysStack       = keysStack
 plot16.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot16.keys            = keys
 plot16.xtit            = "M(jj) [GeV]"
-plot16.ytit            = "Number of events"
+plot16.ytit            = "Events"
 plot16.ylog            = "yes"
 plot16.rebin           = "var"
 plot16.ymin            = 0.01
@@ -1409,7 +1409,7 @@ plot17.keysStack       = keysStack
 plot17.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot17.keys            = keys
 plot17.xtit            = "M(ej) [GeV]"
-plot17.ytit            = "Number of entries"
+plot17.ytit            = "Entries"
 plot17.ylog            = "no"
 plot17.rebin           = "var"
 plot17.xmin            = 0
@@ -1431,7 +1431,7 @@ plot17_ylog.keysStack       = keysStack
 plot17_ylog.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot17_ylog.keys            = keys
 plot17_ylog.xtit            = "M(ej) [GeV]"
-plot17_ylog.ytit            = "Number of entries"
+plot17_ylog.ytit            = "Entries"
 plot17_ylog.ylog            = "yes"
 plot17_ylog.rebin           = "var"
 plot17_ylog.xmin            = 0
@@ -1457,7 +1457,7 @@ plot17_1.keysStack       = keysStack
 plot17_1.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot17_1.keys            = keys
 plot17_1.xtit            = "max M(ej) [GeV]"
-plot17_1.ytit            = "Number of entries"
+plot17_1.ytit            = "Entries"
 plot17_1.ylog            = "no"
 plot17_1.rebin           = "var"
 plot17_1.xmin            = 0
@@ -1479,7 +1479,7 @@ plot17_1_ylog.keysStack       = keysStack
 plot17_1_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot17_1_ylog.keys            = keys
 plot17_1_ylog.xtit            = "max M(ej) [GeV]"
-plot17_1_ylog.ytit            = "Number of entries"
+plot17_1_ylog.ytit            = "Entries"
 plot17_1_ylog.ylog            = "yes"
 plot17_1_ylog.rebin           = "var"
 plot17_1_ylog.xmin            = 0
@@ -1505,7 +1505,7 @@ plot17_2.keysStack       = keysStack
 plot17_2.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot17_2.keys            = keys
 plot17_2.xtit            = "min M(ej) [GeV]"
-plot17_2.ytit            = "Number of entries"
+plot17_2.ytit            = "Entries"
 plot17_2.ylog            = "no"
 plot17_2.rebin           = "var"
 plot17_2.xmin            = 0
@@ -1527,7 +1527,7 @@ plot17_2_ylog.keysStack       = keysStack
 plot17_2_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot17_2_ylog.keys            = keys
 plot17_2_ylog.xtit            = "min M(ej) [GeV]"
-plot17_2_ylog.ytit            = "Number of entries"
+plot17_2_ylog.ytit            = "Entries"
 plot17_2_ylog.ylog            = "yes"
 plot17_2_ylog.rebin           = "var"
 plot17_2_ylog.xmin            = 0
@@ -1553,7 +1553,7 @@ plot18.keysStack       = keysStack
 plot18.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot18.keys            = keys
 plot18.xtit            = "M_{T}(#nuj) [GeV]"
-plot18.ytit            = "Number of entries"
+plot18.ytit            = "Entries"
 plot18.ylog            = "yes"
 plot18.rebin           = "var"
 plot18.xmin            = 0
@@ -1578,8 +1578,8 @@ plot19.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot19.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot19.keys            = keys
-plot19.xtit            = "#phi 1^{st} electron [rad.]"
-plot19.ytit            = "Number of events"
+plot19.xtit            = "#phi electron [rad.]"
+plot19.ytit            = "Events"
 plot19.rebin           = eta_rebin*2
 #plot19.xmin            = -3.15
 #plot19.xmax            = 3.15
@@ -1601,8 +1601,8 @@ plot19_EleBarrel.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot19_EleBarrel.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot19_EleBarrel.keys            = keys
-plot19_EleBarrel.xtit            = "#phi 1^{st} electron in barrel [rad.]"
-plot19_EleBarrel.ytit            = "Number of events"
+plot19_EleBarrel.xtit            = "#phi electron in barrel [rad.]"
+plot19_EleBarrel.ytit            = "Events"
 plot19_EleBarrel.rebin           = eta_rebin*2
 #plot19_EleBarrel.xmin            = -3.15
 #plot19_EleBarrel.xmax            = 3.15
@@ -1624,8 +1624,8 @@ plot19_EleEndcap.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot19_EleEndcap.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot19_EleEndcap.keys            = keys
-plot19_EleEndcap.xtit            = "#phi 1^{st} electron in endcap [rad.]"
-plot19_EleEndcap.ytit            = "Number of events"
+plot19_EleEndcap.xtit            = "#phi electron in endcap [rad.]"
+plot19_EleEndcap.ytit            = "Events"
 plot19_EleEndcap.rebin           = eta_rebin*2
 #plot19_EleEndcap.xmin            = -3.15
 #plot19_EleEndcap.xmax            = 3.15
@@ -1648,8 +1648,8 @@ plot20.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot20.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot20.keys            = keys
-plot20.xtit            = "#phi 1^{st} jet [rad.]"
-plot20.ytit            = "Number of events"
+plot20.xtit            = "#phi 1st jet [rad.]"
+plot20.ytit            = "Events"
 plot20.rebin           = eta_rebin*2
 plot20.ymin            = eta_ymin
 plot20.ymax            = eta_ymax
@@ -1670,8 +1670,8 @@ plot21.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot21.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot21.keys            = keys
-plot21.xtit            = "#phi 2^{nd} jet [rad.]"
-plot21.ytit            = "Number of events"
+plot21.xtit            = "#phi 2nd jet [rad.]"
+plot21.ytit            = "Events"
 plot21.rebin           = eta_rebin*2
 plot21.ymin            = eta_ymin
 plot21.ymax            = eta_ymax
@@ -1692,8 +1692,8 @@ plot22.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot22.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot22.keys            = keys
-plot22.xtit            = "pfMET #phi [rad.]"
-plot22.ytit            = "Number of events"
+plot22.xtit            = "MET #phi [rad.]"
+plot22.ytit            = "Events"
 plot22.rebin           = eta_rebin*2
 plot22.ymin            = eta_ymin
 plot22.ymax            = eta_ymax
@@ -1714,8 +1714,8 @@ plot22_EleBarrel.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot22_EleBarrel.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot22_EleBarrel.keys            = keys
-plot22_EleBarrel.xtit            = "pfMET #phi for electron in barrel [rad.]"
-plot22_EleBarrel.ytit            = "Number of events"
+plot22_EleBarrel.xtit            = "MET #phi for electron in barrel [rad.]"
+plot22_EleBarrel.ytit            = "Events"
 plot22_EleBarrel.rebin           = eta_rebin*2
 #plot22_EleBarrel.xmin            = -3.15
 #plot22_EleBarrel.xmax            = 3.15
@@ -1737,8 +1737,8 @@ plot22_EleEndcap.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot22_EleEndcap.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot22_EleEndcap.keys            = keys
-plot22_EleEndcap.xtit            = "pfMET #phi for electron in endcap [rad.]"
-plot22_EleEndcap.ytit            = "Number of events"
+plot22_EleEndcap.xtit            = "MET #phi for electron in endcap [rad.]"
+plot22_EleEndcap.ytit            = "Events"
 plot22_EleEndcap.rebin           = eta_rebin*2
 #plot22_EleEndcap.xmin            = -3.15
 #plot22_EleEndcap.xmax            = 3.15
@@ -1762,7 +1762,7 @@ plot23.keysStack       = keysStack
 plot23.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot23.keys            = keys
 plot23.xtit            = "p_{T}(e#nu) [GeV]"
-plot23.ytit            = "Number of events"
+plot23.ytit            = "Events"
 plot23.ylog            = "yes"
 plot23.rebin           = "var"
 plot23.xmin            = 0
@@ -1788,7 +1788,7 @@ plot24.keysStack       = keysStack
 plot24.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot24.keys            = keys
 plot24.xtit            = "min#DeltaR(e,jets)"
-plot24.ytit            = "Number of events"
+plot24.ytit            = "Events"
 plot24.ylog            = "yes"
 plot24.rebin           = 2
 plot24.xmin            = 0
@@ -1814,7 +1814,7 @@ plot25.keysStack       = keysStack
 plot25.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot25.keys            = keys
 plot25.xtit            = "#DeltaR(j1,j2)"
-plot25.ytit            = "Number of events"
+plot25.ytit            = "Events"
 plot25.ylog            = "yes"
 plot25.rebin           = 2
 plot25.xmin            = 0
@@ -1844,7 +1844,7 @@ plot30.keysStack       = keysStack
 plot30.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot30.keys            = keys
 plot30.xtit            = "S_{T} [GeV]"
-plot30.ytit            = "Number of events"
+plot30.ytit            = "Events"
 plot30.ylog            = "yes"
 plot30.rebin           = "var" #10
 plot30.xmin            = 100
@@ -1871,7 +1871,7 @@ plot31.keysStack       = keysStack
 plot31.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot31.keys            = keys
 plot31.xtit            = "M(ej) [GeV]"
-plot31.ytit            = "Number of entries"
+plot31.ytit            = "Entries"
 plot31.ylog            = "yes"
 plot31.rebin           = 2
 plot31.xmin            = 0
@@ -1896,7 +1896,7 @@ plot32.keysStack       = keysStack
 plot32.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot32.keys            = keys
 plot32.xtit            = "M_{T}(#nuj) [GeV]"
-plot32.ytit            = "Number of entries"
+plot32.ytit            = "Entries"
 plot32.ylog            = "yes"
 plot32.rebin           = 2
 plot32.xmin            = 0
@@ -1920,7 +1920,7 @@ plot33.keysStack       = keysStack
 plot33.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot33.keys            = keys
 plot33.xtit            = "p_{T}(e#nu) [GeV]"
-plot33.ytit            = "Number of events"
+plot33.ytit            = "Events"
 plot33.ylog            = "yes"
 plot33.rebin           = 1
 plot33.xmin            = 0
@@ -1946,7 +1946,7 @@ plot34.keysStack       = keysStack
 plot34.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot34.keys            = keys
 plot34.xtit            = "Charge of reconstructed electron"
-plot34.ytit            = "Number of events"
+plot34.ytit            = "Events"
 plot34.ylog            = "yes"
 plot34.rebin           = 1
 #plot34.xmin            = -1.0001
@@ -1970,8 +1970,8 @@ plot35.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot35.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
 plot35.keys            = keys
-plot35.xtit            = "#eta 1^{st} electron"
-plot35.ytit            = "Number of events"
+plot35.xtit            = "#eta electron"
+plot35.ytit            = "Events"
 plot35.rebin           = eta_rebin
 plot35.xmin            = -3
 plot35.xmax            = 3
@@ -2001,8 +2001,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot_Vtxd0.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
   plot_Vtxd0.keys            = keys
-  plot_Vtxd0.xtit            = "Vtx d0 1^{st} electron [cm]"
-  plot_Vtxd0.ytit            = "Number of events"
+  plot_Vtxd0.xtit            = "Vtx d0 electron [cm]"
+  plot_Vtxd0.ytit            = "Events"
   plot_Vtxd0.rebin           = 5
   #plot_Vtxd0.xmin            = -0.01
   #plot_Vtxd0.xmax            = 0.01
@@ -2027,8 +2027,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot_MissHits.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
   plot_MissHits.keys            = keys
-  plot_MissHits.xtit            = "Missing Hits 1^{st} electron"
-  plot_MissHits.ytit            = "Number of events"
+  plot_MissHits.xtit            = "Missing Hits electron"
+  plot_MissHits.ytit            = "Events"
   plot_MissHits.ylog            = "yes"
   plot_MissHits.rebin           = 1
   #plot_MissHits.xmin            = 0
@@ -2054,8 +2054,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot_Dist.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
   plot_Dist.keys            = keys
-  plot_Dist.xtit            = "|Dist| 1^{st} electron"
-  plot_Dist.ytit            = "Number of events"
+  plot_Dist.xtit            = "|Dist| electron"
+  plot_Dist.ytit            = "Events"
   plot_Dist.ylog            = "yes"
   plot_Dist.rebin           = "var"
   #plot_Dist.xmin            = 0
@@ -2083,8 +2083,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot_DCotTheta.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
   plot_DCotTheta.keys            = keys
-  plot_DCotTheta.xtit            = "|#DeltaCot(#theta)| 1^{st} electron"
-  plot_DCotTheta.ytit            = "Number of events"
+  plot_DCotTheta.xtit            = "|#DeltaCot(#theta)| electron"
+  plot_DCotTheta.ytit            = "Events"
   plot_DCotTheta.ylog            = "yes"
   plot_DCotTheta.rebin           = "var"
   #plot_DCotTheta.xmin            = 0
@@ -2111,7 +2111,7 @@ if doExtraPlots:
   plot100.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot100.keys            = keys
   plot100.xtit            = "#Delta#phi(MET,e) [rad.] - fullSel"
-  plot100.ytit            = "Number of events"
+  plot100.ytit            = "Events"
   #plot100.xlog            = "yes"
   plot100.ylog            = "no"
   plot100.rebin           = 20
@@ -2136,8 +2136,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot101.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot101.keys            = keys
-  plot101.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.] - fullSel"
-  plot101.ytit            = "Number of events"
+  plot101.xtit            = "#Delta#phi(MET,1st jet) [rad.] - fullSel"
+  plot101.ytit            = "Events"
   #plot101.xlog            = "yes"
   plot101.ylog            = "no"
   plot101.rebin           = 20
@@ -2162,8 +2162,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot102.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot102.keys            = keys
-  plot102.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.] - fullSel"
-  plot102.ytit            = "Number of events"
+  plot102.xtit            = "#Delta#phi(MET,2nd jet) [rad.] - fullSel"
+  plot102.ytit            = "Events"
   #plot102.xlog            = "yes"
   plot102.ylog            = "no"
   plot102.rebin           = 20
@@ -2189,7 +2189,7 @@ if doExtraPlots:
   plot103.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot103.keys            = keys
   plot103.xtit            = "min#DeltaR(e,jets) - fullSel"
-  plot103.ytit            = "Number of events"
+  plot103.ytit            = "Events"
   plot103.ylog            = "no"
   plot103.rebin           = 10
   plot103.xmin            = 0
@@ -2215,7 +2215,7 @@ if doExtraPlots:
   plot104.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot104.keys            = keys
   plot104.xtit            = "#DeltaR(j1,j2) - fullSel"
-  plot104.ytit            = "Number of events"
+  plot104.ytit            = "Events"
   plot104.ylog            = "no"
   plot104.rebin           = 10
   plot104.xmin            = 0
@@ -2241,7 +2241,7 @@ if doExtraPlots:
   plot105.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot105.keys            = keys
   plot105.xtit            = "Number of jets - fullSel"
-  plot105.ytit            = "Number of events"
+  plot105.ytit            = "Events"
   plot105.ylog            = "no"
   plot105.rebin           = 1
   plot105.xmin            = -0.5
@@ -2266,7 +2266,7 @@ if doExtraPlots:
   plot106.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot106.keys            = keys
   plot106.xtit            = "Number of b-tagged jets (TCHEL) - fullSel"
-  plot106.ytit            = "Number of events"
+  plot106.ytit            = "Events"
   plot106.ylog            = "no"
   plot106.rebin           = 1
   plot106.xmin            = -0.5
@@ -2292,8 +2292,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot107.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot107.keys            = keys
-  plot107.xtit            = "Vtx d0 1^{st} electron [cm] - fullSel"
-  plot107.ytit            = "Number of events"
+  plot107.xtit            = "Vtx d0 electron [cm] - fullSel"
+  plot107.ytit            = "Events"
   plot107.ylog            = "no"
   plot107.rebin           = 10
   #plot107.xmin            = -0.01
@@ -2319,8 +2319,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot108.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot108.keys            = keys
-  plot108.xtit            = "Missing Hits 1^{st} electron - fullSel"
-  plot108.ytit            = "Number of events"
+  plot108.xtit            = "Missing Hits electron - fullSel"
+  plot108.ytit            = "Events"
   plot108.ylog            = "no"
   plot108.rebin           = 1
   #plot108.xmin            = -0.01
@@ -2346,8 +2346,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot109.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot109.keys            = keys
-  plot109.xtit            = "|Dist| 1^{st} electron - fullSel"
-  plot109.ytit            = "Number of events"
+  plot109.xtit            = "|Dist| electron - fullSel"
+  plot109.ytit            = "Events"
   plot109.ylog            = "no"
   plot109.rebin           = 2
   plot109.xmin            = 0.
@@ -2373,8 +2373,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot110.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot110.keys            = keys
-  plot110.xtit            = "|#DeltaCot(#theta)| 1^{st} electron - fullSel"
-  plot110.ytit            = "Number of events"
+  plot110.xtit            = "|#DeltaCot(#theta)| electron - fullSel"
+  plot110.ytit            = "Events"
   plot110.ylog            = "no"
   plot110.rebin           = 2
   plot110.xmin            = 0.
@@ -2401,7 +2401,7 @@ if doExtraPlots:
   plot200.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot200.keys            = keys
   plot200.xtit            = "#Delta#phi(MET,e) [rad.] - highMT"
-  plot200.ytit            = "Number of events"
+  plot200.ytit            = "Events"
   #plot200.xlog            = "yes"
   plot200.ylog            = "no"
   plot200.rebin           = 20
@@ -2426,8 +2426,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot201.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot201.keys            = keys
-  plot201.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.] - highMT"
-  plot201.ytit            = "Number of events"
+  plot201.xtit            = "#Delta#phi(MET,1st jet) [rad.] - highMT"
+  plot201.ytit            = "Events"
   #plot201.xlog            = "yes"
   plot201.ylog            = "no"
   plot201.rebin           = 20
@@ -2452,8 +2452,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot202.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot202.keys            = keys
-  plot202.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.] - highMT"
-  plot202.ytit            = "Number of events"
+  plot202.xtit            = "#Delta#phi(MET,2nd jet) [rad.] - highMT"
+  plot202.ytit            = "Events"
   #plot202.xlog            = "yes"
   plot202.ylog            = "no"
   plot202.rebin           = 20
@@ -2479,7 +2479,7 @@ if doExtraPlots:
   plot203.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot203.keys            = keys
   plot203.xtit            = "min#DeltaR(e,jets) - highMT"
-  plot203.ytit            = "Number of events"
+  plot203.ytit            = "Events"
   plot203.ylog            = "no"
   plot203.rebin           = 10
   plot203.xmin            = 0
@@ -2505,7 +2505,7 @@ if doExtraPlots:
   plot204.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot204.keys            = keys
   plot204.xtit            = "#DeltaR(j1,j2) - highMT"
-  plot204.ytit            = "Number of events"
+  plot204.ytit            = "Events"
   plot204.ylog            = "no"
   plot204.rebin           = 10
   plot204.xmin            = 0
@@ -2531,7 +2531,7 @@ if doExtraPlots:
   plot205.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot205.keys            = keys
   plot205.xtit            = "Number of jets - highMT"
-  plot205.ytit            = "Number of events"
+  plot205.ytit            = "Events"
   plot205.ylog            = "no"
   plot205.rebin           = 1
   plot205.xmin            = -0.5
@@ -2556,7 +2556,7 @@ if doExtraPlots:
   plot206.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot206.keys            = keys
   plot206.xtit            = "Number of b-tagged jets (TCHEL) - highMT"
-  plot206.ytit            = "Number of events"
+  plot206.ytit            = "Events"
   plot206.ylog            = "no"
   plot206.rebin           = 1
   plot206.xmin            = -0.5
@@ -2582,8 +2582,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot207.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot207.keys            = keys
-  plot207.xtit            = "Vtx d0 1^{st} electron [cm] - highMT"
-  plot207.ytit            = "Number of events"
+  plot207.xtit            = "Vtx d0 electron [cm] - highMT"
+  plot207.ytit            = "Events"
   plot207.ylog            = "no"
   plot207.rebin           = 10
   #plot207.xmin            = -0.01
@@ -2609,8 +2609,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot208.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot208.keys            = keys
-  plot208.xtit            = "Missing Hits 1^{st} electron - highMT"
-  plot208.ytit            = "Number of events"
+  plot208.xtit            = "Missing Hits electron - highMT"
+  plot208.ytit            = "Events"
   plot208.ylog            = "no"
   plot208.rebin           = 1
   #plot208.xmin            = -0.01
@@ -2636,8 +2636,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot209.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot209.keys            = keys
-  plot209.xtit            = "|Dist| 1^{st} electron - highMT"
-  plot209.ytit            = "Number of events"
+  plot209.xtit            = "|Dist| electron - highMT"
+  plot209.ytit            = "Events"
   plot209.ylog            = "no"
   plot209.rebin           = 2
   plot209.xmin            = 0.
@@ -2663,8 +2663,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot210.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot210.keys            = keys
-  plot210.xtit            = "|#DeltaCot(#theta)| 1^{st} electron - highMT"
-  plot210.ytit            = "Number of events"
+  plot210.xtit            = "|#DeltaCot(#theta)| electron - highMT"
+  plot210.ytit            = "Events"
   plot210.ylog            = "no"
   plot210.rebin           = 2
   plot210.xmin            = 0.
@@ -2691,7 +2691,7 @@ if doExtraPlots:
   plot300.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot300.keys            = keys
   plot300.xtit            = "#Delta#phi(MET,e) [rad.] - highPt1stEle"
-  plot300.ytit            = "Number of events"
+  plot300.ytit            = "Events"
   #plot300.xlog            = "yes"
   plot300.ylog            = "no"
   plot300.rebin           = 20
@@ -2716,8 +2716,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot301.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot301.keys            = keys
-  plot301.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.] - highPt1stEle"
-  plot301.ytit            = "Number of events"
+  plot301.xtit            = "#Delta#phi(MET,1st jet) [rad.] - highPt1stEle"
+  plot301.ytit            = "Events"
   #plot301.xlog            = "yes"
   plot301.ylog            = "no"
   plot301.rebin           = 20
@@ -2742,8 +2742,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot302.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot302.keys            = keys
-  plot302.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.] - highPt1stEle"
-  plot302.ytit            = "Number of events"
+  plot302.xtit            = "#Delta#phi(MET,2nd jet) [rad.] - highPt1stEle"
+  plot302.ytit            = "Events"
   #plot302.xlog            = "yes"
   plot302.ylog            = "no"
   plot302.rebin           = 20
@@ -2769,7 +2769,7 @@ if doExtraPlots:
   plot303.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot303.keys            = keys
   plot303.xtit            = "min#DeltaR(e,jets) - highPt1stEle"
-  plot303.ytit            = "Number of events"
+  plot303.ytit            = "Events"
   plot303.ylog            = "no"
   plot303.rebin           = 10
   plot303.xmin            = 0
@@ -2795,7 +2795,7 @@ if doExtraPlots:
   plot304.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot304.keys            = keys
   plot304.xtit            = "#DeltaR(j1,j2) - highPt1stEle"
-  plot304.ytit            = "Number of events"
+  plot304.ytit            = "Events"
   plot304.ylog            = "no"
   plot304.rebin           = 10
   plot304.xmin            = 0
@@ -2821,7 +2821,7 @@ if doExtraPlots:
   plot305.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot305.keys            = keys
   plot305.xtit            = "Number of jets - highPt1stEle"
-  plot305.ytit            = "Number of events"
+  plot305.ytit            = "Events"
   plot305.ylog            = "no"
   plot305.rebin           = 1
   plot305.xmin            = -0.5
@@ -2846,7 +2846,7 @@ if doExtraPlots:
   plot306.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot306.keys            = keys
   plot306.xtit            = "Number of b-tagged jets (TCHEL) - highPt1stEle"
-  plot306.ytit            = "Number of events"
+  plot306.ytit            = "Events"
   plot306.ylog            = "no"
   plot306.rebin           = 1
   plot306.xmin            = -0.5
@@ -2872,8 +2872,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot307.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot307.keys            = keys
-  plot307.xtit            = "Vtx d0 1^{st} electron [cm] - highPt1stEle"
-  plot307.ytit            = "Number of events"
+  plot307.xtit            = "Vtx d0 electron [cm] - highPt1stEle"
+  plot307.ytit            = "Events"
   plot307.ylog            = "no"
   plot307.rebin           = 10
   #plot307.xmin            = -0.01
@@ -2899,8 +2899,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot308.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot308.keys            = keys
-  plot308.xtit            = "Missing Hits 1^{st} electron - highPt1stEle"
-  plot308.ytit            = "Number of events"
+  plot308.xtit            = "Missing Hits electron - highPt1stEle"
+  plot308.ytit            = "Events"
   plot308.ylog            = "no"
   plot308.rebin           = 1
   #plot308.xmin            = -0.01
@@ -2926,8 +2926,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot309.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot309.keys            = keys
-  plot309.xtit            = "|Dist| 1^{st} electron - highPt1stEle"
-  plot309.ytit            = "Number of events"
+  plot309.xtit            = "|Dist| electron - highPt1stEle"
+  plot309.ytit            = "Events"
   plot309.ylog            = "no"
   plot309.rebin           = 2
   plot309.xmin            = 0.
@@ -2953,8 +2953,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot310.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot310.keys            = keys
-  plot310.xtit            = "|#DeltaCot(#theta)| 1^{st} electron - highPt1stEle"
-  plot310.ytit            = "Number of events"
+  plot310.xtit            = "|#DeltaCot(#theta)| electron - highPt1stEle"
+  plot310.ytit            = "Events"
   plot310.ylog            = "no"
   plot310.rebin           = 2
   plot310.xmin            = 0.
@@ -2981,7 +2981,7 @@ if doExtraPlots:
   plot400.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot400.keys            = keys
   plot400.xtit            = "#Delta#phi(MET,e) [rad.] - highPt1stJet"
-  plot400.ytit            = "Number of events"
+  plot400.ytit            = "Events"
   #plot400.xlog            = "yes"
   plot400.ylog            = "no"
   plot400.rebin           = 20
@@ -3006,8 +3006,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot401.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot401.keys            = keys
-  plot401.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.] - highPt1stJet"
-  plot401.ytit            = "Number of events"
+  plot401.xtit            = "#Delta#phi(MET,1st jet) [rad.] - highPt1stJet"
+  plot401.ytit            = "Events"
   #plot401.xlog            = "yes"
   plot401.ylog            = "no"
   plot401.rebin           = 20
@@ -3032,8 +3032,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot402.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot402.keys            = keys
-  plot402.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.] - highPt1stJet"
-  plot402.ytit            = "Number of events"
+  plot402.xtit            = "#Delta#phi(MET,2nd jet) [rad.] - highPt1stJet"
+  plot402.ytit            = "Events"
   #plot402.xlog            = "yes"
   plot402.ylog            = "no"
   plot402.rebin           = 20
@@ -3059,7 +3059,7 @@ if doExtraPlots:
   plot403.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot403.keys            = keys
   plot403.xtit            = "min#DeltaR(e,jets) - highPt1stJet"
-  plot403.ytit            = "Number of events"
+  plot403.ytit            = "Events"
   plot403.ylog            = "no"
   plot403.rebin           = 10
   plot403.xmin            = 0
@@ -3085,7 +3085,7 @@ if doExtraPlots:
   plot404.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot404.keys            = keys
   plot404.xtit            = "#DeltaR(j1,j2) - highPt1stJet"
-  plot404.ytit            = "Number of events"
+  plot404.ytit            = "Events"
   plot404.ylog            = "no"
   plot404.rebin           = 10
   plot404.xmin            = 0
@@ -3111,7 +3111,7 @@ if doExtraPlots:
   plot405.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot405.keys            = keys
   plot405.xtit            = "Number of jets - highPt1stJet"
-  plot405.ytit            = "Number of events"
+  plot405.ytit            = "Events"
   plot405.ylog            = "no"
   plot405.rebin           = 1
   plot405.xmin            = -0.5
@@ -3136,7 +3136,7 @@ if doExtraPlots:
   plot406.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot406.keys            = keys
   plot406.xtit            = "Number of b-tagged jets (TCHEL) - highPt1stJet"
-  plot406.ytit            = "Number of events"
+  plot406.ytit            = "Events"
   plot406.ylog            = "no"
   plot406.rebin           = 1
   plot406.xmin            = -0.5
@@ -3162,8 +3162,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot407.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot407.keys            = keys
-  plot407.xtit            = "Vtx d0 1^{st} electron [cm] - highPt1stJet"
-  plot407.ytit            = "Number of events"
+  plot407.xtit            = "Vtx d0 electron [cm] - highPt1stJet"
+  plot407.ytit            = "Events"
   plot407.ylog            = "no"
   plot407.rebin           = 10
   #plot407.xmin            = -0.01
@@ -3189,8 +3189,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot408.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot408.keys            = keys
-  plot408.xtit            = "Missing Hits 1^{st} electron - highPt1stJet"
-  plot408.ytit            = "Number of events"
+  plot408.xtit            = "Missing Hits electron - highPt1stJet"
+  plot408.ytit            = "Events"
   plot408.ylog            = "no"
   plot408.rebin           = 1
   #plot408.xmin            = -0.01
@@ -3216,8 +3216,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot409.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot409.keys            = keys
-  plot409.xtit            = "|Dist| 1^{st} electron - highPt1stJet"
-  plot409.ytit            = "Number of events"
+  plot409.xtit            = "|Dist| electron - highPt1stJet"
+  plot409.ytit            = "Events"
   plot409.ylog            = "no"
   plot409.rebin           = 2
   plot409.xmin            = 0.
@@ -3243,8 +3243,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot410.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot410.keys            = keys
-  plot410.xtit            = "|#DeltaCot(#theta)| 1^{st} electron - highPt1stJet"
-  plot410.ytit            = "Number of events"
+  plot410.xtit            = "|#DeltaCot(#theta)| electron - highPt1stJet"
+  plot410.ytit            = "Events"
   plot410.ylog            = "no"
   plot410.rebin           = 2
   plot410.xmin            = 0.
@@ -3271,7 +3271,7 @@ if doExtraPlots:
   plot500.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot500.keys            = keys
   plot500.xtit            = "#Delta#phi(MET,e) [rad.] - highPt2ndJet"
-  plot500.ytit            = "Number of events"
+  plot500.ytit            = "Events"
   #plot500.xlog            = "yes"
   plot500.ylog            = "no"
   plot500.rebin           = 20
@@ -3296,8 +3296,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot501.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot501.keys            = keys
-  plot501.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.] - highPt2ndJet"
-  plot501.ytit            = "Number of events"
+  plot501.xtit            = "#Delta#phi(MET,1st jet) [rad.] - highPt2ndJet"
+  plot501.ytit            = "Events"
   #plot501.xlog            = "yes"
   plot501.ylog            = "no"
   plot501.rebin           = 20
@@ -3322,8 +3322,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot502.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot502.keys            = keys
-  plot502.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.] - highPt2ndJet"
-  plot502.ytit            = "Number of events"
+  plot502.xtit            = "#Delta#phi(MET,2nd jet) [rad.] - highPt2ndJet"
+  plot502.ytit            = "Events"
   #plot502.xlog            = "yes"
   plot502.ylog            = "no"
   plot502.rebin           = 20
@@ -3349,7 +3349,7 @@ if doExtraPlots:
   plot503.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot503.keys            = keys
   plot503.xtit            = "min#DeltaR(e,jets) - highPt2ndJet"
-  plot503.ytit            = "Number of events"
+  plot503.ytit            = "Events"
   plot503.ylog            = "no"
   plot503.rebin           = 10
   plot503.xmin            = 0
@@ -3375,7 +3375,7 @@ if doExtraPlots:
   plot504.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot504.keys            = keys
   plot504.xtit            = "#DeltaR(j1,j2) - highPt2ndJet"
-  plot504.ytit            = "Number of events"
+  plot504.ytit            = "Events"
   plot504.ylog            = "no"
   plot504.rebin           = 10
   plot504.xmin            = 0
@@ -3401,7 +3401,7 @@ if doExtraPlots:
   plot505.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot505.keys            = keys
   plot505.xtit            = "Number of jets - highPt2ndJet"
-  plot505.ytit            = "Number of events"
+  plot505.ytit            = "Events"
   plot505.ylog            = "no"
   plot505.rebin           = 1
   plot505.xmin            = -0.5
@@ -3426,7 +3426,7 @@ if doExtraPlots:
   plot506.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot506.keys            = keys
   plot506.xtit            = "Number of b-tagged jets (TCHEL) - highPt2ndJet"
-  plot506.ytit            = "Number of events"
+  plot506.ytit            = "Events"
   plot506.ylog            = "no"
   plot506.rebin           = 1
   plot506.xmin            = -0.5
@@ -3452,8 +3452,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot507.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot507.keys            = keys
-  plot507.xtit            = "Vtx d0 1^{st} electron [cm] - highPt2ndJet"
-  plot507.ytit            = "Number of events"
+  plot507.xtit            = "Vtx d0 electron [cm] - highPt2ndJet"
+  plot507.ytit            = "Events"
   plot507.ylog            = "no"
   plot507.rebin           = 10
   #plot507.xmin            = -0.01
@@ -3479,8 +3479,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot508.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot508.keys            = keys
-  plot508.xtit            = "Missing Hits 1^{st} electron - highPt2ndJet"
-  plot508.ytit            = "Number of events"
+  plot508.xtit            = "Missing Hits electron - highPt2ndJet"
+  plot508.ytit            = "Events"
   plot508.ylog            = "no"
   plot508.rebin           = 1
   #plot508.xmin            = -0.01
@@ -3506,8 +3506,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot509.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot509.keys            = keys
-  plot509.xtit            = "|Dist| 1^{st} electron - highPt2ndJet"
-  plot509.ytit            = "Number of events"
+  plot509.xtit            = "|Dist| electron - highPt2ndJet"
+  plot509.ytit            = "Events"
   plot509.ylog            = "no"
   plot509.rebin           = 2
   plot509.xmin            = 0.
@@ -3533,8 +3533,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot510.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot510.keys            = keys
-  plot510.xtit            = "|#DeltaCot(#theta)| 1^{st} electron - highPt2ndJet"
-  plot510.ytit            = "Number of events"
+  plot510.xtit            = "|#DeltaCot(#theta)| electron - highPt2ndJet"
+  plot510.ytit            = "Events"
   plot510.ylog            = "no"
   plot510.rebin           = 2
   plot510.xmin            = 0.
@@ -3561,7 +3561,7 @@ if doExtraPlots:
   plot600.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot600.keys            = keys
   plot600.xtit            = "#Delta#phi(MET,e) [rad.] - highMej"
-  plot600.ytit            = "Number of events"
+  plot600.ytit            = "Events"
   #plot600.xlog            = "yes"
   plot600.ylog            = "no"
   plot600.rebin           = 20
@@ -3586,8 +3586,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot601.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot601.keys            = keys
-  plot601.xtit            = "#Delta#phi(MET,1^{st} jet) [rad.] - highMej"
-  plot601.ytit            = "Number of events"
+  plot601.xtit            = "#Delta#phi(MET,1st jet) [rad.] - highMej"
+  plot601.ytit            = "Events"
   #plot601.xlog            = "yes"
   plot601.ylog            = "no"
   plot601.rebin           = 5
@@ -3612,8 +3612,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot602.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot602.keys            = keys
-  plot602.xtit            = "#Delta#phi(MET,2^{nd} jet) [rad.] - highMej"
-  plot602.ytit            = "Number of events"
+  plot602.xtit            = "#Delta#phi(MET,2nd jet) [rad.] - highMej"
+  plot602.ytit            = "Events"
   #plot602.xlog            = "yes"
   plot602.ylog            = "no"
   plot602.rebin           = 20
@@ -3639,7 +3639,7 @@ if doExtraPlots:
   plot603.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot603.keys            = keys
   plot603.xtit            = "min#DeltaR(e,jets) - highMej"
-  plot603.ytit            = "Number of events"
+  plot603.ytit            = "Events"
   plot603.ylog            = "no"
   plot603.rebin           = 10
   plot603.xmin            = 0
@@ -3665,7 +3665,7 @@ if doExtraPlots:
   plot604.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot604.keys            = keys
   plot604.xtit            = "#DeltaR(j1,j2) - highMej"
-  plot604.ytit            = "Number of events"
+  plot604.ytit            = "Events"
   plot604.ylog            = "no"
   plot604.rebin           = 10
   plot604.xmin            = 0
@@ -3691,7 +3691,7 @@ if doExtraPlots:
   plot605.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot605.keys            = keys
   plot605.xtit            = "Number of jets - highMej"
-  plot605.ytit            = "Number of events"
+  plot605.ytit            = "Events"
   plot605.ylog            = "no"
   plot605.rebin           = 1
   plot605.xmin            = -0.5
@@ -3716,7 +3716,7 @@ if doExtraPlots:
   plot606.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot606.keys            = keys
   plot606.xtit            = "Number of b-tagged jets (TCHEL) - highMej"
-  plot606.ytit            = "Number of events"
+  plot606.ytit            = "Events"
   plot606.ylog            = "no"
   plot606.rebin           = 1
   plot606.xmin            = -0.5
@@ -3742,8 +3742,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot607.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot607.keys            = keys
-  plot607.xtit            = "Vtx d0 1^{st} electron [cm] - highMej"
-  plot607.ytit            = "Number of events"
+  plot607.xtit            = "Vtx d0 electron [cm] - highMej"
+  plot607.ytit            = "Events"
   plot607.ylog            = "no"
   plot607.rebin           = 10
   #plot607.xmin            = -0.01
@@ -3769,8 +3769,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot608.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot608.keys            = keys
-  plot608.xtit            = "Missing Hits 1^{st} electron - highMej"
-  plot608.ytit            = "Number of events"
+  plot608.xtit            = "Missing Hits electron - highMej"
+  plot608.ytit            = "Events"
   plot608.ylog            = "no"
   plot608.rebin           = 1
   #plot608.xmin            = -0.01
@@ -3796,8 +3796,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot609.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot609.keys            = keys
-  plot609.xtit            = "|Dist| 1^{st} electron - highMej"
-  plot609.ytit            = "Number of events"
+  plot609.xtit            = "|Dist| electron - highMej"
+  plot609.ytit            = "Events"
   plot609.ylog            = "no"
   plot609.rebin           = 2
   plot609.xmin            = 0.
@@ -3823,8 +3823,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot610.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot610.keys            = keys
-  plot610.xtit            = "|#DeltaCot(#theta)| 1^{st} electron - highMej"
-  plot610.ytit            = "Number of events"
+  plot610.xtit            = "|#DeltaCot(#theta)| electron - highMej"
+  plot610.ytit            = "Events"
   plot610.ylog            = "no"
   plot610.rebin           = 2
   plot610.xmin            = 0.
@@ -3850,8 +3850,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot611.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot611.keys            = keys
-  plot611.xtit            = "Conversion flag 1^{st} electron - highMej"
-  plot611.ytit            = "Number of events"
+  plot611.xtit            = "Conversion flag electron - highMej"
+  plot611.ytit            = "Events"
   plot611.ylog            = "no"
   #plot611.rebin           = 1
   #plot611.xmin            = -0.5
@@ -3878,8 +3878,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot700.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot700.keys            = keys
-  plot700.xtit            = "p_{T} 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot700.ytit            = "Number of events"
+  plot700.xtit            = "p_{T} 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot700.ytit            = "Events"
   plot700.ylog            = "no"
   plot700.rebin           = "var"
   #plot700.xmin            = 0
@@ -3904,8 +3904,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot701.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot701.keys            = keys
-  plot701.xtit            = "#eta 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot701.ytit            = "Number of events"
+  plot701.xtit            = "#eta 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot701.ytit            = "Events"
   plot701.ylog            = "no"
   plot701.rebin           = 5
   #plot701.xmin            = -5
@@ -3929,8 +3929,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot702.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot702.keys            = keys
-  plot702.xtit            = "#phi 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot702.ytit            = "Number of events"
+  plot702.xtit            = "#phi 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot702.ytit            = "Events"
   plot702.ylog            = "no"
   plot702.rebin           = 10
   #plot702.xmin            = -3.1416
@@ -3954,8 +3954,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot703.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot703.keys            = keys
-  plot703.xtit            = "Charged hadron energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot703.ytit            = "Number of events"
+  plot703.xtit            = "Charged hadron energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot703.ytit            = "Events"
   plot703.ylog            = "no"
   plot703.rebin           = 10
   #plot703.xmin            = 0
@@ -3979,8 +3979,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot704.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot704.keys            = keys
-  plot704.xtit            = "Neutral hadron energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot704.ytit            = "Number of events"
+  plot704.xtit            = "Neutral hadron energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot704.ytit            = "Events"
   plot704.ylog            = "no"
   plot704.rebin           = 10
   #plot704.xmin            = 0
@@ -4004,8 +4004,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot705.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot705.keys            = keys
-  plot705.xtit            = "Charged EM energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot705.ytit            = "Number of events"
+  plot705.xtit            = "Charged EM energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot705.ytit            = "Events"
   plot705.ylog            = "no"
   plot705.rebin           = 10
   #plot705.xmin            = 0
@@ -4029,8 +4029,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot706.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot706.keys            = keys
-  plot706.xtit            = "Neutral EM energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot706.ytit            = "Number of events"
+  plot706.xtit            = "Neutral EM energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot706.ytit            = "Events"
   plot706.ylog            = "no"
   plot706.rebin           = 10
   #plot706.xmin            = 0
@@ -4054,8 +4054,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot707.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot707.keys            = keys
-  plot707.xtit            = "Charged multiplicity 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot707.ytit            = "Number of events"
+  plot707.xtit            = "Charged multiplicity 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot707.ytit            = "Events"
   plot707.ylog            = "no"
   plot707.rebin           = 10
   #plot707.xmin            = -0.5
@@ -4079,8 +4079,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot708.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot708.keys            = keys
-  plot708.xtit            = "Neutral multiplicity 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot708.ytit            = "Number of events"
+  plot708.xtit            = "Neutral multiplicity 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot708.ytit            = "Events"
   plot708.ylog            = "no"
   plot708.rebin           = 10
   #plot708.xmin            = -0.5
@@ -4104,8 +4104,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot709.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot709.keys            = keys
-  plot709.xtit            = "Number of constituents 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot709.ytit            = "Number of events"
+  plot709.xtit            = "Number of constituents 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot709.ytit            = "Events"
   plot709.ylog            = "no"
   plot709.rebin           = 10
   #plot709.xmin            = -0.5
@@ -4129,8 +4129,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot710.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot710.keys            = keys
-  plot710.xtit            = "p_{T} 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot710.ytit            = "Number of events"
+  plot710.xtit            = "p_{T} 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot710.ytit            = "Events"
   plot710.ylog            = "no"
   plot710.rebin           = "var"
   #plot710.xmin            = 0
@@ -4155,8 +4155,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot711.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot711.keys            = keys
-  plot711.xtit            = "#eta 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot711.ytit            = "Number of events"
+  plot711.xtit            = "#eta 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot711.ytit            = "Events"
   plot711.ylog            = "no"
   plot711.rebin           = 5
   #plot711.xmin            = -5
@@ -4180,8 +4180,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot712.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot712.keys            = keys
-  plot712.xtit            = "#phi 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot712.ytit            = "Number of events"
+  plot712.xtit            = "#phi 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot712.ytit            = "Events"
   plot712.ylog            = "no"
   plot712.rebin           = 10
   #plot712.xmin            = -3.1416
@@ -4205,8 +4205,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot713.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot713.keys            = keys
-  plot713.xtit            = "Charged hadron energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot713.ytit            = "Number of events"
+  plot713.xtit            = "Charged hadron energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot713.ytit            = "Events"
   plot713.ylog            = "no"
   plot713.rebin           = 10
   #plot713.xmin            = 0
@@ -4230,8 +4230,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot714.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot714.keys            = keys
-  plot714.xtit            = "Neutral hadron energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot714.ytit            = "Number of events"
+  plot714.xtit            = "Neutral hadron energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot714.ytit            = "Events"
   plot714.ylog            = "no"
   plot714.rebin           = 10
   #plot714.xmin            = 0
@@ -4255,8 +4255,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot715.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot715.keys            = keys
-  plot715.xtit            = "Charged EM energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot715.ytit            = "Number of events"
+  plot715.xtit            = "Charged EM energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot715.ytit            = "Events"
   plot715.ylog            = "no"
   plot715.rebin           = 10
   #plot715.xmin            = 0
@@ -4280,8 +4280,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot716.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot716.keys            = keys
-  plot716.xtit            = "Neutral EM energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot716.ytit            = "Number of events"
+  plot716.xtit            = "Neutral EM energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot716.ytit            = "Events"
   plot716.ylog            = "no"
   plot716.rebin           = 10
   #plot716.xmin            = 0
@@ -4305,8 +4305,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot717.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot717.keys            = keys
-  plot717.xtit            = "Charged multiplicity 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot717.ytit            = "Number of events"
+  plot717.xtit            = "Charged multiplicity 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot717.ytit            = "Events"
   plot717.ylog            = "no"
   plot717.rebin           = 10
   #plot717.xmin            = -0.5
@@ -4330,8 +4330,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot718.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot718.keys            = keys
-  plot718.xtit            = "Neutral multiplicity 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot718.ytit            = "Number of events"
+  plot718.xtit            = "Neutral multiplicity 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot718.ytit            = "Events"
   plot718.ylog            = "no"
   plot718.rebin           = 10
   #plot718.xmin            = -0.5
@@ -4355,8 +4355,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot719.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot719.keys            = keys
-  plot719.xtit            = "Number of constituents 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot719.ytit            = "Number of events"
+  plot719.xtit            = "Number of constituents 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot719.ytit            = "Events"
   plot719.ylog            = "no"
   plot719.rebin           = 10
   #plot719.xmin            = -0.5
@@ -4380,8 +4380,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot720.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot720.keys            = keys
-  plot720.xtit            = "Energy 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot720.ytit            = "Number of events"
+  plot720.xtit            = "Energy electron - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot720.ytit            = "Events"
   plot720.ylog            = "no"
   plot720.rebin           = "var"
   #plot720.xmin            = 0
@@ -4406,8 +4406,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot721.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot721.keys            = keys
-  plot721.xtit            = "p_{T} 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot721.ytit            = "Number of events"
+  plot721.xtit            = "p_{T} electron - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot721.ytit            = "Events"
   plot721.ylog            = "no"
   plot721.rebin           = "var"
   #plot721.xmin            = 0
@@ -4432,8 +4432,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot722.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot722.keys            = keys
-  plot722.xtit            = "#eta 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot722.ytit            = "Number of events"
+  plot722.xtit            = "#eta electron - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot722.ytit            = "Events"
   plot722.ylog            = "no"
   plot722.rebin           = 5
   #plot722.xmin            = -5
@@ -4457,8 +4457,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot723.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot723.keys            = keys
-  plot723.xtit            = "#phi 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot723.ytit            = "Number of events"
+  plot723.xtit            = "#phi electron - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot723.ytit            = "Events"
   plot723.ylog            = "no"
   plot723.rebin           = 10
   #plot723.xmin            = -3.1416
@@ -4482,8 +4482,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot724.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot724.keys            = keys
-  plot724.xtit            = "Charge 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot724.ytit            = "Number of events"
+  plot724.xtit            = "Charge electron - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot724.ytit            = "Events"
   plot724.ylog            = "no"
   #plot724.rebin           = 1
   #plot724.xmin            = -1.001
@@ -4509,8 +4509,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot725.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot725.keys            = keys
-  plot725.xtit            = "Conversion flag 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot725.ytit            = "Number of events"
+  plot725.xtit            = "Conversion flag electron - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot725.ytit            = "Events"
   plot725.ylog            = "no"
   #plot725.rebin           = 1
   #plot725.xmin            = -0.5
@@ -4534,8 +4534,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot726.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot726.keys            = keys
-  plot726.xtit            = "#Delta#phi(MET,1^{st} ele) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot726.ytit            = "Number of events"
+  plot726.xtit            = "#Delta#phi(MET,1st ele) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot726.ytit            = "Events"
   plot726.ylog            = "no"
   plot726.rebin           = 10
   #plot726.xmin            = 0
@@ -4559,8 +4559,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot727.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot727.keys            = keys
-  plot727.xtit            = "#Delta#phi(1^{st} ele,1^{st} jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot727.ytit            = "Number of events"
+  plot727.xtit            = "#Delta#phi(1st ele,1st jet) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot727.ytit            = "Events"
   plot727.ylog            = "no"
   plot727.rebin           = 10
   #plot727.xmin            = 0
@@ -4584,8 +4584,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot728.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot728.keys            = keys
-  plot728.xtit            = "#Delta#phi(1^{st} ele,2^{nd} jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot728.ytit            = "Number of events"
+  plot728.xtit            = "#Delta#phi(1st ele,2nd jet) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot728.ytit            = "Events"
   plot728.ylog            = "no"
   plot728.rebin           = 10
   #plot728.xmin            = 0
@@ -4609,8 +4609,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot729.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot729.keys            = keys
-  plot729.xtit            = "#Delta#phi(MET,2^{nd} jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot729.ytit            = "Number of events"
+  plot729.xtit            = "#Delta#phi(MET,2nd jet) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot729.ytit            = "Events"
   plot729.ylog            = "no"
   plot729.rebin           = 10
   #plot729.xmin            = 0
@@ -4634,8 +4634,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot730.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot730.keys            = keys
-  plot730.xtit            = "p_{T}(e#nu) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot730.ytit            = "Number of events"
+  plot730.xtit            = "p_{T}(e#nu) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot730.ytit            = "Events"
   plot730.ylog            = "no"
   plot730.rebin           = "var"
   #plot730.xmin            = 0
@@ -4660,8 +4660,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot731.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot731.keys            = keys
-  plot731.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot731.ytit            = "Number of events"
+  plot731.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot731.ytit            = "Events"
   plot731.ylog            = "no"
   plot731.rebin           = 5
   #plot731.xmin            = 0
@@ -4685,8 +4685,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot732.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot732.keys            = keys
-  plot732.xtit            = "pfMET - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot732.ytit            = "Number of events"
+  plot732.xtit            = "MET - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot732.ytit            = "Events"
   plot732.ylog            = "no"
   plot732.rebin           = "var"
   #plot732.xmin            = 0
@@ -4711,8 +4711,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot733.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot733.keys            = keys
-  plot733.xtit            = "Number of jets - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot733.ytit            = "Number of events"
+  plot733.xtit            = "Number of jets - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot733.ytit            = "Events"
   plot733.ylog            = "no"
   plot733.rebin           = 1
   plot733.xmin            = -0.5
@@ -4736,8 +4736,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot734.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot734.keys            = keys
-  plot734.xtit            = "Number of b-tagged jets (TCHEL) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot734.ytit            = "Number of events"
+  plot734.xtit            = "Number of b-tagged jets (TCHEL) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot734.ytit            = "Events"
   plot734.ylog            = "no"
   plot734.rebin           = 1
   plot734.xmin            = -0.5
@@ -4761,8 +4761,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot735.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot735.keys            = keys
-  plot735.xtit            = "min#DeltaR(e,j) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot735.ytit            = "Number of events"
+  plot735.xtit            = "min#DeltaR(e,j) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot735.ytit            = "Events"
   plot735.ylog            = "no"
   plot735.rebin           = 10
   #plot735.xmin            = 0
@@ -4786,8 +4786,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot736.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot736.keys            = keys
-  plot736.xtit            = "max#DeltaR(e,j) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot736.ytit            = "Number of events"
+  plot736.xtit            = "max#DeltaR(e,j) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot736.ytit            = "Events"
   plot736.ylog            = "no"
   plot736.rebin           = 10
   #plot736.xmin            = 0
@@ -4811,8 +4811,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot737.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot737.keys            = keys
-  plot737.xtit            = "#DeltaR(j1,j2) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot737.ytit            = "Number of events"
+  plot737.xtit            = "#DeltaR(j1,j2) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot737.ytit            = "Events"
   plot737.ylog            = "no"
   plot737.rebin           = 10
   #plot737.xmin            = 0
@@ -4836,8 +4836,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot738.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot738.keys            = keys
-  plot738.xtit            = "Mass 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot738.ytit            = "Number of events"
+  plot738.xtit            = "Mass 1st jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot738.ytit            = "Events"
   plot738.ylog            = "no"
   plot738.rebin           = 5
   #plot738.xmin            = -0.5
@@ -4860,8 +4860,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot739.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot739.keys            = keys
-  plot739.xtit            = "min#DeltaR(PFj1,CaloJet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot739.ytit            = "Number of events"
+  plot739.xtit            = "min#DeltaR(PFj1,CaloJet) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot739.ytit            = "Events"
   plot739.ylog            = "no"
   plot739.rebin           = 1
   plot739.xmin            = 0
@@ -4884,8 +4884,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot740.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot740.keys            = keys
-  plot740.xtit            = "PT(1^{st} PF jet)/PT(Closest Calo jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot740.ytit            = "Number of events"
+  plot740.xtit            = "PT(1st PF jet)/PT(Closest Calo jet) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot740.ytit            = "Events"
   plot740.ylog            = "no"
   plot740.rebin           = 5
   #plot740.xmin            = 0
@@ -4908,8 +4908,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot741.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot741.keys            = keys
-  plot741.xtit            = "NC(1^{st} PF jet)/n90Hits(Closest Calo jet) - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot741.ytit            = "Number of events"
+  plot741.xtit            = "NC(1st PF jet)/n90Hits(Closest Calo jet) - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot741.ytit            = "Events"
   plot741.ylog            = "no"
   plot741.rebin           = 5
   #plot741.xmin            = 0
@@ -4933,8 +4933,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot742.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot742.keys            = keys
-  plot742.xtit            = "Mass 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot742.ytit            = "Number of events"
+  plot742.xtit            = "Mass 2nd jet - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot742.ytit            = "Events"
   plot742.ylog            = "no"
   plot742.rebin           = 5
   #plot742.xmin            = -0.5
@@ -4958,8 +4958,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot743.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot743.keys            = keys
-  plot743.xtit            = "caloMET - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot743.ytit            = "Number of events"
+  plot743.xtit            = "caloMET - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot743.ytit            = "Events"
   plot743.ylog            = "no"
   plot743.rebin           = "var"
   #plot743.xmin            = 0
@@ -4984,8 +4984,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot744.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot744.keys            = keys
-  plot744.xtit            = "tcMET - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot744.ytit            = "Number of events"
+  plot744.xtit            = "tcMET - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot744.ytit            = "Events"
   plot744.ylog            = "no"
   plot744.rebin           = "var"
   #plot744.xmin            = 0
@@ -5009,8 +5009,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot745.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot745.keys            = keys
-  plot745.xtit            = "pfMET/CaloMET - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot745.ytit            = "Number of events"
+  plot745.xtit            = "pfMET/CaloMET - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot745.ytit            = "Events"
   plot745.ylog            = "no"
   plot745.rebin           = 5
   #plot745.xmin            = 0
@@ -5033,8 +5033,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot746.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot746.keys            = keys
-  plot746.xtit            = "MTenu - highMej, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot746.ytit            = "Number of events"
+  plot746.xtit            = "MTenu - highMej, #Delta#phi(MET,1st jet)>2.5"
+  plot746.ytit            = "Events"
   plot746.ylog            = "no"
   plot746.rebin           = "var"
   #plot746.xmin            = 0
@@ -5063,8 +5063,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot800.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot800.keys            = keys
-  plot800.xtit            = "p_{T} 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot800.ytit            = "Number of events"
+  plot800.xtit            = "p_{T} 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot800.ytit            = "Events"
   plot800.ylog            = "no"
   plot800.rebin           = "var"
   #plot800.xmin            = 0
@@ -5089,8 +5089,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot801.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot801.keys            = keys
-  plot801.xtit            = "#eta 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot801.ytit            = "Number of events"
+  plot801.xtit            = "#eta 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot801.ytit            = "Events"
   plot801.ylog            = "no"
   plot801.rebin           = 5
   #plot801.xmin            = -5
@@ -5114,8 +5114,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot802.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot802.keys            = keys
-  plot802.xtit            = "#phi 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot802.ytit            = "Number of events"
+  plot802.xtit            = "#phi 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot802.ytit            = "Events"
   plot802.ylog            = "no"
   plot802.rebin           = 10
   #plot802.xmin            = -3.1416
@@ -5139,8 +5139,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot803.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot803.keys            = keys
-  plot803.xtit            = "Charged hadron energy fraction 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot803.ytit            = "Number of events"
+  plot803.xtit            = "Charged hadron energy fraction 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot803.ytit            = "Events"
   plot803.ylog            = "no"
   plot803.rebin           = 10
   #plot803.xmin            = 0
@@ -5164,8 +5164,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot804.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot804.keys            = keys
-  plot804.xtit            = "Neutral hadron energy fraction 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot804.ytit            = "Number of events"
+  plot804.xtit            = "Neutral hadron energy fraction 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot804.ytit            = "Events"
   plot804.ylog            = "no"
   plot804.rebin           = 10
   #plot804.xmin            = 0
@@ -5189,8 +5189,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot805.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot805.keys            = keys
-  plot805.xtit            = "Charged EM energy fraction 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot805.ytit            = "Number of events"
+  plot805.xtit            = "Charged EM energy fraction 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot805.ytit            = "Events"
   plot805.ylog            = "no"
   plot805.rebin           = 10
   #plot805.xmin            = 0
@@ -5214,8 +5214,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot806.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot806.keys            = keys
-  plot806.xtit            = "Neutral EM energy fraction 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot806.ytit            = "Number of events"
+  plot806.xtit            = "Neutral EM energy fraction 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot806.ytit            = "Events"
   plot806.ylog            = "no"
   plot806.rebin           = 10
   #plot806.xmin            = 0
@@ -5239,8 +5239,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot807.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot807.keys            = keys
-  plot807.xtit            = "Charged multiplicity 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot807.ytit            = "Number of events"
+  plot807.xtit            = "Charged multiplicity 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot807.ytit            = "Events"
   plot807.ylog            = "no"
   plot807.rebin           = 10
   #plot807.xmin            = -0.5
@@ -5264,8 +5264,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot808.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot808.keys            = keys
-  plot808.xtit            = "Neutral multiplicity 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot808.ytit            = "Number of events"
+  plot808.xtit            = "Neutral multiplicity 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot808.ytit            = "Events"
   plot808.ylog            = "no"
   plot808.rebin           = 10
   #plot808.xmin            = -0.5
@@ -5289,8 +5289,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot809.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot809.keys            = keys
-  plot809.xtit            = "Number of constituents 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot809.ytit            = "Number of events"
+  plot809.xtit            = "Number of constituents 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot809.ytit            = "Events"
   plot809.ylog            = "no"
   plot809.rebin           = 10
   #plot809.xmin            = -0.5
@@ -5314,8 +5314,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot810.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot810.keys            = keys
-  plot810.xtit            = "p_{T} 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot810.ytit            = "Number of events"
+  plot810.xtit            = "p_{T} 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot810.ytit            = "Events"
   plot810.ylog            = "no"
   plot810.rebin           = "var"
   #plot810.xmin            = 0
@@ -5340,8 +5340,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot811.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot811.keys            = keys
-  plot811.xtit            = "#eta 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot811.ytit            = "Number of events"
+  plot811.xtit            = "#eta 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot811.ytit            = "Events"
   plot811.ylog            = "no"
   plot811.rebin           = 5
   #plot811.xmin            = -5
@@ -5365,8 +5365,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot812.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot812.keys            = keys
-  plot812.xtit            = "#phi 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot812.ytit            = "Number of events"
+  plot812.xtit            = "#phi 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot812.ytit            = "Events"
   plot812.ylog            = "no"
   plot812.rebin           = 10
   #plot812.xmin            = -3.1416
@@ -5390,8 +5390,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot813.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot813.keys            = keys
-  plot813.xtit            = "Charged hadron energy fraction 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot813.ytit            = "Number of events"
+  plot813.xtit            = "Charged hadron energy fraction 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot813.ytit            = "Events"
   plot813.ylog            = "no"
   plot813.rebin           = 10
   #plot813.xmin            = 0
@@ -5415,8 +5415,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot814.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot814.keys            = keys
-  plot814.xtit            = "Neutral hadron energy fraction 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot814.ytit            = "Number of events"
+  plot814.xtit            = "Neutral hadron energy fraction 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot814.ytit            = "Events"
   plot814.ylog            = "no"
   plot814.rebin           = 10
   #plot814.xmin            = 0
@@ -5440,8 +5440,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot815.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot815.keys            = keys
-  plot815.xtit            = "Charged EM energy fraction 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot815.ytit            = "Number of events"
+  plot815.xtit            = "Charged EM energy fraction 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot815.ytit            = "Events"
   plot815.ylog            = "no"
   plot815.rebin           = 10
   #plot815.xmin            = 0
@@ -5465,8 +5465,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot816.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot816.keys            = keys
-  plot816.xtit            = "Neutral EM energy fraction 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot816.ytit            = "Number of events"
+  plot816.xtit            = "Neutral EM energy fraction 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot816.ytit            = "Events"
   plot816.ylog            = "no"
   plot816.rebin           = 10
   #plot816.xmin            = 0
@@ -5490,8 +5490,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot817.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot817.keys            = keys
-  plot817.xtit            = "Charged multiplicity 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot817.ytit            = "Number of events"
+  plot817.xtit            = "Charged multiplicity 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot817.ytit            = "Events"
   plot817.ylog            = "no"
   plot817.rebin           = 10
   #plot817.xmin            = -0.5
@@ -5515,8 +5515,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot818.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot818.keys            = keys
-  plot818.xtit            = "Neutral multiplicity 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot818.ytit            = "Number of events"
+  plot818.xtit            = "Neutral multiplicity 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot818.ytit            = "Events"
   plot818.ylog            = "no"
   plot818.rebin           = 10
   #plot818.xmin            = -0.5
@@ -5540,8 +5540,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot819.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot819.keys            = keys
-  plot819.xtit            = "Number of constituents 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot819.ytit            = "Number of events"
+  plot819.xtit            = "Number of constituents 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot819.ytit            = "Events"
   plot819.ylog            = "no"
   plot819.rebin           = 10
   #plot819.xmin            = -0.5
@@ -5565,8 +5565,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot820.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot820.keys            = keys
-  plot820.xtit            = "Energy 1^{st} electron - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot820.ytit            = "Number of events"
+  plot820.xtit            = "Energy electron - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot820.ytit            = "Events"
   plot820.ylog            = "no"
   plot820.rebin           = "var"
   #plot820.xmin            = 0
@@ -5591,8 +5591,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot821.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot821.keys            = keys
-  plot821.xtit            = "p_{T} 1^{st} electron - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot821.ytit            = "Number of events"
+  plot821.xtit            = "p_{T} electron - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot821.ytit            = "Events"
   plot821.ylog            = "no"
   plot821.rebin           = "var"
   #plot821.xmin            = 0
@@ -5617,8 +5617,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot822.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot822.keys            = keys
-  plot822.xtit            = "#eta 1^{st} electron - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot822.ytit            = "Number of events"
+  plot822.xtit            = "#eta electron - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot822.ytit            = "Events"
   plot822.ylog            = "no"
   plot822.rebin           = 5
   #plot822.xmin            = -5
@@ -5642,8 +5642,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot823.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot823.keys            = keys
-  plot823.xtit            = "#phi 1^{st} electron - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot823.ytit            = "Number of events"
+  plot823.xtit            = "#phi electron - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot823.ytit            = "Events"
   plot823.ylog            = "no"
   plot823.rebin           = 10
   #plot823.xmin            = -3.1416
@@ -5667,8 +5667,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot824.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot824.keys            = keys
-  plot824.xtit            = "Charge 1^{st} electron - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot824.ytit            = "Number of events"
+  plot824.xtit            = "Charge electron - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot824.ytit            = "Events"
   plot824.ylog            = "no"
   #plot824.rebin           = 1
   #plot824.xmin            = -1.001
@@ -5694,8 +5694,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot825.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot825.keys            = keys
-  plot825.xtit            = "Conversion flag 1^{st} electron - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot825.ytit            = "Number of events"
+  plot825.xtit            = "Conversion flag electron - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot825.ytit            = "Events"
   plot825.ylog            = "no"
   #plot825.rebin           = 1
   #plot825.xmin            = -0.5
@@ -5719,8 +5719,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot826.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot826.keys            = keys
-  plot826.xtit            = "#Delta#phi(MET,1^{st} ele) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot826.ytit            = "Number of events"
+  plot826.xtit            = "#Delta#phi(MET,1st ele) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot826.ytit            = "Events"
   plot826.ylog            = "no"
   plot826.rebin           = 10
   #plot826.xmin            = 0
@@ -5744,8 +5744,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot827.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot827.keys            = keys
-  plot827.xtit            = "#Delta#phi(1^{st} ele,1^{st} jet) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot827.ytit            = "Number of events"
+  plot827.xtit            = "#Delta#phi(1st ele,1st jet) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot827.ytit            = "Events"
   plot827.ylog            = "no"
   plot827.rebin           = 10
   #plot827.xmin            = 0
@@ -5769,8 +5769,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot828.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot828.keys            = keys
-  plot828.xtit            = "#Delta#phi(1^{st} ele,2^{nd} jet) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot828.ytit            = "Number of events"
+  plot828.xtit            = "#Delta#phi(1st ele,2nd jet) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot828.ytit            = "Events"
   plot828.ylog            = "no"
   plot828.rebin           = 10
   #plot828.xmin            = 0
@@ -5794,8 +5794,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot829.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot829.keys            = keys
-  plot829.xtit            = "#Delta#phi(MET,2^{nd} jet) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot829.ytit            = "Number of events"
+  plot829.xtit            = "#Delta#phi(MET,2nd jet) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot829.ytit            = "Events"
   plot829.ylog            = "no"
   plot829.rebin           = 10
   #plot829.xmin            = 0
@@ -5819,8 +5819,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot830.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot830.keys            = keys
-  plot830.xtit            = "p_{T}(e#nu) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot830.ytit            = "Number of events"
+  plot830.xtit            = "p_{T}(e#nu) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot830.ytit            = "Events"
   plot830.ylog            = "no"
   plot830.rebin           = "var"
   #plot830.xmin            = 0
@@ -5845,8 +5845,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot831.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot831.keys            = keys
-  plot831.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot831.ytit            = "Number of events"
+  plot831.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot831.ytit            = "Events"
   plot831.ylog            = "no"
   plot831.rebin           = 5
   #plot831.xmin            = 0
@@ -5870,8 +5870,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot832.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot832.keys            = keys
-  plot832.xtit            = "pfMET - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot832.ytit            = "Number of events"
+  plot832.xtit            = "MET - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot832.ytit            = "Events"
   plot832.ylog            = "no"
   plot832.rebin           = "var"
   #plot832.xmin            = 0
@@ -5896,8 +5896,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot833.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot833.keys            = keys
-  plot833.xtit            = "Number of jets - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot833.ytit            = "Number of events"
+  plot833.xtit            = "Number of jets - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot833.ytit            = "Events"
   plot833.ylog            = "no"
   plot833.rebin           = 1
   plot833.xmin            = -0.5
@@ -5921,8 +5921,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot834.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot834.keys            = keys
-  plot834.xtit            = "Number of b-tagged jets (TCHEL) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot834.ytit            = "Number of events"
+  plot834.xtit            = "Number of b-tagged jets (TCHEL) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot834.ytit            = "Events"
   plot834.ylog            = "no"
   plot834.rebin           = 1
   plot834.xmin            = -0.5
@@ -5946,8 +5946,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot835.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot835.keys            = keys
-  plot835.xtit            = "min#DeltaR(e,j) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot835.ytit            = "Number of events"
+  plot835.xtit            = "min#DeltaR(e,j) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot835.ytit            = "Events"
   plot835.ylog            = "no"
   plot835.rebin           = 10
   #plot835.xmin            = 0
@@ -5971,8 +5971,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot836.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot836.keys            = keys
-  plot836.xtit            = "max#DeltaR(e,j) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot836.ytit            = "Number of events"
+  plot836.xtit            = "max#DeltaR(e,j) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot836.ytit            = "Events"
   plot836.ylog            = "no"
   plot836.rebin           = 10
   #plot836.xmin            = 0
@@ -5996,8 +5996,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot837.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot837.keys            = keys
-  plot837.xtit            = "#DeltaR(j1,j2) - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot837.ytit            = "Number of events"
+  plot837.xtit            = "#DeltaR(j1,j2) - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot837.ytit            = "Events"
   plot837.ylog            = "no"
   plot837.rebin           = 10
   #plot837.xmin            = 0
@@ -6021,8 +6021,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot838.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot838.keys            = keys
-  plot838.xtit            = "Mass 1^{st} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot838.ytit            = "Number of events"
+  plot838.xtit            = "Mass 1st jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot838.ytit            = "Events"
   plot838.ylog            = "no"
   plot838.rebin           = 5
   #plot838.xmin            = -0.5
@@ -6046,8 +6046,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot842.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot842.keys            = keys
-  plot842.xtit            = "Mass 2^{nd} jet - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot842.ytit            = "Number of events"
+  plot842.xtit            = "Mass 2nd jet - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot842.ytit            = "Events"
   plot842.ylog            = "no"
   plot842.rebin           = 5
   #plot842.xmin            = -0.5
@@ -6071,8 +6071,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot843.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot843.keys            = keys
-  plot843.xtit            = "caloMET - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot843.ytit            = "Number of events"
+  plot843.xtit            = "caloMET - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot843.ytit            = "Events"
   plot843.ylog            = "no"
   plot843.rebin           = "var"
   #plot843.xmin            = 0
@@ -6097,8 +6097,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot844.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot844.keys            = keys
-  plot844.xtit            = "tcMET - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot844.ytit            = "Number of events"
+  plot844.xtit            = "tcMET - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot844.ytit            = "Events"
   plot844.ylog            = "no"
   plot844.rebin           = "var"
   #plot844.xmin            = 0
@@ -6122,8 +6122,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot845.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot845.keys            = keys
-  plot845.xtit            = "pfMET/CaloMET - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot845.ytit            = "Number of events"
+  plot845.xtit            = "pfMET/CaloMET - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot845.ytit            = "Events"
   plot845.ylog            = "no"
   plot845.rebin           = 5
   #plot845.xmin            = 0
@@ -6147,8 +6147,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot846.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot846.keys            = keys
-  plot846.xtit            = "MTenu - highMePlusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot846.ytit            = "Number of events"
+  plot846.xtit            = "MTenu - highMePlusj, #Delta#phi(MET,1st jet)>2.5"
+  plot846.ytit            = "Events"
   plot846.ylog            = "no"
   plot846.rebin           = "var"
   #plot846.xmin            = 0
@@ -6176,8 +6176,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot900.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot900.keys            = keys
-  plot900.xtit            = "p_{T} 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot900.ytit            = "Number of events"
+  plot900.xtit            = "p_{T} 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot900.ytit            = "Events"
   plot900.ylog            = "no"
   plot900.rebin           = "var"
   #plot900.xmin            = 0
@@ -6202,8 +6202,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot901.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot901.keys            = keys
-  plot901.xtit            = "#eta 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot901.ytit            = "Number of events"
+  plot901.xtit            = "#eta 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot901.ytit            = "Events"
   plot901.ylog            = "no"
   plot901.rebin           = 5
   #plot901.xmin            = -5
@@ -6227,8 +6227,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot902.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot902.keys            = keys
-  plot902.xtit            = "#phi 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot902.ytit            = "Number of events"
+  plot902.xtit            = "#phi 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot902.ytit            = "Events"
   plot902.ylog            = "no"
   plot902.rebin           = 10
   #plot902.xmin            = -3.1416
@@ -6252,8 +6252,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot903.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot903.keys            = keys
-  plot903.xtit            = "Charged hadron energy fraction 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot903.ytit            = "Number of events"
+  plot903.xtit            = "Charged hadron energy fraction 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot903.ytit            = "Events"
   plot903.ylog            = "no"
   plot903.rebin           = 10
   #plot903.xmin            = 0
@@ -6277,8 +6277,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot904.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot904.keys            = keys
-  plot904.xtit            = "Neutral hadron energy fraction 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot904.ytit            = "Number of events"
+  plot904.xtit            = "Neutral hadron energy fraction 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot904.ytit            = "Events"
   plot904.ylog            = "no"
   plot904.rebin           = 10
   #plot904.xmin            = 0
@@ -6302,8 +6302,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot905.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot905.keys            = keys
-  plot905.xtit            = "Charged EM energy fraction 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot905.ytit            = "Number of events"
+  plot905.xtit            = "Charged EM energy fraction 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot905.ytit            = "Events"
   plot905.ylog            = "no"
   plot905.rebin           = 10
   #plot905.xmin            = 0
@@ -6327,8 +6327,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot906.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot906.keys            = keys
-  plot906.xtit            = "Neutral EM energy fraction 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot906.ytit            = "Number of events"
+  plot906.xtit            = "Neutral EM energy fraction 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot906.ytit            = "Events"
   plot906.ylog            = "no"
   plot906.rebin           = 10
   #plot906.xmin            = 0
@@ -6352,8 +6352,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot907.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot907.keys            = keys
-  plot907.xtit            = "Charged multiplicity 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot907.ytit            = "Number of events"
+  plot907.xtit            = "Charged multiplicity 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot907.ytit            = "Events"
   plot907.ylog            = "no"
   plot907.rebin           = 10
   #plot907.xmin            = -0.5
@@ -6377,8 +6377,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot908.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot908.keys            = keys
-  plot908.xtit            = "Neutral multiplicity 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot908.ytit            = "Number of events"
+  plot908.xtit            = "Neutral multiplicity 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot908.ytit            = "Events"
   plot908.ylog            = "no"
   plot908.rebin           = 10
   #plot908.xmin            = -0.5
@@ -6402,8 +6402,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot909.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot909.keys            = keys
-  plot909.xtit            = "Number of constituents 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot909.ytit            = "Number of events"
+  plot909.xtit            = "Number of constituents 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot909.ytit            = "Events"
   plot909.ylog            = "no"
   plot909.rebin           = 10
   #plot909.xmin            = -0.5
@@ -6427,8 +6427,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot910.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot910.keys            = keys
-  plot910.xtit            = "p_{T} 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot910.ytit            = "Number of events"
+  plot910.xtit            = "p_{T} 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot910.ytit            = "Events"
   plot910.ylog            = "no"
   plot910.rebin           = "var"
   #plot910.xmin            = 0
@@ -6453,8 +6453,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot911.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot911.keys            = keys
-  plot911.xtit            = "#eta 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot911.ytit            = "Number of events"
+  plot911.xtit            = "#eta 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot911.ytit            = "Events"
   plot911.ylog            = "no"
   plot911.rebin           = 5
   #plot911.xmin            = -5
@@ -6478,8 +6478,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot912.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot912.keys            = keys
-  plot912.xtit            = "#phi 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot912.ytit            = "Number of events"
+  plot912.xtit            = "#phi 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot912.ytit            = "Events"
   plot912.ylog            = "no"
   plot912.rebin           = 10
   #plot912.xmin            = -3.1416
@@ -6503,8 +6503,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot913.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot913.keys            = keys
-  plot913.xtit            = "Charged hadron energy fraction 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot913.ytit            = "Number of events"
+  plot913.xtit            = "Charged hadron energy fraction 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot913.ytit            = "Events"
   plot913.ylog            = "no"
   plot913.rebin           = 10
   #plot913.xmin            = 0
@@ -6528,8 +6528,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot914.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot914.keys            = keys
-  plot914.xtit            = "Neutral hadron energy fraction 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot914.ytit            = "Number of events"
+  plot914.xtit            = "Neutral hadron energy fraction 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot914.ytit            = "Events"
   plot914.ylog            = "no"
   plot914.rebin           = 10
   #plot914.xmin            = 0
@@ -6553,8 +6553,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot915.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot915.keys            = keys
-  plot915.xtit            = "Charged EM energy fraction 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot915.ytit            = "Number of events"
+  plot915.xtit            = "Charged EM energy fraction 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot915.ytit            = "Events"
   plot915.ylog            = "no"
   plot915.rebin           = 10
   #plot915.xmin            = 0
@@ -6578,8 +6578,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot916.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot916.keys            = keys
-  plot916.xtit            = "Neutral EM energy fraction 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot916.ytit            = "Number of events"
+  plot916.xtit            = "Neutral EM energy fraction 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot916.ytit            = "Events"
   plot916.ylog            = "no"
   plot916.rebin           = 10
   #plot916.xmin            = 0
@@ -6603,8 +6603,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot917.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot917.keys            = keys
-  plot917.xtit            = "Charged multiplicity 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot917.ytit            = "Number of events"
+  plot917.xtit            = "Charged multiplicity 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot917.ytit            = "Events"
   plot917.ylog            = "no"
   plot917.rebin           = 10
   #plot917.xmin            = -0.5
@@ -6628,8 +6628,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot918.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot918.keys            = keys
-  plot918.xtit            = "Neutral multiplicity 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot918.ytit            = "Number of events"
+  plot918.xtit            = "Neutral multiplicity 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot918.ytit            = "Events"
   plot918.ylog            = "no"
   plot918.rebin           = 10
   #plot918.xmin            = -0.5
@@ -6653,8 +6653,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot919.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot919.keys            = keys
-  plot919.xtit            = "Number of constituents 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot919.ytit            = "Number of events"
+  plot919.xtit            = "Number of constituents 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot919.ytit            = "Events"
   plot919.ylog            = "no"
   plot919.rebin           = 10
   #plot919.xmin            = -0.5
@@ -6678,8 +6678,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot920.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot920.keys            = keys
-  plot920.xtit            = "Energy 1^{st} electron - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot920.ytit            = "Number of events"
+  plot920.xtit            = "Energy electron - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot920.ytit            = "Events"
   plot920.ylog            = "no"
   plot920.rebin           = "var"
   #plot920.xmin            = 0
@@ -6704,8 +6704,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot921.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot921.keys            = keys
-  plot921.xtit            = "p_{T} 1^{st} electron - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot921.ytit            = "Number of events"
+  plot921.xtit            = "p_{T} electron - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot921.ytit            = "Events"
   plot921.ylog            = "no"
   plot921.rebin           = "var"
   #plot921.xmin            = 0
@@ -6730,8 +6730,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot922.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot922.keys            = keys
-  plot922.xtit            = "#eta 1^{st} electron - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot922.ytit            = "Number of events"
+  plot922.xtit            = "#eta electron - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot922.ytit            = "Events"
   plot922.ylog            = "no"
   plot922.rebin           = 5
   #plot922.xmin            = -5
@@ -6755,8 +6755,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot923.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot923.keys            = keys
-  plot923.xtit            = "#phi 1^{st} electron - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot923.ytit            = "Number of events"
+  plot923.xtit            = "#phi electron - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot923.ytit            = "Events"
   plot923.ylog            = "no"
   plot923.rebin           = 10
   #plot923.xmin            = -3.1416
@@ -6780,8 +6780,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot924.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot924.keys            = keys
-  plot924.xtit            = "Charge 1^{st} electron - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot924.ytit            = "Number of events"
+  plot924.xtit            = "Charge electron - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot924.ytit            = "Events"
   plot924.ylog            = "no"
   #plot924.rebin           = 1
   #plot924.xmin            = -1.001
@@ -6807,8 +6807,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot925.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot925.keys            = keys
-  plot925.xtit            = "Conversion flag 1^{st} electron - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot925.ytit            = "Number of events"
+  plot925.xtit            = "Conversion flag electron - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot925.ytit            = "Events"
   plot925.ylog            = "no"
   #plot925.rebin           = 1
   #plot925.xmin            = -0.5
@@ -6832,8 +6832,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot926.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot926.keys            = keys
-  plot926.xtit            = "#Delta#phi(MET,1^{st} ele) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot926.ytit            = "Number of events"
+  plot926.xtit            = "#Delta#phi(MET,1st ele) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot926.ytit            = "Events"
   plot926.ylog            = "no"
   plot926.rebin           = 10
   #plot926.xmin            = 0
@@ -6857,8 +6857,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot927.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot927.keys            = keys
-  plot927.xtit            = "#Delta#phi(1^{st} ele,1^{st} jet) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot927.ytit            = "Number of events"
+  plot927.xtit            = "#Delta#phi(1st ele,1st jet) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot927.ytit            = "Events"
   plot927.ylog            = "no"
   plot927.rebin           = 10
   #plot927.xmin            = 0
@@ -6882,8 +6882,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot928.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot928.keys            = keys
-  plot928.xtit            = "#Delta#phi(1^{st} ele,2^{nd} jet) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot928.ytit            = "Number of events"
+  plot928.xtit            = "#Delta#phi(1st ele,2nd jet) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot928.ytit            = "Events"
   plot928.ylog            = "no"
   plot928.rebin           = 10
   #plot928.xmin            = 0
@@ -6907,8 +6907,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot929.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot929.keys            = keys
-  plot929.xtit            = "#Delta#phi(MET,2^{nd} jet) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot929.ytit            = "Number of events"
+  plot929.xtit            = "#Delta#phi(MET,2nd jet) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot929.ytit            = "Events"
   plot929.ylog            = "no"
   plot929.rebin           = 10
   #plot929.xmin            = 0
@@ -6932,8 +6932,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot930.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot930.keys            = keys
-  plot930.xtit            = "p_{T}(e#nu) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot930.ytit            = "Number of events"
+  plot930.xtit            = "p_{T}(e#nu) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot930.ytit            = "Events"
   plot930.ylog            = "no"
   plot930.rebin           = "var"
   #plot930.xmin            = 0
@@ -6958,8 +6958,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot931.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot931.keys            = keys
-  plot931.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot931.ytit            = "Number of events"
+  plot931.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot931.ytit            = "Events"
   plot931.ylog            = "no"
   plot931.rebin           = 5
   #plot931.xmin            = 0
@@ -6983,8 +6983,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot932.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot932.keys            = keys
-  plot932.xtit            = "pfMET - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot932.ytit            = "Number of events"
+  plot932.xtit            = "MET - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot932.ytit            = "Events"
   plot932.ylog            = "no"
   plot932.rebin           = "var"
   #plot932.xmin            = 0
@@ -7009,8 +7009,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot933.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot933.keys            = keys
-  plot933.xtit            = "Number of jets - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot933.ytit            = "Number of events"
+  plot933.xtit            = "Number of jets - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot933.ytit            = "Events"
   plot933.ylog            = "no"
   plot933.rebin           = 1
   plot933.xmin            = -0.5
@@ -7034,8 +7034,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot934.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot934.keys            = keys
-  plot934.xtit            = "Number of b-tagged jets (TCHEL) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot934.ytit            = "Number of events"
+  plot934.xtit            = "Number of b-tagged jets (TCHEL) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot934.ytit            = "Events"
   plot934.ylog            = "no"
   plot934.rebin           = 1
   plot934.xmin            = -0.5
@@ -7059,8 +7059,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot935.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot935.keys            = keys
-  plot935.xtit            = "min#DeltaR(e,j) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot935.ytit            = "Number of events"
+  plot935.xtit            = "min#DeltaR(e,j) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot935.ytit            = "Events"
   plot935.ylog            = "no"
   plot935.rebin           = 10
   #plot935.xmin            = 0
@@ -7084,8 +7084,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot936.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot936.keys            = keys
-  plot936.xtit            = "max#DeltaR(e,j) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot936.ytit            = "Number of events"
+  plot936.xtit            = "max#DeltaR(e,j) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot936.ytit            = "Events"
   plot936.ylog            = "no"
   plot936.rebin           = 10
   #plot936.xmin            = 0
@@ -7109,8 +7109,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot937.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot937.keys            = keys
-  plot937.xtit            = "#DeltaR(j1,j2) - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot937.ytit            = "Number of events"
+  plot937.xtit            = "#DeltaR(j1,j2) - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot937.ytit            = "Events"
   plot937.ylog            = "no"
   plot937.rebin           = 10
   #plot937.xmin            = 0
@@ -7135,8 +7135,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot938.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot938.keys            = keys
-  plot938.xtit            = "Mass 1^{st} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot938.ytit            = "Number of events"
+  plot938.xtit            = "Mass 1st jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot938.ytit            = "Events"
   plot938.ylog            = "no"
   plot938.rebin           = 5
   #plot938.xmin            = -0.5
@@ -7160,8 +7160,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot942.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot942.keys            = keys
-  plot942.xtit            = "Mass 2^{nd} jet - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot942.ytit            = "Number of events"
+  plot942.xtit            = "Mass 2nd jet - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot942.ytit            = "Events"
   plot942.ylog            = "no"
   plot942.rebin           = 5
   #plot942.xmin            = -0.5
@@ -7185,8 +7185,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot943.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot943.keys            = keys
-  plot943.xtit            = "caloMET - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot943.ytit            = "Number of events"
+  plot943.xtit            = "caloMET - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot943.ytit            = "Events"
   plot943.ylog            = "no"
   plot943.rebin           = "var"
   #plot943.xmin            = 0
@@ -7211,8 +7211,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot944.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot944.keys            = keys
-  plot944.xtit            = "tcMET - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot944.ytit            = "Number of events"
+  plot944.xtit            = "tcMET - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot944.ytit            = "Events"
   plot944.ylog            = "no"
   plot944.rebin           = "var"
   #plot944.xmin            = 0
@@ -7236,8 +7236,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot945.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot945.keys            = keys
-  plot945.xtit            = "pfMET/CaloMET - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot945.ytit            = "Number of events"
+  plot945.xtit            = "pfMET/CaloMET - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot945.ytit            = "Events"
   plot945.ylog            = "no"
   plot945.rebin           = 5
   #plot945.xmin            = 0
@@ -7260,8 +7260,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot946.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot946.keys            = keys
-  plot946.xtit            = "MTenu - highMeMinusj, #Delta#phi(MET,1^{st} jet)>2.5"
-  plot946.ytit            = "Number of events"
+  plot946.xtit            = "MTenu - highMeMinusj, #Delta#phi(MET,1st jet)>2.5"
+  plot946.ytit            = "Events"
   plot946.ylog            = "no"
   plot946.rebin           = "var"
   #plot946.xmin            = 0
@@ -7289,8 +7289,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1000.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1000.keys            = keys
-  plot1000.xtit            = "p_{T} 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1000.ytit            = "Number of events"
+  plot1000.xtit            = "p_{T} 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1000.ytit            = "Events"
   plot1000.ylog            = "no"
   plot1000.rebin           = "var"
   #plot1000.xmin            = 0
@@ -7315,8 +7315,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1001.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1001.keys            = keys
-  plot1001.xtit            = "#eta 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1001.ytit            = "Number of events"
+  plot1001.xtit            = "#eta 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1001.ytit            = "Events"
   plot1001.ylog            = "no"
   plot1001.rebin           = 5
   #plot1001.xmin            = -5
@@ -7340,8 +7340,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1002.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1002.keys            = keys
-  plot1002.xtit            = "#phi 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1002.ytit            = "Number of events"
+  plot1002.xtit            = "#phi 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1002.ytit            = "Events"
   plot1002.ylog            = "no"
   plot1002.rebin           = 10
   #plot1002.xmin            = -3.1416
@@ -7365,8 +7365,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1003.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1003.keys            = keys
-  plot1003.xtit            = "Charged hadron energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1003.ytit            = "Number of events"
+  plot1003.xtit            = "Charged hadron energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1003.ytit            = "Events"
   plot1003.ylog            = "no"
   plot1003.rebin           = 10
   #plot1003.xmin            = 0
@@ -7390,8 +7390,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1004.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1004.keys            = keys
-  plot1004.xtit            = "Neutral hadron energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1004.ytit            = "Number of events"
+  plot1004.xtit            = "Neutral hadron energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1004.ytit            = "Events"
   plot1004.ylog            = "no"
   plot1004.rebin           = 10
   #plot1004.xmin            = 0
@@ -7415,8 +7415,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1005.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1005.keys            = keys
-  plot1005.xtit            = "Charged EM energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1005.ytit            = "Number of events"
+  plot1005.xtit            = "Charged EM energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1005.ytit            = "Events"
   plot1005.ylog            = "no"
   plot1005.rebin           = 10
   #plot1005.xmin            = 0
@@ -7440,8 +7440,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1006.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1006.keys            = keys
-  plot1006.xtit            = "Neutral EM energy fraction 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1006.ytit            = "Number of events"
+  plot1006.xtit            = "Neutral EM energy fraction 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1006.ytit            = "Events"
   plot1006.ylog            = "no"
   plot1006.rebin           = 10
   #plot1006.xmin            = 0
@@ -7465,8 +7465,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1007.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1007.keys            = keys
-  plot1007.xtit            = "Charged multiplicity 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1007.ytit            = "Number of events"
+  plot1007.xtit            = "Charged multiplicity 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1007.ytit            = "Events"
   plot1007.ylog            = "no"
   plot1007.rebin           = 10
   #plot1007.xmin            = -0.5
@@ -7490,8 +7490,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1008.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1008.keys            = keys
-  plot1008.xtit            = "Neutral multiplicity 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1008.ytit            = "Number of events"
+  plot1008.xtit            = "Neutral multiplicity 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1008.ytit            = "Events"
   plot1008.ylog            = "no"
   plot1008.rebin           = 10
   #plot1008.xmin            = -0.5
@@ -7515,8 +7515,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1009.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1009.keys            = keys
-  plot1009.xtit            = "Number of constituents 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1009.ytit            = "Number of events"
+  plot1009.xtit            = "Number of constituents 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1009.ytit            = "Events"
   plot1009.ylog            = "no"
   plot1009.rebin           = 10
   #plot1009.xmin            = -0.5
@@ -7540,8 +7540,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1010.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1010.keys            = keys
-  plot1010.xtit            = "p_{T} 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1010.ytit            = "Number of events"
+  plot1010.xtit            = "p_{T} 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1010.ytit            = "Events"
   plot1010.ylog            = "no"
   plot1010.rebin           = "var"
   #plot1010.xmin            = 0
@@ -7566,8 +7566,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1011.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1011.keys            = keys
-  plot1011.xtit            = "#eta 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1011.ytit            = "Number of events"
+  plot1011.xtit            = "#eta 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1011.ytit            = "Events"
   plot1011.ylog            = "no"
   plot1011.rebin           = 5
   #plot1011.xmin            = -5
@@ -7591,8 +7591,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1012.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1012.keys            = keys
-  plot1012.xtit            = "#phi 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1012.ytit            = "Number of events"
+  plot1012.xtit            = "#phi 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1012.ytit            = "Events"
   plot1012.ylog            = "no"
   plot1012.rebin           = 10
   #plot1012.xmin            = -3.1416
@@ -7616,8 +7616,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1013.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1013.keys            = keys
-  plot1013.xtit            = "Charged hadron energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1013.ytit            = "Number of events"
+  plot1013.xtit            = "Charged hadron energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1013.ytit            = "Events"
   plot1013.ylog            = "no"
   plot1013.rebin           = 10
   #plot1013.xmin            = 0
@@ -7641,8 +7641,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1014.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1014.keys            = keys
-  plot1014.xtit            = "Neutral hadron energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1014.ytit            = "Number of events"
+  plot1014.xtit            = "Neutral hadron energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1014.ytit            = "Events"
   plot1014.ylog            = "no"
   plot1014.rebin           = 10
   #plot1014.xmin            = 0
@@ -7666,8 +7666,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1015.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1015.keys            = keys
-  plot1015.xtit            = "Charged EM energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1015.ytit            = "Number of events"
+  plot1015.xtit            = "Charged EM energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1015.ytit            = "Events"
   plot1015.ylog            = "no"
   plot1015.rebin           = 10
   #plot1015.xmin            = 0
@@ -7691,8 +7691,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1016.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1016.keys            = keys
-  plot1016.xtit            = "Neutral EM energy fraction 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1016.ytit            = "Number of events"
+  plot1016.xtit            = "Neutral EM energy fraction 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1016.ytit            = "Events"
   plot1016.ylog            = "no"
   plot1016.rebin           = 10
   #plot1016.xmin            = 0
@@ -7716,8 +7716,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1017.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1017.keys            = keys
-  plot1017.xtit            = "Charged multiplicity 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1017.ytit            = "Number of events"
+  plot1017.xtit            = "Charged multiplicity 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1017.ytit            = "Events"
   plot1017.ylog            = "no"
   plot1017.rebin           = 10
   #plot1017.xmin            = -0.5
@@ -7741,8 +7741,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1018.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1018.keys            = keys
-  plot1018.xtit            = "Neutral multiplicity 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1018.ytit            = "Number of events"
+  plot1018.xtit            = "Neutral multiplicity 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1018.ytit            = "Events"
   plot1018.ylog            = "no"
   plot1018.rebin           = 10
   #plot1018.xmin            = -0.5
@@ -7766,8 +7766,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1019.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1019.keys            = keys
-  plot1019.xtit            = "Number of constituents 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1019.ytit            = "Number of events"
+  plot1019.xtit            = "Number of constituents 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1019.ytit            = "Events"
   plot1019.ylog            = "no"
   plot1019.rebin           = 10
   #plot1019.xmin            = -0.5
@@ -7791,8 +7791,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1020.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1020.keys            = keys
-  plot1020.xtit            = "Energy 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1020.ytit            = "Number of events"
+  plot1020.xtit            = "Energy electron - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1020.ytit            = "Events"
   plot1020.ylog            = "no"
   plot1020.rebin           = "var"
   #plot1020.xmin            = 0
@@ -7817,8 +7817,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1021.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1021.keys            = keys
-  plot1021.xtit            = "p_{T} 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1021.ytit            = "Number of events"
+  plot1021.xtit            = "p_{T} electron - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1021.ytit            = "Events"
   plot1021.ylog            = "no"
   plot1021.rebin           = "var"
   #plot1021.xmin            = 0
@@ -7843,8 +7843,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1022.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1022.keys            = keys
-  plot1022.xtit            = "#eta 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1022.ytit            = "Number of events"
+  plot1022.xtit            = "#eta electron - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1022.ytit            = "Events"
   plot1022.ylog            = "no"
   plot1022.rebin           = 5
   #plot1022.xmin            = -5
@@ -7868,8 +7868,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1023.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1023.keys            = keys
-  plot1023.xtit            = "#phi 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1023.ytit            = "Number of events"
+  plot1023.xtit            = "#phi electron - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1023.ytit            = "Events"
   plot1023.ylog            = "no"
   plot1023.rebin           = 10
   #plot1023.xmin            = -3.1416
@@ -7893,8 +7893,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1024.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1024.keys            = keys
-  plot1024.xtit            = "Charge 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1024.ytit            = "Number of events"
+  plot1024.xtit            = "Charge electron - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1024.ytit            = "Events"
   plot1024.ylog            = "no"
   #plot1024.rebin           = 1
   #plot1024.xmin            = -1.001
@@ -7920,8 +7920,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1025.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1025.keys            = keys
-  plot1025.xtit            = "Conversion flag 1^{st} electron - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1025.ytit            = "Number of events"
+  plot1025.xtit            = "Conversion flag electron - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1025.ytit            = "Events"
   plot1025.ylog            = "no"
   #plot1025.rebin           = 1
   #plot1025.xmin            = -0.5
@@ -7945,8 +7945,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1026.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1026.keys            = keys
-  plot1026.xtit            = "#Delta#phi(MET,1^{st} ele) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1026.ytit            = "Number of events"
+  plot1026.xtit            = "#Delta#phi(MET,1st ele) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1026.ytit            = "Events"
   plot1026.ylog            = "no"
   plot1026.rebin           = 10
   #plot1026.xmin            = 0
@@ -7970,8 +7970,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1027.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1027.keys            = keys
-  plot1027.xtit            = "#Delta#phi(1^{st} ele,1^{st} jet) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1027.ytit            = "Number of events"
+  plot1027.xtit            = "#Delta#phi(1st ele,1st jet) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1027.ytit            = "Events"
   plot1027.ylog            = "no"
   plot1027.rebin           = 10
   #plot1027.xmin            = 0
@@ -7995,8 +7995,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1028.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1028.keys            = keys
-  plot1028.xtit            = "#Delta#phi(1^{st} ele,2^{nd} jet) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1028.ytit            = "Number of events"
+  plot1028.xtit            = "#Delta#phi(1st ele,2nd jet) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1028.ytit            = "Events"
   plot1028.ylog            = "no"
   plot1028.rebin           = 10
   #plot1028.xmin            = 0
@@ -8020,8 +8020,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1029.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1029.keys            = keys
-  plot1029.xtit            = "#Delta#phi(MET,2^{nd} jet) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1029.ytit            = "Number of events"
+  plot1029.xtit            = "#Delta#phi(MET,2nd jet) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1029.ytit            = "Events"
   plot1029.ylog            = "no"
   plot1029.rebin           = 10
   #plot1029.xmin            = 0
@@ -8045,8 +8045,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1030.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1030.keys            = keys
-  plot1030.xtit            = "p_{T}(e#nu) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1030.ytit            = "Number of events"
+  plot1030.xtit            = "p_{T}(e#nu) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1030.ytit            = "Events"
   plot1030.ylog            = "no"
   plot1030.rebin           = "var"
   #plot1030.xmin            = 0
@@ -8071,8 +8071,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1031.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1031.keys            = keys
-  plot1031.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1031.ytit            = "Number of events"
+  plot1031.xtit            = "Pt1stJet/(Pt1stJet+MET) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1031.ytit            = "Events"
   plot1031.ylog            = "no"
   plot1031.rebin           = 5
   #plot1031.xmin            = 0
@@ -8096,8 +8096,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1032.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1032.keys            = keys
-  plot1032.xtit            = "pfMET - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1032.ytit            = "Number of events"
+  plot1032.xtit            = "MET - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1032.ytit            = "Events"
   plot1032.ylog            = "no"
   plot1032.rebin           = "var"
   #plot1032.xmin            = 0
@@ -8122,8 +8122,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1033.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1033.keys            = keys
-  plot1033.xtit            = "Number of jets - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1033.ytit            = "Number of events"
+  plot1033.xtit            = "Number of jets - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1033.ytit            = "Events"
   plot1033.ylog            = "no"
   plot1033.rebin           = 1
   plot1033.xmin            = -0.5
@@ -8147,8 +8147,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1034.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1034.keys            = keys
-  plot1034.xtit            = "Number of b-tagged jets (TCHEL) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1034.ytit            = "Number of events"
+  plot1034.xtit            = "Number of b-tagged jets (TCHEL) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1034.ytit            = "Events"
   plot1034.ylog            = "no"
   plot1034.rebin           = 1
   plot1034.xmin            = -0.5
@@ -8172,8 +8172,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1035.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1035.keys            = keys
-  plot1035.xtit            = "min#DeltaR(e,j) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1035.ytit            = "Number of events"
+  plot1035.xtit            = "min#DeltaR(e,j) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1035.ytit            = "Events"
   plot1035.ylog            = "no"
   plot1035.rebin           = 10
   #plot1035.xmin            = 0
@@ -8197,8 +8197,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1036.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1036.keys            = keys
-  plot1036.xtit            = "max#DeltaR(e,j) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1036.ytit            = "Number of events"
+  plot1036.xtit            = "max#DeltaR(e,j) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1036.ytit            = "Events"
   plot1036.ylog            = "no"
   plot1036.rebin           = 10
   #plot1036.xmin            = 0
@@ -8222,8 +8222,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1037.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1037.keys            = keys
-  plot1037.xtit            = "#DeltaR(j1,j2) - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1037.ytit            = "Number of events"
+  plot1037.xtit            = "#DeltaR(j1,j2) - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1037.ytit            = "Events"
   plot1037.ylog            = "no"
   plot1037.rebin           = 10
   #plot1037.xmin            = 0
@@ -8247,8 +8247,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1038.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1038.keys            = keys
-  plot1038.xtit            = "Mass 1^{st} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1038.ytit            = "Number of events"
+  plot1038.xtit            = "Mass 1st jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1038.ytit            = "Events"
   plot1038.ylog            = "no"
   plot1038.rebin           = 5
   #plot1038.xmin            = -0.5
@@ -8272,8 +8272,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1042.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1042.keys            = keys
-  plot1042.xtit            = "Mass 2^{nd} jet - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1042.ytit            = "Number of events"
+  plot1042.xtit            = "Mass 2nd jet - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1042.ytit            = "Events"
   plot1042.ylog            = "no"
   plot1042.rebin           = 5
   #plot1042.xmin            = -0.5
@@ -8297,8 +8297,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1043.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1043.keys            = keys
-  plot1043.xtit            = "caloMET - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1043.ytit            = "Number of events"
+  plot1043.xtit            = "caloMET - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1043.ytit            = "Events"
   plot1043.ylog            = "no"
   plot1043.rebin           = "var"
   #plot1043.xmin            = 0
@@ -8323,8 +8323,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1044.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1044.keys            = keys
-  plot1044.xtit            = "tcMET - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1044.ytit            = "Number of events"
+  plot1044.xtit            = "tcMET - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1044.ytit            = "Events"
   plot1044.ylog            = "no"
   plot1044.rebin           = "var"
   #plot1044.xmin            = 0
@@ -8348,8 +8348,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1045.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1045.keys            = keys
-  plot1045.xtit            = "pfMET/CaloMET - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1045.ytit            = "Number of events"
+  plot1045.xtit            = "pfMET/CaloMET - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1045.ytit            = "Events"
   plot1045.ylog            = "no"
   plot1045.rebin           = 5
   #plot1045.xmin            = 0
@@ -8373,8 +8373,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1046.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1046.keys            = keys
-  plot1046.xtit            = "MTenu - highMej, #Delta#phi(MET,1^{st} jet)<2.5"
-  plot1046.ytit            = "Number of events"
+  plot1046.xtit            = "MTenu - highMej, #Delta#phi(MET,1st jet)<2.5"
+  plot1046.ytit            = "Events"
   plot1046.ylog            = "no"
   plot1046.rebin           = "var"
   #plot1046.xmin            = 0
@@ -8401,8 +8401,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1100.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1100.keys            = keys
-  plot1100.xtit            = "p_{T} 1^{st} jet - Eta1stJetBump"
-  plot1100.ytit            = "Number of events"
+  plot1100.xtit            = "p_{T} 1st jet - Eta1stJetBump"
+  plot1100.ytit            = "Events"
   plot1100.ylog            = "no"
   plot1100.rebin           = "var"
   #plot1100.xmin            = 0
@@ -8427,8 +8427,8 @@ if doExtraPlots:
   ### this is the list of histograms that should be simply overlaid on top of the stacked histogram
   #plot1101.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   #plot1101.keys            = keys
-  #plot1101.xtit            = "#eta 1^{st} jet - Eta1stJetBump"
-  #plot1101.ytit            = "Number of events"
+  #plot1101.xtit            = "#eta 1st jet - Eta1stJetBump"
+  #plot1101.ytit            = "Events"
   #plot1101.ylog            = "no"
   #plot1101.rebin           = 5
   ##plot1101.xmin            = -5
@@ -8452,8 +8452,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1102.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1102.keys            = keys
-  plot1102.xtit            = "#phi 1^{st} jet - Eta1stJetBump"
-  plot1102.ytit            = "Number of events"
+  plot1102.xtit            = "#phi 1st jet - Eta1stJetBump"
+  plot1102.ytit            = "Events"
   plot1102.ylog            = "no"
   plot1102.rebin           = 10
   #plot1102.xmin            = -3.1416
@@ -8477,8 +8477,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1103.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1103.keys            = keys
-  plot1103.xtit            = "Charged hadron energy fraction 1^{st} jet - Eta1stJetBump"
-  plot1103.ytit            = "Number of events"
+  plot1103.xtit            = "Charged hadron energy fraction 1st jet - Eta1stJetBump"
+  plot1103.ytit            = "Events"
   plot1103.ylog            = "no"
   plot1103.rebin           = 10
   #plot1103.xmin            = 0
@@ -8502,8 +8502,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1104.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1104.keys            = keys
-  plot1104.xtit            = "Neutral hadron energy fraction 1^{st} jet - Eta1stJetBump"
-  plot1104.ytit            = "Number of events"
+  plot1104.xtit            = "Neutral hadron energy fraction 1st jet - Eta1stJetBump"
+  plot1104.ytit            = "Events"
   plot1104.ylog            = "no"
   plot1104.rebin           = 10
   #plot1104.xmin            = 0
@@ -8527,8 +8527,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1105.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1105.keys            = keys
-  plot1105.xtit            = "Charged EM energy fraction 1^{st} jet - Eta1stJetBump"
-  plot1105.ytit            = "Number of events"
+  plot1105.xtit            = "Charged EM energy fraction 1st jet - Eta1stJetBump"
+  plot1105.ytit            = "Events"
   plot1105.ylog            = "no"
   plot1105.rebin           = 10
   #plot1105.xmin            = 0
@@ -8552,8 +8552,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1106.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1106.keys            = keys
-  plot1106.xtit            = "Neutral EM energy fraction 1^{st} jet - Eta1stJetBump"
-  plot1106.ytit            = "Number of events"
+  plot1106.xtit            = "Neutral EM energy fraction 1st jet - Eta1stJetBump"
+  plot1106.ytit            = "Events"
   plot1106.ylog            = "no"
   plot1106.rebin           = 10
   #plot1106.xmin            = 0
@@ -8577,8 +8577,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1107.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1107.keys            = keys
-  plot1107.xtit            = "Charged multiplicity 1^{st} jet - Eta1stJetBump"
-  plot1107.ytit            = "Number of events"
+  plot1107.xtit            = "Charged multiplicity 1st jet - Eta1stJetBump"
+  plot1107.ytit            = "Events"
   plot1107.ylog            = "no"
   plot1107.rebin           = 10
   #plot1107.xmin            = -0.5
@@ -8602,8 +8602,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1108.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1108.keys            = keys
-  plot1108.xtit            = "Neutral multiplicity 1^{st} jet - Eta1stJetBump"
-  plot1108.ytit            = "Number of events"
+  plot1108.xtit            = "Neutral multiplicity 1st jet - Eta1stJetBump"
+  plot1108.ytit            = "Events"
   plot1108.ylog            = "no"
   plot1108.rebin           = 10
   #plot1108.xmin            = -0.5
@@ -8627,8 +8627,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1109.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1109.keys            = keys
-  plot1109.xtit            = "Number of constituents 1^{st} jet - Eta1stJetBump"
-  plot1109.ytit            = "Number of events"
+  plot1109.xtit            = "Number of constituents 1st jet - Eta1stJetBump"
+  plot1109.ytit            = "Events"
   plot1109.ylog            = "no"
   plot1109.rebin           = 10
   #plot1109.xmin            = -0.5
@@ -8652,8 +8652,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1110.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1110.keys            = keys
-  plot1110.xtit            = "p_{T} 2^{nd} jet - Eta1stJetBump"
-  plot1110.ytit            = "Number of events"
+  plot1110.xtit            = "p_{T} 2nd jet - Eta1stJetBump"
+  plot1110.ytit            = "Events"
   plot1110.ylog            = "no"
   plot1110.rebin           = "var"
   #plot1110.xmin            = 0
@@ -8678,8 +8678,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1111.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1111.keys            = keys
-  plot1111.xtit            = "#eta 2^{nd} jet - Eta1stJetBump"
-  plot1111.ytit            = "Number of events"
+  plot1111.xtit            = "#eta 2nd jet - Eta1stJetBump"
+  plot1111.ytit            = "Events"
   plot1111.ylog            = "no"
   plot1111.rebin           = 5
   #plot1111.xmin            = -5
@@ -8703,8 +8703,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1112.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1112.keys            = keys
-  plot1112.xtit            = "#phi 2^{nd} jet - Eta1stJetBump"
-  plot1112.ytit            = "Number of events"
+  plot1112.xtit            = "#phi 2nd jet - Eta1stJetBump"
+  plot1112.ytit            = "Events"
   plot1112.ylog            = "no"
   plot1112.rebin           = 10
   #plot1112.xmin            = -3.1416
@@ -8728,8 +8728,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1113.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1113.keys            = keys
-  plot1113.xtit            = "Charged hadron energy fraction 2^{nd} jet - Eta1stJetBump"
-  plot1113.ytit            = "Number of events"
+  plot1113.xtit            = "Charged hadron energy fraction 2nd jet - Eta1stJetBump"
+  plot1113.ytit            = "Events"
   plot1113.ylog            = "no"
   plot1113.rebin           = 10
   #plot1113.xmin            = 0
@@ -8753,8 +8753,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1114.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1114.keys            = keys
-  plot1114.xtit            = "Neutral hadron energy fraction 2^{nd} jet - Eta1stJetBump"
-  plot1114.ytit            = "Number of events"
+  plot1114.xtit            = "Neutral hadron energy fraction 2nd jet - Eta1stJetBump"
+  plot1114.ytit            = "Events"
   plot1114.ylog            = "no"
   plot1114.rebin           = 10
   #plot1114.xmin            = 0
@@ -8778,8 +8778,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1115.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1115.keys            = keys
-  plot1115.xtit            = "Charged EM energy fraction 2^{nd} jet - Eta1stJetBump"
-  plot1115.ytit            = "Number of events"
+  plot1115.xtit            = "Charged EM energy fraction 2nd jet - Eta1stJetBump"
+  plot1115.ytit            = "Events"
   plot1115.ylog            = "no"
   plot1115.rebin           = 10
   #plot1115.xmin            = 0
@@ -8803,8 +8803,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1116.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1116.keys            = keys
-  plot1116.xtit            = "Neutral EM energy fraction 2^{nd} jet - Eta1stJetBump"
-  plot1116.ytit            = "Number of events"
+  plot1116.xtit            = "Neutral EM energy fraction 2nd jet - Eta1stJetBump"
+  plot1116.ytit            = "Events"
   plot1116.ylog            = "no"
   plot1116.rebin           = 10
   #plot1116.xmin            = 0
@@ -8828,8 +8828,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1117.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1117.keys            = keys
-  plot1117.xtit            = "Charged multiplicity 2^{nd} jet - Eta1stJetBump"
-  plot1117.ytit            = "Number of events"
+  plot1117.xtit            = "Charged multiplicity 2nd jet - Eta1stJetBump"
+  plot1117.ytit            = "Events"
   plot1117.ylog            = "no"
   plot1117.rebin           = 10
   #plot1117.xmin            = -0.5
@@ -8853,8 +8853,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1118.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1118.keys            = keys
-  plot1118.xtit            = "Neutral multiplicity 2^{nd} jet - Eta1stJetBump"
-  plot1118.ytit            = "Number of events"
+  plot1118.xtit            = "Neutral multiplicity 2nd jet - Eta1stJetBump"
+  plot1118.ytit            = "Events"
   plot1118.ylog            = "no"
   plot1118.rebin           = 10
   #plot1118.xmin            = -0.5
@@ -8878,8 +8878,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1119.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1119.keys            = keys
-  plot1119.xtit            = "Number of constituents 2^{nd} jet - Eta1stJetBump"
-  plot1119.ytit            = "Number of events"
+  plot1119.xtit            = "Number of constituents 2nd jet - Eta1stJetBump"
+  plot1119.ytit            = "Events"
   plot1119.ylog            = "no"
   plot1119.rebin           = 10
   #plot1119.xmin            = -0.5
@@ -8903,8 +8903,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1120.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1120.keys            = keys
-  plot1120.xtit            = "Energy 1^{st} electron - Eta1stJetBump"
-  plot1120.ytit            = "Number of events"
+  plot1120.xtit            = "Energy electron - Eta1stJetBump"
+  plot1120.ytit            = "Events"
   plot1120.ylog            = "no"
   plot1120.rebin           = "var"
   #plot1120.xmin            = 0
@@ -8929,8 +8929,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1121.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1121.keys            = keys
-  plot1121.xtit            = "p_{T} 1^{st} electron - Eta1stJetBump"
-  plot1121.ytit            = "Number of events"
+  plot1121.xtit            = "p_{T} electron - Eta1stJetBump"
+  plot1121.ytit            = "Events"
   plot1121.ylog            = "no"
   plot1121.rebin           = "var"
   #plot1121.xmin            = 0
@@ -8955,8 +8955,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1122.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1122.keys            = keys
-  plot1122.xtit            = "#eta 1^{st} electron - Eta1stJetBump"
-  plot1122.ytit            = "Number of events"
+  plot1122.xtit            = "#eta electron - Eta1stJetBump"
+  plot1122.ytit            = "Events"
   plot1122.ylog            = "no"
   plot1122.rebin           = 5
   #plot1122.xmin            = -5
@@ -8980,8 +8980,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1123.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1123.keys            = keys
-  plot1123.xtit            = "#phi 1^{st} electron - Eta1stJetBump"
-  plot1123.ytit            = "Number of events"
+  plot1123.xtit            = "#phi electron - Eta1stJetBump"
+  plot1123.ytit            = "Events"
   plot1123.ylog            = "no"
   plot1123.rebin           = 10
   #plot1123.xmin            = -3.1416
@@ -9005,8 +9005,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1124.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1124.keys            = keys
-  plot1124.xtit            = "Charge 1^{st} electron - Eta1stJetBump"
-  plot1124.ytit            = "Number of events"
+  plot1124.xtit            = "Charge electron - Eta1stJetBump"
+  plot1124.ytit            = "Events"
   plot1124.ylog            = "no"
   #plot1124.rebin           = 1
   #plot1124.xmin            = -1.001
@@ -9032,8 +9032,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1125.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1125.keys            = keys
-  plot1125.xtit            = "Conversion flag 1^{st} electron - Eta1stJetBump"
-  plot1125.ytit            = "Number of events"
+  plot1125.xtit            = "Conversion flag electron - Eta1stJetBump"
+  plot1125.ytit            = "Events"
   plot1125.ylog            = "no"
   #plot1125.rebin           = 1
   #plot1125.xmin            = -0.5
@@ -9057,8 +9057,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1126.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1126.keys            = keys
-  plot1126.xtit            = "#Delta#phi(MET,1^{st} ele) - Eta1stJetBump"
-  plot1126.ytit            = "Number of events"
+  plot1126.xtit            = "#Delta#phi(MET,1st ele) - Eta1stJetBump"
+  plot1126.ytit            = "Events"
   plot1126.ylog            = "no"
   plot1126.rebin           = 10
   #plot1126.xmin            = 0
@@ -9082,8 +9082,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1127.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1127.keys            = keys
-  plot1127.xtit            = "#Delta#phi(1^{st} ele,1^{st} jet) - Eta1stJetBump"
-  plot1127.ytit            = "Number of events"
+  plot1127.xtit            = "#Delta#phi(1st ele,1st jet) - Eta1stJetBump"
+  plot1127.ytit            = "Events"
   plot1127.ylog            = "no"
   plot1127.rebin           = 10
   #plot1127.xmin            = 0
@@ -9107,8 +9107,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1128.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1128.keys            = keys
-  plot1128.xtit            = "#Delta#phi(1^{st} ele,2^{nd} jet) - Eta1stJetBump"
-  plot1128.ytit            = "Number of events"
+  plot1128.xtit            = "#Delta#phi(1st ele,2nd jet) - Eta1stJetBump"
+  plot1128.ytit            = "Events"
   plot1128.ylog            = "no"
   plot1128.rebin           = 10
   #plot1128.xmin            = 0
@@ -9132,8 +9132,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1129.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1129.keys            = keys
-  plot1129.xtit            = "#Delta#phi(MET,2^{nd} jet) - Eta1stJetBump"
-  plot1129.ytit            = "Number of events"
+  plot1129.xtit            = "#Delta#phi(MET,2nd jet) - Eta1stJetBump"
+  plot1129.ytit            = "Events"
   plot1129.ylog            = "no"
   plot1129.rebin           = 10
   #plot1129.xmin            = 0
@@ -9158,7 +9158,7 @@ if doExtraPlots:
   plot1130.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1130.keys            = keys
   plot1130.xtit            = "p_{T}(e#nu) - Eta1stJetBump"
-  plot1130.ytit            = "Number of events"
+  plot1130.ytit            = "Events"
   plot1130.ylog            = "no"
   plot1130.rebin           = "var"
   #plot1130.xmin            = 0
@@ -9184,7 +9184,7 @@ if doExtraPlots:
   plot1131.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1131.keys            = keys
   plot1131.xtit            = "Pt1stJet/(Pt1stJet+MET) - Eta1stJetBump"
-  plot1131.ytit            = "Number of events"
+  plot1131.ytit            = "Events"
   plot1131.ylog            = "no"
   plot1131.rebin           = 5
   #plot1131.xmin            = 0
@@ -9208,8 +9208,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1132.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1132.keys            = keys
-  plot1132.xtit            = "pfMET - Eta1stJetBump"
-  plot1132.ytit            = "Number of events"
+  plot1132.xtit            = "MET - Eta1stJetBump"
+  plot1132.ytit            = "Events"
   plot1132.ylog            = "no"
   plot1132.rebin           = "var"
   #plot1132.xmin            = 0
@@ -9235,7 +9235,7 @@ if doExtraPlots:
   plot1133.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1133.keys            = keys
   plot1133.xtit            = "Number of jets - Eta1stJetBump"
-  plot1133.ytit            = "Number of events"
+  plot1133.ytit            = "Events"
   plot1133.ylog            = "no"
   plot1133.rebin           = 1
   plot1133.xmin            = -0.5
@@ -9260,7 +9260,7 @@ if doExtraPlots:
   plot1134.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1134.keys            = keys
   plot1134.xtit            = "Number of b-tagged jets (TCHEL) - Eta1stJetBump"
-  plot1134.ytit            = "Number of events"
+  plot1134.ytit            = "Events"
   plot1134.ylog            = "no"
   plot1134.rebin           = 1
   plot1134.xmin            = -0.5
@@ -9285,7 +9285,7 @@ if doExtraPlots:
   plot1135.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1135.keys            = keys
   plot1135.xtit            = "min#DeltaR(e,j) - Eta1stJetBump"
-  plot1135.ytit            = "Number of events"
+  plot1135.ytit            = "Events"
   plot1135.ylog            = "no"
   plot1135.rebin           = 10
   #plot1135.xmin            = 0
@@ -9310,7 +9310,7 @@ if doExtraPlots:
   plot1136.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1136.keys            = keys
   plot1136.xtit            = "max#DeltaR(e,j) - Eta1stJetBump"
-  plot1136.ytit            = "Number of events"
+  plot1136.ytit            = "Events"
   plot1136.ylog            = "no"
   plot1136.rebin           = 10
   #plot1136.xmin            = 0
@@ -9335,7 +9335,7 @@ if doExtraPlots:
   plot1137.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1137.keys            = keys
   plot1137.xtit            = "#DeltaR(j1,j2) - Eta1stJetBump"
-  plot1137.ytit            = "Number of events"
+  plot1137.ytit            = "Events"
   plot1137.ylog            = "no"
   plot1137.rebin           = 10
   #plot1137.xmin            = 0
@@ -9359,8 +9359,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1138.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1138.keys            = keys
-  plot1138.xtit            = "Mass 1^{st} jet - Eta1stJetBump"
-  plot1138.ytit            = "Number of events"
+  plot1138.xtit            = "Mass 1st jet - Eta1stJetBump"
+  plot1138.ytit            = "Events"
   plot1138.ylog            = "no"
   plot1138.rebin           = 5
   #plot1138.xmin            = -0.5
@@ -9384,8 +9384,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1142.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1142.keys            = keys
-  plot1142.xtit            = "Mass 2^{nd} jet - Eta1stJetBump"
-  plot1142.ytit            = "Number of events"
+  plot1142.xtit            = "Mass 2nd jet - Eta1stJetBump"
+  plot1142.ytit            = "Events"
   plot1142.ylog            = "no"
   plot1142.rebin           = 5
   #plot1142.xmin            = -0.5
@@ -9410,7 +9410,7 @@ if doExtraPlots:
   plot1143.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1143.keys            = keys
   plot1143.xtit            = "caloMET - Eta1stJetBump"
-  plot1143.ytit            = "Number of events"
+  plot1143.ytit            = "Events"
   plot1143.ylog            = "no"
   plot1143.rebin           = "var"
   #plot1143.xmin            = 0
@@ -9436,7 +9436,7 @@ if doExtraPlots:
   plot1144.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1144.keys            = keys
   plot1144.xtit            = "tcMET - Eta1stJetBump"
-  plot1144.ytit            = "Number of events"
+  plot1144.ytit            = "Events"
   plot1144.ylog            = "no"
   plot1144.rebin           = "var"
   #plot1144.xmin            = 0
@@ -9461,7 +9461,7 @@ if doExtraPlots:
   plot1145.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1145.keys            = keys
   plot1145.xtit            = "pfMET/CaloMET - Eta1stJetBump"
-  plot1145.ytit            = "Number of events"
+  plot1145.ytit            = "Events"
   plot1145.ylog            = "no"
   plot1145.rebin           = 5
   #plot1145.xmin            = 0
@@ -9485,7 +9485,7 @@ if doExtraPlots:
   plot1146.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1146.keys            = keys
   plot1146.xtit            = "MTenu - Eta1stJetBump"
-  plot1146.ytit            = "Number of events"
+  plot1146.ytit            = "Events"
   plot1146.ylog            = "no"
   plot1146.rebin           = "var"
   #plot1146.xmin            = 0
@@ -9512,8 +9512,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1200.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1200.keys            = keys
-  plot1200.xtit            = "p_{T} 1^{st} jet - OutsideEta1stJetBump"
-  plot1200.ytit            = "Number of events"
+  plot1200.xtit            = "p_{T} 1st jet - OutsideEta1stJetBump"
+  plot1200.ytit            = "Events"
   plot1200.ylog            = "no"
   plot1200.rebin           = "var"
   #plot1200.xmin            = 0
@@ -9538,8 +9538,8 @@ if doExtraPlots:
   ### this is the list of histograms that should be simply overlaid on top of the stacked histogram
   #plot1201.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   #plot1201.keys            = keys
-  #plot1201.xtit            = "#eta 1^{st} jet - OutsideEta1stJetBump"
-  #plot1201.ytit            = "Number of events"
+  #plot1201.xtit            = "#eta 1st jet - OutsideEta1stJetBump"
+  #plot1201.ytit            = "Events"
   #plot1201.ylog            = "no"
   #plot1201.rebin           = 5
   ##plot1201.xmin            = -5
@@ -9563,8 +9563,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1202.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1202.keys            = keys
-  plot1202.xtit            = "#phi 1^{st} jet - OutsideEta1stJetBump"
-  plot1202.ytit            = "Number of events"
+  plot1202.xtit            = "#phi 1st jet - OutsideEta1stJetBump"
+  plot1202.ytit            = "Events"
   plot1202.ylog            = "no"
   plot1202.rebin           = 10
   #plot1202.xmin            = -3.1416
@@ -9588,8 +9588,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1203.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1203.keys            = keys
-  plot1203.xtit            = "Charged hadron energy fraction 1^{st} jet - OutsideEta1stJetBump"
-  plot1203.ytit            = "Number of events"
+  plot1203.xtit            = "Charged hadron energy fraction 1st jet - OutsideEta1stJetBump"
+  plot1203.ytit            = "Events"
   plot1203.ylog            = "no"
   plot1203.rebin           = 10
   #plot1203.xmin            = 0
@@ -9613,8 +9613,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1204.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1204.keys            = keys
-  plot1204.xtit            = "Neutral hadron energy fraction 1^{st} jet - OutsideEta1stJetBump"
-  plot1204.ytit            = "Number of events"
+  plot1204.xtit            = "Neutral hadron energy fraction 1st jet - OutsideEta1stJetBump"
+  plot1204.ytit            = "Events"
   plot1204.ylog            = "no"
   plot1204.rebin           = 10
   #plot1204.xmin            = 0
@@ -9638,8 +9638,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1205.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1205.keys            = keys
-  plot1205.xtit            = "Charged EM energy fraction 1^{st} jet - OutsideEta1stJetBump"
-  plot1205.ytit            = "Number of events"
+  plot1205.xtit            = "Charged EM energy fraction 1st jet - OutsideEta1stJetBump"
+  plot1205.ytit            = "Events"
   plot1205.ylog            = "no"
   plot1205.rebin           = 10
   #plot1205.xmin            = 0
@@ -9663,8 +9663,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1206.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1206.keys            = keys
-  plot1206.xtit            = "Neutral EM energy fraction 1^{st} jet - OutsideEta1stJetBump"
-  plot1206.ytit            = "Number of events"
+  plot1206.xtit            = "Neutral EM energy fraction 1st jet - OutsideEta1stJetBump"
+  plot1206.ytit            = "Events"
   plot1206.ylog            = "no"
   plot1206.rebin           = 10
   #plot1206.xmin            = 0
@@ -9688,8 +9688,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1207.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1207.keys            = keys
-  plot1207.xtit            = "Charged multiplicity 1^{st} jet - OutsideEta1stJetBump"
-  plot1207.ytit            = "Number of events"
+  plot1207.xtit            = "Charged multiplicity 1st jet - OutsideEta1stJetBump"
+  plot1207.ytit            = "Events"
   plot1207.ylog            = "no"
   plot1207.rebin           = 10
   #plot1207.xmin            = -0.5
@@ -9713,8 +9713,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1208.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1208.keys            = keys
-  plot1208.xtit            = "Neutral multiplicity 1^{st} jet - OutsideEta1stJetBump"
-  plot1208.ytit            = "Number of events"
+  plot1208.xtit            = "Neutral multiplicity 1st jet - OutsideEta1stJetBump"
+  plot1208.ytit            = "Events"
   plot1208.ylog            = "no"
   plot1208.rebin           = 10
   #plot1208.xmin            = -0.5
@@ -9738,8 +9738,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1209.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1209.keys            = keys
-  plot1209.xtit            = "Number of constituents 1^{st} jet - OutsideEta1stJetBump"
-  plot1209.ytit            = "Number of events"
+  plot1209.xtit            = "Number of constituents 1st jet - OutsideEta1stJetBump"
+  plot1209.ytit            = "Events"
   plot1209.ylog            = "no"
   plot1209.rebin           = 10
   #plot1209.xmin            = -0.5
@@ -9763,8 +9763,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1210.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1210.keys            = keys
-  plot1210.xtit            = "p_{T} 2^{nd} jet - OutsideEta1stJetBump"
-  plot1210.ytit            = "Number of events"
+  plot1210.xtit            = "p_{T} 2nd jet - OutsideEta1stJetBump"
+  plot1210.ytit            = "Events"
   plot1210.ylog            = "no"
   plot1210.rebin           = "var"
   #plot1210.xmin            = 0
@@ -9789,8 +9789,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1211.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1211.keys            = keys
-  plot1211.xtit            = "#eta 2^{nd} jet - OutsideEta1stJetBump"
-  plot1211.ytit            = "Number of events"
+  plot1211.xtit            = "#eta 2nd jet - OutsideEta1stJetBump"
+  plot1211.ytit            = "Events"
   plot1211.ylog            = "no"
   plot1211.rebin           = 5
   #plot1211.xmin            = -5
@@ -9814,8 +9814,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1212.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1212.keys            = keys
-  plot1212.xtit            = "#phi 2^{nd} jet - OutsideEta1stJetBump"
-  plot1212.ytit            = "Number of events"
+  plot1212.xtit            = "#phi 2nd jet - OutsideEta1stJetBump"
+  plot1212.ytit            = "Events"
   plot1212.ylog            = "no"
   plot1212.rebin           = 10
   #plot1212.xmin            = -3.1416
@@ -9839,8 +9839,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1213.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1213.keys            = keys
-  plot1213.xtit            = "Charged hadron energy fraction 2^{nd} jet - OutsideEta1stJetBump"
-  plot1213.ytit            = "Number of events"
+  plot1213.xtit            = "Charged hadron energy fraction 2nd jet - OutsideEta1stJetBump"
+  plot1213.ytit            = "Events"
   plot1213.ylog            = "no"
   plot1213.rebin           = 10
   #plot1213.xmin            = 0
@@ -9864,8 +9864,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1214.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1214.keys            = keys
-  plot1214.xtit            = "Neutral hadron energy fraction 2^{nd} jet - OutsideEta1stJetBump"
-  plot1214.ytit            = "Number of events"
+  plot1214.xtit            = "Neutral hadron energy fraction 2nd jet - OutsideEta1stJetBump"
+  plot1214.ytit            = "Events"
   plot1214.ylog            = "no"
   plot1214.rebin           = 10
   #plot1214.xmin            = 0
@@ -9889,8 +9889,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1215.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1215.keys            = keys
-  plot1215.xtit            = "Charged EM energy fraction 2^{nd} jet - OutsideEta1stJetBump"
-  plot1215.ytit            = "Number of events"
+  plot1215.xtit            = "Charged EM energy fraction 2nd jet - OutsideEta1stJetBump"
+  plot1215.ytit            = "Events"
   plot1215.ylog            = "no"
   plot1215.rebin           = 10
   #plot1215.xmin            = 0
@@ -9914,8 +9914,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1216.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1216.keys            = keys
-  plot1216.xtit            = "Neutral EM energy fraction 2^{nd} jet - OutsideEta1stJetBump"
-  plot1216.ytit            = "Number of events"
+  plot1216.xtit            = "Neutral EM energy fraction 2nd jet - OutsideEta1stJetBump"
+  plot1216.ytit            = "Events"
   plot1216.ylog            = "no"
   plot1216.rebin           = 10
   #plot1216.xmin            = 0
@@ -9939,8 +9939,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1217.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1217.keys            = keys
-  plot1217.xtit            = "Charged multiplicity 2^{nd} jet - OutsideEta1stJetBump"
-  plot1217.ytit            = "Number of events"
+  plot1217.xtit            = "Charged multiplicity 2nd jet - OutsideEta1stJetBump"
+  plot1217.ytit            = "Events"
   plot1217.ylog            = "no"
   plot1217.rebin           = 10
   #plot1217.xmin            = -0.5
@@ -9964,8 +9964,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1218.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1218.keys            = keys
-  plot1218.xtit            = "Neutral multiplicity 2^{nd} jet - OutsideEta1stJetBump"
-  plot1218.ytit            = "Number of events"
+  plot1218.xtit            = "Neutral multiplicity 2nd jet - OutsideEta1stJetBump"
+  plot1218.ytit            = "Events"
   plot1218.ylog            = "no"
   plot1218.rebin           = 10
   #plot1218.xmin            = -0.5
@@ -9989,8 +9989,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1219.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1219.keys            = keys
-  plot1219.xtit            = "Number of constituents 2^{nd} jet - OutsideEta1stJetBump"
-  plot1219.ytit            = "Number of events"
+  plot1219.xtit            = "Number of constituents 2nd jet - OutsideEta1stJetBump"
+  plot1219.ytit            = "Events"
   plot1219.ylog            = "no"
   plot1219.rebin           = 10
   #plot1219.xmin            = -0.5
@@ -10014,8 +10014,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1220.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1220.keys            = keys
-  plot1220.xtit            = "Energy 1^{st} electron - OutsideEta1stJetBump"
-  plot1220.ytit            = "Number of events"
+  plot1220.xtit            = "Energy electron - OutsideEta1stJetBump"
+  plot1220.ytit            = "Events"
   plot1220.ylog            = "no"
   plot1220.rebin           = "var"
   #plot1220.xmin            = 0
@@ -10040,8 +10040,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1221.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1221.keys            = keys
-  plot1221.xtit            = "p_{T} 1^{st} electron - OutsideEta1stJetBump"
-  plot1221.ytit            = "Number of events"
+  plot1221.xtit            = "p_{T} electron - OutsideEta1stJetBump"
+  plot1221.ytit            = "Events"
   plot1221.ylog            = "no"
   plot1221.rebin           = "var"
   #plot1221.xmin            = 0
@@ -10066,8 +10066,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1222.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1222.keys            = keys
-  plot1222.xtit            = "#eta 1^{st} electron - OutsideEta1stJetBump"
-  plot1222.ytit            = "Number of events"
+  plot1222.xtit            = "#eta electron - OutsideEta1stJetBump"
+  plot1222.ytit            = "Events"
   plot1222.ylog            = "no"
   plot1222.rebin           = 5
   #plot1222.xmin            = -5
@@ -10091,8 +10091,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1223.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1223.keys            = keys
-  plot1223.xtit            = "#phi 1^{st} electron - OutsideEta1stJetBump"
-  plot1223.ytit            = "Number of events"
+  plot1223.xtit            = "#phi electron - OutsideEta1stJetBump"
+  plot1223.ytit            = "Events"
   plot1223.ylog            = "no"
   plot1223.rebin           = 10
   #plot1223.xmin            = -3.1416
@@ -10116,8 +10116,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1224.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1224.keys            = keys
-  plot1224.xtit            = "Charge 1^{st} electron - OutsideEta1stJetBump"
-  plot1224.ytit            = "Number of events"
+  plot1224.xtit            = "Charge electron - OutsideEta1stJetBump"
+  plot1224.ytit            = "Events"
   plot1224.ylog            = "no"
   #plot1224.rebin           = 1
   #plot1224.xmin            = -1.001
@@ -10143,8 +10143,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1225.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1225.keys            = keys
-  plot1225.xtit            = "Conversion flag 1^{st} electron - OutsideEta1stJetBump"
-  plot1225.ytit            = "Number of events"
+  plot1225.xtit            = "Conversion flag electron - OutsideEta1stJetBump"
+  plot1225.ytit            = "Events"
   plot1225.ylog            = "no"
   #plot1225.rebin           = 1
   #plot1225.xmin            = -0.5
@@ -10168,8 +10168,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1226.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1226.keys            = keys
-  plot1226.xtit            = "#Delta#phi(MET,1^{st} ele) - OutsideEta1stJetBump"
-  plot1226.ytit            = "Number of events"
+  plot1226.xtit            = "#Delta#phi(MET,1st ele) - OutsideEta1stJetBump"
+  plot1226.ytit            = "Events"
   plot1226.ylog            = "no"
   plot1226.rebin           = 10
   #plot1226.xmin            = 0
@@ -10193,8 +10193,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1227.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1227.keys            = keys
-  plot1227.xtit            = "#Delta#phi(1^{st} ele,1^{st} jet) - OutsideEta1stJetBump"
-  plot1227.ytit            = "Number of events"
+  plot1227.xtit            = "#Delta#phi(1st ele,1st jet) - OutsideEta1stJetBump"
+  plot1227.ytit            = "Events"
   plot1227.ylog            = "no"
   plot1227.rebin           = 10
   #plot1227.xmin            = 0
@@ -10218,8 +10218,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1228.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1228.keys            = keys
-  plot1228.xtit            = "#Delta#phi(1^{st} ele,2^{nd} jet) - OutsideEta1stJetBump"
-  plot1228.ytit            = "Number of events"
+  plot1228.xtit            = "#Delta#phi(1st ele,2nd jet) - OutsideEta1stJetBump"
+  plot1228.ytit            = "Events"
   plot1228.ylog            = "no"
   plot1228.rebin           = 10
   #plot1228.xmin            = 0
@@ -10243,8 +10243,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1229.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1229.keys            = keys
-  plot1229.xtit            = "#Delta#phi(MET,2^{nd} jet) - OutsideEta1stJetBump"
-  plot1229.ytit            = "Number of events"
+  plot1229.xtit            = "#Delta#phi(MET,2nd jet) - OutsideEta1stJetBump"
+  plot1229.ytit            = "Events"
   plot1229.ylog            = "no"
   plot1229.rebin           = 10
   #plot1229.xmin            = 0
@@ -10269,7 +10269,7 @@ if doExtraPlots:
   plot1230.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1230.keys            = keys
   plot1230.xtit            = "p_{T}(e#nu) - OutsideEta1stJetBump"
-  plot1230.ytit            = "Number of events"
+  plot1230.ytit            = "Events"
   plot1230.ylog            = "no"
   plot1230.rebin           = "var"
   #plot1230.xmin            = 0
@@ -10295,7 +10295,7 @@ if doExtraPlots:
   plot1231.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1231.keys            = keys
   plot1231.xtit            = "Pt1stJet/(Pt1stJet+MET) - OutsideEta1stJetBump"
-  plot1231.ytit            = "Number of events"
+  plot1231.ytit            = "Events"
   plot1231.ylog            = "no"
   plot1231.rebin           = 5
   #plot1231.xmin            = 0
@@ -10319,8 +10319,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1232.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1232.keys            = keys
-  plot1232.xtit            = "pfMET - OutsideEta1stJetBump"
-  plot1232.ytit            = "Number of events"
+  plot1232.xtit            = "MET - OutsideEta1stJetBump"
+  plot1232.ytit            = "Events"
   plot1232.ylog            = "no"
   plot1232.rebin           = "var"
   #plot1232.xmin            = 0
@@ -10346,7 +10346,7 @@ if doExtraPlots:
   plot1233.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1233.keys            = keys
   plot1233.xtit            = "Number of jets - OutsideEta1stJetBump"
-  plot1233.ytit            = "Number of events"
+  plot1233.ytit            = "Events"
   plot1233.ylog            = "no"
   plot1233.rebin           = 1
   plot1233.xmin            = -0.5
@@ -10371,7 +10371,7 @@ if doExtraPlots:
   plot1234.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1234.keys            = keys
   plot1234.xtit            = "Number of b-tagged jets (TCHEL) - OutsideEta1stJetBump"
-  plot1234.ytit            = "Number of events"
+  plot1234.ytit            = "Events"
   plot1234.ylog            = "no"
   plot1234.rebin           = 1
   plot1234.xmin            = -0.5
@@ -10396,7 +10396,7 @@ if doExtraPlots:
   plot1235.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1235.keys            = keys
   plot1235.xtit            = "min#DeltaR(e,j) - OutsideEta1stJetBump"
-  plot1235.ytit            = "Number of events"
+  plot1235.ytit            = "Events"
   plot1235.ylog            = "no"
   plot1235.rebin           = 10
   #plot1235.xmin            = 0
@@ -10421,7 +10421,7 @@ if doExtraPlots:
   plot1236.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1236.keys            = keys
   plot1236.xtit            = "max#DeltaR(e,j) - OutsideEta1stJetBump"
-  plot1236.ytit            = "Number of events"
+  plot1236.ytit            = "Events"
   plot1236.ylog            = "no"
   plot1236.rebin           = 10
   #plot1236.xmin            = 0
@@ -10446,7 +10446,7 @@ if doExtraPlots:
   plot1237.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1237.keys            = keys
   plot1237.xtit            = "#DeltaR(j1,j2) - OutsideEta1stJetBump"
-  plot1237.ytit            = "Number of events"
+  plot1237.ytit            = "Events"
   plot1237.ylog            = "no"
   plot1237.rebin           = 10
   #plot1237.xmin            = 0
@@ -10470,8 +10470,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1238.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1238.keys            = keys
-  plot1238.xtit            = "Mass 1^{st} jet - OutsideEta1stJetBump"
-  plot1238.ytit            = "Number of events"
+  plot1238.xtit            = "Mass 1st jet - OutsideEta1stJetBump"
+  plot1238.ytit            = "Events"
   plot1238.ylog            = "no"
   plot1238.rebin           = 5
   #plot1238.xmin            = -0.5
@@ -10495,8 +10495,8 @@ if doExtraPlots:
   ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
   plot1242.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1242.keys            = keys
-  plot1242.xtit            = "Mass 2^{nd} jet - OutsideEta1stJetBump"
-  plot1242.ytit            = "Number of events"
+  plot1242.xtit            = "Mass 2nd jet - OutsideEta1stJetBump"
+  plot1242.ytit            = "Events"
   plot1242.ylog            = "no"
   plot1242.rebin           = 5
   #plot1242.xmin            = -0.5
@@ -10521,7 +10521,7 @@ if doExtraPlots:
   plot1243.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1243.keys            = keys
   plot1243.xtit            = "caloMET - OutsideEta1stJetBump"
-  plot1243.ytit            = "Number of events"
+  plot1243.ytit            = "Events"
   plot1243.ylog            = "no"
   plot1243.rebin           = "var"
   #plot1243.xmin            = 0
@@ -10547,7 +10547,7 @@ if doExtraPlots:
   plot1244.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1244.keys            = keys
   plot1244.xtit            = "tcMET - OutsideEta1stJetBump"
-  plot1244.ytit            = "Number of events"
+  plot1244.ytit            = "Events"
   plot1244.ylog            = "no"
   plot1244.rebin           = "var"
   #plot1244.xmin            = 0
@@ -10572,7 +10572,7 @@ if doExtraPlots:
   plot1245.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1245.keys            = keys
   plot1245.xtit            = "pfMET/CaloMET - OutsideEta1stJetBump"
-  plot1245.ytit            = "Number of events"
+  plot1245.ytit            = "Events"
   plot1245.ylog            = "no"
   plot1245.rebin           = 5
   #plot1245.xmin            = 0
@@ -10596,7 +10596,7 @@ if doExtraPlots:
   plot1246.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
   plot1246.keys            = keys
   plot1246.xtit            = "MTenu - OutsideEta1stJetBump"
-  plot1246.ytit            = "Number of events"
+  plot1246.ytit            = "Events"
   plot1246.ylog            = "no"
   plot1246.rebin           = "var"
   #plot1246.xmin            = 0
