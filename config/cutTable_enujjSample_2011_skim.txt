@@ -116,7 +116,7 @@ nEle_PtCut_IDISO_noOvrlp        0            1                  -               
 Pt1stEle_IDISO_NoOvrlp          25           +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf         +inf               -               -               1       100 -5 5
 mEta1stEle_IDISO_NoOvrlp        -inf         +inf               -               -               1       50 0 5
-MET                             20           +inf               -               -               1       200 0 1000
+MET                             25           +inf               -               -               1       200 0 1000
 SumET				-inf	     +inf		-		-		1	300 0 3000
 GenSumET			-inf	     +inf		-		-		1	300 0 3000
 #
@@ -126,8 +126,8 @@ nJet_PtCut_noOvrlp              -inf         +inf               -               
 nJet_WithJetEtaCut              -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_TCHELBTag                  -inf         +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID           1            +inf               -               -               2       16 -0.5 15.5
-Pt1stJet_noOvrlp_ID             20           +inf               -               -               2       100 0 1000
-Pt2ndJet_noOvrlp_ID             20           +inf               -               -               2       100 0 1000
+Pt1stJet_noOvrlp_ID             25           +inf               -               -               2       100 0 1000
+Pt2ndJet_noOvrlp_ID             25           +inf               -               -               2       100 0 1000
 Eta1stJet_noOvrlp_ID            -inf         +inf               -               -               2       100 -5 5
 Eta2ndJet_noOvrlp_ID            -inf         +inf               -               -               2       100 -5 5
 mEta1stJet_noOvrlp_ID           -inf         +inf               -               -               2       50 0 5
