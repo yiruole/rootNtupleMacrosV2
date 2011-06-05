@@ -897,20 +897,6 @@ void analysisClass::Loop()
           }
       }
 
-    // The following data were processed but were declared as bad in
-    // https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions10/7TeV/StreamExpress/Cert_132440-149442_7TeV_StreamExpress_Collisions10_JSON_v3.txt
-    int passGoodRunList = 1;
-    //     // Skip runs declared bad for HCAL reasons
-    //     if ( run == 146511 ) passGoodRunList = 0;
-    //     if ( run == 146513 ) passGoodRunList = 0;
-    //     if ( run == 146514 ) passGoodRunList = 0;
-    //     if ( run == 146644 ) passGoodRunList = 0;
-    //     // Skip runs declared bad for other reasons
-    //     if ( run == 141874 ) passGoodRunList = 0;
-    //     if ( run == 141876 ) passGoodRunList = 0;
-    //     if ( run == 142414 ) passGoodRunList = 0;
-    //     if ( run == 147929 and ls == 619 ) passGoodRunList = 0;
-
     //## HLT
     int PassTrig = 0;
     int HLTFromRun[4] = {getPreCutValue1("HLTFromRun"),
@@ -1191,20 +1177,18 @@ void analysisClass::Loop()
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
-
+    fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
 
     // Set the value of the variableNames listed in the cutFile to their current value
 
     // Trigger (L1 and HLT)
     if(isData==true)
       {
-        fillVariableWithValue( "PassGoodRunList", passGoodRunList );
 	fillVariableWithValue( "PassBPTX0", isBPTX0 ) ;
 	fillVariableWithValue( "PassPhysDecl", isPhysDeclared ) ;
       }
     else
       {
-        fillVariableWithValue( "PassGoodRunList", 1 );
 	fillVariableWithValue( "PassBPTX0", true ) ;
 	fillVariableWithValue( "PassPhysDecl", true ) ;
       }

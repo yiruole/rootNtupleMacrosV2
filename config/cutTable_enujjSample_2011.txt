@@ -1,3 +1,5 @@
+# 2011 JSON file
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/Prompt/Cert_160404-165970_7TeV_PromptReco_Collisions11_JSON.txt
 #
 #############################     Example of file with list of cuts
 #
@@ -98,7 +100,7 @@ JetOversmearingSigma  0.05         -                    -               -       
 #
 #VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax
 #------------                   ------------ -------------      ------------    -------------   -----   ----------------
-PassGoodRunList                 0            1                  -               -               0       2 -0.5 1.5
+PassJSON			0            1                  -               -               0       2 -0.5 1.5
 PassBPTX0                       0            1                  -               -               0       2 -0.5 1.5
 PassPhysDecl                    -inf         +inf               -               -               0       2 -0.5 1.5
 PassBeamScraping                0            1                  -               -               0       2 -0.5 1.5
