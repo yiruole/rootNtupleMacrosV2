@@ -770,6 +770,8 @@ void analysisClass::Loop()
     if(jentry < 10 || jentry%1000 == 0) STDOUT("analysisClass::Loop(): jentry = " << jentry);
     // if (Cut(ientry) < 0) continue;
 
+    double event_weight = getPileupWeight ( PileUpInteractions, isData ) ;
+
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
     //## Define new jet collection
