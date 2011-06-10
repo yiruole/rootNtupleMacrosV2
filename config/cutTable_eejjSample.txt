@@ -1,3 +1,8 @@
+# 2011 JSON file
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/Prompt/Cert_160404-165970_7TeV_PromptReco_Collisions11_JSON.txt
+# Pileup reweighting files --> FOR SKIM: COMMENT THE FOLLOWING TWO LINES
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_all.root
+PILEUP_MC_TXT_FILE    /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file.txt
 #
 #############################     Example of file with list of cuts
 #
@@ -13,6 +18,7 @@
 #
 #VariableName         value1		value2		value3		value4		level
 #------------	      ------------	-------------	------------	-------------	-----
+#produceSkim           1                 -               -               -               -1
 #eleFidRegion	      2.5		-		-		-		-1	
 #jetFidRegion	      2.5		-		-		-		-1	
 ele_PtCut	      30		-		-		-		-1

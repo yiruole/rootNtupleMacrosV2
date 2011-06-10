@@ -178,6 +178,8 @@ void analysisClass::Loop()
     if(jentry < 10 || jentry%1000 == 0) STDOUT("analysisClass::Loop(): jentry = " << jentry);   
     // if (Cut(ientry) < 0) continue;
     
+    double event_weight = getPileupWeight ( PileUpInteractions, isData ) ;
+
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
     //## Define new jet collection
@@ -300,7 +302,7 @@ void analysisClass::Loop()
       {
 
 	// Reject ECAL spikes
-	if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
+	//if ( 1 - ElectronSCS4S1->at(iele) > 0.95 ) continue; 
 
 	//no cut on reco electrons
 	v_idx_ele_all.push_back(iele); 
