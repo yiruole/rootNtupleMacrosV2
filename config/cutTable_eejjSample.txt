@@ -18,10 +18,12 @@ PILEUP_MC_TXT_FILE    /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_
 #
 #VariableName         value1		value2		value3		value4		level
 #------------	      ------------	-------------	------------	-------------	-----
+#FOR SKIM: UNCOMMENT THE FOLLOWING LINE
 #produceSkim           1                 -               -               -               -1
 #eleFidRegion	      2.5		-		-		-		-1	
 #jetFidRegion	      2.5		-		-		-		-1	
 ele_PtCut	      30		-		-		-		-1
+#FOR SKIM: ele_PtCut             25                -               -               -               -1
 # no longer used since using heepBitMask # eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
 heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
@@ -72,6 +74,8 @@ produceSkim           0            -			-               -               -1
 #
 #VariableName		        minValue1(<) maxValue1(>=)	minValue2(<)	maxValue2(>=)	level	histoNbinsMinMax
 #------------			------------ -------------	------------	-------------	-----	----------------
+PassJSON			0            1                  -               -               0       2 -0.5 1.5
+#FOR SKIM: PassJSON			-inf         +inf               -               -               0       2 -0.5 1.5
 PassBPTX0			0	     1			-		-		0	2 -0.5 1.5
 PassPhysDecl			-inf	     +inf		-		-		0	2 -0.5 1.5
 PassBeamScraping		0	     1			-		-		0	2 -0.5 1.5
@@ -90,14 +94,19 @@ nEle_all			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut			-inf	     +inf		-		-		1	16 -0.5 15.5
 nEle_PtCut_IDISO_noOvrlp	1	     +inf		-		-		1	16 -0.5 15.5
 Pt1stEle_IDISO_NoOvrlp          30	     +inf               -               -               1       100 0 1000
+#FOR SKIM: Pt1stEle_IDISO_NoOvrlp          25	     +inf               -               -               1       100 0 1000
 Eta1stEle_IDISO_NoOvrlp         -inf	     +inf               -               -               1       100 -5 5
 mEta1stEle_IDISO_NoOvrlp        -inf	     2.5                -               -               1       50 0 5
+#FOR SKIM: mEta1stEle_IDISO_NoOvrlp        -inf	     +inf                -               -               1       50 0 5
 Pt2ndEle_IDISO_NoOvrlp          30	     +inf               -               -               1       100 0 1000
+#FOR SKIM: Pt2ndEle_IDISO_NoOvrlp          25	     +inf               -               -               1       100 0 1000
 Eta2ndEle_IDISO_NoOvrlp         -inf	     +inf               -               -               1       100 -5 5
 mEta2ndEle_IDISO_NoOvrlp        -inf	     2.5                -               -               1       50 0 5
+#FOR SKIM: mEta2ndEle_IDISO_NoOvrlp        -inf	     +inf                -               -               1       50 0 5
 maxMEtaEles_IDISO_NoOvrl        -inf	     +inf               -               -               1       50 0 5
 #
 Mee_presel			50	     +inf               -               -               2       200 0 1000
+#FOR SKIM: Mee_presel			-inf	     +inf               -               -               2       200 0 1000
 Mee_TwoEleOnly                  -inf	     +inf               -               -               1       200 0 1000
 nJet_TwoEleOnly_All		-inf	     +inf               -               -               1       16 -0.5 15.5
 nJet_TwoEleOnly_EtaCut		-inf	     +inf               -               -               1       16 -0.5 15.5
@@ -107,11 +116,15 @@ nJet_PtCut                      -inf	     +inf               -               -  
 nJet_PtCut_noOvrlp		-inf	     +inf               -               -               2       16 -0.5 15.5
 nJet_PtCut_noOvrlp_ID		1	     +inf               -               -               2       16 -0.5 15.5
 Pt1stJet_noOvrlp_ID		30	     +inf               -               -               2       100 0 1000
+#FOR SKIM: Pt1stJet_noOvrlp_ID		25	     +inf               -               -               2       100 0 1000
 Eta1stJet_noOvrlp_ID		-inf	     +inf               -               -               2       100 -5 5
 mEta1stJet_noOvrlp_ID		-inf	     3.0                -               -               2       50 0 5
+#FOR SKIM: mEta1stJet_noOvrlp_ID		-inf	     +inf                -               -               2       50 0 5
 Pt2ndJet_noOvrlp_ID		30	     +inf               -               -               2       100 0 1000
+#FOR SKIM: Pt2ndJet_noOvrlp_ID		25	     +inf               -               -               2       100 0 1000
 Eta2ndJet_noOvrlp_ID		-inf	     +inf               -               -               2       100 -5 5
 mEta2ndJet_noOvrlp_ID		-inf	     3.0                -               -               2       50 0 5
+#FOR SKIM: mEta2ndJet_noOvrlp_ID		-inf	     +inf                -               -               2       50 0 5
 maxMEtaJets_noOvrlp_ID		-inf	     +inf               -               -               2       50 0 5
 minDRej_selecPairs		0.7	     +inf		-		-		2	100 0 10
 minDRej_unselPairs		0.7	     +inf		-		-		2	100 0 10
