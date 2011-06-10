@@ -23,7 +23,7 @@ PILEUP_MC_TXT_FILE    /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_
 #eleFidRegion         2.5               -               -               -               -1
 #jetFidRegion         2.5               -               -               -               -1
 ele_PtCut             35                -               -               -               -1
-#FOR SKIM: ele_PtCut             35                -               -               -               -1
+#FOR SKIM: ele_PtCut             25                -               -               -               -1
 # no longer used since using heepBitMask # eleIDType	      5			-		-		-		-1
 # eleType --> bit 0: eidRobustLoose, bit 1: eidRobustTight, bit 2: eidLoose,  bit 3: eidTight,  bit 4: eidRobustHighEnergy, bit 5: heepID
 heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
