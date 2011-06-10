@@ -548,7 +548,7 @@ void analysisClass::Loop()
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
-    
+    fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );        
 
     // Set the value of the variableNames listed in the cutFile to their current value
     
@@ -1005,6 +1005,8 @@ void analysisClass::Loop()
     //      if( !passedCut("0") ) continue;
     //      // ......
 
+    // Produce skim
+    if( passedAllPreviousCuts("maxMEtaJets_noOvrlp_ID") ) fillSkimTree();
         
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
