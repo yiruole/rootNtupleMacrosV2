@@ -1006,7 +1006,8 @@ void analysisClass::Loop()
     //      // ......
 
     // Produce skim
-    if( passedAllPreviousCuts("maxMEtaJets_noOvrlp_ID") ) fillSkimTree();
+    if( passedAllPreviousCuts("maxMEtaEles_IDISO_NoOvrl") ) fillSkimTree(); //ee skim
+    //if( passedAllPreviousCuts("maxMEtaJets_noOvrlp_ID") ) fillSkimTree(); //eejj skim
         
     ////////////////////// User's code to be done for every event - END ///////////////////////
     
