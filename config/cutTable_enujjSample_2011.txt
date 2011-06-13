@@ -31,6 +31,7 @@ heepBitMask_EBGapEE   0x000	        0x000           0x000           -           
 jet_PtCut             10           -                    -               -               -1
 jet_PtCut_forMetScale 10	   -			-		-		-1
 jet_EtaCut            3.0          -                    -               -               -1
+#FOR SKIM: jet_EtaCut            10.0          -                    -               -               -1
 jet_TCHELCut          1.7          -                    -               -               -1
 muon_PtCut            10           -                    -               -               -1
 jet_ele_DeltaRcut     0.3          -                    -               -               -1
