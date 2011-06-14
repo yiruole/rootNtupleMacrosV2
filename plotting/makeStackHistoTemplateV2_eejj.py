@@ -114,8 +114,8 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins ):
             new_histo.SetBinError( iter, histo.GetBinError(xbinmin+iter-1) )
         new_histo.SetBinContent( 0, underflowBinContent )
         new_histo.SetBinError( 0, sqrt(underflowBinError2) )
-        #new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
-        #new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+        new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
+        new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
     elif( xbins!="" and rebin=="var" ):
         xbinmin = histo.GetXaxis().FindBin(xbins[0])
         xbinmax = histo.GetXaxis().FindBin(xbins[-1]-0.000001)
@@ -136,8 +136,8 @@ def rebinHisto( histo, xmin, xmax, rebin, xbins ):
         new_histo = histo.Rebin( nbins , "new_histo", xbinsFinal )
         new_histo.SetBinContent( 0, underflowBinContent )
         new_histo.SetBinError( 0, sqrt(underflowBinError2) )
-        #new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
-        #new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
+        new_histo.SetBinContent( nbins, new_histo.GetBinContent(nbins) + overflowBinContent )
+        new_histo.SetBinError( nbins, sqrt( new_histo.GetBinError(nbins)**2 + overflowBinError2 ) )
     else:
         new_histo = histo
     return new_histo
@@ -167,8 +167,9 @@ class Plot:
     #    xlog        = "" # log scale of X axis (default = no, option="yes") ### IT SEEMS IT DOES NOT WORK
     ylog        = "" # log scale of Y axis (default = no, option="yes")
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
+    addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
-    lint        = "33.2 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -226,7 +227,7 @@ class Plot:
         legend.SetFillColor(kWhite)
         legend.SetMargin(0.2)
         legend.SetTextFont(132)
-        legend.AddEntry(plot.histodata, "Data, 33.2 pb^{-1}","lp")
+        legend.AddEntry(plot.histodata, "Data, 336 pb^{-1}","lp")
 
         #-- loop over histograms (stacked)
         Nstacked = len(self.histosStack)
@@ -358,7 +359,7 @@ class Plot:
         #-- 2nd pad (ratio)
         if(self.makeRatio==1):
             fPads2.cd()
-            #fPads2.SetLogy()
+            fPads2.SetLogy()
             h_bkgTot = copy.deepcopy(stack[0])
             h_ratio = copy.deepcopy(self.histodata)
             h_bkgTot1 = TH1F()
@@ -381,8 +382,8 @@ class Plot:
             h_ratio1.GetXaxis().SetTitle("")
             h_ratio1.GetXaxis().SetTitleSize(0.06)
             h_ratio1.GetXaxis().SetLabelSize(0.1)
-            h_ratio1.GetYaxis().SetLimits(0.,2)
-            h_ratio1.GetYaxis().SetRangeUser(0.,2)
+            h_ratio1.GetYaxis().SetLimits(0.1,10)
+            h_ratio1.GetYaxis().SetRangeUser(0.1,10)
             h_ratio1.GetYaxis().SetTitle("Data/MC")
             h_ratio1.GetYaxis().SetLabelSize(0.1)
             h_ratio1.GetYaxis().SetTitleSize(0.13)
@@ -417,7 +418,9 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled_DeltaMej/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_ZjetsRescaled_ttbarRescaled/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj/18.8pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/eejj/18.8pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+#File_preselection = GetFile("$LQDATA/2011/eejj/152.1pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
+File_preselection = GetFile("$LQDATA/2011/eejj/336pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 
 File_selection    = File_preselection
 
@@ -427,17 +430,17 @@ otherBkgsKey="Other backgrounds"
 zUncBand="no"
 
 pt_xmin=0
-pt_xmax=400
+pt_xmax=800
 pt_ymin=0.01
-pt_ymax=500
+pt_ymax=5000
 
 eta_xmin=-5
 eta_xmax=5
 eta_rebin=4
 eta_ymin=0
-eta_ymax=25
+eta_ymax=250
 
-makeRatio = 0
+makeRatio = 1
 
 #--- Final plots are defined here
 
@@ -447,11 +450,14 @@ histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 
 # samplesForStackHistos = ["TTbar_Madgraph","ZJetAlpgen","OTHERBKG"]
 # keysStack =             ["ttbar", "Z/#gamma/Z* + jets", otherBkgsKey]
-samplesForStackHistos = ["OTHERBKG"  ,"TTbar_Madgraph","ZJetAlpgen"]
+#samplesForStackHistos = ["OTHERBKG"  ,"TTbar_Madgraph","ZJetAlpgen"]
+samplesForStackHistos = ["OTHERBKG"  ,"TTbar_Madgraph","ZJet_Madgraph"]
 keysStack =             [otherBkgsKey,"t#bar{t}"      , "Z/#gamma* + jets"]
 
-samplesForHistos = ["LQeejj_M400"]
-keys             = ["LQ, M = 400 GeV"]
+# samplesForHistos = ["LQeejj_M400"]
+# keys             = ["LQ, M = 400 GeV"]
+samplesForHistos = []
+keys             = []
 
 sampleForDataHisto = "DATA"
 
@@ -490,7 +496,7 @@ plot0.ytit            = "Number of events"
 plot0.ylog            = "no"
 plot0.rebin           = 1
 plot0.ymin            = 0
-plot0.ymax            = 5000
+plot0.ymax            = 50000
 plot0.xmin            = 0
 plot0.xmax            = 200
 #plot0.lpos = "bottom-center"
@@ -512,9 +518,9 @@ plot0_ylog.ytit            = "Number of events"
 plot0_ylog.ylog            = "yes"
 plot0_ylog.rebin           = 1
 plot0_ylog.ymin            = 0.01
-plot0_ylog.ymax            = 10000
+plot0_ylog.ymax            = 100000
 plot0_ylog.xmin            = 0
-plot0_ylog.xmax            = 800
+plot0_ylog.xmax            = 1200
 #plot0_ylog.lpos = "bottom-center"
 plot0_ylog.name            = "Mee_allPreviousCuts"
 plot0_ylog.addZUncBand     = zUncBand
@@ -538,7 +544,7 @@ plot1.binUnit         = ""
 plot1.ylog            = "yes"
 plot1.rebin           = 1
 plot1.ymin            = 0.0001
-plot1.ymax            = 60000000
+plot1.ymax            = 600000000
 #plot1.lpos = "bottom-center"
 plot1.name            = "nEle_allPreviousCuts"
 plot1.addZUncBand     = zUncBand
@@ -665,7 +671,7 @@ plot6.rebin           = 1
 plot6.xmin            = 0
 plot6.xmax            = 12
 plot6.ymin            = 0.01
-plot6.ymax            = 20000
+plot6.ymax            = 200000
 #plot6.lpos = "bottom-center"
 plot6.name            = "nJet_allPreviousCuts"
 plot6.addZUncBand     = zUncBand
@@ -787,9 +793,9 @@ plot11.ytit            = "Number of events"
 plot11.ylog            = "yes"
 plot11.rebin           = 2
 plot11.xmin            = 50
-plot11.xmax            = 1000
+plot11.xmax            = 1500
 plot11.ymin            = 0.01
-plot11.ymax            = 500
+plot11.ymax            = 5000
 #plot11.lpos = "bottom-center"
 plot11.name            = "sT_allPreviousCuts"
 plot11.addZUncBand     = zUncBand
@@ -815,7 +821,7 @@ plot11_ele.rebin           = 2
 plot11_ele.xmin            = 50
 plot11_ele.xmax            = 1000
 plot11_ele.ymin            = 0.01
-plot11_ele.ymax            = 500
+plot11_ele.ymax            = 5000
 #plot11_ele.lpos = "bottom-center"
 plot11_ele.name            = "sTele_allPreviousCuts"
 plot11_ele.addZUncBand     = zUncBand
@@ -839,9 +845,9 @@ plot11_jet.ytit            = "Number of events"
 plot11_jet.ylog            = "yes"
 plot11_jet.rebin           = 2
 plot11_jet.xmin            = 50
-plot11_jet.xmax            = 1000
+plot11_jet.xmax            = 1500
 plot11_jet.ymin            = 0.01
-plot11_jet.ymax            = 500
+plot11_jet.ymax            = 5000
 #plot11_jet.lpos = "bottom-center"
 plot11_jet.name            = "sTjet_allPreviousCuts"
 plot11_jet.addZUncBand     = zUncBand
@@ -866,14 +872,14 @@ plot12.ytit            = "Number of events x 2"
 plot12.ylog            = "yes"
 plot12.rebin           = 2
 plot12.xmin            = 0
-plot12.xmax            = 800
+plot12.xmax            = 1500
 plot12.ymin            = 0.01
-plot12.ymax            = 1000
+plot12.ymax            = 10000
 #plot12.lpos = "bottom-center"
 plot12.name            = "Mej_allPreviousCuts"
 plot12.addZUncBand     = zUncBand
 plot12.makeRatio       = makeRatio
-plot12.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,300,400,1000]
+plot12.xbins           = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,300,400,500,700,1000,1500]
 #plot12.histodata       = h_Mej_presel_DATA
 plot12.histodata       = generateAndAddHisto( histoBaseName, sampleForDataHisto, variableNames, File_preselection)
 
@@ -896,7 +902,7 @@ plot13.ytit            = "Number of events"
 plot13.ylog            = "no"
 plot13.rebin           = 1
 plot13.ymin            = 0
-plot13.ymax            = 60
+plot13.ymax            = 600
 plot13.xmin            = 0
 plot13.xmax            = 200
 #plot13.lpos = "bottom-center"
@@ -919,7 +925,7 @@ plot13_ylog.ylog            = "yes"
 plot13_ylog.rebin           = "var"
 plot13_ylog.xbins           = [0,50,55,60,65,70,75,80,85,90,95,100,110,125,145,170,200,250,400]
 plot13_ylog.ymin            = 0.01
-plot13_ylog.ymax            = 500
+plot13_ylog.ymax            = 5000
 plot13_ylog.xmin            = 0
 plot13_ylog.xmax            = 400
 #plot13_ylog.lpos = "bottom-center"
@@ -947,7 +953,7 @@ plot14.ytit            = "Number of events"
 plot14.ylog            = "no"
 plot14.rebin           = 2
 plot14.ymin            = 0
-plot14.ymax            = 20
+plot14.ymax            = 200
 plot14.xmin            = 0
 plot14.xmax            = 1500
 #plot14.lpos = "bottom-center"
@@ -971,7 +977,7 @@ plot14_ylog.ytit            = "Number of events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = 2
 plot14_ylog.ymin            = 0.01
-plot14_ylog.ymax            = 500
+plot14_ylog.ymax            = 5000
 plot14_ylog.xmin            = 0
 plot14_ylog.xmax            = 1500
 #plot14_ylog.lpos = "bottom-center"
@@ -1098,7 +1104,7 @@ plot15.rebin           = 1
 plot15.xmin            = 0
 plot15.xmax            = 400
 plot15.ymin            = 0.01
-plot15.ymax            = 500
+plot15.ymax            = 5000
 #plot15.lpos = "bottom-center"
 plot15.name            = "pfMET_allPreviousCuts"
 plot15.addZUncBand     = zUncBand
@@ -1124,7 +1130,7 @@ plot16.rebin           = 1
 plot16.xmin            = 0
 plot16.xmax            = 400
 plot16.ymin            = 0.01
-plot16.ymax            = 500
+plot16.ymax            = 5000
 #plot16.lpos = "bottom-center"
 plot16.name            = "caloMET_allPreviousCuts"
 plot16.addZUncBand     = zUncBand
@@ -1246,10 +1252,10 @@ plot20.xtit            = "S_{T} (GeV)"
 plot20.ytit            = "Number of events"
 plot20.ylog            = "yes"
 plot20.rebin           = 5
-plot20.xmin            = 0
-plot20.xmax            = 1000
+plot20.xmin            = 200
+plot20.xmax            = 1500
 plot20.ymin            = 0.01
-plot20.ymax            = 500
+plot20.ymax            = 5000
 #plot20.lpos = "bottom-center"
 plot20.name            = "sT_allOtherCuts"
 plot20.addZUncBand     = zUncBand
@@ -1270,11 +1276,11 @@ plot20full.ytit            = "Number of events"
 plot20full.ylog            = "yes"
 #plot20full.rebin           = 5
 plot20full.rebin           = "var"
-plot20full.xbins           = [0,50,100,150,200,250,300,350,450,600,1000]
+plot20full.xbins           = [0,50,100,150,200,250,300,350,450,600,800,1000,1500]
 plot20full.xmin            = 0
-plot20full.xmax            = 1000
+plot20full.xmax            = 1500
 plot20full.ymin            = 0.01
-plot20full.ymax            = 500
+plot20full.ymax            = 5000
 #plot20full.lpos = "bottom-center"
 plot20full.name            = "sT_fullSeleNoPreStCut"
 plot20full.addZUncBand     = zUncBand
@@ -1296,9 +1302,9 @@ plot21.ytit            = "Number of events x 2"
 plot21.ylog            = "yes"
 plot21.rebin           = 4
 plot21.xmin            = 0
-plot21.xmax            = 800
+plot21.xmax            = 1000
 plot21.ymin            = 0.01
-plot21.ymax            = 500
+plot21.ymax            = 5000
 #plot21.lpos = "bottom-center"
 plot21.name            = "Mej_allOtherCuts"
 plot21.addZUncBand     = zUncBand
@@ -1368,9 +1374,9 @@ plot21bis.ytit            = "Number of events x 2"
 plot21bis.ylog            = "yes"
 plot21bis.rebin           = 4
 plot21bis.xmin            = 0
-plot21bis.xmax            = 800
+plot21bis.xmax            = 1000
 plot21bis.ymin            = 0.01
-plot21bis.ymax            = 500
+plot21bis.ymax            = 5000
 #plot21bis.lpos = "bottom-center"
 plot21bis.name            = "Mej_ReallyAllOtherCuts"
 plot21bis.addZUncBand     = zUncBand
