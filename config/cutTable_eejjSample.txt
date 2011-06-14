@@ -105,9 +105,9 @@ mEta2ndEle_IDISO_NoOvrlp        -inf	     2.5                -               -  
 #FOR SKIM: mEta2ndEle_IDISO_NoOvrlp        -inf	     +inf                -               -               1       50 0 5
 maxMEtaEles_IDISO_NoOvrl        -inf	     +inf               -               -               1       50 0 5
 #
-Mee_presel			50	     +inf               -               -               2       200 0 1000
-#FOR SKIM: Mee_presel			-inf	     +inf               -               -               2       200 0 1000
-Mee_TwoEleOnly                  -inf	     +inf               -               -               1       200 0 1000
+Mee_presel			50	     +inf               -               -               2       400 0 2000
+#FOR SKIM: Mee_presel			-inf	     +inf               -               -               2       200 0 2000
+Mee_TwoEleOnly                  -inf	     +inf               -               -               1       400 0 2000
 nJet_TwoEleOnly_All		-inf	     +inf               -               -               1       16 -0.5 15.5
 nJet_TwoEleOnly_EtaCut		-inf	     +inf               -               -               1       16 -0.5 15.5
 #
@@ -138,7 +138,7 @@ Phi1stEle_PAS			-inf	     +inf               -               -               2  
 Pt2ndEle_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta2ndEle_PAS			-inf	     +inf               -               -               2       100 -5 5
 Phi2ndEle_PAS			-inf	     +inf               -               -               2       100 0 6.2832
-Mee_PAS                         -inf	     +inf               -               -               2       200 0 1000
+Mee_PAS                         -inf	     +inf               -               -               2       400 0 2000
 sTele_PAS                       -inf	     +inf               -               -               2       200 0 2000
 Pt1stJet_PAS			-inf	     +inf               -               -               2       100 0 1000
 Eta1stJet_PAS			-inf	     +inf               -               -               2       100 -5 5
@@ -155,7 +155,7 @@ pfMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 tcMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 caloMET_PAS			-inf	     +inf		-		-		2	200 0 2000
 #
-Mee                             125	     +inf               -               -               3       200 0 1000
+Mee                             125	     +inf               -               -               3       400 0 2000
 sT                              -inf	     +inf               -               -               3       200 0 2000
 sT_MLQ150                       260	     +inf               -               -               3       200 0 2000
 sT_MLQ200                       340	     +inf               -               -               3       200 0 2000
