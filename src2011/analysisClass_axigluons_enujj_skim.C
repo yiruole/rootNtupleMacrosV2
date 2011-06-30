@@ -600,11 +600,11 @@ void analysisClass::Loop()
     double MT_METMuon1, mDeltaPhiMETMuon1 = -999;
     if( v_idx_muon_PtCut_IDISO.size() >= 1 )
       {
-	fillVariableWithValue( "Muon1_Pt", ElectronPt->at(v_idx_muon_PtCut_IDISO[0]) );
-	fillVariableWithValue( "Muon1_Energy", ElectronEnergy->at(v_idx_muon_PtCut_IDISO[0]) );
-	fillVariableWithValue( "Muon1_Eta", ElectronEta->at(v_idx_muon_PtCut_IDISO[0]) );
-	fillVariableWithValue( "Muon1_Phi", ElectronPhi->at(v_idx_muon_PtCut_IDISO[0]) );
-	fillVariableWithValue( "Muon1_Charge", ElectronCharge->at(v_idx_muon_PtCut_IDISO[0]) );
+	fillVariableWithValue( "Muon1_Pt", MuonPt->at(v_idx_muon_PtCut_IDISO[0]) );
+	fillVariableWithValue( "Muon1_Energy", MuonEnergy->at(v_idx_muon_PtCut_IDISO[0]) );
+	fillVariableWithValue( "Muon1_Eta", MuonEta->at(v_idx_muon_PtCut_IDISO[0]) );
+	fillVariableWithValue( "Muon1_Phi", MuonPhi->at(v_idx_muon_PtCut_IDISO[0]) );
+	fillVariableWithValue( "Muon1_Charge", MuonCharge->at(v_idx_muon_PtCut_IDISO[0]) );
       }
 
     // define booleans
