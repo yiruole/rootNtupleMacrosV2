@@ -729,6 +729,11 @@ void analysisClass::Loop()
 		 , 200, 0, 20
 		 );
 
+  CreateUserTH2D("h2_MT_vs_ST_presel"
+                 , getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS")
+                 , getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS")
+                 );
+
   // Pile-up vertex multiplicity distribution
   TH1D *h1_nPUVertex = new TH1D("h1_nPUVertex","h1_nPUVertex",11,-0.5,10.5);
   h1_nPUVertex->SetBinContent(1,850);
@@ -2670,6 +2675,13 @@ void analysisClass::Loop()
 
         STDOUT("UserMTenu: ------------ END -------------");
       }
+
+    // MT vs ST plot at preselection
+    if( passedAllPreviousCuts("MTenu") )
+      {
+        FillUserTH2D("h2_MT_vs_ST_presel", getVariableValue("sT_PAS"), getVariableValue("MTenu_PAS") );
+      }
+
 
     //EXTRA CHECKS
     if( doExtraChecks
