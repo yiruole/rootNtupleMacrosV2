@@ -562,6 +562,11 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_MTenu_PAS_EleEndcap", getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS"));
   CreateUserTH1D("h1_minDRej_EleEndcap", getHistoNBins("minDRej"), getHistoMin("minDRej"), getHistoMax("minDRej"));
 
+  CreateUserTH2D("h2_MT_vs_ST_presel"
+                 , getHistoNBins("sT_PAS"), getHistoMin("sT_PAS"), getHistoMax("sT_PAS")
+                 , getHistoNBins("MTenu_PAS"), getHistoMin("MTenu_PAS"), getHistoMax("MTenu_PAS")
+                 );
+  
   ////////////////////// User's code to book histos - END ///////////////////////
 
 
@@ -2089,6 +2094,13 @@ void analysisClass::Loop()
 	    FillUserTH1D("h1_mDeltaPhiMETEle_W1jet", getVariableValue("mDeltaPhiMETEle"), p1 );
 	  }
       }
+
+    // MT vs ST plot at preselection
+    if( passedAllPreviousCuts("MTenu") )
+      {
+        FillUserTH2D("h2_MT_vs_ST_presel", getVariableValue("sT_PAS"), getVariableValue("MTenu_PAS") );
+      }
+      
 
     //EXTRA CHECKS
     if( doExtraChecks
