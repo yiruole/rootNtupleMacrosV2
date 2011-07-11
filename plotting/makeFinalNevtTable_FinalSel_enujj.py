@@ -71,8 +71,8 @@ LQsampleForEachCut = [ "LQenujj_M200",
                        "LQenujj_M500",
                        ]
 
-systUncert = { 'data': {'TTbar_Madgraph': 14, 'WJetAlpgen': 10, 'QCD': 25, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '-'} ,
-               'Wshape': {'TTbar_Madgraph': 0, 'WJetAlpgen': 44, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '44'} ,
+systUncert = { 'data': {'TTbar_Madgraph': 14, 'WJetAlpgen': 10, 'QCD': 25, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '14 (10)'} ,
+               'Shape': {'TTbar_Madgraph': 30, 'WJetAlpgen': 50, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '30 (50)'} ,
                'JES':  {'TTbar_Madgraph': 9, 'WJetAlpgen': 6, 'QCD': 0, 'OTHERBKG': 9, 'LQ': 5, 'magnitude': '5'} ,
                'EES':  {'TTbar_Madgraph': 4, 'WJetAlpgen': 2, 'QCD': 0, 'OTHERBKG': 1, 'LQ': 1, 'magnitude': '1(3)'} ,
                'lumi': {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 4, 'LQ': 0, 'magnitude': '4'} ,
@@ -233,8 +233,11 @@ errDataALL = math.sqrt(
                           + ( d[CutForSystematics]['QCD']["DATA"]['errNpass'] )**2
                       )        /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
-errWshapeALL = (
-  (systUncert['Wshape']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+errShapeALL = (
+  (systUncert['Shape']['WJetAlpgen']     * d[CutForSystematics]['all']["WJetAlpgen"]['Npass'] )
+  + (systUncert['Shape']['TTbar_Madgraph'] * d[CutForSystematics]['all']["TTbar_Madgraph"]['Npass'] )
+  + (systUncert['Shape']['QCD']            * d[CutForSystematics]['QCD']["DATA"]['Npass'] )
+  + (systUncert['Shape']['OTHERBKG']       * d[CutForSystematics]['all']["OTHERBKG"]['Npass'] )
   )         /       d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass']
 
 errJESALL = (
@@ -268,11 +271,12 @@ erreleALL = (
 
 
 
-errALL = math.sqrt(errDataALL**2 + errWshapeALL**2 + errJESALL**2 + errEESALL**2 + errlumiALL**2 + erreleALL**2
+errALL = math.sqrt(errDataALL**2 + errShapeALL**2 + errJESALL**2 + errEESALL**2 + errlumiALL**2 + erreleALL**2
                    + (100 * d[CutForSystematics]['all']["ALLBKG+QCD"]['errNpass'] / d[CutForSystematics]['all']["ALLBKG+QCD"]['Npass'])**2 )
 
 
 errLQ = math.sqrt ( systUncert['data']['LQ']**2
+                    + systUncert['Shape']['LQ']**2
                     + systUncert['JES']['LQ']**2
                     + systUncert['EES']['LQ']**2
                     + systUncert['lumi']['LQ']**2
@@ -281,7 +285,7 @@ errLQ = math.sqrt ( systUncert['data']['LQ']**2
                     )
 
 errW = math.sqrt ( systUncert['data']['WJetAlpgen']**2
-                   + systUncert['Wshape']['WJetAlpgen']**2
+                   + systUncert['Shape']['WJetAlpgen']**2
                    + systUncert['JES']['WJetAlpgen']**2
                    + systUncert['EES']['WJetAlpgen']**2
                    + systUncert['lumi']['WJetAlpgen']**2
@@ -290,6 +294,7 @@ errW = math.sqrt ( systUncert['data']['WJetAlpgen']**2
                    )
 
 errTTBAR = math.sqrt ( systUncert['data']['TTbar_Madgraph']**2
+                       + systUncert['Shape']['TTbar_Madgraph']**2
                        + systUncert['JES']['TTbar_Madgraph']**2
                        + systUncert['EES']['TTbar_Madgraph']**2
                        + systUncert['lumi']['TTbar_Madgraph']**2
@@ -298,6 +303,7 @@ errTTBAR = math.sqrt ( systUncert['data']['TTbar_Madgraph']**2
                        )
 
 errQCD = math.sqrt ( systUncert['data']['QCD']**2
+                     + systUncert['Shape']['QCD']**2
                      + systUncert['JES']['QCD']**2
                      + systUncert['EES']['QCD']**2
                      + systUncert['lumi']['QCD']**2
@@ -306,6 +312,7 @@ errQCD = math.sqrt ( systUncert['data']['QCD']**2
                      )
 
 errOTHER = math.sqrt ( systUncert['data']['OTHERBKG']**2
+                       + systUncert['Shape']['OTHERBKG']**2
                        + systUncert['JES']['OTHERBKG']**2
                        + systUncert['EES']['OTHERBKG']**2
                        + systUncert['lumi']['OTHERBKG']**2
@@ -318,7 +325,7 @@ fout2 = open("table_systematics_enujj.tex", "w")
 # Data-Driven Uncert.
 fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
               (
-              'Data-Driven Uncert.' ,
+              'ttbar (W+jets) Normalization' ,
               systUncert['data']['magnitude'] ,
               systUncert['data']['LQ'] ,
               systUncert['data']['WJetAlpgen'] ,
@@ -332,14 +339,14 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
 #W+jets Shape
 fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
               (
-              'W+jets Background Shape' ,
-              systUncert['Wshape']['magnitude'] ,
-              systUncert['Wshape']['LQ'] ,
-              systUncert['Wshape']['WJetAlpgen'] ,
-              systUncert['Wshape']['TTbar_Madgraph'] ,
-              systUncert['Wshape']['QCD'] ,
-              systUncert['Wshape']['OTHERBKG'] ,
-              errWshapeALL,
+              'ttbar (W+jets) Background Shape' ,
+              systUncert['Shape']['magnitude'] ,
+              systUncert['Shape']['LQ'] ,
+              systUncert['Shape']['WJetAlpgen'] ,
+              systUncert['Shape']['TTbar_Madgraph'] ,
+              systUncert['Shape']['QCD'] ,
+              systUncert['Shape']['OTHERBKG'] ,
+              errShapeALL,
               ) + "\n"
             )
 
@@ -361,7 +368,7 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
 #EES
 fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
               (
-              'Electron Energy Scale EB(EE)' ,
+              'Electron Energy Scale Barrel (Endcap)' ,
               systUncert['EES']['magnitude'] ,
               systUncert['EES']['LQ'] ,
               systUncert['EES']['WJetAlpgen'] ,
@@ -404,7 +411,7 @@ fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %
 #Electron HLT/Reco/ID/Iso
 fout2.write(r"   %s   &   %s   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   &   %.1f   \\" %
               (
-              'Electron HLT/Reco/ID/Iso' ,
+              'Electron Trigger/Reco/ID/Isolation' ,
               systUncert['ele']['magnitude'] ,
               systUncert['ele']['LQ'] ,
               systUncert['ele']['WJetAlpgen'] ,
