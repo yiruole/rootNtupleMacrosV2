@@ -1075,7 +1075,7 @@ plot14.ymax            = 150
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
 plot14.makeRatio       = makeRatio
-plot14.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
+plot14.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400]
 plot14.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 plot14_ylog = Plot()
@@ -1098,7 +1098,7 @@ plot14_ylog.ymax            = 1000
 plot14_ylog.name            = "MTenu_allPreviousCuts"
 plot14_ylog.addZUncBand     = zUncBand
 plot14_ylog.makeRatio       = makeRatio
-plot14_ylog.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400,500]
+plot14_ylog.xbins           = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150,200,300,400]
 plot14_ylog.histodata       = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
 
 #--- MTenu_PAS DeltaPhi (0,1) ---
