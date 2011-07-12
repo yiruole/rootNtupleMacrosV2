@@ -1,8 +1,25 @@
 {
-
-  gROOT->Reset();
-  gStyle->SetTitle("");
-
+  gStyle->Reset("Default");
+  gStyle->SetCanvasColor(0);
+  gStyle->SetPadColor(0);
+  gStyle->SetTitleFillColor(10);
+  gStyle->SetCanvasBorderMode(0);
+  gStyle->SetStatColor(0);
+  gStyle->SetPadBorderMode(0);
+  gStyle->SetPadTickX(1);  // To get tick marks on the opposite side of the frame
+  gStyle->SetPadTickY(1);
+  gStyle->SetFrameBorderMode(0);
+  gStyle->SetPalette(1);
+  gStyle->SetOptStat(0);
+  gStyle->SetOptFit(0);
+  gStyle->SetStatFont(132);
+  gStyle->SetTitleFont(132, "XYZ");
+  gStyle->SetTitleSize(0.05, "XYZ");
+  gStyle->SetTitleXOffset(0.9);
+//   gStyle->SetTitleYOffset(1.05);
+  gStyle->SetLabelFont(132, "XYZ");
+  gStyle->SetLabelSize(0.05, "XYZ");
+  
   TCanvas c1;
   c1.SetGridx();
   c1.SetGridy();
@@ -31,22 +48,22 @@
   g_STcut_vs_MLQ->SetTitle("");
   g_STcut_vs_MLQ->SetMarkerStyle(20);
   g_STcut_vs_MLQ->SetMarkerColor(kBlue);
-  g_STcut_vs_MLQ->GetXaxis()->SetTitle("M_{LQ} (GeV)");
-  g_STcut_vs_MLQ->GetYaxis()->SetTitle("sT cut (GeV)");
+  g_STcut_vs_MLQ->GetXaxis()->SetTitle("M_{LQ} [GeV]");
+  g_STcut_vs_MLQ->GetYaxis()->SetTitle("Optimized S_{T} cut [GeV]");
   g_STcut_vs_MLQ->Draw("ap");
 
   TF1 *fitST = new TF1("fitST","pol2",minMLQfit,maxMLQfit);
   fitST->SetLineStyle(2);
   g_STcut_vs_MLQ->Fit(fitST);
-  fitST->Draw("same");
+//   fitST->Draw("same");
 
 
-  TLatex l;
-  l.SetTextAlign(12);
-  l.SetTextSize(0.04);
-  l.SetTextFont(62);
-  l.SetNDC();
-  l.DrawLatex(0.15,0.75,"Optimized sT cut vs M_{LQ}");
+//   TLatex l;
+//   l.SetTextAlign(12);
+//   l.SetTextSize(0.04);
+//   l.SetTextFont(132);
+//   l.SetNDC();
+//   l.DrawLatex(0.15,0.75,"Optimized S_{T} cut vs M_{LQ}");
 
   cout << endl;
   cout << "#########################" << endl;
@@ -61,6 +78,6 @@
     }
   cout << "#########################" << endl;
 
-  c1.SaveAs("Stcut_vs_LQmass.eps");
+  c1.SaveAs("STcut_vs_MLQ.eps");
 
 }//end macro
