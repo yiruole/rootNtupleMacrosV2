@@ -919,11 +919,7 @@ void analysisClass::Loop()
       fillSkimTree();
 
     // Produce reduced skim
-    if( passedAllPreviousCuts("PassHBHENoiseFilter") 
-	&& passedCut("nEle")
-	&& passedCut("Ele1_Pt")
-	&& passedCut("MET_Pt")
-	) 
+    if( passedAllPreviousCuts("PassHBHENoiseFilter") 	) 
       fillReducedSkimTree();
     
     ////////////////////// User's code to be done for every event - END ///////////////////////
