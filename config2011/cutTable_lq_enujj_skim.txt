@@ -106,11 +106,14 @@ Ele1_Energy 			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 Ele1_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Ele1_Phi 			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Ele1_Charge 			-inf         +inf               -               -               1       2 -1.0001 1.0001      SAVE
-Ele2_Pt 			-inf	     +inf		-		-		1	100 0 1000	      SAVE
-Ele2_Energy			-inf	     +inf		-		-		1	100 0 1000	      SAVE
-Ele2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
-Ele2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Ele2_Charge			-inf         +inf               -               -               1       2 -1.0001 1.0001      SAVE
+Ele1_HcalIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele1_EcalIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele1_TrkIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele1_RelIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele1_Dist			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
+Ele1_DCotTheta			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
+Ele1_VtxD0			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
+Ele1_ValidFrac			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 MET_Pt                          30	     +inf               -               -               1       200 0 1000            SAVE
 MET_Phi				-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
@@ -118,6 +121,20 @@ GenMET_Pt			-inf	     +inf		-		-		1	200 0 1000	      SAVE
 GenMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 SumET				-inf	     +inf		-		-		1	300 0 3000	      SAVE
 GenSumET			-inf	     +inf		-		-		1	300 0 3000	      SAVE
+#
+Ele2_Pt 			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele2_Energy			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
+Ele2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+Ele2_Charge			-inf         +inf               -               -               1       2 -1.0001 1.0001      SAVE
+Ele2_HcalIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele2_EcalIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele2_TrkIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele2_RelIso			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+Ele2_Dist			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
+Ele2_DCotTheta			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
+Ele2_VtxD0			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
+Ele2_ValidFrac			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 nJet				-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 nJet_btagTCHE			-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
@@ -178,7 +195,39 @@ M_ej2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
 M_e1e2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
 Pt_e1e2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
 #
+Decision_HLT_Ele27_WP80_PFMT50_v1                                                       	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5                                  	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele32_WP70_PFMT50_v1                                                       	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele25_WP80_PFMT40_v1                                                       	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele27_WP70_PFMT40_PFMHT20_v1                                               	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4                                  	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele42_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1                         			-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_v2		-inf	+inf	-	-	5	2	-0.5	1.5	SAVE    
+Decision_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_v2	       	     		-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_PFMHT25_v2	     		-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_v2		     		-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele17_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT15_v4	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_v1	       	     		-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
+Decision_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_v1		        	-inf	+inf	-	-	5	2	-0.5	1.5	SAVE
 #
+Prescale_HLT_Ele27_WP80_PFMT50_v1                                                       	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5                                  	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele32_WP70_PFMT50_v1                                                       	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele25_WP80_PFMT40_v1                                                       	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele27_WP70_PFMT40_PFMHT20_v1                                               	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4                                  	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele42_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1                                  	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_v2		-inf	+inf	-	-	5	100	0	100000	SAVE  
+Prescale_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_v2	       	     		-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_PFMHT25_v2	     		-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_v2		     		-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele17_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT15_v4	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4	-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_v1	       	     		-inf	+inf	-	-	5	100	0	100000	SAVE
+Prescale_HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_v1    			-inf	+inf	-	-	5	100	0	100000	SAVE  
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
