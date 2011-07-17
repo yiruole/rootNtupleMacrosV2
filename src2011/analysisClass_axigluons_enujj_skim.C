@@ -32,6 +32,16 @@ void analysisClass::Loop()
 
   if (fChain == 0) return;
 
+   //--------------------------------------------------------------------------
+   // Decide which plots to save (default is to save everything)
+   //--------------------------------------------------------------------------
+   
+   fillSkim                         (  true  ) ;
+   fillAllPreviousCuts              ( !true  ) ;
+   fillAllOtherCuts                 ( !true  ) ;
+   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
+   fillAllCuts                      ( !true  ) ;
+
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
 
   double ele_PtCut =  getPreCutValue1("ele_PtCut");
