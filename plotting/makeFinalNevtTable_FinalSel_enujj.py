@@ -72,7 +72,7 @@ LQsampleForEachCut = [ "LQenujj_M200",
                        ]
 
 systUncert = { 'data': {'TTbar_Madgraph': 14, 'WJetAlpgen': 10, 'QCD': 25, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '14 (10)'} ,
-               'Shape': {'TTbar_Madgraph': 30, 'WJetAlpgen': 50, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '30 (50)'} ,
+               'Shape': {'TTbar_Madgraph': 28, 'WJetAlpgen': 49, 'QCD': 0, 'OTHERBKG': 0, 'LQ': 0, 'magnitude': '28 (49)'} ,
                'JES':  {'TTbar_Madgraph': 9, 'WJetAlpgen': 6, 'QCD': 0, 'OTHERBKG': 9, 'LQ': 5, 'magnitude': '5'} ,
                'EES':  {'TTbar_Madgraph': 4, 'WJetAlpgen': 2, 'QCD': 0, 'OTHERBKG': 1, 'LQ': 1, 'magnitude': '1(3)'} ,
                'lumi': {'TTbar_Madgraph': 0, 'WJetAlpgen': 0, 'QCD': 0, 'OTHERBKG': 4, 'LQ': 0, 'magnitude': '4'} ,
