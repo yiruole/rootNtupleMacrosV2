@@ -48,20 +48,21 @@ PassJSON			0            1			-               -               0       2 -0.5 1.5
 PassHBHENoiseFilter             0	     1			-               -               0       2 -0.5 1.5	      
 PassBeamHaloFilterTight		0	     1			-               -               0       2 -0.5 1.5	      
 nEle 				0            1			-               -               1       11 -0.5 10.5	      
-Ele1_Pt				30	     +inf		-		-		1	200 0 2000	      
+Ele1_Pt				35	     +inf		-		-		1	200 0 2000	      
 Ele1_Eta 			-2.2         2.2		-               -               1       100 -5 5	      
-MET_Pt                          30	     +inf               -               -               1       200 0 2000            
+MET_Pt                          45	     +inf               -               -               1       200 0 2000            
 nJet				1	     +inf               -               -               1       16 -0.5 15.5	      
 Jet1_Pt				30	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-3.0         3.0		-               -               1       100 -5 5	      
 Jet2_Pt				30	     +inf		-		-		1	200 0 2000	      
 Jet2_Eta			-3.0         3.0                -               -               1       100 -5 5	      
 nMuon				-inf         0			-               -               1       16 -0.5 15.5          
-DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
-DR_Ele1Jet2			-inf	     +inf		-		-		1	100 0 10	      
-mDPhi_METEle1			-inf         +inf               -               -               1       100 0 3.1416	      
-mDPhi_METJet1			-inf         +inf               -               -               1       100 0 3.1416	      
+DR_Ele1Jet1			0.7	     +inf		-		-		1	100 0 10              
+DR_Ele1Jet2			0.7	     +inf		-		-		1	100 0 10	      
+mDPhi_METEle1			0.8          +inf               -               -               1       100 0 3.1416	      
+mDPhi_METJet1			0.5          +inf               -               -               1       100 0 3.1416	      
 mDPhi_METJet2			-inf         +inf               -               -               1       100 0 3.1416	      
+sT_enujj			250          +inf               -               -               2       200 0 2000	      
 #  __ _             _            _           _   _             
 # / _(_)_ __   __ _| |  ___  ___| | ___  ___| |_(_) ___  _ __  
 #| |_| | '_ \ / _` | | / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \ 
@@ -70,7 +71,7 @@ mDPhi_METJet2			-inf         +inf               -               -               
 MT_Ele1MET			-inf         +inf               -               -               2       200 0 1000	      
 Pt_Ele1MET			-inf	     +inf               -               -               2       200 0 2000	      
 Pt_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
-sT_enujj			-inf         +inf               -               -               2       200 0 2000	      
+#sT_enujj			-inf         +inf               -               -               2       200 0 2000	      
 M_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
 #
 #
