@@ -46,11 +46,11 @@ void analysisClass::Loop()
   // CaloJet cut values
   //-----------------------------------------------------------------
 
-  double caloJet_PtCut_STORE    = getPreCutValue1("calojet_PtCut"   );
-  double caloJet_PtCut_ANA      = getPreCutValue2("calojet_PtCut" );
-  double caloJet_EtaCut         = getPreCutValue2("calojet_EtaCut");
-  double caloJet_eleDRCut       = getPreCutValue2("calojet_eleDRCut");
-  double caloJet_elePtCut       = getPreCutValue2("calojet_elePtCut");
+  double caloJet_PtCut_STORE    = getPreCutValue2("calojet_PtCut"   );
+  double caloJet_PtCut_ANA      = getPreCutValue1("calojet_PtCut" );
+  double caloJet_EtaCut         = getPreCutValue1("calojet_EtaCut");
+  double caloJet_eleDRCut       = getPreCutValue1("calojet_eleDRCut");
+  double caloJet_elePtCut       = getPreCutValue1("calojet_elePtCut");
 
   if ( caloJet_PtCut_STORE    > caloJet_PtCut_ANA   ){
     STDOUT("ERROR in CaloJet cut values: all storage cuts must be looser or equal to analysis cuts.");
@@ -61,8 +61,8 @@ void analysisClass::Loop()
   // Electron cut values
   //-----------------------------------------------------------------
   
-  double ele_PtCut_STORE = getPreCutValue1("ele_PtCut");
-  double ele_PtCut_ANA   = getPreCutValue2("ele_PtCut");
+  double ele_PtCut_STORE = getPreCutValue2("ele_PtCut");
+  double ele_PtCut_ANA   = getPreCutValue1("ele_PtCut");
   
   double eleEta_bar      = getPreCutValue1("eleEta_bar");
   double eleEta_end_min  = getPreCutValue1("eleEta_end");
@@ -81,8 +81,8 @@ void analysisClass::Loop()
   // Jet cut values
   //-----------------------------------------------------------------
   
-  double jet_PtCut_STORE     = getPreCutValue1("jet_PtCut");
-  double jet_PtCut_ANA       = getPreCutValue2("jet_PtCut");
+  double jet_PtCut_STORE     = getPreCutValue2("jet_PtCut");
+  double jet_PtCut_ANA       = getPreCutValue1("jet_PtCut");
   double jet_EtaCut          = getPreCutValue1("jet_EtaCut");
   double jet_TCHELCut        = getPreCutValue1("jet_TCHELCut");
   double jet_ele_DeltaRCut   = getPreCutValue1("jet_ele_DeltaRCut");
@@ -161,10 +161,10 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Get trigger information, if necessary
     //-----------------------------------------------------------------
-    
-    if ( isData ) { 
-      getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ;
-    }
+
+    // if ( isData ) { 
+    //   getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ;
+    // }
 
     //-----------------------------------------------------------------
     // Store variables: Jets
@@ -186,7 +186,7 @@ void analysisClass::Loop()
     std::auto_ptr<std::vector<double> >  caloJetPhi     ( new std::vector<double>()  );
     std::auto_ptr<std::vector<int> >     caloJetPassID  ( new std::vector<int>   ()  );
     std::auto_ptr<std::vector<double> >  caloJetTCHE    ( new std::vector<double>()  );
-    
+
     //std::auto_ptr<std::vector<double> >  JetChargedMuEnergyFraction  ( new std::vector<double>()  );
 
     if(jetAlgorithm==1) //PF jets
@@ -497,8 +497,6 @@ void analysisClass::Loop()
 	}
       } // End loop over jets
 	
-       
-
     for (int ijet = 0; ijet < caloJetPt->size(); ++ijet){
       bool passJetID   = caloJetPassID->at(ijet);
       bool passEtaCut  = fabs ( caloJetEta->at(ijet) ) < caloJet_EtaCut;
@@ -582,8 +580,7 @@ void analysisClass::Loop()
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
     
-    fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
-
+    // fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
     // Set the value of the variableNames listed in the cutFile to their current value
 
     //event info
@@ -626,12 +623,12 @@ void analysisClass::Loop()
 
     // nJet
     fillVariableWithValue( "nJet_Ana", v_idx_jet_PtCut_noOverlap_ID_ANA.size() ) ;
-    fillVariableWithValue( "nJet_Store", v_idx_jet_PtCut_noOverlap_ID_STORE.size() ) ;
-    fillVariableWithValue( "nJet_btagTCHE_ANA", v_idx_jet_PtCut_noOverlap_ID_TCHEL_ANA.size() ) ;
+    fillVariableWithValue( "nJet_Stored", v_idx_jet_PtCut_noOverlap_ID_STORE.size() ) ;
+    fillVariableWithValue( "nJet_btagTCHE_Ana", v_idx_jet_PtCut_noOverlap_ID_TCHEL_ANA.size() ) ;
 
     // nMuon
     fillVariableWithValue( "nMuon_Ana", v_idx_muon_PtCut_IDISO_ANA.size() ) ;
-    fillVariableWithValue( "nMuon_Store", v_idx_muon_PtCut_IDISO_STORE.size() ) ;
+    fillVariableWithValue( "nMuon_Stored", v_idx_muon_PtCut_IDISO_STORE.size() ) ;
 
     // MET
     fillVariableWithValue("MET_Pt", thisMET);
@@ -664,7 +661,7 @@ void analysisClass::Loop()
 	TVector2 v_MET;
 	TVector2 v_ele;
 	v_MET.SetMagPhi( thisMET , thisMETPhi);
-	v_ele.SetMagPhi( ElectronPt->at(v_idx_ele_PtCut_IDISO_STORE[0]) , ElectronPhi->at(v_idx_ele_PtCut_IDISO_ANA[0]) );
+	v_ele.SetMagPhi( ElectronPt->at(v_idx_ele_PtCut_IDISO_STORE[0]) , ElectronPhi->at(v_idx_ele_PtCut_IDISO_STORE[0]) );
 	float deltaphi = v_MET.DeltaPhi(v_ele);
 	fillVariableWithValue( "mDPhi_METEle1", fabs(deltaphi) );
         mDeltaPhiMETEle1 = fabs(deltaphi);
@@ -735,7 +732,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "mDPhi_METJet1", fabs(deltaphi) );
         mDeltaPhiMET1stJet = fabs(deltaphi);
       }
-
+    
     // 2nd jet 
     double mDeltaPhiMET2ndJet = -999;
     if( v_idx_jet_PtCut_noOverlap_ID_STORE.size() >= 2 )        
@@ -778,7 +775,8 @@ void analysisClass::Loop()
 
     // CaloJets for HLT
     
-    fillVariableWithValue ( "nCaloJet",  v_idx_calojet_PtCut_noOverlap_ID_STORE.size() );
+    fillVariableWithValue ( "nCaloJet_Stored",  v_idx_calojet_PtCut_noOverlap_ID_STORE.size() );
+    fillVariableWithValue ( "nCaloJet_Ana"   ,  v_idx_calojet_PtCut_noOverlap_ID_ANA.size() );
     
     if ( v_idx_calojet_PtCut_noOverlap_ID_STORE.size() >= 1 ) {
       fillVariableWithValue ( "CaloJet1_Pt" , caloJetPt  -> at ( v_idx_calojet_PtCut_noOverlap_ID_STORE[0] ));
@@ -957,11 +955,10 @@ void analysisClass::Loop()
 
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
-
     
     // Produce skim
     if( passedAllPreviousCuts("PassHBHENoiseFilter") 
-	&& passedCut("nEle")
+	&& passedCut("nEle_Ana")
 	&& passedCut("Ele1_Pt")
 	&& passedCut("MET_Pt")
 	&& passedCut("Jet1_Pt")
@@ -970,7 +967,10 @@ void analysisClass::Loop()
       fillSkimTree();
 
     // Produce reduced skim
-    if( passedAllPreviousCuts("PassHBHENoiseFilter") 	) 
+    if( passedAllPreviousCuts("PassHBHENoiseFilter")
+	&& passedCut("nEle_Ana")
+	&& passedCut("Ele1_Pt" )
+	&& passedCut("MET_Pt"  ) ) 
       fillReducedSkimTree();
     
   } // End of loop over events
