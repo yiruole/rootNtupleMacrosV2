@@ -42,11 +42,11 @@ void analysisClass::Loop()
    CreateUserTH1D( "Jet1_Pt"               ,    getHistoNBins("Jet1_Pt"), getHistoMin("Jet1_Pt"), getHistoMax("Jet1_Pt")     ) ; 
    CreateUserTH1D( "Jet1_Eta"	           , 	getHistoNBins("Jet1_Eta"), getHistoMin("Jet1_Eta"), getHistoMax("Jet1_Eta")     ) ; 
    CreateUserTH1D( "Jet1_Phi"	           , 	60  , -3.1416 , +3.1416	 ) ;  
-   CreateUserTH1D( "Jet1_btagTCHE"         ,    100 , 0       , 20	 ) ; 
+   CreateUserTH1D( "Jet1_btagTCHE"         ,    250 , 0       , 50	 ) ; 
    CreateUserTH1D( "Jet2_Pt"               ,    getHistoNBins("Jet2_Pt"), getHistoMin("Jet2_Pt"), getHistoMax("Jet2_Pt")     ) ; 
    CreateUserTH1D( "Jet2_Eta"	           , 	getHistoNBins("Jet2_Eta"), getHistoMin("Jet2_Eta"), getHistoMax("Jet2_Eta")     ) ; 
    CreateUserTH1D( "Jet2_Phi"	           , 	60  , -3.1416 , +3.1416	 ) ;  
-   CreateUserTH1D( "Jet2_btagTCHE"         ,    100 , 0       , 20	 ) ; 
+   CreateUserTH1D( "Jet2_btagTCHE"         ,    250 , 0       , 50	 ) ; 
 
    CreateUserTH1D( "nEle"                  ,    getHistoNBins("nEle"), getHistoMin("nEle"), getHistoMax("nEle")     ) ; 
    CreateUserTH1D( "nMuon"                 ,    getHistoNBins("nMuon"), getHistoMin("nMuon"), getHistoMax("nMuon")     ) ; 
@@ -177,6 +177,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      bool passed_preselection = passedAllPreviousCuts("MT_Ele1MET");
+     bool passed_preselection_without_DR_DPhi_cuts = passedAllPreviousCuts("nMuon");
 
      if ( passed_preselection ) { 
 
@@ -198,18 +199,11 @@ void analysisClass::Loop()
        FillUserTH1D( "Jet2_btagTCHE"       ,    Jet2_btagTCHE , weight);
        
        FillUserTH1D( "nEle"                ,    nEle          , weight);
-       FillUserTH1D( "nMuon"               ,    nMuon         , weight);
        FillUserTH1D( "nJet"                ,    nJet          , weight);
        FillUserTH1D( "nJet_btagTCHE"       ,    nJet_btagTCHE , weight);
        FillUserTH1D( "nVertex"             ,    nVertex       , weight);
        FillUserTH1D( "nVertex_good"        ,    nVertex_good  , weight);
-       
-       FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , weight);
-       FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , weight);
-       FillUserTH1D( "mDPhi_METEle1"	   , 	mDPhi_METEle1 , weight);
-       FillUserTH1D( "mDPhi_METJet1"	   , 	mDPhi_METJet1 , weight);
-       FillUserTH1D( "mDPhi_METJet2"	   , 	mDPhi_METJet2 , weight);
-       
+              
        FillUserTH1D( "MT_Ele1MET"	   , 	MT_Ele1MET    , weight);
        FillUserTH1D( "Pt_Ele1MET"	   , 	Pt_Ele1MET    , weight);
        FillUserTH1D( "Pt_j1j2"	           , 	Pt_j1j2       , weight);
@@ -217,6 +211,19 @@ void analysisClass::Loop()
        FillUserTH1D( "sT_enujj"	           ,    sT_enujj      , weight);
        
      }
+
+     if ( passed_preselection_without_DR_DPhi_cuts ) { 
+
+       FillUserTH1D( "nMuon"               ,    nMuon         , weight);
+
+       FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , weight);
+       FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , weight);
+       FillUserTH1D( "mDPhi_METEle1"	   , 	mDPhi_METEle1 , weight);
+       FillUserTH1D( "mDPhi_METJet1"	   , 	mDPhi_METJet1 , weight);
+       FillUserTH1D( "mDPhi_METJet2"	   , 	mDPhi_METJet2 , weight);
+
+     }
+
    } // End loop over events
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
