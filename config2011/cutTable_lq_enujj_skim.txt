@@ -20,12 +20,12 @@ JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/May11ReReco_160404-163869_PromptR
 #------------         ------------      -------------   ------------    -------------   -----
 #produceSkim          1                 -               -               -               -1
 produceReducedSkim    1                 -               -               -               -1
-ele_PtCut	      25                35              -               -               -1
+ele_PtCut	      30                20              -               -               -1
 heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
-jet_PtCut             20           	30              -               -               -1
+jet_PtCut             30           	20              -               -               -1
 jet_EtaCut            10.0         	-               -               -               -1
 jet_TCHELCut          1.7          	-               -               -               -1
-calojet_PtCut         20           	35              -               -               -1
+calojet_PtCut         35           	20              -               -               -1
 calojet_EtaCut        2.6          	-               -               -               -1
 calojet_eleDRCut      0.3	   	-  		-		-		-1
 calojet_elePtCut      20.0	   	-  		-		-		-1
@@ -34,8 +34,8 @@ jet_muon_DeltaRCut    0.3          	-               -               -           
 muon_PtCut            10           	10              -               -               -1
 muNHits_minThresh     11           	-               -               -               -1
 muTrkD0Maximum        0.2          	-               -               -               -1
-eleEta_bar            1.442        	-               -               -               -1
-eleEta_end            1.560        	-               -               -               -1
+eleEta_bar            1.442             -               -               -               -1
+eleEta_end            1.560             2.5             -               -               -1
 muonEta_bar           1.2          	-               -               -               -1
 muonEta_end           1.2          	-               -               -               -1
 vertexMinimumNDOF     4            	-		-               -               -1
@@ -96,8 +96,8 @@ PtHat 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 ## ADD HLT Info
 ## ADD GenParticle Info
 #
-nEle_Stored 			0            +inf               -               -               1       16 -0.5 15.5	      SAVE
 nEle_Ana 			0            +inf               -               -               1       16 -0.5 15.5	      SAVE
+nEle_Stored 			-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 Ele1_Pt				30	     +inf		-		-		1	100 0 1000	      SAVE
 Ele1_Energy 			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 Ele1_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE
@@ -135,7 +135,7 @@ Ele2_ValidFrac			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 nJet_Stored			-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 nJet_Ana			-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
-nJet_btagTCHE			-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nJet_btagTCHE_Ana		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 Jet1_Pt				30	     +inf		-		-		1	100 0 1000	      SAVE
 Jet1_Energy			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 Jet1_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
