@@ -41,6 +41,17 @@ muonEta_end           1.2          2.4                  -               -       
 vertexMinimumNDOF     4            -			-               -               -1
 vertexMaxAbsZ         24           -			-               -               -1
 vertexMaxd0           2            -			-               -               -1
+## HEEP selection v3.0
+eleDeltaEtaTrkSC     0.005	   0.007		-		-		-1	   
+eleDeltaPhiTrkSC     0.09	   0.09			-		-		-1	   
+eleHoE		     0.05	   0.05			-		-		-1
+eleE2x5OverE5x5      0.94	   -			-		-		-1
+eleE1x5OverE5x5      0.83	   -			-		-		-1
+eleSigmaIetaIeta     -		   0.03			-		-		-1
+eleEcalHcalIso	     2		   0.03			2.5		0.03		-1
+eleEcalHcalIso_PTthr -		   50			-		-		-1
+eleHcalIsoD2	     -		   0.5			-		-		-1
+eleTrkIso	     7.5	   15			-		-		-1
 ## energy scale and resolution
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
@@ -52,8 +63,8 @@ jet_PtCut_forMetScale 10	   -			-		-		-1
 jetAlgorithm	      1		   -			-		-		-1
 ## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
 metAlgorithm	      1		   -			-		-		-1
-## 1=HEEP , 2=EWK
-eleAlgorithm	      1		   -			-		-		-1
+## 1=HEEPmask , 2=HEEPvar , 3=WPXX
+eleAlgorithm	      2		   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------

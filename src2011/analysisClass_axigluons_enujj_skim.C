@@ -49,6 +49,29 @@ void analysisClass::Loop()
   double eleEta_end_min = getPreCutValue1("eleEta_end");
   double eleEta_end_max = getPreCutValue2("eleEta_end");
 
+  double eleDeltaEtaTrkSC_bar = getPreCutValue1("eleDeltaEtaTrkSC");
+  double eleDeltaEtaTrkSC_end = getPreCutValue2("eleDeltaEtaTrkSC");
+  double eleDeltaPhiTrkSC_bar = getPreCutValue1("eleDeltaPhiTrkSC");
+  double eleDeltaPhiTrkSC_end = getPreCutValue2("eleDeltaPhiTrkSC");
+  double eleHoE_bar = getPreCutValue1("eleHoE");
+  double eleHoE_end = getPreCutValue2("eleHoE");
+  double eleE2x5OverE5x5_bar = getPreCutValue1("eleE2x5OverE5x5");
+  //double eleE2x5OverE5x5_end = getPreCutValue2("eleE2x5OverE5x5");
+  double eleE1x5OverE5x5_bar = getPreCutValue1("eleE1x5OverE5x5");
+  //double eleE1x5OverE5x5_end = getPreCutValue2("eleE1x5OverE5x5");
+  //double eleSigmaIetaIeta_bar = getPreCutValue1("eleSigmaIetaIeta");
+  double eleSigmaIetaIeta_end = getPreCutValue2("eleSigmaIetaIeta");
+  double eleEcalHcalIso_1_bar = getPreCutValue1("eleEcalHcalIso");
+  double eleEcalHcalIso_2_bar = getPreCutValue2("eleEcalHcalIso");
+  double eleEcalHcalIso_1_end = getPreCutValue3("eleEcalHcalIso");
+  double eleEcalHcalIso_2_end = getPreCutValue4("eleEcalHcalIso");
+  //double eleEcalHcalIso_PTthr_bar = getPreCutValue1("eleEcalHcalIso_PTthr");
+  double eleEcalHcalIso_PTthr_end = getPreCutValue2("eleEcalHcalIso_PTthr");
+  //double eleHcalIsoD2_bar = getPreCutValue1("eleHcalIsoD2");
+  double eleHcalIsoD2_end = getPreCutValue2("eleHcalIsoD2");
+  double eleTrkIso_bar = getPreCutValue1("eleTrkIso");
+  double eleTrkIso_end = getPreCutValue2("eleTrkIso");
+
   double jet_PtCut =    getPreCutValue1("jet_PtCut");
   double jet_EtaCut = getPreCutValue1("jet_EtaCut");
   double jet_TCHELCut = getPreCutValue1("jet_TCHELCut");
@@ -252,25 +275,88 @@ void analysisClass::Loop()
 	// pT pre-cut on ele
 	if( ElectronPt->at(iele) < ele_PtCut ) continue;
 
-	// get heepBitMask for EB, GAP, EE
-	if( fabs(ElectronEta->at(iele)) < eleEta_bar )
+	if( eleAlgorithm == 1) //------> use HEEP mask 
 	  {
-	    heepBitMask = heepBitMask_EB;
-	  }
-	else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
-	  {
-	    heepBitMask = heepBitMask_EE;
-	  }
-	else 
-	  {
-	    heepBitMask = heepBitMask_GAP;
-	  }
 
-	//ID + ISO
-	if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0 )
+	    // get heepBitMask for EB, GAP, EE
+	    if( fabs(ElectronSCEta->at(iele)) < eleEta_bar )
+	      {
+		heepBitMask = heepBitMask_EB;
+	      }
+	    else if ( fabs(ElectronSCEta->at(iele)) > eleEta_end_min && fabs(ElectronSCEta->at(iele)) < eleEta_end_max )
+	      {
+		heepBitMask = heepBitMask_EE;
+	      }
+	    else 
+	      {
+		heepBitMask = heepBitMask_GAP;
+	      }
+	    
+	    //ID + ISO
+	    if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0 )
+	      {
+		v_idx_ele_PtCut_IDISO.push_back(iele);
+	      }
+	    
+	  }//------> end use HEEP mask 
+	
+	else if (eleAlgorithm == 2) //------> use HEEP variables
+	  
 	  {
-	    v_idx_ele_PtCut_IDISO.push_back(iele);
-	  }
+	    int passEleSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    
+	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
+	      isBarrel = 1;
+	    
+	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {		
+
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_bar //0.005
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar //0.09
+		   && ElectronHoE->at(iele) < eleHoE_bar //0.05 
+		   && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5_bar ) //0.94  , 0.83
+		   && ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele) < eleEcalHcalIso_1_bar + eleEcalHcalIso_2_bar*ElectronPt->at(iele)  // 2+0.03*ElectronPt->at(iele)
+		   && ElectronTrkIsoHeep->at(iele) <eleTrkIso_bar //7.5
+		   )
+		  passEleSel = 1;		
+
+	      }//end barrel
+	
+	    if(isEndcap)
+	      {		
+
+		int passEcalHcalIsoCut=0;
+		if(ElectronPt->at(iele) < eleEcalHcalIso_PTthr_end // thr=50 
+		   && (ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele)) < eleEcalHcalIso_1_end) // value=2.5 
+		  passEcalHcalIsoCut=1;
+		if(ElectronPt->at(iele) > eleEcalHcalIso_PTthr_end // thr=50 
+		   && (ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele)) < eleEcalHcalIso_1_end+eleEcalHcalIso_2_end*(ElectronPt->at(iele)-eleEcalHcalIso_PTthr_end) ) //values=2.5, 0.03
+		  passEcalHcalIsoCut=1;
+		
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_end //0.007
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end //0.09
+		   && ElectronHoE->at(iele) < eleHoE_end //0.05 
+		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end //0.03
+		   && passEcalHcalIsoCut == 1
+		   && ElectronHcalIsoD2Heep->at(iele) < eleHcalIsoD2_end //0.5
+		   && ElectronTrkIsoHeep->at(iele) < eleTrkIso_end //15
+		   )
+		  passEleSel = 1;
+		
+	      }//end endcap
+	    
+	    //Pass User Defined Electron Selection
+	    if ( passEleSel )
+	      {
+		v_idx_ele_PtCut_IDISO.push_back(iele);
+	      }
+	    
+	  }//------> use HEEP variables
 
       } // End loop over electrons
 
