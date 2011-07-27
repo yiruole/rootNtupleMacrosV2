@@ -21,7 +21,7 @@ import copy
 
 #--- ROOT general options
 gROOT.SetBatch(kTRUE);
-gStyle.Reset("Default");
+gStyle.Reset("Plain");
 gStyle.SetCanvasColor(0);
 gStyle.SetPadColor(0);
 gStyle.SetTitleFillColor(10);
@@ -32,6 +32,7 @@ gStyle.SetPadTickX(1);
 gStyle.SetPadTickY(1);
 gStyle.SetFrameBorderMode(0);
 gStyle.SetPalette(1);
+gStyle.SetOptTitle(0);
 gStyle.SetOptStat(0);
 gStyle.SetOptFit(0);
 gStyle.SetStatFont(132);
@@ -298,13 +299,14 @@ def GetDiffEff( thenum , theden , m_size , m_style , m_color , xtitle , ytitle, 
         elx2 = den.GetErrorXlow(point)  
         ely2 = den.GetErrorYlow(point)  
         
-        if( y2 == 0 or y1 == 0 ):
-            diff.SetPoint(npoint,x1, 0)
-            diff.SetPointEXhigh(npoint, ehx1)
-            diff.SetPointEXlow(npoint, elx1)
-            diff.SetPointEYhigh(npoint, 0)
-            diff.SetPointEYlow(npoint, 0)
-        else:
+        #if( y2 == 0 or y1 == 0 ):
+            #diff.SetPoint(npoint,x1, 0)
+            #diff.SetPointEXhigh(npoint, ehx1)
+            #diff.SetPointEXlow(npoint, elx1)
+            #diff.SetPointEYhigh(npoint, 0)
+            #diff.SetPointEYlow(npoint, 0)
+        #else:
+        if( y2 != 0 and y1 != 0 ):
             d = y1-y2
             
             ehr = sqrt(ehy1 * ehy1 + ehy2 * ehy2)
@@ -325,9 +327,9 @@ def GetDiffEff( thenum , theden , m_size , m_style , m_color , xtitle , ytitle, 
     diff.GetYaxis().SetTitle(ytitle)
 
     if(fitType==0):
-        diff.Fit("pol0")
+        diff.Fit("pol0","","",0,500)
     if(fitType==1):
-        diff.Fit("pol1")
+        diff.Fit("pol1","","",0,500)
 
     return diff
 
@@ -622,16 +624,22 @@ call_corr.Print("FakeRatePlots.ps")
 cbarrel_corr = TCanvas()
 cbarrel_corr.SetGridy()
 cbarrel_corr.SetGridx()
+bkg = TH2F("bkg","bkg", 100, 30., 500., 100, -0.05, 0.23)
+bkg.SetStats(kFALSE)
+bkg.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
+bkg.GetYaxis().SetTitle("Fake rate - Barrel")
+bkg.Draw()
 fakeRate_vs_Pt_CORR_barrel = GetDiffEff( fakeRate_vs_Pt_DATA_barrel , fakeRate_vs_Pt_MC_barrel , 1.2 , 20 , 1 , "Supercluster E_{T} [GeV]" , "Fake Probability - Barrel" , 0)
-fakeRate_vs_Pt_CORR_barrel.GetYaxis().SetRangeUser(-0.1,0.1)
-fakeRate_vs_Pt_CORR_barrel.GetXaxis().SetRangeUser(30,500)
-fakeRate_vs_Pt_CORR_barrel.Draw("ap")
+#fakeRate_vs_Pt_CORR_barrel.GetYaxis().SetRangeUser(-0.05,0.23)
+#fakeRate_vs_Pt_CORR_barrel.GetXaxis().SetRangeUser(30,500)
+#fakeRate_vs_Pt_CORR_barrel.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
+#fakeRate_vs_Pt_CORR_barrel.GetYaxis().SetTitle("Fake rate - Barrel")
 fakeRate_vs_Pt_CORR_barrel.SetLineWidth(2)
-fakeRate_vs_Pt_CORR_barrel.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
-fakeRate_vs_Pt_CORR_barrel.GetYaxis().SetTitle("Fake rate - Barrel")
+fakeRate_vs_Pt_CORR_barrel.Draw("p")
 cbarrel_corr.Print("FakeRate_barrel_corr.root","root")
 cbarrel_corr.SaveAs("FakeRate_barrel_corr.eps")
 cbarrel_corr.Print("FakeRatePlots.ps")
+del bkg
 
 #fake rate (barrel1)
 cbarrel_corr1 = TCanvas()
@@ -679,31 +687,43 @@ cendcap_corr.Print("FakeRatePlots.ps")
 cendcap_corr1 = TCanvas()
 cendcap_corr1.SetGridy()
 cendcap_corr1.SetGridx()
+bkg = TH2F("bkg","bkg", 100, 30., 350., 100, -0.05, 0.2)
+bkg.SetStats(kFALSE)
+bkg.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
+bkg.GetYaxis().SetTitle("Fake rate - Endcap 1")
+bkg.Draw()
 fakeRate_vs_Pt_CORR_endcap1 = GetDiffEff( fakeRate_vs_Pt_DATA_endcap1 , fakeRate_vs_Pt_MC_endcap1 , 1.2 , 20 , 1 , "Supercluster E_{T} [GeV]" , "Fake Probability - Endcap 1", 1 )
-fakeRate_vs_Pt_CORR_endcap1.GetYaxis().SetRangeUser(-0.1,0.1)
-fakeRate_vs_Pt_CORR_endcap1.GetXaxis().SetRangeUser(30,500)
-fakeRate_vs_Pt_CORR_endcap1.Draw("ap")
+#fakeRate_vs_Pt_CORR_endcap1.GetYaxis().SetRangeUser(-0.05,0.2)
+#fakeRate_vs_Pt_CORR_endcap1.GetXaxis().SetRangeUser(30,350)
+#fakeRate_vs_Pt_CORR_endcap1.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
+#fakeRate_vs_Pt_CORR_endcap1.GetYaxis().SetTitle("Fake rate - Endcap 1")
 fakeRate_vs_Pt_CORR_endcap1.SetLineWidth(2)
-fakeRate_vs_Pt_CORR_endcap1.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
-fakeRate_vs_Pt_CORR_endcap1.GetYaxis().SetTitle("Fake rate - Endcap 1")
+fakeRate_vs_Pt_CORR_endcap1.Draw("p")
 cendcap_corr1.Print("FakeRate_endcap1_corr.root","root")
 cendcap_corr1.SaveAs("FakeRate_endcap1_corr.eps")
 cendcap_corr1.Print("FakeRatePlots.ps")
+del bkg
 
 #fake rate (endcap2)
 cendcap_corr2 = TCanvas()
 cendcap_corr2.SetGridy()
 cendcap_corr2.SetGridx()
+bkg = TH2F("bkg","bkg", 100, 30., 350., 100, -0.05, 0.2)
+bkg.SetStats(kFALSE)
+bkg.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
+bkg.GetYaxis().SetTitle("Fake rate - Endcap 2")
+bkg.Draw()
 fakeRate_vs_Pt_CORR_endcap2 = GetDiffEff( fakeRate_vs_Pt_DATA_endcap2 , fakeRate_vs_Pt_MC_endcap2 , 1.2 , 20 , 1 , "Supercluster E_{T} [GeV]" , "Fake Probability - Endcap 2", 1 )
-fakeRate_vs_Pt_CORR_endcap2.GetYaxis().SetRangeUser(-0.1,0.1)
-fakeRate_vs_Pt_CORR_endcap2.GetXaxis().SetRangeUser(30,500)
-fakeRate_vs_Pt_CORR_endcap2.Draw("ap")
+#fakeRate_vs_Pt_CORR_endcap2.GetYaxis().SetRangeUser(-0.05,0.2)
+#fakeRate_vs_Pt_CORR_endcap2.GetXaxis().SetRangeUser(30,350)
+#fakeRate_vs_Pt_CORR_endcap2.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
+#fakeRate_vs_Pt_CORR_endcap2.GetYaxis().SetTitle("Fake rate - Endcap 2")
 fakeRate_vs_Pt_CORR_endcap2.SetLineWidth(2)
-fakeRate_vs_Pt_CORR_endcap2.GetXaxis().SetTitle("Supercluster E_{T} [GeV]")
-fakeRate_vs_Pt_CORR_endcap2.GetYaxis().SetTitle("Fake rate - Endcap 2")
+fakeRate_vs_Pt_CORR_endcap2.Draw("p")
 cendcap_corr2.Print("FakeRate_endcap2_corr.root","root")
 cendcap_corr2.SaveAs("FakeRate_endcap2_corr.eps")
 cendcap_corr2.Print("FakeRatePlots.ps")
+del bkg
 
 #---
 cTot.Print("FakeRatePlots.ps]")
