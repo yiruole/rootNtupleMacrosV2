@@ -158,7 +158,7 @@ class Plot:
         ERRintegralOthers = sqrt( ERRintegralMCTTbar**2 + ERRintegralMCZ**2 + ERRintegralMCSingleTop**2 + ERRintegralMCWW**2 + ERRintegralMCWZ**2 + ERRintegralMCZZ**2 + ERRintegralMCPhotonJets**2 + ERRintegralMCBJets**2 + ERRintegralQCD**2 )
         integralMCall = integralMCW+ integralMCTTbar + integralMCZ  + integralMCSingleTop + integralMCWW + integralMCWZ + integralMCZZ + integralMCPhotonJets + integralMCBJets
         ERRintegralMCall = sqrt( ERRintegralMCW**2 + ERRintegralMCTTbar**2 + ERRintegralMCZ**2 + ERRintegralMCSingleTop**2 + ERRintegralMCWW**2 + ERRintegralMCWZ**2 + ERRintegralMCZZ**2 + ERRintegralMCPhotonJets**2 + ERRintegralMCBJets**2 )
-        contamination = integralOthers / (integralMCW + integralOthers)
+        contamination = integralOthers / integralDATA
 
         #DATA corrected for other bkg contamination --> best estimate of DATA (due to W only)
         integralDATAcorr = (integralDATA - integralOthers)
@@ -241,8 +241,8 @@ class Plot:
 
 #--- Input files
 #preselection
-File_preselection = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_plots.root")
-File_preselection_QCD = GetFile("/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/data/output/analysisClass_enujjSample_QCD_plots.root")
+File_preselection = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/36.0pb-1_presel_MET45_presel_sT250_Wrescale1.18_Feb112011/analysisClass_enujjSample_plots.root")
+File_preselection_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
 
 #--- Rescaling of W+jets background
 
@@ -298,13 +298,13 @@ plot0.histoMCZZ = h_ZZ_MTenu
 plot0.histoMCPhotonJets = h_PhotonJets_MTenu
 plot0.histoMCBJets = h_BJets_MTenu
 plot0.histoQCD = h_QCD_MTenu
-plot0.MCSyst = 0.11
-plot0.MCTTbarSyst = 0.17
+plot0.MCSyst = 0.12
+plot0.MCTTbarSyst = 0.14
 plot0.QCDSyst = 0.25
 plot0.xmin = 50
 plot0.xmax = 110
 plot0.name = "Wrescale"
-plot0.fileXsectionNoRescale = "/afs/cern.ch/user/f/ferencek/scratch0/LQ/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
+plot0.fileXsectionNoRescale = "/home/ferencek/work/Leptoquarks/CMSSW_3_8_6/test/Leptoquarks/rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
