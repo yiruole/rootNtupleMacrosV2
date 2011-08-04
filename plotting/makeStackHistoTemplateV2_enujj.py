@@ -26,8 +26,9 @@ gStyle.SetFrameBorderMode(0)
 gStyle.SetCanvasColor(kWhite)
 gStyle.SetPadTickX(1);
 gStyle.SetPadTickY(1);
-gStyle.SetPadTopMargin(0.08);
-gStyle.SetPadBottomMargin(0.12);
+gStyle.SetPadTopMargin(0.07);
+gStyle.SetPadBottomMargin(0.13);
+gStyle.SetErrorX(0); # Remove horizontal error bars
 #gStyle.SetTitleSize(0.05, "XYZ");
 #--- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
 
@@ -256,7 +257,7 @@ class Plot:
         legend.SetShadowColor(10)
         legend.SetMargin(0.2)
         legend.SetTextFont(132)
-        legend.AddEntry(plot.histodata, "Data, 36 pb^{-1}","lp")
+        legend.AddEntry(plot.histodata, "Data, 36 pb^{-1}","p")
 
         #-- loop over histograms (stacked)
         Nstacked = len(self.histosStack)
@@ -311,8 +312,8 @@ class Plot:
 #                stack[iter].GetYaxis().SetTitleOffset(0.8)
 #                stack[iter].GetYaxis().SetTitleSize(0.05)
 #                stack[iter].GetYaxis().SetLabelSize(0.045)
-                stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)") # units omitted or no units for x-axis
-                #stack[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW)) # for x-axis in units of GeV
+                #stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)") # units omitted or no units for the x-axis
+                stack[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW)) # for the x-axis in units of GeV
                 if (self.ymin!="" and self.ymax!=""):
                     #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                     stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
@@ -507,7 +508,7 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["OTHERBKG","TTbar_Madgraph","WJetAlpgen"]
-keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
+keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W+jets"]
 
 #samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
 #keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
@@ -566,7 +567,7 @@ plot1.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot1.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot1.keys            = keys
-plot1.xtit            = "p_{T} electron [GeV]"
+plot1.xtit            = "p_{T,e} [GeV]"
 plot1.ytit            = "Events"
 plot1.ylog            = "yes"
 plot1.rebin           = "var"
@@ -575,7 +576,7 @@ plot1.xmax            = pt_xmax
 plot1.ymin            = pt_ymin
 plot1.ymax            = pt_ymax
 #plot1.lpos = "bottom-center"
-plot1.name            = "pT1stEle_allPreviousCuts"
+plot1.name            = "Pt1stEle_allPreviousCuts"
 plot1.addZUncBand     = zUncBand
 plot1.makeRatio       = makeRatio
 plot1.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,800]
@@ -591,7 +592,7 @@ plot2.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot2.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot2.keys            = keys
-plot2.xtit            = "#eta electron"
+plot2.xtit            = "#eta_{e}"
 plot2.ytit            = "Events"
 plot2.rebin           = eta_rebin
 plot2.xmin            = -3
@@ -639,7 +640,7 @@ plot3.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot3.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot3.keys            = keys
-plot3.xtit            = "MET [GeV]"
+plot3.xtit            = "#slash{E}_{T} [GeV]"
 plot3.ytit            = "Events"
 plot3.ylog            = "yes"
 plot3.rebin           = "var"
@@ -665,7 +666,7 @@ plot4.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot4.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot4.keys            = keys
-plot4.xtit            = "min(p_{T} electron,MET) [GeV]"
+plot4.xtit            = "min(p_{T,e},#slash{E}_{T}) [GeV]"
 plot4.ytit            = "Events"
 plot4.ylog            = "yes"
 plot4.rebin           = "var"
@@ -741,7 +742,7 @@ plot6.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot6.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot6.keys            = keys
-plot6.xtit            = "p_{T} 1st jet [GeV]"
+plot6.xtit            = "p_{T,j1} [GeV]"
 plot6.ytit            = "Events"
 plot6.ylog            = "yes"
 plot6.rebin           = "var"
@@ -766,7 +767,7 @@ plot7.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot7.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot7.keys            = keys
-plot7.xtit            = "#eta 1st jet"
+plot7.xtit            = "#eta_{j1}"
 plot7.ytit            = "Events"
 plot7.rebin           = eta_rebin
 plot7.ymin            = eta_ymin
@@ -787,7 +788,7 @@ plot8.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot8.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot8.keys            = keys
-plot8.xtit            = "p_{T} 2nd jet [GeV]"
+plot8.xtit            = "p_{T,j2} [GeV]"
 plot8.ytit            = "Events"
 plot8.ylog            = "yes"
 plot8.rebin           = "var"
@@ -812,7 +813,7 @@ plot9.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot9.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot9.keys            = keys
-plot9.xtit            = "#eta 2nd jet"
+plot9.xtit            = "#eta_{j2}"
 plot9.ytit            = "Events"
 plot9.rebin           = eta_rebin
 plot9.ymin            = eta_ymin
@@ -930,7 +931,7 @@ plot10.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot10.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot10.keys            = keys
-plot10.xtit            = "Number of muons"
+plot10.xtit            = "N_{#mu}"
 plot10.ytit            = "Events"
 plot10.ylog            = "yes"
 plot10.rebin           = 1
@@ -954,7 +955,7 @@ plot11.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot11.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot11.keys            = keys
-plot11.xtit            = "#Delta#phi(MET,e) [rad.]"
+plot11.xtit            = "#left|#Delta#phi(e,#slash{E}_{T})#right|"
 plot11.ytit            = "Events"
 #plot11.xlog            = "yes"
 plot11.ylog            = "yes"
@@ -980,7 +981,7 @@ plot12.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot12.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot12.keys            = keys
-plot12.xtit            = "#Delta#phi(MET,1st jet) [rad.]"
+plot12.xtit            = "#left|#Delta#phi(j1,#slash{E}_{T})#right|"
 plot12.ytit            = "Events"
 #plot12.xlog            = "yes"
 plot12.ylog            = "yes"
@@ -1006,7 +1007,7 @@ plot13.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13.keys            = keys
-plot13.xtit            = "#Delta#phi(MET,2nd jet) [rad.]"
+plot13.xtit            = "#left|#Delta#phi(j2,#slash{E}_{T})#right|"
 plot13.ytit            = "Events"
 #plot13.xlog            = "yes"
 plot13.ylog            = "yes"
@@ -1031,7 +1032,7 @@ plot13_afterOtherDfCuts.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot13_afterOtherDfCuts.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot13_afterOtherDfCuts.keys            = keys
-plot13_afterOtherDfCuts.xtit            = "#Delta#phi(MET,2nd jet) [rad.]"
+plot13_afterOtherDfCuts.xtit            = "#left|#Delta#phi(j2,#slash{E}_{T})#right|"
 plot13_afterOtherDfCuts.ytit            = "Events"
 #plot13_afterOtherDfCuts.xlog            = "yes"
 plot13_afterOtherDfCuts.ylog            = "yes"
@@ -1059,7 +1060,7 @@ plot14.keysStack       = keysStack
 plot14.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14.keys            = keys
 #plot14.xtit            = "M_{T}(e#nu) [GeV]"
-plot14.xtit            = "m_{T,e#nu} [GeV]"
+plot14.xtit            = "M_{T,e#nu} [GeV]"
 plot14.ytit            = "Events"
 # plot14.ylog            = "yes"
 # plot14.rebin           = 1
@@ -1070,7 +1071,7 @@ plot14.rebin           = "var"
 plot14.xmin            = 0
 plot14.xmax            = 400
 plot14.ymin            = 0
-plot14.ymax            = 150
+plot14.ymax            = 100
 #plot14.lpos = "bottom-center"
 plot14.name            = "MTenu_allPreviousCuts_ylin"
 plot14.addZUncBand     = zUncBand
@@ -1086,7 +1087,7 @@ plot14_ylog.keysStack       = keysStack
 plot14_ylog.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot14_ylog.keys            = keys
 #plot14_ylog.xtit            = "M_{T}(e#nu) [GeV]"
-plot14_ylog.xtit            = "m_{T,e#nu} [GeV]"
+plot14_ylog.xtit            = "M_{T,e#nu} [GeV]"
 plot14_ylog.ytit            = "Events"
 plot14_ylog.ylog            = "yes"
 plot14_ylog.rebin           = "var" # don't change it (since a rebinning is already applied above on the same histo)
@@ -1787,7 +1788,7 @@ plot24.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot24.histos          = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
 plot24.keys            = keys
-plot24.xtit            = "min#DeltaR(e,jets)"
+plot24.xtit            = "min#DeltaR(e,j)"
 plot24.ytit            = "Events"
 plot24.ylog            = "yes"
 plot24.rebin           = 2
@@ -1870,7 +1871,7 @@ plot31.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot31.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot31.keys            = keys
-plot31.xtit            = "M(ej) [GeV]"
+plot31.xtit            = "M_{ej} [GeV]"
 plot31.ytit            = "Entries"
 plot31.ylog            = "yes"
 plot31.rebin           = 2
@@ -1895,12 +1896,12 @@ plot32.keysStack       = keysStack
 ## this is the list of histograms that should be simply overlaid on top of the stacked histogram
 plot32.histos          = generateAndAddHistoList( histoBaseName, samplesForHistos, variableNames, File_preselection)
 plot32.keys            = keys
-plot32.xtit            = "M_{T}(#nuj) [GeV]"
+plot32.xtit            = "M_{T,#nuj} [GeV]"
 plot32.ytit            = "Entries"
 plot32.ylog            = "yes"
 plot32.rebin           = 2
 plot32.xmin            = 0
-plot32.xmax            = 2000
+plot32.xmax            = 1000
 plot32.ymin            = 0.01
 plot32.ymax            = 100
 #plot32.lpos = "bottom-center"
