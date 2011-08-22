@@ -57,9 +57,11 @@ void analysisClass::Loop()
 
    CreateUserTH1D( "DR_Ele1Jet1"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
    CreateUserTH1D( "DR_Ele1Jet2"	   , 	getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     ) ; 
+   CreateUserTH1D( "DR_Jet1Jet2"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
    CreateUserTH1D( "mDPhi_METEle1"	   , 	getHistoNBins("mDPhi_METEle1"), getHistoMin("mDPhi_METEle1"), getHistoMax("mDPhi_METEle1")     ) ; 
    CreateUserTH1D( "mDPhi_METJet1"	   , 	getHistoNBins("mDPhi_METJet1"), getHistoMin("mDPhi_METJet1"), getHistoMax("mDPhi_METJet1")     ) ; 
    CreateUserTH1D( "mDPhi_METJet2"	   , 	getHistoNBins("mDPhi_METJet2"), getHistoMin("mDPhi_METJet2"), getHistoMax("mDPhi_METJet2")     ) ; 
+   CreateUserTH1D( "mDEta_Jet1Jet2"	   , 	getHistoNBins("mDEta_Jet1Jet2"), getHistoMin("mDEta_Jet1Jet2"), getHistoMax("mDEta_Jet1Jet2")   ) ; 
 
    CreateUserTH1D( "MT_Ele1MET"	           , 	getHistoNBins("MT_Ele1MET"), getHistoMin("MT_Ele1MET"), getHistoMax("MT_Ele1MET")     ) ; 
    CreateUserTH1D( "Pt_Ele1MET"	           , 	getHistoNBins("Pt_Ele1MET"), getHistoMin("Pt_Ele1MET"), getHistoMax("Pt_Ele1MET")     ) ; 
@@ -137,6 +139,7 @@ void analysisClass::Loop()
        fillVariableWithValue( "Jet2_Eta"                      , Jet2_Eta ) ;
        fillVariableWithValue( "Pt_j1j2"                       , Pt_j1j2 ) ;
        fillVariableWithValue( "M_j1j2"                        , M_j1j2 ) ;
+       fillVariableWithValue( "mDEta_Jet1Jet2"                , fabs(Jet1_Eta - Jet2_Eta) ) ;
      }
 
      // Muons
@@ -176,7 +179,7 @@ void analysisClass::Loop()
      // Fill preselection plots
      //--------------------------------------------------------------------------
      
-     bool passed_preselection = passedAllPreviousCuts("MT_Ele1MET");
+     bool passed_preselection = passedAllPreviousCuts("Pt_Ele1MET");
      bool passed_preselection_without_DR_DPhi_cuts = passedAllPreviousCuts("nMuon");
 
      if ( passed_preselection ) { 
@@ -218,9 +221,11 @@ void analysisClass::Loop()
 
        FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , weight);
        FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , weight);
+       FillUserTH1D( "DR_Jet1Jet2"	   , 	DR_Jet1Jet2   , weight);
        FillUserTH1D( "mDPhi_METEle1"	   , 	mDPhi_METEle1 , weight);
        FillUserTH1D( "mDPhi_METJet1"	   , 	mDPhi_METJet1 , weight);
        FillUserTH1D( "mDPhi_METJet2"	   , 	mDPhi_METJet2 , weight);
+       FillUserTH1D( "mDEta_Jet1Jet2"	   , 	getVariableValue("mDEta_Jet1Jet2")   , weight);
 
      }
 

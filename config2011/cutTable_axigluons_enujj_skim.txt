@@ -52,6 +52,18 @@ eleEcalHcalIso	     2		   0.03			2.5		0.03		-1
 eleEcalHcalIso_PTthr -		   50			-		-		-1
 eleHcalIsoD2	     -		   0.5			-		-		-1
 eleTrkIso	     7.5	   15			-		-		-1
+## WP70 selection (2010) --> https://twiki.cern.ch/twiki/bin/viewauth/CMS/SimpleCutBasedEleID
+eleMissingHits	     0	           -                    -               -               -1
+eleDist		     0.02	   -			-		-		-1
+eleDCotTheta	     0.02	   -			-		-		-1
+eleSigmaIetaIetaWP   0.01	   0.03			-		-		-1    
+eleDeltaPhiTrkSCWP   0.03	   0.02			-		-		-1  
+eleDeltaEtaTrkSCWP   0.004	   0.005		-		-		-1  
+eleHoEWP	     0.025	   0.025		-		-		-1
+eleCombIso	     0.04	   0.03			-		-		-1
+eleTrkRelIso	     0.05	   0.025		-		-		-1
+eleEcalRelIso	     0.06	   0.025		-		-		-1
+eleHcalRelIso	     0.03	   0.02			-		-		-1
 ## energy scale and resolution
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
@@ -63,7 +75,7 @@ jet_PtCut_forMetScale 10	   -			-		-		-1
 jetAlgorithm	      1		   -			-		-		-1
 ## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
 metAlgorithm	      1		   -			-		-		-1
-## 1=HEEPmask , 2=HEEPvar , 3=WPXX
+## 1=HEEPmask , 2=HEEPvarV3.0 , 3=EWK(WP70)
 eleAlgorithm	      2		   -			-		-		-1
 #
 #

@@ -72,6 +72,26 @@ void analysisClass::Loop()
   double eleTrkIso_bar = getPreCutValue1("eleTrkIso");
   double eleTrkIso_end = getPreCutValue2("eleTrkIso");
 
+  double eleMissingHits = getPreCutValue1("eleMissingHits");
+  double eleDist = getPreCutValue1("eleDist");
+  double eleDCotTheta = getPreCutValue1("eleDCotTheta");
+  double eleSigmaIetaIetaWP_bar = getPreCutValue1("eleSigmaIetaIetaWP");
+  double eleSigmaIetaIetaWP_end = getPreCutValue2("eleSigmaIetaIetaWP");
+  double eleDeltaPhiTrkSCWP_bar = getPreCutValue1("eleDeltaPhiTrkSCWP");
+  double eleDeltaPhiTrkSCWP_end = getPreCutValue2("eleDeltaPhiTrkSCWP");
+  double eleDeltaEtaTrkSCWP_bar = getPreCutValue1("eleDeltaEtaTrkSCWP");
+  double eleDeltaEtaTrkSCWP_end = getPreCutValue2("eleDeltaEtaTrkSCWP");
+  double eleHoEWP_bar = getPreCutValue1("eleHoEWP");
+  double eleHoEWP_end = getPreCutValue2("eleHoEWP");
+  double eleCombIso_bar = getPreCutValue1("eleCombIso");
+  double eleCombIso_end = getPreCutValue2("eleCombIso");
+  double eleTrkRelIso_bar = getPreCutValue1("eleTrkRelIso");
+  double eleTrkRelIso_end = getPreCutValue2("eleTrkRelIso");
+  double eleEcalRelIso_bar = getPreCutValue1("eleEcalRelIso");
+  double eleEcalRelIso_end = getPreCutValue2("eleEcalRelIso");
+  double eleHcalRelIso_bar = getPreCutValue1("eleHcalRelIso");
+  double eleHcalRelIso_end = getPreCutValue2("eleHcalRelIso");
+
   double jet_PtCut =    getPreCutValue1("jet_PtCut");
   double jet_EtaCut = getPreCutValue1("jet_EtaCut");
   double jet_TCHELCut = getPreCutValue1("jet_TCHELCut");
@@ -271,7 +291,7 @@ void analysisClass::Loop()
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
-
+	
 	// pT pre-cut on ele
 	if( ElectronPt->at(iele) < ele_PtCut ) continue;
 
@@ -357,6 +377,74 @@ void analysisClass::Loop()
 	      }
 	    
 	  }//------> use HEEP variables
+
+	else if (eleAlgorithm == 3) //------> use EWK variables (WP)
+
+	  {
+	    int passEleSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    double combIso_bar = ( max(0.,ElectronEcalIsoHeep->at(iele)-1.) 
+				   + ElectronHcalIsoD1Heep->at(iele) + ElectronHcalIsoD2Heep->at(iele) 
+				   + ElectronTrkIsoHeep->at(iele)
+				   ) / ElectronPt->at(iele) ;
+	    double combIso_end = ( ElectronEcalIsoHeep->at(iele) 
+				   + ElectronHcalIsoD1Heep->at(iele) + ElectronHcalIsoD2Heep->at(iele) 
+				   + ElectronTrkIsoHeep->at(iele)
+				   ) / ElectronPt->at(iele) ;
+
+	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
+	      isBarrel = 1;
+	    
+	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {		
+
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCWP_bar //0.004
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCWP_bar //0.03
+		   && ElectronHoE->at(iele) < eleHoEWP_bar //0.025 
+		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaWP_bar //0.01
+		   && ElectronEcalIsoHeep->at(iele)/ElectronPt->at(iele) < eleEcalRelIso_bar //0.06 
+		   && (ElectronHcalIsoD1Heep->at(iele)+ElectronHcalIsoD2Heep->at(iele))/ElectronPt->at(iele) < eleHcalRelIso_bar //0.03
+		   && ElectronTrkIsoHeep->at(iele) < eleTrkRelIso_bar //0.05
+		   && combIso_bar < eleCombIso_bar //0.04
+		   && ElectronMissingHits->at(iele) == eleMissingHits //0
+		   && ElectronDCotTheta->at(iele) > eleDCotTheta //0.02
+		   && ElectronDist->at(iele) > eleDist //0.02
+		   )
+		  passEleSel = 1;		
+		
+	      }//end barrel
+	
+	    if(isEndcap)
+	      {		
+
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCWP_end //0.005
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCWP_end //0.02
+		   && ElectronHoE->at(iele) < eleHoEWP_end //0.025 
+		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaWP_end //0.03
+		   && ElectronEcalIsoHeep->at(iele)/ElectronPt->at(iele) < eleEcalRelIso_end //0.025 
+		   && (ElectronHcalIsoD1Heep->at(iele)+ElectronHcalIsoD2Heep->at(iele))/ElectronPt->at(iele) < eleHcalRelIso_end //0.02
+		   && ElectronTrkIsoHeep->at(iele) < eleTrkRelIso_end //0.025
+		   && combIso_end < eleCombIso_end //0.03
+		   && ElectronMissingHits->at(iele) == eleMissingHits //0
+		   && ElectronDCotTheta->at(iele) > eleDCotTheta //0.02
+		   && ElectronDist->at(iele) > eleDist //0.02
+		   )
+		  passEleSel = 1;		
+
+	      }//end endcap
+	    
+	    //Pass User Defined Electron Selection
+	    if ( passEleSel )
+	      {
+		v_idx_ele_PtCut_IDISO.push_back(iele);
+	      }
+	    
+	  }//------> use EWK variables (WP)
+
 
       } // End loop over electrons
 
