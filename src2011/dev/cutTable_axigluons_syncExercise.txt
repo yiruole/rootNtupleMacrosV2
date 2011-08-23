@@ -21,8 +21,8 @@
 #produceSkim          1                 -               -               -               -1
 #produceReducedSkim   1                 -               -               -               -1
 #
-# Electrons ( "WP80" from https://twiki.cern.ch/twiki/bin/viewauth/CMS/SimpleCutBasedEleID2011 + hasMatchedConv)
-## 1=EWK(WP80) SimpleCutBasedEleID2011
+# Electrons
+## 1 = "WP80" https://twiki.cern.ch/twiki/bin/viewauth/CMS/SimpleCutBasedEleID2011 + !hasMatchedConv
 eleAlgorithm	      1			-		-		-		-1
 #
 elePtCut              15                -               -               -               -1
@@ -37,7 +37,8 @@ eleSigmaIetaIeta      0.01		0.031		-		-		-1
 eleDeltaPhiTrkSC      0.027		0.021		-		-		-1	   
 eleDeltaEtaTrkSC      0.005		0.006		-		-		-1	   
 #
-# Muons ( "Tight muon" from https://twiki.cern.ch/twiki/bin/view/CMS/MuonRecoPerformance2010#Definitions_of_muon_id )
+# Muons 
+# ( "Tight muon" from https://twiki.cern.ch/twiki/bin/view/CMS/MuonRecoPerformance2010#Definitions_of_muon_id )
 #
 muPtCut		      15		-               -               -               -1
 muEta_bar	      1.2		-               -               -               -1
@@ -50,13 +51,15 @@ muNValidHitsPixel     0			-		-		-		-1
 muNValidHitsTrack     10		-		-		-		-1
 muCombRelIso	      0.15		-	 	-		-		-1
 #
-# Jets ( PFJets, JetID "loose", JEC = L1FastJet [deterministic] * L2Rel * L3Abs * L23Residual for DATA , same but "no residual" for MC, 
-#        bjet: TrackCountingHighEfficiency loose b-tag from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance )
-## 1=PFJets , 2=CaloJets
+# Jets 
+## 1 = PFJets, JetID "loose", JEC = L1FastJet [deterministic] * L2Rel * L3Abs * L23Residual for DATA , same but "no residual" for MC, 
+#        bjet: TrackCountingHighEfficiency loose b-tag from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance 
+## 2 = CaloJets (the rest as above)
 jetAlgorithm	      1		        -		-		-		 -1
 #
 jet_ele_DeltaRcut     0.3               -               -               -                -1
 jet_muon_DeltaRcut    0.3               -               -               -                -1
+jet_pho_DeltaRcut     0.3               -               -               -                -1
 #
 jetPtCut              30		-               -               -                -1
 jetEtaCut             10.0		-               -               -                -1
@@ -64,13 +67,24 @@ jetTCHELCut           1.7		-               -               -                -1
 jetIDloose	      1			-		-		-	    	 -1
 jetIDtight	      0			-		-		-		 -1
 #
-# MET (uncorrected PFMET)
+# MET
 ## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
 metAlgorithm	      1		        -		-		-		-1
 #
+# Photons 
+## 1 = TightPhoton (https://twiki.cern.ch/twiki/bin/view/CMS/PhotonIDAnalysis) + ele veto
+phoAlgorithm	      1		        -		-		-		-1
 #
-# Photons
-#
+phoPtCut              15                -               -               -               -1
+phoEta_bar            1.442		-               -               -               -1
+phoEta_end            1.560		2.5             -               -               -1
+phoEcalIso	      4.2		0.006		4.2		0.06		-1	      	      
+phoHcalIso	      2.2		0.0025		2.2		0.0025		-1	      	      
+phoTrkIso	      2.0		0.001		2.0		0.001		-1	      	      
+phoHoE		      0.05		0.05		-		-		-1	      	      
+phoSigmaIetaIeta      0.013		0.030		-		-		-1	      	      
+phoUseMatchPromptEle  1			-		-		-		-1
+phoUsePixelSeed	      0			-		-		-		-1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -95,6 +109,7 @@ nEle 				-inf         +inf               -               -               1      
 nJet				-inf         +inf               -               -               1       16 -0.5 15.5	      
 nJet_btagTCHE			-inf         +inf               -               -               1       16 -0.5 15.5	      
 nMuon				-inf         +inf               -               -               1       16 -0.5 15.5          
+nPho				-inf         +inf               -               -               1       16 -0.5 15.5          
 MET_Pt                          -inf	     +inf               -               -               1       200 0 1000            
 MET_Phi				-inf	     +inf		-		-		1	60 -3.1416 +3.1416    
 GenMET_Pt			-inf	     +inf		-		-		1	200 0 1000	      

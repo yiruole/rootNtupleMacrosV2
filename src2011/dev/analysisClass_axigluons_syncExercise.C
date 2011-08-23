@@ -48,8 +48,10 @@ void analysisClass::Loop()
   int jetAlgorithm = getPreCutValue1("jetAlgorithm");
   int metAlgorithm = getPreCutValue1("metAlgorithm");
   int eleAlgorithm = getPreCutValue1("eleAlgorithm");
+  int phoAlgorithm = getPreCutValue1("phoAlgorithm");
   double jet_ele_DeltaRcut = getPreCutValue1("jet_ele_DeltaRcut");
   double jet_muon_DeltaRcut = getPreCutValue1("jet_muon_DeltaRcut");
+  double jet_pho_DeltaRcut = getPreCutValue1("jet_pho_DeltaRcut");
 
   // Electrons
   double elePtCut =  getPreCutValue1("elePtCut");
@@ -89,6 +91,30 @@ void analysisClass::Loop()
   double jetIDloose = getPreCutValue1("jetIDloose");
   double jetIDtight = getPreCutValue1("jetIDtight");
 
+  // Photons
+  double phoPtCut = getPreCutValue1("phoPtCut");
+  double phoEta_bar = getPreCutValue1("phoEta_bar");
+  double phoEta_end_min = getPreCutValue1("phoEta_end");
+  double phoEta_end_max = getPreCutValue2("phoEta_end");
+  double phoEcalIso_bar_const = getPreCutValue1("phoEcalIso");
+  double phoEcalIso_bar_ptCoeff = getPreCutValue2("phoEcalIso");
+  double phoEcalIso_end_const = getPreCutValue3("phoEcalIso");
+  double phoEcalIso_end_ptCoeff = getPreCutValue4("phoEcalIso");
+  double phoHcalIso_bar_const = getPreCutValue1("phoHcalIso");
+  double phoHcalIso_bar_ptCoeff = getPreCutValue2("phoHcalIso");
+  double phoHcalIso_end_const = getPreCutValue3("phoHcalIso");
+  double phoHcalIso_end_ptCoeff = getPreCutValue4("phoHcalIso");
+  double phoTrkIso_bar_const = getPreCutValue1("phoTrkIso");
+  double phoTrkIso_bar_ptCoeff = getPreCutValue2("phoTrkIso");
+  double phoTrkIso_end_const = getPreCutValue3("phoTrkIso");
+  double phoTrkIso_end_ptCoeff = getPreCutValue4("phoTrkIso");
+  double phoHoE_bar = getPreCutValue1("phoHoE");
+  double phoHoE_end = getPreCutValue1("phoHoE");
+  double phoSigmaIetaIeta_bar = getPreCutValue1("phoSigmaIetaIeta");
+  double phoSigmaIetaIeta_end = getPreCutValue2("phoSigmaIetaIeta");
+  double phoUseMatchPromptEle = getPreCutValue1("phoUseMatchPromptEle");
+  double phoUsePixelSeed = getPreCutValue1("phoUsePixelSeed");
+
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -97,6 +123,8 @@ void analysisClass::Loop()
   CreateUserTH1D( "MuonAllEta"                 ,    100, -6, 6      ); 
   CreateUserTH1D( "EleAllPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "EleAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "PhoAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "PhoAllEta"                  ,    100, -6, 6      );
   CreateUserTH1D( "JetAllPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "JetAllEta"                  ,    100, -6, 6      );
   CreateUserTH1D( "BJetAllPt"                  ,    200,  0, 2000   );
@@ -288,6 +316,7 @@ void analysisClass::Loop()
 		  isPhotConv = 1;
 	      }
 
+	    //barrel/endcap
 	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
 	      isBarrel = 1;	    
 	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
@@ -334,6 +363,81 @@ void analysisClass::Loop()
 	  }//------> use EWK(WP80) SimpleCutBasedEleID2011
 
       } // End loop over electrons
+
+    //## Photons
+    vector<int> v_idx_pho_PtCut_IDISO;
+
+    //Loop over photons
+    for(int ipho=0; ipho<PhotonPt->size(); ipho++)
+      {      
+	// pT pre-cut on photon
+	if( PhotonPt->at(ipho) < phoPtCut ) continue;
+
+	if( phoAlgorithm == 1) //------> use TightPhoton (Twiki PhotonIDAnalysis) + electron veto
+	  {
+	    int passPhoSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    int isMatchEle = 0;
+
+	    //matched prompt ele
+	    if( phoUseMatchPromptEle==1 && phoUsePixelSeed==0 )
+	      {
+		if( PhotonHasMatchedPromptEle->at(ipho) )
+		  isMatchEle = 1;
+	      }
+	    if( phoUseMatchPromptEle==0 && phoUsePixelSeed==1 )
+	      {
+		if( PhotonHasPixelSeed->at(ipho) )
+		  isMatchEle = 1;
+	      }
+
+	    //barrel/endcap
+	    if( fabs( PhotonSCeta->at(ipho) ) < phoEta_bar ) 
+	      isBarrel = 1;	    
+	    if( fabs( PhotonSCeta->at(ipho) ) > phoEta_end_min && fabs( PhotonSCeta->at(ipho) ) < phoEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {		
+		
+		if( isMatchEle == 0
+		    && PhotonHoE->at(ipho) < phoHoE_bar
+		    && PhotonSigmaIEtaIEta->at(ipho) < phoSigmaIetaIeta_bar 		    
+		    && PhotonEcalIsoDR04->at(ipho) < phoEcalIso_bar_const + phoEcalIso_bar_ptCoeff * PhotonPt->at(ipho)  
+		    && PhotonHcalIsoDR04->at(ipho) < phoHcalIso_bar_const + phoHcalIso_bar_ptCoeff * PhotonPt->at(ipho) 
+		    && PhotonTrkIsoHollowDR04->at(ipho) < phoTrkIso_bar_const + phoTrkIso_bar_ptCoeff * PhotonPt->at(ipho)
+		    )
+		  passPhoSel = 1;		
+		
+	      }//end barrel
+
+	    if(isEndcap)
+	      {		
+
+		if( isMatchEle == 0
+		    && PhotonHoE->at(ipho) < phoHoE_end
+		    && PhotonSigmaIEtaIEta->at(ipho) < phoSigmaIetaIeta_end 		    
+		    && PhotonEcalIsoDR04->at(ipho) < phoEcalIso_end_const + phoEcalIso_end_ptCoeff * PhotonPt->at(ipho)  
+		    && PhotonHcalIsoDR04->at(ipho) < phoHcalIso_end_const + phoHcalIso_end_ptCoeff * PhotonPt->at(ipho) 
+		    && PhotonTrkIsoHollowDR04->at(ipho) < phoTrkIso_end_const + phoTrkIso_end_ptCoeff * PhotonPt->at(ipho)
+		    )
+		  passPhoSel = 1;		
+
+	      }//end endcap
+	    
+	    // Pass Photon Selection
+	    if ( passPhoSel )
+	      {
+		v_idx_pho_PtCut_IDISO.push_back(ipho);
+
+		//histograms
+		FillUserTH1D( "PhoAllPt"                  ,    PhotonPt->at(ipho)  ); 
+		FillUserTH1D( "PhoAllEta"                 ,    PhotonEta->at(ipho) ); 
+	      }
+	    
+	  }//------> use TightPhoton (Twiki PhotonIDAnalysis) + electron veto
+      }
 
     //## Jets
     vector<int> v_idx_jet_PtCut;
@@ -418,6 +522,41 @@ void analysisClass::Loop()
 	  }
       }
 
+    //photon-jet overlap
+    vector <int> jetFlagsPho(v_idx_jet_PtCut.size(), 0);
+    int NjetflaggedPho = 0;
+    for (int ipho=0; ipho<v_idx_pho_PtCut_IDISO.size(); ipho++)
+      {                   
+	TLorentzVector pho;
+        pho.SetPtEtaPhiM(PhotonPt->at(v_idx_pho_PtCut_IDISO[ipho]),
+			 PhotonEta->at(v_idx_pho_PtCut_IDISO[ipho]),
+			 PhotonPhi->at(v_idx_pho_PtCut_IDISO[ipho]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlagsPho[ijet] == 1 )
+	      continue;
+            jet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut[ijet]) );
+	    double DR = jet.DeltaR(pho);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < jet_pho_DeltaRcut 
+	     && ijet_minDR > -1 )
+	  {
+	    jetFlagsPho[ijet_minDR] = 1;
+	    NjetflaggedPho++;
+	  }
+      }
+
     // Pass Jet Selection
     for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
       {
@@ -434,6 +573,7 @@ void analysisClass::Loop()
 
 	if( //jetFlagsEle[ijet] == 0                                      /* NO overlap with electrons */ 
 	    //&& jetFlagsMuon[ijet] == 0                                  /* NO overlap with muons */	    
+	    //&& jetFlagsPho[ijet] == 0                                   /* NO overlap with photons */	    
 	    //&& 
 	    passjetID == true                                             /* pass JetID */
 	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	  /* pass Jet Eta cut */    
@@ -448,6 +588,7 @@ void analysisClass::Loop()
 
 	if( //jetFlagsEle[ijet] == 0                                       /* NO overlap with electrons */ 
 	    //&& jetFlagsMuon[ijet] == 0                                   /* NO overlap with muons */	    
+	    //&& jetFlagsPho[ijet] == 0                                    /* NO overlap with photons */	    
 	    //&& 
 	    passjetID == true                                              /* pass JetID */
 	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	   /* pass Jet Eta cut */    
@@ -478,6 +619,9 @@ void analysisClass::Loop()
 
     // nMuon
     fillVariableWithValue( "nMuon", v_idx_muon_PtCut_IDISO.size() ) ;
+
+    // nPho
+    fillVariableWithValue( "nPho", v_idx_pho_PtCut_IDISO.size() ) ;
 
     // MET
     fillVariableWithValue("MET_Pt", thisMET);
