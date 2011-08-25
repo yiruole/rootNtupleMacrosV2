@@ -114,6 +114,8 @@ MET_Pt                          -inf	     +inf               -               -  
 MET_Phi				-inf	     +inf		-		-		1	60 -3.1416 +3.1416    
 GenMET_Pt			-inf	     +inf		-		-		1	200 0 1000	      
 GenMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    
+ChMET_Pt                        -inf	     +inf               -               -               1       200 0 1000            
+ChMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    
 #
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------

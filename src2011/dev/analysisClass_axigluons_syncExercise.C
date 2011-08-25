@@ -129,6 +129,8 @@ void analysisClass::Loop()
   CreateUserTH1D( "JetAllEta"                  ,    100, -6, 6      );
   CreateUserTH1D( "BJetAllPt"                  ,    200,  0, 2000   );
   CreateUserTH1D( "BJetAllEta"                 ,    100, -6, 6      );
+  CreateUserTH1D( "PFCandLeptLinkAllPt"        ,    200,  0, 2000   );
+  CreateUserTH1D( "PFCandLeptLinkAllEta"       ,    100, -6, 6      );
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -604,6 +606,16 @@ void analysisClass::Loop()
       } // End loop over jets
     
 
+    //## PF Candidates close to electron or muon
+
+    // Loop over PF candidates
+    for(int icand=0; icand<PFCandPtLeptLink->size(); icand++)
+      {
+	//histograms
+	FillUserTH1D( "PFCandLeptLinkAllPt"                  ,    PFCandPtLeptLink->at(icand)  ); 
+	FillUserTH1D( "PFCandLeptLinkAllEta"                 ,    PFCandEtaLeptLink->at(icand) ); 
+      }
+   
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
     //fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
@@ -628,6 +640,8 @@ void analysisClass::Loop()
     fillVariableWithValue("MET_Phi", thisMETPhi);
     fillVariableWithValue("GenMET_Pt", thisGenMET);
     fillVariableWithValue("GenMET_Phi", thisGenMETPhi);          
+    fillVariableWithValue("ChMET_Pt", PFMETCharged->at(0));
+    fillVariableWithValue("ChMET_Phi", PFMETPhiCharged->at(0));
        
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
