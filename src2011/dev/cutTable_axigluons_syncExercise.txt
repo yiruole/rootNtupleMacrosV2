@@ -36,6 +36,7 @@ eleCombRelIso	      0.04		0.033		-		-		-1
 eleSigmaIetaIeta      0.01		0.031		-		-		-1
 eleDeltaPhiTrkSC      0.027		0.021		-		-		-1	   
 eleDeltaEtaTrkSC      0.005		0.006		-		-		-1	   
+eleUseEcalDriven      1			-		-		-		-1
 #
 # Muons 
 # ( "Tight muon" from https://twiki.cern.ch/twiki/bin/view/CMS/MuonRecoPerformance2010#Definitions_of_muon_id )
@@ -116,6 +117,7 @@ GenMET_Pt			-inf	     +inf		-		-		1	200 0 1000
 GenMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    
 ChMET_Pt                        -inf	     +inf               -               -               1       200 0 1000            
 ChMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    
+MET_Sig				-inf	     +inf               -               -               1       400 0 100            
 #
 #
 #---------------------------------------- Cut Optimizer --------------------------------------------------

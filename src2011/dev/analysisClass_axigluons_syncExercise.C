@@ -70,6 +70,7 @@ void analysisClass::Loop()
   double eleDeltaPhiTrkSC_end = getPreCutValue2("eleDeltaPhiTrkSC");
   double eleDeltaEtaTrkSC_bar = getPreCutValue1("eleDeltaEtaTrkSC");
   double eleDeltaEtaTrkSC_end = getPreCutValue2("eleDeltaEtaTrkSC");
+  double eleUseEcalDriven = getPreCutValue1("eleUseEcalDriven");
 
   // Muons 
   double muPtCut =  getPreCutValue1("muPtCut");
@@ -176,9 +177,78 @@ void analysisClass::Loop()
             JetPassLooseID->push_back( PFJetPassLooseID->at(ijet) );
             JetPassTightID->push_back( PFJetPassTightID->at(ijet) );
             JetTCHE->push_back( PFJetTrackCountingHighEffBTag->at(ijet) );
+
+// 	    /////////////////////////////////////////////////////
+// 	    //JetID : Compare flag with variables 
+
+// 	    if( fabs(PFJetEta->at(ijet)) > 2.6 )
+// 	      continue;
+
+// 	    bool passLooseID_var = true;
+	    
+// 	    if( 
+// 	       PFJetNeutralHadronEnergyFraction->at(ijet) >= 0.99 
+// 	       || PFJetNeutralEmEnergyFraction->at(ijet) >= 0.99 
+// 	       || PFJetNConstituents->at(ijet) <= 1 
+// 	       )
+// 	      {
+// 		passLooseID_var = false;
+// 	      }
+	    
+// 	    if( fabs( PFJetEta->at(ijet) )<2.4 
+// 		&& 
+// 		( 
+// 		 PFJetChargedHadronEnergyFraction->at(ijet) <=0
+// 		 || PFJetChargedMultiplicity->at(ijet) <=0 
+// 		 || PFJetChargedEmEnergyFraction->at(ijet) >=0.99
+// 		 )
+// 		)
+// 	      {
+// 		passLooseID_var = false;
+// 	      }
+	    
+// 	    CreateAndFillUserTH2D( "PFJetIDFlagVsVar"   ,  3,-1.5,1.5, 3,-1.5,1.5, passLooseID_var , PFJetPassLooseID->at(ijet)  );
+// 	    if( PFJetPassLooseID->at(ijet) == 0 && passLooseID_var == 1 )
+// 	      {
+// 		CreateAndFillUserTH1D( "PFJetPtRawFlag0Var1"  , 100, 0, 100 , PFJetPtRaw->at(ijet)      );
+// 		CreateAndFillUserTH1D( "PFJetEtaFlag0Var1"  , 100, -6, 6, PFJetEta->at(ijet)     );
+// 	      }
+// 	    if( PFJetPassLooseID->at(ijet) == 0 && passLooseID_var == 0 )
+// 	      {
+// 		CreateAndFillUserTH1D( "PFJetPtRawFlag0Var0"  , 100, 0, 100 , PFJetPtRaw->at(ijet)      );
+// 		CreateAndFillUserTH1D( "PFJetEtaFlag0Var0"  , 100, -6, 6, PFJetEta->at(ijet)     );
+// 	      }
+// 	    if( PFJetPassLooseID->at(ijet) == 1 && passLooseID_var == 1 )
+// 	      {
+// 		CreateAndFillUserTH1D( "PFJetPtRawFlag1Var1"  , 100, 0, 100 , PFJetPtRaw->at(ijet)      );
+// 		CreateAndFillUserTH1D( "PFJetEtaFlag1Var1"  , 100, -6, 6, PFJetEta->at(ijet)     );
+
+// 		// 		cout << " Eta : " << PFJetEta->at(ijet) 
+// 		// 		     << " PtRaw: " << PFJetPtRaw->at(ijet)
+// 		// 		     << " PtCorr: " << PFJetPt->at(ijet)
+// 		// 		     << " NeutralHadronEnergyFraction: " << PFJetNeutralHadronEnergyFraction->at(ijet)
+// 		// 		     << " NeutralEmEnergyFraction: " << PFJetNeutralEmEnergyFraction->at(ijet) 
+// 		// 		     << " NConstituents: " << PFJetNConstituents->at(ijet) 
+// 		// 		     << " ChargedHadronEnergyFraction: " << PFJetChargedHadronEnergyFraction->at(ijet)
+// 		// 		     << " ChargedMultiplicity: " << PFJetChargedMultiplicity->at(ijet)
+// 		// 		     << " ChargedEmEnergyFraction: " << PFJetChargedEmEnergyFraction->at(ijet)
+// 		// 		     << endl;
+// 	      }
+// 	    if( PFJetPassLooseID->at(ijet) == 1 && passLooseID_var == 0 )
+// 	      {
+// 		CreateAndFillUserTH1D( "PFJetPtRawFlag1Var0"  , 100, 0, 100 , PFJetPtRaw->at(ijet)      );
+// 		CreateAndFillUserTH1D( "PFJetEtaFlag1Var0"  , 100, -6, 6, PFJetEta->at(ijet)     );
+// 	      }
+// 	    if( PFJetPassLooseID->at(ijet) == 1 )
+// 	      CreateAndFillUserTH2D( "PFJetPtVsEtaFlag1"  , 100,-6,6, 100, 0, 100,  PFJetEta->at(ijet), PFJetPt->at(ijet)      );
+
+// 	    if( PFJetPassLooseID->at(ijet) == 0 )
+// 	      CreateAndFillUserTH2D( "PFJetPtVsEtaFlag0"  , 100,-6,6, 100, 0, 100,  PFJetEta->at(ijet), PFJetPt->at(ijet)      );
+// 	    /////////////////////////////////////////////////////	    
+	    
 	  }//end loop over pf jets
       }//end if "pf jets"
-
+    
     if(jetAlgorithm==2) //Calo jets
       {
 	for (int ijet=0 ; ijet < CaloJetPt->size() ; ijet++)
@@ -204,9 +274,9 @@ void analysisClass::Loop()
 
     if(isData==0)
       {
-	thisGenMET    = GenMETTrue->at(0);
-	thisGenMETPhi = GenMETPhiTrue->at(0);
-	thisGenSumET  = GenSumETTrue->at(0);
+ 	thisGenMET    = GenMETTrue->at(0);
+ 	thisGenMETPhi = GenMETPhiTrue->at(0);
+ 	thisGenSumET  = GenSumETTrue->at(0);
       }
     else
       {
@@ -233,7 +303,7 @@ void analysisClass::Loop()
 	thisMETPhi = PFMETPhiType1Cor->at(0);
 	thisSumET = PFSumETType1Cor->at(0);
       }
-
+    
     ////////////////////// Reco Object Collections ///////////////////////
 
     //## Muons
@@ -283,11 +353,16 @@ void analysisClass::Loop()
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
 	
-	// pT pre-cut on ele
-	if( ElectronPt->at(iele) < elePtCut ) continue;
-
 	if( eleAlgorithm == 1) //------> use EWK(WP80) SimpleCutBasedEleID2011
 	  {
+
+	    // pT pre-cut on ele
+	    if( ElectronPt->at(iele) < elePtCut ) continue;
+
+	    // ecal driven	    
+	    if( eleUseEcalDriven && !ElectronHasEcalDrivenSeed->at(iele) )
+	      continue;
+	     
 	    int passEleSel = 0;
 	    int isBarrel = 0;
 	    int isEndcap = 0;
@@ -330,8 +405,8 @@ void analysisClass::Loop()
 		if( ElectronMissingHits->at(iele) == eleMissingHits 
 		    && isPhotConv == 0
 		    && ElectronCombRelIso_bar < eleCombRelIso_bar
-		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_bar 
-		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar 
+		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_bar  		     		   
+		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar  		   
 		    && fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_bar 
 		    )
 		  passEleSel = 1;		
@@ -344,8 +419,8 @@ void analysisClass::Loop()
 		if( ElectronMissingHits->at(iele) == eleMissingHits 
 		    && isPhotConv == 0
 		    && ElectronCombRelIso_end < eleCombRelIso_end
-		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end 
-		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end 
+		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end  		    		    
+		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end  		   
 		    && fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_end 
 		    )
 		  passEleSel = 1;		
@@ -593,7 +668,7 @@ void analysisClass::Loop()
 	    //&& jetFlagsPho[ijet] == 0                                    /* NO overlap with photons */	    
 	    //&& 
 	    passjetID == true                                              /* pass JetID */
-	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	   /* pass Jet Eta cut */    
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut       /* pass Jet Eta cut */    
             && fabs( JetTCHE->at(v_idx_jet_PtCut[ijet]) ) > jetTCHELCut    /* TrackCountingHighEfficiency loose b-tag (see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance) */
 	    )                    
 	  {
@@ -642,7 +717,8 @@ void analysisClass::Loop()
     fillVariableWithValue("GenMET_Phi", thisGenMETPhi);          
     fillVariableWithValue("ChMET_Pt", PFMETCharged->at(0));
     fillVariableWithValue("ChMET_Phi", PFMETPhiCharged->at(0));
-       
+    fillVariableWithValue("MET_Sig", PFMETSig->at(0));       
+
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
 
