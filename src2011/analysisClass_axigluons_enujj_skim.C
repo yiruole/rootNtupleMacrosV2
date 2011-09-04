@@ -44,83 +44,117 @@ void analysisClass::Loop()
 
   ////////////////////// User's code to get preCut values - BEGIN ///////////////
 
-  double ele_PtCut =  getPreCutValue1("ele_PtCut");
+  // Others
+  int jetAlgorithm = getPreCutValue1("jetAlgorithm");
+  int metAlgorithm = getPreCutValue1("metAlgorithm");
+  int eleAlgorithm = getPreCutValue1("eleAlgorithm");
+  int phoAlgorithm = getPreCutValue1("phoAlgorithm");
+  double jet_ele_DeltaRcut = getPreCutValue1("jet_ele_DeltaRcut");
+  double jet_muon_DeltaRcut = getPreCutValue1("jet_muon_DeltaRcut");
+  double jet_pho_DeltaRcut = getPreCutValue1("jet_pho_DeltaRcut");
+
+  // Electrons
+  double elePtCut =  getPreCutValue1("elePtCut");
   double eleEta_bar = getPreCutValue1("eleEta_bar");
   double eleEta_end_min = getPreCutValue1("eleEta_end");
   double eleEta_end_max = getPreCutValue2("eleEta_end");
-
-  double eleDeltaEtaTrkSC_bar = getPreCutValue1("eleDeltaEtaTrkSC");
-  double eleDeltaEtaTrkSC_end = getPreCutValue2("eleDeltaEtaTrkSC");
+  double eleMissingHits = getPreCutValue1("eleMissingHits");
+  double eleDist        = getPreCutValue1("eleDist");
+  double eleDCotTheta   = getPreCutValue1("eleDCotTheta");
+  double eleUseHasMatchConv = getPreCutValue1("eleUseHasMatchConv");
+  double eleCombRelIso_bar = getPreCutValue1("eleCombRelIso");
+  double eleCombRelIso_end = getPreCutValue2("eleCombRelIso");
+  double eleSigmaIetaIeta_bar = getPreCutValue1("eleSigmaIetaIeta");
+  double eleSigmaIetaIeta_end = getPreCutValue2("eleSigmaIetaIeta");
   double eleDeltaPhiTrkSC_bar = getPreCutValue1("eleDeltaPhiTrkSC");
   double eleDeltaPhiTrkSC_end = getPreCutValue2("eleDeltaPhiTrkSC");
-  double eleHoE_bar = getPreCutValue1("eleHoE");
-  double eleHoE_end = getPreCutValue2("eleHoE");
-  double eleE2x5OverE5x5_bar = getPreCutValue1("eleE2x5OverE5x5");
-  //double eleE2x5OverE5x5_end = getPreCutValue2("eleE2x5OverE5x5");
-  double eleE1x5OverE5x5_bar = getPreCutValue1("eleE1x5OverE5x5");
-  //double eleE1x5OverE5x5_end = getPreCutValue2("eleE1x5OverE5x5");
-  //double eleSigmaIetaIeta_bar = getPreCutValue1("eleSigmaIetaIeta");
-  double eleSigmaIetaIeta_end = getPreCutValue2("eleSigmaIetaIeta");
-  double eleEcalHcalIso_1_bar = getPreCutValue1("eleEcalHcalIso");
-  double eleEcalHcalIso_2_bar = getPreCutValue2("eleEcalHcalIso");
-  double eleEcalHcalIso_1_end = getPreCutValue3("eleEcalHcalIso");
-  double eleEcalHcalIso_2_end = getPreCutValue4("eleEcalHcalIso");
-  //double eleEcalHcalIso_PTthr_bar = getPreCutValue1("eleEcalHcalIso_PTthr");
-  double eleEcalHcalIso_PTthr_end = getPreCutValue2("eleEcalHcalIso_PTthr");
-  //double eleHcalIsoD2_bar = getPreCutValue1("eleHcalIsoD2");
-  double eleHcalIsoD2_end = getPreCutValue2("eleHcalIsoD2");
-  double eleTrkIso_bar = getPreCutValue1("eleTrkIso");
-  double eleTrkIso_end = getPreCutValue2("eleTrkIso");
+  double eleDeltaEtaTrkSC_bar = getPreCutValue1("eleDeltaEtaTrkSC");
+  double eleDeltaEtaTrkSC_end = getPreCutValue2("eleDeltaEtaTrkSC");
+  double eleUseEcalDriven = getPreCutValue1("eleUseEcalDriven");
 
-  double eleMissingHits = getPreCutValue1("eleMissingHits");
-  double eleDist = getPreCutValue1("eleDist");
-  double eleDCotTheta = getPreCutValue1("eleDCotTheta");
-  double eleSigmaIetaIetaWP_bar = getPreCutValue1("eleSigmaIetaIetaWP");
-  double eleSigmaIetaIetaWP_end = getPreCutValue2("eleSigmaIetaIetaWP");
-  double eleDeltaPhiTrkSCWP_bar = getPreCutValue1("eleDeltaPhiTrkSCWP");
-  double eleDeltaPhiTrkSCWP_end = getPreCutValue2("eleDeltaPhiTrkSCWP");
-  double eleDeltaEtaTrkSCWP_bar = getPreCutValue1("eleDeltaEtaTrkSCWP");
-  double eleDeltaEtaTrkSCWP_end = getPreCutValue2("eleDeltaEtaTrkSCWP");
-  double eleHoEWP_bar = getPreCutValue1("eleHoEWP");
-  double eleHoEWP_end = getPreCutValue2("eleHoEWP");
-  double eleCombIso_bar = getPreCutValue1("eleCombIso");
-  double eleCombIso_end = getPreCutValue2("eleCombIso");
-  double eleTrkRelIso_bar = getPreCutValue1("eleTrkRelIso");
-  double eleTrkRelIso_end = getPreCutValue2("eleTrkRelIso");
-  double eleEcalRelIso_bar = getPreCutValue1("eleEcalRelIso");
-  double eleEcalRelIso_end = getPreCutValue2("eleEcalRelIso");
-  double eleHcalRelIso_bar = getPreCutValue1("eleHcalRelIso");
-  double eleHcalRelIso_end = getPreCutValue2("eleHcalRelIso");
+  double eleDeltaEtaTrkSCHeep_bar = getPreCutValue1("eleDeltaEtaTrkSCHeep");
+  double eleDeltaEtaTrkSCHeep_end = getPreCutValue2("eleDeltaEtaTrkSCHeep");
+  double eleDeltaPhiTrkSCHeep_bar = getPreCutValue1("eleDeltaPhiTrkSCHeep");
+  double eleDeltaPhiTrkSCHeep_end = getPreCutValue2("eleDeltaPhiTrkSCHeep");
+  double eleHoEHeep_bar = getPreCutValue1("eleHoEHeep");
+  double eleHoEHeep_end = getPreCutValue2("eleHoEHeep");
+  double eleE2x5OverE5x5Heep_bar = getPreCutValue1("eleE2x5OverE5x5Heep");
+  //double eleE2x5OverE5x5Heep_end = getPreCutValue2("eleE2x5OverE5x5Heep");
+  double eleE1x5OverE5x5Heep_bar = getPreCutValue1("eleE1x5OverE5x5Heep");
+  //double eleE1x5OverE5x5Heep_end = getPreCutValue2("eleE1x5OverE5x5Heep");
+  //double eleSigmaIetaIetaHeep_bar = getPreCutValue1("eleSigmaIetaIetaHeep");
+  double eleSigmaIetaIetaHeep_end = getPreCutValue2("eleSigmaIetaIetaHeep");
+  double eleEcalHcalIsoHeep_1_bar = getPreCutValue1("eleEcalHcalIsoHeep");
+  double eleEcalHcalIsoHeep_2_bar = getPreCutValue2("eleEcalHcalIsoHeep");
+  double eleEcalHcalIsoHeep_1_end = getPreCutValue3("eleEcalHcalIsoHeep");
+  double eleEcalHcalIsoHeep_2_end = getPreCutValue4("eleEcalHcalIsoHeep");
+  //double eleEcalHcalIso_PTthrHeep_bar = getPreCutValue1("eleEcalHcalIso_PTthrHeep");
+  double eleEcalHcalIso_PTthrHeep_end = getPreCutValue2("eleEcalHcalIso_PTthrHeep");
+  //double eleHcalIsoD2Heep_bar = getPreCutValue1("eleHcalIsoD2Heep");
+  double eleHcalIsoD2Heep_end = getPreCutValue2("eleHcalIsoD2Heep");
+  double eleTrkIsoHeep_bar = getPreCutValue1("eleTrkIsoHeep");
+  double eleTrkIsoHeep_end = getPreCutValue2("eleTrkIsoHeep");
+  double eleMissingHitsHeep = getPreCutValue1("eleMissingHitsHeep");
+  double eleUseEcalDrivenHeep = getPreCutValue1("eleUseEcalDrivenHeep");
 
-  double jet_PtCut =    getPreCutValue1("jet_PtCut");
-  double jet_EtaCut = getPreCutValue1("jet_EtaCut");
-  double jet_TCHELCut = getPreCutValue1("jet_TCHELCut");
-  double jet_ele_DeltaRcut = getPreCutValue1("jet_ele_DeltaRcut");
+  //   int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
+  //   int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
+  //   int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
+
+  // Muons 
+  double muPtCut =  getPreCutValue1("muPtCut");
+  double muEta_bar = getPreCutValue1("muEta_bar");
+  double muEta_end_min = getPreCutValue1("muEta_end");
+  double muEta_end_max = getPreCutValue2("muEta_end");
+  double muNormChi2 = getPreCutValue1("muNormChi2");
+  double muNValidHitsGlobal = getPreCutValue1("muNValidHitsGlobal");
+  double muNMatchedStation = getPreCutValue1("muNMatchedStation");
+  double muDxyTrack = getPreCutValue1("muDxyTrack");
+  double muNValidHitsPixel = getPreCutValue1("muNValidHitsPixel");
+  double muNValidHitsTrack = getPreCutValue1("muNValidHitsTrack");
+  double muCombRelIso = getPreCutValue1("muCombRelIso");
+
+  // Jets
+  double jetPtCut = getPreCutValue1("jetPtCut");
+  double jetEtaCut = getPreCutValue1("jetEtaCut");
+  double jetTCHELCut = getPreCutValue1("jetTCHELCut");
+  double jetIDloose = getPreCutValue1("jetIDloose");
+  double jetIDtight = getPreCutValue1("jetIDtight");
+
+  // Photons
+  double phoPtCut = getPreCutValue1("phoPtCut");
+  double phoEta_bar = getPreCutValue1("phoEta_bar");
+  double phoEta_end_min = getPreCutValue1("phoEta_end");
+  double phoEta_end_max = getPreCutValue2("phoEta_end");
+  double phoEcalIso_bar_const = getPreCutValue1("phoEcalIso");
+  double phoEcalIso_bar_ptCoeff = getPreCutValue2("phoEcalIso");
+  double phoEcalIso_end_const = getPreCutValue3("phoEcalIso");
+  double phoEcalIso_end_ptCoeff = getPreCutValue4("phoEcalIso");
+  double phoHcalIso_bar_const = getPreCutValue1("phoHcalIso");
+  double phoHcalIso_bar_ptCoeff = getPreCutValue2("phoHcalIso");
+  double phoHcalIso_end_const = getPreCutValue3("phoHcalIso");
+  double phoHcalIso_end_ptCoeff = getPreCutValue4("phoHcalIso");
+  double phoTrkIso_bar_const = getPreCutValue1("phoTrkIso");
+  double phoTrkIso_bar_ptCoeff = getPreCutValue2("phoTrkIso");
+  double phoTrkIso_end_const = getPreCutValue3("phoTrkIso");
+  double phoTrkIso_end_ptCoeff = getPreCutValue4("phoTrkIso");
+  double phoHoE_bar = getPreCutValue1("phoHoE");
+  double phoHoE_end = getPreCutValue1("phoHoE");
+  double phoSigmaIetaIeta_bar = getPreCutValue1("phoSigmaIetaIeta");
+  double phoSigmaIetaIeta_end = getPreCutValue2("phoSigmaIetaIeta");
+  double phoUseMatchPromptEle = getPreCutValue1("phoUseMatchPromptEle");
+  double phoUsePixelSeed = getPreCutValue1("phoUsePixelSeed");
+
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
+
   double jet_PtCut_forMetScale = getPreCutValue1("jet_PtCut_forMetScale");
-
   double EleEnergyScale_EB=getPreCutValue1("EleEnergyScale_EB");
   double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
   double JetEnergyScale=getPreCutValue1("JetEnergyScale");
   int doJetOversmearing = getPreCutValue1("doJetOversmearing");
   double JetOversmearingSigma = getPreCutValue1("JetOversmearingSigma");
-
-  // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
-  int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
-  int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
-  int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
-
-  double muon_PtCut = getPreCutValue1("muon_PtCut");
-  double muNHits_minThresh = getPreCutValue1("muNHits_minThresh");
-  double muTrkD0Maximum = getPreCutValue1("muTrkD0Maximum");
-  double jet_muon_DeltaRcut = getPreCutValue1("jet_muon_DeltaRcut");
-
-  int jetAlgorithm = getPreCutValue1("jetAlgorithm");
-  int metAlgorithm = getPreCutValue1("metAlgorithm");
-  int eleAlgorithm = getPreCutValue1("eleAlgorithm");
-
-  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
-  double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
-  double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
   
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -129,6 +163,17 @@ void analysisClass::Loop()
   // Random number generator
   TRandom3 *randomNumGen = new TRandom3;
   randomNumGen->SetSeed();
+
+  CreateUserTH1D( "MuonAllPt"                  ,    200,  0,  2000  ); 
+  CreateUserTH1D( "MuonAllEta"                 ,    100, -6, 6      ); 
+  CreateUserTH1D( "EleAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "EleAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "PhoAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "PhoAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "JetAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "JetAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "BJetAllPt"                  ,    200,  0, 2000   );
+  CreateUserTH1D( "BJetAllEta"                 ,    100, -6, 6      );
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -157,7 +202,8 @@ void analysisClass::Loop()
     std::auto_ptr<std::vector<double> >  JetEnergy  ( new std::vector<double>()  );
     std::auto_ptr<std::vector<double> >  JetEta  ( new std::vector<double>()  );
     std::auto_ptr<std::vector<double> >  JetPhi  ( new std::vector<double>()  );
-    std::auto_ptr<std::vector<int> >     JetPassID  ( new std::vector<int>()  );
+    std::auto_ptr<std::vector<int> >     JetPassLooseID  ( new std::vector<int>()  );
+    std::auto_ptr<std::vector<int> >     JetPassTightID  ( new std::vector<int>()  );
     std::auto_ptr<std::vector<double> >  JetTCHE  ( new std::vector<double>()  );
     //std::auto_ptr<std::vector<double> >  JetChargedMuEnergyFraction  ( new std::vector<double>()  );
 
@@ -170,9 +216,9 @@ void analysisClass::Loop()
 	    JetEnergy->push_back( PFJetEnergy->at(ijet) );
 	    JetEta->push_back( PFJetEta->at(ijet) );
 	    JetPhi->push_back( PFJetPhi->at(ijet) );
-            JetPassID->push_back( PFJetPassLooseID->at(ijet) );
+            JetPassLooseID->push_back( PFJetPassLooseID->at(ijet) );
+            JetPassTightID->push_back( PFJetPassTightID->at(ijet) );
             JetTCHE->push_back( PFJetTrackCountingHighEffBTag->at(ijet) );
-	    //JetChargedMuEnergyFraction->push_back( PFJetChargedMuEnergyFraction->at(ijet) );	    
 	  }//end loop over pf jets
       }//end if "pf jets"
 
@@ -185,7 +231,8 @@ void analysisClass::Loop()
 	    JetEnergy->push_back( CaloJetEnergy->at(ijet) );
 	    JetEta->push_back( CaloJetEta->at(ijet) );
 	    JetPhi->push_back( CaloJetPhi->at(ijet) );
-            JetPassID->push_back( CaloJetPassLooseID->at(ijet) );
+            JetPassLooseID->push_back( CaloJetPassLooseID->at(ijet) );
+            JetPassTightID->push_back( CaloJetPassTightID->at(ijet) );
             JetTCHE->push_back( CaloJetTrackCountingHighEffBTag->at(ijet) );
 	  }//end loop over calo jets
       }//end if "calo jets"
@@ -230,6 +277,15 @@ void analysisClass::Loop()
 	thisSumET = PFSumETType1Cor->at(0);
       }
 
+    //## Define new electron Pt
+    if(eleAlgorithm==2)
+      {
+	for(int iele=0; iele<ElectronPt->size(); iele++)
+	  {
+	    ElectronPt->at(iele) = ElectronPtHeep->at(iele);
+	  }
+      }
+
     //## EES and JES
     if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
       {
@@ -263,6 +319,8 @@ void analysisClass::Loop()
           }
       }
 
+    ////////////////////// Reco Object Collections ///////////////////////
+
     //## Muons
     vector<int> v_idx_muon_PtCut_IDISO;
 
@@ -270,59 +328,143 @@ void analysisClass::Loop()
     for(int imuon=0; imuon<MuonPt->size(); imuon++){
       
       // pT pre-cut on muon
-      if ( MuonPt->at(imuon) < muon_PtCut ) continue;
+      if ( MuonPt->at(imuon) < muPtCut ) continue;
 
+      // isolation
+      double MuonCombRelIso  =  ( MuonTrackerIsoSumPT->at(imuon) 
+				  + MuonEcalIso->at(imuon) 
+				  + MuonHcalIso->at(imuon) 
+				  - rhoIso*TMath::Pi()*0.3*0.3 
+				  ) / MuonPt->at(imuon) ;
+
+      // Pass Muon Selection
       if (   
-	     ( MuonTrkHits->at(imuon)  >= muNHits_minThresh  )
-	  && ( fabs( MuonTrkD0->at(imuon) ) < muTrkD0Maximum )
-	  && ( MuonPassIso->at(imuon)==1 )
-	  && ( MuonPassID->at(imuon)==1 ) 
+	  //Is GlobalMuonPromptTight
+	  MuonIsGlobal->at(imuon) 
+	  && MuonGlobalChi2->at(imuon) < muNormChi2
+	  && MuonGlobalTrkValidHits->at(imuon) > muNValidHitsGlobal
+	  //Other requirements
+	  && MuonStationMatches->at(imuon) > muNMatchedStation
+	  && MuonPrimaryVertexDXY->at(imuon) < muDxyTrack
+	  && MuonTrkPixelHitCount->at(imuon) > muNValidHitsPixel
+	  && MuonTrkHitsTrackerOnly->at(imuon) > muNValidHitsTrack
+	  //Isolation
+	  && MuonCombRelIso < muCombRelIso
 	  )
 	{
 	  v_idx_muon_PtCut_IDISO.push_back(imuon);
+
+	  //histograms
+	  FillUserTH1D( "MuonAllPt"                  ,    MuonPt->at(imuon)  ); 
+	  FillUserTH1D( "MuonAllEta"                 ,    MuonEta->at(imuon) ); 
 	}
 
     }// end loop over muons
 
     //## Electrons
     vector<int> v_idx_ele_PtCut_IDISO;
-    int heepBitMask;
 
     //Loop over electrons
     for(int iele=0; iele<ElectronPt->size(); iele++)
       {
 	
-	// pT pre-cut on ele
-	if( ElectronPt->at(iele) < ele_PtCut ) continue;
-
-	if( eleAlgorithm == 1) //------> use HEEP mask 
+	if( eleAlgorithm == 1) //------> use EWK(WP80) SimpleCutBasedEleID2011
 	  {
 
-	    // get heepBitMask for EB, GAP, EE
-	    if( fabs(ElectronSCEta->at(iele)) < eleEta_bar )
+	    // pT pre-cut on ele
+	    if( ElectronPt->at(iele) < elePtCut ) continue;
+
+	    // ecal driven	    
+	    if( eleUseEcalDriven && !ElectronHasEcalDrivenSeed->at(iele) )
+	      continue;
+
+	    int passEleSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    int isPhotConv = 0;
+
+	    // isolation
+	    double ElectronCombRelIso_bar  =  ( ElectronTrkIsoDR03->at(iele) 
+						+ max( 0., ElectronEcalIsoDR03->at(iele) - 1. ) 
+						+ ElectronHcalIsoDR03FullCone->at(iele) 
+						- rhoIso*TMath::Pi()*0.3*0.3 
+						) / ElectronPt->at(iele) ;
+	    
+	    double ElectronCombRelIso_end  =  ( ElectronTrkIsoDR03->at(iele) 
+						+ ElectronEcalIsoDR03->at(iele) 
+						+ ElectronHcalIsoDR03FullCone->at(iele) 
+						- rhoIso*TMath::Pi()*0.3*0.3 
+						) / ElectronPt->at(iele) ;
+
+	    // conversions
+	    if(eleUseHasMatchConv)
 	      {
-		heepBitMask = heepBitMask_EB;
-	      }
-	    else if ( fabs(ElectronSCEta->at(iele)) > eleEta_end_min && fabs(ElectronSCEta->at(iele)) < eleEta_end_max )
-	      {
-		heepBitMask = heepBitMask_EE;
+		if( ElectronHasMatchedConvPhot->at(iele) )
+		  isPhotConv = 1;
 	      }
 	    else 
 	      {
-		heepBitMask = heepBitMask_GAP;
+		if( ElectronDist->at(iele) < eleDist && ElectronDCotTheta->at(iele) < eleDCotTheta )	      
+		  isPhotConv = 1;
 	      }
+
+	    //barrel/endcap
+	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
+	      isBarrel = 1;	    
+	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	      isEndcap = 1;
 	    
-	    //ID + ISO
-	    if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0 )
+	    if(isBarrel)
+	      {		
+		
+		if( ElectronMissingHits->at(iele) == eleMissingHits 
+		    && isPhotConv == 0
+		    && ElectronCombRelIso_bar < eleCombRelIso_bar
+		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_bar 
+		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar 
+		    && fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_bar 
+		    )
+		  passEleSel = 1;		
+		
+	      }//end barrel
+
+	    if(isEndcap)
+	      {		
+		
+		if( ElectronMissingHits->at(iele) == eleMissingHits 
+		    && isPhotConv == 0
+		    && ElectronCombRelIso_end < eleCombRelIso_end
+		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end 
+		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end 
+		    && fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_end 
+		    )
+		  passEleSel = 1;		
+		
+	      }//end endcap
+	    
+	    // Pass Electron Selection
+	    if ( passEleSel )
 	      {
 		v_idx_ele_PtCut_IDISO.push_back(iele);
+
+		//histograms
+		FillUserTH1D( "EleAllPt"                  ,    ElectronPt->at(iele)  ); 
+		FillUserTH1D( "EleAllEta"                 ,    ElectronEta->at(iele) ); 
 	      }
 	    
-	  }//------> end use HEEP mask 
+	  }//------> use EWK(WP80) SimpleCutBasedEleID2011
 	
 	else if (eleAlgorithm == 2) //------> use HEEP variables
 	  
 	  {
+	    
+	    // pT pre-cut on ele
+	    if( ElectronPt->at(iele) < elePtCut ) continue;
+	    
+	    // ecal driven	    
+	    if( eleUseEcalDrivenHeep && !ElectronHasEcalDrivenSeed->at(iele) )
+	      continue;
+
 	    int passEleSel = 0;
 	    int isBarrel = 0;
 	    int isEndcap = 0;
@@ -336,35 +478,37 @@ void analysisClass::Loop()
 	    if(isBarrel)
 	      {		
 
-		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_bar //0.005
-		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar //0.09
-		   && ElectronHoE->at(iele) < eleHoE_bar //0.05 
-		   && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5_bar ) //0.94  , 0.83
-		   && ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele) < eleEcalHcalIso_1_bar + eleEcalHcalIso_2_bar*ElectronPt->at(iele)  // 2+0.03*ElectronPt->at(iele)
-		   && ElectronTrkIsoHeep->at(iele) <eleTrkIso_bar //7.5
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_bar 
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_bar 
+		   && ElectronHoE->at(iele) < eleHoEHeep_bar 
+		   && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5Heep_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5Heep_bar ) 
+		   && ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele) 
+		   < eleEcalHcalIsoHeep_1_bar + eleEcalHcalIsoHeep_2_bar*ElectronPt->at(iele) 
+		   && ElectronTrkIsoDR03->at(iele) <eleTrkIsoHeep_bar
 		   )
 		  passEleSel = 1;		
-
+		
 	      }//end barrel
 	
 	    if(isEndcap)
 	      {		
-
+		
 		int passEcalHcalIsoCut=0;
-		if(ElectronPt->at(iele) < eleEcalHcalIso_PTthr_end // thr=50 
-		   && (ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele)) < eleEcalHcalIso_1_end) // value=2.5 
+		if(ElectronPt->at(iele) < eleEcalHcalIso_PTthrHeep_end
+		   && (ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele)) < eleEcalHcalIsoHeep_1_end)
 		  passEcalHcalIsoCut=1;
-		if(ElectronPt->at(iele) > eleEcalHcalIso_PTthr_end // thr=50 
-		   && (ElectronEcalIsoHeep->at(iele)+ElectronHcalIsoD1Heep->at(iele)) < eleEcalHcalIso_1_end+eleEcalHcalIso_2_end*(ElectronPt->at(iele)-eleEcalHcalIso_PTthr_end) ) //values=2.5, 0.03
+		if(ElectronPt->at(iele) > eleEcalHcalIso_PTthrHeep_end
+		   && (ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele)) 
+		   < eleEcalHcalIsoHeep_1_end+eleEcalHcalIsoHeep_2_end*(ElectronPt->at(iele)-eleEcalHcalIso_PTthrHeep_end) )
 		  passEcalHcalIsoCut=1;
 		
-		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_end //0.007
-		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end //0.09
-		   && ElectronHoE->at(iele) < eleHoE_end //0.05 
-		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end //0.03
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_end 
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_end 
+		   && ElectronHoE->at(iele) < eleHoEHeep_end 
+		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaHeep_end 
 		   && passEcalHcalIsoCut == 1
-		   && ElectronHcalIsoD2Heep->at(iele) < eleHcalIsoD2_end //0.5
-		   && ElectronTrkIsoHeep->at(iele) < eleTrkIso_end //15
+		   && ElectronHcalIsoD2DR03->at(iele) < eleHcalIsoD2Heep_end 
+		   && ElectronTrkIsoDR03->at(iele) < eleTrkIsoHeep_end 
 		   )
 		  passEleSel = 1;
 		
@@ -374,79 +518,90 @@ void analysisClass::Loop()
 	    if ( passEleSel )
 	      {
 		v_idx_ele_PtCut_IDISO.push_back(iele);
+
+		//histograms
+		FillUserTH1D( "EleAllPt"                  ,    ElectronPt->at(iele)  ); 
+		FillUserTH1D( "EleAllEta"                 ,    ElectronEta->at(iele) ); 
 	      }
 	    
 	  }//------> use HEEP variables
 
-	else if (eleAlgorithm == 3) //------> use EWK variables (WP)
+      } // End loop over electrons
 
+    //## Photons
+    vector<int> v_idx_pho_PtCut_IDISO;
+    
+    //Loop over photons
+    for(int ipho=0; ipho<PhotonPt->size(); ipho++)
+      {      
+	// pT pre-cut on photon
+	if( PhotonPt->at(ipho) < phoPtCut ) continue;
+	
+	if( phoAlgorithm == 1) //------> use TightPhoton (Twiki PhotonIDAnalysis) + electron veto
 	  {
-	    int passEleSel = 0;
+	    int passPhoSel = 0;
 	    int isBarrel = 0;
 	    int isEndcap = 0;
-	    double combIso_bar = ( max(0.,ElectronEcalIsoHeep->at(iele)-1.) 
-				   + ElectronHcalIsoD1Heep->at(iele) + ElectronHcalIsoD2Heep->at(iele) 
-				   + ElectronTrkIsoHeep->at(iele)
-				   ) / ElectronPt->at(iele) ;
-	    double combIso_end = ( ElectronEcalIsoHeep->at(iele) 
-				   + ElectronHcalIsoD1Heep->at(iele) + ElectronHcalIsoD2Heep->at(iele) 
-				   + ElectronTrkIsoHeep->at(iele)
-				   ) / ElectronPt->at(iele) ;
+	    int isMatchEle = 0;
 
-	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
-	      isBarrel = 1;
-	    
-	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	    //matched prompt ele
+	    if( phoUseMatchPromptEle==1 && phoUsePixelSeed==0 )
+	      {
+		if( PhotonHasMatchedPromptEle->at(ipho) )
+		  isMatchEle = 1;
+	      }
+	    if( phoUseMatchPromptEle==0 && phoUsePixelSeed==1 )
+	      {
+		if( PhotonHasPixelSeed->at(ipho) )
+		  isMatchEle = 1;
+	      }
+
+	    //barrel/endcap
+	    if( fabs( PhotonSCeta->at(ipho) ) < phoEta_bar ) 
+	      isBarrel = 1;	    
+	    if( fabs( PhotonSCeta->at(ipho) ) > phoEta_end_min && fabs( PhotonSCeta->at(ipho) ) < phoEta_end_max ) 
 	      isEndcap = 1;
 	    
 	    if(isBarrel)
 	      {		
-
-		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCWP_bar //0.004
-		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCWP_bar //0.03
-		   && ElectronHoE->at(iele) < eleHoEWP_bar //0.025 
-		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaWP_bar //0.01
-		   && ElectronEcalIsoHeep->at(iele)/ElectronPt->at(iele) < eleEcalRelIso_bar //0.06 
-		   && (ElectronHcalIsoD1Heep->at(iele)+ElectronHcalIsoD2Heep->at(iele))/ElectronPt->at(iele) < eleHcalRelIso_bar //0.03
-		   && ElectronTrkIsoHeep->at(iele) < eleTrkRelIso_bar //0.05
-		   && combIso_bar < eleCombIso_bar //0.04
-		   && ElectronMissingHits->at(iele) == eleMissingHits //0
-		   && ElectronDCotTheta->at(iele) > eleDCotTheta //0.02
-		   && ElectronDist->at(iele) > eleDist //0.02
-		   )
-		  passEleSel = 1;		
+		
+		if( isMatchEle == 0
+		    && PhotonHoE->at(ipho) < phoHoE_bar
+		    && PhotonSigmaIEtaIEta->at(ipho) < phoSigmaIetaIeta_bar 		    
+		    && PhotonEcalIsoDR04->at(ipho) < phoEcalIso_bar_const + phoEcalIso_bar_ptCoeff * PhotonPt->at(ipho)  
+		    && PhotonHcalIsoDR04->at(ipho) < phoHcalIso_bar_const + phoHcalIso_bar_ptCoeff * PhotonPt->at(ipho) 
+		    && PhotonTrkIsoHollowDR04->at(ipho) < phoTrkIso_bar_const + phoTrkIso_bar_ptCoeff * PhotonPt->at(ipho)
+		    )
+		  passPhoSel = 1;		
 		
 	      }//end barrel
-	
+
 	    if(isEndcap)
 	      {		
 
-		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCWP_end //0.005
-		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCWP_end //0.02
-		   && ElectronHoE->at(iele) < eleHoEWP_end //0.025 
-		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaWP_end //0.03
-		   && ElectronEcalIsoHeep->at(iele)/ElectronPt->at(iele) < eleEcalRelIso_end //0.025 
-		   && (ElectronHcalIsoD1Heep->at(iele)+ElectronHcalIsoD2Heep->at(iele))/ElectronPt->at(iele) < eleHcalRelIso_end //0.02
-		   && ElectronTrkIsoHeep->at(iele) < eleTrkRelIso_end //0.025
-		   && combIso_end < eleCombIso_end //0.03
-		   && ElectronMissingHits->at(iele) == eleMissingHits //0
-		   && ElectronDCotTheta->at(iele) > eleDCotTheta //0.02
-		   && ElectronDist->at(iele) > eleDist //0.02
-		   )
-		  passEleSel = 1;		
+		if( isMatchEle == 0
+		    && PhotonHoE->at(ipho) < phoHoE_end
+		    && PhotonSigmaIEtaIEta->at(ipho) < phoSigmaIetaIeta_end 		    
+		    && PhotonEcalIsoDR04->at(ipho) < phoEcalIso_end_const + phoEcalIso_end_ptCoeff * PhotonPt->at(ipho)  
+		    && PhotonHcalIsoDR04->at(ipho) < phoHcalIso_end_const + phoHcalIso_end_ptCoeff * PhotonPt->at(ipho) 
+		    && PhotonTrkIsoHollowDR04->at(ipho) < phoTrkIso_end_const + phoTrkIso_end_ptCoeff * PhotonPt->at(ipho)
+		    )
+		  passPhoSel = 1;		
 
 	      }//end endcap
 	    
-	    //Pass User Defined Electron Selection
-	    if ( passEleSel )
+	    // Pass Photon Selection
+	    if ( passPhoSel )
 	      {
-		v_idx_ele_PtCut_IDISO.push_back(iele);
+		v_idx_pho_PtCut_IDISO.push_back(ipho);
+
+		//histograms
+		FillUserTH1D( "PhoAllPt"                  ,    PhotonPt->at(ipho)  ); 
+		FillUserTH1D( "PhoAllEta"                 ,    PhotonEta->at(ipho) ); 
 	      }
 	    
-	  }//------> use EWK variables (WP)
-
-
-      } // End loop over electrons
+	  }//------> use TightPhoton (Twiki PhotonIDAnalysis) + electron veto
+      }
 
     //## Jets
     vector<int> v_idx_jet_PtCut;
@@ -457,7 +612,7 @@ void analysisClass::Loop()
     for(int ijet=0; ijet<JetPt->size(); ijet++)
       {
 	//pT pre-cut on reco jets
-	if ( JetPt->at(ijet) < jet_PtCut ) continue;
+	if ( JetPt->at(ijet) < jetPtCut ) continue;
 	v_idx_jet_PtCut.push_back(ijet);
       }
 
@@ -531,27 +686,84 @@ void analysisClass::Loop()
 	  }
       }
 
-    //Select final jets
+    //photon-jet overlap
+    vector <int> jetFlagsPho(v_idx_jet_PtCut.size(), 0);
+    int NjetflaggedPho = 0;
+    for (int ipho=0; ipho<v_idx_pho_PtCut_IDISO.size(); ipho++)
+      {                   
+	TLorentzVector pho;
+        pho.SetPtEtaPhiM(PhotonPt->at(v_idx_pho_PtCut_IDISO[ipho]),
+			 PhotonEta->at(v_idx_pho_PtCut_IDISO[ipho]),
+			 PhotonPhi->at(v_idx_pho_PtCut_IDISO[ipho]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlagsPho[ijet] == 1 )
+	      continue;
+            jet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut[ijet]) );
+	    double DR = jet.DeltaR(pho);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < jet_pho_DeltaRcut 
+	     && ijet_minDR > -1 )
+	  {
+	    jetFlagsPho[ijet_minDR] = 1;
+	    NjetflaggedPho++;
+	  }
+      }
+
+    // Pass Jet Selection
     for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
       {
-	bool passjetID = JetPassID->at(v_idx_jet_PtCut[ijet]);
+	bool passjetID = true;
+	
+	if( jetIDloose && !jetIDtight )
+	  {
+	    passjetID = JetPassLooseID->at(v_idx_jet_PtCut[ijet]);
+	  }
+	if( jetIDtight )
+	  {
+	    passjetID = JetPassTightID->at(v_idx_jet_PtCut[ijet]);
+	  }
 
 	if( jetFlagsEle[ijet] == 0                                      /* NO overlap with electrons */ 
 	    && jetFlagsMuon[ijet] == 0                                  /* NO overlap with muons */	    
+	    //&& jetFlagsPho[ijet] == 0                                 /* NO overlap with photons */	    
 	    && passjetID == true                                        /* pass JetID */
-	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jet_EtaCut 	/* pass Jet Eta cut */    
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	/* pass Jet Eta cut */    
 	    )                         
-	  v_idx_jet_PtCut_noOverlap_ID.push_back(v_idx_jet_PtCut[ijet]);
+	  {
+	    v_idx_jet_PtCut_noOverlap_ID.push_back(v_idx_jet_PtCut[ijet]);
+
+	    //histograms
+	    FillUserTH1D( "JetAllPt"                  ,    JetPt->at(ijet)  ); 
+	    FillUserTH1D( "JetAllEta"                 ,    JetEta->at(ijet) ); 
+	  }
 
 	if( jetFlagsEle[ijet] == 0                                       /* NO overlap with electrons */ 
 	    && jetFlagsMuon[ijet] == 0                                   /* NO overlap with muons */	    
+	    //&& jetFlagsPho[ijet] == 0                                  /* NO overlap with photons */	    
 	    && passjetID == true                                         /* pass JetID */
-	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jet_EtaCut 	 /* pass Jet Eta cut */    
-            && fabs( JetTCHE->at(v_idx_jet_PtCut[ijet]) ) > jet_TCHELCut /* TrackCountingHighEfficiency loose b-tag (see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance) */
-	    )                         
-	  v_idx_jet_PtCut_noOverlap_ID_TCHEL.push_back(v_idx_jet_PtCut[ijet]);	
-      } // End loop over jets
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	 /* pass Jet Eta cut */    
+            && fabs( JetTCHE->at(v_idx_jet_PtCut[ijet]) ) > jetTCHELCut  /* TrackCountingHighEfficiency loose b-tag (see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance) */
+	    )
+	  {                         
+	    v_idx_jet_PtCut_noOverlap_ID_TCHEL.push_back(v_idx_jet_PtCut[ijet]);	
 
+	    //histograms
+	    FillUserTH1D( "BJetAllPt"                  ,    JetPt->at(ijet)  ); 
+	    FillUserTH1D( "BJetAllEta"                 ,    JetEta->at(ijet) ); 
+	  }
+      } // End loop over jets
 
     //## MET scale uncert.
     if( JetEnergyScale != 1 || (!isData && doJetOversmearing) )
@@ -617,6 +829,7 @@ void analysisClass::Loop()
     fillVariableWithValue( "run", run ) ;
     fillVariableWithValue( "ProcessID", ProcessID ) ;
     fillVariableWithValue( "PtHat", PtHat ) ;
+    fillVariableWithValue( "weight", Weight ) ;
 
     // Trigger (L1 and HLT)
     if(isData==true)
@@ -640,7 +853,15 @@ void analysisClass::Loop()
     // nVertex and pile-up
     fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
     fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
-    fillVariableWithValue( "nPileUpInteractions", PileUpInteractions ) ;
+    for(int pu=0; pu<PileUpInteractions->size(); pu++)
+      {
+	if(PileUpOriginBX->at(pu) == -1)
+	  fillVariableWithValue( "nPileUpInteractions_BXminus1", PileUpInteractions->at(pu) ) ;	      
+	if(PileUpOriginBX->at(pu) == 0)
+	  fillVariableWithValue( "nPileUpInteractions_BX0", PileUpInteractions->at(pu) ) ;	      
+	if(PileUpOriginBX->at(pu) == 1)
+	  fillVariableWithValue( "nPileUpInteractions_BXplus1", PileUpInteractions->at(pu) ) ;	      	    
+      }
     
     // nEle
     fillVariableWithValue( "nEle", v_idx_ele_PtCut_IDISO.size() ) ;

@@ -20,63 +20,100 @@
 #------------         ------------      -------------   ------------    -------------   -----
 #produceSkim          1                 -               -               -               -1
 produceReducedSkim    1                 -               -               -               -1
-ele_PtCut             30                -               -               -               -1
-heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
+# Electrons
+eleAlgorithm	      1			-		-		-		-1
+## 1 = "WP80" https://twiki.cern.ch/twiki/bin/viewauth/CMS/SimpleCutBasedEleID2011 + !hasMatchedConv
+elePtCut              15                -               -               -               -1
+eleEta_bar            1.442		-               -               -               -1
+eleEta_end            1.560		2.5             -               -               -1
+eleMissingHits	      0			-               -               -               -1
+eleDist		      0.02		-		-		-		-1
+eleDCotTheta	      0.02		-		-		-		-1
+eleUseHasMatchConv    1			-		-		-		-1
+eleCombRelIso	      0.04		0.033		-		-		-1
+eleSigmaIetaIeta      0.01		0.031		-		-		-1
+eleDeltaPhiTrkSC      0.027		0.021		-		-		-1	   
+eleDeltaEtaTrkSC      0.005		0.006		-		-		-1	   
+eleUseEcalDriven      1			-		-		-		-1
+## 2 = HEEP selection v3.1 
+eleDeltaEtaTrkSCHeep     0.005	        0.007		-		-		-1	   
+eleDeltaPhiTrkSCHeep     0.09	        0.09		-		-		-1	   
+eleHoEHeep	         0.05	        0.05		-		-		-1
+eleE2x5OverE5x5Heep      0.94		-		-		-		-1
+eleE1x5OverE5x5Heep      0.83		-		-		-		-1
+eleSigmaIetaIetaHeep     -		0.03		-		-		-1
+eleEcalHcalIsoHeep       2		0.03		2.5		0.03		-1
+eleEcalHcalIso_PTthrHeep -		50		-		-		-1
+eleHcalIsoD2Heep	 -		0.5		-		-		-1
+eleTrkIsoHeep		 7.5		15		-		-		-1
+eleMissingHitsHeep	 0		-               -               -               -1
+eleUseEcalDrivenHeep     1		-		-		-		-1
+#heepBitMask_EBGapEE   0x000	        0x000           0x000           -               -1
 # heepBits: ET=0x0001,PT=0x0002,DETETA=0x0004,CRACK=0x0008,DETAIN=0x0010,DPHIIN=0x0020,HADEM=0x0040,SIGMAIETAIETA=0x0080,E2X5OVER5X5=0x0100,ISOLEMHADDEPTH1=0x0200,ISOLHADDEPTH2=0x0400,ISOLPTTRKS=0x0800
-jet_PtCut             30           -                    -               -               -1
-jet_EtaCut            10.0         -                    -               -               -1
-jet_TCHELCut          1.7          -                    -               -               -1
-muon_PtCut            10           -                    -               -               -1
-jet_ele_DeltaRcut     0.3          -                    -               -               -1
-jet_muon_DeltaRcut    0.3          -                    -               -               -1
-muNHits_minThresh     11           -                    -               -               -1
-muTrkD0Maximum        0.2          -                    -               -               -1
-## refer to the current tag of http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/RootTupleMakerV2/python/RootTupleMakerV2_Trigger_cfi.py?view=log
-#HLTTrigger            1            8                    -1              -1              -1
-#HLTFromRun	      0		   138409		999999999	999999999	-1
-eleEta_bar            1.442        -                    -               -               -1
-eleEta_end            1.560        2.5                  -               -               -1
-muonEta_bar           1.2          -                    -               -               -1
-muonEta_end           1.2          2.4                  -               -               -1
+#
+# Muons 
+# ( "Tight muon" from https://twiki.cern.ch/twiki/bin/view/CMS/MuonRecoPerformance2010#Definitions_of_muon_id )
+#
+muPtCut		      15		-               -               -               -1
+muEta_bar	      1.2		-               -               -               -1
+muEta_end	      1.2		2.4             -               -               -1
+muNormChi2	      10		-		-		-		-1
+muNValidHitsGlobal    0			-		-		-		-1
+muNMatchedStation     1			-		-		-		-1
+muDxyTrack	      0.2		-               -		-		-1
+muNValidHitsPixel     0			-		-		-		-1
+muNValidHitsTrack     10		-		-		-		-1
+muCombRelIso	      0.15		-	 	-		-		-1
+#
+# Jets 
+## 1 = PFJets, JetID "loose", JEC = L1FastJet [deterministic] * L2Rel * L3Abs * L23Residual for DATA , same but "no residual" for MC, 
+#        bjet: TrackCountingHighEfficiency loose b-tag from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance 
+## 2 = CaloJets (the rest as above)
+jetAlgorithm	      1		        -		-		-		 -1
+#
+jet_ele_DeltaRcut     0.3               -               -               -                -1
+jet_muon_DeltaRcut    0.3               -               -               -                -1
+jet_pho_DeltaRcut     0.3               -               -               -                -1
+#
+jetPtCut              30		-               -               -                -1
+jetEtaCut             3.0		-               -               -                -1
+jetTCHELCut           1.7		-               -               -                -1
+jetIDloose	      1			-		-		-	    	 -1
+jetIDtight	      0			-		-		-		 -1
+#
+# MET
+## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
+metAlgorithm	      1		        -		-		-		-1
+#
+# Photons 
+## 1 = TightPhoton (https://twiki.cern.ch/twiki/bin/view/CMS/PhotonIDAnalysis) + ele veto
+phoAlgorithm	      1		        -		-		-		-1
+#
+phoPtCut              15                -               -               -               -1
+phoEta_bar            1.442		-               -               -               -1
+phoEta_end            1.560		2.5             -               -               -1
+phoEcalIso	      4.2		0.006		4.2		0.06		-1	      	      
+phoHcalIso	      2.2		0.0025		2.2		0.0025		-1	      	      
+phoTrkIso	      2.0		0.001		2.0		0.001		-1	      	      
+phoHoE		      0.05		0.05		-		-		-1	      	      
+phoSigmaIetaIeta      0.013		0.030		-		-		-1	      	      
+phoUseMatchPromptEle  0			-		-		-		-1
+phoUsePixelSeed	      1			-		-		-		-1
+#
+# Vertices
+#
 vertexMinimumNDOF     4            -			-               -               -1
 vertexMaxAbsZ         24           -			-               -               -1
 vertexMaxd0           2            -			-               -               -1
-## HEEP selection v3.0
-eleDeltaEtaTrkSC     0.005	   0.007		-		-		-1	   
-eleDeltaPhiTrkSC     0.09	   0.09			-		-		-1	   
-eleHoE		     0.05	   0.05			-		-		-1
-eleE2x5OverE5x5      0.94	   -			-		-		-1
-eleE1x5OverE5x5      0.83	   -			-		-		-1
-eleSigmaIetaIeta     -		   0.03			-		-		-1
-eleEcalHcalIso	     2		   0.03			2.5		0.03		-1
-eleEcalHcalIso_PTthr -		   50			-		-		-1
-eleHcalIsoD2	     -		   0.5			-		-		-1
-eleTrkIso	     7.5	   15			-		-		-1
-## WP70 selection (2010) --> https://twiki.cern.ch/twiki/bin/viewauth/CMS/SimpleCutBasedEleID
-eleMissingHits	     0	           -                    -               -               -1
-eleDist		     0.02	   -			-		-		-1
-eleDCotTheta	     0.02	   -			-		-		-1
-eleSigmaIetaIetaWP   0.01	   0.03			-		-		-1    
-eleDeltaPhiTrkSCWP   0.03	   0.02			-		-		-1  
-eleDeltaEtaTrkSCWP   0.004	   0.005		-		-		-1  
-eleHoEWP	     0.025	   0.025		-		-		-1
-eleCombIso	     0.04	   0.03			-		-		-1
-eleTrkRelIso	     0.05	   0.025		-		-		-1
-eleEcalRelIso	     0.06	   0.025		-		-		-1
-eleHcalRelIso	     0.03	   0.02			-		-		-1
-## energy scale and resolution
+#
+# Energy scale and resolution
+#
 EleEnergyScale_EB     1.0	   -			-		-		-1
 EleEnergyScale_EE     1.0	   -			-		-		-1
 JetEnergyScale        1.0	   -			-		-		-1
 doJetOversmearing     0            -                    -               -               -1
 JetOversmearingSigma  0.05         -                    -               -               -1
 jet_PtCut_forMetScale 10	   -			-		-		-1
-## 1=PFJets , 2=CaloJets
-jetAlgorithm	      1		   -			-		-		-1
-## 1=PFMET  , 2=CaloMET , 3=PFMET_type1_correction
-metAlgorithm	      1		   -			-		-		-1
-## 1=HEEPmask , 2=HEEPvarV3.0 , 3=EWK(WP70)
-eleAlgorithm	      2		   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -106,7 +143,9 @@ PassBeamHaloFilterLoose		-inf         +inf               -               -      
 PassBeamHaloFilterTight		-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 nVertex 			-inf	     +inf		-		-		0	11 -0.5 10.5	      SAVE
 nVertex_good 			-inf	     +inf		-		-		0	11 -0.5 10.5	      SAVE
-nPileUpInteractions		-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
+nPileUpInteractions_BXminus1	-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
+nPileUpInteractions_BX0		-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
+nPileUpInteractions_BXplus1	-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
 isData				-inf	     +inf		-		-		0	2 -0.5 1.5	      SAVE
 bunch				-inf	     +inf		-		-		0	4000 0 4000	      SAVE
 event				-inf	     +inf		-		-		0	100 0 100	      SAVE
@@ -115,6 +154,7 @@ orbit 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 run 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 ProcessID 			-inf	     +inf		-		-		0	100 0 100	      SAVE
 PtHat 				-inf	     +inf		-		-		0	100 0 100	      SAVE
+weight				-inf	     +inf		-		-		0	100 -10 10	      SAVE
 #
 ## ADD HLT Info
 ## ADD GenParticle Info
