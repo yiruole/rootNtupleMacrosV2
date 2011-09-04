@@ -124,6 +124,7 @@ void analysisClass::Loop()
   CreateUserTH1D( "MuonAllEta"                 ,    100, -6, 6      ); 
   CreateUserTH1D( "EleAllPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "EleAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "EleAllPrimaryVertexDXY"     ,    200, -0.5,  0.5 ); 
   CreateUserTH1D( "PhoAllPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "PhoAllEta"                  ,    100, -6, 6      );
   CreateUserTH1D( "JetAllPt"                   ,    200,  0, 2000   );
@@ -435,6 +436,7 @@ void analysisClass::Loop()
 		//histograms
 		FillUserTH1D( "EleAllPt"                  ,    ElectronPt->at(iele)  ); 
 		FillUserTH1D( "EleAllEta"                 ,    ElectronEta->at(iele) ); 
+		FillUserTH1D( "EleAllPrimaryVertexDXY"    ,    ElectronPrimaryVertexDXY->at(iele) ); 
 	      }
 	    
 	  }//------> use EWK(WP80) SimpleCutBasedEleID2011
@@ -653,7 +655,7 @@ void analysisClass::Loop()
 	    //&& jetFlagsPho[ijet] == 0                                   /* NO overlap with photons */	    
 	    //&& 
 	    passjetID == true                                             /* pass JetID */
-	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	  /* pass Jet Eta cut */    
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut      /* pass Jet Eta cut */    
 	    )
 	  {
 	    v_idx_jet_PtCut_noOverlap_ID.push_back(v_idx_jet_PtCut[ijet]);
