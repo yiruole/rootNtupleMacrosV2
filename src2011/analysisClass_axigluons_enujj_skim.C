@@ -1010,21 +1010,72 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Muon1_Eta", MuonEta->at(v_idx_muon_PtCut_IDISO[0]) );
 	fillVariableWithValue( "Muon1_Phi", MuonPhi->at(v_idx_muon_PtCut_IDISO[0]) );
 	fillVariableWithValue( "Muon1_Charge", MuonCharge->at(v_idx_muon_PtCut_IDISO[0]) );
+
+	// DeltaPhi - MET vs 1st muon
+	TVector2 v_MET;
+	TVector2 v_muon;
+	v_MET.SetMagPhi( thisMET , thisMETPhi);
+	v_muon.SetMagPhi( MuonPt->at(v_idx_muon_PtCut_IDISO[0]) , MuonPhi->at(v_idx_muon_PtCut_IDISO[0]) );
+	float deltaphi = v_MET.DeltaPhi(v_muon);
+	fillVariableWithValue( "mDPhi_METMuon1", fabs(deltaphi) );
+        mDeltaPhiMETMuon1 = fabs(deltaphi);
+
+	// transverse mass enu
+	MT_METMuon1 = sqrt(2 * MuonPt->at(v_idx_muon_PtCut_IDISO[0]) * thisMET * (1 - cos(deltaphi)) );
+	fillVariableWithValue("MT_Muon1MET", MT_METMuon1);
+
+	//PT(muon,nu)
+	TVector2 v_muon_MET;
+	v_muon_MET = v_muon + v_MET;
+	fillVariableWithValue("Pt_Muon1MET", v_muon_MET.Mod());
+      }
+
+    // 2nd muon 
+    double MT_METMuon2, mDeltaPhiMETMuon2 = -999;
+    if( v_idx_muon_PtCut_IDISO.size() >= 2 )
+      {
+	fillVariableWithValue( "Muon2_Pt", MuonPt->at(v_idx_muon_PtCut_IDISO[1]) );
+	fillVariableWithValue( "Muon2_Energy", MuonEnergy->at(v_idx_muon_PtCut_IDISO[1]) );
+	fillVariableWithValue( "Muon2_Eta", MuonEta->at(v_idx_muon_PtCut_IDISO[1]) );
+	fillVariableWithValue( "Muon2_Phi", MuonPhi->at(v_idx_muon_PtCut_IDISO[1]) );
+	fillVariableWithValue( "Muon2_Charge", MuonCharge->at(v_idx_muon_PtCut_IDISO[1]) );
+
+	// DeltaPhi - MET vs 2nd muon
+	TVector2 v_MET;
+	TVector2 v_muon;
+	v_MET.SetMagPhi( thisMET , thisMETPhi);
+	v_muon.SetMagPhi( MuonPt->at(v_idx_muon_PtCut_IDISO[1]) , MuonPhi->at(v_idx_muon_PtCut_IDISO[1]) );
+	float deltaphi = v_MET.DeltaPhi(v_muon);
+	fillVariableWithValue( "mDPhi_METMuon2", fabs(deltaphi) );
+        mDeltaPhiMETMuon2 = fabs(deltaphi);
+
+	// transverse mass enu
+	//MT_METMuon2 = sqrt(2 * MuonPt->at(v_idx_muon_PtCut_IDISO[1]) * thisMET * (1 - cos(deltaphi)) );
+	//fillVariableWithValue("MT_Muon2MET", MT_METMuon2);
+
+	//PT(muon,nu)
+	//TVector2 v_muon_MET;
+	//v_muon_MET = v_muon + v_MET;
+	//fillVariableWithValue("Pt_Muon2MET", v_muon_MET.Mod());
       }
 
     // define booleans
     bool OneEle=false;
     bool TwoEles=false;
+    bool OneMuon=false;
+    bool TwoMuons=false;
     bool OneJet=false;
     bool TwoJets=false;
     bool ThreeJets=false;
     if( v_idx_ele_PtCut_IDISO.size() >= 1 ) OneEle = true;
     if( v_idx_ele_PtCut_IDISO.size() >= 2 ) TwoEles = true;
+    if( v_idx_muon_PtCut_IDISO.size() >= 1 ) OneMuon = true;
+    if( v_idx_muon_PtCut_IDISO.size() >= 2 ) TwoMuons = true;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 1 ) OneJet = true;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2 ) TwoJets = true;
     if( v_idx_jet_PtCut_noOverlap_ID.size() >= 3 ) ThreeJets = true;
 
-    //Delta R
+    //Delta R - Electrons
     if ( (OneEle) && (OneJet) )
       {	
 	TLorentzVector ele1;
@@ -1073,6 +1124,58 @@ void analysisClass::Loop()
 			      JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
 
 	    fillVariableWithValue("DR_Ele2Jet2", ele2.DeltaR(jet2));	   	    
+	  }       	
+      }
+
+    //Delta R - Muons
+    if ( (OneMuon) && (OneJet) )
+      {	
+	TLorentzVector muon1;
+	muon1.SetPtEtaPhiM(MuonPt->at(v_idx_muon_PtCut_IDISO[0]),
+			   MuonEta->at(v_idx_muon_PtCut_IDISO[0]),
+			   MuonPhi->at(v_idx_muon_PtCut_IDISO[0]),0);
+	TLorentzVector jet1;
+	jet1.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+			  JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+       
+	fillVariableWithValue("DR_Muon1Jet1", muon1.DeltaR(jet1));
+	
+	if ( (TwoJets) )
+	  {
+	    TLorentzVector jet2;
+	    jet2.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			      JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			      JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			      JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	    
+	    fillVariableWithValue("DR_Muon1Jet2", muon1.DeltaR(jet2));	   
+	  }
+
+	if( (TwoMuons) )
+	  {
+	    TLorentzVector muon2;
+	    muon2.SetPtEtaPhiM(MuonPt->at(v_idx_muon_PtCut_IDISO[1]),
+			      MuonEta->at(v_idx_muon_PtCut_IDISO[1]),
+			      MuonPhi->at(v_idx_muon_PtCut_IDISO[1]),0);	    
+
+	    fillVariableWithValue("DR_Muon2Jet1", muon2.DeltaR(jet1));	   	    
+	  }
+
+	if( (TwoMuons) && (TwoJets) )
+	  {
+	    TLorentzVector muon2;
+	    muon2.SetPtEtaPhiM(MuonPt->at(v_idx_muon_PtCut_IDISO[1]),
+			       MuonEta->at(v_idx_muon_PtCut_IDISO[1]),
+			       MuonPhi->at(v_idx_muon_PtCut_IDISO[1]),0);	    
+	    TLorentzVector jet2;
+	    jet2.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			      JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			      JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+			      JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+
+	    fillVariableWithValue("DR_Muon2Jet2", muon2.DeltaR(jet2));	   	    
 	  }       	
       }
 
@@ -1126,6 +1229,17 @@ void analysisClass::Loop()
 	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) +
 	  thisMET;
 	fillVariableWithValue("sT_enujj", sT_enujj);
+      }
+
+    // ST munujj
+    if ( (OneMuon) && (TwoJets) )
+      {
+	double sT_munujj =
+	  MuonPt->at(v_idx_muon_PtCut_IDISO[0]) +
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]) +
+	  JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]) +
+	  thisMET;
+	fillVariableWithValue("sT_munujj", sT_munujj);
       }
        
     // Evaluate cuts (but do not apply them)

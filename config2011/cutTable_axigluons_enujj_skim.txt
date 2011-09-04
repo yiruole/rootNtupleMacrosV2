@@ -200,9 +200,15 @@ DR_Ele1Jet1			-inf	     +inf		-		-		2	100 0 10              SAVE
 DR_Ele1Jet2			-inf	     +inf		-		-		2	100 0 10	      SAVE
 DR_Ele2Jet1			-inf	     +inf		-		-		2	100 0 10	      SAVE
 DR_Ele2Jet2			-inf	     +inf		-		-		2	100 0 10	      SAVE
+DR_Muon1Jet1			-inf	     +inf		-		-		2	100 0 10              SAVE
+DR_Muon1Jet2			-inf	     +inf		-		-		2	100 0 10	      SAVE
+DR_Muon2Jet1			-inf	     +inf		-		-		2	100 0 10	      SAVE
+DR_Muon2Jet2			-inf	     +inf		-		-		2	100 0 10	      SAVE
 DR_Jet1Jet2			-inf	     +inf		-		-		2	100 0 10	      SAVE
 mDPhi_METEle1			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
 mDPhi_METEle2			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
+mDPhi_METMuon1			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
+mDPhi_METMuon2			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
 mDPhi_METJet1			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
 mDPhi_METJet2			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
 mDPhi_METJet3			-inf         +inf               -               -               2       100 0 3.1416	      SAVE
@@ -213,11 +219,19 @@ Muon1_Energy			-inf	     +inf		-		-		3	100 0 1000	      SAVE
 Muon1_Eta			-inf         +inf               -               -               3       100 -5 5	      SAVE
 Muon1_Phi			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
 Muon1_Charge			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
+Muon2_Pt			-inf	     +inf		-		-		3	100 0 1000	      SAVE
+Muon2_Energy			-inf	     +inf		-		-		3	100 0 1000	      SAVE
+Muon2_Eta			-inf         +inf               -               -               3       100 -5 5	      SAVE
+Muon2_Phi			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
+Muon2_Charge			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
 #
 MT_Ele1MET			-inf         +inf               -               -               4       200 0 1000	      SAVE
 Pt_Ele1MET			-inf	     +inf               -               -               4       200 0 2000	      SAVE
+MT_Muon1MET			-inf         +inf               -               -               4       200 0 1000	      SAVE
+Pt_Muon1MET			-inf	     +inf               -               -               4       200 0 2000	      SAVE
 Pt_j1j2				-inf	     +inf               -               -               4       200 0 2000	      SAVE
 sT_enujj			-inf         +inf               -               -               4       200 0 2000	      SAVE
+sT_munujj			-inf         +inf               -               -               4       200 0 2000	      SAVE
 M_j1j2				-inf	     +inf               -               -               4       200 0 2000	      SAVE
 M_j1j3				-inf	     +inf               -               -               4       200 0 2000	      SAVE
 M_j2j3				-inf	     +inf               -               -               4       200 0 2000	      SAVE
