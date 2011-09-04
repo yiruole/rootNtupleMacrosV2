@@ -63,7 +63,7 @@ jet_muon_DeltaRcut    0.3               -               -               -       
 jet_pho_DeltaRcut     0.3               -               -               -                -1
 #
 jetPtCut              30		-               -               -                -1
-jetEtaCut             10.0		-               -               -                -1
+jetEtaCut             2.4		-               -               -                -1
 jetTCHELCut           1.7		-               -               -                -1
 jetIDloose	      1			-		-		-	    	 -1
 jetIDtight	      0			-		-		-		 -1
@@ -84,8 +84,8 @@ phoHcalIso	      2.2		0.0025		2.2		0.0025		-1
 phoTrkIso	      2.0		0.001		2.0		0.001		-1	      	      
 phoHoE		      0.05		0.05		-		-		-1	      	      
 phoSigmaIetaIeta      0.013		0.030		-		-		-1	      	      
-phoUseMatchPromptEle  1			-		-		-		-1
-phoUsePixelSeed	      0			-		-		-		-1
+phoUseMatchPromptEle  0			-		-		-		-1
+phoUsePixelSeed	      1			-		-		-		-1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
