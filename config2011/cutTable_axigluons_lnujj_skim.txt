@@ -27,7 +27,7 @@ produceReducedSkim    1                 -               -               -       
 # Electrons
 eleAlgorithm	      1			-		-		-		-1
 ## 1 = "WP80" https://twiki.cern.ch/twiki/bin/viewauth/CMS/SimpleCutBasedEleID2011 + !hasMatchedConv
-elePtCut              15                -               -               -               -1
+elePtCut              20                -               -               -               -1
 eleEta_bar            1.442		-               -               -               -1
 eleEta_end            1.560		2.5             -               -               -1
 eleMissingHits	      0			-               -               -               -1
@@ -58,7 +58,7 @@ eleUseEcalDrivenHeep     1		-		-		-		-1
 # Muons 
 # ( "Tight muon" from https://twiki.cern.ch/twiki/bin/view/CMS/MuonRecoPerformance2010#Definitions_of_muon_id )
 #
-muPtCut		      15		-               -               -               -1
+muPtCut		      20		-               -               -               -1
 muEta_bar	      1.2		-               -               -               -1
 muEta_end	      1.2		2.4             -               -               -1
 muNormChi2	      10		-		-		-		-1
@@ -79,7 +79,7 @@ jet_ele_DeltaRcut     0.3               -               -               -       
 jet_muon_DeltaRcut    0.3               -               -               -                -1
 jet_pho_DeltaRcut     0.3               -               -               -                -1
 #
-jetPtCut              30		-               -               -                -1
+jetPtCut              20		-               -               -                -1
 jetEtaCut             3.0		-               -               -                -1
 jetTCHELCut           1.7		-               -               -                -1
 jetIDloose	      1			-		-		-	    	 -1
@@ -93,7 +93,7 @@ metAlgorithm	      1		        -		-		-		-1
 ## 1 = TightPhoton (https://twiki.cern.ch/twiki/bin/view/CMS/PhotonIDAnalysis) + ele veto
 phoAlgorithm	      1		        -		-		-		-1
 #
-phoPtCut              15                -               -               -               -1
+phoPtCut              20                -               -               -               -1
 phoEta_bar            1.442		-               -               -               -1
 phoEta_end            1.560		2.5             -               -               -1
 phoEcalIso	      4.2		0.006		4.2		0.06		-1	      	      
