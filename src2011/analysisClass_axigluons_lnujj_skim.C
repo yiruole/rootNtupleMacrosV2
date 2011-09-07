@@ -192,7 +192,10 @@ void analysisClass::Loop()
     if(jentry < 10 || jentry%1000 == 0) STDOUT("analysisClass::Loop(): jentry = " << jentry);
     // if (Cut(ientry) < 0) continue;
 
-    //double event_weight = getPileupWeight ( PileUpInteractions, isData ) ;
+    //int NPILEUP_AVE = int( (PileUpInteractions->at(0) + PileUpInteractions->at(1) + PileUpInteractions->at(2))/3 );
+    //int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
+    //double event_weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
+    //double event_weight = getPileupWeight ( min(PileUpInteractions->at(1),25), isData ) ;
 
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 

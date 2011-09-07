@@ -1,7 +1,11 @@
 # 2011 JSON file
 #JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/Prompt/Cert_160404-165970_7TeV_PromptReco_Collisions11_JSON.txt
-# Pileup reweighting files --> FOR SKIM: COMMENT THE FOLLOWING TWO LINES
+# Pileup reweighting files ( https://twiki.cern.ch/twiki/bin/view/CMS/PileupMCReweightingUtilities ) --> FOR SKIM: COMMENT THE FOLLOWING TWO LINES
+#PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_to_172802_LP_LumiScale.root
+#PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_EPS_8_jul.root
 #PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_all.root
+#PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/santanas/public/PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX.txt
+#PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/santanas/public/PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_1BX.txt
 #PILEUP_MC_TXT_FILE    /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file.txt
 #
 #############################     Example of file with list of cuts
