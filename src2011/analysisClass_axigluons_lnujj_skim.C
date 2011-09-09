@@ -880,6 +880,9 @@ void analysisClass::Loop()
     fillVariableWithValue( "PassHBHENoiseFilter", passHBHENoiseFilter ) ;
     fillVariableWithValue( "PassBeamHaloFilterLoose", passBeamHaloFilterLoose ) ;
     fillVariableWithValue( "PassBeamHaloFilterTight", passBeamHaloFilterTight ) ;
+    fillVariableWithValue( "PassTrackingFailure", !isTrackingFailure ) ;
+    fillVariableWithValue( "PassCaloBoundaryDRFilter", passCaloBoundaryDRFilter ) ;
+    fillVariableWithValue( "PassEcalMaskedCellDRFilter", passEcalMaskedCellDRFilter ) ;
 
     // nVertex and pile-up
     fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
@@ -913,6 +916,12 @@ void analysisClass::Loop()
     // SUMET
     fillVariableWithValue("SumET", thisSumET);
     fillVariableWithValue("GenSumET", thisGenSumET);
+
+    // Pseudo-MET variables
+    fillVariableWithValue("PFMET_Sig", PFMETSig->at(0));
+    fillVariableWithValue("PFChMET_Pt", PFMETCharged->at(0));
+    fillVariableWithValue("PFChMET_Phi", PFMETPhiCharged->at(0));
+    fillVariableWithValue("PFChSumET", PFSumETCharged->at(0));
 
      // 1st ele 
     double MT_METEle1, mDeltaPhiMETEle1 = -999;

@@ -79,8 +79,8 @@ jet_ele_DeltaRcut     0.3               -               -               -       
 jet_muon_DeltaRcut    0.3               -               -               -                -1
 jet_pho_DeltaRcut     0.3               -               -               -                -1
 #
-jetPtCut              20		-               -               -                -1
-jetEtaCut             3.0		-               -               -                -1
+jetPtCut              30		-               -               -                -1
+jetEtaCut             2.4		-               -               -                -1
 jetTCHELCut           1.7		-               -               -                -1
 jetIDloose	      1			-		-		-	    	 -1
 jetIDtight	      0			-		-		-		 -1
@@ -145,6 +145,9 @@ PassPrimaryVertex               0            1                  -               
 PassHBHENoiseFilter             -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 PassBeamHaloFilterLoose		-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 PassBeamHaloFilterTight		-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+PassTrackingFailure		-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+PassCaloBoundaryDRFilter	-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+PassEcalMaskedCellDRFilter	-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 nVertex 			-inf	     +inf		-		-		0	11 -0.5 10.5	      SAVE
 nVertex_good 			-inf	     +inf		-		-		0	11 -0.5 10.5	      SAVE
 nPileUpInt_BXminus1		-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
@@ -181,15 +184,19 @@ GenMET_Pt			-inf	     +inf		-		-		1	200 0 1000	      SAVE
 GenMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 SumET				-inf	     +inf		-		-		1	300 0 3000	      SAVE
 GenSumET			-inf	     +inf		-		-		1	300 0 3000	      SAVE
+PFMET_Sig                       -inf	     +inf               -               -               1       500 0 100	      SAVE
+PFChMET_Pt                      -inf	     +inf               -               -               1       200 0 1000            SAVE
+PFChMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFChSumET                       -inf	     +inf               -               -               1       300 0 3000            SAVE
 #
 nJet				1	     +inf               -               -               1       16 -0.5 15.5	      SAVE
 nJet_btagTCHE			-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
-Jet1_Pt				20	     +inf		-		-		1	100 0 1000	      SAVE
+Jet1_Pt				30	     +inf		-		-		1	100 0 1000	      SAVE
 Jet1_Energy			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 Jet1_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet1_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet1_btagTCHE			-inf         +inf               -               -               1       100  0 20	      SAVE
-Jet2_Pt				20	     +inf		-		-		1	100 0 1000	      SAVE
+Jet2_Pt				30	     +inf		-		-		1	100 0 1000	      SAVE
 Jet2_Energy			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 Jet2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
