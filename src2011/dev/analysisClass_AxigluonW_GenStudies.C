@@ -54,6 +54,118 @@ void analysisClass::Loop()
   int PDGID_T =  getPreCutValue1("PDGID_T");
   int PDGID_TBAR =  getPreCutValue2("PDGID_T");
 
+  // Others
+  int jetAlgorithm = getPreCutValue1("jetAlgorithm");
+  int metAlgorithm = getPreCutValue1("metAlgorithm");
+  int eleAlgorithm = getPreCutValue1("eleAlgorithm");
+  int phoAlgorithm = getPreCutValue1("phoAlgorithm");
+  double jet_ele_DeltaRcut = getPreCutValue1("jet_ele_DeltaRcut");
+  double jet_muon_DeltaRcut = getPreCutValue1("jet_muon_DeltaRcut");
+  double jet_pho_DeltaRcut = getPreCutValue1("jet_pho_DeltaRcut");
+
+  // Electrons
+  double elePtCut =  getPreCutValue1("elePtCut");
+  double eleEta_bar = getPreCutValue1("eleEta_bar");
+  double eleEta_end_min = getPreCutValue1("eleEta_end");
+  double eleEta_end_max = getPreCutValue2("eleEta_end");
+  double eleMissingHits = getPreCutValue1("eleMissingHits");
+  double eleDist        = getPreCutValue1("eleDist");
+  double eleDCotTheta   = getPreCutValue1("eleDCotTheta");
+  double eleUseHasMatchConv = getPreCutValue1("eleUseHasMatchConv");
+  double eleCombRelIso_bar = getPreCutValue1("eleCombRelIso");
+  double eleCombRelIso_end = getPreCutValue2("eleCombRelIso");
+  double eleSigmaIetaIeta_bar = getPreCutValue1("eleSigmaIetaIeta");
+  double eleSigmaIetaIeta_end = getPreCutValue2("eleSigmaIetaIeta");
+  double eleDeltaPhiTrkSC_bar = getPreCutValue1("eleDeltaPhiTrkSC");
+  double eleDeltaPhiTrkSC_end = getPreCutValue2("eleDeltaPhiTrkSC");
+  double eleDeltaEtaTrkSC_bar = getPreCutValue1("eleDeltaEtaTrkSC");
+  double eleDeltaEtaTrkSC_end = getPreCutValue2("eleDeltaEtaTrkSC");
+  double eleUseEcalDriven = getPreCutValue1("eleUseEcalDriven");
+
+  double eleDeltaEtaTrkSCHeep_bar = getPreCutValue1("eleDeltaEtaTrkSCHeep");
+  double eleDeltaEtaTrkSCHeep_end = getPreCutValue2("eleDeltaEtaTrkSCHeep");
+  double eleDeltaPhiTrkSCHeep_bar = getPreCutValue1("eleDeltaPhiTrkSCHeep");
+  double eleDeltaPhiTrkSCHeep_end = getPreCutValue2("eleDeltaPhiTrkSCHeep");
+  double eleHoEHeep_bar = getPreCutValue1("eleHoEHeep");
+  double eleHoEHeep_end = getPreCutValue2("eleHoEHeep");
+  double eleE2x5OverE5x5Heep_bar = getPreCutValue1("eleE2x5OverE5x5Heep");
+  //double eleE2x5OverE5x5Heep_end = getPreCutValue2("eleE2x5OverE5x5Heep");
+  double eleE1x5OverE5x5Heep_bar = getPreCutValue1("eleE1x5OverE5x5Heep");
+  //double eleE1x5OverE5x5Heep_end = getPreCutValue2("eleE1x5OverE5x5Heep");
+  //double eleSigmaIetaIetaHeep_bar = getPreCutValue1("eleSigmaIetaIetaHeep");
+  double eleSigmaIetaIetaHeep_end = getPreCutValue2("eleSigmaIetaIetaHeep");
+  double eleEcalHcalIsoHeep_1_bar = getPreCutValue1("eleEcalHcalIsoHeep");
+  double eleEcalHcalIsoHeep_2_bar = getPreCutValue2("eleEcalHcalIsoHeep");
+  double eleEcalHcalIsoHeep_1_end = getPreCutValue3("eleEcalHcalIsoHeep");
+  double eleEcalHcalIsoHeep_2_end = getPreCutValue4("eleEcalHcalIsoHeep");
+  //double eleEcalHcalIso_PTthrHeep_bar = getPreCutValue1("eleEcalHcalIso_PTthrHeep");
+  double eleEcalHcalIso_PTthrHeep_end = getPreCutValue2("eleEcalHcalIso_PTthrHeep");
+  //double eleHcalIsoD2Heep_bar = getPreCutValue1("eleHcalIsoD2Heep");
+  double eleHcalIsoD2Heep_end = getPreCutValue2("eleHcalIsoD2Heep");
+  double eleTrkIsoHeep_bar = getPreCutValue1("eleTrkIsoHeep");
+  double eleTrkIsoHeep_end = getPreCutValue2("eleTrkIsoHeep");
+  double eleMissingHitsHeep = getPreCutValue1("eleMissingHitsHeep");
+  double eleUseEcalDrivenHeep = getPreCutValue1("eleUseEcalDrivenHeep");
+
+  //   int heepBitMask_EB  =  getPreCutValue1("heepBitMask_EBGapEE") ;
+  //   int heepBitMask_GAP =  getPreCutValue2("heepBitMask_EBGapEE") ;
+  //   int heepBitMask_EE  =  getPreCutValue3("heepBitMask_EBGapEE") ;
+
+  // Muons 
+  double muPtCut =  getPreCutValue1("muPtCut");
+  double muEta_bar = getPreCutValue1("muEta_bar");
+  double muEta_end_min = getPreCutValue1("muEta_end");
+  double muEta_end_max = getPreCutValue2("muEta_end");
+  double muNormChi2 = getPreCutValue1("muNormChi2");
+  double muNValidHitsGlobal = getPreCutValue1("muNValidHitsGlobal");
+  double muNMatchedStation = getPreCutValue1("muNMatchedStation");
+  double muDxyTrack = getPreCutValue1("muDxyTrack");
+  double muNValidHitsPixel = getPreCutValue1("muNValidHitsPixel");
+  double muNValidHitsTrack = getPreCutValue1("muNValidHitsTrack");
+  double muCombRelIso = getPreCutValue1("muCombRelIso");
+
+  // Jets
+  double jetPtCut = getPreCutValue1("jetPtCut");
+  double jetEtaCut = getPreCutValue1("jetEtaCut");
+  double jetTCHELCut = getPreCutValue1("jetTCHELCut");
+  double jetIDloose = getPreCutValue1("jetIDloose");
+  double jetIDtight = getPreCutValue1("jetIDtight");
+
+  // Photons
+  double phoPtCut = getPreCutValue1("phoPtCut");
+  double phoEta_bar = getPreCutValue1("phoEta_bar");
+  double phoEta_end_min = getPreCutValue1("phoEta_end");
+  double phoEta_end_max = getPreCutValue2("phoEta_end");
+  double phoEcalIso_bar_const = getPreCutValue1("phoEcalIso");
+  double phoEcalIso_bar_ptCoeff = getPreCutValue2("phoEcalIso");
+  double phoEcalIso_end_const = getPreCutValue3("phoEcalIso");
+  double phoEcalIso_end_ptCoeff = getPreCutValue4("phoEcalIso");
+  double phoHcalIso_bar_const = getPreCutValue1("phoHcalIso");
+  double phoHcalIso_bar_ptCoeff = getPreCutValue2("phoHcalIso");
+  double phoHcalIso_end_const = getPreCutValue3("phoHcalIso");
+  double phoHcalIso_end_ptCoeff = getPreCutValue4("phoHcalIso");
+  double phoTrkIso_bar_const = getPreCutValue1("phoTrkIso");
+  double phoTrkIso_bar_ptCoeff = getPreCutValue2("phoTrkIso");
+  double phoTrkIso_end_const = getPreCutValue3("phoTrkIso");
+  double phoTrkIso_end_ptCoeff = getPreCutValue4("phoTrkIso");
+  double phoHoE_bar = getPreCutValue1("phoHoE");
+  double phoHoE_end = getPreCutValue1("phoHoE");
+  double phoSigmaIetaIeta_bar = getPreCutValue1("phoSigmaIetaIeta");
+  double phoSigmaIetaIeta_end = getPreCutValue2("phoSigmaIetaIeta");
+  double phoUseMatchPromptEle = getPreCutValue1("phoUseMatchPromptEle");
+  double phoUsePixelSeed = getPreCutValue1("phoUsePixelSeed");
+
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0 = getPreCutValue1("vertexMaxd0");
+
+  double jet_PtCut_forMetScale = getPreCutValue1("jet_PtCut_forMetScale");
+  double EleEnergyScale_EB=getPreCutValue1("EleEnergyScale_EB");
+  double EleEnergyScale_EE=getPreCutValue1("EleEnergyScale_EE");
+  double JetEnergyScale=getPreCutValue1("JetEnergyScale");
+  int doJetOversmearing = getPreCutValue1("doJetOversmearing");
+  double JetOversmearingSigma = getPreCutValue1("JetOversmearingSigma");
+
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
@@ -112,7 +224,50 @@ void analysisClass::Loop()
   h1_DecayProducts_W->GetXaxis()->SetBinLabel(3,"#tau#nu");
   h1_DecayProducts_W->GetXaxis()->SetBinLabel(4,"total");
 
- 
+
+  // Random number generator
+  TRandom3 *randomNumGen = new TRandom3;
+  randomNumGen->SetSeed();
+
+  CreateUserTH1D( "MuonAllPt"                  ,    200,  0,  2000  ); 
+  CreateUserTH1D( "MuonAllEta"                 ,    100, -6, 6      ); 
+  CreateUserTH1D( "EleAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "EleAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "PhoAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "PhoAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "JetAllPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "JetAllEta"                  ,    100, -6, 6      );
+  CreateUserTH1D( "BJetAllPt"                  ,    200,  0, 2000   );
+  CreateUserTH1D( "BJetAllEta"                 ,    100, -6, 6      );
+
+  //Efficiency and acceptance
+
+  CreateUserTH1D("h1_Pt_W_e", 100, 0, 1000);
+  CreateUserTH1D("h1_Pt_W_e_gencuts", 100, 0, 1000);
+  CreateUserTH1D("h1_Pt_W_e_recomatched", 100, 0, 1000);
+  CreateUserTH1D("h1_Pt_W_e_recomatched_IDISO", 100, 0, 1000);
+  CreateUserTH1D("h1_Eta_W_e", 100, -10, 10);
+  CreateUserTH1D("h1_Eta_W_e_gencuts", 100, -10, 10);
+  CreateUserTH1D("h1_Eta_W_e_recomatched", 100, -10, 10);
+  CreateUserTH1D("h1_Eta_W_e_recomatched_IDISO", 100, -10, 10);
+  CreateUserTH1D("h1_minDR_elequark", 100, 0, 10);
+  CreateUserTH1D("h1_minDR_elequark_gencuts", 100, 0, 10);
+  CreateUserTH1D("h1_minDR_elequark_recomatched", 100, 0, 10);
+  CreateUserTH1D("h1_minDR_elequark_recomatched_IDISO", 100, 0, 10);
+
+  CreateUserTH1D("h1_Pt_W_mu", 100, 0, 1000);
+  CreateUserTH1D("h1_Pt_W_mu_gencuts", 100, 0, 1000);
+  CreateUserTH1D("h1_Pt_W_mu_recomatched", 100, 0, 1000);
+  CreateUserTH1D("h1_Pt_W_mu_recomatched_IDISO", 100, 0, 1000);
+  CreateUserTH1D("h1_Eta_W_mu", 100, -10, 10);
+  CreateUserTH1D("h1_Eta_W_mu_gencuts", 100, -10, 10);
+  CreateUserTH1D("h1_Eta_W_mu_recomatched", 100, -10, 10);
+  CreateUserTH1D("h1_Eta_W_mu_recomatched_IDISO", 100, -10, 10);
+  CreateUserTH1D("h1_minDR_muonquark", 100, 0, 10);
+  CreateUserTH1D("h1_minDR_muonquark_gencuts", 100, 0, 10);
+  CreateUserTH1D("h1_minDR_muonquark_recomatched", 100, 0, 10);
+  CreateUserTH1D("h1_minDR_muonquark_recomatched_IDISO", 100, 0, 10);
+
   ////////////////////// User's code to book histos - END ///////////////////////
 
   Long64_t nentries = fChain->GetEntriesFast();
@@ -133,16 +288,664 @@ void analysisClass::Loop()
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
     //## Define new jet collection
-    //std::auto_ptr<std::vector<double> >  JetPt  ( new std::vector<double>()  );
-    //std::auto_ptr<std::vector<int> >     JetPassID  ( new std::vector<int>()  );
+    std::auto_ptr<std::vector<double> >  JetPt  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetPtRaw  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetEnergy  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetEta  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<double> >  JetPhi  ( new std::vector<double>()  );
+    std::auto_ptr<std::vector<int> >     JetPassLooseID  ( new std::vector<int>()  );
+    std::auto_ptr<std::vector<int> >     JetPassTightID  ( new std::vector<int>()  );
+    std::auto_ptr<std::vector<double> >  JetTCHE  ( new std::vector<double>()  );
+    //std::auto_ptr<std::vector<double> >  JetChargedMuEnergyFraction  ( new std::vector<double>()  );
 
-    //FillUserTH1D("h1_ElectronPt_all", ElectronPt->at(iele) );
+    if(jetAlgorithm==1) //PF jets
+      {
+	for (int ijet=0 ; ijet< PFJetPt->size() ; ijet++)
+	  {
+	    JetPt->push_back( PFJetPt->at(ijet) );
+	    JetPtRaw->push_back( PFJetPtRaw->at(ijet) );
+	    JetEnergy->push_back( PFJetEnergy->at(ijet) );
+	    JetEta->push_back( PFJetEta->at(ijet) );
+	    JetPhi->push_back( PFJetPhi->at(ijet) );
+            JetPassLooseID->push_back( PFJetPassLooseID->at(ijet) );
+            JetPassTightID->push_back( PFJetPassTightID->at(ijet) );
+            JetTCHE->push_back( PFJetTrackCountingHighEffBTag->at(ijet) );
+	  }//end loop over pf jets
+      }//end if "pf jets"
+
+    if(jetAlgorithm==2) //Calo jets
+      {
+	for (int ijet=0 ; ijet < CaloJetPt->size() ; ijet++)
+	  {
+	    JetPt->push_back( CaloJetPt->at(ijet) );
+	    JetPtRaw->push_back( CaloJetPtRaw->at(ijet) );
+	    JetEnergy->push_back( CaloJetEnergy->at(ijet) );
+	    JetEta->push_back( CaloJetEta->at(ijet) );
+	    JetPhi->push_back( CaloJetPhi->at(ijet) );
+            JetPassLooseID->push_back( CaloJetPassLooseID->at(ijet) );
+            JetPassTightID->push_back( CaloJetPassTightID->at(ijet) );
+            JetTCHE->push_back( CaloJetTrackCountingHighEffBTag->at(ijet) );
+	  }//end loop over calo jets
+      }//end if "calo jets"
+
+    //## Define new met collection
+    double thisMET;
+    double thisMETPhi;
+    double thisSumET;
+    double thisGenMET;
+    double thisGenMETPhi;
+    double thisGenSumET;
+
+    if(isData==0)
+      {
+	thisGenMET    = GenMETTrue->at(0);
+	thisGenMETPhi = GenMETPhiTrue->at(0);
+	thisGenSumET  = GenSumETTrue->at(0);
+      }
+    else
+      {
+	thisGenMET    = -1;
+	thisGenMETPhi = -1;
+	thisGenSumET  = -1;
+      }
+
+    if(metAlgorithm==1) 	// --> PFMET
+      {
+	thisMET = PFMET->at(0);
+	thisMETPhi = PFMETPhi->at(0);
+	thisSumET = PFSumET->at(0);
+      }
+    if(metAlgorithm==2) 	// --> CaloMET
+      {
+	thisMET = CaloMET->at(0);
+	thisMETPhi = CaloMETPhi->at(0);
+	thisSumET = CaloSumET->at(0);
+      }
+    if(metAlgorithm==3) 	// --> PFMET (with type-1 corrections)
+      {
+	thisMET = PFMETType1Cor->at(0);
+	thisMETPhi = PFMETPhiType1Cor->at(0);
+	thisSumET = PFSumETType1Cor->at(0);
+      }
+
+    //## Define new electron Pt
+    if(eleAlgorithm==2)
+      {
+	for(int iele=0; iele<ElectronPt->size(); iele++)
+	  {
+	    ElectronPt->at(iele) = ElectronPtHeep->at(iele);
+	  }
+      }
+
+    //## EES and JES
+    if( EleEnergyScale_EB != 1 || EleEnergyScale_EE != 1 )
+      {
+	for(int iele=0; iele<ElectronPt->size(); iele++)
+	  {
+	    if( fabs(ElectronEta->at(iele)) < eleEta_bar )
+	      ElectronPt->at(iele) *= EleEnergyScale_EB;
+	    if( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max )
+	      ElectronPt->at(iele) *= EleEnergyScale_EE;
+	  }
+      }
+    if( JetEnergyScale != 1 )
+      { //use fix JES scaling passed from cut file
+
+	for(int ijet=0; ijet<JetPt->size(); ijet++)
+	  {
+	    JetPt->at(ijet) *= JetEnergyScale;
+	    JetEnergy->at(ijet) *= JetEnergyScale;
+	  }
+      }
+
+    // Jet oversmearing
+    std::auto_ptr<std::vector<double> >  JetOversmearingFactor ( new std::vector<double>(JetPt->size(), 1)  );
+    if( !isData && doJetOversmearing )
+      {
+        for(int ijet=0; ijet<JetPt->size(); ijet++)
+          {
+            JetOversmearingFactor->at(ijet) = (1 + JetOversmearingSigma*randomNumGen->Gaus());
+            JetPt->at(ijet) *= JetOversmearingFactor->at(ijet);
+            JetEnergy->at(ijet) *= JetOversmearingFactor->at(ijet);
+          }
+      }
+
+    ////////////////////// Reco Object Collections ///////////////////////
+
+    //## Muons
+    vector<int> v_idx_muon_PtCut;
+    vector<int> v_idx_muon_PtCut_IDISO;
+
+    // Loop over muons
+    for(int imuon=0; imuon<MuonPt->size(); imuon++){
+      
+      // pT pre-cut on muon
+      if ( MuonPt->at(imuon) < muPtCut ) continue;
+
+      v_idx_muon_PtCut.push_back(imuon);
+
+      // isolation
+      double MuonCombRelIso  =  ( MuonTrackerIsoSumPT->at(imuon) 
+				  + MuonEcalIso->at(imuon) 
+				  + MuonHcalIso->at(imuon) 
+				  - rhoIso*TMath::Pi()*0.3*0.3 
+				  ) / MuonPt->at(imuon) ;
+
+      // Pass Muon Selection
+      if (   
+	  //Is GlobalMuonPromptTight
+	  MuonIsGlobal->at(imuon) 
+	  && MuonGlobalChi2->at(imuon) < muNormChi2
+	  && MuonGlobalTrkValidHits->at(imuon) > muNValidHitsGlobal
+	  //Other requirements
+	  && MuonStationMatches->at(imuon) > muNMatchedStation
+	  && MuonPrimaryVertexDXY->at(imuon) < muDxyTrack
+	  && MuonTrkPixelHitCount->at(imuon) > muNValidHitsPixel
+	  && MuonTrkHitsTrackerOnly->at(imuon) > muNValidHitsTrack
+	  //Isolation
+	  && MuonCombRelIso < muCombRelIso
+	  )
+	{
+	  v_idx_muon_PtCut_IDISO.push_back(imuon);
+
+	  //histograms
+	  FillUserTH1D( "MuonAllPt"                  ,    MuonPt->at(imuon)  ); 
+	  FillUserTH1D( "MuonAllEta"                 ,    MuonEta->at(imuon) ); 
+	}
+
+    }// end loop over muons
+
+    //## Electrons
+    vector<int> v_idx_ele_PtCut;
+    vector<int> v_idx_ele_PtCut_IDISO;
+
+    //Loop over electrons
+    for(int iele=0; iele<ElectronPt->size(); iele++)
+      {
+	
+	if( eleAlgorithm == 1) //------> use EWK(WP80) SimpleCutBasedEleID2011
+	  {
+
+	    // pT pre-cut on ele
+	    if( ElectronPt->at(iele) < elePtCut ) continue;
+
+	    // ecal driven	    
+	    if( eleUseEcalDriven && !ElectronHasEcalDrivenSeed->at(iele) )
+	      continue;
+
+	    v_idx_ele_PtCut.push_back(iele);
+
+	    int passEleSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    int isPhotConv = 0;
+
+	    // isolation
+	    double ElectronCombRelIso_bar  =  ( ElectronTrkIsoDR03->at(iele) 
+						+ max( 0., ElectronEcalIsoDR03->at(iele) - 1. ) 
+						+ ElectronHcalIsoDR03FullCone->at(iele) 
+						- rhoIso*TMath::Pi()*0.3*0.3 
+						) / ElectronPt->at(iele) ;
+	    
+	    double ElectronCombRelIso_end  =  ( ElectronTrkIsoDR03->at(iele) 
+						+ ElectronEcalIsoDR03->at(iele) 
+						+ ElectronHcalIsoDR03FullCone->at(iele) 
+						- rhoIso*TMath::Pi()*0.3*0.3 
+						) / ElectronPt->at(iele) ;
+
+	    // conversions
+	    if(eleUseHasMatchConv)
+	      {
+		if( ElectronHasMatchedConvPhot->at(iele) )
+		  isPhotConv = 1;
+	      }
+	    else 
+	      {
+		if( ElectronDist->at(iele) < eleDist && ElectronDCotTheta->at(iele) < eleDCotTheta )	      
+		  isPhotConv = 1;
+	      }
+
+	    //barrel/endcap
+	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
+	      isBarrel = 1;	    
+	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {		
+		
+		if( ElectronMissingHits->at(iele) == eleMissingHits 
+		    && isPhotConv == 0
+		    && ElectronCombRelIso_bar < eleCombRelIso_bar
+		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_bar 
+		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_bar 
+		    && fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_bar 
+		    )
+		  passEleSel = 1;		
+		
+	      }//end barrel
+
+	    if(isEndcap)
+	      {		
+		
+		if( ElectronMissingHits->at(iele) == eleMissingHits 
+		    && isPhotConv == 0
+		    && ElectronCombRelIso_end < eleCombRelIso_end
+		    && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIeta_end 
+		    && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSC_end 
+		    && fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSC_end 
+		    )
+		  passEleSel = 1;		
+		
+	      }//end endcap
+	    
+	    // Pass Electron Selection
+	    if ( passEleSel )
+	      {
+		v_idx_ele_PtCut_IDISO.push_back(iele);
+
+		//histograms
+		FillUserTH1D( "EleAllPt"                  ,    ElectronPt->at(iele)  ); 
+		FillUserTH1D( "EleAllEta"                 ,    ElectronEta->at(iele) ); 
+	      }
+	    
+	  }//------> use EWK(WP80) SimpleCutBasedEleID2011
+	
+	else if (eleAlgorithm == 2) //------> use HEEP variables
+	  
+	  {
+	    
+	    // pT pre-cut on ele
+	    if( ElectronPt->at(iele) < elePtCut ) continue;
+	    
+	    // ecal driven	    
+	    if( eleUseEcalDrivenHeep && !ElectronHasEcalDrivenSeed->at(iele) )
+	      continue;
+
+	    v_idx_ele_PtCut.push_back(iele);
+
+	    int passEleSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    
+	    if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar ) 
+	      isBarrel = 1;
+	    
+	    if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min && fabs( ElectronSCEta->at(iele) ) < eleEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {		
+
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_bar 
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_bar 
+		   && ElectronHoE->at(iele) < eleHoEHeep_bar 
+		   && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5Heep_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5Heep_bar ) 
+		   && ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele) 
+		   < eleEcalHcalIsoHeep_1_bar + eleEcalHcalIsoHeep_2_bar*ElectronPt->at(iele) 
+		   && ElectronTrkIsoDR03->at(iele) <eleTrkIsoHeep_bar
+		   )
+		  passEleSel = 1;		
+		
+	      }//end barrel
+	
+	    if(isEndcap)
+	      {		
+		
+		int passEcalHcalIsoCut=0;
+		if(ElectronPt->at(iele) < eleEcalHcalIso_PTthrHeep_end
+		   && (ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele)) < eleEcalHcalIsoHeep_1_end)
+		  passEcalHcalIsoCut=1;
+		if(ElectronPt->at(iele) > eleEcalHcalIso_PTthrHeep_end
+		   && (ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele)) 
+		   < eleEcalHcalIsoHeep_1_end+eleEcalHcalIsoHeep_2_end*(ElectronPt->at(iele)-eleEcalHcalIso_PTthrHeep_end) )
+		  passEcalHcalIsoCut=1;
+		
+		if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_end 
+		   && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_end 
+		   && ElectronHoE->at(iele) < eleHoEHeep_end 
+		   && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaHeep_end 
+		   && passEcalHcalIsoCut == 1
+		   && ElectronHcalIsoD2DR03->at(iele) < eleHcalIsoD2Heep_end 
+		   && ElectronTrkIsoDR03->at(iele) < eleTrkIsoHeep_end 
+		   )
+		  passEleSel = 1;
+		
+	      }//end endcap
+	    
+	    //Pass User Defined Electron Selection
+	    if ( passEleSel )
+	      {
+		v_idx_ele_PtCut_IDISO.push_back(iele);
+
+		//histograms
+		FillUserTH1D( "EleAllPt"                  ,    ElectronPt->at(iele)  ); 
+		FillUserTH1D( "EleAllEta"                 ,    ElectronEta->at(iele) ); 
+	      }
+	    
+	  }//------> use HEEP variables
+
+      } // End loop over electrons
+
+    //## Photons
+    vector<int> v_idx_pho_PtCut_IDISO;
+    
+    //Loop over photons
+    for(int ipho=0; ipho<PhotonPt->size(); ipho++)
+      {      
+	// pT pre-cut on photon
+	if( PhotonPt->at(ipho) < phoPtCut ) continue;
+	
+	if( phoAlgorithm == 1) //------> use TightPhoton (Twiki PhotonIDAnalysis) + electron veto
+	  {
+	    int passPhoSel = 0;
+	    int isBarrel = 0;
+	    int isEndcap = 0;
+	    int isMatchEle = 0;
+
+	    //matched prompt ele
+	    if( phoUseMatchPromptEle==1 && phoUsePixelSeed==0 )
+	      {
+		if( PhotonHasMatchedPromptEle->at(ipho) )
+		  isMatchEle = 1;
+	      }
+	    if( phoUseMatchPromptEle==0 && phoUsePixelSeed==1 )
+	      {
+		if( PhotonHasPixelSeed->at(ipho) )
+		  isMatchEle = 1;
+	      }
+
+	    //barrel/endcap
+	    if( fabs( PhotonSCeta->at(ipho) ) < phoEta_bar ) 
+	      isBarrel = 1;	    
+	    if( fabs( PhotonSCeta->at(ipho) ) > phoEta_end_min && fabs( PhotonSCeta->at(ipho) ) < phoEta_end_max ) 
+	      isEndcap = 1;
+	    
+	    if(isBarrel)
+	      {		
+		
+		if( isMatchEle == 0
+		    && PhotonHoE->at(ipho) < phoHoE_bar
+		    && PhotonSigmaIEtaIEta->at(ipho) < phoSigmaIetaIeta_bar 		    
+		    && PhotonEcalIsoDR04->at(ipho) < phoEcalIso_bar_const + phoEcalIso_bar_ptCoeff * PhotonPt->at(ipho)  
+		    && PhotonHcalIsoDR04->at(ipho) < phoHcalIso_bar_const + phoHcalIso_bar_ptCoeff * PhotonPt->at(ipho) 
+		    && PhotonTrkIsoHollowDR04->at(ipho) < phoTrkIso_bar_const + phoTrkIso_bar_ptCoeff * PhotonPt->at(ipho)
+		    )
+		  passPhoSel = 1;		
+		
+	      }//end barrel
+
+	    if(isEndcap)
+	      {		
+
+		if( isMatchEle == 0
+		    && PhotonHoE->at(ipho) < phoHoE_end
+		    && PhotonSigmaIEtaIEta->at(ipho) < phoSigmaIetaIeta_end 		    
+		    && PhotonEcalIsoDR04->at(ipho) < phoEcalIso_end_const + phoEcalIso_end_ptCoeff * PhotonPt->at(ipho)  
+		    && PhotonHcalIsoDR04->at(ipho) < phoHcalIso_end_const + phoHcalIso_end_ptCoeff * PhotonPt->at(ipho) 
+		    && PhotonTrkIsoHollowDR04->at(ipho) < phoTrkIso_end_const + phoTrkIso_end_ptCoeff * PhotonPt->at(ipho)
+		    )
+		  passPhoSel = 1;		
+
+	      }//end endcap
+	    
+	    // Pass Photon Selection
+	    if ( passPhoSel )
+	      {
+		v_idx_pho_PtCut_IDISO.push_back(ipho);
+
+		//histograms
+		FillUserTH1D( "PhoAllPt"                  ,    PhotonPt->at(ipho)  ); 
+		FillUserTH1D( "PhoAllEta"                 ,    PhotonEta->at(ipho) ); 
+	      }
+	    
+	  }//------> use TightPhoton (Twiki PhotonIDAnalysis) + electron veto
+      }
+
+    //## Jets
+    vector<int> v_idx_jet_PtCut;
+    vector<int> v_idx_jet_PtCut_noOverlap_ID;
+    vector<int> v_idx_jet_PtCut_noOverlap_ID_TCHEL;
+
+    // Loop over jets
+    for(int ijet=0; ijet<JetPt->size(); ijet++)
+      {
+	//pT pre-cut on reco jets
+	if ( JetPt->at(ijet) < jetPtCut ) continue;
+	v_idx_jet_PtCut.push_back(ijet);
+      }
+
+    //ele-jet overlap
+    vector <int> jetFlagsEle(v_idx_jet_PtCut.size(), 0);
+    int NjetflaggedEle = 0;
+    for (int iele=0; iele<v_idx_ele_PtCut_IDISO.size(); iele++)
+      {
+	TLorentzVector ele;
+        ele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO[iele]),
+			 ElectronEta->at(v_idx_ele_PtCut_IDISO[iele]),
+			 ElectronPhi->at(v_idx_ele_PtCut_IDISO[iele]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlagsEle[ijet] == 1 )
+	      continue;
+            jet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut[ijet]) );
+	    double DR = jet.DeltaR(ele);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < jet_ele_DeltaRcut 
+	     && ijet_minDR > -1 )
+	  {
+	    jetFlagsEle[ijet_minDR] = 1;
+	    NjetflaggedEle++;
+	  }
+      }
+
+    //muon-jet overlap
+    vector <int> jetFlagsMuon(v_idx_jet_PtCut.size(), 0);
+    int NjetflaggedMuon = 0;
+    for (int imu=0; imu<v_idx_muon_PtCut_IDISO.size(); imu++)
+      {
+	TLorentzVector mu;
+        mu.SetPtEtaPhiM(MuonPt->at(v_idx_muon_PtCut_IDISO[imu]),
+			MuonEta->at(v_idx_muon_PtCut_IDISO[imu]),
+			MuonPhi->at(v_idx_muon_PtCut_IDISO[imu]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlagsMuon[ijet] == 1 )
+	      continue;
+            jet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut[ijet]) );
+	    double DR = jet.DeltaR(mu);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < jet_muon_DeltaRcut 
+	     && ijet_minDR > -1 )
+	  {
+	    jetFlagsMuon[ijet_minDR] = 1;
+	    NjetflaggedMuon++;
+	  }
+      }
+
+    //photon-jet overlap
+    vector <int> jetFlagsPho(v_idx_jet_PtCut.size(), 0);
+    int NjetflaggedPho = 0;
+    for (int ipho=0; ipho<v_idx_pho_PtCut_IDISO.size(); ipho++)
+      {                   
+	TLorentzVector pho;
+        pho.SetPtEtaPhiM(PhotonPt->at(v_idx_pho_PtCut_IDISO[ipho]),
+			 PhotonEta->at(v_idx_pho_PtCut_IDISO[ipho]),
+			 PhotonPhi->at(v_idx_pho_PtCut_IDISO[ipho]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;
+        for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++)
+          {
+	    if ( jetFlagsPho[ijet] == 1 )
+	      continue;
+            jet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut[ijet]),
+			     JetEta->at(v_idx_jet_PtCut[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut[ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut[ijet]) );
+	    double DR = jet.DeltaR(pho);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < jet_pho_DeltaRcut 
+	     && ijet_minDR > -1 )
+	  {
+	    jetFlagsPho[ijet_minDR] = 1;
+	    NjetflaggedPho++;
+	  }
+      }
+
+    // Pass Jet Selection
+    for(int ijet=0; ijet<v_idx_jet_PtCut.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
+      {
+	bool passjetID = true;
+	
+	if( jetIDloose && !jetIDtight )
+	  {
+	    passjetID = JetPassLooseID->at(v_idx_jet_PtCut[ijet]);
+	  }
+	if( jetIDtight )
+	  {
+	    passjetID = JetPassTightID->at(v_idx_jet_PtCut[ijet]);
+	  }
+
+	if( jetFlagsEle[ijet] == 0                                      /* NO overlap with electrons */ 
+	    && jetFlagsMuon[ijet] == 0                                  /* NO overlap with muons */	    
+	    //&& jetFlagsPho[ijet] == 0                                 /* NO overlap with photons */	    
+	    && passjetID == true                                        /* pass JetID */
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	/* pass Jet Eta cut */    
+	    )                         
+	  {
+	    v_idx_jet_PtCut_noOverlap_ID.push_back(v_idx_jet_PtCut[ijet]);
+
+	    //histograms
+	    FillUserTH1D( "JetAllPt"                  ,    JetPt->at(ijet)  ); 
+	    FillUserTH1D( "JetAllEta"                 ,    JetEta->at(ijet) ); 
+	  }
+
+	if( jetFlagsEle[ijet] == 0                                       /* NO overlap with electrons */ 
+	    && jetFlagsMuon[ijet] == 0                                   /* NO overlap with muons */	    
+	    //&& jetFlagsPho[ijet] == 0                                  /* NO overlap with photons */	    
+	    && passjetID == true                                         /* pass JetID */
+	    && fabs( JetEta->at(v_idx_jet_PtCut[ijet]) ) < jetEtaCut 	 /* pass Jet Eta cut */    
+            && fabs( JetTCHE->at(v_idx_jet_PtCut[ijet]) ) > jetTCHELCut  /* TrackCountingHighEfficiency loose b-tag (see https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideBTagPerformance) */
+	    )
+	  {                         
+	    v_idx_jet_PtCut_noOverlap_ID_TCHEL.push_back(v_idx_jet_PtCut[ijet]);	
+
+	    //histograms
+	    FillUserTH1D( "BJetAllPt"                  ,    JetPt->at(ijet)  ); 
+	    FillUserTH1D( "BJetAllEta"                 ,    JetEta->at(ijet) ); 
+	  }
+      } // End loop over jets
+
+    //## MET scale uncert.
+    if( JetEnergyScale != 1 || (!isData && doJetOversmearing) )
+      { //use fix JES scaling passed from cut file
+
+	TVector2 v_MET_old;
+	TVector2 v_MET_new;
+
+	//use only good jets (after electron-jet and muon-jet overlap) for re-doing MET
+	for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+	  {
+	    TVector2 v_jet_pt_old;
+	    TVector2 v_jet_pt_new;
+	    v_jet_pt_old.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet])/JetEnergyScale/JetOversmearingFactor->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+	    v_jet_pt_new.SetMagPhi( JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) , JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+	    //pT pre-cut on reco jets
+	    if ( v_jet_pt_old.Mod() < jet_PtCut_forMetScale ) continue;
+	    v_MET_new += v_jet_pt_old - v_jet_pt_new;
+	  }
+
+	//for MET energy scale
+	v_MET_old.SetMagPhi( thisMET , thisMETPhi );
+	v_MET_new += v_MET_old;
+ 	thisMET = v_MET_new.Mod();
+ 	thisMETPhi = v_MET_new.Phi();
+
+	//## for debug
+	//double METscale_diff = thisMET - v_MET_old.Mod() ;
+	// 	cout << "old MET = " << v_MET_old.Mod()
+	// 	     << " " << "new MET = " << thisMET
+	// 	     << " " << "new-old = " << METscale_diff
+	// 	     << endl;
+	//CreateAndFillUserTH1D("h1_METscale_diff", 400, -100, 100, METscale_diff);
+	//##
+      }
+
+    // vertices
+    vector<int> v_idx_vertex_good;
+    // loop over vertices
+    for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+      if ( !(VertexIsFake->at(ivertex))
+    	   && VertexNDF->at(ivertex) > vertexMinimumNDOF
+    	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+    	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+    	{
+    	  v_idx_vertex_good.push_back(ivertex);
+    	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+    	}
+    }
+
+    //Printout Gen level
+//     if(isData==0 && (event==26937 || event==6534 || event==39495 || event==16006 || event==34295 || event==31772 ) )
+//       {
+// 	cout << endl;
+// 	cout << "----------------------" << endl;
+// 	cout << "event: " << event<< " , GenMET: " << GenMETTrue->at(0) << endl;
+
+
+// 	for (int genp=0; genp<GenParticlePdgId->size(); genp++)
+// 	  {	   
+// 	    double mass = 0;
+// 	    TLorentzVector particle;
+// 	    particle.SetPtEtaPhiE(GenParticlePt->at(genp) , GenParticleEta->at(genp) , GenParticlePhi->at(genp) , GenParticleEnergy->at(genp) );
+
+// 	    //--- printout
+// 	    cout << "idx: " << genp
+// 		 << " GenParticlePdgId: " << GenParticlePdgId->at(genp)
+// 		 << " GenParticleMotherIndex: " << GenParticleMotherIndex->at(genp)
+// 		 << " GenParticleStatus: " << GenParticleStatus->at(genp)
+// 		 << " GenParticlePt: " << GenParticlePt->at(genp)
+// 		 << " GenParticleEta: " << GenParticleEta->at(genp)
+// 		 << " GenParticlePhi: " << GenParticlePhi->at(genp)
+// 		 << " GenPArticleMass: " << particle.M()
+// 		 << endl;	 
+// 	    //---
+// 	  }
+//       }
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
 
     // Set the value of the variableNames listed in the cutFile to their current value
-    fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
+    //fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
 
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
@@ -393,6 +1196,204 @@ void analysisClass::Loop()
     FillUserTH1D("h1_Num_AG_Daughters", Num_AG_Daughters);		
 
     FillUserTH1D("h1_GenMET", GenMETTrue->at(0) );
+
+
+    //### Calculate acceptance and efficiency
+    
+    
+    //Electrons
+    if( fabs(flavour_W_lepton) == abs(PDGID_ELE) && fabs(flavour_W_neutrino) == abs(PDGID_NUELE) )
+      {	
+	bool isInAcceptance             = false;
+	bool isMatchedToRecoObject      = false;
+	bool isMatchedToRecoIDISOObject = false;
+
+	//acceptance cuts
+	if( v_W_l.Pt() > elePtCut 
+	    && ( 
+		fabs(v_W_l.Eta()) < eleEta_bar 
+		|| 
+		( fabs(v_W_l.Eta()) > eleEta_end_min && fabs(v_W_l.Eta()) < eleEta_end_max ) 
+		) 
+	    )
+	  {
+	    isInAcceptance = true;
+	  }
+
+	//matched with reco object	
+	int iele_minDR=-1;
+	double minDR=9999.;	    
+	for (int iele=0; iele<v_idx_ele_PtCut.size(); iele++)
+	  {
+	    TLorentzVector ele;
+	    ele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut[iele]),
+			     ElectronEta->at(v_idx_ele_PtCut[iele]),
+			     ElectronPhi->at(v_idx_ele_PtCut[iele]),0);
+	    double DR = v_W_l.DeltaR(ele);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		iele_minDR = iele;
+	      }
+	  }	
+	double eleGen_DeltaRcut =0.1;
+	CreateAndFillUserTH1D("h1_minDR_e", 1000, 0, 10, minDR);	    	
+	if ( minDR < eleGen_DeltaRcut && iele_minDR > -1 )
+	  {
+	    CreateAndFillUserTH1D("h1_ErecoOverEgen_e", 100, 0, 3, ElectronEnergy->at(v_idx_ele_PtCut[iele_minDR]) / v_W_l.E() );	    	
+	    isMatchedToRecoObject = true;
+	  }      			     
+
+	//matched with reco+ID+ISO object	
+	int iele_minDR_IDISO=-1;
+	double minDR_IDISO=9999.;	    
+	for (int iele=0; iele<v_idx_ele_PtCut_IDISO.size(); iele++)
+	  {
+	    TLorentzVector ele;
+	    ele.SetPtEtaPhiM(ElectronPt->at(v_idx_ele_PtCut_IDISO[iele]),
+			     ElectronEta->at(v_idx_ele_PtCut_IDISO[iele]),
+			     ElectronPhi->at(v_idx_ele_PtCut_IDISO[iele]),0);
+	    double DR = v_W_l.DeltaR(ele);
+	    if (DR<minDR_IDISO)
+	      {
+		minDR_IDISO = DR;
+		iele_minDR_IDISO = iele;
+	      }
+	  }	
+	double eleGen_DeltaRcut_IDISO =0.1;
+	CreateAndFillUserTH1D("h1_minDR_e_IDISO", 1000, 0, 10, minDR_IDISO);	    	
+	if ( minDR_IDISO < eleGen_DeltaRcut_IDISO && iele_minDR_IDISO > -1 )
+	  {
+	    CreateAndFillUserTH1D("h1_ErecoOverEgen_e_IDISO", 100, 0, 3, ElectronEnergy->at(v_idx_ele_PtCut[iele_minDR_IDISO]) / v_W_l.E() );	    	
+	    isMatchedToRecoIDISOObject = true;
+	  }      			     
+
+	//Distance ele-quark
+	double minDR_elequark = min( v_W_l.DeltaR(v_AG_q) , v_W_l.DeltaR(v_AG_qbar) );	    
+
+	//Plots
+ 	FillUserTH1D("h1_Pt_W_e", v_W_l.Pt() );
+ 	FillUserTH1D("h1_Eta_W_e", v_W_l.Eta() );
+	FillUserTH1D("h1_minDR_elequark", minDR_elequark );
+	
+	if( isInAcceptance )
+	  {
+ 	    FillUserTH1D("h1_Pt_W_e_gencuts", v_W_l.Pt() );
+ 	    FillUserTH1D("h1_Eta_W_e_gencuts", v_W_l.Eta() );	    
+	    FillUserTH1D("h1_minDR_elequark_gencuts", minDR_elequark );
+	  }
+	if( isInAcceptance && isMatchedToRecoObject )
+	  {
+ 	    FillUserTH1D("h1_Pt_W_e_recomatched", v_W_l.Pt() );
+ 	    FillUserTH1D("h1_Eta_W_e_recomatched", v_W_l.Eta() );	    	    
+	    FillUserTH1D("h1_minDR_elequark_recomatched", minDR_elequark );
+	  }
+	if( isInAcceptance && isMatchedToRecoObject && isMatchedToRecoIDISOObject )
+	  {
+ 	    FillUserTH1D("h1_Pt_W_e_recomatched_IDISO", v_W_l.Pt() );
+ 	    FillUserTH1D("h1_Eta_W_e_recomatched_IDISO", v_W_l.Eta() );	   
+	    FillUserTH1D("h1_minDR_elequark_recomatched_IDISO", minDR_elequark ); 	    
+	  }
+
+      }
+
+
+    //Muons
+    if( fabs(flavour_W_lepton) == abs(PDGID_MU) && fabs(flavour_W_neutrino) == abs(PDGID_NUMU) )
+      {	
+	bool isInAcceptance             = false;
+	bool isMatchedToRecoObject      = false;
+	bool isMatchedToRecoIDISOObject = false;
+
+	//acceptance cuts
+	if( v_W_l.Pt() > muPtCut 
+	    && ( 
+		fabs(v_W_l.Eta()) < muEta_bar 
+		|| 
+		( fabs(v_W_l.Eta()) > muEta_end_min && fabs(v_W_l.Eta()) < muEta_end_max ) 
+		) 
+	    )
+	  {
+	    isInAcceptance = true;
+	  }
+
+	//matched with reco object	
+	int imuon_minDR=-1;
+	double minDR=9999.;	    
+	for (int imuon=0; imuon<v_idx_muon_PtCut.size(); imuon++)
+	  {
+	    TLorentzVector muon;
+	    muon.SetPtEtaPhiM(MuonPt->at(v_idx_muon_PtCut[imuon]),
+			     MuonEta->at(v_idx_muon_PtCut[imuon]),
+			     MuonPhi->at(v_idx_muon_PtCut[imuon]),0);
+	    double DR = v_W_l.DeltaR(muon);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		imuon_minDR = imuon;
+	      }
+	  }	
+	double muonGen_DeltaRcut =0.1;
+	CreateAndFillUserTH1D("h1_minDR_mu", 1000, 0, 10, minDR);	    	
+	if ( minDR < muonGen_DeltaRcut && imuon_minDR > -1 )
+	  {
+	    CreateAndFillUserTH1D("h1_ErecoOverEgen_mu", 100, 0, 3, MuonP->at(v_idx_muon_PtCut[imuon_minDR]) / v_W_l.P() );	    	
+	    isMatchedToRecoObject = true;
+	  }      			     
+
+	//matched with reco+ID+ISO object	
+	int imuon_minDR_IDISO=-1;
+	double minDR_IDISO=9999.;	    
+	for (int imuon=0; imuon<v_idx_muon_PtCut_IDISO.size(); imuon++)
+	  {
+	    TLorentzVector muon;
+	    muon.SetPtEtaPhiM(MuonPt->at(v_idx_muon_PtCut_IDISO[imuon]),
+			     MuonEta->at(v_idx_muon_PtCut_IDISO[imuon]),
+			     MuonPhi->at(v_idx_muon_PtCut_IDISO[imuon]),0);
+	    double DR = v_W_l.DeltaR(muon);
+	    if (DR<minDR_IDISO)
+	      {
+		minDR_IDISO = DR;
+		imuon_minDR_IDISO = imuon;
+	      }
+	  }	
+	double muonGen_DeltaRcut_IDISO =0.1;
+	CreateAndFillUserTH1D("h1_minDR_mu_IDISO", 1000, 0, 10, minDR_IDISO);	    	
+	if ( minDR_IDISO < muonGen_DeltaRcut_IDISO && imuon_minDR_IDISO > -1 )
+	  {
+	    CreateAndFillUserTH1D("h1_ErecoOverEgen_mu_IDISO", 100, 0, 3, MuonP->at(v_idx_muon_PtCut[imuon_minDR_IDISO]) / v_W_l.P() );	    	
+	    isMatchedToRecoIDISOObject = true;
+	  }      			     
+
+	//Distance muon-quark
+	double minDR_muonquark = min( v_W_l.DeltaR(v_AG_q) , v_W_l.DeltaR(v_AG_qbar) );	    
+
+	//Plots
+ 	FillUserTH1D("h1_Pt_W_mu", v_W_l.Pt() );
+ 	FillUserTH1D("h1_Eta_W_mu", v_W_l.Eta() );
+	FillUserTH1D("h1_minDR_muonquark", minDR_muonquark );
+	
+	if( isInAcceptance )
+	  {
+ 	    FillUserTH1D("h1_Pt_W_mu_gencuts", v_W_l.Pt() );
+ 	    FillUserTH1D("h1_Eta_W_mu_gencuts", v_W_l.Eta() );	    
+	    FillUserTH1D("h1_minDR_muonquark_gencuts", minDR_muonquark );
+	  }
+	if( isInAcceptance && isMatchedToRecoObject )
+	  {
+ 	    FillUserTH1D("h1_Pt_W_mu_recomatched", v_W_l.Pt() );
+ 	    FillUserTH1D("h1_Eta_W_mu_recomatched", v_W_l.Eta() );	    	    
+	    FillUserTH1D("h1_minDR_muonquark_recomatched", minDR_muonquark );
+	  }
+	if( isInAcceptance && isMatchedToRecoObject && isMatchedToRecoIDISOObject )
+	  {
+ 	    FillUserTH1D("h1_Pt_W_mu_recomatched_IDISO", v_W_l.Pt() );
+ 	    FillUserTH1D("h1_Eta_W_mu_recomatched_IDISO", v_W_l.Eta() );	   
+	    FillUserTH1D("h1_minDR_muonquark_recomatched_IDISO", minDR_muonquark ); 	    
+	  }
+
+      }
+
     
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
