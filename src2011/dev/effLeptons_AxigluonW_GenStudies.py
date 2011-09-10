@@ -300,14 +300,14 @@ def GetIntegralError(histo):
 
 #--- Root files
 
-#File1 = GetFile("AG150WGen.root")
-File1 = GetFile("AG1000WGen.root")
+File1 = GetFile("AG150WGen.root")
+#File1 = GetFile("AG1000WGen.root")
 
 #--- Define all the histograms
 
 #--------- Electrons ----------
-# #outputFile = "effEle_AG150WGen.ps"
-# outputFile = "effEle_AG1000WGen.ps"
+# outputFile = "effEle_AG150WGen.ps"
+# #outputFile = "effEle_AG1000WGen.ps"
 # leptonType = "electron"
 # ## Eta histograms
 # h_lepton_eta_gen_all = GetHisto( "h1_Eta_W_e" , File1)
@@ -324,10 +324,16 @@ File1 = GetFile("AG1000WGen.root")
 # h_lepton_DRleptonquark_cuts = GetHisto( "h1_minDR_elequark_gencuts" , File1)
 # h_lepton_DRleptonquark_RECO = GetHisto( "h1_minDR_elequark_recomatched" , File1)
 # h_lepton_DRleptonquark_RECO_ID_ISO= GetHisto( "h1_minDR_elequark_recomatched_IDISO" , File1)
+# ## nVtx histograms
+# h_lepton_nVtx_gen_all = GetHisto( "h1_nVtx_e" , File1)
+# h_lepton_nVtx_gen_cuts = GetHisto( "h1_nVtx_e_gencuts" , File1)
+# h_lepton_nVtx_gen_RECO = GetHisto( "h1_nVtx_e_recomatched" , File1)
+# h_lepton_nVtx_gen_RECO_ID_ISO = GetHisto( "h1_nVtx_e_recomatched_IDISO" , File1)
+
 
 #--------- Muons ----------
-#outputFile = "effMuon_AG150WGen.ps"
-outputFile = "effMuon_AG1000WGen.ps"
+outputFile = "effMuon_AG150WGen.ps"
+#outputFile = "effMuon_AG1000WGen.ps"
 leptonType = "muon"
 ## Eta histograms
 h_lepton_eta_gen_all = GetHisto( "h1_Eta_W_mu" , File1)
@@ -344,6 +350,11 @@ h_lepton_DRleptonquark_all = GetHisto( "h1_minDR_muonquark" , File1)
 h_lepton_DRleptonquark_cuts = GetHisto( "h1_minDR_muonquark_gencuts" , File1)
 h_lepton_DRleptonquark_RECO = GetHisto( "h1_minDR_muonquark_recomatched" , File1)
 h_lepton_DRleptonquark_RECO_ID_ISO= GetHisto( "h1_minDR_muonquark_recomatched_IDISO" , File1)
+## nVtx histograms
+h_lepton_nVtx_gen_all = GetHisto( "h1_nVtx_mu" , File1)
+h_lepton_nVtx_gen_cuts = GetHisto( "h1_nVtx_mu_gencuts" , File1)
+h_lepton_nVtx_gen_RECO = GetHisto( "h1_nVtx_mu_recomatched" , File1)
+h_lepton_nVtx_gen_RECO_ID_ISO = GetHisto( "h1_nVtx_mu_recomatched_IDISO" , File1)
 
 
 ############################
@@ -418,6 +429,13 @@ eff_lepton_DRleptonquark_gen_RECO_ID_ISO_rel = GetEffFixBinning( h_lepton_DRlept
                                                            , "min\\Delta R ("+leptonType+",quark)" , "relative efficiency"
                                                            , 0 , 10 , 0., 1)
 
+
+#--- Calculate total acceptance x efficiency
+
+eff_times_acc_lepton_nVtx_lepton_gen_RECO_ID_ISO = GetEffFixBinning( h_lepton_nVtx_gen_RECO_ID_ISO , h_lepton_nVtx_gen_all
+                                                                     , 0.9 , 20 , 4
+                                                                     , "Number of reco vertices (in events with "+leptonType+")" , "acceptance x efficiency"
+                                                                     , 0 , 30 , 0., 1)
 
 #--- Final plots
 
@@ -633,9 +651,31 @@ c51.Update()
 gPad.RedrawAxis()
 gPad.Modified()
 
-c51.Print(outputFile+")")
+c51.Print(outputFile)
 
 #------------------------------------------------------
+
+## Eff x Acceptance vs nVtx - lepton
+c52 = TCanvas()
+c52.SetGridy();
+c52.SetGridx();
+eff_times_acc_lepton_nVtx_lepton_gen_RECO_ID_ISO.Draw("ap")
+
+#---Create legend
+#globals()['legend52'] = TLegend(0.348609,0.584915,0.653028,0.777129)
+globals()['legend52'] = TLegend(0.348609,0.184915,0.653028,0.377129)
+legend52.SetFillColor(kWhite)
+legend52.SetMargin(0.3)
+legend52.AddEntry(eff_times_acc_lepton_nVtx_lepton_gen_RECO_ID_ISO,"Acc. x RECO+ID+ISO Eff.","p")
+legend52.Draw()
+c52.Update()
+gPad.RedrawAxis()
+gPad.Modified()
+
+c52.Print(outputFile+")")
+
+#------------------------------------------------------
+
 
 #Print out
 print "Acceptance = " + str(h_lepton_eta_gen_cuts.Integral()/h_lepton_eta_gen_all.Integral())

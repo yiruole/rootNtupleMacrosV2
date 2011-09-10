@@ -254,6 +254,10 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_minDR_elequark_gencuts", 100, 0, 10);
   CreateUserTH1D("h1_minDR_elequark_recomatched", 100, 0, 10);
   CreateUserTH1D("h1_minDR_elequark_recomatched_IDISO", 100, 0, 10);
+  CreateUserTH1D("h1_nVtx_e", 50, 0, 50 );	 	    
+  CreateUserTH1D("h1_nVtx_e_gencuts", 50 , 0, 50 );	 	    
+  CreateUserTH1D("h1_nVtx_e_recomatched", 50 , 0, 50 );	 	    
+  CreateUserTH1D("h1_nVtx_e_recomatched_IDISO", 50 , 0, 50 );	 	    
 
   CreateUserTH1D("h1_Pt_W_mu", 100, 0, 1000);
   CreateUserTH1D("h1_Pt_W_mu_gencuts", 100, 0, 1000);
@@ -267,6 +271,10 @@ void analysisClass::Loop()
   CreateUserTH1D("h1_minDR_muonquark_gencuts", 100, 0, 10);
   CreateUserTH1D("h1_minDR_muonquark_recomatched", 100, 0, 10);
   CreateUserTH1D("h1_minDR_muonquark_recomatched_IDISO", 100, 0, 10);
+  CreateUserTH1D("h1_nVtx_mu", 50, 0, 50 );	 	    
+  CreateUserTH1D("h1_nVtx_mu_gencuts", 50 , 0, 50 );	 	    
+  CreateUserTH1D("h1_nVtx_mu_recomatched", 50 , 0, 50 );	 	    
+  CreateUserTH1D("h1_nVtx_mu_recomatched_IDISO", 50 , 0, 50 );	 	    
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -1179,7 +1187,7 @@ void analysisClass::Loop()
       {
 	cout << flavour_AG_q << endl;
 	cout << flavour_AG_qbar << endl;
-	cout << "stonzo!!!!!!!!!!!!!!!!!!!!" << endl;
+	cout << "THERE IS A PROBLEM!!!!!!!!!!!!!!!!!!!!" << endl;
       }
 
     if( fabs(flavour_W_lepton) == abs(PDGID_ELE) && fabs(flavour_W_neutrino) == abs(PDGID_NUELE) )
@@ -1275,24 +1283,28 @@ void analysisClass::Loop()
  	FillUserTH1D("h1_Pt_W_e", v_W_l.Pt() );
  	FillUserTH1D("h1_Eta_W_e", v_W_l.Eta() );
 	FillUserTH1D("h1_minDR_elequark", minDR_elequark );
-	
+ 	FillUserTH1D("h1_nVtx_e", VertexChi2->size()  );	
+
 	if( isInAcceptance )
 	  {
  	    FillUserTH1D("h1_Pt_W_e_gencuts", v_W_l.Pt() );
  	    FillUserTH1D("h1_Eta_W_e_gencuts", v_W_l.Eta() );	    
 	    FillUserTH1D("h1_minDR_elequark_gencuts", minDR_elequark );
+	    FillUserTH1D("h1_nVtx_e_gencuts", VertexChi2->size()  );	
 	  }
 	if( isInAcceptance && isMatchedToRecoObject )
 	  {
  	    FillUserTH1D("h1_Pt_W_e_recomatched", v_W_l.Pt() );
  	    FillUserTH1D("h1_Eta_W_e_recomatched", v_W_l.Eta() );	    	    
 	    FillUserTH1D("h1_minDR_elequark_recomatched", minDR_elequark );
+	    FillUserTH1D("h1_nVtx_e_recomatched", VertexChi2->size()  );	
 	  }
 	if( isInAcceptance && isMatchedToRecoObject && isMatchedToRecoIDISOObject )
 	  {
  	    FillUserTH1D("h1_Pt_W_e_recomatched_IDISO", v_W_l.Pt() );
  	    FillUserTH1D("h1_Eta_W_e_recomatched_IDISO", v_W_l.Eta() );	   
-	    FillUserTH1D("h1_minDR_elequark_recomatched_IDISO", minDR_elequark ); 	    
+	    FillUserTH1D("h1_minDR_elequark_recomatched_IDISO", minDR_elequark );
+	    FillUserTH1D("h1_nVtx_e_recomatched_IDISO", VertexChi2->size()  );	 	    
 	  }
 
       }
@@ -1372,24 +1384,28 @@ void analysisClass::Loop()
  	FillUserTH1D("h1_Pt_W_mu", v_W_l.Pt() );
  	FillUserTH1D("h1_Eta_W_mu", v_W_l.Eta() );
 	FillUserTH1D("h1_minDR_muonquark", minDR_muonquark );
+	FillUserTH1D("h1_nVtx_mu", VertexChi2->size()  );	 	    
 	
 	if( isInAcceptance )
 	  {
  	    FillUserTH1D("h1_Pt_W_mu_gencuts", v_W_l.Pt() );
  	    FillUserTH1D("h1_Eta_W_mu_gencuts", v_W_l.Eta() );	    
 	    FillUserTH1D("h1_minDR_muonquark_gencuts", minDR_muonquark );
+	    FillUserTH1D("h1_nVtx_mu_gencuts", VertexChi2->size()  );	 	    
 	  }
 	if( isInAcceptance && isMatchedToRecoObject )
 	  {
  	    FillUserTH1D("h1_Pt_W_mu_recomatched", v_W_l.Pt() );
  	    FillUserTH1D("h1_Eta_W_mu_recomatched", v_W_l.Eta() );	    	    
 	    FillUserTH1D("h1_minDR_muonquark_recomatched", minDR_muonquark );
+	    FillUserTH1D("h1_nVtx_mu_recomatched", VertexChi2->size()  );	 	    
 	  }
 	if( isInAcceptance && isMatchedToRecoObject && isMatchedToRecoIDISOObject )
 	  {
  	    FillUserTH1D("h1_Pt_W_mu_recomatched_IDISO", v_W_l.Pt() );
  	    FillUserTH1D("h1_Eta_W_mu_recomatched_IDISO", v_W_l.Eta() );	   
 	    FillUserTH1D("h1_minDR_muonquark_recomatched_IDISO", minDR_muonquark ); 	    
+	    FillUserTH1D("h1_nVtx_mu_recomatched_IDISO", VertexChi2->size()  );	 	    
 	  }
 
       }
