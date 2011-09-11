@@ -97,11 +97,21 @@ void analysisClass::Loop()
      
      int    passedJSON = passJSON ( run, ls , isData ) ;
 
+
+     //--------------------------------------------------------------------------
+     // Event-weight
+     //--------------------------------------------------------------------------
+     
+     double event_weight = 1;
+
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
+     int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
+     int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
+     event_weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
+     //event_weight = getPileupWeight ( min(nPileUpInt_BX0,25), isData ) ;
 
      //--------------------------------------------------------------------------
      // Fill variables
@@ -113,6 +123,7 @@ void analysisClass::Loop()
      // Noise filters
      fillVariableWithValue(   "PassHBHENoiseFilter"           , PassHBHENoiseFilter ) ; 
      fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight ) ; 
+     fillVariableWithValue(   "PassTrackingFailure"           , PassTrackingFailure ) ; 
 
      // Electrons
      fillVariableWithValue(   "nEle"                          , nEle ) ;
@@ -184,48 +195,48 @@ void analysisClass::Loop()
 
      if ( passed_preselection ) { 
 
-       FillUserTH1D( "Ele1_Pt"	           , 	Ele1_Pt       , weight);
-       FillUserTH1D( "Ele1_Eta"	           , 	Ele1_Eta      , weight);
-       FillUserTH1D( "Ele1_Phi"	           , 	Ele1_Phi      , weight);
-       FillUserTH1D( "Ele1_Charge"	   , 	Ele1_Charge   , weight);
+       FillUserTH1D( "Ele1_Pt"	           , 	Ele1_Pt       , event_weight);
+       FillUserTH1D( "Ele1_Eta"	           , 	Ele1_Eta      , event_weight);
+       FillUserTH1D( "Ele1_Phi"	           , 	Ele1_Phi      , event_weight);
+       FillUserTH1D( "Ele1_Charge"	   , 	Ele1_Charge   , event_weight);
        
-       FillUserTH1D( "MET_Pt"              ,    MET_Pt        , weight);
-       FillUserTH1D( "MET_Phi"		   , 	MET_Phi       , weight);
+       FillUserTH1D( "MET_Pt"              ,    MET_Pt        , event_weight);
+       FillUserTH1D( "MET_Phi"		   , 	MET_Phi       , event_weight);
        
-       FillUserTH1D( "Jet1_Pt"             ,    Jet1_Pt       , weight);
-       FillUserTH1D( "Jet1_Eta"	           , 	Jet1_Eta      , weight);
-       FillUserTH1D( "Jet1_Phi"	           , 	Jet1_Phi      , weight);
-       FillUserTH1D( "Jet1_btagTCHE"       ,    Jet1_btagTCHE , weight);
-       FillUserTH1D( "Jet2_Pt"             ,    Jet2_Pt       , weight);
-       FillUserTH1D( "Jet2_Eta"	           , 	Jet2_Eta      , weight);
-       FillUserTH1D( "Jet2_Phi"	           , 	Jet2_Phi      , weight);
-       FillUserTH1D( "Jet2_btagTCHE"       ,    Jet2_btagTCHE , weight);
+       FillUserTH1D( "Jet1_Pt"             ,    Jet1_Pt       , event_weight);
+       FillUserTH1D( "Jet1_Eta"	           , 	Jet1_Eta      , event_weight);
+       FillUserTH1D( "Jet1_Phi"	           , 	Jet1_Phi      , event_weight);
+       FillUserTH1D( "Jet1_btagTCHE"       ,    Jet1_btagTCHE , event_weight);
+       FillUserTH1D( "Jet2_Pt"             ,    Jet2_Pt       , event_weight);
+       FillUserTH1D( "Jet2_Eta"	           , 	Jet2_Eta      , event_weight);
+       FillUserTH1D( "Jet2_Phi"	           , 	Jet2_Phi      , event_weight);
+       FillUserTH1D( "Jet2_btagTCHE"       ,    Jet2_btagTCHE , event_weight);
        
-       FillUserTH1D( "nEle"                ,    nEle          , weight);
-       FillUserTH1D( "nJet"                ,    nJet          , weight);
-       FillUserTH1D( "nJet_btagTCHE"       ,    nJet_btagTCHE , weight);
-       FillUserTH1D( "nVertex"             ,    nVertex       , weight);
-       FillUserTH1D( "nVertex_good"        ,    nVertex_good  , weight);
+       FillUserTH1D( "nEle"                ,    nEle          , event_weight);
+       FillUserTH1D( "nJet"                ,    nJet          , event_weight);
+       FillUserTH1D( "nJet_btagTCHE"       ,    nJet_btagTCHE , event_weight);
+       FillUserTH1D( "nVertex"             ,    nVertex       , event_weight);
+       FillUserTH1D( "nVertex_good"        ,    nVertex_good  , event_weight);
               
-       FillUserTH1D( "MT_Ele1MET"	   , 	MT_Ele1MET    , weight);
-       FillUserTH1D( "Pt_Ele1MET"	   , 	Pt_Ele1MET    , weight);
-       FillUserTH1D( "Pt_j1j2"	           , 	Pt_j1j2       , weight);
-       FillUserTH1D( "M_j1j2"	           , 	M_j1j2        , weight);
-       FillUserTH1D( "sT_enujj"	           ,    sT_enujj      , weight);
+       FillUserTH1D( "MT_Ele1MET"	   , 	MT_Ele1MET    , event_weight);
+       FillUserTH1D( "Pt_Ele1MET"	   , 	Pt_Ele1MET    , event_weight);
+       FillUserTH1D( "Pt_j1j2"	           , 	Pt_j1j2       , event_weight);
+       FillUserTH1D( "M_j1j2"	           , 	M_j1j2        , event_weight);
+       FillUserTH1D( "sT_enujj"	           ,    sT_enujj      , event_weight);
        
      }
 
      if ( passed_preselection_without_DR_DPhi_cuts ) { 
 
-       FillUserTH1D( "nMuon"               ,    nMuon         , weight);
+       FillUserTH1D( "nMuon"               ,    nMuon         , event_weight);
 
-       FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , weight);
-       FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , weight);
-       FillUserTH1D( "DR_Jet1Jet2"	   , 	DR_Jet1Jet2   , weight);
-       FillUserTH1D( "mDPhi_METEle1"	   , 	mDPhi_METEle1 , weight);
-       FillUserTH1D( "mDPhi_METJet1"	   , 	mDPhi_METJet1 , weight);
-       FillUserTH1D( "mDPhi_METJet2"	   , 	mDPhi_METJet2 , weight);
-       FillUserTH1D( "mDEta_Jet1Jet2"	   , 	getVariableValue("mDEta_Jet1Jet2")   , weight);
+       FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , event_weight);
+       FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , event_weight);
+       FillUserTH1D( "DR_Jet1Jet2"	   , 	DR_Jet1Jet2   , event_weight);
+       FillUserTH1D( "mDPhi_METEle1"	   , 	mDPhi_METEle1 , event_weight);
+       FillUserTH1D( "mDPhi_METJet1"	   , 	mDPhi_METJet1 , event_weight);
+       FillUserTH1D( "mDPhi_METJet2"	   , 	mDPhi_METJet2 , event_weight);
+       FillUserTH1D( "mDEta_Jet1Jet2"	   , 	getVariableValue("mDEta_Jet1Jet2")   , event_weight);
 
      }
 
