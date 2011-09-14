@@ -197,15 +197,19 @@ class Plot:
     makeRatio   = "" # 1=simple ratio, 2=ratio of cumulative histograms
     xbins       = "" #array with variable bin structure
     histodata   = "" # data histogram
+    plotDATA    = "" # plot data histogram
 
     def Draw(self, fileps):
 
         self.histos = rebinHistos( self.histos, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
         self.histosStack = rebinHistos( self.histosStack, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
-        resultArray = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
-        self.histodata = resultArray[0]
-        minBinW = resultArray[1]
-
+        if(self.plotDATA == 1):
+            resultArray = rebinHisto( self.histodata, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
+            self.histodata = resultArray[0]
+            minBinW = resultArray[1]
+        else:
+            minBinW = "FIXME"
+            
         #-- create canvas
         canvas = TCanvas()
         stack = {}
@@ -256,7 +260,9 @@ class Plot:
         legend.SetShadowColor(10)
         legend.SetMargin(0.2)
         legend.SetTextFont(132)
-        legend.AddEntry(plot.histodata, "Data, 330 pb^{-1}","lp")
+        if( self.histodata != "" and self.plotDATA == 1):
+            #legend.AddEntry(plot.histodata, "Data, 330 pb^{-1}","lp")
+            legend.AddEntry(plot.histodata, "SM background, 5 fb^{-1}","lp")
 
         #-- loop over histograms (stacked)
         Nstacked = len(self.histosStack)
@@ -367,7 +373,7 @@ class Plot:
             ih=ih+1
 
         #-- plot data
-        if(self.histodata!=""):
+        if(self.histodata!="" and self.plotDATA == 1):
             self.histodata.SetMarkerStyle(20)
             self.histodata.SetLineWidth(2)
             #legend.AddEntry(self.histodata, "Data","lp")
@@ -402,7 +408,7 @@ class Plot:
         gPad.Modified()
 
         #-- 2nd pad (ratio)
-        if(self.makeRatio==1):
+        if(self.makeRatio==1 and self.plotDATA == 1 and self.histodata != ""):
             fPads2.cd()
             #fPads2.SetLogy()
             h_bkgTot = copy.deepcopy(stack[0])
@@ -461,7 +467,9 @@ class Plot:
 #--- Input root file
 
 
-File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/330pb-1_21072011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
+
+File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_13092011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
+#File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/330pb-1_21072011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
 #File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/330pb-1_18072011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
 File_selection    = File_preselection
 
@@ -473,8 +481,9 @@ File_selection    = File_preselection
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
 otherBkgsKey="Other backgrounds"
 zUncBand="no"
-makeRatio=1
+makeRatio=0
 doExtraPlots = False
+plotDATA=1
 
 counter_ymax=100000000
 
@@ -483,12 +492,12 @@ pt_xmax_lin=200
 pt_xmax_log=1000
 pt_xmax_log_high=2000 #for Mjj, sT, Mej, etc..
 pt_ymin=0.01
-pt_ymax_lin=2000
-pt_ymax_log=10000
+pt_ymax_lin=200000
+pt_ymax_log=1000000
 
 eta_rebin=2
 eta_ymin=0
-eta_ymax=1000
+eta_ymax=200000
 
 #--- Final plots are defined here
 
@@ -501,15 +510,18 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 #samplesForStackHistos = ["OTHERBKG","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
 #keysStack =             [otherBkgsKey,"WW + WZ + ZZ","t#bar{t}", "W/W* + jets"]
 #keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
-samplesForStackHistos = ["ZJet_Madgraph","PhotonJets","SingleTop","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
-keysStack =             ["Z/Z* + jets","#gamma + jets","single top","WW + WZ + ZZ","t#bar{t}", "W/W* + jets"]
+#samplesForStackHistos = ["ZJet_Madgraph","PhotonJets","SingleTop","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
+#keysStack =             ["Z/Z* + jets","#gamma + jets","single top","WW + WZ + ZZ","t#bar{t}", "W/W* + jets"]
+samplesForStackHistos = ["SingleTop","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
+keysStack =             ["single top","WW + WZ + ZZ","t#bar{t}", "W/W* + jets"]
 
 #samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
 #keys             = ["LQ, M = 250 GeV","LQ, M = 300 GeV","LQ, M = 340 GeV"]
-samplesForHistos = []
-keys             = []
+samplesForHistos = ["AxigluonW_M150","AxigluonW_M500","AxigluonW_M1000","AxigluonW_M1500"]
+keys             = ["Axigluon + W, M = 150 GeV","Axigluon + W, M = 500 GeV","Axigluon + W, M = 1000 GeV","Axigluon + W, M = 1500 GeV"]
 
-sampleForDataHisto = "DATA"
+#sampleForDataHisto = "DATA"
+sampleForDataHisto = "ALLBKG"
 
 #--- nEle ---
 variableName = "nEle"
@@ -534,7 +546,9 @@ plot0.ymax            = counter_ymax
 plot0.name            = "nEle_preselection"
 plot0.addZUncBand     = zUncBand
 plot0.makeRatio       = makeRatio
-plot0.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot0.plotDATA        = plotDATA
+if plotDATA:
+    plot0.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Ele1_Pt  ---
 variableName = "Ele1_Pt"
@@ -560,7 +574,9 @@ plot1_ylin.name            = "Ele1_Pt_preselection_ylin"
 plot1_ylin.addZUncBand     = zUncBand
 plot1_ylin.makeRatio       = makeRatio
 plot1_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin]
-plot1_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot1_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot1_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot1_ylog = Plot()
 ## inputs for stacked histograms
@@ -583,7 +599,9 @@ plot1_ylog.name            = "Ele1_Pt_preselection_ylog"
 plot1_ylog.addZUncBand     = zUncBand
 plot1_ylog.makeRatio       = makeRatio
 plot1_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
-plot1_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot1_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot1_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Ele1_Eta  ---
 variableName = "Ele1_Eta"
@@ -607,7 +625,9 @@ plot2.ymax            = eta_ymax
 plot2.name            = "Ele1_Eta_preselection_ylin"
 plot2.addZUncBand     = zUncBand
 plot2.makeRatio       = makeRatio
-plot2.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot2.plotDATA        = plotDATA
+if plotDATA:
+    plot2.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Ele1_Phi  ---
 variableName = "Ele1_Phi"
@@ -631,7 +651,9 @@ plot3.ymax            = eta_ymax
 plot3.name            = "Ele1_Phi_preselection_ylin"
 plot3.addZUncBand     = zUncBand
 plot3.makeRatio       = makeRatio
-plot3.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot3.plotDATA        = plotDATA
+if plotDATA:
+    plot3.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- Ele1_Charge  ---
@@ -657,7 +679,9 @@ plot4.ymax            = pt_ymax_log
 plot4.name            = "Ele1_Eta_preselection_ylin"
 plot4.addZUncBand     = zUncBand
 plot4.makeRatio       = makeRatio
-plot4.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot4.plotDATA        = plotDATA
+if plotDATA:
+    plot4.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- DR_Ele1Jets ---
@@ -683,7 +707,9 @@ plot5.ymax            = pt_ymax_log*1000
 plot5.name            = "DR_Ele1Jets_preselection_ylog"
 plot5.addZUncBand     = zUncBand
 plot5.makeRatio       = makeRatio
-plot5.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
+plot5.plotDATA        = plotDATA
+if plotDATA:
+    plot5.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
 
 
 
@@ -711,7 +737,9 @@ plot20_ylin.name            = "MET_Pt_preselection_ylin"
 plot20_ylin.addZUncBand     = zUncBand
 plot20_ylin.makeRatio       = makeRatio
 plot20_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,pt_xmax_lin]
-plot20_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot20_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot20_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot20_ylog = Plot()
 ## inputs for stacked histograms
@@ -734,7 +762,9 @@ plot20_ylog.name            = "MET_Pt_preselection_ylog"
 plot20_ylog.addZUncBand     = zUncBand
 plot20_ylog.makeRatio       = makeRatio
 plot20_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,200,300,400,500,600,800,pt_xmax_log]
-plot20_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot20_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot20_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- MET_Phi  ---
@@ -757,7 +787,9 @@ plot21.ymax            = eta_ymax
 plot21.name            = "MET_Phi_preselection_ylin"
 plot21.addZUncBand     = zUncBand
 plot21.makeRatio       = makeRatio
-plot21.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot21.plotDATA        = plotDATA
+if plotDATA:
+    plot21.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- MT_Ele1MET ---
@@ -784,7 +816,9 @@ plot22_ylin.name            = "MT_Ele1MET_preselection_ylin"
 plot22_ylin.addZUncBand     = zUncBand
 plot22_ylin.makeRatio       = makeRatio
 plot22_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,120,130,140,150,160,170,180,190,pt_xmax_lin]
-plot22_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot22_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot22_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot22_ylog = Plot()
 ## inputs for stacked histograms
@@ -807,7 +841,9 @@ plot22_ylog.name            = "MT_Ele1MET_preselection_ylog"
 plot22_ylog.addZUncBand     = zUncBand
 plot22_ylog.makeRatio       = makeRatio                                   
 plot22_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,250,300,350,400,500,600,800,pt_xmax_log]
-plot22_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot22_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot22_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- mDPhi_METEle1 ---
@@ -832,7 +868,9 @@ plot23_ylin.ymax            = eta_ymax
 plot23_ylin.name            = "mDPhi_METEle1_preselection_ylin"
 plot23_ylin.addZUncBand     = zUncBand
 plot23_ylin.makeRatio       = makeRatio
-plot23_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot23_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot23_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot23_ylog = Plot()
 ## inputs for stacked histograms
@@ -853,7 +891,9 @@ plot23_ylog.ymax            = eta_ymax*10000
 plot23_ylog.name            = "mDPhi_METEle1_preselection_ylog"
 plot23_ylog.addZUncBand     = zUncBand
 plot23_ylog.makeRatio       = makeRatio
-plot23_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot23_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot23_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- mDPhi_METJet1 ---
 variableName = "mDPhi_METJet1"
@@ -877,7 +917,9 @@ plot24_ylin.ymax            = eta_ymax + eta_ymax/2
 plot24_ylin.name            = "mDPhi_METJet1_preselection_ylin"
 plot24_ylin.addZUncBand     = zUncBand
 plot24_ylin.makeRatio       = makeRatio
-plot24_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot24_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot24_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot24_ylog = Plot()
 ## inputs for stacked histograms
@@ -898,7 +940,9 @@ plot24_ylog.ymax            = eta_ymax*10000
 plot24_ylog.name            = "mDPhi_METJet1_preselection_ylog"
 plot24_ylog.addZUncBand     = zUncBand
 plot24_ylog.makeRatio       = makeRatio
-plot24_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot24_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot24_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- mDPhi_METJet2 ---
 variableName = "mDPhi_METJet2"
@@ -922,7 +966,9 @@ plot25_ylin.ymax            = eta_ymax
 plot25_ylin.name            = "mDPhi_METJet2_preselection_ylin"
 plot25_ylin.addZUncBand     = zUncBand
 plot25_ylin.makeRatio       = makeRatio
-plot25_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot25_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot25_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot25_ylog = Plot()
 ## inputs for stacked histograms
@@ -943,7 +989,9 @@ plot25_ylog.ymax            = eta_ymax*10000
 plot25_ylog.name            = "mDPhi_METJet2_preselection_ylog"
 plot25_ylog.addZUncBand     = zUncBand
 plot25_ylog.makeRatio       = makeRatio
-plot25_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot25_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot25_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- nJet ---
 variableName = "nJet"
@@ -968,7 +1016,9 @@ plot40.ymax            = counter_ymax
 plot40.name            = "nJet_preselection"
 plot40.addZUncBand     = zUncBand
 plot40.makeRatio       = makeRatio
-plot40.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot40.plotDATA        = plotDATA
+if plotDATA:
+    plot40.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- nJet_btagTCHE ---
 variableName = "nJet_btagTCHE"
@@ -993,7 +1043,9 @@ plot41.ymax            = counter_ymax
 plot41.name            = "nJet_btagTCHE_preselection"
 plot41.addZUncBand     = zUncBand
 plot41.makeRatio       = makeRatio
-plot41.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot41.plotDATA        = plotDATA
+if plotDATA:
+    plot41.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Jet1_Pt  ---
 variableName = "Jet1_Pt"
@@ -1019,7 +1071,9 @@ plot42_ylin.name            = "Jet1_Pt_preselection_ylin"
 plot42_ylin.addZUncBand     = zUncBand
 plot42_ylin.makeRatio       = makeRatio
 plot42_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin]
-plot42_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot42_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot42_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot42_ylog = Plot()
 ## inputs for stacked histograms
@@ -1042,7 +1096,9 @@ plot42_ylog.name            = "Jet1_Pt_preselection_ylog"
 plot42_ylog.addZUncBand     = zUncBand
 plot42_ylog.makeRatio       = makeRatio
 plot42_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
-plot42_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot42_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot42_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Jet1_Eta  ---
 variableName = "Jet1_Eta"
@@ -1066,7 +1122,9 @@ plot43.ymax            = eta_ymax
 plot43.name            = "Jet1_Eta_preselection_ylin"
 plot43.addZUncBand     = zUncBand
 plot43.makeRatio       = makeRatio
-plot43.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot43.plotDATA        = plotDATA
+if plotDATA:
+    plot43.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Jet1_Phi  ---
 variableName = "Jet1_Phi"
@@ -1090,7 +1148,9 @@ plot44.ymax            = eta_ymax
 plot44.name            = "Jet1_Phi_preselection_ylin"
 plot44.addZUncBand     = zUncBand
 plot44.makeRatio       = makeRatio
-plot44.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot44.plotDATA        = plotDATA
+if plotDATA:
+    plot44.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- Jet1_btagTCHE ---
@@ -1117,7 +1177,9 @@ plot45_ylin.name            = "Jet1_btagTCHE_preselection_ylin"
 plot45_ylin.addZUncBand     = zUncBand
 plot45_ylin.makeRatio       = makeRatio
 #plot45_ylin.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
-plot45_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot45_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot45_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot45_ylog = Plot()
 ## inputs for stacked histograms
@@ -1138,7 +1200,9 @@ plot45_ylog.name            = "Jet1_btagTCHE_preselection_ylog"
 plot45_ylog.addZUncBand     = zUncBand
 plot45_ylog.makeRatio       = makeRatio
 plot45_ylog.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
-plot45_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot45_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot45_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 
@@ -1166,7 +1230,9 @@ plot46_ylin.name            = "Jet2_Pt_preselection_ylin"
 plot46_ylin.addZUncBand     = zUncBand
 plot46_ylin.makeRatio       = makeRatio
 plot46_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin]
-plot46_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot46_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot46_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot46_ylog = Plot()
 ## inputs for stacked histograms
@@ -1189,7 +1255,9 @@ plot46_ylog.name            = "Jet2_Pt_preselection_ylog"
 plot46_ylog.addZUncBand     = zUncBand
 plot46_ylog.makeRatio       = makeRatio
 plot46_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
-plot46_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot46_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot46_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Jet2_Eta  ---
 variableName = "Jet2_Eta"
@@ -1213,7 +1281,9 @@ plot47.ymax            = eta_ymax
 plot47.name            = "Jet2_Eta_preselection_ylin"
 plot47.addZUncBand     = zUncBand
 plot47.makeRatio       = makeRatio
-plot47.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot47.plotDATA        = plotDATA
+if plotDATA:
+    plot47.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 #--- Jet2_Phi  ---
 variableName = "Jet2_Phi"
@@ -1237,7 +1307,9 @@ plot48.ymax            = eta_ymax
 plot48.name            = "Jet2_Phi_preselection_ylin"
 plot48.addZUncBand     = zUncBand
 plot48.makeRatio       = makeRatio
-plot48.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot48.plotDATA        = plotDATA
+if plotDATA:
+    plot48.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- Jet2_btagTCHE ---
@@ -1264,7 +1336,9 @@ plot49_ylin.name            = "Jet2_btagTCHE_preselection_ylin"
 plot49_ylin.addZUncBand     = zUncBand
 plot49_ylin.makeRatio       = makeRatio
 #plot49_ylin.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
-plot49_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot49_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot49_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot49_ylog = Plot()
 ## inputs for stacked histograms
@@ -1285,7 +1359,9 @@ plot49_ylog.name            = "Jet2_btagTCHE_preselection_ylog"
 plot49_ylog.addZUncBand     = zUncBand
 plot49_ylog.makeRatio       = makeRatio
 plot49_ylog.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
-plot49_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot49_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot49_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- Ptjets ---
@@ -1312,7 +1388,9 @@ plot50_ylin.name            = "Jets1and2_Pt_preselection_ylin"
 plot50_ylin.addZUncBand     = zUncBand
 plot50_ylin.makeRatio       = makeRatio
 plot50_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin]
-plot50_ylin.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
+plot50_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot50_ylin.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
 
 plot50_ylog = Plot()
 ## inputs for stacked histograms
@@ -1335,7 +1413,9 @@ plot50_ylog.name            = "Jets1and2_Pt_preselection_ylog"
 plot50_ylog.addZUncBand     = zUncBand
 plot50_ylog.makeRatio       = makeRatio
 plot50_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
-plot50_ylog.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
+plot50_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot50_ylog.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
 
 
 #--- Etajets  ---
@@ -1360,7 +1440,9 @@ plot51.ymax            = eta_ymax*1.5
 plot51.name            = "Jets1and2_Eta_preselection_ylin"
 plot51.addZUncBand     = zUncBand
 plot51.makeRatio       = makeRatio
-plot51.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
+plot51.plotDATA        = plotDATA
+if plotDATA:
+    plot51.histodata       = generateAndAddHisto( histoBaseName_userDef, sampleForDataHisto, variableNames, File_preselection)
 
 
 #--- M_j1j2 ---
@@ -1388,7 +1470,9 @@ plot52_ylin.name            = "M_j1j2_preselection_ylin"
 plot52_ylin.addZUncBand     = zUncBand
 plot52_ylin.makeRatio       = makeRatio
 #plot52_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,160,180,200,220,240,260,280,300,350,pt_xmax_lin*2]
-plot52_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot52_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot52_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 plot52_ylog = Plot()
@@ -1413,8 +1497,64 @@ plot52_ylog.addZUncBand     = zUncBand
 plot52_ylog.makeRatio       = makeRatio
 plot52_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,160,180,200,220,240,260,280,320,340,360,380,400,420,460,500,550,
                                600,650,700,750,800,850,900,950,1000,1050,1100,1200,1300,1400,1500,1600,1700,1800,1900,pt_xmax_log_high]
-plot52_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot52_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot52_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
+
+#--- mDEta_Jet1Jet2  ---
+variableName = "mDEta_Jet1Jet2"
+
+plot53_ylin = Plot()
+## inputs for stacked histograms
+#plot53_ylin.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot53_ylin.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot53_ylin.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot53_ylin.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot53_ylin.keys            = keys
+plot53_ylin.xtit            = "|#Delta#eta(j1,j2)| (Preselection)"
+plot53_ylin.ytit            = "Events"
+plot53_ylin.ylog            = "no"
+plot53_ylin.rebin           = 2
+plot53_ylin.xmin            = 0
+plot53_ylin.xmax            = 7
+plot53_ylin.ymin            = pt_ymin
+plot53_ylin.ymax            = pt_ymax_lin
+#plot53_ylin.lpos = "bottom-center"
+plot53_ylin.name            = "mDEta_Jet1Jet2_preselection_ylin"
+plot53_ylin.addZUncBand     = zUncBand
+plot53_ylin.makeRatio       = makeRatio
+#plot53_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin]
+plot53_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot53_ylin.histodata   = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+plot53_ylog = Plot()
+## inputs for stacked histograms
+#plot53_ylog.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot53_ylog.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot53_ylog.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot53_ylog.histos          = generateHistoList( histoBaseName_userDef, samplesForHistos, variableName, File_preselection)
+plot53_ylog.keys            = keys
+plot53_ylog.xtit            = "|#Delta#eta(j1,j2)| (Preselection)"
+plot53_ylog.ytit            = "Events"
+plot53_ylog.ylog            = "yes"
+plot53_ylog.rebin           = 2
+plot53_ylog.xmin            = 0
+plot53_ylog.xmax            = 7
+plot53_ylog.ymin            = pt_ymin
+plot53_ylog.ymax            = pt_ymax_log
+#plot53_ylog.lpos = "bottom-center"
+plot53_ylog.name            = "mDEta_Jet1Jet2_preselection_ylog"
+plot53_ylog.addZUncBand     = zUncBand
+plot53_ylog.makeRatio       = makeRatio
+#plot53_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
+plot53_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot53_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- nMuon ---
@@ -1440,7 +1580,9 @@ plot100.ymax            = counter_ymax
 plot100.name            = "nMuon_preselection"
 plot100.addZUncBand     = zUncBand
 plot100.makeRatio       = makeRatio
-plot100.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot100.plotDATA        = plotDATA
+if plotDATA:
+    plot100.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- Pt_Ele1MET  ---
@@ -1467,7 +1609,9 @@ plot120_ylin.name            = "Pt_Ele1MET_preselection_ylin"
 plot120_ylin.addZUncBand     = zUncBand
 plot120_ylin.makeRatio       = makeRatio
 plot120_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin + pt_xmax_lin/2]
-plot120_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot120_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot120_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot120_ylog = Plot()
 ## inputs for stacked histograms
@@ -1490,7 +1634,9 @@ plot120_ylog.name            = "Pt_Ele1MET_preselection_ylog"
 plot120_ylog.addZUncBand     = zUncBand
 plot120_ylog.makeRatio       = makeRatio
 plot120_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
-plot120_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot120_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot120_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- Pt_j1j2  ---
@@ -1517,7 +1663,9 @@ plot121_ylin.name            = "Pt_j1j2_preselection_ylin"
 plot121_ylin.addZUncBand     = zUncBand
 plot121_ylin.makeRatio       = makeRatio
 plot121_ylin.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,pt_xmax_lin + pt_xmax_lin/2]
-plot121_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot121_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot121_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot121_ylog = Plot()
 ## inputs for stacked histograms
@@ -1540,7 +1688,9 @@ plot121_ylog.name            = "Pt_j1j2_preselection_ylog"
 plot121_ylog.addZUncBand     = zUncBand
 plot121_ylog.makeRatio       = makeRatio
 plot121_ylog.xbins           = [0,10,20,30,40,50,60,70,80,90,100,125,150,175,200,300,400,600,800,pt_xmax_log]
-plot121_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot121_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot121_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- sT_enujj  ---
@@ -1566,7 +1716,9 @@ plot122_ylin.ymax            = pt_ymax_lin/2
 plot122_ylin.name            = "sT_enujj_preselection_ylin"
 plot122_ylin.addZUncBand     = zUncBand
 plot122_ylin.makeRatio       = makeRatio
-plot122_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot122_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot122_ylin.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 plot122_ylog = Plot()
 ## inputs for stacked histograms
@@ -1590,7 +1742,9 @@ plot122_ylog.addZUncBand     = zUncBand
 plot122_ylog.makeRatio       = makeRatio
 plot122_ylog.xbins           = [200,220,240,260,280,320,340,360,380,400,420,460,500,550,
                                600,650,700,750,800,850,900,950,1000,1050,1100,1200,1300,1400,1500,1600,1700,1800,1900,pt_xmax_log_high]
-plot122_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot122_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot122_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- nVertex ---
@@ -1616,7 +1770,9 @@ plot123.ymax            = counter_ymax
 plot123.name            = "nVertex_preselection"
 plot123.addZUncBand     = zUncBand
 plot123.makeRatio       = makeRatio
-plot123.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot123.plotDATA        = plotDATA
+if plotDATA:
+    plot123.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 #--- nVertex_good ---
@@ -1642,7 +1798,9 @@ plot124.ymax            = counter_ymax
 plot124.name            = "nVertex_good_preselection"
 plot124.addZUncBand     = zUncBand
 plot124.makeRatio       = makeRatio
-plot124.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+plot124.plotDATA        = plotDATA
+if plotDATA:
+    plot124.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
 
@@ -1664,7 +1822,7 @@ plots  = [
           # Jets
           plot40, plot41, plot42_ylin, plot42_ylog, plot43, plot44,
           plot45_ylin, plot45_ylog, plot46_ylin, plot46_ylog, plot47, plot48, plot49_ylin, plot49_ylog,
-          plot50_ylin, plot50_ylog, plot51, plot52_ylin, plot52_ylog,
+          plot50_ylin, plot50_ylog, plot51, plot52_ylin, plot52_ylog, plot53_ylin, plot53_ylog,
           #Muons
           plot100,
           #Others
