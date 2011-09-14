@@ -62,22 +62,33 @@ Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5
 Jet2_Pt				30	     +inf		-		-		1	200 0 2000	      
 Jet2_Eta			-2.4         2.4                -               -               1       100 -5 5	      
 nMuon				-inf         0			-               -               1       16 -0.5 15.5          
-MT_Ele1MET			40           +inf               -               -               1       200 0 1000	      
-DR_Ele1Jet1			0.3	     +inf		-		-		1	100 0 10              
-DR_Ele1Jet2			0.3	     +inf		-		-		1	100 0 10	      
+MT_Ele1MET			-inf         +inf               -               -               1       200 0 1000	      
+DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
+DR_Ele1Jet2			-inf	     +inf		-		-		1	100 0 10	      
 mDPhi_METEle1			-inf         +inf               -               -               1       100 0 3.1416	      
 mDPhi_METJet1			-inf         +inf               -               -               1       100 0 3.1416	      
 mDPhi_METJet2			-inf         +inf               -               -               1       100 0 3.1416	      
 mDEta_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10              
+mDPhi_Jet1Jet2			-inf	     +inf		-		-		1	100 0 3.1416
+M_j1j2_cut			-inf	     +inf               -               -               1       200 0 2000	      
 #  __ _             _            _           _   _             
 # / _(_)_ __   __ _| |  ___  ___| | ___  ___| |_(_) ___  _ __  
 #| |_| | '_ \ / _` | | / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \ 
 #|  _| | | | | (_| | | \__ \  __/ |  __/ (__| |_| | (_) | | | |
 #|_| |_|_| |_|\__,_|_| |___/\___|_|\___|\___|\__|_|\___/|_| |_|
+#
+mDphi_BosonJet1			-inf	     +inf		-		-		2	100 0 3.1416			    
+mDphi_BosonJet2			-inf	     +inf		-		-		2	100 0 3.1416			    
 Pt_Ele1MET			-inf	     +inf               -               -               2       200 0 2000	      
 Pt_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
 sT_enujj			-inf         +inf               -               -               2       200 0 2000	      
 M_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
+Jet1_Pt_over_Mj1j2		-inf	     +inf		-		-		2	100 0 10
+Jet2_Pt_over_Mj1j2		-inf	     +inf		-		-		2	100 0 10
+Jet1_E_over_Mj1j2		-inf	     +inf		-		-		2	100 0 10
+Jet2_E_over_Mj1j2		-inf	     +inf		-		-		2	100 0 10
+Jet1_E_over_Jet1_Pt		-inf	     +inf		-		-		2	100 0 10
+Jet2_E_over_Jet2_Pt		-inf	     +inf		-		-		2	100 0 10
 #
 #
 #
