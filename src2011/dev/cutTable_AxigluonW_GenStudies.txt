@@ -87,7 +87,7 @@ jet_muon_DeltaRcut    0.3               -               -               -       
 jet_pho_DeltaRcut     0.3               -               -               -                -1
 #
 jetPtCut              20		-               -               -                -1
-jetEtaCut             3.0		-               -               -                -1
+jetEtaCut             3			-               -               -                -1
 jetTCHELCut           1.7		-               -               -                -1
 jetIDloose	      1			-		-		-	    	 -1
 jetIDtight	      0			-		-		-		 -1
