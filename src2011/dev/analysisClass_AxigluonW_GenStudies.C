@@ -336,6 +336,7 @@ void analysisClass::Loop()
 	  }//end loop over calo jets
       }//end if "calo jets"
 
+
     //## Define new met collection
     double thisMET;
     double thisMETPhi;
@@ -1409,8 +1410,361 @@ void analysisClass::Loop()
 	  }
 
       }
-
     
+    //### DiJet mass resolution studies
+
+    //---------------------
+
+    //1) matching quark with closest genjet
+    //2) using 2 leading in pT genjets or reco jets
+    //3) using fat genjets or fat recojets
+
+    //---------------------
+
+    //1) matching quark with closest genjet
+    bool q_isMatchedToGenJet = false;
+    bool qbar_isMatchedToGenJet = false;
+    double q_genjet_DeltaRcut = 0.1;
+
+    int igenJet_minDR_q_genJet=-1;
+    double minDR_q_genJet=9999.;	    
+    int igenJet_minDR_qbar_genJet=-1;
+    double minDR_qbar_genJet=9999.;	    
+	
+    for(int igenjet=0; igenjet < GenJetPt->size(); igenjet++)
+      {
+
+	if( GenJetEMF->at(igenjet)>0.99 )
+	  continue;
+	
+	TLorentzVector genjet;
+	genjet.SetPtEtaPhiE(GenJetPt->at(igenjet),
+			    GenJetEta->at(igenjet),
+			    GenJetPhi->at(igenjet),
+			    GenJetEnergy->at(igenjet)
+			    );
+	double DR_q = v_AG_q.DeltaR(genjet);
+	if (DR_q<minDR_q_genJet)
+	  {
+	    minDR_q_genJet = DR_q;
+	    igenJet_minDR_q_genJet = igenjet;
+	  }
+	
+	double DR_qbar = v_AG_qbar.DeltaR(genjet);
+	if (DR_qbar<minDR_qbar_genJet)
+	  {
+	    minDR_qbar_genJet = DR_qbar;
+	    igenJet_minDR_qbar_genJet = igenjet;
+	  }
+
+      }
+    
+    if( igenJet_minDR_qbar_genJet!=-1 && igenJet_minDR_q_genJet !=-1 )
+      {
+
+	//genjet closest to gen quark
+
+	TLorentzVector genjet_q_match;
+	TLorentzVector genjet_qbar_match;
+	TLorentzVector axigluon_genjets_match;
+	genjet_q_match.SetPtEtaPhiE(GenJetPt->at(igenJet_minDR_q_genJet),
+				    GenJetEta->at(igenJet_minDR_q_genJet),
+				    GenJetPhi->at(igenJet_minDR_q_genJet),
+				    GenJetEnergy->at(igenJet_minDR_q_genJet)
+				    );
+	genjet_qbar_match.SetPtEtaPhiE(GenJetPt->at(igenJet_minDR_qbar_genJet),
+				       GenJetEta->at(igenJet_minDR_qbar_genJet),
+				       GenJetPhi->at(igenJet_minDR_qbar_genJet),
+				       GenJetEnergy->at(igenJet_minDR_qbar_genJet)
+				       );	
+	axigluon_genjets_match = genjet_q_match + genjet_qbar_match;
+
+	CreateAndFillUserTH1D("h1_minDR_q_genjet", 1000, 0, 10, minDR_q_genJet);	    	
+	CreateAndFillUserTH1D("h1_minDR_q_genjet", 1000, 0, 10, minDR_qbar_genJet);	    	
+	CreateAndFillUserTH1D("h1_EgenjetOverEgen_q", 100, 0, 3, genjet_q_match.E() / v_AG_q.E() );	    	
+	CreateAndFillUserTH1D("h1_EgenjetOverEgen_q", 100, 0, 3, genjet_qbar_match.E() / v_AG_qbar.E() );	    		    
+	CreateAndFillUserTH1D("h1_Mjj_genJet_matched_quarks", 1000, 0, 2000, axigluon_genjets_match.M() );	    	
+
+	if( flavour_AG_q == -(flavour_AG_qbar) )
+	  {
+	    
+	    if( flavour_AG_q != fabs(PDGID_T)  )
+	      {
+		CreateAndFillUserTH1D("h1_minDR_notTop_genjet", 1000, 0, 10, minDR_q_genJet);	    	
+		CreateAndFillUserTH1D("h1_minDR_notTop_genjet", 1000, 0, 10, minDR_qbar_genJet);	    	
+		CreateAndFillUserTH1D("h1_EgenjetOverEgen_notTop", 100, 0, 3, GenJetEnergy->at(igenJet_minDR_q_genJet) / v_AG_q.E() );	    	
+		CreateAndFillUserTH1D("h1_EgenjetOverEgen_notTop", 100, 0, 3, GenJetEnergy->at(igenJet_minDR_qbar_genJet) / v_AG_qbar.E() );	    		    
+		CreateAndFillUserTH2D("h2_minDR_notTop_genjet_vs_EgenjetOverEgen_notTop", 
+				      1000, 0, 3, 1000, 0, 10, GenJetEnergy->at(igenJet_minDR_q_genJet) / v_AG_q.E() , minDR_q_genJet );	 
+		CreateAndFillUserTH2D("h2_minDR_notTop_genjet_vs_EgenjetOverEgen_notTop", 
+				      1000, 0, 3, 1000, 0, 10, GenJetEnergy->at(igenJet_minDR_qbar_genJet) / v_AG_qbar.E() , minDR_qbar_genJet );	 
+
+		CreateAndFillUserTH1D("h1_Mjj_genJet_matched_notTop", 1000, 0, 2000, axigluon_genjets_match.M() );	    	
+		CreateAndFillUserTH2D("h2_DeltaRquarks_vs_Mjj_genJet_matched_notTop", 1000, 0, 2000, 100, 0, 10, axigluon_genjets_match.M(),v_AG_q.DeltaR(v_AG_qbar) );	 
+	      }
+	    
+	    if( flavour_AG_q == fabs(PDGID_T) )
+	      {
+		CreateAndFillUserTH1D("h1_minDR_Top_genjet", 1000, 0, 10, minDR_q_genJet);	    	
+		CreateAndFillUserTH1D("h1_minDR_Top_genjet", 1000, 0, 10, minDR_qbar_genJet);	    	
+		CreateAndFillUserTH1D("h1_EgenjetOverEgen_Top", 100, 0, 3, GenJetEnergy->at(igenJet_minDR_q_genJet) / v_AG_q.E() );	    	
+		CreateAndFillUserTH1D("h1_EgenjetOverEgen_Top", 100, 0, 3, GenJetEnergy->at(igenJet_minDR_qbar_genJet) / v_AG_qbar.E() );	    		    
+		CreateAndFillUserTH1D("h1_Mjj_genJet_matched_Top", 1000, 0, 2000, axigluon_genjets_match.M() );	    	
+	      }
+
+	  }
+	
+      }
+    
+
+    //2) using 2 leading in pT genjets or reco jets
+    TLorentzVector genjet_1stPt;
+    TLorentzVector genjet_2ndPt;
+    TLorentzVector axigluon_1st2nd_genjets;
+    TLorentzVector recojet_1stPt;
+    TLorentzVector recojet_2ndPt;
+    TLorentzVector axigluon_1st2nd_recojets;
+
+    vector<int> v_idx_good_genjets;
+    for(int igenjet=0; igenjet < GenJetPt->size(); igenjet++)
+      {
+	
+	TLorentzVector genjet;
+	genjet.SetPtEtaPhiE(GenJetPt->at(igenjet),
+			    GenJetEta->at(igenjet),
+			    GenJetPhi->at(igenjet),
+			    GenJetEnergy->at(igenjet)
+			    );
+	
+	if( genjet.DeltaR(v_W_l) < 0.3 
+	    || genjet.Pt() < 30 || fabs(genjet.Eta()) > 2.4 )
+	  continue;
+	
+	v_idx_good_genjets.push_back(igenjet);
+	
+      }
+
+    if( v_idx_good_genjets.size() >= 2)
+      {
+	genjet_1stPt.SetPtEtaPhiE(GenJetPt->at(v_idx_good_genjets[0]),
+				  GenJetEta->at(v_idx_good_genjets[0]),
+				  GenJetPhi->at(v_idx_good_genjets[0]),
+				  GenJetEnergy->at(v_idx_good_genjets[0])
+				  );
+	genjet_2ndPt.SetPtEtaPhiE(GenJetPt->at(v_idx_good_genjets[1]),
+				  GenJetEta->at(v_idx_good_genjets[1]),
+				  GenJetPhi->at(v_idx_good_genjets[1]),
+				  GenJetEnergy->at(v_idx_good_genjets[1])
+				  );
+	axigluon_1st2nd_genjets = genjet_1stPt + genjet_2ndPt ;
+
+	//------------
+
+	CreateAndFillUserTH1D("h1_Mjj_genJet_1st2nd", 1000, 0, 2000, axigluon_1st2nd_genjets.M() );	    	
+	CreateAndFillUserTH1D("h1_Mjj_genJet_1st2nd_over_massAG", 100, 0, 5,  axigluon_1st2nd_genjets.M() /  v_AG.M()  );	    	
+
+	if( flavour_AG_q != fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_genJet_1st2nd_noTop", 1000, 0, 2000, axigluon_1st2nd_genjets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_genJet_1st2nd_over_massAG_noTop", 100, 0, 5,  axigluon_1st2nd_genjets.M() /  v_AG.M()  );	    	
+	  }
+
+	if( flavour_AG_q == fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_genJet_1st2nd_Top", 1000, 0, 2000, axigluon_1st2nd_genjets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_genJet_1st2nd_over_massAG_Top", 100, 0, 5,  axigluon_1st2nd_genjets.M() /  v_AG.M()  );	    	
+	  }
+
+      }
+
+    if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2)
+      {
+	recojet_1stPt.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+				   JetEta->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+				   JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[0]),
+				   JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[0]) );
+	recojet_2ndPt.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+				   JetEta->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+				   JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[1]),
+				   JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[1]) );
+	axigluon_1st2nd_recojets = recojet_1stPt + recojet_2ndPt;   
+
+	//------------
+
+	CreateAndFillUserTH1D("h1_Mjj_recoJet_1st2nd", 1000, 0, 2000, axigluon_1st2nd_recojets.M() );	    	
+	CreateAndFillUserTH1D("h1_Mjj_recoJet_1st2nd_over_massAG", 100, 0, 5,  axigluon_1st2nd_recojets.M() /  v_AG.M()  );	    	
+
+
+	if( flavour_AG_q != fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_recoJet_1st2nd_noTop", 1000, 0, 2000, axigluon_1st2nd_recojets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_recoJet_1st2nd_over_massAG_noTop", 100, 0, 5,  axigluon_1st2nd_recojets.M() /  v_AG.M()  );	    	
+	  }
+
+	if( flavour_AG_q == fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_recoJet_1st2nd_Top", 1000, 0, 2000, axigluon_1st2nd_recojets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_recoJet_1st2nd_over_massAG_Top", 100, 0, 5,  axigluon_1st2nd_recojets.M() /  v_AG.M()  );	    	
+	  }
+
+      }
+
+
+    //3) using fat genjets or fat recojets
+    TLorentzVector fatgenjet_1stPt_tmp;
+    TLorentzVector fatgenjet_2ndPt_tmp;
+    TLorentzVector fatgenjet_1stPt;
+    TLorentzVector fatgenjet_2ndPt;
+    TLorentzVector axigluon_1st2nd_fatgenjets;
+
+    TLorentzVector fatrecojet_1stPt_tmp;
+    TLorentzVector fatrecojet_2ndPt_tmp;
+    TLorentzVector fatrecojet_1stPt;
+    TLorentzVector fatrecojet_2ndPt;
+    TLorentzVector axigluon_1st2nd_fatrecojets;
+
+    double R_FAT = 1.1;
+
+    //genjets
+    if( v_idx_good_genjets.size() >= 2)
+      {
+
+	fatgenjet_1stPt_tmp = genjet_1stPt;      
+	fatgenjet_2ndPt_tmp = genjet_2ndPt;      
+
+	for(int igenjet=0; igenjet < GenJetPt->size(); igenjet++)
+	  {
+	    
+	    TLorentzVector genjet;
+	    genjet.SetPtEtaPhiE(GenJetPt->at(igenjet),
+				GenJetEta->at(igenjet),
+				GenJetPhi->at(igenjet),
+				GenJetEnergy->at(igenjet)
+				);
+	    
+	    if( genjet.DeltaR(v_W_l) < 0.3 
+		|| genjet.Pt() < 20 
+		|| fabs(genjet.Eta()) > 3 
+		|| igenjet == v_idx_good_genjets[0] 
+		|| igenjet == v_idx_good_genjets[1] 
+		)
+	      continue;
+	    
+	    if( genjet.DeltaR(genjet_1stPt) < R_FAT
+		&& genjet.DeltaR(genjet_1stPt) < genjet.DeltaR(genjet_2ndPt) )
+	      {
+		fatgenjet_1stPt_tmp += genjet; 
+	      }
+
+	    if( genjet.DeltaR(genjet_2ndPt) < R_FAT
+		&& genjet.DeltaR(genjet_2ndPt) < genjet.DeltaR(genjet_1stPt) )
+	      {
+		fatgenjet_2ndPt_tmp += genjet; 
+	      }
+	   	    
+	  }
+	
+	//pt ordering
+	if( fatgenjet_1stPt_tmp.Pt() > fatgenjet_2ndPt_tmp.Pt() )
+	  {
+	    fatgenjet_1stPt = fatgenjet_1stPt_tmp;
+	    fatgenjet_2ndPt = fatgenjet_2ndPt_tmp;
+	  }
+	else
+	  {
+	    fatgenjet_2ndPt = fatgenjet_1stPt_tmp;
+	    fatgenjet_1stPt = fatgenjet_2ndPt_tmp;
+	  }
+
+	axigluon_1st2nd_fatgenjets = fatgenjet_1stPt + fatgenjet_2ndPt ;
+
+	//------------
+
+	CreateAndFillUserTH1D("h1_Mjj_fatgenJet_1st2nd", 1000, 0, 2000, axigluon_1st2nd_fatgenjets.M() );	    	
+	CreateAndFillUserTH1D("h1_Mjj_fatgenJet_1st2nd_over_massAG", 100, 0, 5,  axigluon_1st2nd_fatgenjets.M() /  v_AG.M()  );	    	
+
+	if( flavour_AG_q != fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_fatgenJet_1st2nd_noTop", 1000, 0, 2000, axigluon_1st2nd_fatgenjets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_fatgenJet_1st2nd_over_massAG_noTop", 100, 0, 5,  axigluon_1st2nd_fatgenjets.M() /  v_AG.M()  );	    	
+	  }
+
+	if( flavour_AG_q == fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_fatgenJet_1st2nd_Top", 1000, 0, 2000, axigluon_1st2nd_fatgenjets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_fatgenJet_1st2nd_over_massAG_Top", 100, 0, 5,  axigluon_1st2nd_fatgenjets.M() /  v_AG.M()  );	    	
+	  }
+
+      }
+
+    //recojets
+    if( v_idx_jet_PtCut_noOverlap_ID.size() >= 2)
+      {
+
+	fatrecojet_1stPt_tmp = recojet_1stPt;      
+	fatrecojet_2ndPt_tmp = recojet_2ndPt;      
+
+	for(int ijet=0; ijet<v_idx_jet_PtCut_noOverlap_ID.size(); ijet++)
+	  {
+
+	    TLorentzVector recojet;
+	    recojet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+			     JetEta->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+			     JetPhi->at(v_idx_jet_PtCut_noOverlap_ID[ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID[ijet]) );
+
+	    if( ijet == v_idx_jet_PtCut_noOverlap_ID[0] 
+		|| ijet == v_idx_jet_PtCut_noOverlap_ID[1] 
+		)
+	      continue;
+	
+	    if( recojet.DeltaR(recojet_1stPt) < R_FAT
+		&& recojet.DeltaR(recojet_1stPt) < recojet.DeltaR(recojet_2ndPt) )
+	      {
+		fatrecojet_1stPt_tmp += recojet; 
+	      }
+	
+	    if( recojet.DeltaR(recojet_2ndPt) < R_FAT
+		&& recojet.DeltaR(recojet_2ndPt) < recojet.DeltaR(recojet_1stPt) )
+	      {
+		fatrecojet_2ndPt_tmp += recojet; 
+	      }
+
+	  }
+
+	//pt ordering
+	if( fatrecojet_1stPt_tmp.Pt() > fatrecojet_2ndPt_tmp.Pt() )
+	  {
+	    fatrecojet_1stPt = fatrecojet_1stPt_tmp;
+	    fatrecojet_2ndPt = fatrecojet_2ndPt_tmp;
+	  }
+	else
+	  {
+	    fatrecojet_2ndPt = fatrecojet_1stPt_tmp;
+	    fatrecojet_1stPt = fatrecojet_2ndPt_tmp;
+	  }
+    
+	axigluon_1st2nd_fatrecojets = fatrecojet_1stPt + fatrecojet_2ndPt ;
+    
+	//------------
+
+	CreateAndFillUserTH1D("h1_Mjj_fatrecoJet_1st2nd", 1000, 0, 2000, axigluon_1st2nd_fatrecojets.M() );	    	
+	CreateAndFillUserTH1D("h1_Mjj_fatrecoJet_1st2nd_over_massAG", 100, 0, 5,  axigluon_1st2nd_fatrecojets.M() /  v_AG.M()  );	    	
+
+	if( flavour_AG_q != fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_fatrecoJet_1st2nd_noTop", 1000, 0, 2000, axigluon_1st2nd_fatrecojets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_fatrecoJet_1st2nd_over_massAG_noTop", 100, 0, 5,  axigluon_1st2nd_fatrecojets.M() /  v_AG.M()  );	    	
+	  }
+
+	if( flavour_AG_q == fabs(PDGID_T)  )
+	  {
+	    CreateAndFillUserTH1D("h1_Mjj_fatrecoJet_1st2nd_Top", 1000, 0, 2000, axigluon_1st2nd_fatrecojets.M() );	    	
+	    CreateAndFillUserTH1D("h1_Mjj_fatrecoJet_1st2nd_over_massAG_Top", 100, 0, 5,  axigluon_1st2nd_fatrecojets.M() /  v_AG.M()  );	    	
+	  }
+      
+      }
+
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
     //      double totpTEle;
