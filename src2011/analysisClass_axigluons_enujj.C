@@ -57,7 +57,7 @@ void analysisClass::Loop()
 
    CreateUserTH1D( "DR_Ele1Jet1"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
    CreateUserTH1D( "DR_Ele1Jet2"	   , 	getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     ) ; 
-   CreateUserTH1D( "DR_Jet1Jet2"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
+   CreateUserTH1D( "DR_Jet1Jet2"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
    CreateUserTH1D( "mDPhi_METEle1"	   , 	getHistoNBins("mDPhi_METEle1"), getHistoMin("mDPhi_METEle1"), getHistoMax("mDPhi_METEle1")     ) ; 
    CreateUserTH1D( "mDPhi_METJet1"	   , 	getHistoNBins("mDPhi_METJet1"), getHistoMin("mDPhi_METJet1"), getHistoMax("mDPhi_METJet1")     ) ; 
    CreateUserTH1D( "mDPhi_METJet2"	   , 	getHistoNBins("mDPhi_METJet2"), getHistoMin("mDPhi_METJet2"), getHistoMax("mDPhi_METJet2")     ) ; 
