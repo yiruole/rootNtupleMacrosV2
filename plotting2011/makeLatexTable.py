@@ -58,6 +58,8 @@ channel_names = []
 column_names  = []
 row_names     = []
 
+empty_channel_names = []
+
 for line in txt_file : 
     if len ( line.split() ) == 1 : all_channel_names.append ( line.strip () ) 
     
@@ -75,6 +77,7 @@ for i,channel_name in enumerate(all_channel_names):
 
     if n_channel_raw_data_rows == 1 : 
         print "WARNING: " + channel_name + " is empty, and I  will not consider it." 
+        empty_channel_names.append( channel_name ) 
         continue
     channel_names.append ( channel_name ) 
     channel_data[channel_name] = {}
@@ -96,6 +99,13 @@ for i,channel_name in enumerate(all_channel_names):
                 channel_raw_data_row_dict [str(name)] = str(new_value.strip())
 
         channel_data [channel_name][row_name] = channel_raw_data_row_dict
+
+for j, empty_channel_name in enumerate ( empty_channel_names ) :
+    for i, channel_name_to_include in enumerate ( channel_names_to_include ) :
+        if empty_channel_name == channel_name_to_include:
+            channel_names_to_include.remove(channel_name_to_include)
+            channel_titles_to_include.remove(channel_titles_to_include[i])
+
 
 latex_file_name = "table.tex"
 latex_file = open ( latex_file_name, "w" )  
