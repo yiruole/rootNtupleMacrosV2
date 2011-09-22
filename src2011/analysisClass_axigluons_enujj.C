@@ -63,7 +63,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "mDPhi_METJet2"	   , 	getHistoNBins("mDPhi_METJet2"), getHistoMin("mDPhi_METJet2"), getHistoMax("mDPhi_METJet2")     ) ; 
    CreateUserTH1D( "mDEta_Jet1Jet2"	   , 	getHistoNBins("mDEta_Jet1Jet2"), getHistoMin("mDEta_Jet1Jet2"), getHistoMax("mDEta_Jet1Jet2")   ) ; 
    CreateUserTH1D( "mDPhi_Jet1Jet2"	   , 	getHistoNBins("mDPhi_Jet1Jet2"), getHistoMin("mDPhi_Jet1Jet2"), getHistoMax("mDPhi_Jet1Jet2")     ) ; 
-  
+   CreateUserTH2D( "DR_Ele1Jet2_vs_DR_Ele1Jet1"	   
+		   , getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     
+		   , getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     
+		   ) ;   
    CreateUserTH1D( "mDphi_BosonJet1"	   , 	getHistoNBins("mDphi_BosonJet1"), getHistoMin("mDphi_BosonJet1"), getHistoMax("mDphi_BosonJet1")     ) ; 
    CreateUserTH1D( "mDphi_BosonJet2"	   , 	getHistoNBins("mDphi_BosonJet2"), getHistoMin("mDphi_BosonJet2"), getHistoMax("mDphi_BosonJet2")     ) ; 
    CreateUserTH1D( "MT_Ele1MET"	           , 	getHistoNBins("MT_Ele1MET"), getHistoMin("MT_Ele1MET"), getHistoMax("MT_Ele1MET")     ) ; 
@@ -77,6 +80,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "Jet2_E_over_Mj1j2"	   , 	getHistoNBins("Jet2_E_over_Mj1j2"), getHistoMin("Jet2_E_over_Mj1j2"), getHistoMax("Jet2_E_over_Mj1j2") ) ; 
    CreateUserTH1D( "Jet1_E_over_Jet1_Pt"   , 	getHistoNBins("Jet1_E_over_Jet1_Pt"), getHistoMin("Jet1_E_over_Jet1_Pt"), getHistoMax("Jet1_E_over_Jet1_Pt") ) ; 
    CreateUserTH1D( "Jet2_E_over_Jet2_Pt"   , 	getHistoNBins("Jet2_E_over_Jet2_Pt"), getHistoMin("Jet2_E_over_Jet2_Pt"), getHistoMax("Jet2_E_over_Jet2_Pt") ) ; 
+
+
 
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -153,11 +158,13 @@ void analysisClass::Loop()
      if ( nJet >= 1 ) { 
        fillVariableWithValue( "Jet1_Pt"                       , Jet1_Pt ) ;
        fillVariableWithValue( "Jet1_Eta"                      , Jet1_Eta ) ;
+       fillVariableWithValue( "Jet1_btagTCHE"                 , Jet1_btagTCHE ) ;
        fillVariableWithValue( "Jet1_E_over_Jet1_Pt"           , Jet1_Energy / Jet1_Pt ) ;       
      }
      if ( nJet >= 2 ) { 
        fillVariableWithValue( "Jet2_Pt"                       , Jet2_Pt ) ;
        fillVariableWithValue( "Jet2_Eta"                      , Jet2_Eta ) ;
+       fillVariableWithValue( "Jet2_btagTCHE"                 , Jet2_btagTCHE ) ;
        fillVariableWithValue( "Pt_j1j2"                       , Pt_j1j2 ) ;
        fillVariableWithValue( "M_j1j2"                        , M_j1j2 ) ;
        fillVariableWithValue( "M_j1j2_cut"                    , M_j1j2 ) ;
@@ -192,6 +199,7 @@ void analysisClass::Loop()
 	 jet2.SetMagPhi( Jet2_Pt , Jet2_Phi);
 	 fillVariableWithValue( "DR_Ele1Jet2"                 , DR_Ele1Jet2 ) ;
 	 fillVariableWithValue( "mDphi_BosonJet2"             , fabs( boson.DeltaPhi(jet2) ) ) ;
+	 fillVariableWithValue( "DR_Jet1Jet2"                 , DR_Jet1Jet2 ) ;
        }
      }
 
@@ -269,6 +277,7 @@ void analysisClass::Loop()
 
        FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , event_weight);
        FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , event_weight);
+       FillUserTH2D( "DR_Ele1Jet2_vs_DR_Ele1Jet1" , DR_Ele1Jet1 , DR_Ele1Jet2 , event_weight ); 	   
        FillUserTH1D( "DR_Jet1Jet2"	   , 	DR_Jet1Jet2   , event_weight);
        FillUserTH1D( "mDPhi_METEle1"	   , 	mDPhi_METEle1 , event_weight);
        FillUserTH1D( "mDPhi_METJet1"	   , 	mDPhi_METJet1 , event_weight);
