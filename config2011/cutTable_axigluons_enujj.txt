@@ -57,18 +57,21 @@ Ele1_Pt				20	     +inf		-		-		1	200 0 2000
 Ele1_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
 MET_Pt                          20	     +inf               -               -               1       200 0 2000            
 nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
-Jet1_Pt				30	     +inf		-		-		1	200 0 2000	      
+Jet1_Pt				40	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
-Jet2_Pt				30	     +inf		-		-		1	200 0 2000	      
+Jet1_btagTCHE			-inf         5			-               -               1       250 0 50	      
+Jet2_Pt				40	     +inf		-		-		1	200 0 2000	      
 Jet2_Eta			-2.4         2.4                -               -               1       100 -5 5	      
+Jet2_btagTCHE			-inf         5			-               -               1       250 0 50	      
 nMuon				-inf         0			-               -               1       16 -0.5 15.5          
 MT_Ele1MET			-inf         +inf               -               -               1       200 0 1000	      
 DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
 DR_Ele1Jet2			-inf	     +inf		-		-		1	100 0 10	      
+DR_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10	      
 mDPhi_METEle1			-inf         +inf               -               -               1       100 0 3.1416	      
 mDPhi_METJet1			-inf         +inf               -               -               1       100 0 3.1416	      
 mDPhi_METJet2			-inf         +inf               -               -               1       100 0 3.1416	      
-mDEta_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10              
+mDEta_Jet1Jet2			-inf	     2			-		-		1	100 0 10              
 mDPhi_Jet1Jet2			-inf	     +inf		-		-		1	100 0 3.1416
 M_j1j2_cut			-inf	     +inf               -               -               1       200 0 2000	      
 #  __ _             _            _           _   _             
