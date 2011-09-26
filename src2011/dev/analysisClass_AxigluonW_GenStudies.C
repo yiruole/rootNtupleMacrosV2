@@ -10,6 +10,45 @@
 #include <TVector3.h>
 #include <TRandom3.h>
 
+double getPz( TLorentzVector lepton, double pxPFMet, double pyPFMet, double Wmass) {
+ double pn=0., app=0., pznp=0., pznm=0.;
+ double a=0., b=0., c=0.;
+
+ app = pow(lepton.E(),2)+pow(pxPFMet,2)+pow(pyPFMet,2)-pow(lepton.Px()+pxPFMet,2)-pow(lepton.Py()+pyPFMet,2)-pow(lepton.Pz(),2)-pow(Wmass,2);
+ a= pow(lepton.E(),2)-pow(lepton.Pz(),2);
+ b= lepton.Pz()*app;
+ c= ( pow(pxPFMet,2)+pow(pyPFMet,2) )*pow(lepton.E(),2) - pow(app,2)/4.;
+
+ pznp = ( -b + sqrt( pow(b,2)-4.*a*c ) )/(2.*a);
+ pznm = ( -b - sqrt( pow(b,2)-4.*a*c ) )/(2.*a);
+ if ( pow(b,2)-4.*a*c < 0. ){ pznp=-b/(2.*a); pznm =-b/(2.*a); }
+
+ if( fabs(pznp) < fabs(pznm) ){
+   pn=pznp; }
+ else{ pn=pznm;  }
+ return pn;
+}
+
+double getPzPrint( TLorentzVector lepton, double pxPFMet, double pyPFMet, double Wmass) {
+ double pn=0., app=0., pznp=0., pznm=0.;
+ double a=0., b=0., c=0.;
+
+ app = pow(lepton.E(),2)+pow(pxPFMet,2)+pow(pyPFMet,2)-pow(lepton.Px()+pxPFMet,2)-pow(lepton.Py()+pyPFMet,2)-pow(lepton.Pz(),2)-pow(Wmass,2);
+ a= pow(lepton.E(),2)-pow(lepton.Pz(),2);
+ b= lepton.Pz()*app;
+ c= ( pow(pxPFMet,2)+pow(pyPFMet,2) )*pow(lepton.E(),2) - pow(app,2)/4.;
+
+ pznp = ( -b + sqrt( pow(b,2)-4.*a*c ) )/(2.*a);
+ pznm = ( -b - sqrt( pow(b,2)-4.*a*c ) )/(2.*a);
+ if ( pow(b,2)-4.*a*c < 0. ){ pznp=-b/(2.*a); pznm =-b/(2.*a); }
+
+ if( fabs(pznp) < fabs(pznm) ){
+   pn=pznp; }
+ else{ pn=pznm;  }
+
+ cout << "Luca: Pz,a,b,c" << pn << ", " << a << " , " << b << " , " << c << endl;
+ return pn;
+}
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
@@ -1764,6 +1803,102 @@ void analysisClass::Loop()
 	  }
       
       }
+
+
+    //### Angular variables
+
+    //     cout << "Quark : E , Eta , Phi : " << v_AG_q.E() << " , " << v_AG_q.Eta() << " , " << v_AG_q.Phi() << endl; 
+    //     cout << "AntiQuark : E , Eta , Phi : " << v_AG_qbar.E() << " , " << v_AG_qbar.Eta() << " , " << v_AG_qbar.Phi() << endl; 
+    //     cout << "AG : E , Eta , Phi : " << v_AG.E() << " , " << v_AG.Eta() << " , " << v_AG.Phi() << endl; 
+
+    TLorentzVector v_AG_q_restFrame(v_AG_q);
+    TLorentzVector v_AG_qbar_restFrame(v_AG_qbar);
+    TLorentzVector v_AG_restFrame(v_AG);
+    
+    TVector3 boosttoparent = -( v_AG.BoostVector() );
+    v_AG_q_restFrame.Boost(boosttoparent);
+    v_AG_qbar_restFrame.Boost(boosttoparent);
+    v_AG_restFrame.Boost(boosttoparent);
+    
+    //     cout << "Quark rest frame: E , Eta , Phi : " << v_AG_q_restFrame.E() << " , " << v_AG_q_restFrame.Eta() << " , " << v_AG_q_restFrame.Phi() << endl; 
+    //     cout << "Antiquark rest frame: E , Eta , Phi : " << v_AG_qbar_restFrame.E() << " , " << v_AG_qbar_restFrame.Eta() << " , " << v_AG_qbar_restFrame.Phi() << endl; 
+    //     cout << "AG rest frame: E : " << v_AG_restFrame.E() << endl; 
+    
+    TVector3 v_AG_q_restFrame_3 = v_AG_q_restFrame.Vect();
+    double numerator = v_AG_q_restFrame_3.Dot( v_AG.BoostVector() );
+    double denominator = ( v_AG_q_restFrame_3.Mag() ) * ( v_AG.BoostVector().Mag() );
+    double cosThetaStar = numerator/denominator;
+
+    CreateAndFillUserTH1D("h1_cosThetaStar_QuarksFromAxigluonDecay", 100, -1, 1, cosThetaStar );	    	
+
+    //### Get Pz(W) using W mass constraint
+
+    //     TLorentzVector v_W;
+    //     TLorentzVector v_W_l;
+    //     TLorentzVector v_W_nu;
+
+    double mW = v_W.M();
+    double term = ( mW*mW - v_W_l.M()*v_W_l.M() )/2 + v_W_l.Px()*v_W_nu.Px() + v_W_l.Py()*v_W_nu.Py() ;
+
+    //---
+    double coeff_A = v_W_l.E()*v_W_l.E() - v_W_l.Pz()*v_W_l.Pz() ;
+    double coeff_B = -2 * v_W_l.Pz() * term;
+    double coeff_C = v_W_l.E()*v_W_l.E() * ( v_W_nu.Px()*v_W_nu.Px() + v_W_nu.Py()*v_W_nu.Py() ) - term*term;
+    //---
+
+    double Delta = coeff_B * coeff_B  -  4 * coeff_A * coeff_C;
+
+    double Pz_1 = 0;
+    double Pz_2 = 0;
+    double goodPz = 99999 ; 
+    double badPz = 99999 ; 
+    int signDelta = 0;
+
+    if( Delta < 0 )
+      {
+	Pz_1 = - coeff_B / (2 * coeff_A) ;
+	Pz_2 = - coeff_B / (2 * coeff_A) ;
+	goodPz = Pz_1;
+	badPz = Pz_2;
+	signDelta = -1;
+      }
+    else
+      {
+	Pz_1 = (- coeff_B + sqrt( Delta ) ) / ( 2 * coeff_A ); 
+	Pz_2 = ( - coeff_B - sqrt( Delta ) ) / ( 2 * coeff_A ); 
+	signDelta = 1;
+
+	if( fabs(Pz_1) < fabs(Pz_2) )
+	  {
+	    goodPz = Pz_1;
+	    badPz = Pz_2;	    
+	  }
+	else
+	  {
+	    goodPz = Pz_2;
+	    badPz = Pz_1;	    
+	  }
+      }
+
+    //DEBUG
+    //     cout << "--------------------------" << endl;
+    //     cout << "Delta : " << Delta << endl;
+    //     cout << "good, bad : " << goodPz << " , " << coeff_A << " , " << coeff_B << " , " << coeff_C << endl;  
+    //     cout << "True Pz : " << v_W_nu.Pz() << endl;
+
+    CreateAndFillUserTH2D("h2_DiffPzNuBAD_vs_DiffPzNuGOOD", 100, -50, 50, 100, -50, 50, (v_W_nu.Pz() - goodPz), (v_W_nu.Pz() - badPz) );    
+    double thisDiff = getPz( v_W_l , v_W_nu.Px() , v_W_nu.Py(), mW) - goodPz ;
+    CreateAndFillUserTH1D("h1_CompareBestPz_Luca_Minus_Francesco", 1000, -1, 1, thisDiff );
+
+    //DEBUG
+    //     if( fabs(thisDiff) > 10 )
+    //       {
+    // 	cout << "--------------------------" << endl;
+    // 	cout << "Delta : " << Delta << endl;
+    // 	cout << "Fra: Pz,a,b,c" << goodPz << ", " << coeff_A << " , " << coeff_B << " , " << coeff_C << endl;
+    // 	getPzPrint( v_W_l , v_W_nu.Px() , v_W_nu.Py(), mW);
+    // 	cout << "True Pz : " << v_W_nu.Pz() << endl;	
+    //       }
 
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
