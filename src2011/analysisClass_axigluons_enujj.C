@@ -8,6 +8,25 @@
 #include <TVector2.h>
 #include <TVector3.h>
 
+double getPz( TLorentzVector lepton, double pxNeutrino, double pyNeutrino, double massW) {
+ double pn=0., app=0., pznp=0., pznm=0.;
+ double a=0., b=0., c=0.;
+
+ app = pow(lepton.E(),2)+pow(pxNeutrino,2)+pow(pyNeutrino,2)-pow(lepton.Px()+pxNeutrino,2)-pow(lepton.Py()+pyNeutrino,2)-pow(lepton.Pz(),2)-pow(massW,2);
+ a= pow(lepton.E(),2)-pow(lepton.Pz(),2);
+ b= lepton.Pz()*app;
+ c= ( pow(pxNeutrino,2)+pow(pyNeutrino,2) )*pow(lepton.E(),2) - pow(app,2)/4.;
+
+ pznp = ( -b + sqrt( pow(b,2)-4.*a*c ) )/(2.*a);
+ pznm = ( -b - sqrt( pow(b,2)-4.*a*c ) )/(2.*a);
+ if ( pow(b,2)-4.*a*c < 0. ){ pznp=-b/(2.*a); pznm =-b/(2.*a); }
+
+ if( fabs(pznp) < fabs(pznm) ){
+   pn=pznp; }
+ else{ pn=pznm;  }
+ return pn;
+}
+
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
 
@@ -23,7 +42,7 @@ void analysisClass::Loop()
    
    fillSkim                         (  true  ) ;
    fillAllPreviousCuts              ( !true  ) ;
-   fillAllOtherCuts                 ( !true  ) ;
+   fillAllOtherCuts                 (  true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
 
@@ -69,6 +88,12 @@ void analysisClass::Loop()
 		   ) ;   
    CreateUserTH1D( "mDphi_BosonJet1"	   , 	getHistoNBins("mDphi_BosonJet1"), getHistoMin("mDphi_BosonJet1"), getHistoMax("mDphi_BosonJet1")     ) ; 
    CreateUserTH1D( "mDphi_BosonJet2"	   , 	getHistoNBins("mDphi_BosonJet2"), getHistoMin("mDphi_BosonJet2"), getHistoMax("mDphi_BosonJet2")     ) ; 
+   CreateUserTH1D( "DR_BosonJet1"	   , 	getHistoNBins("DR_BosonJet1"), getHistoMin("DR_BosonJet1"), getHistoMax("DR_BosonJet1")     ) ; 
+   CreateUserTH1D( "DR_BosonJet2"	   , 	getHistoNBins("DR_BosonJet2"), getHistoMin("DR_BosonJet2"), getHistoMax("DR_BosonJet2")     ) ; 
+   CreateUserTH2D( "DR_BosonJet2_vs_DR_BosonJet1"	   
+		   , getHistoNBins("DR_BosonJet1"), getHistoMin("DR_BosonJet1"), getHistoMax("DR_BosonJet1")     
+		   , getHistoNBins("DR_BosonJet2"), getHistoMin("DR_BosonJet2"), getHistoMax("DR_BosonJet2")     
+		   ) ;   
    CreateUserTH1D( "MT_Ele1MET"	           , 	getHistoNBins("MT_Ele1MET"), getHistoMin("MT_Ele1MET"), getHistoMax("MT_Ele1MET")     ) ; 
    CreateUserTH1D( "Pt_Ele1MET"	           , 	getHistoNBins("Pt_Ele1MET"), getHistoMin("Pt_Ele1MET"), getHistoMax("Pt_Ele1MET")     ) ; 
    CreateUserTH1D( "Pt_j1j2"	           , 	getHistoNBins("Pt_j1j2"), getHistoMin("Pt_j1j2"), getHistoMax("Pt_j1j2")     ) ; 
@@ -82,7 +107,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "Jet2_E_over_Jet2_Pt"   , 	getHistoNBins("Jet2_E_over_Jet2_Pt"), getHistoMin("Jet2_E_over_Jet2_Pt"), getHistoMax("Jet2_E_over_Jet2_Pt") ) ; 
 
 
+   //--------------------------------------------------------------------------
+   // Precuts
+   //--------------------------------------------------------------------------
 
+   double Wmass = getPreCutValue1("Wmass");
+   
    //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
@@ -139,11 +169,29 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight ) ; 
      fillVariableWithValue(   "PassTrackingFailure"           , PassTrackingFailure ) ; 
 
+
      // Electrons
      fillVariableWithValue(   "nEle"                          , nEle ) ;
+
+     TLorentzVector Wboson;       
+
      if ( nEle >= 1 ) { 
        fillVariableWithValue( "Ele1_Pt"                       , Ele1_Pt ) ;
        fillVariableWithValue( "Ele1_Eta"                      , Ele1_Eta ) ;
+
+       // Get Pz of W boson
+       TVector2 Wboson2D;       
+       TLorentzVector lepton;
+       TVector2 lepton2D;       
+       TVector2 neutrino2D;       
+
+       lepton.SetPtEtaPhiE(Ele1_Pt, Ele1_Eta, Ele1_Phi, Ele1_Energy);       
+       lepton2D.SetMagPhi(Ele1_Pt, Ele1_Phi);
+       neutrino2D.SetMagPhi(MET_Pt, MET_Phi);
+       Wboson2D = lepton2D + neutrino2D;  
+       double PzW = getPz( lepton, neutrino2D.Px(), neutrino2D.Py(), Wmass);
+       double EnergyW = sqrt( Wboson2D.Px()*Wboson2D.Px() + Wboson2D.Py()*Wboson2D.Py() + PzW*PzW + Wmass*Wmass );
+       Wboson.SetPxPyPzE( Wboson2D.Px() , Wboson2D.Py() , PzW , EnergyW );       
      }
 
      // MET variables
@@ -194,12 +242,20 @@ void analysisClass::Loop()
        boson = ele1 + met;
        fillVariableWithValue( "mDphi_BosonJet1"               , fabs( boson.DeltaPhi(jet1) ) ) ;
 
+       TLorentzVector jet1_lorentz;
+       jet1_lorentz.SetPtEtaPhiE(Jet1_Pt, Jet1_Eta, Jet1_Phi, Jet1_Energy);
+       fillVariableWithValue( "DR_BosonJet1"                  , Wboson.DeltaR(jet1_lorentz) ) ;
+
        if(nJet >= 2) {
 	 TVector2 jet2;
 	 jet2.SetMagPhi( Jet2_Pt , Jet2_Phi);
 	 fillVariableWithValue( "DR_Ele1Jet2"                 , DR_Ele1Jet2 ) ;
 	 fillVariableWithValue( "mDphi_BosonJet2"             , fabs( boson.DeltaPhi(jet2) ) ) ;
 	 fillVariableWithValue( "DR_Jet1Jet2"                 , DR_Jet1Jet2 ) ;
+
+	 TLorentzVector jet2_lorentz;
+	 jet2_lorentz.SetPtEtaPhiE(Jet2_Pt, Jet2_Eta, Jet2_Phi, Jet2_Energy);
+	 fillVariableWithValue( "DR_BosonJet2"                , Wboson.DeltaR(jet2_lorentz) ) ;
        }
      }
 
@@ -272,6 +328,9 @@ void analysisClass::Loop()
 
        FillUserTH1D( "mDphi_BosonJet1"     , 	getVariableValue("mDphi_BosonJet1")   , event_weight);
        FillUserTH1D( "mDphi_BosonJet2"     , 	getVariableValue("mDphi_BosonJet2")   , event_weight);
+       FillUserTH1D( "DR_BosonJet1"	   , 	getVariableValue("DR_BosonJet1")   , event_weight);
+       FillUserTH1D( "DR_BosonJet2"	   , 	getVariableValue("DR_BosonJet2")   , event_weight);
+       FillUserTH2D( "DR_BosonJet2_vs_DR_BosonJet1" , getVariableValue("DR_BosonJet1") , getVariableValue("DR_BosonJet2") , event_weight ); 	          
 
        FillUserTH1D( "nMuon"               ,    nMuon         , event_weight);
 
