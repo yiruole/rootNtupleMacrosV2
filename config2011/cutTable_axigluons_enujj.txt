@@ -23,6 +23,7 @@
 #VariableName         value1            value2          value3          value4          level
 #------------         ------------      -------------   ------------    -------------   -----
 #produceSkim          1                 -               -               -               -1
+Wmass		      80.399		-		-		-		-1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -59,10 +60,10 @@ MET_Pt                          20	     +inf               -               -    
 nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
 Jet1_Pt				40	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
-Jet1_btagTCHE			-inf         5			-               -               1       250 0 50	      
+Jet1_btagTCHE			-inf         +inf		-               -               1       250 0 50	      
 Jet2_Pt				40	     +inf		-		-		1	200 0 2000	      
 Jet2_Eta			-2.4         2.4                -               -               1       100 -5 5	      
-Jet2_btagTCHE			-inf         5			-               -               1       250 0 50	      
+Jet2_btagTCHE			-inf         +inf		-               -               1       250 0 50	      
 nMuon				-inf         0			-               -               1       16 -0.5 15.5          
 MT_Ele1MET			-inf         +inf               -               -               1       200 0 1000	      
 DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
@@ -82,6 +83,8 @@ M_j1j2_cut			-inf	     +inf               -               -               1     
 #
 mDphi_BosonJet1			-inf	     +inf		-		-		2	100 0 3.1416			    
 mDphi_BosonJet2			-inf	     +inf		-		-		2	100 0 3.1416			    
+DR_BosonJet1			-inf	     +inf		-		-		2	100 0 10              
+DR_BosonJet2			-inf	     +inf		-		-		2	100 0 10              
 Pt_Ele1MET			-inf	     +inf               -               -               2       200 0 2000	      
 Pt_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
 sT_enujj			-inf         +inf               -               -               2       200 0 2000	      
