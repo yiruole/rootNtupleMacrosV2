@@ -465,10 +465,9 @@ class Plot:
 ############# USER CODE - BEGING #############################################
 
 #--- Input root file
-
-
-
-File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_13092011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
+File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_27092011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
+#File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_16092011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
+#File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_13092011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
 #File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/330pb-1_21072011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
 #File_preselection = GetFile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/330pb-1_18072011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root")
 File_selection    = File_preselection
@@ -505,6 +504,7 @@ eta_ymax=200000
 
 histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
+histoBaseName_others = "histo1D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
 
 #samplesForStackHistosQCD = ["DATA"]
 #samplesForStackHistos = ["OTHERBKG","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
@@ -1205,6 +1205,58 @@ if plotDATA:
     plot45_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
 
 
+variableName = "Jet1_btagTCHE"
+
+plot54_ylin = Plot()
+## inputs for stacked histograms
+#plot54_ylin.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot54_ylin.histosStack     = generateHistoList( histoBaseName_others, samplesForStackHistos, variableName, File_preselection)
+plot54_ylin.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot54_ylin.histos          = generateHistoList( histoBaseName_others, samplesForHistos, variableName, File_preselection)
+plot54_ylin.keys            = keys
+plot54_ylin.xtit            = "B-tag discriminator [TCHE] 1^{st} jet (all other cuts applied)"
+plot54_ylin.ytit            = "Events"
+plot54_ylin.ylog            = "no"
+#plot54_ylin.rebin           = "var"
+plot54_ylin.ymin            = pt_ymin
+plot54_ylin.ymax            = pt_ymax_lin / 2
+plot54_ylin.xmin            = 0
+plot54_ylin.xmax            = 10
+#plot54_ylin.lpos            = "top-left"
+plot54_ylin.name            = "Jet1_btagTCHE_allothers_ylin"
+plot54_ylin.addZUncBand     = zUncBand
+plot54_ylin.makeRatio       = makeRatio
+#plot54_ylin.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
+plot54_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot54_ylin.histodata       = generateHisto( histoBaseName_others, sampleForDataHisto, variableName, File_preselection)
+
+plot54_ylog = Plot()
+## inputs for stacked histograms
+#plot54_ylog.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot54_ylog.histosStack     = generateHistoList( histoBaseName_others, samplesForStackHistos, variableName, File_preselection)
+plot54_ylog.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot54_ylog.histos          = generateHistoList( histoBaseName_others, samplesForHistos, variableName, File_preselection)
+plot54_ylog.keys            = keys
+plot54_ylog.xtit            = "B-tag discriminator [TCHE] 1^{st} jet (all other cuts applied)"
+plot54_ylog.ytit            = "Events"
+plot54_ylog.ylog            = "yes"
+#plot54_ylog.rebin           = "var"
+plot54_ylog.ymin            = pt_ymin
+plot54_ylog.ymax            = pt_ymax_log*10
+#plot54_ylog.lpos            = "top-left"
+plot54_ylog.name            = "Jet1_btagTCHE_allothers_ylog"
+plot54_ylog.addZUncBand     = zUncBand
+plot54_ylog.makeRatio       = makeRatio
+plot54_ylog.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
+plot54_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot54_ylog.histodata       = generateHisto( histoBaseName_others, sampleForDataHisto, variableName, File_preselection)
+
+
+
 
 #--- Jet2_Pt  ---
 variableName = "Jet2_Pt"
@@ -1362,6 +1414,58 @@ plot49_ylog.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,4
 plot49_ylog.plotDATA        = plotDATA
 if plotDATA:
     plot49_ylog.histodata       = generateHisto( histoBaseName_userDef, sampleForDataHisto, variableName, File_preselection)
+
+
+variableName = "Jet2_btagTCHE"
+
+plot55_ylin = Plot()
+## inputs for stacked histograms
+#plot55_ylin.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot55_ylin.histosStack     = generateHistoList( histoBaseName_others, samplesForStackHistos, variableName, File_preselection)
+plot55_ylin.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot55_ylin.histos          = generateHistoList( histoBaseName_others, samplesForHistos, variableName, File_preselection)
+plot55_ylin.keys            = keys
+plot55_ylin.xtit            = "B-tag discriminator [TCHE] 2^{nd} jet (all other cuts applied)"
+plot55_ylin.ytit            = "Events"
+plot55_ylin.ylog            = "no"
+#plot55_ylin.rebin           = "var"
+plot55_ylin.ymin            = pt_ymin
+plot55_ylin.ymax            = pt_ymax_lin / 2
+plot55_ylin.xmin            = 0
+plot55_ylin.xmax            = 10
+#plot55_ylin.lpos            = "top-left"
+plot55_ylin.name            = "Jet2_btagTCHE_allothers_ylin"
+plot55_ylin.addZUncBand     = zUncBand
+plot55_ylin.makeRatio       = makeRatio
+#plot55_ylin.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
+plot55_ylin.plotDATA        = plotDATA
+if plotDATA:
+    plot55_ylin.histodata       = generateHisto( histoBaseName_others, sampleForDataHisto, variableName, File_preselection)
+
+plot55_ylog = Plot()
+## inputs for stacked histograms
+#plot55_ylog.histosStack     = generateHistoList( histoBaseName_userDef, samplesForStackHistosQCD, variableName, File_QCD, QCDscaleFactor) + generateHistoList( histoBaseName_userDef, samplesForStackHistos, variableName, File_preselection)
+plot55_ylog.histosStack     = generateHistoList( histoBaseName_others, samplesForStackHistos, variableName, File_preselection)
+plot55_ylog.keysStack       = keysStack
+## this is the list of histograms that should be simply overlaid on top of the stacked histogram
+plot55_ylog.histos          = generateHistoList( histoBaseName_others, samplesForHistos, variableName, File_preselection)
+plot55_ylog.keys            = keys
+plot55_ylog.xtit            = "B-tag discriminator [TCHE] 2^{nd} jet (all other cuts applied)"
+plot55_ylog.ytit            = "Events"
+plot55_ylog.ylog            = "yes"
+#plot55_ylog.rebin           = "var"
+plot55_ylog.ymin            = pt_ymin
+plot55_ylog.ymax            = pt_ymax_log*10
+#plot55_ylog.lpos            = "top-left"
+plot55_ylog.name            = "Jet2_btagTCHE_allothers_ylog"
+plot55_ylog.addZUncBand     = zUncBand
+plot55_ylog.makeRatio       = makeRatio
+plot55_ylog.xbins           = [0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,4,5,7,10,15,20,30,40,50]
+plot55_ylog.plotDATA        = plotDATA
+if plotDATA:
+    plot55_ylog.histodata       = generateHisto( histoBaseName_others, sampleForDataHisto, variableName, File_preselection)
+
 
 
 #--- Ptjets ---
@@ -1822,7 +1926,8 @@ plots  = [
           # Jets
           plot40, plot41, plot42_ylin, plot42_ylog, plot43, plot44,
           plot45_ylin, plot45_ylog, plot46_ylin, plot46_ylog, plot47, plot48, plot49_ylin, plot49_ylog,
-          plot50_ylin, plot50_ylog, plot51, plot52_ylin, plot52_ylog, plot53_ylin, plot53_ylog,
+          plot50_ylin, plot50_ylog, plot51, plot52_ylin, plot52_ylog, plot53_ylin, plot53_ylog, plot54_ylin, plot54_ylog,
+          plot55_ylin, plot55_ylog, 
           #Muons
           plot100,
           #Others
