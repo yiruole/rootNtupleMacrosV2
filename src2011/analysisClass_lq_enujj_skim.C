@@ -67,15 +67,49 @@ void analysisClass::Loop()
   double eleEta_bar      = getPreCutValue1("eleEta_bar");
   double eleEta_end_min  = getPreCutValue1("eleEta_end");
   double eleEta_end_max  = getPreCutValue2("eleEta_end");
-  // Not used when using ElectronHeepID and heepBitMask // int eleIDType = (int) getPreCutValue1("eleIDType");
-  int heepBitMask_EB     = getPreCutValue1("heepBitMask_EBGapEE") ;
-  int heepBitMask_GAP    = getPreCutValue2("heepBitMask_EBGapEE") ;
-  int heepBitMask_EE     = getPreCutValue3("heepBitMask_EBGapEE") ;
   
   if ( ele_PtCut_STORE > ele_PtCut_ANA ) {
     STDOUT("ERROR in Electron cut values: all storage cuts must be looser or equal to analysis cuts.");
     exit(0) ;
   }
+
+  // For WP80
+
+  double eleMissingHitsWP             = getPreCutValue1("eleMissingHitsWP"        );
+  double eleDistWP                    = getPreCutValue1("eleDistWP"               );
+  double eleDCotThetaWP               = getPreCutValue1("eleDCotThetaWP"          );
+  double eleCombRelIsoWP_bar          = getPreCutValue1("eleCombRelIsoWP"         );
+  double eleCombRelIsoWP_end          = getPreCutValue2("eleCombRelIsoWP"         );
+  double eleSigmaIetaIetaWP_bar       = getPreCutValue1("eleSigmaIetaIetaWP"      );
+  double eleSigmaIetaIetaWP_end       = getPreCutValue2("eleSigmaIetaIetaWP"      );
+  double eleDeltaPhiTrkSCWP_bar       = getPreCutValue1("eleDeltaPhiTrkSCWP"      );
+  double eleDeltaPhiTrkSCWP_end       = getPreCutValue2("eleDeltaPhiTrkSCWP"      );
+  double eleDeltaEtaTrkSCWP_bar       = getPreCutValue1("eleDeltaEtaTrkSCWP"      );
+  double eleDeltaEtaTrkSCWP_end       = getPreCutValue2("eleDeltaEtaTrkSCWP"      );
+  double eleUseEcalDrivenWP           = getPreCutValue1("eleUseEcalDrivenWP"      );
+  double eleUseHasMatchConvWP         = getPreCutValue1("eleUseHasMatchConvWP"    );
+
+  // For HEEP 3.1
+
+  double eleDeltaEtaTrkSCHeep_bar     = getPreCutValue1("eleDeltaEtaTrkSCHeep"    );
+  double eleDeltaEtaTrkSCHeep_end     = getPreCutValue2("eleDeltaEtaTrkSCHeep"    );
+  double eleDeltaPhiTrkSCHeep_bar     = getPreCutValue1("eleDeltaPhiTrkSCHeep"    );
+  double eleDeltaPhiTrkSCHeep_end     = getPreCutValue2("eleDeltaPhiTrkSCHeep"    );
+  double eleHoEHeep_bar               = getPreCutValue1("eleHoEHeep"              );
+  double eleHoEHeep_end               = getPreCutValue2("eleHoEHeep"              );
+  double eleE2x5OverE5x5Heep_bar      = getPreCutValue1("eleE2x5OverE5x5Heep"     );
+  double eleE1x5OverE5x5Heep_bar      = getPreCutValue1("eleE1x5OverE5x5Heep"     );
+  double eleSigmaIetaIetaHeep_end     = getPreCutValue2("eleSigmaIetaIetaHeep"    );
+  double eleEcalHcalIsoHeep_1_bar     = getPreCutValue1("eleEcalHcalIsoHeep"      );
+  double eleEcalHcalIsoHeep_2_bar     = getPreCutValue2("eleEcalHcalIsoHeep"      );
+  double eleEcalHcalIsoHeep_1_end     = getPreCutValue3("eleEcalHcalIsoHeep"      );
+  double eleEcalHcalIsoHeep_2_end     = getPreCutValue4("eleEcalHcalIsoHeep"      );
+  double eleEcalHcalIso_PTthrHeep_end = getPreCutValue2("eleEcalHcalIso_PTthrHeep");
+  double eleHcalIsoD2Heep_end         = getPreCutValue2("eleHcalIsoD2Heep"        );
+  double eleTrkIsoHeep_bar            = getPreCutValue1("eleTrkIsoHeep"           );
+  double eleTrkIsoHeep_end            = getPreCutValue2("eleTrkIsoHeep"           );
+  double eleMissingHitsHeep           = getPreCutValue1("eleMissingHitsHeep"      );
+  double eleUseEcalDrivenHeep         = getPreCutValue1("eleUseEcalDrivenHeep"    );
 
   //-----------------------------------------------------------------
   // Jet cut values
@@ -110,22 +144,30 @@ void analysisClass::Loop()
   }
 
   //-----------------------------------------------------------------
+  // Vertex cut values
+  //-----------------------------------------------------------------
+
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ     = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0       = getPreCutValue1("vertexMaxd0");
+  
+  //-----------------------------------------------------------------
   // Scaling values
   //-----------------------------------------------------------------
   
   double EleEnergyScale_EB    = getPreCutValue1("EleEnergyScale_EB");
   double EleEnergyScale_EE    = getPreCutValue1("EleEnergyScale_EE");
   double JetEnergyScale       = getPreCutValue1("JetEnergyScale");
-  int    doJetOversmearing    = getPreCutValue1("doJetOversmearing");
+  int    doJetOversmearing    = (int) getPreCutValue1("doJetOversmearing");
   double JetOversmearingSigma = getPreCutValue1("JetOversmearingSigma");
 
-  int    jetAlgorithm = getPreCutValue1("jetAlgorithm");
-  int    metAlgorithm = getPreCutValue1("metAlgorithm");
-  int    eleAlgorithm = getPreCutValue1("eleAlgorithm");
+  //-----------------------------------------------------------------
+  // Which algorithms to use?
+  //-----------------------------------------------------------------
 
-  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
-  double vertexMaxAbsZ     = getPreCutValue1("vertexMaxAbsZ");
-  double vertexMaxd0       = getPreCutValue1("vertexMaxd0");
+  int    jetAlgorithm = (int) getPreCutValue1("jetAlgorithm");
+  int    metAlgorithm = (int) getPreCutValue1("metAlgorithm");
+  int    eleAlgorithm = (int) getPreCutValue1("eleAlgorithm");
   
   // Random number generator for random scaling
   TRandom3 *randomNumGen = new TRandom3;
@@ -154,18 +196,19 @@ void analysisClass::Loop()
     
     //-----------------------------------------------------------------
     // Do pileup re-weighting, if necessary
+    //  --> To be done after the skim, so commented out for now
     //-----------------------------------------------------------------
     
-    //double event_weight = getPileupWeight ( PileUpInteractions, isData ) ;
+    // double event_weight = getPileupWeight ( PileUpInteractions, isData ) ;
     
     //-----------------------------------------------------------------
     // Get trigger information, if necessary
     //-----------------------------------------------------------------
 
-    // if ( isData ) { 
-    //   getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ;
-    // }
-
+    if ( isData ) { 
+      getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ;
+    }
+    
     //-----------------------------------------------------------------
     // Store variables: Jets
     //-----------------------------------------------------------------
@@ -347,28 +390,122 @@ void analysisClass::Loop()
     vector<int> v_idx_ele_PtCut_IDISO_STORE;
     vector<int> v_idx_ele_PtCut_IDISO_ANA;
     vector<int> v_idx_ele_IDISO;
-    int heepBitMask;
-
-    for(int iele=0; iele<ElectronPt->size(); iele++) {
-
-      bool ana_electron = true;
+    
+    //Loop over electrons
+    for(int iele=0; iele<ElectronPt->size(); iele++){
       
-      // get heepBitMask for EB, GAP, EE
-      if      ( fabs(ElectronEta->at(iele)) < eleEta_bar                                                     ) heepBitMask = heepBitMask_EB;
-      else if ( fabs(ElectronEta->at(iele)) > eleEta_end_min && fabs(ElectronEta->at(iele)) < eleEta_end_max ) heepBitMask = heepBitMask_EE;
-      else                                                                                                     heepBitMask = heepBitMask_GAP;
+      int passEleSel = 0;
+      int isBarrel = 0;
+      int isEndcap = 0;
       
-      //ID + ISO
-      if ( (ElectronHeepID->at(iele) & ~heepBitMask)==0x0 ) {
-	v_idx_ele_IDISO.push_back(iele);
+      if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar )       isBarrel = 1;
+      if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min &&
+	  fabs( ElectronSCEta->at(iele) ) < eleEta_end_max )   isEndcap = 1;
+
+      //-----------------------------------------------------------------    
+      // HEEP ID application
+      //-----------------------------------------------------------------    
+
+      if ( eleAlgorithm == 1 ) { 
 	
-	if( ElectronPt->at(iele) < ele_PtCut_ANA   ) ana_electron = false;
-	if( ElectronPt->at(iele) < ele_PtCut_STORE ) continue;
+	if(isBarrel) {		
+	  if(   fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_bar 
+	     && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_bar 
+	     && ElectronHoE->at(iele) < eleHoEHeep_bar 
+	     && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5Heep_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5Heep_bar ) 
+	     && ( ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele) ) < eleEcalHcalIsoHeep_1_bar + eleEcalHcalIsoHeep_2_bar*ElectronPt->at(iele)
+	     && ElectronTrkIsoDR03->at(iele) <eleTrkIsoHeep_bar 
+	     )
+	    passEleSel = 1;		
+	}//end barrel
 	
-	v_idx_ele_PtCut_IDISO_STORE.push_back ( iele ) ;
-	if ( ana_electron ) v_idx_ele_PtCut_IDISO_ANA.push_back ( iele ) ;
+	if(isEndcap) {		
+	  
+	  int passEcalHcalIsoCut=0;
+	  if(ElectronPt->at(iele) < eleEcalHcalIso_PTthrHeep_end && 
+	     (ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele)) < eleEcalHcalIsoHeep_1_end) 
+	    passEcalHcalIsoCut=1;
+	  if(ElectronPt->at(iele) > eleEcalHcalIso_PTthrHeep_end && 
+	     (ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele)) < eleEcalHcalIsoHeep_1_end+eleEcalHcalIsoHeep_2_end*(ElectronPt->at(iele)-eleEcalHcalIso_PTthrHeep_end) ) 
+	    passEcalHcalIsoCut=1;
+	  
+	  if(fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_end 
+	     && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_end 
+	     && ElectronHoE->at(iele) < eleHoEHeep_end 
+	     && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaHeep_end 
+	     && passEcalHcalIsoCut == 1
+	     && ElectronHcalIsoD2DR03->at(iele) < eleHcalIsoD2Heep_end 
+	     && ElectronTrkIsoDR03->at(iele) < eleTrkIsoHeep_end 
+	     )
+	    passEleSel = 1;
+	  
+	}//end endcap
       }
-    } 
+
+      //-----------------------------------------------------------------    
+      // WP80 ID application
+      //-----------------------------------------------------------------    
+
+      else if ( eleAlgorithm == 2 ) { 
+	// ecal driven	    
+	if( eleUseEcalDrivenWP && !ElectronHasEcalDrivenSeed->at(iele) ) continue;
+	
+	// isolation
+	double ElectronCombRelIsoWP_bar  =  ( ElectronTrkIsoDR03->at(iele) 
+					    + max( 0., ElectronEcalIsoDR03->at(iele) - 1. ) 
+					    + ElectronHcalIsoDR03FullCone->at(iele) 
+					    - rhoIso*TMath::Pi()*0.3*0.3 
+					    ) / ElectronPt->at(iele) ;
+	
+	double ElectronCombRelIsoWP_end  =  ( ElectronTrkIsoDR03->at(iele) 
+					      + ElectronEcalIsoDR03->at(iele) 
+					      + ElectronHcalIsoDR03FullCone->at(iele) 
+					      - rhoIso*TMath::Pi()*0.3*0.3 
+					      ) / ElectronPt->at(iele) ;
+	
+	// conversions
+	int isPhotConv = 0;
+	if(eleUseHasMatchConvWP) {
+	  if( ElectronHasMatchedConvPhot->at(iele) ) 
+	    isPhotConv = 1;
+	}
+	else {
+	  if( ElectronDist->at(iele) < eleDistWP && ElectronDCotTheta->at(iele) < eleDCotThetaWP )	
+	    isPhotConv = 1;
+	}
+
+	if(isBarrel) {
+	  
+	  if( ElectronMissingHits->at(iele) <= eleMissingHitsWP              && 
+	      isPhotConv == 0					             && 
+	      ElectronCombRelIsoWP_bar < eleCombRelIsoWP_bar		     && 
+	      ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaWP_bar       && 
+	      fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCWP_bar && 
+	      fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCWP_bar  )
+	    passEleSel = 1;		
+	  
+	}//end barrel
+	
+	if(isEndcap) {		
+	    
+	  if( ElectronMissingHits->at(iele) == eleMissingHitsWP              && 
+	      isPhotConv == 0						     && 
+	      ElectronCombRelIsoWP_end < eleCombRelIsoWP_end		     && 
+	      ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaWP_end 	     && 
+	      fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCWP_end && 
+	      fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCWP_end  )
+	    passEleSel = 1;		
+	  
+	}//end endcap	
+      }
+      
+      if ( passEleSel ) { 
+	v_idx_ele_IDISO.push_back ( iele ) ;
+	if ( ElectronPt -> at (iele) >= ele_PtCut_STORE ) v_idx_ele_PtCut_IDISO_STORE.push_back ( iele ) ;
+	if ( ElectronPt -> at (iele) >= ele_PtCut_ANA   ) v_idx_ele_PtCut_IDISO_ANA  .push_back ( iele ) ;
+      }
+
+    }
     
     //-----------------------------------------------------------------
     // Selection: Jets
@@ -528,6 +665,10 @@ void analysisClass::Loop()
 	v_idx_calojet_PtCut_noOverlap_ID_ANA.push_back ( ijet ) ;
     }
 
+    // std::cout << "N(CaloJets) = " << v_idx_calojet_PtCut_noOverlap_ID_STORE.size() << std::endl;
+    // std::cout << "  pt cut(store) = " << caloJet_PtCut_STORE << std::endl;
+    // std::cout << "  n(ele) = " << v_idx_ele_IDISO.size() << std::endl;
+
     //-----------------------------------------------------------------
     // MET energy scaling
     //-----------------------------------------------------------------
@@ -611,11 +752,19 @@ void analysisClass::Loop()
     fillVariableWithValue( "PassHBHENoiseFilter", passHBHENoiseFilter ) ;
     fillVariableWithValue( "PassBeamHaloFilterLoose", passBeamHaloFilterLoose ) ;
     fillVariableWithValue( "PassBeamHaloFilterTight", passBeamHaloFilterTight ) ;
+    fillVariableWithValue( "PassTrackingFailure", !isTrackingFailure ) ;
+    fillVariableWithValue( "PassCaloBoundaryDRFilter", passCaloBoundaryDRFilter ) ;
+    fillVariableWithValue( "PassEcalMaskedCellDRFilter", passEcalMaskedCellDRFilter ) ;
 
+    for(int pu=0; pu<PileUpInteractions->size(); pu++) {
+      if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu) ) ;	      
+      if(PileUpOriginBX->at(pu) == 0  ) fillVariableWithValue( "nPileUpInt_BX0"     , PileUpInteractions->at(pu) ) ;	      
+      if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1", PileUpInteractions->at(pu) ) ;	      	    
+    }
+    
     // nVertex and pile-up
     fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
     fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
-    fillVariableWithValue( "nPileUpInteractions", PileUpInteractions ) ;
     
     // nEle
     fillVariableWithValue( "nEle_Ana"  , v_idx_ele_PtCut_IDISO_ANA.size() ) ;
@@ -649,10 +798,10 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Ele1_Eta"      , ElectronEta                      -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_Phi"      , ElectronPhi                      -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_Charge"   , ElectronCharge                   -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
-	fillVariableWithValue( "Ele1_HcalIso"  , ElectronHcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
-	fillVariableWithValue( "Ele1_EcalIso"  , ElectronEcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
-	fillVariableWithValue( "Ele1_TrkIso"   , ElectronTrkIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
-	fillVariableWithValue( "Ele1_RelIso"   , ElectronRelIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
+	// fillVariableWithValue( "Ele1_HcalIso"  , ElectronHcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
+	// fillVariableWithValue( "Ele1_EcalIso"  , ElectronEcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
+	// fillVariableWithValue( "Ele1_TrkIso"   , ElectronTrkIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
+	// fillVariableWithValue( "Ele1_RelIso"   , ElectronRelIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_Dist"     , ElectronDist                     -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_DCotTheta", ElectronDCotTheta                -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_VtxD0"    , ElectronVtxDistXY                -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
@@ -685,10 +834,10 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Ele2_Eta"      , ElectronEta                      -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_Phi"      , ElectronPhi                      -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_Charge"   , ElectronCharge                   -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
-	fillVariableWithValue( "Ele2_HcalIso"  , ElectronHcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
-	fillVariableWithValue( "Ele2_EcalIso"  , ElectronEcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
-	fillVariableWithValue( "Ele2_TrkIso"   , ElectronTrkIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
-	fillVariableWithValue( "Ele2_RelIso"   , ElectronRelIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
+	// fillVariableWithValue( "Ele2_HcalIso"  , ElectronHcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
+	// fillVariableWithValue( "Ele2_EcalIso"  , ElectronEcalIso                  -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
+	// fillVariableWithValue( "Ele2_TrkIso"   , ElectronTrkIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
+	// fillVariableWithValue( "Ele2_RelIso"   , ElectronRelIso                   -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_Dist"     , ElectronDist                     -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_DCotTheta", ElectronDCotTheta                -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_VtxD0"    , ElectronVtxDistXY                -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
@@ -970,9 +1119,10 @@ void analysisClass::Loop()
     if( passedAllPreviousCuts("PassHBHENoiseFilter")
 	&& passedCut("nEle_Ana")
 	&& passedCut("Ele1_Pt" )
-	&& passedCut("MET_Pt"  ) ) 
+	&& passedCut("MET_Pt"  ) )  { 
       fillReducedSkimTree();
-    
+      
+    }
   } // End of loop over events
 
   /*//------------------------------------------------------------------
