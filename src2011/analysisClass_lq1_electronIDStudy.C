@@ -47,6 +47,17 @@ void analysisClass::Loop()
   CreateUserTH1D("RecoOverGenPt", 100 , 0, 2.0 );
   CreateUserTH1D("RecoGenDR"    , 100 , 0, 0.25);
   CreateUserTH2D("RecoGenDR_vs_RecoOverGenPt", 100 , 0, 0.25, 100 , 0, 2.0);
+
+  CreateUserTH1D("RecoEleJetDR_Pass"  , 100 , 0, 5.0);
+  CreateUserTH1D("RecoEleJetDR_Total" , 100 , 0, 5.0);
+
+  CreateUserTH1D("Ele1_Eta_Pass" , 25 , -2.5, 2.5) ;
+  CreateUserTH1D("Ele1_Phi_Pass" , 25 , -3.14159, 3.14159);
+  CreateUserTH1D("Pileup_Pass"   , 26  , -0.5, 25.5);
+  
+  CreateUserTH1D("Ele1_Eta_Total", 25 , -2.5, 2.5) ;
+  CreateUserTH1D("Ele1_Phi_Total", 25 , -3.14159, 3.14159);
+  CreateUserTH1D("Pileup_Total"  , 26  , -0.5, 25.5);
   
   //-----------------------------------------------------------------
   // CaloJet cut values
@@ -523,6 +534,9 @@ void analysisClass::Loop()
     vector<int> v_idx_jet_PtCut_STORE;
     vector<int> v_idx_jet_PtCut_ANA;
 
+    vector<int> v_idx_jet_PtCut_ID_STORE;
+    vector<int> v_idx_jet_PtCut_ID_ANA;
+
     vector<int> v_idx_jet_PtCut_noOverlap_ID_STORE;
     vector<int> v_idx_jet_PtCut_noOverlap_ID_TCHEL_STORE;
 
@@ -540,6 +554,11 @@ void analysisClass::Loop()
 	//pT pre-cut on reco jets
 	if ( JetPt->at(ijet) < jet_PtCut_STORE ) continue;
 	if ( JetPt->at(ijet) < jet_PtCut_ANA   ) ana_jet = false;
+
+	if ( JetPassID->at(ijet) == 1 ) {
+	  v_idx_jet_PtCut_ID_STORE.push_back ( ijet );
+	  if ( ana_jet ) v_idx_jet_PtCut_ID_ANA.push_back   ( ijet );
+	}
 
 	v_idx_jet_PtCut_STORE.push_back(ijet);
 	if ( ana_jet ) v_idx_jet_PtCut_ANA.push_back(ijet);
@@ -805,23 +824,51 @@ void analysisClass::Loop()
     fillVariableWithValue("RecoEleHasID",pass_id ) ;
 
     //-----------------------------------------------------------------
+    // Get the lowest dr between ele1 and a jet
+    //-----------------------------------------------------------------
+
+    double min_ele_jet_dr = 999.0;
+    
+    if ( v_idx_jet_PtCut_ID_STORE.size() >= 1 ) {
+      for (int ijet = 0; ijet < v_idx_jet_PtCut_ID_STORE.size() ; ++ijet){
+	TLorentzVector jet;    
+	jet.SetPtEtaPhiM( (*JetPt )[v_idx_jet_PtCut_ID_STORE[ijet]],
+			  (*JetEta)[v_idx_jet_PtCut_ID_STORE[ijet]],
+			  (*JetPhi)[v_idx_jet_PtCut_ID_STORE[ijet]], 0.0 );
+	double dr = gen_ele.DeltaR ( jet ) ;
+
+	if ( dr < min_ele_jet_dr ) min_ele_jet_dr = dr;
+      }
+    }
+
+    //-----------------------------------------------------------------
     // Evaluate cuts
     //-----------------------------------------------------------------
     
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
     
-    if ( passedCut("MatchedGenToReco") )
-      FillUserTH1D("Ele1_Pt_Total", gen_ele.Pt() ) ;
+    if ( passedCut("MatchedGenToReco") ) {
+      FillUserTH1D("Ele1_Pt_Total"     , gen_ele.Pt () ) ;
+      FillUserTH1D("Ele1_Eta_Total"    , gen_ele.Eta() ) ;
+      FillUserTH1D("Ele1_Phi_Total"    , gen_ele.Phi() ) ;
+      FillUserTH1D("Pileup_Total"      , (*PileUpInteractions)[0] ) ;
+      FillUserTH1D("RecoEleJetDR_Total", min_ele_jet_dr );
+    }
     
     if ( passedCut("RecoEleHasID") ) {
-      FillUserTH1D("Ele1_Pt_Pass" , gen_ele.Pt() ) ;
-      FillUserTH1D("RecoOverGenPt", ptRatio      ) ; 
-      FillUserTH1D("RecoGenDR"    , deltaR       ) ;	
+      FillUserTH1D("Ele1_Pt_Pass"      , gen_ele.Pt () ) ;
+      FillUserTH1D("Ele1_Eta_Pass"     , gen_ele.Eta() ) ;
+      FillUserTH1D("Ele1_Phi_Pass"     , gen_ele.Phi() ) ;
+      FillUserTH1D("Pileup_Pass"       , (*PileUpInteractions)[0] ) ;
+      FillUserTH1D("RecoEleJetDR_Pass" , min_ele_jet_dr );
+      				       
+      FillUserTH1D("RecoOverGenPt"     , ptRatio      ) ; 
+      FillUserTH1D("RecoGenDR"         , deltaR       ) ;	
       FillUserTH2D("RecoGenDR_vs_RecoOverGenPt", deltaR, ptRatio);
     }
   } // End of loop over events
-
+  
   /*//------------------------------------------------------------------
    *
    *
@@ -831,8 +878,8 @@ void analysisClass::Loop()
    *
    *
    *///-----------------------------------------------------------------
-
+  
   delete randomNumGen;
-
+  
   STDOUT("analysisClass::Loop() ends");
 }

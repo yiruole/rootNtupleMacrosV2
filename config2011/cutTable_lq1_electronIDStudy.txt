@@ -106,7 +106,7 @@ metAlgorithm	      1		   -			-		-		-1
 #---------------------------------
 #   Electrons:  1=HEEP , 2=EWK
 #---------------------------------
-eleAlgorithm	      1		   -			-		-		-1
+eleAlgorithm	      2		   -			-		-		-1
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
 # In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
