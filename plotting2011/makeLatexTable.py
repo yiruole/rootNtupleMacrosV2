@@ -31,7 +31,7 @@ def printChannelInfo ( channel_name, row_names, column_names, channel_data ):
 # There should be only one argument (input list)
 #-------------------------------------------------------
 
-if len (sys.argv) != 2 : print_usage()
+if len (sys.argv) != 2 : printUsage()
 
 txt_file_path = sys.argv[1]
 
@@ -45,6 +45,9 @@ if not os.path.exists ( txt_file_path ) :
 
 channel_names_to_include  = ["ZJet_Madgraph","PhotonJets"     ,"SingleTop" ,"DIBOSON"     ,"TTbar_Madgraph"   ,"WJet_Madgraph"]
 channel_titles_to_include = ["Z/Z* + jets"  ,"$\gamma$ + jets","single top","WW + WZ + ZZ","$t\\bar{t}$"      , "W/W* + jets" ]
+
+# channel_names_to_include  = ["TTbar_Madgraph"]
+# channel_titles_to_include = ["$t\\bar{t}$"   ]
 
 #-------------------------------------------------------
 # open file and scan contents
@@ -62,7 +65,7 @@ empty_channel_names = []
 
 for line in txt_file : 
     if len ( line.split() ) == 1 : all_channel_names.append ( line.strip () ) 
-    
+
 txt_file.seek ( txt_file_start ) 
 txt_file_data = txt_file.read()
 
@@ -76,15 +79,15 @@ for i,channel_name in enumerate(all_channel_names):
     n_channel_raw_data_rows = len ( channel_raw_data_rows ) 
 
     if n_channel_raw_data_rows == 1 : 
-        print "WARNING: " + channel_name + " is empty, and I  will not consider it." 
+        print "WARNING: " + channel_name + " is empty, and I will not consider it." 
         empty_channel_names.append( channel_name ) 
         continue
     channel_names.append ( channel_name ) 
     channel_data[channel_name] = {}
 
     column_names = channel_raw_data_rows[0].split()
-    
-    for channel_raw_data_row in channel_raw_data_rows[1:]:
+
+    for irow, channel_raw_data_row in enumerate(channel_raw_data_rows[1:]):
         fields = channel_raw_data_row.split()
         row_name = fields[0]
         if row_name not in row_names : row_names.append ( row_name )
@@ -105,7 +108,6 @@ for j, empty_channel_name in enumerate ( empty_channel_names ) :
         if empty_channel_name == channel_name_to_include:
             channel_names_to_include.remove(channel_name_to_include)
             channel_titles_to_include.remove(channel_titles_to_include[i])
-
 
 latex_file_name = "table.tex"
 latex_file = open ( latex_file_name, "w" )  
@@ -145,7 +147,10 @@ for row_name in row_names:
     total_eData = int ( sqrt ( total_eDataSqr )  )
     if ( total_eData != 0 ) : line = line + " & $" + str(total_data) + "\pm" + str ( total_eData ) + "$"
     if ( total_eData == 0 ) : line = line + " & $" + str(total_data) + "$"
-    line = line + " & " + str(int (channel_data["DATA"][row_name]["Npass"])) + " \\\ \n"
+    if ( "DATA" not in empty_channel_names ) : 
+        line = line + " & " + str(int (channel_data["DATA"][row_name]["Npass"])) + " \\\ \n"
+    else :
+        line = line + " & NO DATA \\\ \n"
     latex_file.write ( line ) 
 latex_file.write("  \hline \n")
 latex_file.write("\end{tabular}\n")
