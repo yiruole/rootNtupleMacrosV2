@@ -1011,9 +1011,9 @@ void analysisClass::Loop()
 			  JetPhi->at(v_idx_jet_PtCut_noOverlap_ID_STORE[0]),
 			  JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID_STORE[0]) );
 
-	TLorentzVector ej1 = ele1 + jet1;
+	TLorentzVector e1j1 = ele1 + jet1;
 
-	fillVariableWithValue("M_ej1", ej1.M() );
+	fillVariableWithValue("M_e1j1", e1j1.M() );
 	fillVariableWithValue("DR_Ele1Jet1", ele1.DeltaR(jet1));
 
 	if ( (TwoJets) )
@@ -1026,7 +1026,7 @@ void analysisClass::Loop()
 	    
 	    TLorentzVector ej2 = ele1 + jet2;
 
-	    fillVariableWithValue("M_ej2", ej2.M() );
+	    fillVariableWithValue("M_e1j2", ej2.M() );
 	    fillVariableWithValue("DR_Ele1Jet2", ele1.DeltaR(jet2));	   
 	  }
 
@@ -1037,7 +1037,10 @@ void analysisClass::Loop()
 			      ElectronEta->at(v_idx_ele_PtCut_IDISO_STORE[1]),
 			      ElectronPhi->at(v_idx_ele_PtCut_IDISO_STORE[1]),0);	    
 
-	    fillVariableWithValue("DR_Ele2Jet1", ele2.DeltaR(jet1));	   	    
+	    TLorentzVector e2j1 = ele2 + jet1;
+
+	    fillVariableWithValue("DR_Ele2Jet1", ele2.DeltaR(jet1));	
+	    fillVariableWithValue("M_e2j1", e2j1.M() );   	    
 	  }
 
 	if( (TwoEles) && (TwoJets) )
@@ -1052,7 +1055,11 @@ void analysisClass::Loop()
 			      JetPhi   ->at(v_idx_jet_PtCut_noOverlap_ID_STORE[1]),
 			      JetEnergy->at(v_idx_jet_PtCut_noOverlap_ID_STORE[1]) );
 
+	    TLorentzVector e2j2 = ele2 + jet2;
+
 	    fillVariableWithValue("DR_Ele2Jet2", ele2.DeltaR(jet2));	   	    
+	    fillVariableWithValue("M_e2j2", e2j2.M() );   	    
+	    
 	  }       	
       }
     

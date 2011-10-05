@@ -260,8 +260,10 @@ sT_eejj  			-inf         +inf               -               -               4   
 M_j1j2				-inf	     +inf               -               -               4       200 0 2000	      SAVE
 M_j1j3				-inf	     +inf               -               -               4       200 0 2000	      SAVE
 M_j2j3				-inf	     +inf               -               -               4       200 0 2000	      SAVE
-M_ej1				-inf	     +inf		-		-		4	200 0 2000	      SAVE
-M_ej2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
+M_e1j1				-inf	     +inf		-		-		4	200 0 2000	      SAVE
+M_e1j2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
+M_e2j1				-inf	     +inf		-		-		4	200 0 2000	      SAVE
+M_e2j2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
 M_e1e2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
 Pt_e1e2				-inf	     +inf		-		-		4	200 0 2000	      SAVE
 #------------------------------------------------------------------------------------------------------
