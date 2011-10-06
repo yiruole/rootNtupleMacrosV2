@@ -797,8 +797,13 @@ void analysisClass::Loop()
     fillVariableWithValue("MET_Pt", thisMET);
     fillVariableWithValue("MET_Phi", thisMETPhi);
     fillVariableWithValue("GenMET_Pt", thisGenMET);
-    fillVariableWithValue("GenMET_Phi", thisGenMETPhi);          
-
+    fillVariableWithValue("GenMET_Phi", thisGenMETPhi);  
+    fillVariableWithValue("PFMETSig"         , (*PFMETSig         )[0] );
+    fillVariableWithValue("PFMETSigMatrixDXX", (*PFMETSigMatrixDXX)[0] ) ;
+    fillVariableWithValue("PFMETSigMatrixDXY", (*PFMETSigMatrixDXY)[0] ) ;
+    fillVariableWithValue("PFMETSigMatrixDYX", (*PFMETSigMatrixDYX)[0] ) ;
+    fillVariableWithValue("PFMETSigMatrixDYY", (*PFMETSigMatrixDYY)[0] ) ;
+ 
     // SUMET
     fillVariableWithValue("SumET", thisSumET);
     fillVariableWithValue("GenSumET", thisGenSumET);
