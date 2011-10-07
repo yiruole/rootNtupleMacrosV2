@@ -190,6 +190,7 @@ void analysisClass::Loop()
  
 
   Long64_t nentries = fChain->GetEntries();
+  // Long64_t nentries = 5000;
   STDOUT("analysisClass::Loop(): nentries = " << nentries);
 
   Long64_t nbytes = 0, nb = 0;
@@ -748,6 +749,115 @@ void analysisClass::Loop()
     fillVariableWithValue( "ProcessID", ProcessID  ) ;
     fillVariableWithValue( "PtHat"    , PtHat      ) ;
 
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1"     , -999 );
+						              	   
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1"     , -999 );
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_2"     , -999 );
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_3"     , -999 );
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_4"     , -999 );
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_5"     , -999 );
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_6"     , -999 );
+    fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_7"     , -999 );
+						              	   
+    fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_1"     , -999 );
+    fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_2"     , -999 );
+    fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_3"     , -999 );
+						              	   
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_1"     , -999 );
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_2"     , -999 );
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_3"     , -999 );
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_4"     , -999 );
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_5"     , -999 );
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_6"     , -999 );
+    fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_7"     , -999 );
+						              	   
+    fillVariableWithValue("H_42_CIdVT_CIsT_TIdT_TIsT_1"     , -999 );
+						              	   
+    fillVariableWithValue("H_25_WP80_PFMT40_1"              , -999 );
+						              	   
+    fillVariableWithValue("H_27_WP80_PFMT50_1"              , -999 );
+    fillVariableWithValue("H_27_WP80_PFMT50_2"              , -999 );
+    fillVariableWithValue("H_27_WP80_PFMT50_3"              , -999 );
+    fillVariableWithValue("H_27_WP80_PFMT50_4"              , -999 );
+
+    fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5", -999 );
+
+    fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7", -999 );
+    fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8", -999 );
+
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_1"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_2"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_3"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_4"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_5"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_6"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_7"            , -999 );
+    fillVariableWithValue ("H_17_8_CIdL_CIsVL_8"            , -999 );
+    
+    fillVariableWithValue ("H_32_17_CIdT_CIsT_TIdT_TIsT_1"  , -999 );
+
+    
+    if ( isData ){
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
+      			 									                                 												                               			     						
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_2",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_2",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2")); }
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_3",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_3",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3")); }
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_4",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_4",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4")); }
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_5",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_5",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5")); }
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_6",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_6",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6")); }
+      if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_7",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_7",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7")); }
+      			 									                                 												                               			     						
+      if ( triggerFired ("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
+      if ( triggerFired ("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2") ) { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_2",triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2")); } else { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_2",-1 * triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2")); }
+      if ( triggerFired ("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3") ) { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_3",triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3")); } else { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_3",-1 * triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3")); }
+      			 									                                 												                               			     						
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_2",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_2",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2")); }
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_3",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_3",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3")); }
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_4",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_4",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4")); }
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_5",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_5",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5")); }
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_6",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_6",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6")); }
+      if ( triggerFired ("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7") ) { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_7",triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7")); } else { fillVariableWithValue("H_32_CIdVT_CIsT_TIdT_TIsT_7",-1 * triggerPrescale("HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7")); }
+      			 									                                 												                              			     						
+      if ( triggerFired ("HLT_Ele42_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_42_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele42_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_42_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele42_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
+      			                                                
+      if ( triggerFired ("HLT_Ele25_WP80_PFMT40_v1"                     ) ) { fillVariableWithValue("H_25_WP80_PFMT40_1"         ,triggerPrescale("HLT_Ele25_WP80_PFMT40_v1"                     )); } else { fillVariableWithValue("H_25_WP80_PFMT40_1",-1 * triggerPrescale("HLT_Ele25_WP80_PFMT40_v1")); }
+      			                                                			    																  						                          
+      if ( triggerFired ("HLT_Ele27_WP80_PFMT50_v1"                     ) ) { fillVariableWithValue("H_27_WP80_PFMT50_1"         ,triggerPrescale("HLT_Ele27_WP80_PFMT50_v1"                     )); } else { fillVariableWithValue("H_27_WP80_PFMT50_1",-1 * triggerPrescale("HLT_Ele27_WP80_PFMT50_v1")); }
+      if ( triggerFired ("HLT_Ele27_WP80_PFMT50_v2"                     ) ) { fillVariableWithValue("H_27_WP80_PFMT50_2"         ,triggerPrescale("HLT_Ele27_WP80_PFMT50_v2"                     )); } else { fillVariableWithValue("H_27_WP80_PFMT50_2",-1 * triggerPrescale("HLT_Ele27_WP80_PFMT50_v2")); }
+      if ( triggerFired ("HLT_Ele27_WP80_PFMT50_v3"                     ) ) { fillVariableWithValue("H_27_WP80_PFMT50_3"         ,triggerPrescale("HLT_Ele27_WP80_PFMT50_v3"                     )); } else { fillVariableWithValue("H_27_WP80_PFMT50_3",-1 * triggerPrescale("HLT_Ele27_WP80_PFMT50_v3")); }
+      if ( triggerFired ("HLT_Ele27_WP80_PFMT50_v4"                     ) ) { fillVariableWithValue("H_27_WP80_PFMT50_4"         ,triggerPrescale("HLT_Ele27_WP80_PFMT50_v4"                     )); } else { fillVariableWithValue("H_27_WP80_PFMT50_4",-1 * triggerPrescale("HLT_Ele27_WP80_PFMT50_v4")); }
+
+      if ( triggerFired ("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v1") ) { fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1",triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v1")); } else { fillVariableWithValue("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1",-1 * triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v1")); }	
+      if ( triggerFired ("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v2") ) { fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2",triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v2")); } else { fillVariableWithValue("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2",-1 * triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v2")); }	
+      if ( triggerFired ("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v3") ) { fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3",triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v3")); } else { fillVariableWithValue("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3",-1 * triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v3")); }	
+      if ( triggerFired ("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v4") ) { fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4",triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v4")); } else { fillVariableWithValue("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4",-1 * triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v4")); }	
+      if ( triggerFired ("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v5") ) { fillVariableWithValue ("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5",triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v5")); } else { fillVariableWithValue("H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5",-1 * triggerPrescale("HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v5")); }	
+      			 											      			                                      																		                                  				 											  
+      if ( triggerFired ("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5") ) { fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5",triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5")); } else { fillVariableWithValue("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5",-1 * triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6") ) { fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6",triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6")); } else { fillVariableWithValue("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6",-1 * triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7") ) { fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7",triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7")); } else { fillVariableWithValue("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7",-1 * triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8") ) { fillVariableWithValue ("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8",triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8")); } else { fillVariableWithValue("H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8",-1 * triggerPrescale("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8")); }		
+      
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v1") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_1",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v1")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_1",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v1")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v2") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_2",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v2")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_2",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v2")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v3") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_3",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v3")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_3",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v3")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v4") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_4",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v4")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_4",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v4")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v5") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_5",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v5")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_5",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v5")); }		
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v6") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_6",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v6")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_6",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v6")); }			
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v7") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_7",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v7")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_7",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v7")); }			
+      if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_8",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_8",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8")); }			
+      
+      if ( triggerFired ("HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1") ) { fillVariableWithValue ("H_32_17_CIdT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1")); } else { fillVariableWithValue("H_32_17_CIdT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1")); }
+    }
+      
     // Trigger (L1 and HLT)
     if(isData==true)
       {
@@ -769,11 +879,17 @@ void analysisClass::Loop()
     fillVariableWithValue( "PassTrackingFailure", !isTrackingFailure ) ;
     fillVariableWithValue( "PassCaloBoundaryDRFilter", passCaloBoundaryDRFilter ) ;
     fillVariableWithValue( "PassEcalMaskedCellDRFilter", passEcalMaskedCellDRFilter ) ;
+    
+    fillVariableWithValue( "nPileUpInt_BXminus1", -1 );
+    fillVariableWithValue( "nPileUpInt_BX0"     , -1 );
+    fillVariableWithValue( "nPileUpInt_BXplus1" , -1  );
 
-    for(int pu=0; pu<PileUpInteractions->size(); pu++) {
-      if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu) ) ;	      
-      if(PileUpOriginBX->at(pu) == 0  ) fillVariableWithValue( "nPileUpInt_BX0"     , PileUpInteractions->at(pu) ) ;	      
-      if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1", PileUpInteractions->at(pu) ) ;	      	    
+    if ( isData == 0 ){
+      for(int pu=0; pu<PileUpInteractions->size(); pu++) {
+	if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu) ) ;	      
+	if(PileUpOriginBX->at(pu) == 0  ) fillVariableWithValue( "nPileUpInt_BX0"     , PileUpInteractions->at(pu) ) ;	      
+	if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1", PileUpInteractions->at(pu) ) ;	      	    
+      }
     }
     
     // nVertex and pile-up

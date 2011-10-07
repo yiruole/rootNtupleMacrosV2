@@ -281,3 +281,58 @@ Muon1_Energy			-inf	     +inf		-		-		3	100 0 1000	      SAVE
 Muon1_Eta			-inf         +inf               -               -               3       100 -5 5	      SAVE
 Muon1_Phi			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
 Muon1_Charge			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
+#------------------------------------------------------------------------------------------------------
+# SingleElectron triggers
+#------------------------------------------------------------------------------------------------------
+H_15_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_15_CIdVT_CIsT_TIdT_TIsT_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_15_CIdVT_CIsT_TIdT_TIsT_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_15_CIdVT_CIsT_TIdT_TIsT_4	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_15_CIdVT_CIsT_TIdT_TIsT_5	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_15_CIdVT_CIsT_TIdT_TIsT_6	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_15_CIdVT_CIsT_TIdT_TIsT_7	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
+H_27_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_27_CIdVT_CIsT_TIdT_TIsT_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_27_CIdVT_CIsT_TIdT_TIsT_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
+H_32_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_32_CIdVT_CIsT_TIdT_TIsT_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_32_CIdVT_CIsT_TIdT_TIsT_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_32_CIdVT_CIsT_TIdT_TIsT_4	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_32_CIdVT_CIsT_TIdT_TIsT_5	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_32_CIdVT_CIsT_TIdT_TIsT_6	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_32_CIdVT_CIsT_TIdT_TIsT_7	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
+H_42_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
+H_25_WP80_PFMT40_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#		             
+H_27_WP80_PFMT50_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_27_WP80_PFMT50_2         	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_27_WP80_PFMT50_3         	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_27_WP80_PFMT50_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#------------------------------------------------------------------------------------------------------
+# DoubleElectron triggers
+#------------------------------------------------------------------------------------------------------
+H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#                                
+H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
+H_17_8_CIdL_CIsVL_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_3		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_5		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_6		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_7		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_17_8_CIdL_CIsVL_8		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
+H_32_17_CIdT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
