@@ -33,6 +33,8 @@
 {
 
   gROOT->Reset();
+  gSystem->SetIncludePath("-I/afs/cern.ch/cms/sw/slc5_ia32_gcc434/lcg/roofit/5.26.00-cms8/include/");
+  using namespace RooFit ;  
 
   //TFile inputfile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_27092011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root");
   TFile inputfile("/home/santanas/Axigluons/data/output_fromAFS/axigluons_enujj/5fb-1_Summer11MC_AxigluonW_enujj_noSHERPA_07102011/output_cutTable_axigluons_enujj/analysisClass_axigluons_enujj_plots.root");
@@ -43,7 +45,7 @@
   //TH1D *h_mjj = (TH1D*)inputfile.Get( "histo1D__TTbar_Madgraph__M_j1j2" ); 
   h_mjj->Rebin(1);
   //h_mjj->Draw("HISTE");
-  //TODO Create histogram with different binning
+  //FIXME --> Create histogram with different binning (if not it crashes..)
 
   //signal
   TH1D *h_mjj_AG150 = (TH1D*)inputfile.Get( "histo1D__AxigluonW_M150__M_j1j2" ); 
@@ -52,7 +54,7 @@
   TH1D *h_mjj_AG1500 = (TH1D*)inputfile.Get( "histo1D__AxigluonW_M1500__M_j1j2" ); 
 
   // Declare observable mass
-  RooRealVar mass("mass","dijet mass (GeV)",200,1000);
+  RooRealVar mass("mass","dijet mass (GeV)",200,2000);
 
   // Make plot of binned dataset showing Poisson error bars (RooFit default)
   RooPlot* frame = mass.frame(Title("Dijet mass distribution background"));
@@ -112,7 +114,8 @@
   bool do_SYSB = 0;
 
   //signal and background
-  bool do_DEF_mod = 1;
+  bool do_DEF_signal_plus_bkg = 0;
+  bool do_DEF_signal_plus_bkg_Ntoys = 1;
 
   if(plot_data)
     {
@@ -147,54 +150,6 @@
       cout << "chi2 (DEF): " << chi2_DEF << endl;
       cout << endl;
     }
- 
-  if(do_DEF_mod)   
-    {
-      cout << endl;
-      cout << "===================================================" << endl;
-      cout << "================ FIT DEF (modified) ===============" << endl;
-      cout << "===================================================" << endl;
-      cout << endl;
-      //my background model
-      RooFitResult* fitres_DEF = pdf_DEF_EXT.fitTo(RooHist_mjj,SumW2Error(kTRUE),PrintLevel(1),Save(kTRUE)) ;
-      //my signal+background model
-      //double N_AG500 = RooHist_mjj_AG500.sumEntries();
-      double N_AG500 = RooHist_mjj_AG500.sumEntries() * 1;    
-      double N_BKG = P0_DEF.getVal();
-      double frac_AG500_init = N_AG500 / ( N_AG500 + N_BKG);
-      RooRealVar frac_AG500("frac_AG500","fraction of signal AG500", frac_AG500_init , 0., 1.) ;
-      RooAddPdf  pdf_AG500_plus_DEF_EXT("pdf_AG500_plus_DEF_EXT", "pdf_AG500_plus_DEF_EXT", RooArgList(pdf_AG500,pdf_DEF_EXT), RooArgList(frac_AG500));
-
-      // bkg only
-      //       RooDataSet* data = pdf_DEF_EXT.generate(mass,P0_DEF.getVal()) ;
-      //       data->plotOn(frame,Name("mydata")); 
-      //       RooFitResult* fitres_DEF_data = pdf_DEF_EXT.fitTo(*data,SumW2Error(kFALSE),PrintLevel(1),Save(kTRUE)) ;
-      //       fitres_DEF_data->Print("v");
-      //       pdf_DEF_EXT.plotOn(frame,Name("pdf_DEF_EXT")) ;
-      //       pdf_DEF_EXT.paramOn(frame) ;
-      //       double chi2_DEF = frame->chiSquare("pdf_DEF_EXT","mydata",4) ;
-      //       cout << "chi2 (DEF): " << chi2_DEF << endl;
-      //       cout << endl;           
-
-      // signal + bkg
-      RooDataSet* data = pdf_AG500_plus_DEF_EXT.generate(mass, int( N_AG500 + N_BKG ) ) ;
-      data->plotOn(frame,Name("mydata")); 
-      RooFitResult* fitres_DEF_data = pdf_AG500_plus_DEF_EXT.fitTo(*data,SumW2Error(kFALSE),PrintLevel(1),Save(kTRUE)) ;
-      fitres_DEF_data->Print("v");
-      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),LineColor(kRed)) ;
-      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),Components(RooArgSet(pdf_AG500)),DrawOption("F"),FillColor(kGreen)) ;
-      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),Components(RooArgSet(pdf_DEF_EXT)),LineColor(kBlue),LineStyle(kDashed)) ;
-      pdf_AG500_plus_DEF_EXT.paramOn(frame) ;
-      double chi2_AG500_plus_DEF = frame->chiSquare("pdf_AG500_plus_DEF_EXT","mydata",4) ;
-      cout << "chi2 (AG500 + DEF): " << chi2_AG500_plus_DEF << endl;
-      cout << endl;           
-
-      cout << "N_AG500 true : " << N_AG500 << endl;
-      cout << "N_AG500 fit : " << data->sumEntries() * frac_AG500.getVal() << endl;
-      cout << "N_BKG true : " << N_BKG << endl;
-      cout << "N_BKG fit : " << P0_DEF.getVal() << endl;
-
-    }
 
   if(do_SYSA)
     {
@@ -226,9 +181,134 @@
       double chi2_SYSB = frame->chiSquare("pdf_SYSB","RooHist_mjj",3) ;
       cout << "chi2 (SYSB): " << chi2_SYSB << endl; 
     }
+ 
+  if(do_DEF_signal_plus_bkg)   
+    {
+      cout << endl;
+      cout << "===================================================" << endl;
+      cout << "======== FIT DEF (signal_plus_bkg - 1 Toy) ========" << endl;
+      cout << "===================================================" << endl;
+      cout << endl;
 
-  //Draw frame
+      //my signal+background model
+      double signalCoeff = 1.;
+      double N_AG500 = RooHist_mjj_AG500.sumEntries() * signalCoeff ; 
+      double N_BKG = RooHist_mjj.sumEntries() ;
+      RooRealVar N_AG500_fit("N_AG500_fit","N_AG500_fit", N_AG500 , 0., N_AG500 * 5 ) ;
+      RooRealVar N_BKG_fit("N_BKG_fit","N_BKG_fit",       N_BKG   , 0., N_BKG * 5   ) ;
+      RooAddPdf  pdf_AG500_plus_DEF_EXT("pdf_AG500_plus_DEF_EXT", "pdf_AG500_plus_DEF_EXT", RooArgList(pdf_AG500,pdf_DEF), RooArgList(N_AG500_fit,N_BKG_fit));
+
+      // bkg only
+      //       RooDataSet* data = pdf_DEF_EXT.generate(mass,P0_DEF.getVal()) ;
+      //       data->plotOn(frame,Name("mydata")); 
+      //       RooFitResult* fitres_DEF_data = pdf_DEF_EXT.fitTo(*data,SumW2Error(kFALSE),PrintLevel(1),Save(kTRUE)) ;
+      //       fitres_DEF_data->Print("v");
+      //       pdf_DEF_EXT.plotOn(frame,Name("pdf_DEF_EXT")) ;
+      //       pdf_DEF_EXT.paramOn(frame) ;
+      //       double chi2_DEF = frame->chiSquare("pdf_DEF_EXT","mydata",4) ;
+      //       cout << "chi2 (DEF): " << chi2_DEF << endl;
+      //       cout << endl;           
+
+      // signal + bkg
+      RooDataSet* data = pdf_AG500_plus_DEF_EXT.generate(mass, int( N_AG500 + N_BKG ) ) ;
+      data->plotOn(frame,Name("mydata")); 
+      RooFitResult* fitres_DEF_data = pdf_AG500_plus_DEF_EXT.fitTo(*data,SumW2Error(kFALSE),PrintLevel(1),Save(kTRUE)) ;
+      fitres_DEF_data->Print("v");
+      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),LineColor(kRed)) ;
+      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),Components(RooArgSet(pdf_AG500)),DrawOption("F"),FillColor(kGreen)) ;
+      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),Components(RooArgSet(pdf_DEF)),LineColor(kBlue),LineStyle(kDashed)) ;
+      pdf_AG500_plus_DEF_EXT.paramOn(frame) ;
+      double chi2_AG500_plus_DEF_EXT = frame->chiSquare("pdf_AG500_plus_DEF_EXT","mydata",4) ;
+      cout << "chi2 (AG500 + DEF): " << chi2_AG500_plus_DEF_EXT << endl;
+      cout << endl;           
+
+      // Check fit results
+      cout << "Ntot events generated : " << int( N_AG500 + N_BKG ) << endl;
+      cout << "N_AG500 generated : " << N_AG500 << endl;
+      cout << "N_BKG generated : " << N_BKG << endl;
+      cout << "Ntot events fit : " << N_AG500_fit.getVal() + N_BKG_fit.getVal() << endl;      
+      cout << "N_AG500 fit : " << N_AG500_fit.getVal() << endl;
+      cout << "N_BKG fit : " << N_BKG_fit.getVal() << endl;
+
+    }
+
+  RooPlot* valueframe_N_AG500;
+  RooPlot* errorframe_N_AG500;
+  RooPlot* poolframe_N_AG500;
+  RooPlot* poolframe_N_BKG;
+  RooPlot* poolframe_P1_DEF; 
+  RooPlot* poolframe_P2_DEF; 
+  RooPlot* poolframe_P3_DEF; 
+  if(do_DEF_signal_plus_bkg_Ntoys)   
+    {
+      cout << endl;
+      cout << "===================================================" << endl;
+      cout << "======== FIT DEF (signal_plus_bkg - N Toys) =======" << endl;
+      cout << "===================================================" << endl;
+      cout << endl;
+
+      //my signal+background model
+      double signalCoeff = 1.;
+      double N_AG500 = RooHist_mjj_AG500.sumEntries() * signalCoeff ; 
+      double N_BKG = RooHist_mjj.sumEntries() ;
+      RooRealVar N_AG500_fit("N_AG500_fit","N_AG500_fit", N_AG500 , 0., N_AG500 * 5 ) ;
+      RooRealVar N_BKG_fit("N_BKG_fit","N_BKG_fit",       N_BKG   , 0., N_BKG * 5   ) ;
+      RooAddPdf  pdf_AG500_plus_DEF_EXT("pdf_AG500_plus_DEF_EXT", "pdf_AG500_plus_DEF_EXT", RooArgList(pdf_AG500,pdf_DEF), RooArgList(N_AG500_fit,N_BKG_fit));
+
+      // signal + bkg
+      int Ntoys = 100;      
+      RooMCStudy ToyStudySignalPlusBkg (pdf_AG500_plus_DEF_EXT,mass,Verbose(kTRUE),Extended(kTRUE),FitOptions(SumW2Error(kFALSE),PrintLevel(1),Save(kTRUE),Hesse(kFALSE)) ) ;
+      ToyStudySignalPlusBkg.generateAndFit( Ntoys , int( N_AG500 + N_BKG ) , kTRUE) ;
+      //FIXME --> Fit an histogram instead?
+
+      //--- plot first toy
+      RooDataSet* data = ToyStudySignalPlusBkg.genData(0);
+      data->plotOn(frame,Name("mydata")); 
+      RooFitResult* fitres_DEF_data = ToyStudySignalPlusBkg.fitResult(0);
+      fitres_DEF_data->Print("v");
+      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),LineColor(kRed)) ;
+      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),Components(RooArgSet(pdf_AG500)),DrawOption("F"),FillColor(kGreen)) ;
+      pdf_AG500_plus_DEF_EXT.plotOn(frame,Name("pdf_AG500_plus_DEF_EXT"),Components(RooArgSet(pdf_DEF)),LineColor(kBlue),LineStyle(kDashed)) ;
+      pdf_AG500_plus_DEF_EXT.paramOn(frame) ;
+      double chi2_AG500_plus_DEF_EXT = frame->chiSquare("pdf_AG500_plus_DEF_EXT","mydata",4) ;
+      cout << "chi2 (AG500 + DEF): " << chi2_AG500_plus_DEF_EXT << endl;
+      cout << endl;           
+
+      // Check fit results for all toys
+
+      // plot the distribution of the value 
+      valueframe_N_AG500 = N_AG500_fit.frame(N_AG500 - (N_AG500/10) * 5 , N_AG500 + (N_AG500/10) * 5) ; 
+      ToyStudySignalPlusBkg.plotParamOn(valueframe_N_AG500) ; 
+
+      // plot the distribution of the error 
+      errorframe_N_AG500 = ToyStudySignalPlusBkg.plotError(N_AG500_fit, (N_AG500/10) - (N_AG500/10)/10 * 5, (N_AG500/10) + (N_AG500/10)/10 * 5) ; 
+
+      // plot the distribution of the pull
+      poolframe_N_AG500 = ToyStudySignalPlusBkg.plotPull(N_AG500_fit,-3,3,40,kFALSE) ; 
+      poolframe_N_BKG = ToyStudySignalPlusBkg.plotPull(N_BKG_fit,-3,3,40,kFALSE) ; 
+      poolframe_P1_DEF = ToyStudySignalPlusBkg.plotPull(P1_DEF,-3,3,40,kFALSE) ; 
+      poolframe_P2_DEF = ToyStudySignalPlusBkg.plotPull(P2_DEF,-3,3,40,kFALSE) ; 
+      poolframe_P3_DEF = ToyStudySignalPlusBkg.plotPull(P3_DEF,-3,3,40,kFALSE) ; 			 
+    }
+
+
+
+  //Draw frames
   frame->GetYaxis()->SetRangeUser(0.01,30000) ;
   frame->Draw();
+  frame->SaveAs("fit_AG500.root");
  
+  //valueframe_N_AG500->Draw() ; 
+  valueframe_N_AG500->SaveAs("N_AG500.root");     
+  //errorframe_N_AG500->Draw() ; 
+  errorframe_N_AG500->SaveAs("err_N_AG500.root");     
+  //poolframe_N_AG500->Draw() ; 
+  poolframe_N_AG500->SaveAs("pool_N_AG500.root");
+  poolframe_N_BKG->SaveAs("pool_N_BKG.root");
+  poolframe_P1_DEF->SaveAs("pool_P1_DEF.root");
+  poolframe_P2_DEF->SaveAs("pool_P2_DEF.root");
+  poolframe_P3_DEF->SaveAs("pool_P3_DEF.root");
+
+  //FIXME - How to Save them on a ps file?
+
 }
