@@ -22,7 +22,7 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
    
    fillSkim                         (  true  ) ;
-   fillAllPreviousCuts              ( !true  ) ;
+   fillAllPreviousCuts              (  true  ) ;
    fillAllOtherCuts                 ( !true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
@@ -34,15 +34,15 @@ void analysisClass::Loop()
    CreateUserTH1D( "Ele1_Pt"	           , 	getHistoNBins("Ele1_Pt"), getHistoMin("Ele1_Pt"), getHistoMax("Ele1_Pt")     ) ; 
    CreateUserTH1D( "Ele1_Eta"	           , 	getHistoNBins("Ele1_Eta"), getHistoMin("Ele1_Eta"), getHistoMax("Ele1_Eta")     ) ; 
    CreateUserTH1D( "Ele1_Phi"	           , 	60  , -3.1416 , +3.1416	 ) ; 
-   CreateUserTH1D( "Ele1_Charge"	   , 	2   , -1.0001 , 1.0001	 ) ; 
+   CreateUserTH1D( "Ele1_Charge"     	   , 	2   , -1.0001 , 1.0001	 ) ; 
    CreateUserTH1D( "Ele2_Pt"	           , 	getHistoNBins("Ele2_Pt"), getHistoMin("Ele2_Pt"), getHistoMax("Ele2_Pt")     ) ; 
    CreateUserTH1D( "Ele2_Eta"	           , 	getHistoNBins("Ele2_Eta"), getHistoMin("Ele2_Eta"), getHistoMax("Ele2_Eta")     ) ; 
    CreateUserTH1D( "Ele2_Phi"	           , 	60  , -3.1416 , +3.1416	 ) ; 
-   CreateUserTH1D( "Ele2_Charge"	   , 	2   , -1.0001 , 1.0001	 ) ; 
-
+   CreateUserTH1D( "Ele2_Charge"     	   , 	2   , -1.0001 , 1.0001	 ) ; 
+		                     
    CreateUserTH1D( "MET_Pt"                ,    200, 0, 2000     ) ; 
-   CreateUserTH1D( "MET_Phi"		   , 	60  , -3.1416 , +3.1416	 ) ; 
-
+   CreateUserTH1D( "MET_Phi"	     	   , 	60  , -3.1416 , +3.1416	 ) ; 
+		                     
    CreateUserTH1D( "Jet1_Pt"               ,    getHistoNBins("Jet1_Pt"), getHistoMin("Jet1_Pt"), getHistoMax("Jet1_Pt")     ) ; 
    CreateUserTH1D( "Jet1_Eta"	           , 	getHistoNBins("Jet1_Eta"), getHistoMin("Jet1_Eta"), getHistoMax("Jet1_Eta")     ) ; 
    CreateUserTH1D( "Jet1_Phi"	           , 	60  , -3.1416 , +3.1416	 ) ;  
@@ -51,28 +51,28 @@ void analysisClass::Loop()
    CreateUserTH1D( "Jet2_Eta"	           , 	getHistoNBins("Jet2_Eta"), getHistoMin("Jet2_Eta"), getHistoMax("Jet2_Eta")     ) ; 
    CreateUserTH1D( "Jet2_Phi"	           , 	60  , -3.1416 , +3.1416	 ) ;  
    CreateUserTH1D( "Jet2_btagTCHE"         ,    250 , 0       , 50	 ) ; 
-
+		                     
    CreateUserTH1D( "nEle"                  ,    getHistoNBins("nEle"), getHistoMin("nEle"), getHistoMax("nEle")     ) ; 
    CreateUserTH1D( "nMuon"                 ,    getHistoNBins("nMuon"), getHistoMin("nMuon"), getHistoMax("nMuon")     ) ; 
    CreateUserTH1D( "nJet"                  ,    getHistoNBins("nJet"), getHistoMin("nJet"), getHistoMax("nJet")     ) ; 
    CreateUserTH1D( "nJet_btagTCHE"         ,    getHistoNBins("nJet"), getHistoMin("nJet"), getHistoMax("nJet")     ) ; 
    CreateUserTH1D( "nVertex"               ,    31   , -0.5   , 30.5	 ) ; 
    CreateUserTH1D( "nVertex_good"          ,    31   , -0.5   , 30.5	 ) ; 
-
-   CreateUserTH1D( "DR_e1j1"	   , 	getHistoNBins("DR_e1j1"), getHistoMin("DR_e1j1"), getHistoMax("DR_e1j1")     ) ; 
-   CreateUserTH1D( "DR_e1j2"	   , 	getHistoNBins("DR_e1j2"), getHistoMin("DR_e1j2"), getHistoMax("DR_e1j2")     ) ; 
-   CreateUserTH1D( "DR_e2j1"	   , 	getHistoNBins("DR_e2j1"), getHistoMin("DR_e2j1"), getHistoMax("DR_e2j1")     ) ; 
-   CreateUserTH1D( "DR_e2j2"	   , 	getHistoNBins("DR_e2j2"), getHistoMin("DR_e2j2"), getHistoMax("DR_e2j2")     ) ; 
-   CreateUserTH1D( "DR_j1j2"	   , 	getHistoNBins("DR_j1j2"), getHistoMin("DR_j1j2"), getHistoMax("DR_j1j2")     ) ; 
-
+		                     
+   CreateUserTH1D( "DR_Ele1Jet1"     	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
+   CreateUserTH1D( "DR_Ele1Jet2"     	   , 	getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     ) ; 
+   CreateUserTH1D( "DR_Ele2Jet1"     	   , 	getHistoNBins("DR_Ele2Jet1"), getHistoMin("DR_Ele2Jet1"), getHistoMax("DR_Ele2Jet1")     ) ; 
+   CreateUserTH1D( "DR_Ele2Jet2"     	   , 	getHistoNBins("DR_Ele2Jet2"), getHistoMin("DR_Ele2Jet2"), getHistoMax("DR_Ele2Jet2")     ) ; 
+   CreateUserTH1D( "DR_Jet1Jet2"     	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+		                     
    CreateUserTH1D( "M_e1e2"	           , 	getHistoNBins("M_e1e2"), getHistoMin("M_e1e2"), getHistoMax("M_e1e2")     ) ; 
    CreateUserTH1D( "sT_eejj"	           , 	getHistoNBins("sT_eejj"), getHistoMin("sT_eejj"), getHistoMax("sT_eejj")     ) ; 
    CreateUserTH1D( "Pt_e1e2"	           , 	getHistoNBins("Pt_e1e2"), getHistoMin("Pt_e1e2"), getHistoMax("Pt_e1e2")     ) ; 
    CreateUserTH1D( "Pt_j1j2"	           , 	getHistoNBins("Pt_j1j2"), getHistoMin("Pt_j1j2"), getHistoMax("Pt_j1j2")     ) ; 
    CreateUserTH1D( "M_j1j2"	           , 	getHistoNBins("M_j1j2"), getHistoMin("M_j1j2"), getHistoMax("M_j1j2")     ) ; 
 
-   CreateUserTH2D( "MejVsMej_selected",     200, 0, 2000, 200, 0, 2000) ;
-   CreateUserTH2D( "MejVsMej_rejected",     200, 0, 2000, 200, 0, 2000) ;
+   // CreateUserTH2D( "MejVsMej_selected",     200, 0, 2000, 200, 0, 2000) ;
+   // CreateUserTH2D( "MejVsMej_rejected",     200, 0, 2000, 200, 0, 2000) ;
 
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -85,6 +85,7 @@ void analysisClass::Loop()
 
    Long64_t nbytes = 0, nb = 0;
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
+
      Long64_t ientry = LoadTree(jentry);
      if (ientry < 0) break;
      nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -108,7 +109,7 @@ void analysisClass::Loop()
      
      int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
      int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
-     double weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
+     double weight = getPileupWeight ( NPILEUP_AVE, isData ) ;
      //double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
 
      //--------------------------------------------------------------------------
@@ -122,13 +123,32 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassHBHENoiseFilter"           , PassHBHENoiseFilter ) ; 
      fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight ) ; 
 
+     // Fill HLT 
+     int passHLT = 1;
+     if ( isData ) { 
+       passHLT = 0;
+       if ( H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5 == 1 || 
+	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6 == 1 || 
+	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7 == 1 || 
+	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8 == 1 || 
+	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1 == 1 || 
+	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2 == 1 || 
+	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3 == 1 || 
+	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4 == 1 || 
+	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5 == 1    ) {
+	 passHLT = 1;
+       }
+     }
+     
+     fillVariableWithValue ( "PassHLT", passHLT ) ;
+
      // Electrons
-     fillVariableWithValue(   "nEle"                          , nEle ) ;
-     if ( nEle >= 1 ) { 
+     fillVariableWithValue(   "nEle"                          , nEle_Ana ) ;
+     if ( nEle_Ana >= 1 ) { 
        fillVariableWithValue( "Ele1_Pt"                       , Ele1_Pt ) ;
        fillVariableWithValue( "Ele1_Eta"                      , Ele1_Eta ) ;
      }
-     if ( nEle >= 2 ) { 
+     if ( nEle_Ana >= 2 ) { 
        fillVariableWithValue( "Ele2_Pt"                       , Ele2_Pt ) ;
        fillVariableWithValue( "Ele2_Eta"                      , Ele2_Eta ) ;
        fillVariableWithValue( "M_e1e2"                        , M_e1e2 ) ;
@@ -136,34 +156,34 @@ void analysisClass::Loop()
      }
 
      // Jets
-     fillVariableWithValue(   "nJet"                          , nJet ) ;
-     if ( nJet >= 1 ) { 
+     fillVariableWithValue(   "nJet"                          , nJet_Ana ) ;
+     if ( nJet_Ana >= 1 ) { 
        fillVariableWithValue( "Jet1_Pt"                       , Jet1_Pt ) ;
        fillVariableWithValue( "Jet1_Eta"                      , Jet1_Eta ) ;
      }
-     if ( nJet >= 2 ) { 
+     if ( nJet_Ana >= 2 ) { 
        fillVariableWithValue( "Jet2_Pt"                       , Jet2_Pt ) ;
        fillVariableWithValue( "Jet2_Eta"                      , Jet2_Eta ) ;
        fillVariableWithValue( "Pt_j1j2"                       , Pt_j1j2 ) ;
        fillVariableWithValue( "M_j1j2"                        , M_j1j2 ) ;
-       fillVariableWithValue( "DR_j1j2"                        , DR_j1j2 ) ;
+       fillVariableWithValue( "DR_Jet1Jet2"                        , DR_Jet1Jet2 ) ;
      }
 
      // Muons
-     fillVariableWithValue(   "nMuon"                         , nMuon ) ;
+     fillVariableWithValue(   "nMuon"                         , nMuon_Ana ) ;
 
      // DeltaR
-     if ( nEle >= 2 && nJet >= 1) {
-       fillVariableWithValue( "DR_e1j1"                   , DR_e1j1 ) ;
-       fillVariableWithValue( "DR_e2j1"                   , DR_e2j1 ) ;
-       if(nJet >= 2) {
-	 fillVariableWithValue( "DR_e1j2"                 , DR_e1j2 ) ;
-	 fillVariableWithValue( "DR_e2j2"                 , DR_e2j2 ) ;
+     if ( nEle_Ana >= 2 && nJet_Ana >= 1) {
+       fillVariableWithValue( "DR_Ele1Jet1"                   , DR_Ele1Jet1 ) ;
+       fillVariableWithValue( "DR_Ele2Jet1"                   , DR_Ele2Jet1 ) ;
+       if(nJet_Ana >= 2) {
+	 fillVariableWithValue( "DR_Ele1Jet2"                 , DR_Ele1Jet2 ) ;
+	 fillVariableWithValue( "DR_Ele2Jet2"                 , DR_Ele2Jet2 ) ;
        }
      }
 
      // sT
-     if ( nEle >= 2 && nJet >= 2) {
+     if ( nEle_Ana >= 2 && nJet_Ana >= 2) {
        fillVariableWithValue( "sT_eejj"                      , sT_eejj ) ;
      }      
 
@@ -178,7 +198,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      bool passed_preselection = passedAllPreviousCuts("M_e1e2");
-     bool passed_preselection_without_DR_cuts = passedAllPreviousCuts("DR_e1j1");
+     bool passed_preselection_without_DR_cuts = passedAllPreviousCuts("DR_Ele1Jet1");
 
      if ( passed_preselection ) { 
 
@@ -203,10 +223,10 @@ void analysisClass::Loop()
        FillUserTH1D( "MET_Pt"	           , 	MET_Pt        , weight);
        FillUserTH1D( "MET_Phi"	           , 	MET_Phi       , weight);
        
-       FillUserTH1D( "nEle"                ,    nEle          , weight);
-       FillUserTH1D( "nJet"                ,    nJet          , weight);
-       FillUserTH1D( "nJet_btagTCHE"       ,    nJet_btagTCHE , weight);
-       FillUserTH1D( "nMuon"               ,    nMuon         , weight);
+       FillUserTH1D( "nEle"                ,    nEle_Ana      , weight);
+       FillUserTH1D( "nJet"                ,    nJet_Ana      , weight);
+       FillUserTH1D( "nJet_btagTCHE"       ,    nJet_btagTCHE_Ana , weight);
+       FillUserTH1D( "nMuon"               ,    nMuon_Ana     , weight);
        FillUserTH1D( "nVertex"             ,    nVertex       , weight);
        FillUserTH1D( "nVertex_good"        ,    nVertex_good  , weight);
               
@@ -217,6 +237,7 @@ void analysisClass::Loop()
        FillUserTH1D( "M_j1j2"	           , 	M_j1j2        , weight);
 
        // Mej histos
+       /*
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) ) 
 	 {
 	   FillUserTH2D( "MejVsMej_selected", M_e1j1, M_e2j2, weight ) ;
@@ -227,16 +248,16 @@ void analysisClass::Loop()
 	   FillUserTH2D( "MejVsMej_selected", M_e1j2, M_e2j1, weight ) ;
 	   FillUserTH2D( "MejVsMej_rejected", M_e1j1, M_e2j2, weight ) ;
 	 }
-
+       */
      }
 
      if ( passed_preselection_without_DR_cuts ) { 
 
-       FillUserTH1D( "DR_e1j1"	   , 	DR_e1j1   , weight);
-       FillUserTH1D( "DR_e1j2"	   , 	DR_e1j2   , weight);
-       FillUserTH1D( "DR_e2j1"	   , 	DR_e2j1   , weight);
-       FillUserTH1D( "DR_e2j2"	   , 	DR_e2j2   , weight);
-       FillUserTH1D( "DR_j1j2"	   , 	DR_j1j2   , weight);
+       FillUserTH1D( "DR_Ele1Jet1"	   , 	DR_Ele1Jet1   , weight);
+       FillUserTH1D( "DR_Ele1Jet2"	   , 	DR_Ele1Jet2   , weight);
+       FillUserTH1D( "DR_Ele2Jet1"	   , 	DR_Ele2Jet1   , weight);
+       FillUserTH1D( "DR_Ele2Jet2"	   , 	DR_Ele2Jet2   , weight);
+       FillUserTH1D( "DR_Jet1Jet2"	   , 	DR_Jet1Jet2   , weight);
 
      }
 
@@ -244,3 +265,4 @@ void analysisClass::Loop()
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
 }
+
