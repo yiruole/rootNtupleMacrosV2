@@ -1,16 +1,14 @@
 #-----------------------------------------------------------------------------------------------------------------------------
 # JSON file for applying good run list
 #-----------------------------------------------------------------------------------------------------------------------------
-JSON			/Users/eberry/Code/ROOT/LQ/dev_LQANA/rootNtupleAnalyzerV2/json/json_382.12.txt
+JSON /afs/cern.ch/user/e/eberry/Desktop/SingleElectron__Run2011A-ALL_good_json.txt
 #-----------------------------------------------------------------------------------------------------------------------------
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
-PILEUP_DATA_ROOT_FILE	/Users/eberry/Code/ROOT/LQ/pileup_info/pileup_all.root
-PILEUP_MC_TXT_FILE    	/Users/eberry/Code/ROOT/LQ/pileup_info/spring10_pileup_pdf.txt
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/santanas/public/PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX.txt
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_to_173692_LPLumiScale_68mb.root
 #-----------------------------------------------------------------------------------------------------------------------------
 #VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax
-#-----------------------------------------------------------------------------------------------------------------------------
-# Preselection cuts
 #-----------------------------------------------------------------------------------------------------------------------------
 PassJSON			0	     1			-		-		1	2 -0.5 1.5
 PassHBHENoiseFilter    		0	     1			-		-		1	2 -0.5 1.5
