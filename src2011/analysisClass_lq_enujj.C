@@ -103,7 +103,11 @@ void analysisClass::Loop()
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
+     int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
+     int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
+     double weight = getPileupWeight ( NPILEUP_AVE, isData ) ;
+     //double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
+
 
      //--------------------------------------------------------------------------
      // Fill variables
@@ -202,11 +206,11 @@ void analysisClass::Loop()
        FillUserTH1D( "sTjet_PAS"             , Jet1_Pt + Jet2_Pt              , weight);
        FillUserTH1D( "sT_PAS"                , sT_enujj                       , weight);
        FillUserTH1D( "Mjj_PAS"	             , M_j1j2                         , weight);   
-       FillUserTH1D( "Mej_1stPair_PAS"       , M_ej1                          , weight);
-       FillUserTH1D( "Mej_2ndPair_PAS"       , M_ej2                          , weight);
-       FillUserTH1D( "HcalIso1stEle_PAS"     , Ele1_HcalIso                   , weight);
-       FillUserTH1D( "EcalIso1stEle_PAS"     , Ele1_EcalIso                   , weight);
-       FillUserTH1D( "RelIso1stEle_PAS"      , Ele1_RelIso                    , weight);
+       // FillUserTH1D( "Mej_1stPair_PAS"       , M_ej1                          , weight);
+       // FillUserTH1D( "Mej_2ndPair_PAS"       , M_ej2                          , weight);
+       // FillUserTH1D( "HcalIso1stEle_PAS"     , Ele1_HcalIso                   , weight);
+       // FillUserTH1D( "EcalIso1stEle_PAS"     , Ele1_EcalIso                   , weight);
+       // FillUserTH1D( "RelIso1stEle_PAS"      , Ele1_RelIso                    , weight);
        FillUserTH1D( "DCotTheta1stEle_PAS"   , Ele1_DCotTheta                 , weight);
        FillUserTH1D( "Dist1stEle_PAS"        , Ele1_Dist                      , weight);
        FillUserTH1D( "mDPhi1stEleMET"        , mDPhi_METEle1                  , weight);
