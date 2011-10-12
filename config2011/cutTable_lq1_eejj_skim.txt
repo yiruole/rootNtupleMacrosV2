@@ -182,6 +182,8 @@ Ele1_Dist			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
 Ele1_DCotTheta			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
 Ele1_VtxD0			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
 Ele1_ValidFrac			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Ele1_MatchPhotConv		-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
+Ele1_MissingHits		-inf	     +inf		-		-		1	11 -0.5 10.5	      SAVE
 #
 Ele2_Pt 			30	     +inf		-		-		1	100 0 1000	      SAVE
 Ele2_Energy			-inf	     +inf		-		-		1	100 0 1000	      SAVE
@@ -192,6 +194,8 @@ Ele2_Dist			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
 Ele2_DCotTheta			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
 Ele2_VtxD0			-inf	     +inf		-		-		1	100 0 2.0	      SAVE
 Ele2_ValidFrac			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Ele2_MatchPhotConv		-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
+Ele2_MissingHits		-inf	     +inf		-		-		1	11 -0.5 10.5	      SAVE
 #------------------------------------------------------------------------------------------------------
 # MET info
 #------------------------------------------------------------------------------------------------------
@@ -202,6 +206,10 @@ PFMETSigMatrixDXX		-inf	     +inf		-		-		1	100 0 5000	      SAVE
 PFMETSigMatrixDXY		-inf	     +inf		-		-		1	100 -2500 2500	      SAVE
 PFMETSigMatrixDYX		-inf	     +inf		-		-		1	100 -2500 2500	      SAVE
 PFMETSigMatrixDYY		-inf	     +inf		-		-		1	100 0 5000	      SAVE
+PFMETCharged			-inf	     +inf		-		-		1	200 0 1000            SAVE
+PFMETChargedPhi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMETType1Cor			-inf	     +inf		-		-		1	200 0 1000            SAVE
+PFMETPhiType1Cor		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 GenMET_Pt			-inf	     +inf		-		-		1	200 0 1000	      SAVE
 GenMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 SumET				-inf	     +inf		-		-		1	300 0 3000	      SAVE
@@ -281,37 +289,6 @@ Muon1_Energy			-inf	     +inf		-		-		3	100 0 1000	      SAVE
 Muon1_Eta			-inf         +inf               -               -               3       100 -5 5	      SAVE
 Muon1_Phi			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
 Muon1_Charge			-inf         +inf               -               -               3       100 0 3.1416	      SAVE
-#------------------------------------------------------------------------------------------------------
-# SingleElectron triggers
-#------------------------------------------------------------------------------------------------------
-H_15_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_15_CIdVT_CIsT_TIdT_TIsT_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_15_CIdVT_CIsT_TIdT_TIsT_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_15_CIdVT_CIsT_TIdT_TIsT_4	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_15_CIdVT_CIsT_TIdT_TIsT_5	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_15_CIdVT_CIsT_TIdT_TIsT_6	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_15_CIdVT_CIsT_TIdT_TIsT_7	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-#
-H_27_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_27_CIdVT_CIsT_TIdT_TIsT_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_27_CIdVT_CIsT_TIdT_TIsT_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-#
-H_32_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_32_CIdVT_CIsT_TIdT_TIsT_2	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_32_CIdVT_CIsT_TIdT_TIsT_3	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_32_CIdVT_CIsT_TIdT_TIsT_4	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_32_CIdVT_CIsT_TIdT_TIsT_5	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_32_CIdVT_CIsT_TIdT_TIsT_6	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_32_CIdVT_CIsT_TIdT_TIsT_7	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-#
-H_42_CIdVT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-#
-H_25_WP80_PFMT40_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-#		             
-H_27_WP80_PFMT50_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_27_WP80_PFMT50_2         	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_27_WP80_PFMT50_3         	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
-H_27_WP80_PFMT50_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #------------------------------------------------------------------------------------------------------
 # DoubleElectron triggers
 #------------------------------------------------------------------------------------------------------
