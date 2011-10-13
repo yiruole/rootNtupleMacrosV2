@@ -52,15 +52,17 @@ void analysisClass::Loop()
 
      bool is_the_old_key = ( HLTKey -> compare ( old_key ) == 0 );
 
-     if ( is_the_old_key ) continue;
+     int n_inside_triggers  = HLTInsideDatasetTriggerNames  -> size();
+     int n_outside_triggers = HLTOutsideDatasetTriggerNames -> size();
 
-     std::vector<std::string>::iterator inside_name      = HLTInsideDatasetTriggerNames -> begin();
-     std::vector<std::string>::iterator inside_name_end  = HLTInsideDatasetTriggerNames -> end();
+     // if ( is_the_old_key ) continue;
 
-     std::vector<std::string>::iterator outside_name     = HLTOutsideDatasetTriggerNames -> begin();
-     std::vector<std::string>::iterator outside_name_end = HLTOutsideDatasetTriggerNames -> end();
+     for (int i = 0; i < n_inside_triggers; ++i){
+       int           prescale     =  (*HLTInsideDatasetTriggerPrescales)[i];
+       std::string * inside_name  = &(*HLTInsideDatasetTriggerNames    )[i];
 
-     for (; inside_name != inside_name_end; ++inside_name ) {
+       if ( prescale != 1 ) continue;
+       
        it = trigger_name_map.find ( *inside_name );
        if ( it == trigger_name_map.end() ) trigger_name_map[*inside_name] = std::pair<int,int> ( run, run ) ;
        else { 
@@ -68,8 +70,13 @@ void analysisClass::Loop()
 	 if ( trigger_name_map[*inside_name].second < run ) trigger_name_map[*inside_name].second = run;
        }
      }
+     
+     for (int i = 0; i < n_outside_triggers; ++i){
+       int           prescale     =  (*HLTOutsideDatasetTriggerPrescales)[i];
+       std::string * outside_name  = &(*HLTOutsideDatasetTriggerNames    )[i];
 
-     for (; outside_name != outside_name_end; ++outside_name ) {
+       if ( prescale != 1 ) continue;
+       
        it = trigger_name_map.find ( *outside_name );
        if ( it == trigger_name_map.end() ) trigger_name_map[*outside_name] = std::pair<int,int> ( run, run ) ;
        else { 
@@ -77,7 +84,7 @@ void analysisClass::Loop()
 	 if ( trigger_name_map[*outside_name].second < run ) trigger_name_map[*outside_name].second = run;
        }
      }
-     
+
      old_key = *HLTKey;
 
    } // End loop over events
