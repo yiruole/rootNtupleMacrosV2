@@ -31,45 +31,51 @@ void analysisClass::Loop()
    // Create TH1D's
    //--------------------------------------------------------------------------
 
-   CreateUserTH1D( "nElectron_PAS"         ,    5   , -0.5    , 4.5      );
-   CreateUserTH1D( "nMuon_PAS"             ,    5   , -0.5    , 4.5      );
-   CreateUserTH1D( "Pt1stEle_PAS"	   , 	100 , 0       , 1000     ); 
-   CreateUserTH1D( "Eta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
-   CreateUserTH1D( "Phi1stEle_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "Charge1stEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
-   CreateUserTH1D( "MET_PAS"               ,    200 , 0       , 1000	 ); 
-   CreateUserTH1D( "METPhi_PAS"		   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "minMETPt1stEle_PAS"    ,    200 , 0       , 1000	 ); 
-   CreateUserTH1D( "Pt1stJet_PAS"          ,    100 , 0       , 1000	 ); 
-   CreateUserTH1D( "Pt2ndJet_PAS"          ,    100 , 0       , 1000	 ); 
-   CreateUserTH1D( "Eta1stJet_PAS"         ,    100 , -5      , 5	 ); 
-   CreateUserTH1D( "Eta2ndJet_PAS"         ,    100 , -5      , 5	 ); 
-   CreateUserTH1D( "Phi1stJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "Phi2ndJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "TCHE1stJet_PAS"        ,    100 , 0       , 20	 ); 
-   CreateUserTH1D( "TCHE2ndJet_PAS"        ,    100 , 0       , 20	 ); 
-   CreateUserTH1D( "nMuon_PtCut_IDISO_PAS" ,    16  , -0.5    , 15.5	 ); 
-   CreateUserTH1D( "MTenu_PAS"             ,    200 , 0       , 1000	 ); 
-   CreateUserTH1D( "Ptenu_PAS"		   , 	200 , 0       , 2000	 ); 
-   CreateUserTH1D( "sTlep_PAS"             ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "sTjet_PAS"             ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mjj_PAS"		   ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mej_1stPair_PAS"       ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mej_2ndPair_PAS"       ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "HcalIso1stEle_PAS"     ,    200 , 0       , 20       );
-   CreateUserTH1D( "EcalIso1stEle_PAS"     ,    200 , 0       , 20       );
-   CreateUserTH1D( "RelIso1stEle_PAS"      ,    200 , 0       , 1.0      );
-   CreateUserTH1D( "Mee_PAS"               ,    200 , 0       , 2000     );
-   CreateUserTH1D( "Ptee_PAS"              ,    200 , 0       , 2000     );
-   CreateUserTH1D( "DCotTheta1stEle_PAS"   ,    100 , 0.0, 1.0);
-   CreateUserTH1D( "Dist1stEle_PAS"        ,    100 , 0.0, 1.0);  
-   CreateUserTH1D( "mDPhi1stEleMET", 100, 0.,  3.14159 ) ;
-   CreateUserTH1D( "mDPhi1stJetMET", 100, 0.,  3.14159 ) ;
-   CreateUserTH1D( "mDPhi2ndJetMET", 100, 0.,  3.14159 ) ;
-   CreateUserTH1D( "MT_GoodVtxLTE5", 200, 0.,  1000 ) ;
-   CreateUserTH1D( "MT_GoodVtxGT5" , 200, 0.,  1000 ) ;
-
+   CreateUserTH1D( "nElectron_PAS"            , 5   , -0.5    , 4.5      );
+   CreateUserTH1D( "nMuon_PAS"                , 5   , -0.5    , 4.5      );
+   CreateUserTH1D( "Pt1stEle_PAS"	      , 100 , 0       , 1000     ); 
+   CreateUserTH1D( "Eta1stEle_PAS"	      , 100 , -5      , 5	 ); 
+   CreateUserTH1D( "Phi1stEle_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "Charge1stEle_PAS"	      , 2   , -1.0001 , 1.0001	 ); 
+   CreateUserTH1D( "MET_PAS"                  , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "METPhi_PAS"		      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "METCharged_PAS"           , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "METChargedPhi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "METType1_PAS"             , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "METType1Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "METSig_PAS"               , 100 , 0       , 200      );
+   CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "Pt1stJet_PAS"             , 100 , 0       , 1000	 ); 
+   CreateUserTH1D( "Pt2ndJet_PAS"             , 100 , 0       , 1000	 ); 
+   CreateUserTH1D( "Eta1stJet_PAS"            , 100 , -5      , 5	 ); 
+   CreateUserTH1D( "Eta2ndJet_PAS"            , 100 , -5      , 5	 ); 
+   CreateUserTH1D( "Phi1stJet_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "Phi2ndJet_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "TCHE1stJet_PAS"           , 100 , 0       , 20	 ); 
+   CreateUserTH1D( "TCHE2ndJet_PAS"           , 100 , 0       , 20	 ); 
+   CreateUserTH1D( "nMuon_PtCut_IDISO_PAS"    , 16  , -0.5    , 15.5	 ); 
+   CreateUserTH1D( "MTenu_PAS"                , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "Ptenu_PAS"		      , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sT_PAS"                   , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mej2_PAS"                 , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "DCotTheta1stEle_PAS"      , 100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Dist1stEle_PAS"           , 100 , 0.0     , 1.0      );  
+   CreateUserTH1D( "DR_Ele1Jet1_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "DR_Ele1Jet2_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "DR_Ele2Jet1_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "DR_Ele2Jet2_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "DR_Jet1Jet2_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      ,  3.14159 );
+   CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      ,  3.14159 );
+   CreateUserTH1D( "mDPhi2ndJetMET_PAS"       , 100 , 0.      ,  3.14159 );
+   CreateUserTH1D( "MT_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MT_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
    
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -94,75 +100,88 @@ void analysisClass::Loop()
      resetCuts();
 
      //--------------------------------------------------------------------------
-     // Check good run list
-     //--------------------------------------------------------------------------
-     
-     int    passedJSON = passJSON ( run, ls , isData ) ;
-
-     //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
      int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
-     int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
-     double weight = getPileupWeight ( NPILEUP_AVE, isData ) ;
+     int NPILEUP_FINAL = min ( NPILEUP_AVE , 25 );
+     double weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
      //double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
 
+     //--------------------------------------------------------------------------
+     // Check good run list
+     //--------------------------------------------------------------------------
+     
+     int passedJSON = passJSON ( run, ls , isData ) ;
+     
+     //--------------------------------------------------------------------------
+     // Check HLT
+     //--------------------------------------------------------------------------
 
+     int passedHLT = 0;
+
+     if ( H_27_CIdVT_CIsT_TIdT_TIsT_1 == 1 || // 160405 - 161119, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1
+	  H_27_CIdVT_CIsT_TIdT_TIsT_2 == 1 || // 161217 - 163261, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2
+	  H_27_CIdVT_CIsT_TIdT_TIsT_3 == 1 || // 163270 - 163817, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3
+	  H_32_CIdVT_CIsT_TIdT_TIsT_3 == 1 || // 165088 - 165633, HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3
+	  H_32_CIdVT_CIsT_TIdT_TIsT_4 == 1 || // 165970 - 166967, HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4
+	  H_52_CIdVT_TIdT_3           == 1 || // 167039 - 167913, HLT_Ele52_CaloIdVT_TrkIdT_v3		     
+	  H_52_CIdVT_TIdT_4           == 1 || // 170249 - 172952, HLT_Ele52_CaloIdVT_TrkIdT_v4		     
+	  H_65_CIdVT_TIdT_3           == 1 || // 172953 - 173198, HLT_Ele65_CaloIdVT_TrkIdT_v3		     
+	  H_65_CIdVT_TIdT_4           == 1 )  // 173236 - 173692, HLT_Ele65_CaloIdVT_TrkIdT_v4		     
+       passedHLT = 1; 
+     
      //--------------------------------------------------------------------------
      // Fill variables
      //--------------------------------------------------------------------------
 
      // JSON variable
-     fillVariableWithValue(   "PassJSON"                      , passedJSON    ); 
+     fillVariableWithValue(   "PassJSON"                 , passedJSON              ); 
+     									          
+     // HLT variable							           
+     fillVariableWithValue(   "PassHLT"                  , passedHLT               );
      
      // Filters
-     fillVariableWithValue(   "PassHBHENoiseFilter"           , PassHBHENoiseFilter ) ;
-     fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight ) ;
+     fillVariableWithValue(   "PassHBHENoiseFilter"      , PassHBHENoiseFilter     );
+     fillVariableWithValue(   "PassBeamHaloFilterTight"  , PassBeamHaloFilterTight );
 									      
      // Muon variables ( for veto ) 					      
-     fillVariableWithValue(   "nMuon_PtCut_ID_ISO"            , nMuon_Ana     );
-			                                      		      
-     // 1st Electron variables				      		      
-     fillVariableWithValue(   "nEle_PtCut_IDISO_noOvrlp"      , nEle_Ana      ); 
-     fillVariableWithValue(   "Pt1stEle_PtCut_IDISO_noOvrlp"  , Ele1_Pt       );
-     fillVariableWithValue(   "Eta1stEle_PtCut_IDISO_noOvrlp" , Ele1_Eta      );
-
-     // MET variables	                                      
-     fillVariableWithValue(   "MET"                           , MET_Pt        );
-     fillVariableWithValue(   "mDeltaPhiMETEle"               , mDPhi_METEle1 );
-     
-     // 1st JET variables                                     
-     fillVariableWithValue(   "nJet_PtCut_ID_noOvrlp"         , nJet_Ana      );
-
-     // 1st JET variables                                     
-     if ( nJet_Stored > 0 ) { 
-       fillVariableWithValue( "Pt1stJet_PtCut_ID_noOvrlp"     , Jet1_Pt       );
-       fillVariableWithValue( "Eta1stJet_PtCut_ID_noOvrlp"    , Jet1_Eta      );
-       fillVariableWithValue( "mDeltaPhiMET1stJet"            , mDPhi_METJet1 );
-     }
-     
-     // 2nd JET variables                                     
-     if ( nJet_Stored > 1 ) { 	                                      
-       fillVariableWithValue( "Pt2ndJet_PtCut_ID_noOvrlp"     , Jet2_Pt       );
-       fillVariableWithValue( "Eta2ndJet_PtCut_ID_noOvrlp"    , Jet2_Eta      );
-       fillVariableWithValue( "ST"                            , sT_enujj      );
-     }
-
-     // 2 electron variables
-     if ( nEle_Stored > 2 ) { 
-       FillUserTH1D( "Mee_PAS"   , M_e1e2  ) ;
-       FillUserTH1D( "Ptee_PAS"  , Pt_e1e2 ) ;
+     fillVariableWithValue(   "nMuon"                    , nMuon_Ana               );
+			                                      		                
+     // 1st Electron variables				      		                
+     fillVariableWithValue(   "nEle"                     , nEle_Ana                ); 
+     fillVariableWithValue(   "Ele1_Pt"                  , Ele1_Pt                 );
+     fillVariableWithValue(   "Ele1_Eta"                 , Ele1_Eta                );
+									           
+     // MET variables	                                      		           
+     fillVariableWithValue(   "MET"                      , MET_Pt                  );
+     fillVariableWithValue(   "mDeltaPhiMETEle"          , mDPhi_METEle1           );
+     									           
+     // 1st JET variables                                     		           
+     fillVariableWithValue(   "nJet"                     , nJet_Ana                );
+									           
+     // 1st JET variables                                     		           
+     if ( nJet_Stored > 0 ) { 						           
+       fillVariableWithValue( "Jet1_Pt"                  , Jet1_Pt                 );
+       fillVariableWithValue( "Jet1_Eta"                 , Jet1_Eta                );
+       fillVariableWithValue( "mDeltaPhiMET1stJet"       , mDPhi_METJet1           );
+     }									           
+     									           
+     // 2nd JET variables                                     		           
+     if ( nJet_Stored > 1 ) { 	                                      	           
+       fillVariableWithValue( "Jet2_Pt"                  , Jet2_Pt                 );
+       fillVariableWithValue( "Jet2_Eta"                 , Jet2_Eta                );
+       fillVariableWithValue( "ST"                       , sT_enujj                );
      }
 
      // 1 electron, 1 jet variables 
      if ( nEle_Ana > 0 && nJet_Ana > 0 ) { 
-       fillVariableWithValue ( "DR_Ele1Jet1", DR_Ele1Jet1 ) ;
+       fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             ) ;
      }
 
      // 1 electron, 2 jet variables 
      if ( nEle_Ana > 0 && nJet_Ana > 1 ) { 
-       fillVariableWithValue ( "DR_Ele1Jet2", DR_Ele1Jet2 ) ;
+       fillVariableWithValue ( "DR_Ele1Jet2"             , DR_Ele1Jet2            ) ;
      }
      
      // Dummy variables
@@ -188,8 +207,13 @@ void analysisClass::Loop()
        FillUserTH1D( "Eta1stEle_PAS"	     , Ele1_Eta                       , weight);
        FillUserTH1D( "Phi1stEle_PAS"	     , Ele1_Phi                       , weight);
        FillUserTH1D( "Charge1stEle_PAS"      , Ele1_Charge                    , weight);   
+       FillUserTH1D( "METSig_PAS"	     , MET_Phi                        , weight);   
        FillUserTH1D( "MET_PAS"               , MET_Pt                         , weight);
        FillUserTH1D( "METPhi_PAS"	     , MET_Phi                        , weight);   
+       FillUserTH1D( "METCharged_PAS"        , PFMETCharged                   , weight);
+       FillUserTH1D( "METChargedPhi_PAS"     , PFMETChargedPhi                , weight);   
+       FillUserTH1D( "METType1_PAS"          , PFMETType1Cor                  , weight);
+       FillUserTH1D( "METType1Phi_PAS"       , PFMETPhiType1Cor               , weight);   
        FillUserTH1D( "minMETPt1stEle_PAS"    , TMath::Min ( Ele1_Pt, MET_Pt  ), weight);
        FillUserTH1D( "Pt1stJet_PAS"          , Jet1_Pt                        , weight);
        FillUserTH1D( "Pt2ndJet_PAS"          , Jet2_Pt                        , weight);
@@ -206,20 +230,24 @@ void analysisClass::Loop()
        FillUserTH1D( "sTjet_PAS"             , Jet1_Pt + Jet2_Pt              , weight);
        FillUserTH1D( "sT_PAS"                , sT_enujj                       , weight);
        FillUserTH1D( "Mjj_PAS"	             , M_j1j2                         , weight);   
-       // FillUserTH1D( "Mej_1stPair_PAS"       , M_ej1                          , weight);
-       // FillUserTH1D( "Mej_2ndPair_PAS"       , M_ej2                          , weight);
-       // FillUserTH1D( "HcalIso1stEle_PAS"     , Ele1_HcalIso                   , weight);
-       // FillUserTH1D( "EcalIso1stEle_PAS"     , Ele1_EcalIso                   , weight);
-       // FillUserTH1D( "RelIso1stEle_PAS"      , Ele1_RelIso                    , weight);
        FillUserTH1D( "DCotTheta1stEle_PAS"   , Ele1_DCotTheta                 , weight);
        FillUserTH1D( "Dist1stEle_PAS"        , Ele1_Dist                      , weight);
-       FillUserTH1D( "mDPhi1stEleMET"        , mDPhi_METEle1                  , weight);
-       FillUserTH1D( "mDPhi1stJetMET"        , mDPhi_METJet1                  , weight);
-       FillUserTH1D( "mDPhi2ndJetMET"        , mDPhi_METJet2                  , weight);
-       
-       if ( nVertex_good <= 5 ) FillUserTH1D ( "MT_GoodVtxLTE5", MT_Ele1MET , weight);
-       if ( nVertex_good >  5 ) FillUserTH1D ( "MT_GoodVtxGT5" , MT_Ele1MET , weight);
-       
+       FillUserTH1D( "mDPhi1stEleMET_PAS"    , mDPhi_METEle1                  , weight);
+       FillUserTH1D( "mDPhi1stJetMET_PAS"    , mDPhi_METJet1                  , weight);
+       FillUserTH1D( "mDPhi2ndJetMET_PAS"    , mDPhi_METJet2                  , weight); 
+       FillUserTH1D( "Mej1_PAS"              , M_e1j1                         , weight);
+       FillUserTH1D( "Mej2_PAS"              , M_e1j2                         , weight);
+       FillUserTH1D( "DR_Ele1Jet1_PAS"	     , DR_Ele1Jet1                    , weight);
+       FillUserTH1D( "DR_Ele1Jet2_PAS"	     , DR_Ele1Jet2                    , weight);
+       FillUserTH1D( "DR_Ele2Jet1_PAS"	     , DR_Ele2Jet1                    , weight);
+       FillUserTH1D( "DR_Ele2Jet2_PAS"	     , DR_Ele2Jet2                    , weight);
+       FillUserTH1D( "DR_Jet1Jet2_PAS"	     , DR_Jet1Jet2                    , weight);
+
+       if ( nVertex_good >= 0 && nVertex_good <= 3 ) FillUserTH1D( "MT_GoodVtxLTE3_PAS"       , MT_Ele1MET, weight ) ;
+       if ( nVertex_good >= 4 && nVertex_good <= 8 ) FillUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"  , MT_Ele1MET, weight ) ;
+       if ( nVertex_good >= 9 && nVertex_good <= 15) FillUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS" , MT_Ele1MET, weight ) ;
+       if ( nVertex_good >= 16                     ) FillUserTH1D( "MT_GoodVtxGTE16_PAS"      , MT_Ele1MET, weight ) ;
+              
      }
    } // End loop over events
 
