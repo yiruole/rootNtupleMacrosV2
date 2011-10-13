@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------------------------
 # JSON file for applying good run list
 #-----------------------------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/e/eberry/Desktop/SingleElectron__Run2011A-ALL_good_json.txt
+JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/SingleElectron__Run2011A-ALL_good_json.txt
 #-----------------------------------------------------------------------------------------------------------------------------
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -11,24 +11,27 @@ PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collis
 #VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax
 #-----------------------------------------------------------------------------------------------------------------------------
 PassJSON			0	     1			-		-		1	2 -0.5 1.5
+PassHLT				-inf	     +inf		-		-		1	2 -0.5 1.5
 PassHBHENoiseFilter    		0	     1			-		-		1	2 -0.5 1.5
 PassBeamHaloFilterTight		0	     1			-		-		1	2 -0.5 1.5
-nEle_PtCut_IDISO_noOvrlp      	0	     1			-		-		1	16 -0.5 15.5
-Pt1stEle_PtCut_IDISO_noOvrlp  	35	     +inf		-		-		1	100 0.0	1000.0
-Eta1stEle_PtCut_IDISO_noOvrlp  	-2.2	     2.2		-		-		1	100 0.0	1000.0
+nEle		     		0	     1			-		-		1	16 -0.5 15.5
+Ele1_Pt		     	  	35	     +inf		-		-		1	100 0.0	1000.0
+Ele1_Eta	     	  	-2.2	     2.2		-		-		1	100 -5.0 5.0
 MET                           	45	     +inf		-		-		1	200 0.0 1000.0
-nJet_PtCut_ID_noOvrlp         	1	     +inf		-		-		1	16 -0.5 15.5
-Pt1stJet_PtCut_ID_noOvrlp     	30	     +inf		-		-		1	100 0.0	1000.0
-Eta1stJet_PtCut_ID_noOvrlp     	-3.0	     3.0		-		-		1	100 -5.0 5.0
-Pt2ndJet_PtCut_ID_noOvrlp     	30	     +inf		-		-		1	100 0.0	1000.0
-Eta2ndJet_PtCut_ID_noOvrlp      -3.0	     3.0		-		-		1	100 -5.0 5.0
-ST				250	     +inf		-		-		1	200 0 2000
-nMuon_PtCut_ID_ISO		-1	     0			-		-		1	11 -0.5 10.5
-DR_Ele1Jet1			0.7	     +inf		-		-		1	100 0.0 10
-DR_Ele1Jet2			0.7	     +inf		-		-		1	100 0.0 10
-mDeltaPhiMETEle			0.8	     +inf		-		-		1	100 0 3.14159
-mDeltaPhiMET1stJet		0.5	     +inf		-		-		1	100 0 3.14159
+nJet		         	1	     +inf		-		-		1	16 -0.5 15.5
+Jet1_Pt		     	     	30	     +inf		-		-		1	100 0.0	1000.0
+Jet1_Eta	     	     	-3.0	     3.0		-		-		1	100 -5.0 5.0
+Jet2_Pt		     	     	30	     +inf		-		-		1	100 0.0	1000.0
+Jet2_Eta	     		-3.0	     3.0		-		-		1	100 -5.0 5.0
+ST		     		250	     +inf		-		-		1	200 0 2000
+nMuon		     		-1	     0			-		-		1	11 -0.5 10.5
+DR_Ele1Jet1	     		0.7	     +inf		-		-		1	100 0.0 10
+DR_Ele1Jet2	     		0.7	     +inf		-		-		1	100 0.0 10
+mDeltaPhiMETEle	     		0.8	     +inf		-		-		1	100 0 3.14159
+mDeltaPhiMET1stJet   		0.5	     +inf		-		-		1	100 0 3.14159
 preselection                    -inf	     +inf		-		-		1	2 -0.5 1.5
 #-----------------------------------------------------------------------------------------------------------------------------
 # After Preselection
 #-----------------------------------------------------------------------------------------------------------------------------
+
+
