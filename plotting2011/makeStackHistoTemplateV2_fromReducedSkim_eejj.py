@@ -460,7 +460,8 @@ class Plot:
 
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//skim_test//analysisClass_lq_enujj_plots.root")
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/330pb-1_21072011/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
-File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//lq_analysis_eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
 File_selection    = File_preselection
 
@@ -498,13 +499,10 @@ samplesForStackHistosQCD = ["DATA"]
 samplesForStackHistos = ["PhotonJets"   ,"SingleTop" ,"WJet_Madgraph", "DIBOSON"     ,"TTbar_Madgraph","ZJet_Madgraph"]
 keysStack =             ["#gamma + jets","single top","W/W* + jets"  , "WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
 
-#samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
-#keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
+samplesForHistos = ["LQ_M400", "LQ_M500","LQ_M600"]
+keys             = ["LQ, M=400 GeV","LQ, M=500 GeV","LQ, M=600 GeV"]
 # samplesForHistos = ["LQenujj_M300"]
 # keys             = ["LQ, M = 300 GeV"]
-samplesForHistos = []
-keys = []
-
 
 sampleForDataHisto = "DATA"
 
@@ -536,63 +534,39 @@ plots[-1].ymin  = 1e-1
 plots[-1].xmin  = -0.5
 plots[-1].xmax  = 6.5
 plots[-1].ylog  = "yes"
-plots[-1].xtit  = "Number of electrons"
+plots[-1].xtit  = "Number of electrons (cut)"
 
 plots.append ( makeDefaultPlot ( "Ele1_Pt"  , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 2
+plots[-1].ymax  = 20000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 500
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "1st Electron p_{T} [GeV] (cut)"
+
+plots.append ( makeDefaultPlot ( "Ele1_Eta"	 ,  histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "1st Electron #eta (cut)"   
+plots[-1].ymax = 20000000
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "Ele2_Pt"  , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 2
 plots[-1].ymax  = 2000000
 plots[-1].ymin  = 1e-1
 plots[-1].xmin  = 0
 plots[-1].xmax  = 500
 plots[-1].ylog  = "yes"
-plots[-1].xtit  = "1st Electron p_{T} [GeV]"
+plots[-1].xtit  = "2nd Electron p_{T} [GeV] (cut)"
 
-plots.append ( makeDefaultPlot ( "Ele1_Phi"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots[-1].xtit = "1st Electron #phi (Preselection)"
-plots[-1].rebin = 1
-plots[-1].ymax = 2000000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-
-plots.append ( makeDefaultPlot ( "Ele1_Eta"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "1st Electron #eta (Preselection)"   
+plots.append ( makeDefaultPlot ( "Ele2_Eta"	 ,  histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "2nd Electron #eta (cut)"   
 plots[-1].ymax = 2000000
 plots[-1].rebin = 1
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
-
-plots.append ( makeDefaultPlot ( "Ele2_Pt"  , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 5
-plots[-1].ymax  = 200000000
-plots[-1].ymin  = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit  = "1st Electron p_{T} [GeV]"
-
-plots.append ( makeDefaultPlot ( "Ele2_Phi"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots[-1].xtit = "1st Electron #phi (Preselection)"
-plots[-1].rebin = 1
-plots[-1].ymax = 2000000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-
-plots.append ( makeDefaultPlot ( "Ele2_Eta"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "1st Electron #eta (Preselection)"   
-plots[-1].ymax = 2000000
-plots[-1].rebin = 1
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-
-
-plots.append ( makeDefaultPlot ( "Ele1_Charge"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots[-1].xtit = "1st Electron Charge (Preselection)"
-plots[-1].ymin = 0.0
-plots[-1].ymax = 7000.
-
-plots.append ( makeDefaultPlot ( "Ele2_Charge"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots[-1].xtit = "1st Electron Charge (Preselection)"
-plots[-1].ymin = 0.0
-plots[-1].ymax = 7000.
-
 
 
 plots.append ( makeDefaultPlot ( "nJet"         , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
@@ -602,137 +576,304 @@ plots[-1].ymin  = 1e-1
 plots[-1].ylog  = "yes"
 plots[-1].xmin  = -0.5
 plots[-1].xmax  = 10.5
+
 plots.append ( makeDefaultPlot ( "Jet1_Pt"     , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 5
 plots[-1].ymax  = 2000000
 plots[-1].ymin  = 1e-1
 plots[-1].ylog  = "yes"
-plots[-1].xtit  = "1st Jet p_{T} [GeV]"
+plots[-1].xtit  = "1st Jet p_{T} [GeV] (cut) "
+
 plots.append ( makeDefaultPlot ( "Jet2_Pt"     , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 5
 plots[-1].ymax  = 100000
 plots[-1].ymin  = 1e-1
 plots[-1].ylog  = "yes"
-plots[-1].xtit  = "2nd Jet p_{T} [GeV]"
+plots[-1].xtit  = "2nd Jet p_{T} [GeV] (cut)"
 
-plots.append ( makeDefaultPlot ( "MET_Pt"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "PFMET (Preselection) [GeV]"
+plots.append ( makeDefaultPlot ( "Jet1_Eta"         ,  histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "1st Jet #eta (cut)"
+
+plots.append ( makeDefaultPlot ( "Jet2_Eta"         ,  histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "2nd Jet #eta (cut)"
+
+
+plots.append ( makeDefaultPlot ( "nMuon"      , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].ymax  = 10000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = -0.5
+plots[-1].xmax  = 6.5
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "Number of muons (cut)"
+
+plots.append ( makeDefaultPlot ( "nElectron_PAS"      , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].ymax  = 10000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = -0.5
+plots[-1].xmax  = 6.5
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "Number of electrons (preselection)"
+
+plots.append ( makeDefaultPlot ( "nMuon_PAS"      , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].ymax  = 10000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = -0.5
+plots[-1].xmax  = 6.5
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "Number of muons (preselection)"
+
+plots.append ( makeDefaultPlot ( "nJet_PAS"         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit  = "Number of jets"
+plots[-1].ymax  = 200000000
+plots[-1].ymin  = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xmin  = -0.5
+plots[-1].xmax  = 10.5
+
+plots.append ( makeDefaultPlot ( "Pt1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 2
+plots[-1].ymax  = 2000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 500
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "1st Electron p_{T} [GeV] (preselection)"
+
+plots.append ( makeDefaultPlot ( "Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "1st Electron #eta (preselection)"   
+plots[-1].ymax = 2000000
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots[-1].xtit = "1st Electron #phi (preselection)"
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "Pt2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 2
+plots[-1].ymax  = 2000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 500
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "2nd Electron p_{T} [GeV] (preselection)"
+
+plots.append ( makeDefaultPlot ( "Eta2ndEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "2nd Electron #eta (preselection)"   
+plots[-1].ymax = 2000000
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "Phi2ndEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots[-1].xtit = "2nd Electron #phi (preselection)"
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots[-1].xtit = "1st Electron Charge (preselection)"
+plots[-1].ymin = 0.0
+plots[-1].ymax = 20000.
+
+plots.append ( makeDefaultPlot ( "Charge2ndEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots[-1].xtit = "2nd Electron Charge (preselection)"
+plots[-1].ymin = 0.0
+plots[-1].ymax = 20000.
+
+plots.append ( makeDefaultPlot ( "MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "PFMET (preselection) [GeV]"
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
 plots[-1].xmax = 500
 plots[-1].xmin = 0
 plots[-1].ylog  = "yes"
-plots.append ( makeDefaultPlot ( "MET_Phi"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "PFMET #phi (Preselection)"
+
+plots.append ( makeDefaultPlot ( "METPhi_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "PFMET #phi (preselection)"
 plots[-1].rebin = 1
 plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 
-plots.append ( makeDefaultPlot ( "Jet1_Pt"          ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "1st Jet p_{T} (Preselection) [GeV]"
+plots.append ( makeDefaultPlot ( "Pt1stJet_PAS"          ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "1st Jet p_{T} (preselection) [GeV]"
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
 plots[-1].xmax = 600
 plots[-1].xmin = 0
 plots[-1].ylog  = "yes"
-plots.append ( makeDefaultPlot ( "Jet2_Pt"          ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+
+plots.append ( makeDefaultPlot ( "Pt2ndJet_PAS"          ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
 plots[-1].xmax = 600
 plots[-1].xmin = 0
 plots[-1].ylog  = "yes"
-plots[-1].xtit = "2nd Jet p_{T} (Preselection) [GeV]"
-plots.append ( makeDefaultPlot ( "Jet1_Eta"         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "1st Jet #eta (Preselection)"
-plots.append ( makeDefaultPlot ( "Jet2_Eta"         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "2nd Jet #eta (Preselection)"
-plots.append ( makeDefaultPlot ( "Jet1_Phi"         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "1st Jet #phi (Preselection)"
-plots.append ( makeDefaultPlot ( "Jet2_Phi"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )    
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "2nd Jet #phi (Preselection)"
-plots.append ( makeDefaultPlot ( "Jet1_btagTCHE"        ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "1st Jet TCHE (Preselection)"
-plots.append ( makeDefaultPlot ( "Jet2_btagTCHE"        ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "2nd Jet TCHE (Preselection)"
-plots.append ( makeDefaultPlot ( "nMuon" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "Number of muons (Preselection)"
-plots[-1].rebin           = 1
-plots[-1].xmin            = -0.5
-plots[-1].xmax            = 6.5
-plots[-1].ymin            = 0.0001
-plots[-1].ymax            = 5000
-plots.append ( makeDefaultPlot ( "sT_eejj"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron, 1st Jet, 2nd Jet) (Preselection) [GeV]"
-plots.append ( makeDefaultPlot ( "M_j1j2"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )    
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
-plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
-plots[-1].xtit = "Dijet Mass (Preselection) [GeV]"
+plots[-1].xtit = "2nd Jet p_{T} (preselection) [GeV]"
 
-plots.append ( makeDefaultPlot ( "M_e1e2"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots.append ( makeDefaultPlot ( "Eta1stJet_PAS"         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "1st Jet #eta (preselection)"
+
+plots.append ( makeDefaultPlot ( "Eta2ndJet_PAS"         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "2nd Jet #eta (preselection)"
+
+plots.append ( makeDefaultPlot ( "Phi1stJet_PAS"         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "1st Jet #phi (preselection)"
+
+plots.append ( makeDefaultPlot ( "Phi2ndJet_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )    
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "2nd Jet #phi (preselection)"
+
+plots.append ( makeDefaultPlot ( "sTlep_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
-plots[-1].xtit = "M(ee) [GeV]"
+plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron) (preselection) [GeV]"
 
-plots.append ( makeDefaultPlot ( "nVertex"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots.append ( makeDefaultPlot ( "sTjet_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
-plots[-1].xtit = "n(vertexes)"
+plots[-1].xtit = "S_{T} (1st Jet, 2nd Jet) (preselection) [GeV]"
 
-plots.append ( makeDefaultPlot ( "nVertex_good"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots.append ( makeDefaultPlot ( "sT_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 1000.
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron, 1st Jet, 2nd Jet) (preselection) [GeV]"
+
+plots.append ( makeDefaultPlot ( "Mjj_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )    
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
-plots[-1].xtit = "n(good vertexes)"
+plots[-1].xtit = "Dijet Mass (preselection) [GeV]"
 
-
-plots.append ( makeDefaultPlot ( "M_e1e2"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots.append ( makeDefaultPlot ( "Mee_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
-plots[-1].xmax            = 1000
-plots[-1].xmin            = 0
+plots[-1].xmin = 0.
+plots[-1].xmax = 1000.
 plots[-1].ylog  = "yes"
-plots[-1].xtit = "M(ee) [GeV]"
+plots[-1].xtit = "M(ee) (preselection) [GeV]"
 
+plots.append ( makeDefaultPlot ( "Ptee_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 2
+plots[-1].ymax  = 2000000
+plots[-1].ymin  = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 500
+plots[-1].ylog  = "yes"
+plots[-1].xtit  = "P_{T}(ee) (preselection) [GeV]}"
+
+plots.append ( makeDefaultPlot ( "Me1j1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "M(e_{1}j_{1}) (preselection) [GeV]"
+
+plots.append ( makeDefaultPlot ( "Me1j2_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "M(e_{1}j_{2}) (preselection) [GeV]"
+
+plots.append ( makeDefaultPlot ( "Me2j1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "M(e_{2}j_{1}) (preselection) [GeV]"
+
+plots.append ( makeDefaultPlot ( "Me2j2_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "M(e_{2}j_{2}) (preselection) [GeV]"
+
+plots.append ( makeDefaultPlot ( "nVertex_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ymax = 4000
+# plots[-1].ymax = 20000
+# plots[-1].ylog  = "yes"
+plots[-1].xtit = "n(vertexes) (preselection)"
+
+plots.append ( makeDefaultPlot ( "nVertex_good_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ymax = 4000
+# plots[-1].ymax = 20000
+# plots[-1].ylog  = "yes"
+plots[-1].xtit = "n(good vertexes) (preselection)"
+
+plots.append ( makeDefaultPlot ( "DR_Ele1Jet1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].xtit = "#DeltaR(e_{1},j_{1})"
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "DR_Ele1Jet2_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].xtit = "#DeltaR(e_{1},j_{2})"
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "DR_Ele2Jet1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].xtit = "#DeltaR(e_{2},j_{1})"
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "DR_Ele2Jet2_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].rebin = 1
+plots[-1].xtit = "#DeltaR(e_{2},j_{2})"
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
 #-----------------------------------------------------------------------------------
 
 if doExtraPlots:
