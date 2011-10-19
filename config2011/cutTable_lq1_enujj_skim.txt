@@ -219,7 +219,7 @@ QCDFakeEle1_MatchPhotConv	-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
 QCDFakeEle1_MissingHits		-inf	     +inf		-		-		1	11 -0.5 10.5	      SAVE
 # 
 QCDFakeEle2_PassID		-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
-QCDFakeEle2_Pt			+inf	     +inf		-		-		1	100 0 1000	      SAVE
+QCDFakeEle2_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 QCDFakeEle2_Energy 		-inf	     +inf		-		-		1	100 0 1000	      SAVE
 QCDFakeEle2_Eta 		-inf         +inf               -               -               1       100 -5 5	      SAVE
 QCDFakeEle2_Phi 		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -232,7 +232,7 @@ QCDFakeEle2_MatchPhotConv	-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
 QCDFakeEle2_MissingHits		-inf	     +inf		-		-		1	11 -0.5 10.5	      SAVE
 #
 QCDFakeEle3_PassID		-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
-QCDFakeEle3_Pt			+inf	     +inf		-		-		1	100 0 1000	      SAVE
+QCDFakeEle3_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 QCDFakeEle3_Energy 		-inf	     +inf		-		-		1	100 0 1000	      SAVE
 QCDFakeEle3_Eta 		-inf         +inf               -               -               1       100 -5 5	      SAVE
 QCDFakeEle3_Phi 		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
