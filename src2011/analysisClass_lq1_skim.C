@@ -41,6 +41,17 @@ void analysisClass::Loop()
    *
    *///-----------------------------------------------------------------
 
+
+   //--------------------------------------------------------------------------
+   // Decide which plots to save (default is to save everything)
+   //--------------------------------------------------------------------------
+   
+   fillSkim                         ( !true  ) ;
+   fillAllPreviousCuts              ( !true  ) ;
+   fillAllOtherCuts                 ( !true  ) ;
+   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
+   fillAllCuts                      ( !true  ) ;
+
   //-----------------------------------------------------------------
   // What kind of skim is this?
   //-----------------------------------------------------------------
@@ -115,7 +126,16 @@ void analysisClass::Loop()
   double eleTrkIsoHeep_end            = getPreCutValue2("eleTrkIsoHeep"           );
   double eleMissingHitsHeep           = getPreCutValue1("eleMissingHitsHeep"      );
   double eleUseEcalDrivenHeep         = getPreCutValue1("eleUseEcalDrivenHeep"    );
+  
+  //-----------------------------------------------------------------
+  // For the QCD fake rate calculation
+  //-----------------------------------------------------------------
 
+  double eleQCDFakeSigmaIetaIetaHeep_bar = getPreCutValue1 ("eleQCDFakeSigmaIIHeep");
+  double eleQCDFakeSigmaIetaIetaHeep_end = getPreCutValue2 ("eleQCDFakeSigmaIIHeep");
+  double eleQCDFakeHoEHeep_bar           = getPreCutValue1 ("eleQCDFakeHoEHeep");	   
+  double eleQCDFakeHoEHeep_end           = getPreCutValue2 ("eleQCDFakeHoEHeep");	   
+  
   //-----------------------------------------------------------------
   // Jet cut values
   //-----------------------------------------------------------------
@@ -402,6 +422,7 @@ void analysisClass::Loop()
     // Selection: Electrons
     //-----------------------------------------------------------------    
 
+    vector<int> v_idx_ele_QCDFake;
     vector<int> v_idx_ele_PtCut_IDISO_STORE;
     vector<int> v_idx_ele_PtCut_IDISO_ANA;
     vector<int> v_idx_ele_IDISO;
@@ -416,6 +437,30 @@ void analysisClass::Loop()
       if( fabs( ElectronSCEta->at(iele) ) < eleEta_bar )       isBarrel = 1;
       if( fabs( ElectronSCEta->at(iele) ) > eleEta_end_min &&
 	  fabs( ElectronSCEta->at(iele) ) < eleEta_end_max )   isEndcap = 1;
+
+      //-----------------------------------------------------------------    
+      // HEEP QCD fake rate variables
+      //-----------------------------------------------------------------    
+
+      if ( ElectronPt -> at (iele) > ele_PtCut_STORE ){ 
+	
+	if ( isBarrel ){
+	  if ( ElectronHasEcalDrivenSeed->at(iele) == 1 &&
+	       ElectronSigmaIEtaIEta    ->at(iele) < eleQCDFakeSigmaIetaIetaHeep_bar &&
+	       ElectronHoE              ->at(iele) < eleQCDFakeHoEHeep_bar ){
+	    v_idx_ele_QCDFake.push_back ( iele );
+	  }
+	}
+	
+	
+	if ( isBarrel ){
+	  if ( ElectronHasEcalDrivenSeed->at(iele) == 1 &&
+	       ElectronSigmaIEtaIEta    ->at(iele) < eleQCDFakeSigmaIetaIetaHeep_end &&
+	       ElectronHoE              ->at(iele) < eleQCDFakeHoEHeep_end ){
+	    v_idx_ele_QCDFake.push_back ( iele );
+	  }
+	}
+      }
 
       //-----------------------------------------------------------------    
       // HEEP ID application
@@ -752,7 +797,40 @@ void analysisClass::Loop()
     if ( isData ){
 
       if ( reducedSkimType == 1 ) { 
-
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v1") ) { fillVariableWithValue("H_Photon30_CIdVL_1",triggerPrescale("HLT_Photon30_CaloIdVL_v1")); } else { fillVariableWithValue("H_Photon30_CIdVL_1",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v1")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v2") ) { fillVariableWithValue("H_Photon30_CIdVL_2",triggerPrescale("HLT_Photon30_CaloIdVL_v2")); } else { fillVariableWithValue("H_Photon30_CIdVL_2",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v2")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v3") ) { fillVariableWithValue("H_Photon30_CIdVL_3",triggerPrescale("HLT_Photon30_CaloIdVL_v3")); } else { fillVariableWithValue("H_Photon30_CIdVL_3",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v3")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v4") ) { fillVariableWithValue("H_Photon30_CIdVL_4",triggerPrescale("HLT_Photon30_CaloIdVL_v4")); } else { fillVariableWithValue("H_Photon30_CIdVL_4",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v4")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v5") ) { fillVariableWithValue("H_Photon30_CIdVL_5",triggerPrescale("HLT_Photon30_CaloIdVL_v5")); } else { fillVariableWithValue("H_Photon30_CIdVL_5",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v5")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v6") ) { fillVariableWithValue("H_Photon30_CIdVL_6",triggerPrescale("HLT_Photon30_CaloIdVL_v6")); } else { fillVariableWithValue("H_Photon30_CIdVL_6",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v6")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v7") ) { fillVariableWithValue("H_Photon30_CIdVL_7",triggerPrescale("HLT_Photon30_CaloIdVL_v7")); } else { fillVariableWithValue("H_Photon30_CIdVL_7",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v7")); }
+										                     										                       
+	if ( triggerFired ("HLT_Photon50_CaloIdVL_v1") ) { fillVariableWithValue("H_Photon50_CIdVL_1",triggerPrescale("HLT_Photon50_CaloIdVL_v1")); } else { fillVariableWithValue("H_Photon50_CIdVL_1",-1 * triggerPrescale("HLT_Photon50_CaloIdVL_v1")); }
+	if ( triggerFired ("HLT_Photon50_CaloIdVL_v2") ) { fillVariableWithValue("H_Photon50_CIdVL_2",triggerPrescale("HLT_Photon50_CaloIdVL_v2")); } else { fillVariableWithValue("H_Photon50_CIdVL_2",-1 * triggerPrescale("HLT_Photon50_CaloIdVL_v2")); }
+	if ( triggerFired ("HLT_Photon50_CaloIdVL_v3") ) { fillVariableWithValue("H_Photon50_CIdVL_3",triggerPrescale("HLT_Photon50_CaloIdVL_v3")); } else { fillVariableWithValue("H_Photon50_CIdVL_3",-1 * triggerPrescale("HLT_Photon50_CaloIdVL_v3")); }
+	if ( triggerFired ("HLT_Photon50_CaloIdVL_v4") ) { fillVariableWithValue("H_Photon50_CIdVL_4",triggerPrescale("HLT_Photon50_CaloIdVL_v4")); } else { fillVariableWithValue("H_Photon50_CIdVL_4",-1 * triggerPrescale("HLT_Photon50_CaloIdVL_v4")); }
+										                     										                       
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v1") ) { fillVariableWithValue("H_Photon75_CIdVL_1",triggerPrescale("HLT_Photon75_CaloIdVL_v1")); } else { fillVariableWithValue("H_Photon75_CIdVL_1",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v1")); }
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v2") ) { fillVariableWithValue("H_Photon75_CIdVL_2",triggerPrescale("HLT_Photon75_CaloIdVL_v2")); } else { fillVariableWithValue("H_Photon75_CIdVL_2",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v2")); }
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v3") ) { fillVariableWithValue("H_Photon75_CIdVL_3",triggerPrescale("HLT_Photon75_CaloIdVL_v3")); } else { fillVariableWithValue("H_Photon75_CIdVL_3",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v3")); }
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v4") ) { fillVariableWithValue("H_Photon75_CIdVL_4",triggerPrescale("HLT_Photon75_CaloIdVL_v4")); } else { fillVariableWithValue("H_Photon75_CIdVL_4",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v4")); }
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v5") ) { fillVariableWithValue("H_Photon75_CIdVL_5",triggerPrescale("HLT_Photon75_CaloIdVL_v5")); } else { fillVariableWithValue("H_Photon75_CIdVL_5",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v5")); }
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v6") ) { fillVariableWithValue("H_Photon75_CIdVL_6",triggerPrescale("HLT_Photon75_CaloIdVL_v6")); } else { fillVariableWithValue("H_Photon75_CIdVL_6",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v6")); }
+	if ( triggerFired ("HLT_Photon75_CaloIdVL_v7") ) { fillVariableWithValue("H_Photon75_CIdVL_7",triggerPrescale("HLT_Photon75_CaloIdVL_v7")); } else { fillVariableWithValue("H_Photon75_CIdVL_7",-1 * triggerPrescale("HLT_Photon75_CaloIdVL_v7")); }
+										                     										                       
+	if ( triggerFired ("HLT_Photon90_CaloIdVL_v1") ) { fillVariableWithValue("H_Photon90_CIdVL_1",triggerPrescale("HLT_Photon90_CaloIdVL_v1")); } else { fillVariableWithValue("H_Photon90_CIdVL_1",-1 * triggerPrescale("HLT_Photon90_CaloIdVL_v1")); }
+	if ( triggerFired ("HLT_Photon90_CaloIdVL_v2") ) { fillVariableWithValue("H_Photon90_CIdVL_2",triggerPrescale("HLT_Photon90_CaloIdVL_v2")); } else { fillVariableWithValue("H_Photon90_CIdVL_2",-1 * triggerPrescale("HLT_Photon90_CaloIdVL_v2")); }
+	if ( triggerFired ("HLT_Photon90_CaloIdVL_v3") ) { fillVariableWithValue("H_Photon90_CIdVL_3",triggerPrescale("HLT_Photon90_CaloIdVL_v3")); } else { fillVariableWithValue("H_Photon90_CIdVL_3",-1 * triggerPrescale("HLT_Photon90_CaloIdVL_v3")); }
+	if ( triggerFired ("HLT_Photon90_CaloIdVL_v4") ) { fillVariableWithValue("H_Photon90_CIdVL_4",triggerPrescale("HLT_Photon90_CaloIdVL_v4")); } else { fillVariableWithValue("H_Photon90_CIdVL_4",-1 * triggerPrescale("HLT_Photon90_CaloIdVL_v4")); }
+										                     										                       
+	if ( triggerFired ("HLT_Photon125_v1"        ) ) { fillVariableWithValue("H_Photon125_1"     ,triggerPrescale("HLT_Photon125_v1"        )); } else { fillVariableWithValue("H_Photon125_1"     ,-1 * triggerPrescale("HLT_Photon125_v1"        )); }	
+	if ( triggerFired ("HLT_Photon125_v2"        ) ) { fillVariableWithValue("H_Photon125_2"     ,triggerPrescale("HLT_Photon125_v2"        )); } else { fillVariableWithValue("H_Photon125_2"     ,-1 * triggerPrescale("HLT_Photon125_v2"        )); }	
+										                     										                       
+	if ( triggerFired ("HLT_Photon135_v1"        ) ) { fillVariableWithValue("H_Photon135_1"     ,triggerPrescale("HLT_Photon135_v1"        )); } else { fillVariableWithValue("H_Photon135_1"     ,-1 * triggerPrescale("HLT_Photon135_v1"        )); }	
+	if ( triggerFired ("HLT_Photon135_v2"        ) ) { fillVariableWithValue("H_Photon135_2"     ,triggerPrescale("HLT_Photon135_v2"        )); } else { fillVariableWithValue("H_Photon135_2"     ,-1 * triggerPrescale("HLT_Photon135_v2"        )); }	
+										                     										                       
+	if ( triggerFired ("HLT_Photon400_v1"        ) ) { fillVariableWithValue("H_Photon400_1"     ,triggerPrescale("HLT_Photon400_v1"        )); } else { fillVariableWithValue("H_Photon400_1"     ,-1 * triggerPrescale("HLT_Photon400_v1"        )); }	
+	
 	if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
 		
 	if ( triggerFired ("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_27_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
@@ -818,6 +896,19 @@ void analysisClass::Loop()
 	if ( triggerFired ("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8") ) { fillVariableWithValue ("H_17_8_CIdL_CIsVL_8",triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8")); } else { fillVariableWithValue("H_17_8_CIdL_CIsVL_8",-1 * triggerPrescale("HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8")); }			
 	
 	if ( triggerFired ("HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1") ) { fillVariableWithValue ("H_32_17_CIdT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1")); } else { fillVariableWithValue("H_32_17_CIdT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1")); }
+	
+	if ( triggerFired ("HLT_DoublePhoton33_v1"  ) ) { fillVariableWithValue ("H_DoublePhoton33_1"  ,triggerPrescale("HLT_DoublePhoton33_v1"  )); } else { fillVariableWithValue("H_DoublePhoton33_1"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v1"  )); }	
+	if ( triggerFired ("HLT_DoublePhoton33_v2"  ) ) { fillVariableWithValue ("H_DoublePhoton33_2"  ,triggerPrescale("HLT_DoublePhoton33_v2"  )); } else { fillVariableWithValue("H_DoublePhoton33_2"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v2"  )); }	
+	if ( triggerFired ("HLT_DoublePhoton33_v3"  ) ) { fillVariableWithValue ("H_DoublePhoton33_3"  ,triggerPrescale("HLT_DoublePhoton33_v3"  )); } else { fillVariableWithValue("H_DoublePhoton33_3"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v3"  )); }	
+	if ( triggerFired ("HLT_DoublePhoton33_v4"  ) ) { fillVariableWithValue ("H_DoublePhoton33_4"  ,triggerPrescale("HLT_DoublePhoton33_v4"  )); } else { fillVariableWithValue("H_DoublePhoton33_4"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v4"  )); }	
+	if ( triggerFired ("HLT_DoublePhoton33_v5"  ) ) { fillVariableWithValue ("H_DoublePhoton33_5"  ,triggerPrescale("HLT_DoublePhoton33_v5"  )); } else { fillVariableWithValue("H_DoublePhoton33_5"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v5"  )); }	
+			                            				                        		                         				                            			                         
+	if ( triggerFired ("HLT_DoubleEle33_CIdL_v1") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_1",triggerPrescale("HLT_DoubleEle33_CIdL_v1")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_1",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v1")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CIdL_v2") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_2",triggerPrescale("HLT_DoubleEle33_CIdL_v2")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_2",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v2")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CIdL_v3") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_3",triggerPrescale("HLT_DoubleEle33_CIdL_v3")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_3",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v3")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CIdL_v4") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_4",triggerPrescale("HLT_DoubleEle33_CIdL_v4")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_4",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v4")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CIdL_v5") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_5",triggerPrescale("HLT_DoubleEle33_CIdL_v5")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_5",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v5")); }	
+	
       }
     }
     // Trigger (L1 and HLT)
@@ -862,6 +953,9 @@ void analysisClass::Loop()
     fillVariableWithValue( "nEle_Ana"  , v_idx_ele_PtCut_IDISO_ANA.size() ) ;
     fillVariableWithValue( "nEle_Stored", v_idx_ele_PtCut_IDISO_STORE.size() ) ;
 
+    // nEleQCDFake
+    fillVariableWithValue( "nEle_QCDFake", v_idx_ele_QCDFake.size() );
+
     // nJet
     fillVariableWithValue( "nJet_Ana", v_idx_jet_PtCut_noOverlap_ID_ANA.size() ) ;
     fillVariableWithValue( "nJet_Stored", v_idx_jet_PtCut_noOverlap_ID_STORE.size() ) ;
@@ -890,7 +984,72 @@ void analysisClass::Loop()
     fillVariableWithValue("SumET", thisSumET);
     fillVariableWithValue("GenSumET", thisGenSumET);
 
-     // 1st ele 
+    // HEEP fake rate variables
+    if ( v_idx_ele_QCDFake.size() >= 1 ) { 
+      int index = v_idx_ele_QCDFake[0];
+      int passID = 0;
+
+      for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
+	if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
+      
+      fillVariableWithValue( "QCDFakeEle1_PassID"       , passID                                                                   );
+      fillVariableWithValue( "QCDFakeEle1_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[0]) );
+      fillVariableWithValue( "QCDFakeEle1_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[0]) );
+
+      if ( v_idx_ele_QCDFake.size() >= 2 ) { 
+	index = v_idx_ele_QCDFake[1];
+	passID = 0;
+	
+	for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
+	  if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
+	
+	fillVariableWithValue( "QCDFakeEle2_PassID"       , passID                                                                   );
+	fillVariableWithValue( "QCDFakeEle2_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle2_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[1]) );
+	
+	if ( v_idx_ele_QCDFake.size() >= 3 ) { 
+	  index = v_idx_ele_QCDFake[2];
+	  passID = 0;
+	  
+	  for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
+	    if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
+	  
+	  fillVariableWithValue( "QCDFakeEle3_PassID"       , passID                                                                   );
+	  fillVariableWithValue( "QCDFakeEle3_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle3_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[2]) );
+	  
+	}
+      }
+    }
+
+    // 1st ele 
     double MT_METEle1, mDeltaPhiMETEle1 = -999;
     if( v_idx_ele_PtCut_IDISO_STORE.size() >= 1 )
       {
