@@ -46,6 +46,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "METPhi_PAS"		   , 	60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "METCharged_PAS"        ,    200 , 0       , 1000	 ); 
    CreateUserTH1D( "METChargedPhi_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "METType1_PAS"          ,    200 , 0       , 1000	 ); 
+   CreateUserTH1D( "METType1Phi_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "Pt1stJet_PAS"          ,    100 , 0       , 1000	 ); 
    CreateUserTH1D( "Pt2ndJet_PAS"          ,    100 , 0       , 1000	 ); 
    CreateUserTH1D( "Eta1stJet_PAS"         ,    100 , -5      , 5	 ); 
@@ -57,6 +59,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mjj_PAS"		   ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
+   CreateUserTH1D( "MTenu_PAS"                , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Me1j1_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me1j2_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me2j1_PAS"             ,    200 , 0       , 2000	 ); 
@@ -116,11 +119,9 @@ void analysisClass::Loop()
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     // int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
      int NPILEUP_AVE = int( nPileUpInt_BX0 );
      int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
      double weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
-     //double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
 
      //--------------------------------------------------------------------------
      // Fill variables
@@ -225,6 +226,10 @@ void analysisClass::Loop()
        FillUserTH1D("Charge2ndEle_PAS"	   , Ele2_Charge      , weight) ;
        FillUserTH1D("MET_PAS"              , MET_Pt           , weight) ;
        FillUserTH1D("METPhi_PAS"	   , MET_Phi          , weight) ;
+       FillUserTH1D( "METCharged_PAS"      , PFMETCharged     , weight);
+       FillUserTH1D( "METChargedPhi_PAS"   , PFMETChargedPhi  , weight);   
+       FillUserTH1D( "METType1_PAS"        , PFMETType1Cor    , weight);
+       FillUserTH1D( "METType1Phi_PAS"     , PFMETPhiType1Cor , weight);   
        FillUserTH1D("Pt1stJet_PAS"         , Jet1_Pt          , weight) ;
        FillUserTH1D("Pt2ndJet_PAS"         , Jet2_Pt          , weight) ;
        FillUserTH1D("Eta1stJet_PAS"        , Jet1_Eta         , weight) ;
@@ -236,6 +241,7 @@ void analysisClass::Loop()
        FillUserTH1D("sT_PAS"               , sT_eejj          , weight) ;
        FillUserTH1D("Mjj_PAS"		   , M_j1j2           , weight) ;
        FillUserTH1D("Mee_PAS"		   , M_e1e2           , weight) ;
+       FillUserTH1D( "MTenu_PAS"           , MT_Ele1MET       , weight);
        FillUserTH1D("Me1j1_PAS"            , M_e1j1           , weight) ;
        FillUserTH1D("Me1j2_PAS"            , M_e1j2           , weight) ;
        FillUserTH1D("Me2j1_PAS"            , M_e2j1           , weight) ;
