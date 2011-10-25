@@ -58,6 +58,7 @@ Ele1_Eta 			-2.5         +2.5		-               -               1       100 -5 5
 Ele2_Pt				20	     +inf		-		-		1	200 0 2000	      
 Ele2_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
 MET_Pt                          -inf	     +inf               -               -               1       200 0 2000            
+M_e1e2				60	     120                -               -               1       200 0 1000	      
 nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
 Jet1_Pt				40	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
@@ -84,7 +85,6 @@ mDphi_BosonJet1			-inf	     +inf		-		-		2	100 0 3.1416
 mDphi_BosonJet2			-inf	     +inf		-		-		2	100 0 3.1416   
 DR_BosonJet1			-inf	     +inf		-		-		2	100 0 10              
 DR_BosonJet2			-inf	     +inf		-		-		2	100 0 10              
-M_e1e2				-inf	     +inf               -               -               2       200 0 1000	      
 Pt_e1e2				-inf	     +inf               -               -               2       200 0 2000	      
 Pt_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
 sT_eejj				-inf         +inf               -               -               2       200 0 2000	      
