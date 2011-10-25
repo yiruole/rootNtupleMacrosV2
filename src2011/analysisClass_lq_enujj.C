@@ -28,6 +28,12 @@ void analysisClass::Loop()
    fillAllCuts                      ( !true  ) ;
 
    //--------------------------------------------------------------------------
+   // Set global variables
+   //--------------------------------------------------------------------------
+   
+   TVector2 v_METCharged, v_METType1, v_ele;
+
+   //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
 
@@ -55,6 +61,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "TCHE2ndJet_PAS"           , 100 , 0       , 20	 ); 
    CreateUserTH1D( "nMuon_PtCut_IDISO_PAS"    , 16  , -0.5    , 15.5	 ); 
    CreateUserTH1D( "MTenu_PAS"                , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MT_charged_enu_PAS"       , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MT_type1_enu_PAS"         , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Ptenu_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
@@ -72,10 +80,21 @@ void analysisClass::Loop()
    CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi2ndJetMET_PAS"       , 100 , 0.      ,  3.14159 );
+
    CreateUserTH1D( "MT_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MT_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+
+   CreateUserTH1D( "MTCharged_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTCharged_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTCharged_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTCharged_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+
+   CreateUserTH1D( "MTType1_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTType1_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTType1_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTType1_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
    
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -103,7 +122,8 @@ void analysisClass::Loop()
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
+     // int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
+     int NPILEUP_AVE = int( nPileUpInt_BX0 );
      int NPILEUP_FINAL = min ( NPILEUP_AVE , 25 );
      double weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
      //double weight     = getPileupWeight ( nPileUpInteractions, isData ) ;
@@ -200,7 +220,22 @@ void analysisClass::Loop()
      bool passed_preselection = passedAllPreviousCuts("preselection");
        
      if ( passed_preselection ) { 
+
+       bool use_charged_met = (PFMETCharged < MET_Pt);
+
+       if ( use_charged_met ) v_METCharged.SetMagPhi(PFMETCharged , PFMETChargedPhi );
+       else                   v_METCharged.SetMagPhi(MET_Pt       , MET_Phi         );
        
+       v_METType1.SetMagPhi  (PFMETType1Cor, PFMETPhiType1Cor);
+       v_ele.SetMagPhi       (Ele1_Pt      , Ele1_Phi        );
+       
+       double deltaphi_charged = v_METCharged.DeltaPhi(v_ele);
+       double deltaphi_type1   = v_METType1  .DeltaPhi(v_ele);
+       double MTCharged = sqrt(2 * Ele1_Pt * PFMETCharged  * (1 - cos(deltaphi_charged)) );
+       double MTType1   = sqrt(2 * Ele1_Pt * PFMETType1Cor * (1 - cos(deltaphi_type1  )) );
+              
+       FillUserTH1D( "MT_charged_enu_PAS"    , MTCharged                      , weight);
+       FillUserTH1D( "MT_type1_enu_PAS"      , MTType1                        , weight);
        FillUserTH1D( "nElectron_PAS"         , nEle_Ana                       , weight); 
        FillUserTH1D( "nMuon_PAS"             , nMuon_Ana                      , weight); 
        FillUserTH1D( "Pt1stEle_PAS"	     , Ele1_Pt                        , weight); 
@@ -243,10 +278,29 @@ void analysisClass::Loop()
        FillUserTH1D( "DR_Ele2Jet2_PAS"	     , DR_Ele2Jet2                    , weight);
        FillUserTH1D( "DR_Jet1Jet2_PAS"	     , DR_Jet1Jet2                    , weight);
 
-       if ( nVertex_good >= 0 && nVertex_good <= 3 ) FillUserTH1D( "MT_GoodVtxLTE3_PAS"       , MT_Ele1MET, weight ) ;
-       if ( nVertex_good >= 4 && nVertex_good <= 8 ) FillUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"  , MT_Ele1MET, weight ) ;
-       if ( nVertex_good >= 9 && nVertex_good <= 15) FillUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS" , MT_Ele1MET, weight ) ;
-       if ( nVertex_good >= 16                     ) FillUserTH1D( "MT_GoodVtxGTE16_PAS"      , MT_Ele1MET, weight ) ;
+       if ( nVertex_good >= 0 && nVertex_good <= 3 ) {
+	 FillUserTH1D( "MT_GoodVtxLTE3_PAS"              , MT_Ele1MET, weight ) ;
+	 FillUserTH1D( "MTCharged_GoodVtxLTE3_PAS"       , MTCharged , weight ) ;
+	 FillUserTH1D( "MTType1_GoodVtxLTE3_PAS"         , MTType1   , weight ) ;
+       }						 
+       							 
+       if ( nVertex_good >= 4 && nVertex_good <= 8 ) {	 
+	 FillUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"         , MT_Ele1MET, weight ) ;
+	 FillUserTH1D( "MTCharged_GoodVtxGTE4_LTE8_PAS"  , MTCharged , weight ) ;
+	 FillUserTH1D( "MTType1_GoodVtxGTE4_LTE8_PAS"    , MTType1   , weight ) ;
+       }
+       
+       if ( nVertex_good >= 9 && nVertex_good <= 15) {
+	 FillUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS"        , MT_Ele1MET, weight ) ;
+	 FillUserTH1D( "MTCharged_GoodVtxGTE9_LTE15_PAS" , MTCharged , weight ) ;
+	 FillUserTH1D( "MTType1_GoodVtxGTE9_LTE15_PAS"   , MTType1   , weight ) ;
+       }
+       
+       if ( nVertex_good >= 16                     ) {
+	 FillUserTH1D( "MT_GoodVtxGTE16_PAS"             , MT_Ele1MET, weight ) ;
+	 FillUserTH1D( "MTCharged_GoodVtxGTE16_PAS"      , MTCharged , weight ) ;
+	 FillUserTH1D( "MTType1_GoodVtxGTE16_PAS"        , MTType1   , weight ) ;
+       }
               
      }
    } // End loop over events
