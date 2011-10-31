@@ -579,6 +579,7 @@ void analysisClass::Loop()
     vector<int> v_idx_jet_PtCut_ANA;
 
     vector<int> v_idx_jet_PtCut_noOverlap_ID_STORE;
+    vector<int> v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE;
     vector<int> v_idx_jet_PtCut_noOverlap_ID_TCHEL_STORE;
 
     vector<int> v_idx_jet_PtCut_noOverlap_ID_ANA;
@@ -635,6 +636,41 @@ void analysisClass::Loop()
 	  }
       }
 
+    //loose ele-jet overlap
+    vector <int> jetFlagsLooseEle(v_idx_jet_PtCut_STORE.size(), 0);
+    int NjetflaggedLooseEle = 0;
+    for (int iele=0; iele<v_idx_ele_QCDFake.size(); iele++)
+      {
+	TLorentzVector loose_ele;
+        loose_ele.SetPtEtaPhiM(ElectronPt ->at(v_idx_ele_QCDFake[iele]),
+			       ElectronEta->at(v_idx_ele_QCDFake[iele]),
+			       ElectronPhi->at(v_idx_ele_QCDFake[iele]),0);
+	TLorentzVector jet;
+	double minDR=9999.;
+	int ijet_minDR = -1;
+        for(int ijet=0; ijet<v_idx_jet_PtCut_STORE.size(); ijet++)
+          {
+	    if ( jetFlagsLooseEle[ijet] == 1 )
+	      continue;
+            jet.SetPtEtaPhiE(JetPt->at(v_idx_jet_PtCut_STORE    [ijet]),
+			     JetEta->at(v_idx_jet_PtCut_STORE   [ijet]),
+			     JetPhi->at(v_idx_jet_PtCut_STORE   [ijet]),
+			     JetEnergy->at(v_idx_jet_PtCut_STORE[ijet]) );
+	    double DR = jet.DeltaR(loose_ele);
+	    if (DR<minDR)
+	      {
+		minDR = DR;
+		ijet_minDR = ijet;
+	      }
+	  }
+	if ( minDR < jet_ele_DeltaRCut 
+	     && ijet_minDR > -1 )
+	  {
+	    jetFlagsLooseEle[ijet_minDR] = 1;
+	    NjetflaggedLooseEle++;
+	  }
+      }
+    
     //muon-jet overlap
     vector <int> jetFlagsMuon(v_idx_jet_PtCut_STORE.size(), 0);
     int NjetflaggedMuon = 0;
@@ -697,6 +733,20 @@ void analysisClass::Loop()
 	}
       } // End loop over jets
 
+    // Select jets that don't overlap with loose electrons
+    for(int ijet=0; ijet<v_idx_jet_PtCut_STORE.size(); ijet++) //pT pre-cut + no overlaps with electrons + jetID
+      {
+	bool passjetID = JetPassID->at(v_idx_jet_PtCut_STORE[ijet]);
+	
+	if( jetFlagsLooseEle[ijet] == 0                                 /* NO overlap with loose electrons */ 
+	    && jetFlagsMuon[ijet] == 0                                  /* NO overlap with muons */	    
+	    && passjetID == true                                        /* pass JetID */
+	    && fabs( JetEta->at(v_idx_jet_PtCut_STORE[ijet]) ) < jet_EtaCut 	/* pass Jet Eta cut */    
+	    ) {                        
+	  v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.push_back(v_idx_jet_PtCut_STORE[ijet]);
+	}
+      } // End loop over jets
+    
     //-----------------------------------------------------------------
     // Selection: CaloJets
     //-----------------------------------------------------------------
@@ -1185,6 +1235,33 @@ void analysisClass::Loop()
         mDeltaPhiMET3rdJet = fabs(deltaphi);
       }
 
+    // 1st jet with no overlaps from loose electrons
+    if( v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.size() >= 1 )        
+      {
+	fillVariableWithValue( "JetLooseEle1_Pt"      , JetPt    ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
+	fillVariableWithValue( "JetLooseEle1_Energy"  , JetEnergy->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
+	fillVariableWithValue( "JetLooseEle1_Eta"     , JetEta   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
+	fillVariableWithValue( "JetLooseEle1_Phi"     , JetPhi   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
+      }
+
+    // 2nd jet with no overlaps from loose electrons
+    if( v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.size() >= 2 )        
+      {
+	fillVariableWithValue( "JetLooseEle2_Pt"      , JetPt    ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
+	fillVariableWithValue( "JetLooseEle2_Energy"  , JetEnergy->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
+	fillVariableWithValue( "JetLooseEle2_Eta"     , JetEta   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
+	fillVariableWithValue( "JetLooseEle2_Phi"     , JetPhi   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
+      }
+
+    // 3rd jet with no overlaps from loose electrons
+    if( v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.size() >= 3 )        
+      {
+	fillVariableWithValue( "JetLooseEle3_Pt"      , JetPt    ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
+	fillVariableWithValue( "JetLooseEle3_Energy"  , JetEnergy->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
+	fillVariableWithValue( "JetLooseEle3_Eta"     , JetEta   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
+	fillVariableWithValue( "JetLooseEle3_Phi"     , JetPhi   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
+      }
+    
     // CaloJets for HLT
     
     fillVariableWithValue ( "nCaloJet_Stored",  v_idx_calojet_PtCut_noOverlap_ID_STORE.size() );
@@ -1391,7 +1468,6 @@ void analysisClass::Loop()
       if( passedAllPreviousCuts("PassHBHENoiseFilter") 
 	  && passedCut("nEle_QCDFake")
 	  && passedCut("QCDFakeEle1_Pt")
-	  && passedCut("nJet_Ana")
 	  ) {
 	fillSkimTree();
 	fillReducedSkimTree();
