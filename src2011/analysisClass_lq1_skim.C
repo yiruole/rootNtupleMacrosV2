@@ -210,7 +210,7 @@ void analysisClass::Loop()
  
 
   Long64_t nentries = fChain->GetEntries();
-  // Long64_t nentries = 5000;
+  //Long64_t nentries = 10000;
   STDOUT("analysisClass::Loop(): nentries = " << nentries);
 
   Long64_t nbytes = 0, nb = 0;
@@ -347,10 +347,10 @@ void analysisClass::Loop()
     // HEEP Electron Pt 
     //-----------------------------------------------------------------
 
-    if(eleAlgorithm==1) {
-	for(int iele=0; iele<ElectronPt->size(); iele++)
-	  ElectronPt->at(iele) = ElectronPtHeep->at(iele);
-    }
+    // if(eleAlgorithm==1) {
+    // 	for(int iele=0; iele<ElectronPt->size(); iele++)
+    // 	  ElectronPt->at(iele) = ElectronPtHeep->at(iele);
+    // }
     
     //-----------------------------------------------------------------
     // Energy scaling: Electrons
@@ -452,8 +452,7 @@ void analysisClass::Loop()
 	  }
 	}
 	
-	
-	if ( isBarrel ){
+	if ( isEndcap ){
 	  if ( ElectronHasEcalDrivenSeed->at(iele) == 1 &&
 	       ElectronSigmaIEtaIEta    ->at(iele) < eleQCDFakeSigmaIetaIetaHeep_end &&
 	       ElectronHoE              ->at(iele) < eleQCDFakeHoEHeep_end ){
@@ -470,11 +469,13 @@ void analysisClass::Loop()
 	
 	if(isBarrel) {		
 	  if(   fabs(ElectronDeltaEtaTrkSC->at(iele)) < eleDeltaEtaTrkSCHeep_bar 
-	     && fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_bar 
-	     && ElectronHoE->at(iele) < eleHoEHeep_bar 
-	     && (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5Heep_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5Heep_bar ) 
-	     && ( ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele) ) < eleEcalHcalIsoHeep_1_bar + eleEcalHcalIsoHeep_2_bar*ElectronPt->at(iele)
-	     && ElectronTrkIsoDR03->at(iele) <eleTrkIsoHeep_bar 
+		&& fabs(ElectronDeltaPhiTrkSC->at(iele)) < eleDeltaPhiTrkSCHeep_bar 
+		&& ElectronHoE->at(iele) < eleHoEHeep_bar 
+		&& (ElectronE2x5OverE5x5->at(iele) >eleE2x5OverE5x5Heep_bar || ElectronE1x5OverE5x5->at(iele) > eleE1x5OverE5x5Heep_bar ) 
+		&& ( ElectronEcalIsoDR03->at(iele)+ElectronHcalIsoD1DR03->at(iele) ) < eleEcalHcalIsoHeep_1_bar + eleEcalHcalIsoHeep_2_bar*ElectronPt->at(iele)
+		&& ElectronTrkIsoDR03->at(iele) <eleTrkIsoHeep_bar 
+		&& ElectronMissingHits->at(iele) == 0 
+		&& ElectronHasEcalDrivenSeed->at(iele)
 	     )
 	    passEleSel = 1;		
 	}//end barrel
@@ -496,6 +497,8 @@ void analysisClass::Loop()
 	     && passEcalHcalIsoCut == 1
 	     && ElectronHcalIsoD2DR03->at(iele) < eleHcalIsoD2Heep_end 
 	     && ElectronTrkIsoDR03->at(iele) < eleTrkIsoHeep_end 
+	     && ElectronMissingHits->at(iele) == 0 
+	     && ElectronHasEcalDrivenSeed->at(iele)
 	     )
 	    passEleSel = 1;
 	  
@@ -796,7 +799,7 @@ void analysisClass::Loop()
 
     if ( isData ){
 
-      if ( reducedSkimType == 1 ) { 
+      if ( reducedSkimType == 0 ) { 
 	if ( triggerFired ("HLT_Photon30_CaloIdVL_v1") ) { fillVariableWithValue("H_Photon30_CIdVL_1",triggerPrescale("HLT_Photon30_CaloIdVL_v1")); } else { fillVariableWithValue("H_Photon30_CIdVL_1",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v1")); }
 	if ( triggerFired ("HLT_Photon30_CaloIdVL_v2") ) { fillVariableWithValue("H_Photon30_CIdVL_2",triggerPrescale("HLT_Photon30_CaloIdVL_v2")); } else { fillVariableWithValue("H_Photon30_CIdVL_2",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v2")); }
 	if ( triggerFired ("HLT_Photon30_CaloIdVL_v3") ) { fillVariableWithValue("H_Photon30_CIdVL_3",triggerPrescale("HLT_Photon30_CaloIdVL_v3")); } else { fillVariableWithValue("H_Photon30_CIdVL_3",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v3")); }
@@ -830,6 +833,9 @@ void analysisClass::Loop()
 	if ( triggerFired ("HLT_Photon135_v2"        ) ) { fillVariableWithValue("H_Photon135_2"     ,triggerPrescale("HLT_Photon135_v2"        )); } else { fillVariableWithValue("H_Photon135_2"     ,-1 * triggerPrescale("HLT_Photon135_v2"        )); }	
 										                     										                       
 	if ( triggerFired ("HLT_Photon400_v1"        ) ) { fillVariableWithValue("H_Photon400_1"     ,triggerPrescale("HLT_Photon400_v1"        )); } else { fillVariableWithValue("H_Photon400_1"     ,-1 * triggerPrescale("HLT_Photon400_v1"        )); }	
+      }
+
+      if ( reducedSkimType == 1 ) { 
 	
 	if ( triggerFired ("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1") ) { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); } else { fillVariableWithValue("H_15_CIdVT_CIsT_TIdT_TIsT_1",-1 * triggerPrescale("HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1")); }
 		
@@ -954,7 +960,7 @@ void analysisClass::Loop()
     fillVariableWithValue( "nEle_Stored", v_idx_ele_PtCut_IDISO_STORE.size() ) ;
 
     // nEleQCDFake
-    fillVariableWithValue( "nEle_QCDFake", v_idx_ele_QCDFake.size() );
+    if ( reducedSkimType == 0 )  fillVariableWithValue( "nEle_QCDFake", v_idx_ele_QCDFake.size() );
 
     // nJet
     fillVariableWithValue( "nJet_Ana", v_idx_jet_PtCut_noOverlap_ID_ANA.size() ) ;
@@ -985,66 +991,67 @@ void analysisClass::Loop()
     fillVariableWithValue("GenSumET", thisGenSumET);
 
     // HEEP fake rate variables
-    if ( v_idx_ele_QCDFake.size() >= 1 ) { 
-      int index = v_idx_ele_QCDFake[0];
-      int passID = 0;
-
-      for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
-	if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
-      
-      fillVariableWithValue( "QCDFakeEle1_PassID"       , passID                                                                   );
-      fillVariableWithValue( "QCDFakeEle1_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[0]) );
-      fillVariableWithValue( "QCDFakeEle1_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[0]) );
-
-      if ( v_idx_ele_QCDFake.size() >= 2 ) { 
-	index = v_idx_ele_QCDFake[1];
-	passID = 0;
+    if ( reducedSkimType == 0 ) { 
+      if ( v_idx_ele_QCDFake.size() >= 1 ) { 
+	int index = v_idx_ele_QCDFake[0];
+	int passID = 0;
 	
 	for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
 	  if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
 	
-	fillVariableWithValue( "QCDFakeEle2_PassID"       , passID                                                                   );
-	fillVariableWithValue( "QCDFakeEle2_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[1]) );
-	fillVariableWithValue( "QCDFakeEle2_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[1]) );
+	fillVariableWithValue( "QCDFakeEle1_PassID"       , passID                                                        );
+	fillVariableWithValue( "QCDFakeEle1_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[0]) );
+	fillVariableWithValue( "QCDFakeEle1_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[0]) );
 	
-	if ( v_idx_ele_QCDFake.size() >= 3 ) { 
-	  index = v_idx_ele_QCDFake[2];
+	if ( v_idx_ele_QCDFake.size() >= 2 ) { 
+	  index = v_idx_ele_QCDFake[1];
 	  passID = 0;
 	  
 	  for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
 	    if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
 	  
-	  fillVariableWithValue( "QCDFakeEle3_PassID"       , passID                                                                   );
-	  fillVariableWithValue( "QCDFakeEle3_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[2]) );
-	  fillVariableWithValue( "QCDFakeEle3_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[2]) );
+	  fillVariableWithValue( "QCDFakeEle2_PassID"       , passID                                                        );
+	  fillVariableWithValue( "QCDFakeEle2_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[1]) );
+	  fillVariableWithValue( "QCDFakeEle2_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[1]) );
 	  
+	  if ( v_idx_ele_QCDFake.size() >= 3 ) { 
+	    index = v_idx_ele_QCDFake[2];
+	    passID = 0;
+	    
+	    for ( int iele = 0; iele < v_idx_ele_PtCut_IDISO_STORE.size() ; ++iele)
+	      if ( index == v_idx_ele_PtCut_IDISO_STORE[iele] ) passID = 1;
+	    
+	    fillVariableWithValue( "QCDFakeEle3_PassID"       , passID                                                        );
+	    fillVariableWithValue( "QCDFakeEle3_Pt"           , ElectronPt                       -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_Energy"       , ElectronEnergy                   -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_Eta"          , ElectronEta                      -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_Phi"          , ElectronPhi                      -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_Charge"       , ElectronCharge                   -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_Dist"         , ElectronDist                     -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_DCotTheta"    , ElectronDCotTheta                -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_VtxD0"        , ElectronVtxDistXY                -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_QCDFake[2]) );
+	    fillVariableWithValue( "QCDFakeEle3_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_QCDFake[2]) );
+	  }
 	}
       }
     }
@@ -1378,9 +1385,22 @@ void analysisClass::Loop()
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
     
+    // QCD fake rate calculation skim
+
+    if ( reducedSkimType == 0 ) { 
+      if( passedAllPreviousCuts("PassHBHENoiseFilter") 
+	  && passedCut("nEle_QCDFake")
+	  && passedCut("QCDFakeEle1_Pt")
+	  && passedCut("nJet_Ana")
+	  ) {
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }    
+
+    // enujj analysis skim
 
     if ( reducedSkimType == 1 ) { 
-      // Produce skim and reduced skim
       if( passedAllPreviousCuts("PassHBHENoiseFilter") 
 	  && ( getVariableValue("nEle_Ana") == 1 ) 
 	  && passedCut("Ele1_Pt")
@@ -1392,6 +1412,8 @@ void analysisClass::Loop()
 	fillReducedSkimTree();
       }
     }
+
+    // eejj analysis skim
 
     if ( reducedSkimType == 2 ) { 
       if( passedAllPreviousCuts("PassHBHENoiseFilter") 
