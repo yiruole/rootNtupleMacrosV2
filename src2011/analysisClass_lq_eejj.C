@@ -66,6 +66,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Me2j2_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me1j_selected_PAS"     ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me2j_selected_PAS"     ,    200 , 0       , 2000     );
+   CreateUserTH1D( "Meejj_PAS"             ,    200 , 0       , 2000     );
 		                           
    CreateUserTH1D( "Ptee_PAS"              ,    200 , 0       , 2000     );
    		                           
@@ -258,6 +259,16 @@ void analysisClass::Loop()
        FillUserTH1D("DR_Ele2Jet1_PAS"	   , DR_Ele2Jet1      , weight) ;
        FillUserTH1D("DR_Ele2Jet2_PAS"	   , DR_Ele2Jet2      , weight) ;
        FillUserTH1D("DR_Jet1Jet2_PAS"	   , DR_Jet1Jet2      , weight) ;
+
+       TLorentzVector eejj, e1, j1, e2, j2;
+       e1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+       e2.SetPtEtaPhiM ( Ele2_Pt, Ele2_Eta, Ele2_Phi, 0.0 );
+       j1.SetPtEtaPhiM ( Jet1_Pt, Jet1_Eta, Jet1_Phi, 0.0 );
+       j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
+       eejj = e1 + e2 + j1 + j2 ; 
+       double M_eejj = eejj.M();
+
+       FillUserTH1D("Meejj_PAS", M_eejj , weight );
 
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
 	 FillUserTH1D("Me1j_selected_PAS" , M_e1j1, weight) ;	   
