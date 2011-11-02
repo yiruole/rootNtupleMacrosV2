@@ -81,6 +81,11 @@ eleTrkIsoHeep            7.5            15              -               -       
 eleMissingHitsHeep       0              -               -               -               -1   
 eleUseEcalDrivenHeep     1              -               -               -               -1   
 #------------------------------------------------------------------------------------------------------
+# Electron QCD fake rate
+#------------------------------------------------------------------------------------------------------
+eleQCDFakeSigmaIIHeep	 0.013		0.034		-		-		-1
+eleQCDFakeHoEHeep	 0.15		0.1		-		-		-1
+#------------------------------------------------------------------------------------------------------
 # Vertex selection
 #------------------------------------------------------------------------------------------------------
 vertexMinimumNDOF     4            -                    -               -               -1
@@ -236,6 +241,25 @@ Jet3_Eta			-inf         +inf               -               -               1    
 Jet3_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet3_btagTCHE			-inf         +inf               -               -               1       100  0 20	      SAVE
 #------------------------------------------------------------------------------------------------------
+# Loose jets info
+#------------------------------------------------------------------------------------------------------
+nJetLooseEle_Stored		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+#
+JetLooseEle1_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+JetLooseEle1_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
+JetLooseEle1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+JetLooseEle1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+#
+JetLooseEle2_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+JetLooseEle2_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
+JetLooseEle2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+JetLooseEle2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+#
+JetLooseEle3_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
+JetLooseEle3_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
+JetLooseEle3_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+JetLooseEle3_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+#------------------------------------------------------------------------------------------------------
 # CaloJet info
 #------------------------------------------------------------------------------------------------------
 nCaloJet_Stored			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
@@ -313,3 +337,15 @@ H_17_8_CIdL_CIsVL_7		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_17_8_CIdL_CIsVL_8		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #
 H_32_17_CIdT_CIsT_TIdT_TIsT_1	-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+# 
+H_DoublePhoton33_1  		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoublePhoton33_2  	        -inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoublePhoton33_3  		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoublePhoton33_4  		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoublePhoton33_5  		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+# 		    
+H_DoubleEle33_CIdL_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdL_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdL_3		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdL_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdL_5		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
