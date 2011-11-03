@@ -231,3 +231,8 @@ os.system ( "rm *.aux *.tex *.log")
 # Tell the user what to do:
 #-----------------------------------------------------------------
 
+print "\n\nPut this in your cut file: \n\n"
+print "fakeRate_bar  \t" + "%.3e" % par_2jet_bar [0] + "\t" + "%.3e" % par_2jet_bar [1] + "\t" + "%.3e" % par_2jet_bar [2] + "\t-\t-1"
+print "fakeRate_end1 \t" + "%.3e" % par_2jet_end1[0] + "\t" + "%.3e" % par_2jet_end1[1] + "\t" + "%.3e" % par_2jet_end1[2] + "\t-\t-1"
+print "fakeRate_end2 \t" + "%.3e" % par_2jet_end2[0] + "\t" + "%.3e" % par_2jet_end2[1] + "\t" + "%.3e" % par_2jet_end2[2] + "\t-\t-1"
+print "\n\n"
