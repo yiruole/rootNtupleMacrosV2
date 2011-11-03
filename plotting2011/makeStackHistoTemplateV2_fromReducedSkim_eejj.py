@@ -189,7 +189,7 @@ class Plot:
     rebin       = "" # rebin x axis (default = 1, option = set it to whatever you want )
     addOvfl     = "yes" # add the overflow bin to the last visible bin (default = "yes", option="no")
     name        = "" # name of the final plots
-    lint        = "754 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
+    lint        = "2130 pb^{-1}" # integrated luminosity of the sample ( example "10 pb^{-1}" )
     addZUncBand = "no" # add an uncertainty band coming from the data-MC Z+jets rescaling (default = "no", option="yes")
     ZUncKey     = "Z/#gamma/Z* + jets unc." # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex  = 1 # index of the Z+jets plots in the histosStack list (default = 1)
@@ -262,8 +262,7 @@ class Plot:
         Nstacked = len(self.histosStack)
         #stackColorIndexes = [20,38,14,45,20,38,14,45]
         #stackColorIndexes = [20,38,12,14,20,38,12,14]
-        stackColorIndexes = [2,4,3,14,92,6,2,4]
-        stackFillStyleIds = [3354,3345,3395,3344,3354,3345,3395,3344]
+        
         stkcp = []
         for iter in range(0, Nstacked):
             #make this stack
@@ -350,9 +349,11 @@ class Plot:
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
         dataColorIndexes = [1,4,1,1,4,1]
-        #dataLineIndexes = [1,2,3,1,2,3]
-        dataLineIndexes = [2,1,3,1,2,3]
+        dataLineIndexes = [1,2,3,1,2,3]
+        # dataLineIndexes = [2,1,3,1,2,3]
+        
         for histo in self.histos:
+            
             histo.SetMarkerStyle(dataColorIndexes[ih])
             histo.SetMarkerColor(dataColorIndexes[ih])
             histo.SetLineColor(  dataColorIndexes[ih])
@@ -440,8 +441,8 @@ class Plot:
 
 
         #-- end
-        canvas.SaveAs("eps/" + self.name + ".eps","eps")
-        canvas.SaveAs("gif/" + self.name + ".gif","gif")
+        canvas.SaveAs("eps_eejj/" + self.name + ".eps","eps")
+        canvas.SaveAs("gif_eejj/" + self.name + ".gif","gif")
         #canvas.SaveAs(self.name + ".png","png")
         #canvas.SaveAs(self.name + ".root","root")
         #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
@@ -460,8 +461,8 @@ class Plot:
 
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//skim_test//analysisClass_lq_enujj_plots.root")
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/330pb-1_21072011/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
-# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//lq_analysis_eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+# File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//lq_analysis_eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
 File_selection    = File_preselection
 
@@ -480,7 +481,7 @@ doExtraPlots = False
 
 pt_xmin=0
 pt_xmax=800
-pt_ymin=0.01
+pt_ymin=0.001
 pt_ymax=1000
 
 eta_rebin=2
@@ -496,11 +497,17 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 samplesForStackHistosQCD = ["DATA"]
 # keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
-samplesForStackHistos = ["PhotonJets"   ,"SingleTop" ,"WJet_Madgraph", "DIBOSON"     ,"TTbar_Madgraph","ZJet_Madgraph"]
-keysStack =             ["#gamma + jets","single top","W/W* + jets"  , "WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
 
-samplesForHistos = ["LQ_M400", "LQ_M500","LQ_M600"]
-keys             = ["LQ, M=400 GeV","LQ, M=500 GeV","LQ, M=600 GeV"]
+samplesForStackHistos = ["PhotonJets"   ,"SingleTop"   ,"WJet_Madgraph","DIBOSON"     ,"TTbar_Madgraph", "ZJet_Madgraph"]
+keysStack             = ["#gamma + jets","single top"  , "W/W* + jets" ,"WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
+stackColorIndexes     = [ 3             , 4            , 2             , 14            , 92            , 6              ]
+stackFillStyleIds     = [ 3354          , 3345         , 3395          , 3344         , 3354           , 3345           ]
+
+stackColorIndexes.reverse()
+stackFillStyleIds.reverse()
+
+samplesForHistos = ["LQ_M450"      , "LQ_M550"      , "LQ_M650"      ]
+keys             = ["LQ, M=450 GeV", "LQ, M=550 GeV", "LQ, M=650 GeV"]
 # samplesForHistos = ["LQenujj_M300"]
 # keys             = ["LQ, M = 300 GeV"]
 
@@ -524,6 +531,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.ytit           = "Events"
     plot.ylog           = "no"
     plot.name           = variableName
+    
     return plot
 
 plots = []
@@ -785,6 +793,13 @@ plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "Dijet Mass (preselection) [GeV]"
 
+plots.append ( makeDefaultPlot ( "Meejj_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )    
+plots[-1].rebin = 5
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+plots[-1].xtit = "Mass_{eejj} (preselection) [GeV]"
+
 plots.append ( makeDefaultPlot ( "Mee_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymax = 20000
@@ -804,48 +819,67 @@ plots[-1].ylog  = "yes"
 plots[-1].xtit  = "P_{T}(ee) (preselection) [GeV]}"
 
 plots.append ( makeDefaultPlot ( "Me1j1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
-plots[-1].ymax = 20000
+plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 1000
+plots[-1].rebin = 2
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "M(e_{1}j_{1}) (preselection) [GeV]"
 
 plots.append ( makeDefaultPlot ( "Me1j2_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
-plots[-1].ymax = 20000
+plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 1000
+plots[-1].rebin = 2
+
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "M(e_{1}j_{2}) (preselection) [GeV]"
 
 plots.append ( makeDefaultPlot ( "Me2j1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
-plots[-1].ymax = 20000
+plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 1000
+plots[-1].rebin = 2
+
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "M(e_{2}j_{1}) (preselection) [GeV]"
 
 plots.append ( makeDefaultPlot ( "Me2j2_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
-plots[-1].ymax = 20000
+plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "M(e_{2}j_{2}) (preselection) [GeV]"
+plots[-1].xmin  = 0
+plots[-1].xmax  = 1000
+plots[-1].rebin = 2
+
 
 plots.append ( makeDefaultPlot ( "nVertex_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymin = 1e-1
 plots[-1].ymax = 4000
-# plots[-1].ymax = 20000
-# plots[-1].ylog  = "yes"
+plots[-1].xmin = -0.5
+plots[-1].xmax = 30.5
 plots[-1].xtit = "n(vertexes) (preselection)"
+plots[-1].ylog  = "yes"
+plots[-1].ymax = 2000000
 
 plots.append ( makeDefaultPlot ( "nVertex_good_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
 plots[-1].ymin = 1e-1
 plots[-1].ymax = 4000
-# plots[-1].ymax = 20000
-# plots[-1].ylog  = "yes"
+plots[-1].xmin = -0.5
+plots[-1].xmax = 30.5
 plots[-1].xtit = "n(good vertexes) (preselection)"
+plots[-1].ylog  = "yes"
+plots[-1].ymax = 2000000
+
 
 plots.append ( makeDefaultPlot ( "DR_Ele1Jet1_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
@@ -886,11 +920,12 @@ if doExtraPlots:
 
 #--- Generate and print the plots from the list 'plots' define above
 c = TCanvas()
-fileps = "allPlots.ps" 
+
+fileps = "allPlots_eejj.ps" 
 
 c.Print(fileps + "[")
 for plot in plots:
-    plot.Draw("allPlots.ps")
+    plot.Draw(fileps)
 c.Print(fileps+"]")
 os.system('ps2pdf '+fileps)
 os.system('rm '+fileps)

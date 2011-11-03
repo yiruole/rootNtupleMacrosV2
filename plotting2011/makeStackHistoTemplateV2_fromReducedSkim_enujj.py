@@ -262,8 +262,6 @@ class Plot:
         Nstacked = len(self.histosStack)
         #stackColorIndexes = [20,38,14,45,20,38,14,45]
         #stackColorIndexes = [20,38,12,14,20,38,12,14]
-        stackColorIndexes = [2,4,3,14,92,6,2,4]
-        stackFillStyleIds = [3354,3345,3395,3344,3354,3345,3395,3344]
         stkcp = []
         for iter in range(0, Nstacked):
             #make this stack
@@ -440,8 +438,8 @@ class Plot:
 
 
         #-- end
-        canvas.SaveAs("eps/" + self.name + ".eps","eps")
-        canvas.SaveAs("gif/" + self.name + ".gif","gif")
+        canvas.SaveAs("eps_enujj/" + self.name + ".eps","eps")
+        canvas.SaveAs("gif_enujj/" + self.name + ".gif","gif")
         #canvas.SaveAs(self.name + ".png","png")
         #canvas.SaveAs(self.name + ".root","root")
         #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
@@ -460,9 +458,7 @@ class Plot:
 
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//skim_test//analysisClass_lq_enujj_plots.root")
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/330pb-1_21072011/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
-# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/0.1457pb-1_QCD/output_cutTable_lq_enujj_QCD/analysisClass_lq_enujj_QCD_plots.root")
-# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/0.1457pb-1_QCD/output_cutTable_lq_enujj_QCD/analysisClass_lq_enujj_QCD_plots.root")
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//lq_analysis_enujj//output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
+File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis_enujj//output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
 
 File_selection    = File_preselection
 
@@ -495,18 +491,20 @@ eta_ymax=100
 histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
-samplesForStackHistosQCD = ["DATA"]
 # keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
-samplesForStackHistos = ["ZJet_Madgraph","PhotonJets","SingleTop","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
-keysStack =             ["Z/Z* + jets"  ,"#gamma + jets","single top","WW + WZ + ZZ","t#bar{t}", "W/W* + jets"]
 
-#samplesForHistos = ["LQenujj_M250", "LQenujj_M300","LQenujj_M340"]
-#keys             = ["LQ, M=250 GeV","LQ, M=300 GeV","LQ, M=340 GeV"]
-# samplesForHistos = ["LQenujj_M300"]
-# keys             = ["LQ, M = 300 GeV"]
-samplesForHistos = []
-keys = []
+samplesForStackHistosQCD = ["DATA"]
 
+samplesForStackHistos = ["ZJet_Madgraph","DIBOSON"     , "SingleTop"   ,"PhotonJets"   ,"TTbar_Madgraph","WJet_Madgraph"]
+keysStack             = ["Z/Z* + jets"  ,"WW + WZ + ZZ", "single top"  ,"#gamma + jets","t#bar{t}"      , "W/W* + jets" ]
+stackColorIndexes     = [6              , 14           ,  4            , 3             , 92             , 2             ]
+stackFillStyleIds     = [3345           , 3344         ,  3345         , 3354          , 3354           , 3395          ]
+
+stackColorIndexes.reverse()
+stackFillStyleIds.reverse()
+
+samplesForHistos = ["LQ_M450"      , "LQ_M550"      , "LQ_M650"      ]
+keys             = ["LQ, M=450 GeV", "LQ, M=550 GeV", "LQ, M=650 GeV"]
 
 sampleForDataHisto = "DATA"
 
@@ -864,15 +862,21 @@ plots[-1].xtit = "Dijet Mass (Preselection) [GeV]"
 
 plots.append ( makeDefaultPlot ( "Mej1_PAS"       ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
-plots[-1].ymax = 20000
+plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 1000
+plots[-1].rebin = 2
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "Mass (1st Electron, 1st Jet) (Preselection) [GeV]"
 
 plots.append ( makeDefaultPlot ( "Mej2_PAS"       ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
-plots[-1].ymax = 20000
+plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
+plots[-1].xmin  = 0
+plots[-1].xmax  = 1000
+plots[-1].rebin = 2
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "Mass (1st Electron, 2nd Jet) (Preselection) [GeV]"
 
@@ -942,6 +946,25 @@ plots[-1].xmin = 0
 plots[-1].rebin = 1
 plots[-1].ylog  = "yes"
 
+plots.append ( makeDefaultPlot ( "nVertex_good_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "n(good vertexes)"
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 30.5
+plots[-1].xmin = -0.5
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+
+plots.append ( makeDefaultPlot ( "nVertex_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "n(vertex)"
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 30.5
+plots[-1].xmin = -0.5
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
 #-----------------------------------------------------------------------------------
 
 if doExtraPlots:
@@ -954,11 +977,11 @@ if doExtraPlots:
 
 #--- Generate and print the plots from the list 'plots' define above
 c = TCanvas()
-fileps = "allPlots.ps" 
+fileps = "allPlots_enujj.ps" 
 
 c.Print(fileps + "[")
 for plot in plots:
-    plot.Draw("allPlots.ps")
+    plot.Draw(fileps)
 c.Print(fileps+"]")
 os.system('ps2pdf '+fileps)
 os.system('rm '+fileps)
