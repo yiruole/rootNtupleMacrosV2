@@ -43,8 +43,6 @@ void analysisClass::Loop()
    // Create TH1D's
    //--------------------------------------------------------------------------
 
-   // Inclusive
-
    CreateUserTH1D( "Total_Bar_nElectron_PAS"              ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_Bar_nElectron_PAS"               ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_Bar_Pt1stEle_PAS"               ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_Bar_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
    CreateUserTH1D( "Total_Bar_Eta1stEle_PAS"	          ,    100 , -5      , 5	);  CreateUserTH1D( "Pass_Bar_Eta1stEle_PAS"	           ,    100 , -5      , 5        );
@@ -52,6 +50,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_Bar_Charge1stEle_PAS"	          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_Bar_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_Bar_DCotTheta1stEle_PAS"        ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_DCotTheta1stEle_PAS"         ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_Bar_Dist1stEle_PAS"             ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_Dist1stEle_PAS"              ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_Bar_MET_PAS"                    ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_MET_PAS"                     ,    100 , 0.0     , 1.0      );
 						          										           
    CreateUserTH1D( "Total_End1_nElectron_PAS"             ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_End1_nElectron_PAS"              ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_End1_Pt1stEle_PAS"              ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_End1_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
@@ -60,6 +59,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_End1_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_End1_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_End1_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_DCotTheta1stEle_PAS"        ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_End1_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_Dist1stEle_PAS"             ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_End1_MET_PAS"                   ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_MET_PAS"                    ,    100 , 0.0     , 1.0      );
 
    CreateUserTH1D( "Total_End2_nElectron_PAS"             ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_End2_nElectron_PAS"              ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_End2_Pt1stEle_PAS"              ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_End2_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
@@ -68,6 +68,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_End2_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_End2_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_End2_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_DCotTheta1stEle_PAS"        ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_End2_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_Dist1stEle_PAS"             ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_End2_MET_PAS"                   ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_MET_PAS"                    ,    100 , 0.0     , 1.0      );
 
    // Runs 160406 - 166502
    
@@ -78,6 +79,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total1_Bar_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass1_Bar_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total1_Bar_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_Bar_DCotTheta1stEle_PAS"        ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total1_Bar_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_Bar_Dist1stEle_PAS"             ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total1_Bar_MET_PAS"                   ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_Bar_MET_PAS"                    ,    100 , 0.0     , 1.0      );
 						          										           
    CreateUserTH1D( "Total1_End1_nElectron_PAS"            ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass1_End1_nElectron_PAS"             ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total1_End1_Pt1stEle_PAS"             ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass1_End1_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
@@ -86,6 +88,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total1_End1_Charge1stEle_PAS"         ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass1_End1_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total1_End1_DCotTheta1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End1_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total1_End1_Dist1stEle_PAS"           ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End1_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total1_End1_MET_PAS"                  ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End1_MET_PAS"                   ,    100 , 0.0     , 1.0      );
 
    CreateUserTH1D( "Total1_End2_nElectron_PAS"            ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass1_End2_nElectron_PAS"             ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total1_End2_Pt1stEle_PAS"             ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass1_End2_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
@@ -94,6 +97,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total1_End2_Charge1stEle_PAS"         ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass1_End2_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total1_End2_DCotTheta1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End2_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total1_End2_Dist1stEle_PAS"           ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End2_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total1_End2_MET_PAS"                  ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End2_MET_PAS"                   ,    100 , 0.0     , 1.0      );
 
    // Runs 166503 - onward
    
@@ -104,6 +108,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total2_Bar_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass2_Bar_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total2_Bar_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_Bar_DCotTheta1stEle_PAS"        ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total2_Bar_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_Bar_Dist1stEle_PAS"             ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total1_End2_MET_PAS"                  ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass1_End2_MET_PAS"                   ,    100 , 0.0     , 1.0      );
 						          										           
    CreateUserTH1D( "Total2_End1_nElectron_PAS"            ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass2_End1_nElectron_PAS"             ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total2_End1_Pt1stEle_PAS"             ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass2_End1_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
@@ -112,6 +117,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total2_End1_Charge1stEle_PAS"         ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass2_End1_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total2_End1_DCotTheta1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_End1_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total2_End1_Dist1stEle_PAS"           ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_End1_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total2_End1_MET_PAS"                  ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_End1_MET_PAS"                   ,    100 , 0.0     , 1.0      );
    
    CreateUserTH1D( "Total2_End2_nElectron_PAS"            ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass2_End2_nElectron_PAS"             ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total2_End2_Pt1stEle_PAS"             ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass2_End2_Pt1stEle_PAS"	           ,    100 , 0       , 1000     );
@@ -120,6 +126,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total2_End2_Charge1stEle_PAS"         ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass2_End2_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total2_End2_DCotTheta1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_End2_DCotTheta1stEle_PAS"       ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total2_End2_Dist1stEle_PAS"           ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_End2_Dist1stEle_PAS"            ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total2_End2_MET_PAS"                  ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass2_End2_MET_PAS"                   ,    100 , 0.0     , 1.0      );
 
    // Pile-up [0,5]
 
@@ -130,6 +137,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_Bar_PU0-8_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_Bar_PU0-8_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_Bar_PU0-8_DCotTheta1stEle_PAS"  ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_PU0-8_DCotTheta1stEle_PAS"   ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_Bar_PU0-8_Dist1stEle_PAS"       ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_PU0-8_Dist1stEle_PAS"        ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_Bar_PU0-8_MET_PAS"              ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_PU0-8_MET_PAS"               ,    100 , 0.0     , 1.0      );
 
    CreateUserTH1D( "Total_End1_PU0-8_nElectron_PAS"       ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_End1_PU0-8_nElectron_PAS"        ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_End1_PU0-8_Pt1stEle_PAS"        ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_End1_PU0-8_Pt1stEle_PAS"	   ,    100 , 0       , 1000     );
@@ -138,6 +146,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_End1_PU0-8_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_End1_PU0-8_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_End1_PU0-8_DCotTheta1stEle_PAS" ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_PU0-8_DCotTheta1stEle_PAS"  ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_End1_PU0-8_Dist1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_PU0-8_Dist1stEle_PAS"       ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_End1_PU0-8_MET_PAS"             ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_PU0-8_MET_PAS"              ,    100 , 0.0     , 1.0      );
 
    CreateUserTH1D( "Total_End2_PU0-8_nElectron_PAS"       ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_End2_PU0-8_nElectron_PAS"        ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_End2_PU0-8_Pt1stEle_PAS"        ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_End2_PU0-8_Pt1stEle_PAS"	   ,    100 , 0       , 1000     );
@@ -146,6 +155,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_End2_PU0-8_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_End2_PU0-8_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_End2_PU0-8_DCotTheta1stEle_PAS" ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_PU0-8_DCotTheta1stEle_PAS"  ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_End2_PU0-8_Dist1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_PU0-8_Dist1stEle_PAS"       ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_End2_PU0-8_MET_PAS"             ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_PU0-8_MET_PAS"              ,    100 , 0.0     , 1.0      );
 
    // Pile-up [6-10]
 
@@ -156,6 +166,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_Bar_PU9-UP_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_Bar_PU9-UP_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_Bar_PU9-UP_DCotTheta1stEle_PAS" ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_PU9-UP_DCotTheta1stEle_PAS"  ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_Bar_PU9-UP_Dist1stEle_PAS"      ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_PU9-UP_Dist1stEle_PAS"       ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_Bar_PU9-UP_MET_PAS"             ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_Bar_PU9-UP_MET_PAS"              ,    100 , 0.0     , 1.0      );
 
    CreateUserTH1D( "Total_End1_PU9-UP_nElectron_PAS"      ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_End1_PU9-UP_nElectron_PAS"       ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_End1_PU9-UP_Pt1stEle_PAS"       ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_End1_PU9-UP_Pt1stEle_PAS"	   ,    100 , 0       , 1000     );
@@ -164,6 +175,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_End1_PU9-UP_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_End1_PU9-UP_Charge1stEle_PAS"    ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_End1_PU9-UP_DCotTheta1stEle_PAS",    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_PU9-UP_DCotTheta1stEle_PAS" ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_End1_PU9-UP_Dist1stEle_PAS"     ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_PU9-UP_Dist1stEle_PAS"      ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_End1_PU9-UP_MET_PAS"            ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End1_PU9-UP_MET_PAS"             ,    100 , 0.0     , 1.0      );
 
    CreateUserTH1D( "Total_End2_PU9-UP_nElectron_PAS"      ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Pass_End2_PU9-UP_nElectron_PAS"       ,    5   , -0.5    , 4.5      );
    CreateUserTH1D( "Total_End2_PU9-UP_Pt1stEle_PAS"       ,    100 , 0       , 1000     );  CreateUserTH1D( "Pass_End2_PU9-UP_Pt1stEle_PAS"	   ,    100 , 0       , 1000     );
@@ -172,6 +184,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Total_End2_PU9-UP_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Pass_End2_PU9-UP_Charge1stEle_PAS"    ,    2   , -1.0001 , 1.0001   );
    CreateUserTH1D( "Total_End2_PU9-UP_DCotTheta1stEle_PAS",    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_PU9-UP_DCotTheta1stEle_PAS" ,    100 , 0.0     , 1.0      );
    CreateUserTH1D( "Total_End2_PU9-UP_Dist1stEle_PAS"     ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_PU9-UP_Dist1stEle_PAS"      ,    100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Total_End2_PU9-UP_MET_PAS"            ,    100 , 0.0     , 1.0      );  CreateUserTH1D( "Pass_End2_PU9-UP_MET_PAS"             ,    100 , 0.0     , 1.0      );
 
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -209,6 +222,17 @@ void analysisClass::Loop()
      int NPILEUP_AVE = int( nPileUpInt_BX0 );
      int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
      double weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
+
+     //--------------------------------------------------------------------------
+     // Skim bug: number of jets with no loose electron overlaps is not stored
+     // Work around: count the number of jets with non-zero pT ( pT > 10 is ok )
+     //--------------------------------------------------------------------------
+
+     nJetLooseEle_Stored = 0;
+     if       ( JetLooseEle3_Pt > 10.0 ) nJetLooseEle_Stored = 3 ;
+     else if  ( JetLooseEle2_Pt > 10.0 ) nJetLooseEle_Stored = 2 ;
+     else if  ( JetLooseEle1_Pt > 10.0 ) nJetLooseEle_Stored = 1 ;
+     else                                nJetLooseEle_Stored = 0 ;
 
      //--------------------------------------------------------------------------
      // Fill variables
@@ -324,8 +348,11 @@ void analysisClass::Loop()
        passTrigger = 0;
        if ( min_prescale != 999999 ) {
 	 passTrigger = 1;     
-	 weight *= min_prescale;
+       } else {
+	 min_prescale = 0;
        }
+       weight *= min_prescale;
+
      }  // end if (isData) 
 					       
      else { 
@@ -374,7 +401,7 @@ void analysisClass::Loop()
      fillVariableWithValue(   "Pt1stEle"                      , QCDFakeEle1_Pt         , min_prescale  );
 
      // 1st JET variables                                     		               
-     fillVariableWithValue(   "nJet"                          , nJet_Ana               , min_prescale  );
+     fillVariableWithValue(   "nJet"                          , nJetLooseEle_Stored    , min_prescale  );
 
      // MET
      fillVariableWithValue(   "MET"                           , MET_Pt                 , min_prescale  );
@@ -414,6 +441,40 @@ void analysisClass::Loop()
 	 FillUserTH1D( "Total_Bar_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	 FillUserTH1D( "Total_Bar_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	 FillUserTH1D( "Total_Bar_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	 FillUserTH1D( "Total_Bar_MET_PAS"               , MET_Pt                         , weight);
+
+	 if ( nJetLooseEle_Stored >= 1 ) {
+	   FillUserTH1D( "Total_Bar_1Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_Bar_1Jet_Pt1stEle_PAS"	      , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_Bar_1Jet_Eta1stEle_PAS"	      , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_Bar_1Jet_Phi1stEle_PAS"	      , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_Bar_1Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_Bar_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_Bar_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_Bar_1Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
+	 if ( nJetLooseEle_Stored >= 2 ) {
+	   FillUserTH1D( "Total_Bar_2Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_Bar_2Jet_Pt1stEle_PAS"	      , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_Bar_2Jet_Eta1stEle_PAS"	      , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_Bar_2Jet_Phi1stEle_PAS"	      , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_Bar_2Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_Bar_2Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_Bar_2Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_Bar_2Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
+	 if ( nJetLooseEle_Stored >= 3 ) {
+	   FillUserTH1D( "Total_Bar_3Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_Bar_3Jet_Pt1stEle_PAS"	      , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_Bar_3Jet_Eta1stEle_PAS"	      , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_Bar_3Jet_Phi1stEle_PAS"	      , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_Bar_3Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_Bar_3Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_Bar_3Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_Bar_3Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
 
 	 if ( isData && run <= 166502 ) { 
 	   FillUserTH1D( "Total1_Bar_nElectron_PAS"               , nEle_QCDFake                   , weight);
@@ -423,6 +484,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total1_Bar_Charge1stEle_PAS"            , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total1_Bar_DCotTheta1stEle_PAS"         , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total1_Bar_Dist1stEle_PAS"              , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total1_Bar_MET_PAS"                     , MET_Pt                         , weight);
 	 } 
 
 	 if ( isData && run >= 166503 ) { 
@@ -433,6 +495,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total2_Bar_Charge1stEle_PAS"            , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total2_Bar_DCotTheta1stEle_PAS"         , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total2_Bar_Dist1stEle_PAS"              , QCDFakeEle1_Dist               , weight);
+ 	   FillUserTH1D( "Total2_Bar_MET_PAS"                     , MET_Pt                         , weight);
 	 } 
 
 	 if ( nVertex_good >= 0 && nVertex_good <= 5 ){
@@ -443,6 +506,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total_Bar_PU0-8_Charge1stEle_PAS"       , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total_Bar_PU0-8_DCotTheta1stEle_PAS"    , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total_Bar_PU0-8_Dist1stEle_PAS"         , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_Bar_PU0-8_MET_PAS"                , MET_Pt                         , weight);
 	 }						          
 							          
 	 if ( nVertex_good >= 6 && nVertex_good <= 10 ){      
@@ -453,6 +517,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total_Bar_PU9-UP_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total_Bar_PU9-UP_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total_Bar_PU9-UP_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_Bar_PU9-UP_MET_PAS"               , MET_Pt                         , weight);
 	 }
        }
        
@@ -464,7 +529,42 @@ void analysisClass::Loop()
 	 FillUserTH1D( "Total_End1_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	 FillUserTH1D( "Total_End1_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	 FillUserTH1D( "Total_End1_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	 FillUserTH1D( "Total_End1_MET_PAS"               , MET_Pt                         , weight);
 	 
+
+	 if ( nJetLooseEle_Stored >= 1 ) {
+	   FillUserTH1D( "Total_End1_1Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_End1_1Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_End1_1Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_End1_1Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_End1_1Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_End1_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_End1_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End1_1Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
+	 if ( nJetLooseEle_Stored >= 2 ) {
+	   FillUserTH1D( "Total_End1_2Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_End1_2Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_End1_2Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_End1_2Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_End1_2Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_End1_2Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_End1_2Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End1_2Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
+	 if ( nJetLooseEle_Stored >= 3 ) {
+	   FillUserTH1D( "Total_End1_3Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_End1_3Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_End1_3Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_End1_3Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_End1_3Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_End1_3Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_End1_3Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End1_3Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
 
 	 if ( isData && run <= 166502 ) { 
 	   FillUserTH1D( "Total1_End1_nElectron_PAS"              , nEle_QCDFake                   , weight);
@@ -474,6 +574,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total1_End1_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total1_End1_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total1_End1_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total1_End1_MET_PAS"                    , MET_Pt                         , weight);
 	 } 
 
 	 if ( isData && run >= 166503 ) { 
@@ -484,6 +585,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total2_End1_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total2_End1_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total2_End1_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total2_End1_MET_PAS"                    , MET_Pt                         , weight);
 	 } 
 
 	 if ( nVertex_good >= 0 && nVertex_good <= 5 ){
@@ -494,6 +596,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total_End1_PU0-8_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total_End1_PU0-8_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total_End1_PU0-8_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End1_PU0-8_MET_PAS"               , MET_Pt                         , weight);
 	 }						          
 							          
 	 if ( nVertex_good >= 6 && nVertex_good <= 10 ){      
@@ -504,6 +607,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total_End1_PU9-UP_Charge1stEle_PAS"     , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total_End1_PU9-UP_DCotTheta1stEle_PAS"  , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total_End1_PU9-UP_Dist1stEle_PAS"       , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End1_PU9-UP_MET_PAS"              , MET_Pt                         , weight);
 	 }
        }
        
@@ -515,6 +619,40 @@ void analysisClass::Loop()
 	 FillUserTH1D( "Total_End2_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	 FillUserTH1D( "Total_End2_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	 FillUserTH1D( "Total_End2_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	 FillUserTH1D( "Total_End2_MET_PAS"               , MET_Pt                         , weight);
+	 
+	 if ( nJetLooseEle_Stored >= 1 ) {
+	   FillUserTH1D( "Total_End2_1Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_End2_1Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_End2_1Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_End2_1Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_End2_1Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_End2_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_End2_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End2_1Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
+	 if ( nJetLooseEle_Stored >= 2 ) {
+	   FillUserTH1D( "Total_End2_2Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_End2_2Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_End2_2Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_End2_2Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_End2_2Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_End2_2Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_End2_2Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End2_2Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
+
+	 if ( nJetLooseEle_Stored >= 3 ) {
+	   FillUserTH1D( "Total_End2_3Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	   FillUserTH1D( "Total_End2_3Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	   FillUserTH1D( "Total_End2_3Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	   FillUserTH1D( "Total_End2_3Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	   FillUserTH1D( "Total_End2_3Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);  
+	   FillUserTH1D( "Total_End2_3Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	   FillUserTH1D( "Total_End2_3Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End2_3Jet_MET_PAS"             , MET_Pt                         , weight);
+	 }
 	 
 	 if ( isData && run <= 166502 ) { 
 	   FillUserTH1D( "Total1_End2_nElectron_PAS"              , nEle_QCDFake                   , weight);
@@ -524,6 +662,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total1_End2_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total1_End2_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total1_End2_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total1_End2_MET_PAS"                    , MET_Pt                         , weight);
 	 } 
 
 	 if ( isData && run >= 166503 ) { 
@@ -534,6 +673,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total2_End2_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total2_End2_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total2_End2_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total2_End2_MET_PAS"                    , MET_Pt                         , weight);
 	 } 
 
 	 if ( nVertex_good >= 0 && nVertex_good <= 5 ){
@@ -544,6 +684,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total_End2_PU0-8_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total_End2_PU0-8_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total_End2_PU0-8_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End2_PU0-8_MET_PAS"               , MET_Pt                         , weight);
 	 }						          
 							          
 	 if ( nVertex_good >= 6 && nVertex_good <= 10 ){      
@@ -554,6 +695,7 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Total_End2_PU9-UP_Charge1stEle_PAS"     , QCDFakeEle1_Charge             , weight);  
 	   FillUserTH1D( "Total_End2_PU9-UP_DCotTheta1stEle_PAS"  , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Total_End2_PU9-UP_Dist1stEle_PAS"       , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Total_End2_PU9-UP_MET_PAS"              , MET_Pt                         , weight);
 	 }
        }
        
@@ -567,6 +709,40 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Pass_Bar_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);
 	   FillUserTH1D( "Pass_Bar_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Pass_Bar_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Pass_Bar_MET_PAS"               , MET_Pt                         , weight);
+
+	   if ( nJetLooseEle1_Stored >= 1 ) {
+	     FillUserTH1D( "Pass_Bar_1Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_Bar_1Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
+
+	   if ( nJetLooseEle1_Stored >= 2 ) {
+	     FillUserTH1D( "Pass_Bar_2Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_Bar_2Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
+
+	   if ( nJetLooseEle1_Stored >= 3 ) {
+	     FillUserTH1D( "Pass_Bar_3Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_Pt1stEle_PAS"	       , QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_Bar_3Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
 	   
 	   if ( isData && run <= 166502 ) { 
 	     FillUserTH1D( "Pass1_Bar_nElectron_PAS"               , nEle_QCDFake                   , weight);
@@ -576,6 +752,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass1_Bar_Charge1stEle_PAS"            , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass1_Bar_DCotTheta1stEle_PAS"         , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass1_Bar_Dist1stEle_PAS"              , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass1_Bar_MET_PAS"                     , MET_Pt                         , weight);
 	   } 
 	   
 	   if ( isData && run >= 166503 ) { 
@@ -586,6 +763,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass2_Bar_Charge1stEle_PAS"            , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass2_Bar_DCotTheta1stEle_PAS"         , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass2_Bar_Dist1stEle_PAS"              , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass2_Bar_MET_PAS"                     , MET_Pt                         , weight);
 	   } 
 
 	   if ( nVertex_good >= 0 && nVertex_good <= 5 ){
@@ -596,6 +774,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_Bar_PU0-8_Charge1stEle_PAS"       , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass_Bar_PU0-8_DCotTheta1stEle_PAS"    , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass_Bar_PU0-8_Dist1stEle_PAS"         , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_Bar_PU0-8_MET_PAS"                , MET_Pt                         , weight);
 	   }						          
 	   
 	   if ( nVertex_good >= 6 && nVertex_good <= 10 ){      
@@ -606,6 +785,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_Bar_PU9-UP_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass_Bar_PU9-UP_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass_Bar_PU9-UP_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_Bar_PU9-UP_MET_PAS"               , MET_Pt                         , weight);
 	   }	  
 	 }
 	 
@@ -617,7 +797,40 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Pass_End1_Charge1stEle_PAS"     , QCDFakeEle1_Charge             , weight);
 	   FillUserTH1D( "Pass_End1_DCotTheta1stEle_PAS"  , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Pass_End1_Dist1stEle_PAS"       , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Pass_End1_MET_PAS"              , MET_Pt                         , weight);
+	   
+	   if ( nJetLooseEle1_Stored >= 1 ) {
+	     FillUserTH1D( "Pass_End1_1Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_Pt1stEle_PAS"        , QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End1_1Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
 
+	   if ( nJetLooseEle1_Stored >= 2 ) {
+	     FillUserTH1D( "Pass_End1_2Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_Pt1stEle_PAS"	, QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End1_2Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
+
+	   if ( nJetLooseEle1_Stored >= 3 ) {
+	     FillUserTH1D( "Pass_End1_3Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_Pt1stEle_PAS"	, QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End1_3Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
 
 	   if ( isData && run <= 166502 ) { 
 	     FillUserTH1D( "Pass1_End1_nElectron_PAS"              , nEle_QCDFake                   , weight);
@@ -627,6 +840,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass1_End1_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass1_End1_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass1_End1_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass1_End1_MET_PAS"                    , MET_Pt                         , weight);
 	   } 
 	   
 	   if ( isData && run >= 166503 ) { 
@@ -636,7 +850,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass2_End1_Phi1stEle_PAS"	           , QCDFakeEle1_Phi                , weight);
 	     FillUserTH1D( "Pass2_End1_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass2_End1_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
-	     FillUserTH1D( "Pass2_End1_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass2_End1_Dist1stEle_PAS"             , MET_Pt                         , weight);
 	   } 
 
 	   if ( nVertex_good >= 0 && nVertex_good <= 5 ){
@@ -647,6 +861,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_End1_PU0-8_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass_End1_PU0-8_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass_End1_PU0-8_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End1_PU0-8_MET_PAS"               , MET_Pt                         , weight);
 	   }						          
 	   
 	   if ( nVertex_good >= 6 && nVertex_good <= 10 ){      
@@ -657,6 +872,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_End1_PU9-UP_Charge1stEle_PAS"     , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass_End1_PU9-UP_DCotTheta1stEle_PAS"  , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass_End1_PU9-UP_Dist1stEle_PAS"       , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End1_PU9-UP_MET_PAS"              , MET_Pt                         , weight);
 	   }
 	 }
 
@@ -668,6 +884,40 @@ void analysisClass::Loop()
 	   FillUserTH1D( "Pass_End2_Charge1stEle_PAS"     , QCDFakeEle1_Charge             , weight);
 	   FillUserTH1D( "Pass_End2_DCotTheta1stEle_PAS"  , QCDFakeEle1_DCotTheta          , weight);
 	   FillUserTH1D( "Pass_End2_Dist1stEle_PAS"       , QCDFakeEle1_Dist               , weight);
+	   FillUserTH1D( "Pass_End2_MET_PAS"              , MET_Pt                         , weight);
+	   
+	   if ( nJetLooseEle1_Stored >= 1 ) {
+	     FillUserTH1D( "Pass_End2_1Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_Pt1stEle_PAS"        , QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End2_1Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
+
+	   if ( nJetLooseEle1_Stored >= 2 ) {
+	     FillUserTH1D( "Pass_End2_2Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_Pt1stEle_PAS"	, QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End2_2Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
+
+	   if ( nJetLooseEle1_Stored >= 3 ) {
+	     FillUserTH1D( "Pass_End2_3Jet_nElectron_PAS"       , nEle_QCDFake                   , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_Pt1stEle_PAS"	, QCDFakeEle1_Pt                 , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_Eta1stEle_PAS"       , QCDFakeEle1_Eta                , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_Phi1stEle_PAS"       , QCDFakeEle1_Phi                , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_Charge1stEle_PAS"    , QCDFakeEle1_Charge             , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End2_3Jet_MET_PAS"             , MET_Pt                         , weight);
+	   }
 	   
 	   if ( isData && run <= 166502 ) { 
 	     FillUserTH1D( "Pass1_End2_nElectron_PAS"              , nEle_QCDFake                   , weight);
@@ -677,6 +927,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass1_End2_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass1_End2_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass1_End2_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass1_End2_MET_PAS"                    , MET_Pt                         , weight);
 	   } 
 	   
 	   if ( isData && run >= 166503 ) { 
@@ -686,7 +937,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass2_End2_Phi1stEle_PAS"	           , QCDFakeEle1_Phi                , weight);
 	     FillUserTH1D( "Pass2_End2_Charge1stEle_PAS"           , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass2_End2_DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta          , weight);
-	     FillUserTH1D( "Pass2_End2_Dist1stEle_PAS"             , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass2_End2_Dist1stEle_PAS"             , MET_Pt                         , weight);
 	   } 
 
 	   if ( nVertex_good >= 0 && nVertex_good <= 5 ){
@@ -696,7 +947,7 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_End2_PU0-8_Phi1stEle_PAS"         , QCDFakeEle1_Phi                , weight);
 	     FillUserTH1D( "Pass_End2_PU0-8_Charge1stEle_PAS"      , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass_End2_PU0-8_DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta          , weight);
-	     FillUserTH1D( "Pass_End2_PU0-8_Dist1stEle_PAS"        , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End2_PU0-8_Dist1stEle_PAS"        , MET_Pt                         , weight);
 	   }						          
 	   
 	   if ( nVertex_good >= 6 && nVertex_good <= 10 ){      
@@ -707,9 +958,9 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_End2_PU9-UP_Charge1stEle_PAS"     , QCDFakeEle1_Charge             , weight);  
 	     FillUserTH1D( "Pass_End2_PU9-UP_DCotTheta1stEle_PAS"  , QCDFakeEle1_DCotTheta          , weight);
 	     FillUserTH1D( "Pass_End2_PU9-UP_Dist1stEle_PAS"       , QCDFakeEle1_Dist               , weight);
+	     FillUserTH1D( "Pass_End2_PU9-UP_MET_PAS"              , MET_Pt                         , weight);
 	   }
 	 }
-
        }
      }
    } // End loop over events
