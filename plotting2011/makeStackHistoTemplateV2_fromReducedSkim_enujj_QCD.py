@@ -1282,746 +1282,746 @@ plots_1jet[-1].ylog  = "yes"
 ##---------------------------------------------------------------------------------------------------
 
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Barrel, #geq 2 Jets, Denominator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_2jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit            = "Number of electrons (Barrel, #geq 2 Jets, Denominator)"
+plots_2jet[-1].ylog            = "yes"
+plots_2jet[-1].rebin           = 1
+plots_2jet[-1].xmin            = -0.5
+plots_2jet[-1].xmax            = 6.5
+plots_2jet[-1].ymin            = 0.0001
+plots_2jet[-1].ymax            = 10000000000000
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Barrel, #geq 2 Jets, Numerator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_2jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit            = "Number of electrons (Barrel, #geq 2 Jets, Numerator)"
+plots_2jet[-1].ylog            = "yes"
+plots_2jet[-1].rebin           = 1
+plots_2jet[-1].xmin            = -0.5
+plots_2jet[-1].xmax            = 6.5
+plots_2jet[-1].ymin            = 0.0001
+plots_2jet[-1].ymax            = 10000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 2 Jets, Denominator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 2 Jets, Denominator) [GeV]"
+plots_2jet[-1].xmin = 0.
+plots_2jet[-1].xmax = 600.
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 2 Jets, Numerator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 2 Jets, Numerator) [GeV]"
+plots_2jet[-1].xmin = 0.
+plots_2jet[-1].xmax = 600.
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Barrel, #geq 2 Jets, Denominator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron #eta (Barrel, #geq 2 Jets, Denominator)"   
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmin = -3.0
+plots_2jet[-1].xmax = 3.0
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Barrel, #geq 2 Jets, Numerator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron #eta (Barrel, #geq 2 Jets, Numerator)"   
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmin = -3.0
+plots_2jet[-1].xmax = 3.0
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Barrel, #geq 2 Jets, Denominator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_2jet[-1].xtit = "1st Electron #phi (Barrel, #geq 2 Jets, Denominator)"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Barrel, #geq 2 Jets, Numerator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_2jet[-1].xtit = "1st Electron #phi (Barrel, #geq 2 Jets, Numerator)"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Barrel, #geq 2 Jets, Denominator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Barrel, #geq 2 Jets, Numerator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-plots_1jet.append ( makeDefaultPlot (  "Total_Bar_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 2 Jets, Denominator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_Bar_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 2 Jets, Numerator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Total_Bar_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 2 Jets, Denominator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_Bar_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 2 Jets, Numerator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Barrel, #geq 2 Jets, Denominator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_2jet[-1].xtit = "1st Electron Charge (Barrel, #geq 2 Jets, Denominator)"
+plots_2jet[-1].ylog  = "yes"
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ymax = 1000000000000000
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Barrel, #geq 2 Jets, Numerator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_2jet[-1].xtit = "1st Electron Charge (Barrel, #geq 2 Jets, Numerator)"
+plots_2jet[-1].ylog  = "yes"
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ymax = 1000000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_2jet.append ( makeDefaultPlot (  "Total_Bar_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 2 Jets, Denominator)" 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
+plots_2jet.append ( makeDefaultPlot (  "Pass_Bar_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 2 Jets, Numerator)" 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_2jet.append ( makeDefaultPlot (  "Total_Bar_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 2 Jets, Denominator) " 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot (  "Pass_Bar_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 2 Jets, Numerator) " 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-plots_1jet.append ( makeDefaultPlot (  "Total_End1_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_End1_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Total_End1_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_End1_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_Bar_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "PFMET (Barrel, #geq 2 Jets, Denominator) [GeV]"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmax = 600
+plots_2jet[-1].xmin = 0
+plots_2jet[-1].ylog  = "yes"
 
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_2jet.append ( makeDefaultPlot ( "Pass_Bar_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "PFMET (Barrel, #geq 2 Jets, Numerator) [GeV]"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmax = 600
+plots_2jet[-1].xmin = 0
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End1_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
+plots_2jet[-1].ylog            = "yes"
+plots_2jet[-1].rebin           = 1
+plots_2jet[-1].xmin            = -0.5
+plots_2jet[-1].xmax            = 6.5
+plots_2jet[-1].ymin            = 0.0001
+plots_2jet[-1].ymax            = 10000000000000
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_2jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
+plots_2jet[-1].ylog            = "yes"
+plots_2jet[-1].rebin           = 1
+plots_2jet[-1].xmin            = -0.5
+plots_2jet[-1].xmax            = 6.5
+plots_2jet[-1].ymin            = 0.0001
+plots_2jet[-1].ymax            = 10000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
+plots_2jet[-1].xmin = 0.
+plots_2jet[-1].xmax = 600.
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
+plots_2jet[-1].xmin = 0.
+plots_2jet[-1].xmax = 600.
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"   
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmin = -3.0
+plots_2jet[-1].xmax = 3.0
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"   
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmin = -3.0
+plots_2jet[-1].xmax = 3.0
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_2jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_2jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
+plots_2jet.append ( makeDefaultPlot ( "Total_End1_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_2jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
+plots_2jet[-1].ylog  = "yes"
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ymax = 1000000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
+plots_2jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_2jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
+plots_2jet[-1].ylog  = "yes"
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ymax = 1000000000000000
 
-plots_1jet.append ( makeDefaultPlot (  "Total_End2_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot (  "Total_End1_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator)" 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot (  "Pass_End2_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot (  "Pass_End1_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator)" 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot (  "Total_End2_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot (  "Total_End1_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator) " 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot (  "Pass_End2_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot (  "Pass_End1_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator) " 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Total_End1_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmax = 600
+plots_2jet[-1].xmin = 0
+plots_2jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_2jet.append ( makeDefaultPlot ( "Pass_End1_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmax = 600
+plots_2jet[-1].xmin = 0
+plots_2jet[-1].ylog  = "yes"
+
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End2_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
+plots_2jet[-1].ylog            = "yes"
+plots_2jet[-1].rebin           = 1
+plots_2jet[-1].xmin            = -0.5
+plots_2jet[-1].xmax            = 6.5
+plots_2jet[-1].ymin            = 0.0001
+plots_2jet[-1].ymax            = 10000000000000
+
+
+plots_2jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
+plots_2jet[-1].ylog            = "yes"
+plots_2jet[-1].rebin           = 1
+plots_2jet[-1].xmin            = -0.5
+plots_2jet[-1].xmax            = 6.5
+plots_2jet[-1].ymin            = 0.0001
+plots_2jet[-1].ymax            = 10000000000000
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
+plots_2jet[-1].xmin = 0.
+plots_2jet[-1].xmax = 600.
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+
+plots_2jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
+plots_2jet[-1].xmin = 0.
+plots_2jet[-1].xmax = 600.
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"   
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmin = -3.0
+plots_2jet[-1].xmax = 3.0
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"   
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmin = -3.0
+plots_2jet[-1].xmax = 3.0
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_2jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_2jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End2_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_2jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Denominator)"
+plots_2jet[-1].ylog  = "yes"
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ymax = 1000000000000000
+
+plots_2jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_2jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 2 Jets, Numerator)"
+plots_2jet[-1].ylog  = "yes"
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ymax = 1000000000000000
+
+plots_2jet.append ( makeDefaultPlot (  "Total_End2_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator)" 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot (  "Pass_End2_2Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator)" 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot (  "Total_End2_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Denominator) " 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot (  "Pass_End2_2Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 2 Jets, Numerator) " 
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Total_End2_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Denominator) [GeV]"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmax = 600
+plots_2jet[-1].xmin = 0
+plots_2jet[-1].ylog  = "yes"
+
+plots_2jet.append ( makeDefaultPlot ( "Pass_End2_2Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_2jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 2 Jets, Numerator) [GeV]"
+plots_2jet[-1].rebin = 1
+plots_2jet[-1].ymax = 2000000000000
+plots_2jet[-1].ymin = 1e-1
+plots_2jet[-1].xmax = 600
+plots_2jet[-1].xmin = 0
+plots_2jet[-1].ylog  = "yes"
 
 ##---------------------------------------------------------------------------------------------------
 ## >= 3 Jets
 ##---------------------------------------------------------------------------------------------------
 
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Barrel, #geq 3 Jets, Denominator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_3jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit            = "Number of electrons (Barrel, #geq 3 Jets, Denominator)"
+plots_3jet[-1].ylog            = "yes"
+plots_3jet[-1].rebin           = 1
+plots_3jet[-1].xmin            = -0.5
+plots_3jet[-1].xmax            = 6.5
+plots_3jet[-1].ymin            = 0.0001
+plots_3jet[-1].ymax            = 10000000000000
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Barrel, #geq 3 Jets, Numerator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_3jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit            = "Number of electrons (Barrel, #geq 3 Jets, Numerator)"
+plots_3jet[-1].ylog            = "yes"
+plots_3jet[-1].rebin           = 1
+plots_3jet[-1].xmin            = -0.5
+plots_3jet[-1].xmax            = 6.5
+plots_3jet[-1].ymin            = 0.0001
+plots_3jet[-1].ymax            = 10000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 3 Jets, Denominator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 3 Jets, Denominator) [GeV]"
+plots_3jet[-1].xmin = 0.
+plots_3jet[-1].xmax = 600.
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 3 Jets, Numerator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron p_{T} (Barrel, #geq 3 Jets, Numerator) [GeV]"
+plots_3jet[-1].xmin = 0.
+plots_3jet[-1].xmax = 600.
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Barrel, #geq 3 Jets, Denominator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron #eta (Barrel, #geq 3 Jets, Denominator)"   
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmin = -3.0
+plots_3jet[-1].xmax = 3.0
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Barrel, #geq 3 Jets, Numerator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron #eta (Barrel, #geq 3 Jets, Numerator)"   
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmin = -3.0
+plots_3jet[-1].xmax = 3.0
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Barrel, #geq 3 Jets, Denominator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_3jet[-1].xtit = "1st Electron #phi (Barrel, #geq 3 Jets, Denominator)"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Barrel, #geq 3 Jets, Numerator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_3jet[-1].xtit = "1st Electron #phi (Barrel, #geq 3 Jets, Numerator)"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Barrel, #geq 3 Jets, Denominator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Barrel, #geq 3 Jets, Numerator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-plots_1jet.append ( makeDefaultPlot (  "Total_Bar_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 3 Jets, Denominator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_Bar_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 3 Jets, Numerator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Total_Bar_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 3 Jets, Denominator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_Bar_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 3 Jets, Numerator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Barrel, #geq 3 Jets, Denominator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_3jet[-1].xtit = "1st Electron Charge (Barrel, #geq 3 Jets, Denominator)"
+plots_3jet[-1].ylog  = "yes"
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ymax = 1000000000000000
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Barrel, #geq 3 Jets, Numerator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_3jet[-1].xtit = "1st Electron Charge (Barrel, #geq 3 Jets, Numerator)"
+plots_3jet[-1].ylog  = "yes"
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ymax = 1000000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_3jet.append ( makeDefaultPlot (  "Total_Bar_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 3 Jets, Denominator)" 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
+plots_3jet.append ( makeDefaultPlot (  "Pass_Bar_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Barrel, #geq 3 Jets, Numerator)" 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_3jet.append ( makeDefaultPlot (  "Total_Bar_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 3 Jets, Denominator) " 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot (  "Pass_Bar_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron Distance [cm] (Barrel, #geq 3 Jets, Numerator) " 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
-
-plots_1jet.append ( makeDefaultPlot (  "Total_End1_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_End1_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Total_End1_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot (  "Pass_End1_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Total_End1_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
-
-plots_1jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_Bar_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "PFMET (Barrel, #geq 3 Jets, Denominator) [GeV]"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmax = 600
+plots_3jet[-1].xmin = 0
+plots_3jet[-1].ylog  = "yes"
 
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_3jet.append ( makeDefaultPlot ( "Pass_Bar_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "PFMET (Barrel, #geq 3 Jets, Numerator) [GeV]"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmax = 600
+plots_3jet[-1].xmin = 0
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End1_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
+plots_3jet[-1].ylog            = "yes"
+plots_3jet[-1].rebin           = 1
+plots_3jet[-1].xmin            = -0.5
+plots_3jet[-1].xmax            = 6.5
+plots_3jet[-1].ymin            = 0.0001
+plots_3jet[-1].ymax            = 10000000000000
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
-plots_1jet[-1].ylog            = "yes"
-plots_1jet[-1].rebin           = 1
-plots_1jet[-1].xmin            = -0.5
-plots_1jet[-1].xmax            = 6.5
-plots_1jet[-1].ymin            = 0.0001
-plots_1jet[-1].ymax            = 10000000000000
+plots_3jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
+plots_3jet[-1].ylog            = "yes"
+plots_3jet[-1].rebin           = 1
+plots_3jet[-1].xmin            = -0.5
+plots_3jet[-1].xmax            = 6.5
+plots_3jet[-1].ymin            = 0.0001
+plots_3jet[-1].ymax            = 10000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
+plots_3jet[-1].xmin = 0.
+plots_3jet[-1].xmax = 600.
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
-plots_1jet[-1].xmin = 0.
-plots_1jet[-1].xmax = 600.
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
+plots_3jet[-1].xmin = 0.
+plots_3jet[-1].xmax = 600.
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"   
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmin = -3.0
+plots_3jet[-1].xmax = 3.0
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"   
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmin = -3.0
-plots_1jet[-1].xmax = 3.0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"   
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmin = -3.0
+plots_3jet[-1].xmax = 3.0
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_3jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots_1jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_3jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
+plots_3jet.append ( makeDefaultPlot ( "Total_End1_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_3jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
+plots_3jet[-1].ylog  = "yes"
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ymax = 1000000000000000
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots_1jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
-plots_1jet[-1].ylog  = "yes"
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ymax = 1000000000000000
+plots_3jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_3jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
+plots_3jet[-1].ylog  = "yes"
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ymax = 1000000000000000
 
-plots_1jet.append ( makeDefaultPlot (  "Total_End2_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot (  "Total_End1_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator)" 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot (  "Pass_End2_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator)" 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot (  "Pass_End1_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator)" 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot (  "Total_End2_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot (  "Total_End1_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator) " 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot (  "Pass_End2_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator) " 
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot (  "Pass_End1_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator) " 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Total_End2_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Total_End1_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmax = 600
+plots_3jet[-1].xmin = 0
+plots_3jet[-1].ylog  = "yes"
 
-plots_1jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots_1jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
-plots_1jet[-1].rebin = 1
-plots_1jet[-1].ymax = 2000000000000
-plots_1jet[-1].ymin = 1e-1
-plots_1jet[-1].xmax = 600
-plots_1jet[-1].xmin = 0
-plots_1jet[-1].ylog  = "yes"
+plots_3jet.append ( makeDefaultPlot ( "Pass_End1_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmax = 600
+plots_3jet[-1].xmin = 0
+plots_3jet[-1].ylog  = "yes"
+
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End2_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
+plots_3jet[-1].ylog            = "yes"
+plots_3jet[-1].rebin           = 1
+plots_3jet[-1].xmin            = -0.5
+plots_3jet[-1].xmax            = 6.5
+plots_3jet[-1].ymin            = 0.0001
+plots_3jet[-1].ymax            = 10000000000000
+
+
+plots_3jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_nElectron_PAS", histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit            = "Number of electrons (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
+plots_3jet[-1].ylog            = "yes"
+plots_3jet[-1].rebin           = 1
+plots_3jet[-1].xmin            = -0.5
+plots_3jet[-1].xmax            = 6.5
+plots_3jet[-1].ymin            = 0.0001
+plots_3jet[-1].ymax            = 10000000000000
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
+plots_3jet[-1].xmin = 0.
+plots_3jet[-1].xmax = 600.
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+
+plots_3jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Pt1stEle_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron p_{T} (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
+plots_3jet[-1].xmin = 0.
+plots_3jet[-1].xmax = 600.
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"   
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmin = -3.0
+plots_3jet[-1].xmax = 3.0
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron #eta (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"   
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmin = -3.0
+plots_3jet[-1].xmax = 3.0
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_3jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
+plots_3jet[-1].xtit = "1st Electron #phi (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End2_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_3jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Denominator)"
+plots_3jet[-1].ylog  = "yes"
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ymax = 1000000000000000
+
+plots_3jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+plots_3jet[-1].xtit = "1st Electron Charge (Endcap |#eta| < 2, #geq 3 Jets, Numerator)"
+plots_3jet[-1].ylog  = "yes"
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ymax = 1000000000000000
+
+plots_3jet.append ( makeDefaultPlot (  "Total_End2_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator)" 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot (  "Pass_End2_3Jet_DCotTheta1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron D #times Cot(#theta) [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator)" 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot (  "Total_End2_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Denominator) " 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot (  "Pass_End2_3Jet_Dist1stEle_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "1st Electron Distance [cm] (Endcap |#eta| < 2, #geq 3 Jets, Numerator) " 
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Total_End2_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Denominator) [GeV]"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmax = 600
+plots_3jet[-1].xmin = 0
+plots_3jet[-1].ylog  = "yes"
+
+plots_3jet.append ( makeDefaultPlot ( "Pass_End2_3Jet_MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots_3jet[-1].xtit = "PFMET (Endcap |#eta| < 2, #geq 3 Jets, Numerator) [GeV]"
+plots_3jet[-1].rebin = 1
+plots_3jet[-1].ymax = 2000000000000
+plots_3jet[-1].ymin = 1e-1
+plots_3jet[-1].xmax = 600
+plots_3jet[-1].xmin = 0
+plots_3jet[-1].ylog  = "yes"
 
 #-----------------------------------------------------------------------------------
 ############# USER CODE - END ################################################
