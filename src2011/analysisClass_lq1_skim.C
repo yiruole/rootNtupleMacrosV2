@@ -1235,6 +1235,8 @@ void analysisClass::Loop()
         mDeltaPhiMET3rdJet = fabs(deltaphi);
       }
 
+    fillVariableWithValue ("nJetLooseEle_Stored", v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.size() );
+
     // 1st jet with no overlaps from loose electrons
     if( v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.size() >= 1 )        
       {
