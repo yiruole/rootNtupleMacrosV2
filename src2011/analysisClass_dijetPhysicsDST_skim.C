@@ -50,6 +50,8 @@ void analysisClass::Loop()
   double pfjetIDtight = getPreCutValue1("pfjetIDtight");
   double pfjetPtCutForHT = getPreCutValue2("pfjetPtCut");
   double pfjetEtaCutForHT = getPreCutValue2("pfjetEtaCut");
+  double pfjetDEtaForFatJet = getPreCutValue1("pfjetDEtaForFatJet");
+  double pfjetRForFatJet = getPreCutValue1("pfjetRForFatJet");
 
   double caloRawjetPtCut = getPreCutValue1("caloRawjetPtCut");
   double caloRawjetEtaCut = getPreCutValue1("caloRawjetEtaCut");
@@ -64,6 +66,8 @@ void analysisClass::Loop()
   double caloCorrjetIDtight = getPreCutValue1("caloCorrjetIDtight");
   double caloCorrjetPtCutForHT = getPreCutValue2("caloCorrjetPtCut");
   double caloCorrjetEtaCutForHT = getPreCutValue2("caloCorrjetEtaCut");
+  double caloCorrjetDEtaForFatJet = getPreCutValue1("caloCorrjetDEtaForFatJet");
+  double caloCorrjetRForFatJet = getPreCutValue1("caloCorrjetRForFatJet");
 
   // Vertices
   double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
@@ -382,6 +386,46 @@ void analysisClass::Loop()
 	fillVariableWithValue("DR_PFJet1PFJet2", jet1.DeltaR(jet2));
 	fillVariableWithValue("DEta_PFJet1PFJet2", fabs(jet1.Eta()-jet2.Eta()) );
 	fillVariableWithValue("DPhi_PFJet1PFJet2", jet1.DeltaPhi(jet2));	
+
+	// FatJetMass Algorithm (taken from HLTrigger/JetMET/src/HLTFatJetMassFilter.cc)
+	TLorentzVector fatjet1, fatjet2, fatjj;
+	if( fabs(jet1.Eta()-jet2.Eta()) < pfjetDEtaForFatJet )
+	  {
+	    for(int ijet=0; ijet<v_idx_pfjet_PtEtaCut_ID.size(); ijet++) 
+	      {
+		TLorentzVector currentjet;
+		currentjet.SetPtEtaPhiE(HLTPFJetPt->at(v_idx_pfjet_PtEtaCut_ID[ijet]),
+					HLTPFJetEta->at(v_idx_pfjet_PtEtaCut_ID[ijet]),
+					HLTPFJetPhi->at(v_idx_pfjet_PtEtaCut_ID[ijet]),
+					HLTPFJetEnergy->at(v_idx_pfjet_PtEtaCut_ID[ijet]) );
+		
+		double DeltaR1 = currentjet.DeltaR(jet1);
+		double DeltaR2 = currentjet.DeltaR(jet2);
+		if(DeltaR1 < DeltaR2 && DeltaR1 < pfjetRForFatJet) {
+		  fatjet1 += currentjet;
+		} else if(DeltaR2 < pfjetRForFatJet) {
+		  fatjet2 += currentjet;
+		}			
+	      } //end creation of 2 fat jets
+	    
+	    fatjj = fatjet1 + fatjet2;
+	    
+	    fillVariableWithValue( "FatPFJet1_Pt", fatjet1.Pt() );
+	    fillVariableWithValue( "FatPFJet1_Energy", fatjet1.Energy() );
+	    fillVariableWithValue( "FatPFJet1_Eta", fatjet1.Eta() );
+	    fillVariableWithValue( "FatPFJet1_Phi", fatjet1.Phi() );
+	    
+	    fillVariableWithValue( "FatPFJet2_Pt", fatjet2.Pt() );
+	    fillVariableWithValue( "FatPFJet2_Energy", fatjet2.Energy() );
+	    fillVariableWithValue( "FatPFJet2_Eta", fatjet2.Eta() );
+	    fillVariableWithValue( "FatPFJet2_Phi", fatjet2.Phi() );
+	    
+	    fillVariableWithValue("M_FatPFJet1FatPFJet2", fatjj.M());
+	    fillVariableWithValue("Pt_FatPFJet1FatPFJet2", fatjj.Pt());
+	    fillVariableWithValue("DR_FatPFJet1FatPFJet2", fatjet1.DeltaR(fatjet2));
+	    fillVariableWithValue("DEta_FatPFJet1FatPFJet2", fabs(fatjet1.Eta()-fatjet2.Eta()) );
+	    fillVariableWithValue("DPhi_FatPFJet1FatPFJet2", fatjet1.DeltaPhi(fatjet2));		   
+	  }
       }
 
     if (TwoCaloCorrJets)
@@ -402,6 +446,47 @@ void analysisClass::Loop()
 	fillVariableWithValue("DR_CaloCJet1CaloCJet2", jet1.DeltaR(jet2));
 	fillVariableWithValue("DEta_CaloCJet1CaloCJet2", fabs(jet1.Eta()-jet2.Eta()) );
 	fillVariableWithValue("DPhi_CaloCJet1CaloCJet2", jet1.DeltaPhi(jet2));	
+
+	// FatJetMass Algorithm (taken from HLTrigger/JetMET/src/HLTFatJetMassFilter.cc)
+	TLorentzVector fatjet1, fatjet2, fatjj;
+	if( fabs(jet1.Eta()-jet2.Eta()) < caloCorrjetDEtaForFatJet 
+	    && jet1.Pt()>30 && jet2.Pt()>30 && fabs(jet1.Eta())<3 && fabs(jet2.Eta())<3 )
+	  {
+	    for(int ijet=0; ijet<v_idx_caloCorrjet_PtEtaCut_ID.size(); ijet++) 
+	      {
+		TLorentzVector currentjet;
+		currentjet.SetPtEtaPhiE(HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut_ID[ijet]),
+					HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut_ID[ijet]),
+					HLTCaloJetCorrPhi->at(v_idx_caloCorrjet_PtEtaCut_ID[ijet]),
+					HLTCaloJetCorrEnergy->at(v_idx_caloCorrjet_PtEtaCut_ID[ijet]) );
+		
+		double DeltaR1 = currentjet.DeltaR(jet1);
+		double DeltaR2 = currentjet.DeltaR(jet2);
+		if(DeltaR1 < DeltaR2 && DeltaR1 < caloCorrjetRForFatJet) {
+		  fatjet1 += currentjet;
+		} else if(DeltaR2 < caloCorrjetRForFatJet) {
+		  fatjet2 += currentjet;
+		}			
+	      } //end creation of 2 fat jets
+	    
+	    fatjj = fatjet1 + fatjet2;
+	    
+	    fillVariableWithValue( "FatCaloCJet1_Pt", fatjet1.Pt() );
+	    fillVariableWithValue( "FatCaloCJet1_Energy", fatjet1.Energy() );
+	    fillVariableWithValue( "FatCaloCJet1_Eta", fatjet1.Eta() );
+	    fillVariableWithValue( "FatCaloCJet1_Phi", fatjet1.Phi() );
+	    
+	    fillVariableWithValue( "FatCaloCJet2_Pt", fatjet2.Pt() );
+	    fillVariableWithValue( "FatCaloCJet2_Energy", fatjet2.Energy() );
+	    fillVariableWithValue( "FatCaloCJet2_Eta", fatjet2.Eta() );
+	    fillVariableWithValue( "FatCaloCJet2_Phi", fatjet2.Phi() );
+	    
+	    fillVariableWithValue("M_FatCaloCJet1FatCaloCJet2", fatjj.M());
+	    fillVariableWithValue("Pt_FatCaloCJet1FatCaloCJet2", fatjj.Pt());
+	    fillVariableWithValue("DR_FatCaloCJet1FatCaloCJet2", fatjet1.DeltaR(fatjet2));
+	    fillVariableWithValue("DEta_FatCaloCJet1FatCaloCJet2", fabs(fatjet1.Eta()-fatjet2.Eta()) );
+	    fillVariableWithValue("DPhi_FatCaloCJet1FatCaloCJet2", fatjet1.DeltaPhi(fatjet2));		   
+	  }
       }
     
     // Evaluate cuts (but do not apply them)
