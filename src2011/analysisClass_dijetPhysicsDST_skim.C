@@ -48,16 +48,22 @@ void analysisClass::Loop()
   double pfjetEtaCut = getPreCutValue1("pfjetEtaCut");
   double pfjetIDloose = getPreCutValue1("pfjetIDloose");
   double pfjetIDtight = getPreCutValue1("pfjetIDtight");
+  double pfjetPtCutForHT = getPreCutValue2("pfjetPtCut");
+  double pfjetEtaCutForHT = getPreCutValue2("pfjetEtaCut");
 
   double caloRawjetPtCut = getPreCutValue1("caloRawjetPtCut");
   double caloRawjetEtaCut = getPreCutValue1("caloRawjetEtaCut");
   double caloRawjetIDloose = getPreCutValue1("caloRawjetIDloose");
   double caloRawjetIDtight = getPreCutValue1("caloRawjetIDtight");
+  double caloRawjetPtCutForHT = getPreCutValue2("caloRawjetPtCut");
+  double caloRawjetEtaCutForHT = getPreCutValue2("caloRawjetEtaCut");
 
   double caloCorrjetPtCut = getPreCutValue1("caloCorrjetPtCut");
   double caloCorrjetEtaCut = getPreCutValue1("caloCorrjetEtaCut");
   double caloCorrjetIDloose = getPreCutValue1("caloCorrjetIDloose");
   double caloCorrjetIDtight = getPreCutValue1("caloCorrjetIDtight");
+  double caloCorrjetPtCutForHT = getPreCutValue2("caloCorrjetPtCut");
+  double caloCorrjetEtaCutForHT = getPreCutValue2("caloCorrjetEtaCut");
 
   // Vertices
   double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
@@ -76,15 +82,16 @@ void analysisClass::Loop()
   CreateUserTH1D( "PFJetPrecutsChargedHadronEnergyFraction"             ,    200,  -2, 2   );
   CreateUserTH1D( "PFJetPrecutsChargedMultiplicity"                     ,    201,  -0.5, 200.5   );
   CreateUserTH1D( "PFJetPrecutsChargedEmEnergyFraction"                 ,    200,  -2, 2   );
-
   CreateUserTH1D( "PFJetIDPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "PFJetIDEta"                  ,    100, -6, 6      );
 
-  CreateUserTH1D( "CaloRawJetAllPt"              ,    200,  0, 2000   );
-  CreateUserTH1D( "CaloRawJetAllEta"             ,    100, -6, 6      );
+  //   CreateUserTH1D( "CaloRawJetAllPt"              ,    200,  0, 2000   );
+  //   CreateUserTH1D( "CaloRawJetAllEta"             ,    100, -6, 6      );
 
-  CreateUserTH1D( "CaloCorrJetAllPt"             ,    200,  0, 2000   );
-  CreateUserTH1D( "CaloCorrJetAllEta"            ,    100, -6, 6      );
+  CreateUserTH1D( "CaloCorrJetPrecutsPt"              ,    200,  0, 2000   );
+  CreateUserTH1D( "CaloCorrJetPrecutsEta"             ,    100, -6, 6      );
+  CreateUserTH1D( "CaloCorrJetIDPt"              ,    200,  0, 2000   );
+  CreateUserTH1D( "CaloCorrJetIDEta"             ,    100, -6, 6      );
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -95,8 +102,8 @@ void analysisClass::Loop()
   ////// If the root version is updated and rootNtupleClass regenerated,     /////
   ////// these lines may need to be updated.                                 /////
   Long64_t nbytes = 0, nb = 0;
-  for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  // for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
+  for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -110,6 +117,23 @@ void analysisClass::Loop()
 
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    //-----------------------------------------------------------------    
+    // Get trigger information, if necessary                     
+    //-----------------------------------------------------------------   
+
+    if ( isData ) {
+      vector<int>    *fakeHLTTriggerPrescales;
+      fakeHLTTriggerPrescales = new std::vector<int> ( int (HLTTriggerNames -> size()), 1 );
+      for (int ihlt=0 ; ihlt< HLTTriggerNames->size() ; ihlt++)
+	{
+	  fakeHLTTriggerPrescales->push_back( 1 );
+	}
+      getTriggers ( HLTKey, HLTTriggerNames, HLTTriggerDecisions, fakeHLTTriggerPrescales ) ;
+      delete fakeHLTTriggerPrescales;
+    }
+
+    //printTriggers();
+    
     ////////////////////// Reco Object Collections ///////////////////////
 
     //## PF Jets
@@ -136,6 +160,7 @@ void analysisClass::Loop()
       }
 
     // Full selection
+    double HT_PFJets = 0.; 
     for(int ijet=0; ijet<v_idx_pfjet_PtEtaCut.size(); ijet++) 
       {
 	bool passjetID = true;
@@ -150,18 +175,78 @@ void analysisClass::Loop()
 	    passjetID = HLTPFJetPassTightID->at(v_idx_pfjet_PtEtaCut[ijet]);
 	  }
 
-	//passjetID = true;
-
 	if( passjetID == true )
 	  {
 	    v_idx_pfjet_PtEtaCut_ID.push_back(v_idx_pfjet_PtEtaCut[ijet]);
 
-	    //histograms
+	    //Histograms
 	    FillUserTH1D( "PFJetIDPt"                  ,    HLTPFJetPt->at(v_idx_pfjet_PtEtaCut[ijet]) ); 
 	    FillUserTH1D( "PFJetIDEta"                 ,    HLTPFJetEta->at(v_idx_pfjet_PtEtaCut[ijet]) ); 
+
+	    //HT calculation
+	    if( HLTPFJetPt->at(v_idx_pfjet_PtEtaCut[ijet]) > pfjetPtCutForHT  
+		&& fabs( HLTPFJetEta->at(v_idx_pfjet_PtEtaCut[ijet]) ) < pfjetEtaCutForHT )
+	      {
+		HT_PFJets += HLTPFJetPt->at(v_idx_pfjet_PtEtaCut[ijet]);		
+	      }
 	  }
 
       } // End loop over jets
+
+
+    //## Calo Corr Jets
+    vector<int> v_idx_caloCorrjet_PtEtaCut;
+    vector<int> v_idx_caloCorrjet_PtEtaCut_ID;
+
+    // Precuts
+    for(int ijet=0; ijet<HLTCaloJetCorrPt->size(); ijet++)
+      {
+	//pT/eta pre-cuts on jets
+	if ( HLTCaloJetCorrPt->at(ijet) < caloCorrjetPtCut ) continue;
+	if ( fabs( HLTCaloJetCorrEta->at(ijet) ) > caloCorrjetEtaCut ) continue;
+	v_idx_caloCorrjet_PtEtaCut.push_back(ijet);
+	
+	//histograms
+	FillUserTH1D( "CaloCorrJetPrecutsPt"                                      ,    HLTCaloJetCorrPt->at(ijet)  ); 
+	FillUserTH1D( "CaloCorrJetPrecutsEta"                                     ,    HLTCaloJetCorrEta->at(ijet) ); 	
+      }
+
+    // Full selection
+    double HT_CaloCorrJets = 0.; 
+    for(int ijet=0; ijet<v_idx_caloCorrjet_PtEtaCut.size(); ijet++) 
+      {
+	bool passjetID = true;
+	
+	if( caloCorrjetIDloose && !caloCorrjetIDtight )
+	  {
+	    passjetID = true;
+	    //FIXME
+	  }
+
+	if( caloCorrjetIDtight )
+	  {
+	    passjetID = true;
+	    //FIXME
+	  }
+
+	if( passjetID == true )
+	  {
+	    v_idx_caloCorrjet_PtEtaCut_ID.push_back(v_idx_caloCorrjet_PtEtaCut[ijet]);
+
+	    //Histograms
+	    FillUserTH1D( "CaloCorrJetIDPt"                  ,    HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut[ijet]) ); 
+	    FillUserTH1D( "CaloCorrJetIDEta"                 ,    HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut[ijet]) ); 
+
+	    //HT calculation
+	    if( HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut[ijet]) > caloCorrjetPtCutForHT  
+		&& fabs( HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut[ijet]) ) < caloCorrjetEtaCutForHT )
+	      {
+		HT_CaloCorrJets += HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut[ijet]);		
+	      }
+	  }
+
+      } // End loop over jets
+
 
 
     //## Pixel Vertices
@@ -190,7 +275,7 @@ void analysisClass::Loop()
 
     // Set the value of the variableNames listed in the cutFile to their current value
 
-    //event info
+    // Event info
     fillVariableWithValue( "isData", isData ) ;
     fillVariableWithValue( "bunch", bunch ) ;
     fillVariableWithValue( "event", event ) ;
@@ -198,20 +283,21 @@ void analysisClass::Loop()
     fillVariableWithValue( "orbit", orbit ) ;
     fillVariableWithValue( "run", run ) ;
 
-//     // Trigger (HLT)
-//     HLT_HT350                       -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
-//       HLT_FatJetMass300               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
-//       HLT_FatJetMass400               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+    // Trigger (HLT)
+    if(isData)
+      {
+	fillVariableWithValue("HLT_HT350" , triggerFired("DST_HT350_RunPF_v1") );
+	fillVariableWithValue("HLT_FatJetMass300" , triggerFired("DST_FatJetMass300_DR1p1_Deta2p0_v1") );
+	fillVariableWithValue("HLT_FatJetMass400" , triggerFired("DST_FatJetMass400_DR1p1_Deta2p0_RunPF_v1") );
+      }
+    else
+      {
+	fillVariableWithValue("HLT_HT350" , 1 );
+	fillVariableWithValue("HLT_FatJetMass300" , 1 );
+	fillVariableWithValue("HLT_FatJetMass400" , 1 );
+      }
 
-
-//     if(isData==true)
-//       {
-//       }
-//     else
-//       {
-//       }
-
-    //Event filters at RECO level
+    // Event filters at RECO level
     int isPrimaryVertex = 0;
     if ( v_idx_vertex_good.size() > 0 )
       isPrimaryVertex = 1;
@@ -231,6 +317,10 @@ void analysisClass::Loop()
  
     // nJet
     fillVariableWithValue( "nPFJet", v_idx_pfjet_PtEtaCut_ID.size() ) ;
+    fillVariableWithValue( "HT_PFJets", HT_PFJets ) ;
+
+    fillVariableWithValue( "nCaloCJet", v_idx_caloCorrjet_PtEtaCut_ID.size() ) ;
+    fillVariableWithValue( "HT_CaloCJets", HT_CaloCorrJets ) ;
 
     // 1st jet 
     if( v_idx_pfjet_PtEtaCut_ID.size() >= 1 )        
@@ -239,6 +329,14 @@ void analysisClass::Loop()
 	fillVariableWithValue( "PFJet1_Energy", HLTPFJetEnergy->at(v_idx_pfjet_PtEtaCut_ID[0]) );
 	fillVariableWithValue( "PFJet1_Eta", HLTPFJetEta->at(v_idx_pfjet_PtEtaCut_ID[0]) );
 	fillVariableWithValue( "PFJet1_Phi", HLTPFJetPhi->at(v_idx_pfjet_PtEtaCut_ID[0]) );
+      }
+
+    if( v_idx_caloCorrjet_PtEtaCut_ID.size() >= 1 )        
+      {
+	fillVariableWithValue( "CaloCJet1_Pt", HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut_ID[0]) );
+	fillVariableWithValue( "CaloCJet1_Energy", HLTCaloJetCorrEnergy->at(v_idx_caloCorrjet_PtEtaCut_ID[0]) );
+	fillVariableWithValue( "CaloCJet1_Eta", HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut_ID[0]) );
+	fillVariableWithValue( "CaloCJet1_Phi", HLTCaloJetCorrPhi->at(v_idx_caloCorrjet_PtEtaCut_ID[0]) );
       }
 
     // 2nd jet 
@@ -250,9 +348,20 @@ void analysisClass::Loop()
 	fillVariableWithValue( "PFJet2_Phi", HLTPFJetPhi->at(v_idx_pfjet_PtEtaCut_ID[1]) );
       }
 
+    if( v_idx_caloCorrjet_PtEtaCut_ID.size() >= 2 )        
+      {
+	fillVariableWithValue( "CaloCJet2_Pt", HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut_ID[1]) );
+	fillVariableWithValue( "CaloCJet2_Energy", HLTCaloJetCorrEnergy->at(v_idx_caloCorrjet_PtEtaCut_ID[1]) );
+	fillVariableWithValue( "CaloCJet2_Eta", HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut_ID[1]) );
+	fillVariableWithValue( "CaloCJet2_Phi", HLTCaloJetCorrPhi->at(v_idx_caloCorrjet_PtEtaCut_ID[1]) );
+      }
+
     // define booleans
     bool TwoPFJets=false;
     if( v_idx_pfjet_PtEtaCut_ID.size() >= 2 ) TwoPFJets = true;
+    bool TwoCaloCorrJets=false;
+    if( v_idx_caloCorrjet_PtEtaCut_ID.size() >= 2 ) TwoCaloCorrJets = true;
+
 
     // Mjj
     if (TwoPFJets)
@@ -274,11 +383,41 @@ void analysisClass::Loop()
 	fillVariableWithValue("DEta_PFJet1PFJet2", fabs(jet1.Eta()-jet2.Eta()) );
 	fillVariableWithValue("DPhi_PFJet1PFJet2", jet1.DeltaPhi(jet2));	
       }
+
+    if (TwoCaloCorrJets)
+      {
+	TLorentzVector jet1, jet2, jj;
+	jet1.SetPtEtaPhiE(HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut_ID[0]),
+			  HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut_ID[0]),
+			  HLTCaloJetCorrPhi->at(v_idx_caloCorrjet_PtEtaCut_ID[0]),
+			  HLTCaloJetCorrEnergy->at(v_idx_caloCorrjet_PtEtaCut_ID[0]) );
+	jet2.SetPtEtaPhiE(HLTCaloJetCorrPt->at(v_idx_caloCorrjet_PtEtaCut_ID[1]),
+			  HLTCaloJetCorrEta->at(v_idx_caloCorrjet_PtEtaCut_ID[1]),
+			  HLTCaloJetCorrPhi->at(v_idx_caloCorrjet_PtEtaCut_ID[1]),
+			  HLTCaloJetCorrEnergy->at(v_idx_caloCorrjet_PtEtaCut_ID[1]) );
+	jj = jet1+jet2;
+	
+	fillVariableWithValue("M_CaloCJet1CaloCJet2", jj.M());
+	fillVariableWithValue("Pt_CaloCJet1CaloCJet2", jj.Pt());
+	fillVariableWithValue("DR_CaloCJet1CaloCJet2", jet1.DeltaR(jet2));
+	fillVariableWithValue("DEta_CaloCJet1CaloCJet2", fabs(jet1.Eta()-jet2.Eta()) );
+	fillVariableWithValue("DPhi_CaloCJet1CaloCJet2", jet1.DeltaPhi(jet2));	
+      }
     
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
     
     // Fill histograms and do analysis based on cut evaluation
+    
+    //     if( variableIsFilled("HLT_HT350") &&  variableIsFilled("HLT_FatJetMass400") && variableIsFilled("PFJet1_Pt")    
+    // 	&& max( getVariableValue("HLT_HT350"), getVariableValue("HLT_FatJetMass400") ) == 0 
+    // 	&& getVariableValue("PFJet1_Pt")>0 )
+    //       {
+    // 	std::cout << "************** next event" << std::endl;
+    // 	printTriggers();
+    // 	std::cout << getVariableValue("PFJet1_Pt") << std::endl;
+    // 	std::cout << "**************" << std::endl;
+    //       }
     
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
@@ -296,20 +435,20 @@ void analysisClass::Loop()
     //    && passedCut("nMuon_PtCut_IDISO")
     
     // Produce skim 
-    if( //passedAllPreviousCuts("PassPrimaryVertex") 
- 	passedCut("nPFJet")
-	&& passedCut("PFJet1_Pt")
-	&& passedCut("PFJet2_Pt")
-	) 
-      fillSkimTree();
+    //     if( //passedAllPreviousCuts("PassPrimaryVertex") 
+    //  	passedCut("nPFJet")
+    // 	&& passedCut("PFJet1_Pt")
+    // 	&& passedCut("PFJet2_Pt")
+    // 	) 
+    fillSkimTree();
     
     // Produce reduced skim
-    if( //passedAllPreviousCuts("PassPrimaryVertex") 
- 	passedCut("nPFJet")
-	&& passedCut("PFJet1_Pt")
-	&& passedCut("PFJet2_Pt")
-	) 
-      fillReducedSkimTree();
+    //     if( //passedAllPreviousCuts("PassPrimaryVertex") 
+    //  	passedCut("nPFJet")
+    // 	&& passedCut("PFJet1_Pt")
+    // 	&& passedCut("PFJet2_Pt")
+    // 	) 
+    fillReducedSkimTree();
     
     ////////////////////// User's code to be done for every event - END ///////////////////////
 

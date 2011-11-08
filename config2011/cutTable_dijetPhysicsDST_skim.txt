@@ -26,19 +26,19 @@
 produceReducedSkim    1                 -               -               -               -1
 #
 # Jets 
-#
-pfjetPtCut            10		-               -               -                -1
-pfjetEtaCut           3.0		-               -               -                -1
+#                                       for HT
+pfjetPtCut            10		40              -               -                -1
+pfjetEtaCut           3.0		3.0             -               -                -1
 pfjetIDloose	      1			-		-		-	    	 -1
 pfjetIDtight	      0			-		-		-		 -1
 #
-caloRawjetPtCut       30		-               -               -                -1
-caloRawjetEtaCut      3.0		-               -               -                -1
+caloRawjetPtCut       30		40              -               -                -1
+caloRawjetEtaCut      3.0		3.0             -               -                -1
 caloRawjetIDloose     1			-		-		-	    	 -1
 caloRawjetIDtight     0			-		-		-		 -1
 #
-caloCorrjetPtCut      30		-               -               -                -1
-caloCorrjetEtaCut     3.0		-               -               -                -1
+caloCorrjetPtCut      30		40              -               -                -1
+caloCorrjetEtaCut     3.0		3.0             -               -                -1
 caloCorrjetIDloose    1			-		-		-	    	 -1
 caloCorrjetIDtight    0			-		-		-		 -1
 #
@@ -80,16 +80,16 @@ Vertex1_X                       -inf	     +inf		-		-		0	100 -50 50	      SAVE
 Vertex1_Y                       -inf	     +inf		-		-		0	100 -50 50	      SAVE
 Vertex1_Z                       -inf	     +inf		-		-		0	100 -50 50	      SAVE
 #
-#HLT_HT350                       -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
-#HLT_FatJetMass300               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
-#HLT_FatJetMass400               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+HLT_HT350                       -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+HLT_FatJetMass300               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+HLT_FatJetMass400               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 #
-nPFJet				1	     +inf               -               -               0       16 -0.5 15.5	      SAVE
-PFJet1_Pt			30	     +inf		-		-		0	100 0 1000	      SAVE
+nPFJet				-inf	     +inf               -               -               0       16 -0.5 15.5	      SAVE
+PFJet1_Pt			-inf	     +inf		-		-		0	100 0 1000	      SAVE
 PFJet1_Energy			-inf	     +inf		-		-		0	100 0 1000	      SAVE
 PFJet1_Eta			-inf         +inf               -               -               0       100 -5 5	      SAVE
 PFJet1_Phi			-inf         +inf               -               -               0       100 0 3.1416	      SAVE
-PFJet2_Pt			30	     +inf		-		-		0	100 0 1000	      SAVE
+PFJet2_Pt			-inf	     +inf		-		-		0	100 0 1000	      SAVE
 PFJet2_Energy			-inf	     +inf		-		-		0	100 0 1000	      SAVE
 PFJet2_Eta			-inf         +inf               -               -               0       100 -5 5	      SAVE
 PFJet2_Phi			-inf         +inf               -               -               0       100 0 3.1416	      SAVE
@@ -98,12 +98,13 @@ DPhi_PFJet1PFJet2		-inf	     +inf		-		-		0	100 0 10	      SAVE
 DEta_PFJet1PFJet2		-inf	     +inf		-		-		0	100 0 10	      SAVE
 Pt_PFJet1PFJet2			-inf	     +inf               -               -               0       200 0 2000	      SAVE
 M_PFJet1PFJet2			-inf	     +inf               -               -               0       200 0 2000	      SAVE
+HT_PFJets			-inf	     +inf		-		-		0	400 0 4000	      SAVE
 #
-#FatPFJet1_Pt			30	     +inf		-		-		0	100 0 1000	      SAVE
+#FatPFJet1_Pt			-inf	     +inf		-		-		0	100 0 1000	      SAVE
 #FatPFJet1_Energy		-inf	     +inf		-		-		0	100 0 1000	      SAVE
 #FatPFJet1_Eta			-inf         +inf               -               -               0       100 -5 5	      SAVE
 #FatPFJet1_Phi			-inf         +inf               -               -               0       100 0 3.1416	      SAVE
-#FatPFJet2_Pt			30	     +inf		-		-		0	100 0 1000	      SAVE
+#FatPFJet2_Pt			-inf	     +inf		-		-		0	100 0 1000	      SAVE
 #FatPFJet2_Energy		-inf	     +inf		-		-		0	100 0 1000	      SAVE
 #FatPFJet2_Eta			-inf         +inf               -               -               0       100 -5 5	      SAVE
 #FatPFJet2_Phi			-inf         +inf               -               -               0       100 0 3.1416	      SAVE
@@ -113,6 +114,21 @@ M_PFJet1PFJet2			-inf	     +inf               -               -               0 
 #Pt_FatPFJet1FatPFJet2		-inf	     +inf               -               -               0       200 0 2000	      SAVE
 #M_FatPFJet1FatPFJet2		-inf	     +inf               -               -               0       200 0 2000	      SAVE
 #
+nCaloCJet			-inf	     +inf               -               -               0       16 -0.5 15.5	      SAVE
+CaloCJet1_Pt			-inf	     +inf		-		-		0	100 0 1000	      SAVE
+CaloCJet1_Energy		-inf	     +inf		-		-		0	100 0 1000	      SAVE
+CaloCJet1_Eta			-inf         +inf               -               -               0       100 -5 5	      SAVE
+CaloCJet1_Phi			-inf         +inf               -               -               0       100 0 3.1416	      SAVE
+CaloCJet2_Pt			-inf	     +inf		-		-		0	100 0 1000	      SAVE
+CaloCJet2_Energy		-inf	     +inf		-		-		0	100 0 1000	      SAVE
+CaloCJet2_Eta			-inf         +inf               -               -               0       100 -5 5	      SAVE
+CaloCJet2_Phi			-inf         +inf               -               -               0       100 0 3.1416	      SAVE
+DR_CaloCJet1CaloCJet2		-inf	     +inf		-		-		0	100 0 10	      SAVE
+DPhi_CaloCJet1CaloCJet2		-inf	     +inf		-		-		0	100 0 10	      SAVE
+DEta_CaloCJet1CaloCJet2		-inf	     +inf		-		-		0	100 0 10	      SAVE
+Pt_CaloCJet1CaloCJet2		-inf	     +inf               -               -               0       200 0 2000	      SAVE
+M_CaloCJet1CaloCJet2		-inf	     +inf               -               -               0       200 0 2000	      SAVE
+HT_CaloCJets			-inf	     +inf		-		-		0	400 0 4000	      SAVE
 #---------------------------------------- Cut Optimizer --------------------------------------------------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
