@@ -27,7 +27,6 @@ void analysisClass::Loop()
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
 
-
    //--------------------------------------------------------------------------
    // Get pre-cut values
    //--------------------------------------------------------------------------
@@ -100,6 +99,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "Phi1stJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Me1j1_PAS"		   ,    200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Me2j1_PAS"		   ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Meejj_PAS"             ,    200 , 0       , 2000     );
    CreateUserTH1D( "Ptee_PAS"              ,    200 , 0       , 2000     );
    		                           
@@ -145,7 +146,7 @@ void analysisClass::Loop()
      
      int NPILEUP_AVE = int( nPileUpInt_BX0 );
      int NPILEUP_FINAL = min( NPILEUP_AVE , 25 );
-     double weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
+     double pileup_weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
 
      //--------------------------------------------------------------------------
      // Fill variables
@@ -270,16 +271,15 @@ void analysisClass::Loop()
        // If we find a suitable trigger, scale this event by that trigger's prescale
 
        passTrigger = 0;
-       if ( min_prescale != 999999 ) {
+       if ( min_prescale != 999999 ) { // if I found some suitable trigger that fired
 	 passTrigger = 1;     
-       } else { 
-	 min_prescale = 0;
+       } else {                        // if I was not able to find a suitable trigger that fired
+	 min_prescale = 0;            
        }
-       weight *= min_prescale;
 
      }  // end if (isData) 
 					       
-     else { 
+     else { // i.e., if this is Monte Carlo
        min_prescale = 1;
        passTrigger = 1 ;
      }
@@ -421,7 +421,7 @@ void analysisClass::Loop()
      double eFakeRateEffective = sqrt ( ( eFakeRate1 * eFakeRate1 ) +
 					( eFakeRate2 * eFakeRate2 ) );
 
-     // fakeRateEffective -= eFakeRateEffective;
+     // fakeRateEffective += eFakeRateEffective;
 
      //--------------------------------------------------------------------------
      // User has the option to use a flat fake rate (e.g. 1.0 = no fake rate)
@@ -461,6 +461,9 @@ void analysisClass::Loop()
      TLorentzVector loose_e1e2 = loose_ele1 + loose_ele2;
      TLorentzVector j1j2 = jet1 + jet2;
 
+     TLorentzVector e1j1 = loose_ele1 + jet1;
+     TLorentzVector e2j1 = loose_ele2 + jet1;
+
      //--------------------------------------------------------------------------
      // Now fill cut values
      // DON'T use the pileup weight ... it's included by default
@@ -489,12 +492,12 @@ void analysisClass::Loop()
      // Jets
      fillVariableWithValue(   "nJet"                          , nJetLooseEle_Stored , min_prescale  * fakeRateEffective );
      if ( nJetLooseEle_Stored >= 1 ) {
-       fillVariableWithValue( "Jet1_Pt"                       , Jet1_Pt             , min_prescale  * fakeRateEffective ) ;
-       fillVariableWithValue( "Jet1_Eta"                      , Jet1_Eta            , min_prescale  * fakeRateEffective ) ;
+       fillVariableWithValue( "Jet1_Pt"                       , JetLooseEle1_Pt   , min_prescale  * fakeRateEffective ) ;
+       fillVariableWithValue( "Jet1_Eta"                      , JetLooseEle1_Eta , min_prescale  * fakeRateEffective ) ;
      }
 
      // Muons
-     fillVariableWithValue(   "nMuon"                         , nMuon_Ana            , min_prescale  * fakeRateEffective ); 
+     fillVariableWithValue(   "nMuon"                         , nMuon_Ana           , min_prescale  * fakeRateEffective ); 
 										      			      
      // DeltaR
      if ( nEle_QCDFake >= 2 && nJetLooseEle_Stored >= 1) {
@@ -512,7 +515,8 @@ void analysisClass::Loop()
 
      //--------------------------------------------------------------------------
      // Fill preselection plots
-     // DO    use the weight = pileup weight * prescale
+     // DO    use the pileup weight.  It's equal to 1.0 for data.  
+     // DO    use the min_prescale.  It's equal to 1.0 for Monte Carlo
      // DO    use the effective fake rate.  It will only mean anything when you run
      //       over data, though, so be sure to override it to 1.0 
      //       if you run over Monte Carlo
@@ -524,33 +528,35 @@ void analysisClass::Loop()
 
        double sT_eej = QCDFakeEle1_Pt + QCDFakeEle2_Pt + JetLooseEle1_Pt ;
 
-       FillUserTH1D("nElectron_PAS"        , nEle_QCDFake              , weight * fakeRateEffective );
-       FillUserTH1D("nMuon_PAS"            , nMuon_Stored              , weight * fakeRateEffective );
-       FillUserTH1D("nJet_PAS"             , nJetLooseEle_Stored       , weight * fakeRateEffective );
-       FillUserTH1D("Pt1stEle_PAS"	   , QCDFakeEle1_Pt            , weight * fakeRateEffective );
-       FillUserTH1D("Eta1stEle_PAS"	   , QCDFakeEle1_Eta           , weight * fakeRateEffective );
-       FillUserTH1D("Phi1stEle_PAS"	   , QCDFakeEle1_Phi           , weight * fakeRateEffective );
-       FillUserTH1D("Pt2ndEle_PAS"	   , QCDFakeEle2_Pt            , weight * fakeRateEffective );
-       FillUserTH1D("Eta2ndEle_PAS"	   , QCDFakeEle2_Eta           , weight * fakeRateEffective );
-       FillUserTH1D("Phi2ndEle_PAS"	   , QCDFakeEle2_Phi           , weight * fakeRateEffective );
-       FillUserTH1D("Charge1stEle_PAS"	   , QCDFakeEle1_Charge        , weight * fakeRateEffective );
-       FillUserTH1D("Charge2ndEle_PAS"	   , QCDFakeEle2_Charge        , weight * fakeRateEffective );
-       FillUserTH1D("MET_PAS"              , MET_Pt                    , weight * fakeRateEffective );
-       FillUserTH1D("METPhi_PAS"	   , MET_Phi                   , weight * fakeRateEffective );
-       FillUserTH1D( "METCharged_PAS"      , PFMETCharged              , weight * fakeRateEffective );
-       FillUserTH1D( "METChargedPhi_PAS"   , PFMETChargedPhi           , weight * fakeRateEffective );   
-       FillUserTH1D( "METType1_PAS"        , PFMETType1Cor             , weight * fakeRateEffective );
-       FillUserTH1D( "METType1Phi_PAS"     , PFMETPhiType1Cor          , weight * fakeRateEffective );   
-       FillUserTH1D("Pt1stJet_PAS"         , JetLooseEle1_Pt           , weight * fakeRateEffective );
-       FillUserTH1D("Eta1stJet_PAS"        , JetLooseEle1_Eta          , weight * fakeRateEffective );
-       FillUserTH1D("Phi1stJet_PAS"	   , JetLooseEle1_Phi          , weight * fakeRateEffective );
-       FillUserTH1D("sT_PAS"               , sT_eej                    , weight * fakeRateEffective );
-       FillUserTH1D("Mee_PAS"		   , loose_e1e2.M()            , weight * fakeRateEffective );
-       FillUserTH1D("Ptee_PAS"             , loose_e1e2.Pt()           , weight * fakeRateEffective );
-       FillUserTH1D("nVertex_PAS"          , nVertex                   , weight * fakeRateEffective );
-       FillUserTH1D("nVertex_good_PAS"     , nVertex_good              , weight * fakeRateEffective );
-       FillUserTH1D("DR_Ele1Jet1_PAS"	   , loose_ele1.DeltaR ( jet1 ), weight * fakeRateEffective );
-       FillUserTH1D("DR_Ele2Jet1_PAS"	   , loose_ele2.DeltaR ( jet1 ), weight * fakeRateEffective );
+       FillUserTH1D("nElectron_PAS"        , nEle_QCDFake              , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nMuon_PAS"            , nMuon_Stored              , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nJet_PAS"             , nJetLooseEle_Stored       , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Pt1stEle_PAS"	   , QCDFakeEle1_Pt            , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Eta1stEle_PAS"	   , QCDFakeEle1_Eta           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Phi1stEle_PAS"	   , QCDFakeEle1_Phi           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Pt2ndEle_PAS"	   , QCDFakeEle2_Pt            , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Eta2ndEle_PAS"	   , QCDFakeEle2_Eta           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Phi2ndEle_PAS"	   , QCDFakeEle2_Phi           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Charge1stEle_PAS"	   , QCDFakeEle1_Charge        , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Charge2ndEle_PAS"	   , QCDFakeEle2_Charge        , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("MET_PAS"              , MET_Pt                    , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("METPhi_PAS"	   , MET_Phi                   , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("METCharged_PAS"       , PFMETCharged              , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("METChargedPhi_PAS"    , PFMETChargedPhi           , pileup_weight * min_prescale * fakeRateEffective );   
+       FillUserTH1D("METType1_PAS"         , PFMETType1Cor             , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("METType1Phi_PAS"      , PFMETPhiType1Cor          , pileup_weight * min_prescale * fakeRateEffective );   
+       FillUserTH1D("Pt1stJet_PAS"         , JetLooseEle1_Pt           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Eta1stJet_PAS"        , JetLooseEle1_Eta          , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Phi1stJet_PAS"	   , JetLooseEle1_Phi          , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("sT_PAS"               , sT_eej                    , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Mee_PAS"		   , loose_e1e2.M()            , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Ptee_PAS"             , loose_e1e2.Pt()           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nVertex_PAS"          , nVertex                   , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nVertex_good_PAS"     , nVertex_good              , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("DR_Ele1Jet1_PAS"	   , loose_ele1.DeltaR ( jet1 ), pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("DR_Ele2Jet1_PAS"	   , loose_ele2.DeltaR ( jet1 ), pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Me1j1_PAS"            , e1j1.M()                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Me2j1_PAS"            , e2j1.M()                  , pileup_weight * min_prescale * fakeRateEffective );
      }
    } // End loop over events
 
