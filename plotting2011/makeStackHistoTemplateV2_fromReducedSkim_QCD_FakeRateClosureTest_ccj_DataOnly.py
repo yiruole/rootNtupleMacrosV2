@@ -460,7 +460,7 @@ class Plot:
 #--- Input root file
 
 
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCDClosureTest_ccj_DataOnly/analysisClass_lq_eejj_QCDClosureTest_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_plots.root")
 # File_preselection = GetFile(sys.argv[1])
 
 
@@ -576,6 +576,19 @@ plots[-1].rebin = 1
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 
+plots.append ( makeDefaultPlot ( "M_e1e2"	 ,  histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M(ee) [GeV] (cut)"
+plots[-1].ymax = 2000000
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "sT_eej"	 ,  histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "s_{T} [GeV] (cut)"
+plots[-1].ymax = 2000000
+plots[-1].rebin = 1
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "nJet"         , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit  = "Number of jets"
