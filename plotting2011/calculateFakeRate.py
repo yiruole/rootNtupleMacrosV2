@@ -94,10 +94,12 @@ def makePlots ( psfile, canvas, root_file, variable, xtitle, xmin, xmax, ymin, y
 
     r_hist.Fit ("f2","QR")
     f1.Draw("SAME")
-    cloned_stats1.Draw("SAME");
+    cloned_stats1.Draw("SAME")
 
     ROOT.gErrorIgnoreLevel = 1
     canvas.Print (psfile)
+    canvas.SaveAs ( "fakeRate_eps/" + variable + ".eps"  );
+    canvas.SaveAs ( "fakeRate_gif/" + variable + ".gif"  );
 
     parameters = [] 
     par_errors = [] 
