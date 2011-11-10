@@ -458,13 +458,13 @@ class Plot:
 
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//skim_test//analysisClass_lq_enujj_plots.root")
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/330pb-1_21072011/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
-File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis_enujj//output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
-
-File_selection    = File_preselection
+# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/0.1457pb-1_QCD/output_cutTable_lq_enujj_QCD/analysisClass_lq_enujj_QCD_plots.root")
+# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/0.1457pb-1_QCD/output_cutTable_lq_enujj_QCD/analysisClass_lq_enujj_QCD_plots.root")
+File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//enujj_analysis/enujj/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-# File_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
+File_QCD = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//enujj_analysis/enujj_qcd/output_cutTable_lq_enujj/analysisClass_lq_enujj_QCD_plots.root")
 
 QCDscaleFactor    = 1 # no need to rescale anymore since we are using the HLT prescales (36/35.84 can be ignored)
 
@@ -488,17 +488,17 @@ eta_ymax=100
 
 # Simply add or remove plots and update the list plots = [plot0, plot1, ...] below
 
-histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
+histoBaseName = "histo1D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 # keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
 
 samplesForStackHistosQCD = ["DATA"]
-
-samplesForStackHistos = ["ZJet_Madgraph","DIBOSON"     , "SingleTop"   ,"PhotonJets"   ,"TTbar_Madgraph","WJet_Madgraph"]
-keysStack             = ["Z/Z* + jets"  ,"WW + WZ + ZZ", "single top"  ,"#gamma + jets","t#bar{t}"      , "W/W* + jets" ]
-stackColorIndexes     = [6              , 14           ,  4            , 3             , 92             , 2             ]
-stackFillStyleIds     = [3345           , 3344         ,  3345         , 3354          , 3354           , 3395          ]
+# keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
+samplesForStackHistos = ["ZJet_Madgraph","PhotonJets","SingleTop","DIBOSON","TTbar_Madgraph","WJet_Madgraph"]
+keysStack =             ["QCD multijets", "Z/Z* + jets"  ,"#gamma + jets","single top","WW + WZ + ZZ","t#bar{t}", "W/W* + jets"]
+stackColorIndexes     = [7   , 6              , 14           ,  4            , 3             , 92             , 2             ]
+stackFillStyleIds     = [3345, 3345           , 3344         ,  3345         , 3354          , 3354           , 3395          ]
 
 stackColorIndexes.reverse()
 stackFillStyleIds.reverse()
@@ -516,7 +516,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
                       sampleForDataHisto,
                       zUncBand, makeRatio ) : 
     plot                = Plot() 
-    plot.histosStack    = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+    plot.histosStack    = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection) 
     plot.keysStack      = keysStack
     plot.histos         = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
     plot.keys           = keys
@@ -814,6 +814,24 @@ plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 plots[-1].xtit = "2nd Jet TCHE (Preselection)"
 
+plots.append ( makeDefaultPlot ( "MT_charged_enu_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Charged PFMET) (Preselection) [GeV]"
+plots[-1].rebin = 1
+plots[-1].ymax = 200000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "MT_type1_enu_PAS"  ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Type 1 PFMET) (Preselection) [GeV]"
+plots[-1].rebin = 1
+plots[-1].ymax = 200000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].ylog  = "yes"
+
 plots.append ( makeDefaultPlot ( "MTenu_PAS"             ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit = "M_{T} (1st Electron, PFMET) (Preselection) [GeV]"
 plots[-1].rebin = 1
@@ -946,24 +964,97 @@ plots[-1].xmin = 0
 plots[-1].rebin = 1
 plots[-1].ylog  = "yes"
 
-plots.append ( makeDefaultPlot ( "nVertex_good_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "n(good vertexes)"
-plots[-1].ymax = 2000000
+plots.append ( makeDefaultPlot (  "MTCharged_GoodVtxLTE3_PAS"       ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Charged PFMET) (Preselection + Good vertices #leq 3) [GeV]"
+plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
-plots[-1].xmax = 30.5
-plots[-1].xmin = -0.5
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot (  "MTCharged_GoodVtxGTE4_LTE8_PAS"  ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Charged PFMET) (Preselection + 4 #geq Good vertices #leq 8) [GeV]"
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot (  "MTCharged_GoodVtxGTE9_LTE15_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Charged PFMET) (Preselection + 9 #geq Good vertices #leq 15) [GeV]"
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot (  "MTCharged_GoodVtxGTE16_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Charged PFMET) (Preselection + Good vertices #geq 16) [GeV]"
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
 plots[-1].rebin = 1
 plots[-1].ylog  = "yes"
 
 
-plots.append ( makeDefaultPlot ( "nVertex_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "n(vertex)"
-plots[-1].ymax = 2000000
+plots.append ( makeDefaultPlot (  "MTType1_GoodVtxLTE3_PAS"       ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Type1 PFMET) (Preselection + Good vertices #leq 3) [GeV]"
+plots[-1].ymax = 20000
 plots[-1].ymin = 1e-1
-plots[-1].xmax = 30.5
-plots[-1].xmin = -0.5
+plots[-1].xmax = 600
+plots[-1].xmin = 0
 plots[-1].rebin = 1
 plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot (  "MTType1_GoodVtxGTE4_LTE8_PAS"  ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Type1 PFMET) (Preselection + 4 #geq Good vertices #leq 8) [GeV]"
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot (  "MTType1_GoodVtxGTE9_LTE15_PAS" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Type1 PFMET) (Preselection + 9 #geq Good vertices #leq 15) [GeV]"
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot (  "MTType1_GoodVtxGTE16_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T} (1st Electron, Type1 PFMET) (Preselection + Good vertices #geq 16) [GeV]"
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 600
+plots[-1].xmin = 0
+plots[-1].rebin = 1
+plots[-1].ylog  = "yes"
+
+# plots.append ( makeDefaultPlot ( "nVertex_good_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+# plots[-1].xtit = "n(good vertexes)"
+# plots[-1].ymax = 2000000
+# plots[-1].ymin = 1e-1
+# plots[-1].xmax = 30.5
+# plots[-1].xmin = -0.5
+# plots[-1].rebin = 1
+# plots[-1].ylog  = "yes"
+# 
+# 
+# plots.append ( makeDefaultPlot ( "nVertex_PAS",  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+# plots[-1].xtit = "n(vertex)"
+# plots[-1].ymax = 2000000
+# plots[-1].ymin = 1e-1
+# plots[-1].xmax = 30.5
+# plots[-1].xmin = -0.5
+# plots[-1].rebin = 1
+# plots[-1].ylog  = "yes"
 
 #-----------------------------------------------------------------------------------
 
@@ -977,7 +1068,7 @@ if doExtraPlots:
 
 #--- Generate and print the plots from the list 'plots' define above
 c = TCanvas()
-fileps = "allPlots_enujj.ps" 
+fileps = "allPlots_enujj_analysis.ps" 
 
 c.Print(fileps + "[")
 for plot in plots:
