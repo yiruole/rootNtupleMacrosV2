@@ -21,9 +21,9 @@ void analysisClass::Loop()
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
    
-   fillSkim                         (  true  ) ;
-   fillAllPreviousCuts              (  true  ) ;
-   fillAllOtherCuts                 ( !true  ) ;
+   fillSkim                         ( !true  ) ;
+   fillAllPreviousCuts              ( !true  ) ;
+   fillAllOtherCuts                 (  true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
 
@@ -74,8 +74,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "Dist1stEle_PAS"           , 100 , 0.0     , 1.0      );  
    CreateUserTH1D( "DR_Ele1Jet1_PAS"	      , 100 , 0       , 10       ); 
    CreateUserTH1D( "DR_Ele1Jet2_PAS"	      , 100 , 0       , 10       ); 
-   CreateUserTH1D( "DR_Ele2Jet1_PAS"	      , 100 , 0       , 10       ); 
-   CreateUserTH1D( "DR_Ele2Jet2_PAS"	      , 100 , 0       , 10       ); 
    CreateUserTH1D( "DR_Jet1Jet2_PAS"	      , 100 , 0       , 10       ); 
    CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      ,  3.14159 );
@@ -133,6 +131,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      int passedJSON = passJSON ( run, ls , isData ) ;
+     if ( !isData ) passedJSON = 1;
      
      //--------------------------------------------------------------------------
      // Check HLT
@@ -156,6 +155,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
 
      // JSON variable
+     fillVariableWithValue(   "Reweighting"              , 1                       );
      fillVariableWithValue(   "PassJSON"                 , passedJSON              ); 
      									          
      // HLT variable							           
@@ -213,6 +213,12 @@ void analysisClass::Loop()
      
      evaluateCuts();
 
+     if (!isData && !passedCut ("PassJSON")){
+       std::cout << "ERROR: This event did not pass the JSON file!" << std::endl;
+       std::cout << "  isData = " << isData << std::endl;
+       std::cout << "  passedJSON = " << passedJSON << std::endl;
+     }
+     
      //--------------------------------------------------------------------------
      // Fill preselection plots
      //--------------------------------------------------------------------------
@@ -274,8 +280,6 @@ void analysisClass::Loop()
        FillUserTH1D( "Mej2_PAS"              , M_e1j2                         , weight);
        FillUserTH1D( "DR_Ele1Jet1_PAS"	     , DR_Ele1Jet1                    , weight);
        FillUserTH1D( "DR_Ele1Jet2_PAS"	     , DR_Ele1Jet2                    , weight);
-       FillUserTH1D( "DR_Ele2Jet1_PAS"	     , DR_Ele2Jet1                    , weight);
-       FillUserTH1D( "DR_Ele2Jet2_PAS"	     , DR_Ele2Jet2                    , weight);
        FillUserTH1D( "DR_Jet1Jet2_PAS"	     , DR_Jet1Jet2                    , weight);
 
        if ( nVertex_good >= 0 && nVertex_good <= 3 ) {
