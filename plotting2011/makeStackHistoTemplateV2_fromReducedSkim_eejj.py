@@ -459,10 +459,10 @@ class Plot:
 
 #--- Input root file
 
-# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//skim_test//analysisClass_lq_enujj_plots.root")
-# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/330pb-1_21072011/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
-File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//lq_analysis_eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
+# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_preselection = GetFile(sys.argv[1])
+
 
 File_selection    = File_preselection
 
@@ -536,13 +536,13 @@ def makeDefaultPlot ( variableName, histoBaseName,
 
 plots = []
 
-plots.append ( makeDefaultPlot ( "nEle"      , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].ymax  = 10000000
-plots[-1].ymin  = 1e-1
-plots[-1].xmin  = -0.5
-plots[-1].xmax  = 6.5
-plots[-1].ylog  = "yes"
-plots[-1].xtit  = "Number of electrons (cut)"
+# plots.append ( makeDefaultPlot ( "nEle"      , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+# plots[-1].ymax  = 10000000
+# plots[-1].ymin  = 1e-1
+# plots[-1].xmin  = -0.5
+# plots[-1].xmax  = 6.5
+# plots[-1].ylog  = "yes"
+# plots[-1].xtit  = "Number of electrons (cut)"
 
 plots.append ( makeDefaultPlot ( "Ele1_Pt"  , histoBaseName, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 2
@@ -702,6 +702,15 @@ plots[-1].xtit = "2nd Electron Charge (preselection)"
 plots[-1].ymin = 0.0
 plots[-1].ymax = 20000.
 
+plots.append ( makeDefaultPlot ( "MTenu_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "M_{T}(e_{1}m PFMET (preselection)) [GeV]"
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 500
+plots[-1].xmin = 0
+plots[-1].ylog  = "yes"
+
 plots.append ( makeDefaultPlot ( "MET_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit = "PFMET (preselection) [GeV]"
 plots[-1].rebin = 1
@@ -713,6 +722,40 @@ plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "METPhi_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit = "PFMET #phi (preselection)"
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+
+plots.append ( makeDefaultPlot ( "METCharged_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "Charged PFMET (preselection) [GeV]"
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 500
+plots[-1].xmin = 0
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "METChargedPhi_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "Charged PFMET #phi (preselection)"
+plots[-1].rebin = 1
+plots[-1].ymax = 2000000
+plots[-1].ymin = 1e-1
+plots[-1].ylog  = "yes"
+
+
+plots.append ( makeDefaultPlot ( "METType1_PAS"               ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "Type1 PFMET (preselection) [GeV]"
+plots[-1].rebin = 1
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 500
+plots[-1].xmin = 0
+plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "METType1Phi_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "Type1 PFMET #phi (preselection)"
 plots[-1].rebin = 1
 plots[-1].ymax = 2000000
 plots[-1].ymin = 1e-1
