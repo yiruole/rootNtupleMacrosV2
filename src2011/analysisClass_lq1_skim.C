@@ -1470,6 +1470,8 @@ void analysisClass::Loop()
       if( passedAllPreviousCuts("PassHBHENoiseFilter") 
 	  && passedCut("nEle_QCDFake")
 	  && passedCut("QCDFakeEle1_Pt")
+	  && passedCut("nJetLooseEle_Stored")
+	  && passedCut("MET_Pt")
 	  ) {
 	fillSkimTree();
 	fillReducedSkimTree();
