@@ -290,15 +290,21 @@ void analysisClass::Loop()
     // Trigger (HLT)
     if(isData)
       {
-	fillVariableWithValue("HLT_HT350" , triggerFired("DST_HT350_RunPF_v1") );
 	fillVariableWithValue("HLT_FatJetMass300" , triggerFired("DST_FatJetMass300_DR1p1_Deta2p0_v1") );
 	fillVariableWithValue("HLT_FatJetMass400" , triggerFired("DST_FatJetMass400_DR1p1_Deta2p0_RunPF_v1") );
+	fillVariableWithValue("HLT_HT150" , triggerFired("HLT_HT150_v11") );
+	fillVariableWithValue("HLT_HT200" , triggerFired("HLT_HT200_v11") );
+	fillVariableWithValue("HLT_HT250" , triggerFired("HLT_HT250_v11") );
+	fillVariableWithValue("HLT_HT350" , triggerFired("DST_HT350_RunPF_v1") );
       }
     else
       {
-	fillVariableWithValue("HLT_HT350" , 1 );
 	fillVariableWithValue("HLT_FatJetMass300" , 1 );
 	fillVariableWithValue("HLT_FatJetMass400" , 1 );
+	fillVariableWithValue("HLT_HT150" , 1 );
+	fillVariableWithValue("HLT_HT200" , 1 );
+	fillVariableWithValue("HLT_HT250" , 1 );
+	fillVariableWithValue("HLT_HT350" , 1 );
       }
 
     // Event filters at RECO level
@@ -450,7 +456,7 @@ void analysisClass::Loop()
 	// FatJetMass Algorithm (taken from HLTrigger/JetMET/src/HLTFatJetMassFilter.cc)
 	TLorentzVector fatjet1, fatjet2, fatjj;
 	if( fabs(jet1.Eta()-jet2.Eta()) < caloCorrjetDEtaForFatJet 
-	    && jet1.Pt()>30 && jet2.Pt()>30 && fabs(jet1.Eta())<3 && fabs(jet2.Eta())<3 )
+	    && jet1.Pt()>30 && jet2.Pt()>30 && fabs(jet1.Eta())<3 && fabs(jet2.Eta())<3 ) 
 	  {
 	    for(int ijet=0; ijet<v_idx_caloCorrjet_PtEtaCut_ID.size(); ijet++) 
 	      {
