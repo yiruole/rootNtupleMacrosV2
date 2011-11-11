@@ -460,15 +460,13 @@ class Plot:
 #--- Input root file
 
 
-# File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_analysis//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_preselection = GetFile(sys.argv[1])
-
+File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA///eejj_analysis/eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
 File_selection    = File_preselection
 
 UseQCDFromData    = 1 # always put an existing file under File_QCD (otherwise the code will crash)
 
-# File_QCD = GetFile("/home/ferencek/work/Leptoquarks/output_fromAFS/enujj_analysis/35.8pb-1_QCD_UseHLTPrescales_presel_MET45_presel_sT250_Feb112011/analysisClass_enujjSample_QCD_plots.root")
+File_QCD = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA///eejj_analysis/eejj_qcd//output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
 
 QCDscaleFactor    = 1 # no need to rescale anymore since we are using the HLT prescales (36/35.84 can be ignored)
 
@@ -492,16 +490,16 @@ eta_ymax=100
 
 # Simply add or remove plots and update the list plots = [plot0, plot1, ...] below
 
-histoBaseName = "histo1D__SAMPLE__cutHisto_allPreviousCuts________VARIABLE"
+histoBaseName = "histo1D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 samplesForStackHistosQCD = ["DATA"]
 # keysStack =             ["QCD multijet",otherBkgsKey,"t#bar{t}", "W/W* + jets"]
 
 samplesForStackHistos = ["PhotonJets"   ,"SingleTop"   ,"WJet_Madgraph","DIBOSON"     ,"TTbar_Madgraph", "ZJet_Madgraph"]
-keysStack             = ["#gamma + jets","single top"  , "W/W* + jets" ,"WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
-stackColorIndexes     = [ 3             , 4            , 2             , 14            , 92            , 6              ]
-stackFillStyleIds     = [ 3354          , 3345         , 3395          , 3344         , 3354           , 3345           ]
+keysStack             = ["QCD multijets", "#gamma + jets","single top"  , "W/W* + jets" ,"WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
+stackColorIndexes     = [7   , 3             , 4            , 2             , 14            , 92            , 6              ]
+stackFillStyleIds     = [3345, 3354          , 3345         , 3395          , 3344         , 3354           , 3345           ]
 
 stackColorIndexes.reverse()
 stackFillStyleIds.reverse()
@@ -521,7 +519,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
                       sampleForDataHisto,
                       zUncBand, makeRatio ) : 
     plot                = Plot() 
-    plot.histosStack    = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
+    plot.histosStack    = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
     plot.keysStack      = keysStack
     plot.histos         = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
     plot.keys           = keys
@@ -964,7 +962,7 @@ if doExtraPlots:
 #--- Generate and print the plots from the list 'plots' define above
 c = TCanvas()
 
-fileps = "allPlots_eejj.ps" 
+fileps = "allPlots_eejj_analysis.ps"
 
 c.Print(fileps + "[")
 for plot in plots:
