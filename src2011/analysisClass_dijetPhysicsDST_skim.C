@@ -125,17 +125,17 @@ void analysisClass::Loop()
     // Get trigger information, if necessary                     
     //-----------------------------------------------------------------   
 
-    if ( isData ) {
-      vector<int>    *fakeHLTTriggerPrescales;
-      fakeHLTTriggerPrescales = new std::vector<int> ( int (HLTTriggerNames -> size()), 1 );
-      for (int ihlt=0 ; ihlt< HLTTriggerNames->size() ; ihlt++)
-	{
-	  fakeHLTTriggerPrescales->push_back( 1 );
-	}
-      getTriggers ( HLTKey, HLTTriggerNames, HLTTriggerDecisions, fakeHLTTriggerPrescales ) ;
-      delete fakeHLTTriggerPrescales;
-    }
-
+    //    if ( isData ) {
+    vector<int>    *fakeHLTTriggerPrescales;
+    fakeHLTTriggerPrescales = new std::vector<int> ( int (HLTTriggerNames -> size()), 1 );
+    for (int ihlt=0 ; ihlt< HLTTriggerNames->size() ; ihlt++)
+      {
+	fakeHLTTriggerPrescales->push_back( 1 );
+      }
+    getTriggers ( HLTKey, HLTTriggerNames, HLTTriggerDecisions, fakeHLTTriggerPrescales ) ;
+    delete fakeHLTTriggerPrescales;
+    //    }
+    
     //printTriggers();
     
     ////////////////////// Reco Object Collections ///////////////////////
@@ -286,26 +286,26 @@ void analysisClass::Loop()
     fillVariableWithValue( "ls", ls ) ;
     fillVariableWithValue( "orbit", orbit ) ;
     fillVariableWithValue( "run", run ) ;
-
+    
     // Trigger (HLT)
-    if(isData)
-      {
-	fillVariableWithValue("HLT_FatJetMass300" , triggerFired("DST_FatJetMass300_DR1p1_Deta2p0_v1") );
-	fillVariableWithValue("HLT_FatJetMass400" , triggerFired("DST_FatJetMass400_DR1p1_Deta2p0_RunPF_v1") );
-	fillVariableWithValue("HLT_HT150" , triggerFired("HLT_HT150_v11") );
-	fillVariableWithValue("HLT_HT200" , triggerFired("HLT_HT200_v11") );
-	fillVariableWithValue("HLT_HT250" , triggerFired("HLT_HT250_v11") );
-	fillVariableWithValue("HLT_HT350" , triggerFired("DST_HT350_RunPF_v1") );
-      }
-    else
-      {
-	fillVariableWithValue("HLT_FatJetMass300" , 1 );
-	fillVariableWithValue("HLT_FatJetMass400" , 1 );
-	fillVariableWithValue("HLT_HT150" , 1 );
-	fillVariableWithValue("HLT_HT200" , 1 );
-	fillVariableWithValue("HLT_HT250" , 1 );
-	fillVariableWithValue("HLT_HT350" , 1 );
-      }
+    //     if(isData)
+    //       {
+    fillVariableWithValue("HLT_FatJetMass300" , triggerFired("DST_FatJetMass300_DR1p1_Deta2p0_v1") );
+    fillVariableWithValue("HLT_FatJetMass400" , triggerFired("DST_FatJetMass400_DR1p1_Deta2p0_RunPF_v1") );
+    fillVariableWithValue("HLT_HT150" , triggerFired("HLT_HT150_v11") );
+    fillVariableWithValue("HLT_HT200" , triggerFired("HLT_HT200_v11") );
+    fillVariableWithValue("HLT_HT250" , triggerFired("HLT_HT250_v11") );
+    fillVariableWithValue("HLT_HT350" , triggerFired("DST_HT350_RunPF_v1") );
+    //       }
+    //     else
+    //       {
+    // 	fillVariableWithValue("HLT_FatJetMass300" , 1 );
+    // 	fillVariableWithValue("HLT_FatJetMass400" , 1 );
+    // 	fillVariableWithValue("HLT_HT150" , 1 );
+    // 	fillVariableWithValue("HLT_HT200" , 1 );
+    // 	fillVariableWithValue("HLT_HT250" , 1 );
+    // 	fillVariableWithValue("HLT_HT350" , 1 );
+    //       }
 
     // Event filters at RECO level
     int isPrimaryVertex = 0;
