@@ -87,6 +87,8 @@ void analysisClass::Loop()
    CreateUserTH2D( "Me1jVsMe2j_selected",     200, 0, 2000, 200, 0, 2000) ;
    CreateUserTH2D( "Me1jVsMe2j_rejected",     200, 0, 2000, 200, 0, 2000) ;
 
+   CreateUserTH1D( "MTeemunu_PAS"          ,    200 , 0       , 1000	 ); 
+   
    //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
@@ -139,16 +141,29 @@ void analysisClass::Loop()
      int passHLT = 1;
      if ( isData ) { 
        passHLT = 0;
-       if ( H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5 == 1 || 
-	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6 == 1 || 
-	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7 == 1 || 
-	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8 == 1 || 
-	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1 == 1 || 
-	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2 == 1 || 
-	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3 == 1 || 
-	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4 == 1 || 
-	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5 == 1    ) {
-	 passHLT = 1;
+       // if ( H_17_8_CIdT_CIsVL_TIdVL_TIsVL_5 == 1 || 
+       // 	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_6 == 1 || 
+       // 	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_7 == 1 || 
+       // 	    H_17_8_CIdT_CIsVL_TIdVL_TIsVL_8 == 1 || 
+       // 	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_1 == 1 || 
+       // 	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_2 == 1 || 
+       // 	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_3 == 1 || 
+       // 	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_4 == 1 || 
+       // 	    H_17_8_CIdT_TIdVL_CIsVL_TIsVL_5 == 1    ) {
+       // 	 passHLT = 1;
+       // }
+       
+       if ( H_DoubleEle33_CIdL_1  == 1 || 
+       	    H_DoubleEle33_CIdL_2  == 1 || 
+       	    H_DoubleEle33_CIdL_3  == 1 || 
+       	    H_DoubleEle33_CIdL_4  == 1 || 
+       	    H_DoubleEle33_CIdL_5  == 1 || 
+       	    H_DoublePhoton33_1    == 1 || 
+       	    H_DoublePhoton33_2    == 1 || 
+       	    H_DoublePhoton33_3    == 1 || 
+       	    H_DoublePhoton33_4    == 1 || 
+       	    H_DoublePhoton33_5    == 1  ) {
+       	 passHLT = 1;
        }
      }
      
@@ -259,15 +274,22 @@ void analysisClass::Loop()
        FillUserTH1D("DR_Ele2Jet1_PAS"	   , DR_Ele2Jet1      , weight) ;
        FillUserTH1D("DR_Ele2Jet2_PAS"	   , DR_Ele2Jet2      , weight) ;
        FillUserTH1D("DR_Jet1Jet2_PAS"	   , DR_Jet1Jet2      , weight) ;
-
-       TLorentzVector eejj, e1, j1, e2, j2;
+       
+       TLorentzVector eejj, e1e2mu, e1, j1, e2, j2, mu, met;
        e1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
        e2.SetPtEtaPhiM ( Ele2_Pt, Ele2_Eta, Ele2_Phi, 0.0 );
        j1.SetPtEtaPhiM ( Jet1_Pt, Jet1_Eta, Jet1_Phi, 0.0 );
        j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
+       mu.SetPtEtaPhiM ( Muon1_Pt, Muon1_Eta, Muon1_Phi, 0.0 );
+       met.SetPtEtaPhiM ( MET_Pt, 0.0, MET_Phi, 0.0 );
+       
        eejj = e1 + e2 + j1 + j2 ; 
        double M_eejj = eejj.M();
 
+       // e1e2mu = e1 + e2 + mu;
+       // double MT_eemuMET = sqrt(2 * e1e2mu.Pt()    * MET_Pt  * (1 - cos(e1e2mu.DeltaPhi (met))));
+       // FillUserTH1D("MTeemunu_PAS"         , MT_eemuMET                        , weight );
+	      
        FillUserTH1D("Meejj_PAS", M_eejj , weight );
 
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
