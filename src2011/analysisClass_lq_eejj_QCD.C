@@ -101,7 +101,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mjj_PAS"		   ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "MTenu_PAS"                , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MTenu_PAS"             ,    200 , 0       , 1000	 ); 
    CreateUserTH1D( "Me1j1_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me1j2_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me2j1_PAS"             ,    200 , 0       , 2000	 ); 
@@ -404,12 +404,13 @@ void analysisClass::Loop()
      // Calculate some variables:
      //--------------------------------------------------------------------------
      
-     TLorentzVector loose_ele1, loose_ele2, jet1, jet2, met;
+     TLorentzVector loose_ele1, loose_ele2, jet1, jet2, met, muon;
      loose_ele1.SetPtEtaPhiM ( QCDFakeEle1_Pt , QCDFakeEle1_Eta , QCDFakeEle1_Phi , 0.0 );
      loose_ele2.SetPtEtaPhiM ( QCDFakeEle2_Pt , QCDFakeEle2_Eta , QCDFakeEle2_Phi , 0.0 );
      jet1.SetPtEtaPhiM       ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, 0.0 );
      jet2.SetPtEtaPhiM       ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, 0.0 );
      met.SetPtEtaPhiM        ( MET_Pt         , 0.0             , MET_Phi         , 0.0 );
+     muon.SetPtEtaPhiM       ( Muon1_Pt       , Muon1_Eta       , Muon1_Phi       , 0.0 );
 
      TLorentzVector e1e2 = loose_ele1 + loose_ele2;
      TLorentzVector j1j2 = jet1 + jet2;
@@ -482,7 +483,7 @@ void analysisClass::Loop()
      }
 
      // Jets
-     fillVariableWithValue(   "nJet"                          , nJetLooseEle_Stored     , fakeRateEffective * min_prescale ) ;
+     fillVariableWithValue(   "nJet"                          , nJetLooseEle_Ana        , fakeRateEffective * min_prescale ) ;
      if ( nJetLooseEle_Stored >= 1 ) { 						                
        fillVariableWithValue( "Jet1_Pt"                       , JetLooseEle1_Pt         , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "Jet1_Eta"                      , JetLooseEle1_Eta        , fakeRateEffective * min_prescale ) ;
@@ -528,9 +529,12 @@ void analysisClass::Loop()
      
      if ( passed_preselection ) {
 
+       // TLorentzVector e1e2mu = loose_ele1 + loose_ele2 + muon ;
+       // double MT_eemuMET = sqrt(2 * e1e2mu.Pt()    * MET_Pt  * (1 - cos(e1e2mu.DeltaPhi (met))));
+       
        FillUserTH1D("nElectron_PAS"        , nEle_QCDFake                      , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("nMuon_PAS"            , nMuon_Stored                      , pileup_weight * min_prescale * fakeRateEffective ) ;
-       FillUserTH1D("nJet_PAS"             , nJetLooseEle_Stored               , pileup_weight * min_prescale * fakeRateEffective ) ;
+       FillUserTH1D("nJet_PAS"             , nJetLooseEle_Ana                  , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("Pt1stEle_PAS"	   , QCDFakeEle1_Pt                    , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("Eta1stEle_PAS"	   , QCDFakeEle1_Eta                   , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("Phi1stEle_PAS"	   , QCDFakeEle1_Phi                   , pileup_weight * min_prescale * fakeRateEffective ) ;
@@ -573,7 +577,7 @@ void analysisClass::Loop()
        FillUserTH1D("DR_Ele2Jet1_PAS"	   , DR_Ele2Jet1                       , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("DR_Ele2Jet2_PAS"	   , DR_Ele2Jet2                       , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("DR_Jet1Jet2_PAS"	   , DR_Jet1Jet2                       , pileup_weight * min_prescale * fakeRateEffective ) ;
-
+       
        FillUserTH1D("Meejj_PAS", M_eejj , pileup_weight * min_prescale * fakeRateEffective  );
 
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
