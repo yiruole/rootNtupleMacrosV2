@@ -89,13 +89,12 @@ void analysisClass::Loop()
   CreateUserTH1D( "PFJetIDPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "PFJetIDEta"                  ,    100, -6, 6      );
 
-  //   CreateUserTH1D( "CaloRawJetAllPt"              ,    200,  0, 2000   );
-  //   CreateUserTH1D( "CaloRawJetAllEta"             ,    100, -6, 6      );
-
   CreateUserTH1D( "CaloCorrJetPrecutsPt"              ,    200,  0, 2000   );
   CreateUserTH1D( "CaloCorrJetPrecutsEta"             ,    100, -6, 6      );
-  CreateUserTH1D( "CaloCorrJetIDPt"              ,    200,  0, 2000   );
-  CreateUserTH1D( "CaloCorrJetIDEta"             ,    100, -6, 6      );
+  CreateUserTH1D( "CaloCorrJetPrecutsEnergyFractionEm"         , 200,  -2, 2   );
+  CreateUserTH1D( "CaloCorrJetPrecutsEnergyFractionHadronic"   , 200,  -2, 2   );
+  CreateUserTH1D( "CaloCorrJetIDPt"                   ,    200,  0, 2000   );
+  CreateUserTH1D( "CaloCorrJetIDEta"                  ,    100, -6, 6      );
 
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -107,7 +106,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -213,6 +212,8 @@ void analysisClass::Loop()
 	//histograms
 	FillUserTH1D( "CaloCorrJetPrecutsPt"                                      ,    HLTCaloJetCorrPt->at(ijet)  ); 
 	FillUserTH1D( "CaloCorrJetPrecutsEta"                                     ,    HLTCaloJetCorrEta->at(ijet) ); 	
+	FillUserTH1D( "CaloCorrJetPrecutsEnergyFractionEm"                        ,    HLTCaloJetCorrEnergyFractionEm->at(ijet) );
+	FillUserTH1D( "CaloCorrJetPrecutsEnergyFractionHadronic"                  ,    HLTCaloJetCorrEnergyFractionHadronic->at(ijet) );
       }
 
     // Full selection
@@ -275,9 +276,17 @@ void analysisClass::Loop()
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
-    //fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
+
 
     // Set the value of the variableNames listed in the cutFile to their current value
+
+    // Event filters
+    fillVariableWithValue( "PassJSON", passJSON(run, ls, isData) );    
+
+    int isPrimaryVertex = 0;
+    if ( v_idx_vertex_good.size() > 0 )
+      isPrimaryVertex = 1;
+    fillVariableWithValue( "PassPrimaryVertex", isPrimaryVertex ) ;
 
     // Event info
     fillVariableWithValue( "isData", isData ) ;
@@ -306,12 +315,6 @@ void analysisClass::Loop()
     // 	fillVariableWithValue("HLT_HT250" , 1 );
     // 	fillVariableWithValue("HLT_HT350" , 1 );
     //       }
-
-    // Event filters at RECO level
-    int isPrimaryVertex = 0;
-    if ( v_idx_vertex_good.size() > 0 )
-      isPrimaryVertex = 1;
-    fillVariableWithValue( "PassPrimaryVertex", isPrimaryVertex ) ;
 
     // nVertex
     fillVariableWithValue( "nVertex", HLTPixelVertexZCoord->size() ) ;
@@ -456,7 +459,8 @@ void analysisClass::Loop()
 	// FatJetMass Algorithm (taken from HLTrigger/JetMET/src/HLTFatJetMassFilter.cc)
 	TLorentzVector fatjet1, fatjet2, fatjj;
 	if( fabs(jet1.Eta()-jet2.Eta()) < caloCorrjetDEtaForFatJet 
-	    && jet1.Pt()>30 && jet2.Pt()>30 && fabs(jet1.Eta())<3 && fabs(jet2.Eta())<3 ) 
+	    && jet1.Pt()>30 && jet2.Pt()>30 && fabs(jet1.Eta())<3 && fabs(jet2.Eta())<3 // doublejetcentral30 requirement
+	    )  
 	  {
 	    for(int ijet=0; ijet<v_idx_caloCorrjet_PtEtaCut_ID.size(); ijet++) 
 	      {

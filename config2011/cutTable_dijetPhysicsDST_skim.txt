@@ -1,5 +1,5 @@
 # 2011 JSON file
-#JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/Prompt/Cert_160404-165970_7TeV_PromptReco_Collisions11_JSON.txt
+JSON /afs/cern.ch/user/s/santanas/public/GoodLumiSummary_20111104_140216_json.txt
 # Pileup reweighting files ( https://twiki.cern.ch/twiki/bin/view/CMS/PileupMCReweightingUtilities ) --> FOR SKIM: COMMENT THE FOLLOWING TWO LINES
 #PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_to_172802_LP_LumiScale.root
 #PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_EPS_8_jul.root
@@ -36,12 +36,12 @@ pfjetRForFatJet       1.1		-		-		-		 -1
 #
 caloRawjetPtCut       10		40              -               -                -1
 caloRawjetEtaCut      3.0		3.0             -               -                -1
-caloRawjetIDloose     1			-		-		-	    	 -1
+caloRawjetIDloose     0			-		-		-	    	 -1
 caloRawjetIDtight     0			-		-		-		 -1
 #
 caloCorrjetPtCut      20		40              -               -                -1
 caloCorrjetEtaCut     3.0		3.0             -               -                -1
-caloCorrjetIDloose    1			-		-		-	    	 -1
+caloCorrjetIDloose    0			-		-		-	    	 -1
 caloCorrjetIDtight    0			-		-		-		 -1
 caloCorrjetDEtaForFatJet    2.0		-		-		-		 -1 
 caloCorrjetRForFatJet       1.1		-		-		-		 -1 
@@ -69,8 +69,9 @@ vertexMaxd0           2            -			-               -               -1
 #
 #VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax      OptionalFlag
 #------------                   ------------ -------------      ------------    -------------   -----   ----------------      ------------
-#PassJSON			-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+PassJSON			-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 PassPrimaryVertex               -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+#
 isData				-inf	     +inf		-		-		0	2 -0.5 1.5	      SAVE
 bunch				-inf	     +inf		-		-		0	4000 0 4000	      SAVE
 event				-inf	     +inf		-		-		0	100 0 100	      SAVE
