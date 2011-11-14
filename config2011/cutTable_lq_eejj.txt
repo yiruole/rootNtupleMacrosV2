@@ -65,13 +65,13 @@ eFakeRate_end2 	7.538e-03	1.265e-04	2.517e-03	-	-1
 #|_|                    
 #
 PassJSON			0            1			-               -               0       2 -0.5 1.5	     
-PassHLT				-inf	     +inf		-		-		0	2 -0.5 1.5	     
+PassHLT				0	     1			-		-		0	2 -0.5 1.5	     
 PassHBHENoiseFilter             0	     1			-               -               0       2 -0.5 1.5	      
 PassBeamHaloFilterTight		0	     1			-               -               0       2 -0.5 1.5	      
 nEle 				1            2			-               -               1       11 -0.5 10.5	      
-Ele1_Pt				30	     +inf		-		-		1	200 0 2000	      
+Ele1_Pt				40	     +inf		-		-		1	200 0 2000	      
 Ele1_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
-Ele2_Pt				30	     +inf		-		-		1	200 0 2000	      
+Ele2_Pt				40	     +inf		-		-		1	200 0 2000	      
 Ele2_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
 nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
 Jet1_Pt				30	     +inf		-		-		1	200 0 2000	      
