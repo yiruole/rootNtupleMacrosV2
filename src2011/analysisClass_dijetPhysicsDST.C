@@ -23,34 +23,46 @@ void analysisClass::Loop()
    
    fillSkim                         ( !true  ) ;
    fillAllPreviousCuts              ( true  ) ;
-   fillAllOtherCuts                 ( true  ) ;
-   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
+   fillAllOtherCuts                 ( !true  ) ;
+   fillAllSameLevelAndLowerLevelCuts( true  ) ;
    fillAllCuts                      ( !true  ) ;
 
    //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
 
-//    CreateUserTH1D( "M_FatCaloCJet1FatCaloCJet2"	  , 
-// 		   getHistoNBins("M_FatCaloCJet1FatCaloCJet2"), 
-// 		   getHistoMin("M_FatCaloCJet1FatCaloCJet2"), 
-// 		   getHistoMax("M_FatCaloCJet1FatCaloCJet2")     ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2"	  , 
+ 		   getHistoNBins("M_PFJet1PFJet2"), 
+ 		   getHistoMin("M_PFJet1PFJet2"), 
+ 		   getHistoMax("M_PFJet1PFJet2")     ) ; 
 
-//    CreateUserTH1D( "M_FatPFJet1FatPFJet2"	  , 
-// 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
-// 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
-// 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_FatCaloCJet1FatCaloCJet2"	  , 
+ 		   getHistoNBins("M_FatCaloCJet1FatCaloCJet2"), 
+ 		   getHistoMin("M_FatCaloCJet1FatCaloCJet2"), 
+ 		   getHistoMax("M_FatCaloCJet1FatCaloCJet2")     ) ; 
+   CreateUserTH1D( "M_CaloCJet1CaloCJet2"	  , 
+ 		   getHistoNBins("M_CaloCJet1CaloCJet2"), 
+ 		   getHistoMin("M_CaloCJet1CaloCJet2"), 
+ 		   getHistoMax("M_CaloCJet1CaloCJet2")     ) ; 
+     
 
-//    CreateUserTH1D( "DEta_FatPFJet1FatPFJet2"	  , 
-// 		   getHistoNBins("DEta_FatPFJet1FatPFJet2"), 
-// 		   getHistoMin("DEta_FatPFJet1FatPFJet2"), 
-// 		   getHistoMax("DEta_FatPFJet1FatPFJet2")     ) ; 
+   Double_t massBins[84] = {1, 3, 6, 10, 16, 23, 31, 40, 50, 61, 74, 88, 103, 119, 137, 156, 176, 197, 220, 244, 270, 296, 325, 354, 386, 419, 453, 489, 526, 565, 606, 649, 693, 740, 788, 838, 890, 944, 1000, 1058, 1118, 1181, 1246, 1313, 1383, 1455, 1530, 1607, 1687, 1770, 1856, 1945, 2037, 2132, 2231, 2332, 2438, 2546, 2659, 2775, 2895, 3019, 3147, 3279, 3416, 3558, 3704, 3854, 4010, 4171, 4337, 4509, 4686, 4869, 5058, 5253, 5455, 5663, 5877, 6099, 6328, 6564, 6808, 7000};
+   
+   TH1D *M_FatPFJet1FatPFJet2_VarBin = new TH1D ("M_FatPFJet1FatPFJet2_VarBin","M_FatPFJet1FatPFJet2_VarBin",83,massBins);
+   M_FatPFJet1FatPFJet2_VarBin->Sumw2();
+   TH1D *M_PFJet1PFJet2_VarBin = new TH1D ("M_PFJet1PFJet2_VarBin","M_PFJet1PFJet2_VarBin",83,massBins);
+   M_PFJet1PFJet2_VarBin->Sumw2();
 
-//    CreateUserTH1D( "DPhi_FatPFJet1FatPFJet2"	  , 
-// 		   getHistoNBins("DPhi_FatPFJet1FatPFJet2"), 
-// 		   getHistoMin("DPhi_FatPFJet1FatPFJet2"), 
-// 		   getHistoMax("DPhi_FatPFJet1FatPFJet2")     ) ; 
+   TH1D *M_FatCaloCJet1FatCaloCJet2_VarBin = new TH1D ("M_FatCaloCJet1FatCaloCJet2_VarBin","M_FatCaloCJet1FatCaloCJet2_VarBin",83,massBins);
+   M_FatCaloCJet1FatCaloCJet2_VarBin->Sumw2();
+   TH1D *M_CaloCJet1CaloCJet2_VarBin = new TH1D ("M_CaloCJet1CaloCJet2_VarBin","M_CaloCJet1CaloCJet2_VarBin",83,massBins);
+   M_CaloCJet1CaloCJet2_VarBin->Sumw2();
 
+ 
    //--------------------------------------------------------------------------
    // Precuts
    //--------------------------------------------------------------------------
@@ -81,7 +93,7 @@ void analysisClass::Loop()
      // Check good run list
      //--------------------------------------------------------------------------
      
-     int    passedJSON = passJSON ( run , ls , isData ) ;
+     int passedJSON = passJSON ( run , ls , isData ) ;
 
      //--------------------------------------------------------------------------
      // Event-weight
@@ -109,36 +121,10 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassPrimaryVertex"             , PassPrimaryVertex ) ; 
 
      //HLT     
-     //fillVariableWithValue(   "HLT_PhysicsDST"                , (HLT_HT350 || HLT_FatJetMass300 || HLT_FatJetMass400) ) ; 
      fillVariableWithValue(   "HLT_HT350orM400"               , (HLT_HT350 || HLT_FatJetMass400) ) ; 
+     fillVariableWithValue(   "HLT_M300"                      , (HLT_FatJetMass300) ) ; 
      fillVariableWithValue(   "HLT_M400"                      , (HLT_FatJetMass400) ) ; 
-
-//      //CaloFatJets corrected
-//      fillVariableWithValue(   "FatCaloCJet1_Pt"               , FatCaloCJet1_Pt ) ; 
-//      fillVariableWithValue(   "FatCaloCJet1_Eta"              , FatCaloCJet1_Eta ) ; 
-//      fillVariableWithValue(   "FatCaloCJet1_Phi"              , FatCaloCJet1_Phi ) ; 
-
-//      fillVariableWithValue(   "FatCaloCJet2_Pt"               , FatCaloCJet2_Pt ) ; 
-//      fillVariableWithValue(   "FatCaloCJet2_Eta"              , FatCaloCJet2_Eta ) ; 
-//      fillVariableWithValue(   "FatCaloCJet2_Phi"              , FatCaloCJet2_Phi ) ; 
-
-//      fillVariableWithValue(   "DR_FatCaloCJet1FatCaloCJet2"   , DR_FatCaloCJet1FatCaloCJet2 ) ; 
-//      fillVariableWithValue(   "DPhi_FatCaloCJet1FatCaloCJet2" , DPhi_FatCaloCJet1FatCaloCJet2 ) ; 
-//      fillVariableWithValue(   "DEta_FatCaloCJet1FatCaloCJet2" , DEta_FatCaloCJet1FatCaloCJet2 ) ; 
-//      fillVariableWithValue(   "M_FatCaloCJet1FatCaloCJet2"    , M_FatCaloCJet1FatCaloCJet2 ) ; 
-
-//      //CaloJets corrected
-//      fillVariableWithValue(   "CaloCJet1_Pt"                  , CaloCJet1_Pt ) ; 
-//      fillVariableWithValue(   "CaloCJet1_Eta"                 , CaloCJet1_Eta ) ; 
-//      fillVariableWithValue(   "CaloCJet1_Phi"                 , CaloCJet1_Phi ) ; 
-//      fillVariableWithValue(   "CaloCJet2_Pt"                  , CaloCJet2_Pt) ; 
-//      fillVariableWithValue(   "CaloCJet2_Eta"                 , CaloCJet2_Eta ) ; 
-//      fillVariableWithValue(   "CaloCJet2_Phi"                 , CaloCJet2_Phi ) ; 
-//      fillVariableWithValue(   "DR_CaloCJet1CaloCJet2"         , DR_CaloCJet1CaloCJet2 ) ; 
-//      fillVariableWithValue(   "DPhi_CaloCJet1CaloCJet2"       , DPhi_CaloCJet1CaloCJet2 ) ; 
-//      fillVariableWithValue(   "DEta_CaloCJet1CaloCJet2"       , DEta_CaloCJet1CaloCJet2 ) ; 
-//      fillVariableWithValue(   "M_CaloCJet1CaloCJet2"          , M_CaloCJet1CaloCJet2 ) ; 
-//      fillVariableWithValue(   "HT_CaloCJets"                  , HT_CaloCJets ) ; 
+     fillVariableWithValue(   "HLT_HT350"                     , (HLT_HT350) ) ; 
 
      //PFFatJets
      fillVariableWithValue(   "FatPFJet1_Pt"    , FatPFJet1_Pt ) ; 
@@ -149,11 +135,26 @@ void analysisClass::Loop()
      fillVariableWithValue(   "FatPFJet2_Eta"   , FatPFJet2_Eta ) ; 
      fillVariableWithValue(   "FatPFJet2_Phi"   , FatPFJet2_Phi ) ; 
 
-     fillVariableWithValue(   "DR_FatPFJet1FatPFJet2"   , DR_FatPFJet1FatPFJet2 ) ; 
-     fillVariableWithValue(   "DPhi_FatPFJet1FatPFJet2"   , DPhi_FatPFJet1FatPFJet2 ) ; 
      fillVariableWithValue(   "DEta_FatPFJet1FatPFJet2"   , DEta_FatPFJet1FatPFJet2 ) ; 
-     fillVariableWithValue(   "M_FatPFJet1FatPFJet2"   , M_FatPFJet1FatPFJet2 ) ; 
-     fillVariableWithValue(   "M_PFJet1PFJet2"   , M_PFJet1PFJet2 ) ; 
+     fillVariableWithValue(   "DPhi_FatPFJet1FatPFJet2"   , DPhi_FatPFJet1FatPFJet2 ) ; 
+     fillVariableWithValue(   "DR_FatPFJet1FatPFJet2"     , DR_FatPFJet1FatPFJet2 ) ; 
+     fillVariableWithValue(   "M_FatPFJet1FatPFJet2"      , M_FatPFJet1FatPFJet2 ) ; 
+     fillVariableWithValue(   "M_PFJet1PFJet2"            , M_PFJet1PFJet2 ) ; 
+     
+     //CaloFatJets corrected             
+     fillVariableWithValue(   "FatCaloCJet1_Pt"               , FatCaloCJet1_Pt ) ;  
+     fillVariableWithValue(   "FatCaloCJet1_Eta"              , FatCaloCJet1_Eta ) ;                     
+     fillVariableWithValue(   "FatCaloCJet1_Phi"              , FatCaloCJet1_Phi ) ;            
+
+     fillVariableWithValue(   "FatCaloCJet2_Pt"               , FatCaloCJet2_Pt ) ;      
+     fillVariableWithValue(   "FatCaloCJet2_Eta"              , FatCaloCJet2_Eta ) ;                 
+     fillVariableWithValue(   "FatCaloCJet2_Phi"              , FatCaloCJet2_Phi ) ;      
+
+     fillVariableWithValue(   "DEta_FatCaloCJet1FatCaloCJet2" , DEta_FatCaloCJet1FatCaloCJet2 ) ;     
+     fillVariableWithValue(   "DPhi_FatCaloCJet1FatCaloCJet2" , DPhi_FatCaloCJet1FatCaloCJet2 ) ;   
+     fillVariableWithValue(   "DR_FatCaloCJet1FatCaloCJet2"   , DR_FatCaloCJet1FatCaloCJet2 ) ;                    
+     fillVariableWithValue(   "M_FatCaloCJet1FatCaloCJet2"    , M_FatCaloCJet1FatCaloCJet2 ) ;
+     fillVariableWithValue(   "M_CaloCJet1CaloCJet2"          , M_CaloCJet1CaloCJet2 ) ; 
 
      //--------------------------------------------------------------------------
      // Evaluate the cuts
@@ -165,21 +166,57 @@ void analysisClass::Loop()
      // Fill preselection plots
      //--------------------------------------------------------------------------
 
-//      if( passedCut("PassJSON") && passedCut("HLT_PhysicsDST") 
-// 	 && passedCut("FatCaloCJet1_Pt") && passedCut("FatCaloCJet2_Pt") )
-//        {
-// 	 FillUserTH1D( "M_FatCaloCJet1FatCaloCJet2"	           , M_FatCaloCJet1FatCaloCJet2	 );	 
-//        }
-     
-//      if( passedCut("PassJSON") && passedCut("HLT_HT350orM400") && passedCut("PassPrimaryVertex") 
-// 	 && passedCut("FatPFJet1_Pt") && passedCut("FatPFJet2_Pt") )
-//        {
-// 	 FillUserTH1D( "M_FatPFJet1FatPFJet2"	           , M_FatPFJet1FatPFJet2	 );	 
-// 	 FillUserTH1D( "DEta_FatPFJet1FatPFJet2"	   , DEta_FatPFJet1FatPFJet2	 );	 
-// 	 FillUserTH1D( "DPhi_FatPFJet1FatPFJet2"	   , DPhi_FatPFJet1FatPFJet2	 );	 
-//        }
-     
+     bool pass_PFFatJet_selection    = false;
+     bool pass_CaloCFatJet_selection = false;
+
+     if( passedCut("PassJSON") 
+	 && passedCut("PassPrimaryVertex") 
+	 && ( passedCut("HLT_HT350") || passedCut("HLT_M400") )
+	 && passedCut("FatPFJet1_Pt") && passedCut("FatPFJet1_Eta") 
+	 && passedCut("FatPFJet2_Pt") && passedCut("FatPFJet2_Eta") 
+	 && passedCut("DEta_FatPFJet1FatPFJet2")
+	 )
+       {
+	 pass_PFFatJet_selection =  true;
+       }
+
+     if( passedCut("PassJSON") 
+	 && ( passedCut("HLT_M300") || passedCut("HLT_HT350") || passedCut("HLT_M400") )
+	 && passedCut("FatCaloCJet1_Pt") && passedCut("FatCaloCJet1_Eta") 
+	 && passedCut("FatCaloCJet2_Pt") && passedCut("FatCaloCJet2_Eta") 
+	 && passedCut("DEta_FatCaloCJet1FatCaloCJet2")
+	 )
+       {
+	 pass_CaloCFatJet_selection =  true;
+       }
+
+     if( pass_PFFatJet_selection )
+       {
+	 FillUserTH1D( "M_FatPFJet1FatPFJet2"	 , getVariableValue("M_FatPFJet1FatPFJet2") );	 	 
+	 FillUserTH1D( "M_PFJet1PFJet2"	         , getVariableValue("M_PFJet1PFJet2") );	 	 
+
+	 M_FatPFJet1FatPFJet2_VarBin->Fill( getVariableValue("M_FatPFJet1FatPFJet2") );
+	 M_PFJet1PFJet2_VarBin->Fill( getVariableValue("M_PFJet1PFJet2") );
+       }
+
+     if( pass_CaloCFatJet_selection )
+       {
+	 FillUserTH1D( "M_FatCaloCJet1FatCaloCJet2"	 , getVariableValue("M_FatCaloCJet1FatCaloCJet2") );	 	 
+	 FillUserTH1D( "M_CaloCJet1CaloCJet2"	         , getVariableValue("M_CaloCJet1CaloCJet2") );	 	 
+
+	 M_FatCaloCJet1FatCaloCJet2_VarBin->Fill( getVariableValue("M_FatCaloCJet1FatCaloCJet2") );
+	 M_CaloCJet1CaloCJet2_VarBin->Fill( getVariableValue("M_CaloCJet1CaloCJet2") );
+       }
+
    } // End loop over events
+
+   //////////write histos 
+
+   M_FatPFJet1FatPFJet2_VarBin->Write();
+   M_PFJet1PFJet2_VarBin->Write();
+
+   M_FatCaloCJet1FatCaloCJet2_VarBin->Write();
+   M_CaloCJet1CaloCJet2_VarBin->Write();
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
 }
