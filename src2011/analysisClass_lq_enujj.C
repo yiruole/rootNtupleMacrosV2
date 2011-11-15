@@ -137,18 +137,20 @@ void analysisClass::Loop()
      // Check HLT
      //--------------------------------------------------------------------------
 
-     int passedHLT = 0;
-
-     if ( H_27_CIdVT_CIsT_TIdT_TIsT_1 == 1 || // 160405 - 161119, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1
-	  H_27_CIdVT_CIsT_TIdT_TIsT_2 == 1 || // 161217 - 163261, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2
-	  H_27_CIdVT_CIsT_TIdT_TIsT_3 == 1 || // 163270 - 163817, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3
-	  H_32_CIdVT_CIsT_TIdT_TIsT_3 == 1 || // 165088 - 165633, HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3
-	  H_32_CIdVT_CIsT_TIdT_TIsT_4 == 1 || // 165970 - 166967, HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4
-	  H_52_CIdVT_TIdT_3           == 1 || // 167039 - 167913, HLT_Ele52_CaloIdVT_TrkIdT_v3		     
-	  H_52_CIdVT_TIdT_4           == 1 || // 170249 - 172952, HLT_Ele52_CaloIdVT_TrkIdT_v4		     
-	  H_65_CIdVT_TIdT_3           == 1 || // 172953 - 173198, HLT_Ele65_CaloIdVT_TrkIdT_v3		     
-	  H_65_CIdVT_TIdT_4           == 1 )  // 173236 - 173692, HLT_Ele65_CaloIdVT_TrkIdT_v4		     
-       passedHLT = 1; 
+     int passedHLT = 1;
+     if ( isData ) {
+       passedHLT = 0;
+       if ( H_27_CIdVT_CIsT_TIdT_TIsT_1 == 1 || // 160405 - 161119, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1
+	    H_27_CIdVT_CIsT_TIdT_TIsT_2 == 1 || // 161217 - 163261, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2
+	    H_27_CIdVT_CIsT_TIdT_TIsT_3 == 1 || // 163270 - 163817, HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3
+	    H_32_CIdVT_CIsT_TIdT_TIsT_3 == 1 || // 165088 - 165633, HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3
+	    H_32_CIdVT_CIsT_TIdT_TIsT_4 == 1 || // 165970 - 166967, HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4
+	    H_52_CIdVT_TIdT_3           == 1 || // 167039 - 167913, HLT_Ele52_CaloIdVT_TrkIdT_v3		     
+	    H_52_CIdVT_TIdT_4           == 1 || // 170249 - 172952, HLT_Ele52_CaloIdVT_TrkIdT_v4		     
+	    H_65_CIdVT_TIdT_3           == 1 || // 172953 - 173198, HLT_Ele65_CaloIdVT_TrkIdT_v3		     
+	    H_65_CIdVT_TIdT_4           == 1 )  // 173236 - 173692, HLT_Ele65_CaloIdVT_TrkIdT_v4		     
+	 passedHLT = 1; 
+     }
      
      //--------------------------------------------------------------------------
      // Fill variables
@@ -248,7 +250,7 @@ void analysisClass::Loop()
        FillUserTH1D( "Eta1stEle_PAS"	     , Ele1_Eta                       , weight);
        FillUserTH1D( "Phi1stEle_PAS"	     , Ele1_Phi                       , weight);
        FillUserTH1D( "Charge1stEle_PAS"      , Ele1_Charge                    , weight);   
-       FillUserTH1D( "METSig_PAS"	     , MET_Phi                        , weight);   
+       FillUserTH1D( "METSig_PAS"	     , PFMETSig                       , weight);   
        FillUserTH1D( "MET_PAS"               , MET_Pt                         , weight);
        FillUserTH1D( "METPhi_PAS"	     , MET_Phi                        , weight);   
        FillUserTH1D( "METCharged_PAS"        , PFMETCharged                   , weight);
