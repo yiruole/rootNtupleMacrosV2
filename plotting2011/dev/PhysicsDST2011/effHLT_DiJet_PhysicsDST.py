@@ -301,27 +301,33 @@ def GetIntegralError(histo):
 #--- Root files
 
 File1 = GetFile("lowHTSkim.root")
+#File1 = GetFile("lowHTSkimSignalLike.root")
 
 #--------- Muons ----------
 outputFile = "effHLT.ps"
+#outputFile = "effHLTSignalLike.ps"
 ## Eta histograms
 h_M_FatPFJet1FatPFJet2_HT150 = GetHisto( "M_FatPFJet1FatPFJet2_HT150" , File1)
 h_M_FatPFJet1FatPFJet2_HT150_M400 = GetHisto( "M_FatPFJet1FatPFJet2_HT150_M400" , File1)
+h_M_FatPFJet1FatPFJet2_HT150_HT350 = GetHisto( "M_FatPFJet1FatPFJet2_HT150_HT350" , File1)
 h_M_FatPFJet1FatPFJet2_HT150_M400ORHT350 = GetHisto( "M_FatPFJet1FatPFJet2_HT150_M400ORHT350" , File1)
 
 h_M_FatPFJet1FatPFJet2_HT200 = GetHisto( "M_FatPFJet1FatPFJet2_HT200" , File1)
 h_M_FatPFJet1FatPFJet2_HT200_M400 = GetHisto( "M_FatPFJet1FatPFJet2_HT200_M400" , File1)
+h_M_FatPFJet1FatPFJet2_HT200_HT350 = GetHisto( "M_FatPFJet1FatPFJet2_HT200_HT350" , File1)
 h_M_FatPFJet1FatPFJet2_HT200_M400ORHT350 = GetHisto( "M_FatPFJet1FatPFJet2_HT200_M400ORHT350" , File1)
 
 h_M_FatPFJet1FatPFJet2_HT250 = GetHisto( "M_FatPFJet1FatPFJet2_HT250" , File1)
 h_M_FatPFJet1FatPFJet2_HT250_M400 = GetHisto( "M_FatPFJet1FatPFJet2_HT250_M400" , File1)
+h_M_FatPFJet1FatPFJet2_HT250_HT350 = GetHisto( "M_FatPFJet1FatPFJet2_HT250_HT350" , File1)
 h_M_FatPFJet1FatPFJet2_HT250_M400ORHT350 = GetHisto( "M_FatPFJet1FatPFJet2_HT250_M400ORHT350" , File1)
 
 ############################
 #variable binning
 #MyBins = [200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,520,540,560,580,600,620,640,660,680,700,720,740,760,780,800,820,840,860,880,900,920,940,960,980,1000]
 #MyBins = [200,240,280,320,360,400,440,480,520,560,600,640,680,720,760,800,840,880,920,960,1000]
-MyBins = [200,240,280,320,360,400,440,480,520,560,600,640,680,1000]
+#MyBins = [200,240,280,320,360,400,440,480,520,560,600,640,680,1000]
+MyBins = [200,240,280,320,360,400,440,480,520,560,600,1000]
 ############################
 
 #--- Calculate HLT Efficiency wrt HT150
@@ -330,8 +336,13 @@ eff_HLTM400_wrt_HT150 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT150_M400 , h_
                                           , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT150"
                                           , 0, 1000, MyBins, 0, 1.1)
 
+eff_HLTHT350_wrt_HT150 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT150_HT350 , h_M_FatPFJet1FatPFJet2_HT150
+                                           , 0.9 , 20 , 2
+                                           , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT150"
+                                           , 0, 1000, MyBins, 0, 1.1)
+
 eff_HLTM400ORHT350_wrt_HT150 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT150_M400ORHT350 , h_M_FatPFJet1FatPFJet2_HT150
-                                                 , 0.9 , 20 , 2
+                                                 , 0.9 , 20 , 3
                                                  , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT150"
                                                  , 0, 1000, MyBins, 0, 1.1)
 
@@ -340,8 +351,13 @@ eff_HLTM400_wrt_HT200 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT200_M400 , h_
                                           , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT200"
                                           , 0, 1000, MyBins, 0, 1.1)
 
+eff_HLTHT350_wrt_HT200 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT200_HT350 , h_M_FatPFJet1FatPFJet2_HT200
+                                           , 0.9 , 20 , 2
+                                           , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT200"
+                                           , 0, 1000, MyBins, 0, 1.1)
+
 eff_HLTM400ORHT350_wrt_HT200 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT200_M400ORHT350 , h_M_FatPFJet1FatPFJet2_HT200
-                                                 , 0.9 , 20 , 2
+                                                 , 0.9 , 20 , 3
                                                  , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT200"
                                                  , 0, 1000, MyBins, 0, 1.1)
 
@@ -350,8 +366,13 @@ eff_HLTM400_wrt_HT250 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT250_M400 , h_
                                           , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT250"
                                           , 0, 1000, MyBins, 0, 1.1)
 
+eff_HLTHT350_wrt_HT250 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT250_HT350 , h_M_FatPFJet1FatPFJet2_HT250
+                                           , 0.9 , 20 , 2
+                                           , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT250"
+                                           , 0, 1000, MyBins, 0, 1.1)
+
 eff_HLTM400ORHT350_wrt_HT250 = GetEffVarBinning( h_M_FatPFJet1FatPFJet2_HT250_M400ORHT350 , h_M_FatPFJet1FatPFJet2_HT250
-                                                 , 0.9 , 20 , 2
+                                                 , 0.9 , 20 , 3
                                                  , "FatPFDiJetMass@HLT [GeV]" , "HLT Efficiency wrt HT250"
                                                  , 0, 1000, MyBins, 0, 1.1)
 
@@ -367,6 +388,7 @@ c1 = TCanvas()
 c1.SetGridy();
 c1.SetGridx();
 eff_HLTM400_wrt_HT150.Draw("ap")
+eff_HLTHT350_wrt_HT150.Draw("psame")
 eff_HLTM400ORHT350_wrt_HT150.Draw("psame")
 
 #---Create legend
@@ -374,6 +396,7 @@ globals()['legend1'] = TLegend(0.534483,0.184322,0.840517,0.375)
 legend1.SetFillColor(kWhite)
 legend1.SetMargin(0.2)
 legend1.AddEntry(eff_HLTM400_wrt_HT150,"FatJetMass400","p")
+legend1.AddEntry(eff_HLTHT350_wrt_HT150,"HT350","p")
 legend1.AddEntry(eff_HLTM400ORHT350_wrt_HT150,"FatJetMass400 OR HT350","p")
 legend1.Draw()
 c1.Update()
@@ -386,6 +409,7 @@ c2 = TCanvas()
 c2.SetGridy();
 c2.SetGridx();
 eff_HLTM400_wrt_HT200.Draw("ap")
+eff_HLTHT350_wrt_HT200.Draw("psame")
 eff_HLTM400ORHT350_wrt_HT200.Draw("psame")
 
 #---Create legend
@@ -393,6 +417,7 @@ globals()['legend2'] = TLegend(0.534483,0.184322,0.840517,0.375)
 legend2.SetFillColor(kWhite)
 legend2.SetMargin(0.2)
 legend2.AddEntry(eff_HLTM400_wrt_HT200,"FatJetMass400","p")
+legend2.AddEntry(eff_HLTHT350_wrt_HT200,"HT350","p")
 legend2.AddEntry(eff_HLTM400ORHT350_wrt_HT200,"FatJetMass400 OR HT350","p")
 legend2.Draw()
 c2.Update()
@@ -405,6 +430,7 @@ c3 = TCanvas()
 c3.SetGridy();
 c3.SetGridx();
 eff_HLTM400_wrt_HT250.Draw("ap")
+eff_HLTHT350_wrt_HT250.Draw("psame")
 eff_HLTM400ORHT350_wrt_HT250.Draw("psame")
 
 #---Create legend
@@ -412,6 +438,7 @@ globals()['legend3'] = TLegend(0.534483,0.184322,0.840517,0.375)
 legend3.SetFillColor(kWhite)
 legend3.SetMargin(0.2)
 legend3.AddEntry(eff_HLTM400_wrt_HT250,"FatJetMass400","p")
+legend3.AddEntry(eff_HLTHT350_wrt_HT250,"HT350","p")
 legend3.AddEntry(eff_HLTM400ORHT350_wrt_HT250,"FatJetMass400 OR HT350","p")
 legend3.Draw()
 c3.Update()
