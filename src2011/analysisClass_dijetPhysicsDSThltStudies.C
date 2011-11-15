@@ -40,6 +40,10 @@ void analysisClass::Loop()
  		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
  		   getHistoMin("M_FatPFJet1FatPFJet2"), 
  		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_HT150_HT350"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
    CreateUserTH1D( "M_FatPFJet1FatPFJet2_HT150_M400ORHT350"	  , 
  		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
  		   getHistoMin("M_FatPFJet1FatPFJet2"), 
@@ -54,6 +58,10 @@ void analysisClass::Loop()
  		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
  		   getHistoMin("M_FatPFJet1FatPFJet2"), 
  		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_HT200_HT350"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
    CreateUserTH1D( "M_FatPFJet1FatPFJet2_HT200_M400ORHT350"	  , 
  		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
  		   getHistoMin("M_FatPFJet1FatPFJet2"), 
@@ -65,6 +73,10 @@ void analysisClass::Loop()
  		   getHistoMin("M_FatPFJet1FatPFJet2"), 
  		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
    CreateUserTH1D( "M_FatPFJet1FatPFJet2_HT250_M400"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_HT250_HT350"	  , 
  		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
  		   getHistoMin("M_FatPFJet1FatPFJet2"), 
  		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
@@ -140,8 +152,12 @@ void analysisClass::Loop()
      fillVariableWithValue(   "HLT_M400"                      , HLT_FatJetMass400 ) ; 
 
      //PFFatJets
-     fillVariableWithValue(   "M_FatPFJet1FatPFJet2"   , M_FatPFJet1FatPFJet2 ) ; 
-     fillVariableWithValue(   "M_PFJet1PFJet2"         , M_PFJet1PFJet2 ) ; 
+     fillVariableWithValue(   "FatPFJet1_Pt"                  , FatPFJet1_Pt ) ; 
+     fillVariableWithValue(   "FatPFJet1_Eta"                 , FatPFJet1_Eta ) ; 
+     fillVariableWithValue(   "FatPFJet2_Pt"                  , FatPFJet2_Pt ) ; 
+     fillVariableWithValue(   "FatPFJet2_Eta"                 , FatPFJet2_Eta ) ; 
+     fillVariableWithValue(   "DEta_FatPFJet1FatPFJet2"       , DEta_FatPFJet1FatPFJet2 ) ; 
+     fillVariableWithValue(   "M_FatPFJet1FatPFJet2"          , M_FatPFJet1FatPFJet2 ) ; 
 
      //--------------------------------------------------------------------------
      // Evaluate the cuts
@@ -154,32 +170,55 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
 
      if( passedCut("PassJSON") && passedCut("PassPrimaryVertex") 
-	 && variableIsFilled("M_FatPFJet1FatPFJet2") )
+	 && variableIsFilled("M_FatPFJet1FatPFJet2") 
+	 && variableIsFilled("DEta_FatPFJet1FatPFJet2") 
+	 && variableIsFilled("FatPFJet1_Pt") 
+	 && variableIsFilled("FatPFJet1_Eta") 
+	 && variableIsFilled("FatPFJet2_Pt") 
+	 && variableIsFilled("FatPFJet2_Eta") 
+	 )
        {
 	 
-	 if( passedCut("HLT_HT150") )
+	 bool passed_dijet_cuts = false;
+	 if( passedCut("DEta_FatPFJet1FatPFJet2") 
+	     && passedCut("FatPFJet1_Pt") 
+	     && passedCut("FatPFJet1_Eta")
+	     && passedCut("FatPFJet2_Pt") 
+	     && passedCut("FatPFJet2_Eta")
+	     )
+	   {	    
+	     passed_dijet_cuts = true;
+	   }
+
+	 if( passedCut("HLT_HT150") && passed_dijet_cuts )
 	   {
 	     FillUserTH1D( "M_FatPFJet1FatPFJet2_HT150" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	     if( passedCut("HLT_M400") )
 	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT150_M400" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
+	     if( passedCut("HLT_HT350") )
+	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT150_HT350" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	     if( passedCut("HLT_M400") || passedCut("HLT_HT350") )
 	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT150_M400ORHT350" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	   }    
 	 
-	 if( passedCut("HLT_HT200") )
+	 if( passedCut("HLT_HT200") && passed_dijet_cuts )
 	   {
 	     FillUserTH1D( "M_FatPFJet1FatPFJet2_HT200" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	     if( passedCut("HLT_M400") )
 	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT200_M400" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
+	     if( passedCut("HLT_HT350") )
+	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT200_HT350" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	     if( passedCut("HLT_M400") || passedCut("HLT_HT350") )
 	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT200_M400ORHT350" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	   }    
 	 
-	 if( passedCut("HLT_HT250") )
+	 if( passedCut("HLT_HT250") && passed_dijet_cuts )
 	   {
 	     FillUserTH1D( "M_FatPFJet1FatPFJet2_HT250" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	     if( passedCut("HLT_M400") )
 	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT250_M400" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
+	     if( passedCut("HLT_HT350") )
+	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT250_HT350" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	     if( passedCut("HLT_M400") || passedCut("HLT_HT350") )
 	       FillUserTH1D( "M_FatPFJet1FatPFJet2_HT250_M400ORHT350" , getVariableValue("M_FatPFJet1FatPFJet2") ) ; 
 	   }    
