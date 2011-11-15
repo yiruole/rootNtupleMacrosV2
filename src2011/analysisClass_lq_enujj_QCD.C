@@ -434,7 +434,7 @@ void analysisClass::Loop()
      fillVariableWithValue(   "mDeltaPhiMETEle"          , mDPhi_METEle1           , min_prescale * fakeRate );
      									           
      // 1st JET variables                                     		           
-     fillVariableWithValue(   "nJet"                     , nJetLooseEle_Stored     , min_prescale * fakeRate );
+     fillVariableWithValue(   "nJet"                     , nJetLooseEle_Ana        , min_prescale * fakeRate );
 									           
      // 1st JET variables                                     		           
      if ( nJet_Stored > 0 ) { 						           
@@ -498,7 +498,7 @@ void analysisClass::Loop()
        FillUserTH1D( "Eta1stEle_PAS"	     , QCDFakeEle1_Eta                       , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "Phi1stEle_PAS"	     , QCDFakeEle1_Phi                       , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "Charge1stEle_PAS"      , QCDFakeEle1_Charge                    , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "METSig_PAS"	     , MET_Phi                               , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "METSig_PAS"	     , PFMETSig                              , pileup_weight * min_prescale * fakeRate);   
        FillUserTH1D( "MET_PAS"               , MET_Pt                                , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "METPhi_PAS"	     , MET_Phi                               , pileup_weight * min_prescale * fakeRate);   
        FillUserTH1D( "METCharged_PAS"        , PFMETCharged                          , pileup_weight * min_prescale * fakeRate);
