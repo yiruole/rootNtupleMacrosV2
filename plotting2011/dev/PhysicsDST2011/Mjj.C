@@ -6,6 +6,14 @@
   TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1__15_11_2011/PhysicsDST_allEvents.root");
   TFile datafile_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_data_HT_340fb_Fat_ak5.root");
 
+  TFile Qstar500ForTest_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/QstarJJ_ForTest__16_11_2011/QstarJJ500.root");
+  TFile Qstar700ForTest_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/QstarJJ_ForTest__16_11_2011/QstarJJ700.root");
+  TFile Qstar1200ForTest_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/QstarJJ_ForTest__16_11_2011/QstarJJ1200.root");
+
+  TFile Qstar500_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_mc_QstarToJJ_M-500_TuneD6T_ak5.root");
+  TFile Qstar700_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_mc_QstarToJJ_M-700_TuneD6T_ak5.root");
+  TFile Qstar1200_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_mc_QstarToJJ_M-1200_TuneD6T_ak5.root");
+
   //Mass Ranges
   double min_mjj_FatPF = 526;
   double min_mjj_FatCaloC = 325;
@@ -17,7 +25,6 @@
   TH1D *h_mjj_PF_VarBin_DATA = (TH1D*)datafile_hlt.Get( "M_PFJet1PFJet2_VarBin" ); 
   TH1D *h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO = (TH1D*) h_mjj_FatPF_VarBin_DATA->Clone();
 
-
   //DATA - FatCaloCJets
   TH1D *h_mjj_FatCaloC_DATA = (TH1D*)datafile_hlt.Get( "M_FatCaloCJet1FatCaloCJet2" ); 
   TH1D *h_mjj_CaloC_DATA = (TH1D*)datafile_hlt.Get( "M_CaloCJet1CaloCJet2" ); 
@@ -26,6 +33,16 @@
 
   //DATA - FatPFJets - RECO
   TH1D *h_mjj_FatPF_VarBin_DATA_RECO = (TH1D*)datafile_reco.Get( "h_DijetMass_data_fat" ); 
+
+  //MC - QstarToJJ - For Tests 
+  TH1D *h_mjj_FatPF_VarBin_Qstar500 = (TH1D*)Qstar500ForTest_hlt.Get( "M_FatPFJet1FatPFJet2_VarBin" ); 
+  TH1D *h_mjj_FatPF_VarBin_Qstar700 = (TH1D*)Qstar700ForTest_hlt.Get( "M_FatPFJet1FatPFJet2_VarBin" ); 
+  TH1D *h_mjj_FatPF_VarBin_Qstar1200 = (TH1D*)Qstar1200ForTest_hlt.Get( "M_FatPFJet1FatPFJet2_VarBin" ); 
+
+  //MC - QstarToJJ - RECO
+  TH1D *h_mjj_FatPF_VarBin_Qstar500_RECO = (TH1D*)Qstar500_reco.Get( "h_DijetMass_data_fat" ); 
+  TH1D *h_mjj_FatPF_VarBin_Qstar700_RECO = (TH1D*)Qstar700_reco.Get( "h_DijetMass_data_fat" ); 
+  TH1D *h_mjj_FatPF_VarBin_Qstar1200_RECO = (TH1D*)Qstar1200_reco.Get( "h_DijetMass_data_fat" ); 
 
 
   //--- DATA - FatPFJets
@@ -97,7 +114,7 @@
   TLegend legend3 (0.35,0.65,0.75,0.85);
   legend3.SetFillColor(kWhite);
   legend3.SetMargin(0.2);
-  legend3.AddEntry(h_mjj_FatPF_VarBin_DATA,"117 pb-1 - PhysicsDST (no JEC)","pl");
+  legend3.AddEntry(h_mjj_FatPF_VarBin_DATA,"117 pb-1 - HLT (no JEC)","pl");
   legend3.AddEntry(h_mjj_FatPF_VarBin_DATA_RECO,"3.4 fb-1 - RECO (full JEC applied) - rescaled","pl");
   legend3.Draw();
   c3.Update();
@@ -127,6 +144,34 @@
   
 
  
+  //--- Comparison DATA - FatPFJets (RECO vs HLT) (only for 1200 GeV makes sense)
+  TCanvas c5;
+  //c5.SetLogy();
+  h_mjj_FatPF_VarBin_Qstar1200->GetXaxis()->SetTitle("FatPFDiJetMass [GeV]");
+  h_mjj_FatPF_VarBin_Qstar1200->GetXaxis()->SetRangeUser( 0 , 1600 );
+  h_mjj_FatPF_VarBin_Qstar1200->GetYaxis()->SetRangeUser( 0., h_mjj_FatPF_VarBin_Qstar1200->GetMaximum()*2 );
+  h_mjj_FatPF_VarBin_Qstar1200->Draw();
+  int NeventsDATA = h_mjj_FatPF_VarBin_Qstar1200->Integral(36,83);
+  double scale_factor = NeventsDATA / h_mjj_FatPF_VarBin_Qstar1200_RECO->Integral();
+  cout << "NeventsDATA (PhysicsDST): " << NeventsDATA << endl;
+  cout << "Scale Factor: " << scale_factor << endl;
+  h_mjj_FatPF_VarBin_Qstar1200_RECO->SetLineColor(2);
+  h_mjj_FatPF_VarBin_Qstar1200_RECO->Scale( scale_factor );
+  h_mjj_FatPF_VarBin_Qstar1200_RECO->Draw("samesHISTE");
+  
+  TLegend legend5 (0.15,0.65,0.6,0.85);
+  legend5.SetFillColor(kWhite);
+  legend5.SetMargin(0.2);
+  legend5.AddEntry(h_mjj_FatPF_VarBin_Qstar1200,"QstarJJ M1200 - HLT (no JEC)","pl");
+  legend5.AddEntry(h_mjj_FatPF_VarBin_Qstar1200_RECO,"QstarJJ M1200 - RECO (full JEC applied) - rescaled","pl");
+  legend5.Draw();
+  c5.Update();
+  gPad->RedrawAxis();
+  gPad->Modified();
+
+
+
+
 
   
 }
