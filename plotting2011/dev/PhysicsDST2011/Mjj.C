@@ -1,0 +1,132 @@
+{
+  gROOT->Reset();
+  gStyle->SetOptStat(1111111);
+  gStyle->SetOptFit(1111);
+
+  TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1__15_11_2011/PhysicsDST_allEvents.root");
+  TFile datafile_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_data_HT_340fb_Fat_ak5.root");
+
+  //Mass Ranges
+  double min_mjj_FatPF = 526;
+  double min_mjj_FatCaloC = 325;
+
+  //DATA - FatPFJets
+  TH1D *h_mjj_FatPF_DATA = (TH1D*)datafile_hlt.Get( "M_FatPFJet1FatPFJet2" ); 
+  TH1D *h_mjj_PF_DATA = (TH1D*)datafile_hlt.Get( "M_PFJet1PFJet2" ); 
+  TH1D *h_mjj_FatPF_VarBin_DATA = (TH1D*)datafile_hlt.Get( "M_FatPFJet1FatPFJet2_VarBin" ); 
+  TH1D *h_mjj_PF_VarBin_DATA = (TH1D*)datafile_hlt.Get( "M_PFJet1PFJet2_VarBin" ); 
+  TH1D *h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO = (TH1D*) h_mjj_FatPF_VarBin_DATA->Clone();
+
+
+  //DATA - FatCaloCJets
+  TH1D *h_mjj_FatCaloC_DATA = (TH1D*)datafile_hlt.Get( "M_FatCaloCJet1FatCaloCJet2" ); 
+  TH1D *h_mjj_CaloC_DATA = (TH1D*)datafile_hlt.Get( "M_CaloCJet1CaloCJet2" ); 
+  TH1D *h_mjj_FatCaloC_VarBin_DATA = (TH1D*)datafile_hlt.Get( "M_FatCaloCJet1FatCaloCJet2_VarBin" ); 
+  TH1D *h_mjj_CaloC_VarBin_DATA = (TH1D*)datafile_hlt.Get( "M_CaloCJet1CaloCJet2_VarBin" ); 
+
+  //DATA - FatPFJets - RECO
+  TH1D *h_mjj_FatPF_VarBin_DATA_RECO = (TH1D*)datafile_reco.Get( "h_DijetMass_data_fat" ); 
+
+
+  //--- DATA - FatPFJets
+  TCanvas c1;
+  c1.Divide(2,1);
+
+  c1.cd(1)->SetLogy();
+  h_mjj_FatPF_DATA->SetMarkerStyle(20);
+  h_mjj_FatPF_DATA->SetMarkerSize(0.5);
+  h_mjj_FatPF_DATA->GetXaxis()->SetRangeUser(200,4000);
+  h_mjj_FatPF_DATA->GetXaxis()->SetTitle("FatPFDiJetMass@HLT [GeV]");
+  h_mjj_FatPF_DATA->Draw();
+
+  TLine line_mjj_FatPF_DATA(min_mjj_FatPF,0,min_mjj_FatPF,h_mjj_FatPF_DATA->GetMaximum());
+  line_mjj_FatPF_DATA->SetLineColor(2);
+  line_mjj_FatPF_DATA->Draw();
+
+  c1.cd(2)->SetLogy();
+  h_mjj_FatPF_VarBin_DATA->SetMarkerStyle(20);
+  h_mjj_FatPF_VarBin_DATA->SetMarkerSize(0.5);
+  h_mjj_FatPF_VarBin_DATA->GetXaxis()->SetRangeUser(220,4000);
+  h_mjj_FatPF_VarBin_DATA->GetXaxis()->SetTitle("FatPFDiJetMass@HLT [GeV]");
+  h_mjj_FatPF_VarBin_DATA->Draw();
+
+  TLine line_mjj_FatPF_VarBin_DATA(min_mjj_FatPF,0,min_mjj_FatPF,h_mjj_FatPF_VarBin_DATA->GetMaximum());
+  line_mjj_FatPF_VarBin_DATA->SetLineColor(2);
+  line_mjj_FatPF_VarBin_DATA->Draw();
+
+  //--- DATA - FatCaloCJets
+  TCanvas c2;
+  c2.Divide(2,1);
+
+  c2.cd(1)->SetLogy();
+  h_mjj_FatCaloC_DATA->SetMarkerStyle(20);
+  h_mjj_FatCaloC_DATA->SetMarkerSize(0.5);
+  h_mjj_FatCaloC_DATA->GetXaxis()->SetRangeUser(200,4000);
+  h_mjj_FatCaloC_DATA->GetXaxis()->SetTitle("FatCaloCDiJetMass@HLT [GeV]");
+  h_mjj_FatCaloC_DATA->Draw();
+
+  TLine line_mjj_FatCaloC_DATA(min_mjj_FatCaloC,0,min_mjj_FatCaloC,h_mjj_FatCaloC_DATA->GetMaximum());
+  line_mjj_FatCaloC_DATA->SetLineColor(2);
+  line_mjj_FatCaloC_DATA->Draw();
+
+  c2.cd(2)->SetLogy();
+  h_mjj_FatCaloC_VarBin_DATA->SetMarkerStyle(20);
+  h_mjj_FatCaloC_VarBin_DATA->SetMarkerSize(0.5);
+  h_mjj_FatCaloC_VarBin_DATA->GetXaxis()->SetRangeUser(220,4000);
+  h_mjj_FatCaloC_VarBin_DATA->GetXaxis()->SetTitle("FatCaloCDiJetMass@HLT [GeV]");
+  h_mjj_FatCaloC_VarBin_DATA->Draw();
+
+  TLine line_mjj_FatCaloC_VarBin_DATA(min_mjj_FatCaloC,0,min_mjj_FatCaloC,h_mjj_FatCaloC_VarBin_DATA->GetMaximum());
+  line_mjj_FatCaloC_VarBin_DATA->SetLineColor(2);
+  line_mjj_FatCaloC_VarBin_DATA->Draw();
+
+  //--- Comparison DATA - FatPFJets (RECO vs HLT)
+  TCanvas c3;
+  c3.SetLogy();
+  h_mjj_FatPF_VarBin_DATA->GetXaxis()->SetRangeUser( 0 , 4000 );
+  h_mjj_FatPF_VarBin_DATA->GetYaxis()->SetRangeUser( 0.01 , h_mjj_FatPF_VarBin_DATA->GetMaximum()*10 );
+  h_mjj_FatPF_VarBin_DATA->Draw();
+  int NeventsDATA = h_mjj_FatPF_VarBin_DATA->Integral(36,83);
+  double scale_factor = NeventsDATA / h_mjj_FatPF_VarBin_DATA_RECO->Integral();
+  cout << "NeventsDATA (PhysicsDST): " << NeventsDATA << endl;
+  cout << "Scale Factor: " << scale_factor << endl;
+  h_mjj_FatPF_VarBin_DATA_RECO->SetLineColor(2);
+  h_mjj_FatPF_VarBin_DATA_RECO->Scale( scale_factor );
+  h_mjj_FatPF_VarBin_DATA_RECO->Draw("samesHISTE");
+  
+  TLegend legend3 (0.35,0.65,0.75,0.85);
+  legend3.SetFillColor(kWhite);
+  legend3.SetMargin(0.2);
+  legend3.AddEntry(h_mjj_FatPF_VarBin_DATA,"117 pb-1 - PhysicsDST (no JEC)","pl");
+  legend3.AddEntry(h_mjj_FatPF_VarBin_DATA_RECO,"3.4 fb-1 - RECO (full JEC applied) - rescaled","pl");
+  legend3.Draw();
+  c3.Update();
+  gPad->RedrawAxis();
+  gPad->Modified();
+
+  //--- Ratio HLT / RECO
+  TCanvas c4;
+  c4.SetGridx();
+  c4.SetGridy();
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->GetXaxis()->SetTitle("FatPFDiJetMass [GeV]");
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->Divide(h_mjj_FatPF_VarBin_DATA_RECO);
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->SetMarkerStyle(20);
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->Fit("pol1");
+  //h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->Draw();
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->GetYaxis()->SetRangeUser(0,2);
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->GetXaxis()->SetRangeUser( 0 , 4000);
+
+  TLegend legend4 (0.15,0.7,0.4,0.85);
+  legend4.SetFillColor(kWhite);
+  legend4.SetMargin(0.2);
+  legend4.AddEntry(h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO,"HLT / RECO","pl");
+  legend4.Draw();
+  c4.Update();
+  gPad->RedrawAxis();
+  gPad->Modified();
+  
+
+ 
+
+  
+}
