@@ -48,6 +48,42 @@ void analysisClass::Loop()
  		   getHistoNBins("M_CaloCJet1CaloCJet2"), 
  		   getHistoMin("M_CaloCJet1CaloCJet2"), 
  		   getHistoMax("M_CaloCJet1CaloCJet2")     ) ; 
+
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_nVtxL5"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_nVtxL5"	  , 
+ 		   getHistoNBins("M_PFJet1PFJet2"), 
+ 		   getHistoMin("M_PFJet1PFJet2"), 
+ 		   getHistoMax("M_PFJet1PFJet2")     ) ; 
+
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_nVtx5To10"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_nVtx5To10"	  , 
+ 		   getHistoNBins("M_PFJet1PFJet2"), 
+ 		   getHistoMin("M_PFJet1PFJet2"), 
+ 		   getHistoMax("M_PFJet1PFJet2")     ) ; 
+
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_nVtx10To15"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_nVtx10To15"	  , 
+ 		   getHistoNBins("M_PFJet1PFJet2"), 
+ 		   getHistoMin("M_PFJet1PFJet2"), 
+ 		   getHistoMax("M_PFJet1PFJet2")     ) ; 
+
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_nVtxM15"	  , 
+ 		   getHistoNBins("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMin("M_FatPFJet1FatPFJet2"), 
+ 		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_nVtxM15"	  , 
+ 		   getHistoNBins("M_PFJet1PFJet2"), 
+ 		   getHistoMin("M_PFJet1PFJet2"), 
+ 		   getHistoMax("M_PFJet1PFJet2")     ) ; 
      
 
    Double_t massBins[84] = {1, 3, 6, 10, 16, 23, 31, 40, 50, 61, 74, 88, 103, 119, 137, 156, 176, 197, 220, 244, 270, 296, 325, 354, 386, 419, 453, 489, 526, 565, 606, 649, 693, 740, 788, 838, 890, 944, 1000, 1058, 1118, 1181, 1246, 1313, 1383, 1455, 1530, 1607, 1687, 1770, 1856, 1945, 2037, 2132, 2231, 2332, 2438, 2546, 2659, 2775, 2895, 3019, 3147, 3279, 3416, 3558, 3704, 3854, 4010, 4171, 4337, 4509, 4686, 4869, 5058, 5253, 5455, 5663, 5877, 6099, 6328, 6564, 6808, 7000};
@@ -62,6 +98,22 @@ void analysisClass::Loop()
    TH1D *M_CaloCJet1CaloCJet2_VarBin = new TH1D ("M_CaloCJet1CaloCJet2_VarBin","M_CaloCJet1CaloCJet2_VarBin",83,massBins);
    M_CaloCJet1CaloCJet2_VarBin->Sumw2();
 
+   TH1D *M_FatPFJet1FatPFJet2_VarBin_nVtxL5 = new TH1D ("M_FatPFJet1FatPFJet2_VarBin_nVtxL5","M_FatPFJet1FatPFJet2_VarBin_nVtxL5",83,massBins);
+   M_FatPFJet1FatPFJet2_VarBin_nVtxL5->Sumw2();
+   TH1D *M_PFJet1PFJet2_VarBin_nVtxL5 = new TH1D ("M_PFJet1PFJet2_VarBin_nVtxL5","M_PFJet1PFJet2_VarBin_nVtxL5",83,massBins);
+   M_PFJet1PFJet2_VarBin_nVtxL5->Sumw2();
+   TH1D *M_FatPFJet1FatPFJet2_VarBin_nVtx5To10 = new TH1D ("M_FatPFJet1FatPFJet2_VarBin_nVtx5To10","M_FatPFJet1FatPFJet2_VarBin_nVtx5To10",83,massBins);
+   M_FatPFJet1FatPFJet2_VarBin_nVtx5To10->Sumw2();
+   TH1D *M_PFJet1PFJet2_VarBin_nVtx5To10 = new TH1D ("M_PFJet1PFJet2_VarBin_nVtx5To10","M_PFJet1PFJet2_VarBin_nVtx5To10",83,massBins);
+   M_PFJet1PFJet2_VarBin_nVtx5To10->Sumw2();
+   TH1D *M_FatPFJet1FatPFJet2_VarBin_nVtx10To15 = new TH1D ("M_FatPFJet1FatPFJet2_VarBin_nVtx10To15","M_FatPFJet1FatPFJet2_VarBin_nVtx10To15",83,massBins);
+   M_FatPFJet1FatPFJet2_VarBin_nVtx10To15->Sumw2();
+   TH1D *M_PFJet1PFJet2_VarBin_nVtx10To15 = new TH1D ("M_PFJet1PFJet2_VarBin_nVtx10To15","M_PFJet1PFJet2_VarBin_nVtx10To15",83,massBins);
+   M_PFJet1PFJet2_VarBin_nVtx10To15->Sumw2();
+   TH1D *M_FatPFJet1FatPFJet2_VarBin_nVtxM15 = new TH1D ("M_FatPFJet1FatPFJet2_VarBin_nVtxM15","M_FatPFJet1FatPFJet2_VarBin_nVtxM15",83,massBins);
+   M_FatPFJet1FatPFJet2_VarBin_nVtxM15->Sumw2();
+   TH1D *M_PFJet1PFJet2_VarBin_nVtxM15 = new TH1D ("M_PFJet1PFJet2_VarBin_nVtxM15","M_PFJet1PFJet2_VarBin_nVtxM15",83,massBins);
+   M_PFJet1PFJet2_VarBin_nVtxM15->Sumw2();
  
    //--------------------------------------------------------------------------
    // Precuts
@@ -119,6 +171,9 @@ void analysisClass::Loop()
 
      // Event filters
      fillVariableWithValue(   "PassPrimaryVertex"             , PassPrimaryVertex ) ; 
+
+     //Vertices
+     fillVariableWithValue(   "nVertex_good"                  , nVertex_good ) ; 
 
      //HLT     
      fillVariableWithValue(   "HLT_HT350orM400"               , (HLT_HT350 || HLT_FatJetMass400) ) ; 
@@ -197,6 +252,42 @@ void analysisClass::Loop()
 
 	 M_FatPFJet1FatPFJet2_VarBin->Fill( getVariableValue("M_FatPFJet1FatPFJet2") );
 	 M_PFJet1PFJet2_VarBin->Fill( getVariableValue("M_PFJet1PFJet2") );
+
+	 if( getVariableValue("nVertex_good") < 5 )
+	   {
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_nVtxL5"	 , getVariableValue("M_FatPFJet1FatPFJet2") );	 	 
+	     FillUserTH1D( "M_PFJet1PFJet2_nVtxL5"	         , getVariableValue("M_PFJet1PFJet2") );	 	 
+	     
+	     M_FatPFJet1FatPFJet2_VarBin_nVtxL5->Fill( getVariableValue("M_FatPFJet1FatPFJet2") );
+	     M_PFJet1PFJet2_VarBin_nVtxL5->Fill( getVariableValue("M_PFJet1PFJet2") );
+	   }
+
+	 if( getVariableValue("nVertex_good") >= 5 && getVariableValue("nVertex_good") < 10 )
+	   {
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_nVtx5To10"	 , getVariableValue("M_FatPFJet1FatPFJet2") );	 	 
+	     FillUserTH1D( "M_PFJet1PFJet2_nVtx5To10"	         , getVariableValue("M_PFJet1PFJet2") );	 	 
+	     
+	     M_FatPFJet1FatPFJet2_VarBin_nVtx5To10->Fill( getVariableValue("M_FatPFJet1FatPFJet2") );
+	     M_PFJet1PFJet2_VarBin_nVtx5To10->Fill( getVariableValue("M_PFJet1PFJet2") );
+	   }
+
+	 if( getVariableValue("nVertex_good") >= 10 && getVariableValue("nVertex_good") < 15 )
+	   {
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_nVtx10To15"	 , getVariableValue("M_FatPFJet1FatPFJet2") );	 	 
+	     FillUserTH1D( "M_PFJet1PFJet2_nVtx10To15"	         , getVariableValue("M_PFJet1PFJet2") );	 	 
+	     
+	     M_FatPFJet1FatPFJet2_VarBin_nVtx10To15->Fill( getVariableValue("M_FatPFJet1FatPFJet2") );
+	     M_PFJet1PFJet2_VarBin_nVtx10To15->Fill( getVariableValue("M_PFJet1PFJet2") );
+	   }
+
+	 if( getVariableValue("nVertex_good") >= 15 )
+	   {
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_nVtxM15"	 , getVariableValue("M_FatPFJet1FatPFJet2") );	 	 
+	     FillUserTH1D( "M_PFJet1PFJet2_nVtxM15"	         , getVariableValue("M_PFJet1PFJet2") );	 	 
+	     
+	     M_FatPFJet1FatPFJet2_VarBin_nVtxM15->Fill( getVariableValue("M_FatPFJet1FatPFJet2") );
+	     M_PFJet1PFJet2_VarBin_nVtxM15->Fill( getVariableValue("M_PFJet1PFJet2") );
+	   }
        }
 
      if( pass_CaloCFatJet_selection )
@@ -217,6 +308,15 @@ void analysisClass::Loop()
 
    M_FatCaloCJet1FatCaloCJet2_VarBin->Write();
    M_CaloCJet1CaloCJet2_VarBin->Write();
+
+   M_FatPFJet1FatPFJet2_VarBin_nVtxL5->Write();
+   M_PFJet1PFJet2_VarBin_nVtxL5->Write();
+   M_FatPFJet1FatPFJet2_VarBin_nVtx5To10->Write();
+   M_PFJet1PFJet2_VarBin_nVtx5To10->Write();
+   M_FatPFJet1FatPFJet2_VarBin_nVtx10To15->Write();
+   M_PFJet1PFJet2_VarBin_nVtx10To15->Write();
+   M_FatPFJet1FatPFJet2_VarBin_nVtxM15->Write();
+   M_PFJet1PFJet2_VarBin_nVtxM15->Write();
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
 }
