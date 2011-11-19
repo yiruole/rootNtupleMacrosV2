@@ -64,6 +64,7 @@ DPhi_FatPFJet1FatPFJet2		-inf	     +inf		-		-		0	100 -4 4
 DR_FatPFJet1FatPFJet2		-inf	     +inf		-		-		0	100 0 10	      
 M_FatPFJet1FatPFJet2		-inf	     +inf               -               -               0       1000 0 10000	      
 M_PFJet1PFJet2			-inf	     +inf               -               -               0       1000 0 10000	      
+nVertex_good			-inf	     +inf		-		-		0	201 -0.5 200.5
 #
 FatCaloCJet1_Pt                 30           +inf               -               -               1       500 0 5000
 FatCaloCJet1_Eta                -2.5         +2.5               -               -               1       100 -5 5
