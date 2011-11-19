@@ -10,9 +10,12 @@
 #include <TVector3.h>
 #include <TRandom3.h>
 
-//-----------------------------
-//-----------------------------
+//For JEC
+#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+#include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 
+//-----------------------------
+//-----------------------------
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
@@ -27,6 +30,53 @@ analysisClass::~analysisClass()
 
 void analysisClass::Loop()
 {
+
+  //--------------------------------------------------------------------------
+  //For JEC
+  //--------------------------------------------------------------------------
+
+  string L2Tag     = "/afs/cern.ch/user/s/santanas/public/JEC_txtfiles_GR_R_42_V19/GR_R_42_V19_AK5PF_L2Relative.txt"; 
+  string L3Tag     = "/afs/cern.ch/user/s/santanas/public/JEC_txtfiles_GR_R_42_V19/GR_R_42_V19_AK5PF_L3Absolute.txt";
+  string L23ResTag = "/afs/cern.ch/user/s/santanas/public/JEC_txtfiles_GR_R_42_V19/GR_R_42_V19_AK5PF_L2L3Residual.txt";
+  
+  JetCorrectorParameters *L2Par = new JetCorrectorParameters(L2Tag);
+  JetCorrectorParameters *L3Par = new JetCorrectorParameters(L3Tag);
+  JetCorrectorParameters *L23ResPar = new JetCorrectorParameters(L23ResTag);
+
+  vector<JetCorrectorParameters> vParL2;
+  vParL2.push_back(*L2Par);
+  vector<JetCorrectorParameters> vParL3;
+  vParL3.push_back(*L3Par);
+  vector<JetCorrectorParameters> vParL23Res;
+  vParL23Res.push_back(*L23ResPar);
+  vector<JetCorrectorParameters> vParAll;
+  vParAll.push_back(*L2Par);
+  vParAll.push_back(*L3Par);
+  vParAll.push_back(*L23ResPar);
+
+  FactorizedJetCorrector *JetCorrectorL2 = new FactorizedJetCorrector(vParL2);
+  FactorizedJetCorrector *JetCorrectorL3 = new FactorizedJetCorrector(vParL3);
+  FactorizedJetCorrector *JetCorrectorL23Res = new FactorizedJetCorrector(vParL23Res);
+  FactorizedJetCorrector *JetCorrectorAll = new FactorizedJetCorrector(vParAll);
+
+  //   JetCorrectorL2->setJetEta(0.5);
+  //   JetCorrectorL3->setJetEta(0.5);
+  //   JetCorrectorL23Res->setJetEta(0.5);
+  //   JetCorrectorAll->setJetEta(0.5);
+  //   JetCorrectorL2->setJetPt(100);
+  //   JetCorrectorL3->setJetPt(100);
+  //   JetCorrectorL23Res->setJetPt(100);
+  //   JetCorrectorAll->setJetPt(100);
+
+  //   double corrL2 = JetCorrectorL2->getCorrection();
+  //   double corrL3 = JetCorrectorL3->getCorrection();
+  //   double corrL23Res = JetCorrectorL23Res->getCorrection();
+  //   double corrAll = JetCorrectorAll->getCorrection();
+  //   cout << "L2, L3, L23Res, Product :  " << corrL2 << ", " <<corrL3 << ", " << corrL23Res << ", " << corrL2*corrL3*corrL23Res << endl;
+  //   cout << "All : " << corrAll << endl;
+  
+  //--------------------------------------------------------------------------
+
   //STDOUT("analysisClass::Loop() begins");
 
   if (fChain == 0) return;
@@ -72,6 +122,9 @@ void analysisClass::Loop()
   // Vertices
   double vertexMaxAbsZ = getPreCutValue1("vertexMaxAbsZ");
   double vertexMaxd0 = getPreCutValue1("vertexMaxd0");  
+
+  //Others
+  double applyPFJEC = getPreCutValue1("applyPFJEC");  
   
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -106,7 +159,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<10000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<2000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -119,6 +172,34 @@ void analysisClass::Loop()
     //double event_weight = getPileupWeight ( min(PileUpInteractions->at(1),25), isData ) ;
 
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
+
+    //## Apply JEC to PF jets    
+    if(applyPFJEC)
+      {
+	for(int ijet=0; ijet<HLTPFJetPt->size(); ijet++)
+	  {
+	    if(isData)  //Data: L2,L3,L23Res
+	      {
+		JetCorrectorAll->setJetEta( HLTPFJetEta->at(ijet) );
+		JetCorrectorAll->setJetPt( HLTPFJetPt->at(ijet) );
+		double corrAll = JetCorrectorAll->getCorrection();
+		
+		HLTPFJetPt->at(ijet) *= corrAll;
+		HLTPFJetEnergy->at(ijet) *= corrAll;
+	      }
+	    else        //MC: L2,L3 only (no residual)
+	      {
+		JetCorrectorL2->setJetEta( HLTPFJetEta->at(ijet) );
+		JetCorrectorL2->setJetPt( HLTPFJetPt->at(ijet) );
+		JetCorrectorL3->setJetEta( HLTPFJetEta->at(ijet) );
+		JetCorrectorL3->setJetPt( HLTPFJetPt->at(ijet) );
+		double corrAll = JetCorrectorL2->getCorrection() * JetCorrectorL3->getCorrection();
+		
+		HLTPFJetPt->at(ijet) *= corrAll;
+		HLTPFJetEnergy->at(ijet) *= corrAll;
+	      }
+	  }
+      }
 
     //-----------------------------------------------------------------    
     // Get trigger information, if necessary                     

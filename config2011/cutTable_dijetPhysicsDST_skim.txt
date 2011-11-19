@@ -51,6 +51,9 @@ caloCorrjetRForFatJet       1.1		-		-		-		 -1
 vertexMaxAbsZ         24           -			-               -               -1
 vertexMaxd0           2            -			-               -               -1
 #
+# Others
+applyPFJEC	      1	           -                    -               -               -1	
+#
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
