@@ -171,6 +171,7 @@ run 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #------------------------------------------------------------------------------------------------------
 ProcessID 			-inf	     +inf		-		-		0	100 0 100	      SAVE
 PtHat 				-inf	     +inf		-		-		0	100 0 100	      SAVE
+Weight				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #------------------------------------------------------------------------------------------------------
 # To be added:
 #    -  HLT Info
@@ -289,6 +290,7 @@ Jet3_btagTCHE			-inf         +inf               -               -               
 # Loose jets info
 #------------------------------------------------------------------------------------------------------
 nJetLooseEle_Stored		1            +inf               -               -               1       16 -0.5 15.5	      SAVE
+nJetLooseEle_Ana		1            +inf               -               -               1       16 -0.5 15.5	      SAVE
 #
 JetLooseEle1_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle1_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
@@ -368,6 +370,7 @@ H_Photon30_CIdVL_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_Photon30_CIdVL_5		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_Photon30_CIdVL_6		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_Photon30_CIdVL_7		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_Photon30_CIdVL_8		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #                  		
 H_Photon50_CIdVL_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_Photon50_CIdVL_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
@@ -394,3 +397,4 @@ H_Photon135_1   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_Photon135_2   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #                		
 H_Photon400_1   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_Photon400_2   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE

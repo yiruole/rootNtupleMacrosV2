@@ -168,6 +168,7 @@ run 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #------------------------------------------------------------------------------------------------------
 ProcessID 			-inf	     +inf		-		-		0	100 0 100	      SAVE
 PtHat 				-inf	     +inf		-		-		0	100 0 100	      SAVE
+Weight				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #------------------------------------------------------------------------------------------------------
 # To be added:
 #    -  HLT Info
@@ -286,6 +287,7 @@ Jet3_btagTCHE			-inf         +inf               -               -               
 # Loose jets info
 #------------------------------------------------------------------------------------------------------
 nJetLooseEle_Stored		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nJetLooseEle_Ana		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 #
 JetLooseEle1_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle1_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
@@ -388,6 +390,10 @@ H_65_CIdVT_TIdT_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_65_CIdVT_TIdT_3		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_65_CIdVT_TIdT_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #
+H_80_CIdVT_TIdT_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_80_CIdVT_TIdT_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_80_CIdVT_TIdT_3		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#
 H_25_WP80_PFMT40_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #		             
 H_27_WP80_PFMT50_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
@@ -430,3 +436,9 @@ H_Photon135_1   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_Photon135_2   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 #                		
 H_Photon400_1   		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+#------------------------------------------------------------------------------------------------------
+# ElectronHad 2011B triggers
+#------------------------------------------------------------------------------------------------------
+H_Ele30_CIdVT_CIsT_TIdT_TIsT_2CJ30_MHT25_1   -inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_Ele27_WP80_2CJ25_MHT15_4		     -inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_Ele27_WP80_2CJ25_MHT15_5		     -inf	     +inf		-		-		3	100 -1000 1000	      SAVE

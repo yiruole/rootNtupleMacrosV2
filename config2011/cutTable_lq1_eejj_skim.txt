@@ -141,8 +141,8 @@ PassPhysDecl                    -inf         +inf               -               
 PassBeamScraping                0            1                  -               -               0       2 -0.5 1.5	      SAVE
 PassPrimaryVertex               0            1                  -               -               0       2 -0.5 1.5	      SAVE
 PassHBHENoiseFilter             -inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
-PassBeamHaloFilterLoose		-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
-PassBeamHaloFilterTight		-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+PassBeamHaloFilterLoose	  	-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
+PassBeamHaloFilterTight	  	-inf         +inf               -               -               0       2 -0.5 1.5	      SAVE
 PassTrackingFailure             -inf         +inf               -               -               0       2 -0.5 1.5            SAVE
 PassCaloBoundaryDRFilter        -inf         +inf               -               -               0       2 -0.5 1.5            SAVE
 PassEcalMaskedCellDRFilter      -inf         +inf               -               -               0       2 -0.5 1.5            SAVE
@@ -168,6 +168,7 @@ run 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #------------------------------------------------------------------------------------------------------
 ProcessID 			-inf	     +inf		-		-		0	100 0 100	      SAVE
 PtHat 				-inf	     +inf		-		-		0	100 0 100	      SAVE
+Weight				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #------------------------------------------------------------------------------------------------------
 # To be added:
 #    -  HLT Info
@@ -243,6 +244,7 @@ Jet3_btagTCHE			-inf         +inf               -               -               
 #------------------------------------------------------------------------------------------------------
 # Loose jets info
 #------------------------------------------------------------------------------------------------------
+nJetLooseEle_Ana 		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 nJetLooseEle_Stored		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 #
 JetLooseEle1_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
@@ -349,3 +351,9 @@ H_DoubleEle33_CIdL_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_DoubleEle33_CIdL_3		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_DoubleEle33_CIdL_4		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
 H_DoubleEle33_CIdL_5		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdL_6		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdL_7		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+# 
+H_DoubleEle33_CIdT_1		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdT_2		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
+H_DoubleEle33_CIdT_3		-inf	     +inf		-		-		3	100 -1000 1000	      SAVE
