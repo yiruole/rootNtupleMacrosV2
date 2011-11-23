@@ -22,7 +22,7 @@ JSON /afs/cern.ch/user/s/santanas/public/GoodLumiSummary_20111104_140216_json.tx
 #
 #VariableName         value1            value2          value3          value4          level
 #------------         ------------      -------------   ------------    -------------   -----
-#produceSkim          1                 -               -               -               -1
+#produceSkim           0                 -               -               -               -1
 produceReducedSkim    1                 -               -               -               -1
 #
 # Jets 
@@ -53,6 +53,7 @@ vertexMaxd0           2            -			-               -               -1
 #
 # Others
 applyPFJEC	      1	           -                    -               -               -1	
+ptUE		      2.525	   -			-		-		-1
 #
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------

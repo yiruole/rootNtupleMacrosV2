@@ -9,6 +9,9 @@
 #include <TVector2.h>
 #include <TVector3.h>
 #include <TRandom3.h>
+#include "TH2.h"
+#include "TMath.h"
+#include "TProfile.h"
 
 //For JEC
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
@@ -16,6 +19,21 @@
 
 //-----------------------------
 //-----------------------------
+
+Double_t median1(TH1 *h1) { 
+   //compute the median for 1-d histogram h1 
+   Int_t nbins = h1->GetXaxis()->GetNbins(); 
+   Double_t *x = new Double_t[nbins]; 
+   Double_t *y = new Double_t[nbins]; 
+   for (Int_t i=0;i<nbins;i++) {
+      x[i] = h1->GetXaxis()->GetBinCenter(i+1); 
+      y[i] = h1->GetBinContent(i+1); 
+   } 
+   Double_t median = TMath::Median(nbins,x,y); 
+   delete [] x; 
+   delete [] y; 
+   return median; 
+} 
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
@@ -49,6 +67,9 @@ void analysisClass::Loop()
   vParL3.push_back(*L3Par);
   vector<JetCorrectorParameters> vParL23Res;
   vParL23Res.push_back(*L23ResPar);
+  vector<JetCorrectorParameters> vParL2L3;
+  vParL2L3.push_back(*L2Par);
+  vParL2L3.push_back(*L3Par);
   vector<JetCorrectorParameters> vParAll;
   vParAll.push_back(*L2Par);
   vParAll.push_back(*L3Par);
@@ -57,6 +78,7 @@ void analysisClass::Loop()
   FactorizedJetCorrector *JetCorrectorL2 = new FactorizedJetCorrector(vParL2);
   FactorizedJetCorrector *JetCorrectorL3 = new FactorizedJetCorrector(vParL3);
   FactorizedJetCorrector *JetCorrectorL23Res = new FactorizedJetCorrector(vParL23Res);
+  FactorizedJetCorrector *JetCorrectorL2L3 = new FactorizedJetCorrector(vParL2L3);
   FactorizedJetCorrector *JetCorrectorAll = new FactorizedJetCorrector(vParAll);
 
   //   JetCorrectorL2->setJetEta(0.5);
@@ -125,12 +147,12 @@ void analysisClass::Loop()
 
   //Others
   double applyPFJEC = getPreCutValue1("applyPFJEC");  
-  
+  double ptUE = getPreCutValue1("ptUE");  
+
   ////////////////////// User's code to get preCut values - END /////////////////
 
   ////////////////////// User's code to book histos - BEGIN ///////////////////////
 
-  // Random number generator
   CreateUserTH1D( "PFJetPrecutsPt"              ,    200,  0, 2000   );
   CreateUserTH1D( "PFJetPrecutsEta"             ,    100, -6, 6      );
   CreateUserTH1D( "PFJetPrecutsNeutralHadronEnergyFraction"             ,    200,  -2, 2   );
@@ -149,6 +171,12 @@ void analysisClass::Loop()
   CreateUserTH1D( "CaloCorrJetIDPt"                   ,    200,  0, 2000   );
   CreateUserTH1D( "CaloCorrJetIDEta"                  ,    100, -6, 6      );
 
+  //For Pileup studies
+  TProfile* p_PTJetsMedian_vs_NVtx = new TProfile( "p_PTJetsMedian_vs_NVtx" , "p_PTJetsMedian_vs_NVtx", 51, -0.5, 50.5, 0, 200);
+  TH1D *h_PtPFJetsInEvent1Ev = new TH1D ("h_PtPFJetsInEvent1Ev","h_PtPFJetsInEvent1Ev",10000,0,1000);
+  h_PtPFJetsInEvent1Ev->Sumw2();
+  float tobedone = 1;
+  
   ////////////////////// User's code to book histos - END ///////////////////////
 
   Long64_t nentries = fChain->GetEntriesFast();
@@ -159,7 +187,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<2000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -173,30 +201,48 @@ void analysisClass::Loop()
 
     ////////////////////// User's code to be done for every event - BEGIN ///////////////////////
 
+    //## Get pileup contribution for each event
+    double pt_PU_UE = 0.;
+    TH1D *h_PtPFJetsInEventTmp = new TH1D ("h_PtPFJetsInEventTmp","h_PtPFJetsInEventTmp",10000,0,1000);
+    h_PtPFJetsInEventTmp->Sumw2();
+    //Loop over PF jets
+    for(int ijet=0; ijet<HLTPFJetPt->size(); ijet++)
+      {
+	//eta pre-cuts on jets
+	if ( fabs( HLTPFJetEta->at(ijet) ) > pfjetEtaCut ) continue;
+	
+	h_PtPFJetsInEventTmp->Fill( HLTPFJetPt->at(ijet) );	    
+      }
+    pt_PU_UE = median1(h_PtPFJetsInEventTmp);
+    delete h_PtPFJetsInEventTmp;
+             
     //## Apply JEC to PF jets    
     if(applyPFJEC)
       {
 	for(int ijet=0; ijet<HLTPFJetPt->size(); ijet++)
 	  {
+	    //L1 FastJet-like correction (both Data and MC)
+	    double L1 = 1 - ( (pt_PU_UE - ptUE) / HLTPFJetPt->at(ijet) ) ;
+	    if(L1>1 || L1<=0) //pathological cases
+	      L1 = 1;//don't do anything
+	    
 	    if(isData)  //Data: L2,L3,L23Res
 	      {
 		JetCorrectorAll->setJetEta( HLTPFJetEta->at(ijet) );
-		JetCorrectorAll->setJetPt( HLTPFJetPt->at(ijet) );
-		double corrAll = JetCorrectorAll->getCorrection();
-		
-		HLTPFJetPt->at(ijet) *= corrAll;
-		HLTPFJetEnergy->at(ijet) *= corrAll;
+		JetCorrectorAll->setJetPt( L1 * HLTPFJetPt->at(ijet) );
+		double thiscorrection = JetCorrectorAll->getCorrection();
+
+		HLTPFJetPt->at(ijet) *= L1 * thiscorrection;
+		HLTPFJetEnergy->at(ijet) *= L1 * thiscorrection;
 	      }
-	    else        //MC: L2,L3 only (no residual)
+	    else        //MC: L2,L3 only (no residual)  
 	      {
-		JetCorrectorL2->setJetEta( HLTPFJetEta->at(ijet) );
-		JetCorrectorL2->setJetPt( HLTPFJetPt->at(ijet) );
-		JetCorrectorL3->setJetEta( HLTPFJetEta->at(ijet) );
-		JetCorrectorL3->setJetPt( HLTPFJetPt->at(ijet) );
-		double corrAll = JetCorrectorL2->getCorrection() * JetCorrectorL3->getCorrection();
+		JetCorrectorL2L3->setJetEta( HLTPFJetEta->at(ijet) );
+		JetCorrectorL2L3->setJetPt( L1 * HLTPFJetPt->at(ijet) );
+		double thiscorrection = JetCorrectorL2L3->getCorrection();
 		
-		HLTPFJetPt->at(ijet) *= corrAll;
-		HLTPFJetEnergy->at(ijet) *= corrAll;
+		HLTPFJetPt->at(ijet) *= L1 * thiscorrection;
+		HLTPFJetEnergy->at(ijet) *= L1 * thiscorrection;
 	      }
 	  }
       }
@@ -579,12 +625,51 @@ void analysisClass::Loop()
 	    fillVariableWithValue("DPhi_FatCaloCJet1FatCaloCJet2", fatjet1.DeltaPhi(fatjet2));		   
 	  }
       }
-    
+               
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
     
     // Fill histograms and do analysis based on cut evaluation
     
+    //## Pileup study
+    if( getVariableValue("PassJSON")==1 
+	&& getVariableValue("PassPrimaryVertex")==1
+	&& getVariableValue("HLT_FatJetMass400")==1 
+	&& getVariableValue("HLT_HT350")==1 
+	&& applyPFJEC==0
+	)
+      {
+	TH1D *h_PtPFJetsInEvent = new TH1D ("h_PtPFJetsInEvent","h_PtPFJetsInEvent",10000,0,1000);
+	h_PtPFJetsInEvent->Sumw2();
+	// 	cout << "--------" << endl;
+	// 	cout << "HLTPFJetPt->size(): " << HLTPFJetPt->size() << endl;	
+    
+	//Loop over PF jets
+	for(int ijet=0; ijet<HLTPFJetPt->size(); ijet++)
+	  {
+	    //eta pre-cuts on jets
+	    if ( fabs( HLTPFJetEta->at(ijet) ) > pfjetEtaCut ) continue;
+	    
+	    h_PtPFJetsInEvent->Fill( HLTPFJetPt->at(ijet) );	    
+
+	    if(tobedone)
+	      {
+		h_PtPFJetsInEvent1Ev->Fill( HLTPFJetPt->at(ijet) );		
+		//cout << getVariableValue("nVertex_good") << endl;
+	      }
+	  }
+	tobedone = 0;
+
+	// 	cout << "h_PtPFJetsInEvent->GetEntries(): " << h_PtPFJetsInEvent->GetEntries() << endl;
+	// 	cout << "h_PtPFJetsInEvent->GetMean(): " << h_PtPFJetsInEvent->GetMean() << endl;
+	// 	cout << "median1(h_PtPFJetsInEvent): " << median1(h_PtPFJetsInEvent) << endl;	      
+	// 	cout << "nVertex_good: " << getVariableValue("nVertex_good") << endl;
+	p_PTJetsMedian_vs_NVtx->Fill( getVariableValue("nVertex_good") , median1(h_PtPFJetsInEvent) );
+
+	delete h_PtPFJetsInEvent;
+      }//end pile-up study
+
+
     //     if( variableIsFilled("HLT_HT350") &&  variableIsFilled("HLT_FatJetMass400") && variableIsFilled("PFJet1_Pt")    
     // 	&& max( getVariableValue("HLT_HT350"), getVariableValue("HLT_FatJetMass400") ) == 0 
     // 	&& getVariableValue("PFJet1_Pt")>0 )
@@ -632,6 +717,15 @@ void analysisClass::Loop()
 
 
   ////////////////////// User's code to write histos - BEGIN ///////////////////////
+
+  if(applyPFJEC==0)
+    {
+      p_PTJetsMedian_vs_NVtx->Write();
+      h_PtPFJetsInEvent1Ev->Write();
+    }
+
+  delete p_PTJetsMedian_vs_NVtx;
+  delete h_PtPFJetsInEvent1Ev;
 
   ////////////////////// User's code to write histos - END ///////////////////////
 
