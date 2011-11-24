@@ -210,7 +210,7 @@ void analysisClass::Loop()
  
 
   Long64_t nentries = fChain->GetEntries();
-  //Long64_t nentries = 10000;
+  // Long64_t nentries = 1000;
   STDOUT("analysisClass::Loop(): nentries = " << nentries);
 
   Long64_t nbytes = 0, nb = 0;
@@ -579,11 +579,13 @@ void analysisClass::Loop()
     vector<int> v_idx_jet_PtCut_ANA;
 
     vector<int> v_idx_jet_PtCut_noOverlap_ID_STORE;
-    vector<int> v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE;
     vector<int> v_idx_jet_PtCut_noOverlap_ID_TCHEL_STORE;
 
     vector<int> v_idx_jet_PtCut_noOverlap_ID_ANA;
     vector<int> v_idx_jet_PtCut_noOverlap_ID_TCHEL_ANA;
+
+    vector<int> v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE;
+    vector<int> v_idx_jet_PtCut_noOverlapLooseEle_ID_ANA;
 
     vector<int> v_idx_calojet_PtCut_noOverlap_ID_STORE;
     vector<int> v_idx_calojet_PtCut_noOverlap_ID_ANA;
@@ -744,6 +746,8 @@ void analysisClass::Loop()
 	    && fabs( JetEta->at(v_idx_jet_PtCut_STORE[ijet]) ) < jet_EtaCut 	/* pass Jet Eta cut */    
 	    ) {                        
 	  v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.push_back(v_idx_jet_PtCut_STORE[ijet]);
+	  if ( JetPt->at(v_idx_jet_PtCut_STORE[ijet]) > jet_PtCut_ANA )
+	    v_idx_jet_PtCut_noOverlapLooseEle_ID_ANA.push_back(v_idx_jet_PtCut_STORE[ijet]);
 	}
       } // End loop over jets
     
@@ -857,6 +861,7 @@ void analysisClass::Loop()
 	if ( triggerFired ("HLT_Photon30_CaloIdVL_v5") ) { fillVariableWithValue("H_Photon30_CIdVL_5",triggerPrescale("HLT_Photon30_CaloIdVL_v5")); } else { fillVariableWithValue("H_Photon30_CIdVL_5",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v5")); }
 	if ( triggerFired ("HLT_Photon30_CaloIdVL_v6") ) { fillVariableWithValue("H_Photon30_CIdVL_6",triggerPrescale("HLT_Photon30_CaloIdVL_v6")); } else { fillVariableWithValue("H_Photon30_CIdVL_6",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v6")); }
 	if ( triggerFired ("HLT_Photon30_CaloIdVL_v7") ) { fillVariableWithValue("H_Photon30_CIdVL_7",triggerPrescale("HLT_Photon30_CaloIdVL_v7")); } else { fillVariableWithValue("H_Photon30_CIdVL_7",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v7")); }
+	if ( triggerFired ("HLT_Photon30_CaloIdVL_v8") ) { fillVariableWithValue("H_Photon30_CIdVL_8",triggerPrescale("HLT_Photon30_CaloIdVL_v8")); } else { fillVariableWithValue("H_Photon30_CIdVL_8",-1 * triggerPrescale("HLT_Photon30_CaloIdVL_v8")); }
 										                     										                       
 	if ( triggerFired ("HLT_Photon50_CaloIdVL_v1") ) { fillVariableWithValue("H_Photon50_CIdVL_1",triggerPrescale("HLT_Photon50_CaloIdVL_v1")); } else { fillVariableWithValue("H_Photon50_CIdVL_1",-1 * triggerPrescale("HLT_Photon50_CaloIdVL_v1")); }
 	if ( triggerFired ("HLT_Photon50_CaloIdVL_v2") ) { fillVariableWithValue("H_Photon50_CIdVL_2",triggerPrescale("HLT_Photon50_CaloIdVL_v2")); } else { fillVariableWithValue("H_Photon50_CIdVL_2",-1 * triggerPrescale("HLT_Photon50_CaloIdVL_v2")); }
@@ -883,6 +888,7 @@ void analysisClass::Loop()
 	if ( triggerFired ("HLT_Photon135_v2"        ) ) { fillVariableWithValue("H_Photon135_2"     ,triggerPrescale("HLT_Photon135_v2"        )); } else { fillVariableWithValue("H_Photon135_2"     ,-1 * triggerPrescale("HLT_Photon135_v2"        )); }	
 										                     										                       
 	if ( triggerFired ("HLT_Photon400_v1"        ) ) { fillVariableWithValue("H_Photon400_1"     ,triggerPrescale("HLT_Photon400_v1"        )); } else { fillVariableWithValue("H_Photon400_1"     ,-1 * triggerPrescale("HLT_Photon400_v1"        )); }	
+	if ( triggerFired ("HLT_Photon400_v2"        ) ) { fillVariableWithValue("H_Photon400_2"     ,triggerPrescale("HLT_Photon400_v2"        )); } else { fillVariableWithValue("H_Photon400_2"     ,-1 * triggerPrescale("HLT_Photon400_v2"        )); }	
       }
 
       if ( reducedSkimType == 1 ) { 
@@ -924,8 +930,24 @@ void analysisClass::Loop()
 	if ( triggerFired ("HLT_Ele65_CaloIdVT_TrkIdT_v2") ) { fillVariableWithValue("H_65_CIdVT_TIdT_2", triggerPrescale ("HLT_Ele65_CaloIdVT_TrkIdT_v2" )); } else { fillVariableWithValue("H_65_CIdVT_TIdT_2", -1 * triggerPrescale ("HLT_Ele65_CaloIdVT_TrkIdT_v2" )); } 
 	if ( triggerFired ("HLT_Ele65_CaloIdVT_TrkIdT_v3") ) { fillVariableWithValue("H_65_CIdVT_TIdT_3", triggerPrescale ("HLT_Ele65_CaloIdVT_TrkIdT_v3" )); } else { fillVariableWithValue("H_65_CIdVT_TIdT_3", -1 * triggerPrescale ("HLT_Ele65_CaloIdVT_TrkIdT_v3" )); } 
 	if ( triggerFired ("HLT_Ele65_CaloIdVT_TrkIdT_v4") ) { fillVariableWithValue("H_65_CIdVT_TIdT_4", triggerPrescale ("HLT_Ele65_CaloIdVT_TrkIdT_v4" )); } else { fillVariableWithValue("H_65_CIdVT_TIdT_4", -1 * triggerPrescale ("HLT_Ele65_CaloIdVT_TrkIdT_v4" )); } 
+										                       
+	if ( triggerFired ("HLT_Ele80_CaloIdVT_TrkIdT_v1") ) { fillVariableWithValue("H_80_CIdVT_TIdT_1", triggerPrescale ("HLT_Ele80_CaloIdVT_TrkIdT_v1" )); } else { fillVariableWithValue("H_80_CIdVT_TIdT_1", -1 * triggerPrescale ("HLT_Ele80_CaloIdVT_TrkIdT_v1" )); } 
+	if ( triggerFired ("HLT_Ele80_CaloIdVT_TrkIdT_v2") ) { fillVariableWithValue("H_80_CIdVT_TIdT_2", triggerPrescale ("HLT_Ele80_CaloIdVT_TrkIdT_v2" )); } else { fillVariableWithValue("H_80_CIdVT_TIdT_2", -1 * triggerPrescale ("HLT_Ele80_CaloIdVT_TrkIdT_v2" )); } 
+	if ( triggerFired ("HLT_Ele80_CaloIdVT_TrkIdT_v3") ) { fillVariableWithValue("H_80_CIdVT_TIdT_3", triggerPrescale ("HLT_Ele80_CaloIdVT_TrkIdT_v3" )); } else { fillVariableWithValue("H_80_CIdVT_TIdT_3", -1 * triggerPrescale ("HLT_Ele80_CaloIdVT_TrkIdT_v3" )); } 
 
 	if ( triggerFired ("HLT_Ele27_WP80_PFMT50_v1"                     ) ) { fillVariableWithValue("H_27_WP80_PFMT50_1"         ,triggerPrescale("HLT_Ele27_WP80_PFMT50_v1"                     )); } else { fillVariableWithValue("H_27_WP80_PFMT50_1",-1 * triggerPrescale("HLT_Ele27_WP80_PFMT50_v1")); }
+
+	if ( triggerFired ("HLT_Ele30_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_PFMHT25_v1") ) { fillVariableWithValue ("H_Ele30_HEEP_2CJ30_MHT25_1", triggerPrescale ("HLT_Ele30_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_PFMHT25_v1")); } else { fillVariableWithValue ("H_Ele30_HEEP_2CJ30_MHT25_1", -1 * triggerPrescale ("HLT_Ele30_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_DiCentralJet30_PFMHT25_v1")); }
+	
+	if ( triggerFired ("HLT_Ele27_WP80_DiCentralPFJet25_PFMHT15_v4") ) { fillVariableWithValue ("H_Ele27_WP80_2CJ25_MHT15_4", triggerPrescale("HLT_Ele27_WP80_DiCentralPFJet25_PFMHT15_v4")); } else { fillVariableWithValue ("H_Ele27_WP80_2CJ25_MHT15_4", -1 * triggerPrescale("HLT_Ele27_WP80_DiCentralPFJet25_PFMHT15_v4")); }
+
+	if ( triggerFired ("HLT_Ele27_WP80_DiCentralPFJet25_PFMHT15_v5") ) { fillVariableWithValue ("H_Ele27_WP80_2CJ25_MHT15_5", triggerPrescale("HLT_Ele27_WP80_DiCentralPFJet25_PFMHT15_v5")); } else { fillVariableWithValue ("H_Ele27_WP80_2CJ25_MHT15_5", -1 * triggerPrescale("HLT_Ele27_WP80_DiCentralPFJet25_PFMHT15_v5")); }
+
+	if ( triggerFired("HLT_Ele17_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT15_v2") ) { fillVariableWithValue("H_17_HEEP_CJ30_25_MHT15_2", triggerPrescale ( "HLT_Ele17_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT15_v2")); } else { fillVariableWithValue("H_17_HEEP_CJ30_25_MHT15_2", -1 * triggerPrescale("HLT_Ele17_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT15_v2")); }
+	if ( triggerFired("HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4") ) { fillVariableWithValue("H_25_HEEP_CJ30_25_MHT20_4", triggerPrescale ( "HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4")); } else { fillVariableWithValue("H_25_HEEP_CJ30_25_MHT20_4", -1 * triggerPrescale("HLT_Ele25_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4")); }
+	if ( triggerFired("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2") ) { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_2", triggerPrescale ( "HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); } else { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_2", -1 * triggerPrescale("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); }
+	if ( triggerFired("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4") ) { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_4", triggerPrescale ( "HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4")); } else { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_4", -1 * triggerPrescale("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4")); }
+	if ( triggerFired("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2") ) { fillVariableWithValue("H_27_HEEP_CJ30_25_MHT20_2", triggerPrescale ( "HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); } else { fillVariableWithValue("H_27_HEEP_CJ30_25_MHT20_2", -1 * triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); }
 	
       }
 
@@ -959,11 +981,17 @@ void analysisClass::Loop()
 	if ( triggerFired ("HLT_DoublePhoton33_v4"  ) ) { fillVariableWithValue ("H_DoublePhoton33_4"  ,triggerPrescale("HLT_DoublePhoton33_v4"  )); } else { fillVariableWithValue("H_DoublePhoton33_4"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v4"  )); }	
 	if ( triggerFired ("HLT_DoublePhoton33_v5"  ) ) { fillVariableWithValue ("H_DoublePhoton33_5"  ,triggerPrescale("HLT_DoublePhoton33_v5"  )); } else { fillVariableWithValue("H_DoublePhoton33_5"  ,-1 * triggerPrescale("HLT_DoublePhoton33_v5"  )); }	
 			                            				                        		                         				                            			                         
-	if ( triggerFired ("HLT_DoubleEle33_CIdL_v1") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_1",triggerPrescale("HLT_DoubleEle33_CIdL_v1")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_1",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v1")); }	
-	if ( triggerFired ("HLT_DoubleEle33_CIdL_v2") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_2",triggerPrescale("HLT_DoubleEle33_CIdL_v2")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_2",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v2")); }	
-	if ( triggerFired ("HLT_DoubleEle33_CIdL_v3") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_3",triggerPrescale("HLT_DoubleEle33_CIdL_v3")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_3",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v3")); }	
-	if ( triggerFired ("HLT_DoubleEle33_CIdL_v4") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_4",triggerPrescale("HLT_DoubleEle33_CIdL_v4")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_4",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v4")); }	
-	if ( triggerFired ("HLT_DoubleEle33_CIdL_v5") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_5",triggerPrescale("HLT_DoubleEle33_CIdL_v5")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_5",-1 * triggerPrescale("HLT_DoubleEle33_CIdL_v5")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v1") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_1",triggerPrescale("HLT_DoubleEle33_CaloIdL_v1")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_1",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v1")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v2") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_2",triggerPrescale("HLT_DoubleEle33_CaloIdL_v2")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_2",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v2")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v3") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_3",triggerPrescale("HLT_DoubleEle33_CaloIdL_v3")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_3",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v3")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v4") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_4",triggerPrescale("HLT_DoubleEle33_CaloIdL_v4")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_4",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v4")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v5") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_5",triggerPrescale("HLT_DoubleEle33_CaloIdL_v5")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_5",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v5")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v6") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_6",triggerPrescale("HLT_DoubleEle33_CaloIdL_v6")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_6",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v6")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdL_v7") ) { fillVariableWithValue ("H_DoubleEle33_CIdL_7",triggerPrescale("HLT_DoubleEle33_CaloIdL_v7")); } else { fillVariableWithValue("H_DoubleEle33_CIdL_7",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdL_v7")); }	
+	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdT_v1") ) { fillVariableWithValue ("H_DoubleEle33_CIdT_1",triggerPrescale("HLT_DoubleEle33_CaloIdT_v1")); } else { fillVariableWithValue("H_DoubleEle33_CIdT_1",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdT_v1")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdT_v2") ) { fillVariableWithValue ("H_DoubleEle33_CIdT_2",triggerPrescale("HLT_DoubleEle33_CaloIdT_v2")); } else { fillVariableWithValue("H_DoubleEle33_CIdT_2",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdT_v2")); }	
+	if ( triggerFired ("HLT_DoubleEle33_CaloIdT_v3") ) { fillVariableWithValue ("H_DoubleEle33_CIdT_3",triggerPrescale("HLT_DoubleEle33_CaloIdT_v3")); } else { fillVariableWithValue("H_DoubleEle33_CIdT_3",-1 * triggerPrescale("HLT_DoubleEle33_CaloIdT_v3")); }	
 	
       }
     }
@@ -1000,6 +1028,9 @@ void analysisClass::Loop()
 	if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1", PileUpInteractions->at(pu) ) ;	      	    
       }
     }
+
+    // Weighting
+    fillVariableWithValue( "Weight" , Weight ) ;
     
     // nVertex and pile-up
     fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
@@ -1121,6 +1152,20 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Ele1_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
 	fillVariableWithValue( "Ele1_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_PtCut_IDISO_STORE[0]) );
+	
+	/*
+	fillVariableWithValue( "Ele1_DeltaEtaTrkSC" , ElectronDeltaEtaTrkSC -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_DeltaPhiTrkSC" , ElectronDeltaPhiTrkSC -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_HoE"	    , ElectronHoE	    -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_E1x5OverE5x5"  , ElectronE1x5OverE5x5  -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_E2x5OverE5x5"  , ElectronE2x5OverE5x5  -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_EcalIsoDR03"   , ElectronEcalIsoDR03   -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_HcalIsoD1DR03" , ElectronHcalIsoD1DR03 -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+        fillVariableWithValue( "Ele1_HcalIsoD2DR03" , ElectronHcalIsoD2DR03 -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_TrkIsoDR03"    , ElectronTrkIsoDR03    -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) );
+	fillVariableWithValue( "Ele1_SigmaIEtaIEta" , ElectronSigmaIEtaIEta -> at ( v_idx_ele_PtCut_IDISO_STORE[0] ) ); 
+	*/
+	  
 	// DeltaPhi - MET vs 1st ele
 	TVector2 v_MET;
 	TVector2 v_ele;
@@ -1155,6 +1200,19 @@ void analysisClass::Loop()
 	fillVariableWithValue( "Ele2_ValidFrac"    , ElectronTrackValidFractionOfHits -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_MissingHits"  , ElectronMissingHits              -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
 	fillVariableWithValue( "Ele2_MatchPhotConv", ElectronHasMatchedConvPhot       -> at( v_idx_ele_PtCut_IDISO_STORE[1]) );
+
+	/*
+	fillVariableWithValue( "Ele2_DeltaEtaTrkSC" , ElectronDeltaEtaTrkSC -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_DeltaPhiTrkSC" , ElectronDeltaPhiTrkSC -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_HoE"	    , ElectronHoE	    -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_E1x5OverE5x5"  , ElectronE1x5OverE5x5  -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_E2x5OverE5x5"  , ElectronE2x5OverE5x5  -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_EcalIsoDR03"   , ElectronEcalIsoDR03   -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_HcalIsoD1DR03" , ElectronHcalIsoD1DR03 -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+        fillVariableWithValue( "Ele2_HcalIsoD2DR03" , ElectronHcalIsoD2DR03 -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_TrkIsoDR03"    , ElectronTrkIsoDR03    -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) );
+	fillVariableWithValue( "Ele2_SigmaIEtaIEta" , ElectronSigmaIEtaIEta -> at ( v_idx_ele_PtCut_IDISO_STORE[1] ) ); 
+	*/
 	
 	// DeltaPhi - MET vs 2nd ele
 	TVector2 v_MET;
@@ -1235,6 +1293,7 @@ void analysisClass::Loop()
         mDeltaPhiMET3rdJet = fabs(deltaphi);
       }
 
+    fillVariableWithValue ("nJetLooseEle_Ana"   , v_idx_jet_PtCut_noOverlapLooseEle_ID_ANA.size() );
     fillVariableWithValue ("nJetLooseEle_Stored", v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE.size() );
 
     // 1st jet with no overlaps from loose electrons
@@ -1470,7 +1529,7 @@ void analysisClass::Loop()
       if( passedAllPreviousCuts("PassHBHENoiseFilter") 
 	  && passedCut("nEle_QCDFake")
 	  && passedCut("QCDFakeEle1_Pt")
-	  && passedCut("nJetLooseEle_Stored")
+	  && passedCut("nJetLooseEle_Ana")
 	  && passedCut("MET_Pt")
 	  ) {
 	fillSkimTree();
