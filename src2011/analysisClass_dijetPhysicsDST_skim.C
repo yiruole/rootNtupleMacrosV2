@@ -147,7 +147,8 @@ void analysisClass::Loop()
 
   //Others
   double applyPFJEC = getPreCutValue1("applyPFJEC");  
-  double ptUE = getPreCutValue1("ptUE");  
+  double ptUE_DATA = getPreCutValue1("ptUE");  
+  double ptUE_MC   = getPreCutValue2("ptUE");  
 
   ////////////////////// User's code to get preCut values - END /////////////////
 
@@ -221,13 +222,14 @@ void analysisClass::Loop()
       {
 	for(int ijet=0; ijet<HLTPFJetPt->size(); ijet++)
 	  {
-	    //L1 FastJet-like correction (both Data and MC)
-	    double L1 = 1 - ( (pt_PU_UE - ptUE) / HLTPFJetPt->at(ijet) ) ;
-	    if(L1>1 || L1<=0) //pathological cases
-	      L1 = 1;//don't do anything
 	    
-	    if(isData)  //Data: L2,L3,L23Res
+	    if(isData)  //Data: L1,L2,L3,L23Res
 	      {
+		//L1 FastJet-like correction
+		double L1 = 1 - ( (pt_PU_UE - ptUE_DATA) / HLTPFJetPt->at(ijet) ) ;
+		if(L1>1 || L1<=0) //pathological cases
+		  L1 = 1;//don't do anything
+
 		JetCorrectorAll->setJetEta( HLTPFJetEta->at(ijet) );
 		JetCorrectorAll->setJetPt( L1 * HLTPFJetPt->at(ijet) );
 		double thiscorrection = JetCorrectorAll->getCorrection();
@@ -235,8 +237,13 @@ void analysisClass::Loop()
 		HLTPFJetPt->at(ijet) *= L1 * thiscorrection;
 		HLTPFJetEnergy->at(ijet) *= L1 * thiscorrection;
 	      }
-	    else        //MC: L2,L3 only (no residual)  
+	    else        //MC: L1,L2,L3 only (no residual)  
 	      {
+		//L1 FastJet-like correction
+		double L1 = 1 - ( (pt_PU_UE - ptUE_MC) / HLTPFJetPt->at(ijet) ) ;
+		if(L1>1 || L1<=0) //pathological cases
+		  L1 = 1;//don't do anything
+
 		JetCorrectorL2L3->setJetEta( HLTPFJetEta->at(ijet) );
 		JetCorrectorL2L3->setJetPt( L1 * HLTPFJetPt->at(ijet) );
 		double thiscorrection = JetCorrectorL2L3->getCorrection();
@@ -399,7 +406,7 @@ void analysisClass::Loop()
 	{
 	  v_idx_vertex_good.push_back(ivertex);
 	}
-    }    
+    }
 
     // Set the evaluation of the cuts to false and clear the variable values and filled status
     resetCuts();
