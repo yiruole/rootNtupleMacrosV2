@@ -300,12 +300,12 @@ def GetIntegralError(histo):
 
 #--- Root files
 
-File1 = GetFile("lowHTSkim.root")
-#File1 = GetFile("lowHTSkimSignalLike.root")
+#File1 = GetFile("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/lowHTskims-179959-180252__15_11_2011/lowHTSkim.root")
+File1 = GetFile("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/lowHTskims-179959-180252__15_11_2011/lowHTSkimSignalLike.root")
 
 #--------- Muons ----------
-outputFile = "effHLT.ps"
-#outputFile = "effHLTSignalLike.ps"
+#outputFile = "effHLT.ps"
+outputFile = "effHLTSignalLike.ps"
 ## Eta histograms
 h_M_FatPFJet1FatPFJet2_HT150 = GetHisto( "M_FatPFJet1FatPFJet2_HT150" , File1)
 h_M_FatPFJet1FatPFJet2_HT150_M400 = GetHisto( "M_FatPFJet1FatPFJet2_HT150_M400" , File1)
