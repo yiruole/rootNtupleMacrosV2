@@ -168,6 +168,8 @@ void analysisClass::Loop()
 
      // JSON variable
      fillVariableWithValue(   "PassJSON"                      , passedJSON ) ; 
+     //fillVariableWithValue(   "PassJSON"                      , PassJSON ) ;      
+
 
      // Event filters
      fillVariableWithValue(   "PassPrimaryVertex"             , PassPrimaryVertex ) ; 
