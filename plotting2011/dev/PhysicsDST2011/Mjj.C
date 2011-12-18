@@ -9,8 +9,8 @@
   //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1_JECL23Res__19_11_2011/PhysicsDST_allEvents.root");
   //L123Res JEC
   TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1_JECL123Res__24_11_2011/PhysicsDST_allEvents.root");
-  //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/rootNtupleAnalyzerV2/PhysicsDST_allEvents1Percent.root"); //+1% JEC
-  //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/rootNtupleAnalyzerV2/PhysicsDST_allEvents2Percent.root"); //+2% JEC
+  //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1_JECL123ResPlusXPercentOnMass__28_11_2011/PhysicsDST_allEvents1Percent.root"); //+1% JEC
+  //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1_JECL123ResPlusXPercentOnMass__28_11_2011/PhysicsDST_allEvents2Percent.root"); //+2% JEC
 
   TFile datafile_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_data_HT_340fb_Fat_ak5.root");
 
