@@ -9,6 +9,8 @@
   //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1_JECL23Res__19_11_2011/PhysicsDST_allEvents.root");
   //L123Res JEC
   TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/117pb-1_JECL123Res__24_11_2011/PhysicsDST_allEvents.root");
+  //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/rootNtupleAnalyzerV2/PhysicsDST_allEvents1Percent.root"); //+1% JEC
+  //TFile datafile_hlt("/afs/cern.ch/user/s/santanas/scratch0/DiJets/rootNtupleAnalyzerV2/PhysicsDST_allEvents2Percent.root"); //+2% JEC
 
   TFile datafile_reco("/afs/cern.ch/user/s/santanas/scratch0/DiJets/data/output_fromAFS/dijets_PhysicsDST/DiJetHighMass_ControlPlots_Chiyoung_3p4fb-1/histograms_data_HT_340fb_Fat_ak5.root");
 
@@ -148,7 +150,7 @@
   h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->Fit(pol1,"R");
   //h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->Draw();
   h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->GetYaxis()->SetRangeUser(0,2);
-  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->GetXaxis()->SetRangeUser( 0 , 4000);
+  h_Ratio_mjj_FatPF_VarBin_DATA_HLT_over_RECO->GetXaxis()->SetRangeUser( 600 , 2500);
 
   TLegend legend4 (0.15,0.7,0.4,0.85);
   legend4.SetFillColor(kWhite);
