@@ -1,0 +1,137 @@
+# 2011 JSON file
+JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/Photon_160329-180296.txt
+# PILEUP REWEIGHTING
+# PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/santanas/public/PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX.txt
+#----------------------------------------
+# New files:
+#----------------------------------------
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_Spike_Flat10_Tail.txt
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_observed_2011A.root
+#----------------------------------------
+# Old files:
+#----------------------------------------
+# PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX_v2.txt
+# PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_to_173692_LPLumiScale_68mb.root
+#
+#############################     Example of file with list of cuts
+#
+#
+#------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
+# This first list of variable names and values are used to pass configurable values to the user code associated
+# to a variable name.
+# The user can retrieve the values associated to a variable name via a provided function call
+# [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1.
+# Variable names must be unique.
+#
+#VariableName         value1            value2          value3          value4          level
+#------------         ------------      -------------   ------------    -------------   -----
+#produceSkim          1                 -               -               -               -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Preselection cuts
+#-----------------------------------------------------------------------------------------------------------------------------
+eleEta_bar            	1.442        -                    -               -               -1
+eleEta_end1            	1.560        2.0                  -               -               -1
+eleEta_end2            	2.000        2.5                  -               -               -1
+trigger_tolerance	0.90	     -			  -		  -		  -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Fake rates
+#-----------------------------------------------------------------------------------------------------------------------------
+fakeRate_bar  	1.141e-02	5.749e-05	6.496e-03	-	-1
+fakeRate_end1 	3.473e-02	-9.555e-05	2.653e-02	-	-1 
+fakeRate_end2 	5.509e-02	1.810e-05	5.446e-02	-	-1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Fake rate errors
+#-----------------------------------------------------------------------------------------------------------------------------
+eFakeRate_bar  	2.232e-03	3.801e-05	3.904e-04	-	-1
+eFakeRate_end1 	5.469e-03	8.769e-05	1.203e-03	-	-1
+eFakeRate_end2 	7.538e-03	1.265e-04	2.517e-03	-	-1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Dataset:
+#   0: Run2011A dataset
+#   1: Run2011B dataset
+#   2: Total 2011 dataset
+#-----------------------------------------------------------------------------------------------------------------------------
+dataset			0	     -			  -		  -		  -1
+#
+#--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
+# The cut variable names, cut boundaries and histogram binnings are provided here by the user.
+# In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
+# a provided function call [ e.g. fillVariableWithValue("nEleFinal", number_of_electrons) ]
+# The variable names in the user code has to match the names provided here.
+# Variable names must be unique.
+# The cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )
+# in case only the first range (minValue1, maxValue1) is provided,
+# otherwise the cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )  OR  ( minValue2 < VariableName <= maxValue2 )
+# in case even the second range (minValue2, maxValue2) is provided.
+# The level of the cut (0,1,2 ... n) is provided by the user and can be used in the code to easily determine if
+# groups of same-level cuts have passed or failed.
+#
+#VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax      OptionalFlag
+#------------                   ------------ -------------      ------------    -------------   -----   ----------------      ------------
+#                          _           _   _             
+# _ __  _ __ ___  ___  ___| | ___  ___| |_(_) ___  _ __  
+#| '_ \| '__/ _ \/ __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \ 
+#| |_) | | |  __/\__ \  __/ |  __/ (__| |_| | (_) | | | |
+#| .__/|_|  \___||___/\___|_|\___|\___|\__|_|\___/|_| |_|
+#|_|                    
+#
+Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
+PassDataset			0	     1			-		-		0	2 -0.5 1.5	     
+# Filters
+PassJSON		  	0            1			-               -               0       2 -0.5 1.5	     
+PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
+PassHBHENoiseFilter             0	     1			-               -               0       2 -0.5 1.5	      
+PassBeamHaloFilterTight	  	0	     1			-               -               0       2 -0.5 1.5	      
+# PassBPTX0                 	0	     1			-		-		0	2 -0.5 1.5
+# PassPhysDecl              	0	     1			-		-		0	2 -0.5 1.5
+# PassBeamScraping          	0	     1			-		-		0	2 -0.5 1.5
+# PassPrimaryVertex         	0	     1			-		-		0	2 -0.5 1.5
+# PassBeamHaloFilterLoose	0	     1			-		-		0	2 -0.5 1.5
+# PassTrackingFailure       	0	     1			-		-		0	2 -0.5 1.5
+# PassCaloBoundaryDRFilter  	0	     1			-		-		0	2 -0.5 1.5
+# PassEcalMaskedCellDRFilter	0	     1			-		-		0	2 -0.5 1.5
+# 
+PassNEle			0            1			-               -               1       11 -0.5 10.5	      
+PassNMuon			0            1			-               -               1       16 -0.5 15.5          
+Ele1_Pt				40	     +inf		-		-		1	200 0 2000	      
+Ele1_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
+Ele2_Pt				40	     +inf		-		-		1	200 0 2000	      
+Ele2_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
+# 
+abs_Ele1_Eta			-inf	     inf		1.6		2.2		1	100 -5 5 
+abs_Ele2_Eta			-inf	     inf		1.6		2.2		1	100 -5 5 
+# abs_Ele1_Eta			0	     1.4		1.6		2.2		1	100 -5 5 
+# abs_Ele2_Eta			0	     1.4		1.6		2.2		1	100 -5 5 
+#
+nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
+Jet1_Pt				30	     +inf		-		-		1	200 0 2000	      
+Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
+Jet2_Pt				30	     +inf		-		-		1	200 0 2000	      
+Jet2_Eta			-2.4         2.4                -               -               1       100 -5 5	      
+DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
+DR_Ele1Jet2			-inf	     +inf		-		-		1	100 0 10	      
+DR_Ele2Jet1			-inf	     +inf		-		-		1	100 0 10              
+DR_Ele2Jet2			-inf	     +inf		-		-		1	100 0 10	      
+DR_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10	      
+#  __ _             _            _           _   _             								  
+# / _(_)_ __   __ _| |  ___  ___| | ___  ___| |_(_) ___  _ __  								  
+#| |_| | '_ \ / _` | | / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \ 								  
+#|  _| | | | | (_| | | \__ \  __/ |  __/ (__| |_| | (_) | | | |								  
+#|_| |_|_| |_|\__,_|_| |___/\___|_|\___|\___|\__|_|\___/|_| |_|								  
+sT_eejj				-inf         +inf               -               -               2       200 0 2000	      
+Pt_e1e2				-inf	     +inf               -               -               2       200 0 2000	      
+Pt_j1j2				-inf	     +inf               -               -               2       200 0 2000	      
+M_j1j2				-inf	     +inf               -               -               2       200 0 2000	  
+M_e1e2				60	     +inf               -               -               2       200 0 2000	          
+#
+#
+#
+#---------------------------------------- Cut Optimizer --------------------------------------------------
+#VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
+#------------                   -----------   ------    ------------    -------------   ------
+#minMETPt1stEle                  OPT           >         55              100             1
+#minDRej                         OPT           >         0               0.9             1
