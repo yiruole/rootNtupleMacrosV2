@@ -85,6 +85,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Charge1stEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
    CreateUserTH1D( "Charge2ndEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
    CreateUserTH1D( "MET_PAS"               ,    200 , 0       , 1000	 ); 
+   CreateUserTH1D( "METSig_PAS"            ,    200 , 0       , 1000	 ); 
    CreateUserTH1D( "METPhi_PAS"		   , 	60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "METCharged_PAS"        ,    200 , 0       , 1000	 ); 
    CreateUserTH1D( "METChargedPhi_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
@@ -125,9 +126,32 @@ void analysisClass::Loop()
    CreateUserTH1D( "DR_Ele2Jet1_PAS"	   , 	getHistoNBins("DR_Ele2Jet1"), getHistoMin("DR_Ele2Jet1"), getHistoMax("DR_Ele2Jet1")     ) ; 
    CreateUserTH1D( "DR_Ele2Jet2_PAS"	   , 	getHistoNBins("DR_Ele2Jet2"), getHistoMin("DR_Ele2Jet2"), getHistoMax("DR_Ele2Jet2")     ) ; 
    CreateUserTH1D( "DR_Jet1Jet2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+   CreateUserTH1D( "DR_Ele1Ele2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+   CreateUserTH1D( "minDR_EleJet_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
 
    CreateUserTH2D( "Me1jVsMe2j_selected",     200, 0, 2000, 200, 0, 2000) ;
    CreateUserTH2D( "Me1jVsMe2j_rejected",     200, 0, 2000, 200, 0, 2000) ;
+
+   CreateUserTH1D( "Mee_80_100_Preselection", 200, 60, 120 );
+   CreateUserTH1D( "Mee_70_110_Preselection", 200, 60, 120 );
+   
+   CreateUserTH1D( "Mee_EBEB_PAS"		   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EBEE_PAS"		   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EEEE_PAS"		   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EB_PAS" 		   ,    60 , 60       , 120	 ); 
+
+   CreateUserTH1D( "Mee_EBEB_80_100_PAS"	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EBEE_80_100_PAS"	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EEEE_80_100_PAS"	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EB_80_100_PAS" 	     	   ,    60 , 60       , 120	 ); 
+   
+   CreateUserTH1D( "Mee_EBEB_70_110_PAS"	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EBEE_70_110_PAS"	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EEEE_70_110_PAS"	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EB_70_110_PAS" 	     	   ,    60 , 60       , 120	 ); 
+
+   CreateUserTH1D( "PileupWeight"   , 100, -10, 10 );
+   CreateUserTH1D( "GeneratorWeight", 100, -2.0 , 2.0 );
 
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -305,6 +329,15 @@ void analysisClass::Loop()
      if( fabs( QCDFakeEle2_Eta  ) > eleEta_end2_min &&
 	 fabs( QCDFakeEle2_Eta  ) < eleEta_end2_max )   ele2_isEndcap2 = true;
 
+     bool ele1_isEndcap = ( ele1_isEndcap1 || ele1_isEndcap2 ) ;
+     bool ele2_isEndcap = ( ele2_isEndcap1 || ele2_isEndcap2 ) ;
+
+     bool isEBEB = ( ele1_isBarrel && ele2_isBarrel ) ;
+     bool isEBEE = ( ( ele1_isBarrel && ele2_isEndcap ) ||
+		     ( ele2_isBarrel && ele1_isEndcap ) );
+     bool isEEEE = ( ele1_isEndcap && ele2_isEndcap ) ;
+     bool isEB   = ( isEBEB || isEBEE ) ;
+
      //--------------------------------------------------------------------------
      // Determine which fake rates to use
      //--------------------------------------------------------------------------
@@ -422,6 +455,8 @@ void analysisClass::Loop()
 
      double M_eejj = eejj.M();
 
+     double DeltaR_Ele1Ele2 = loose_ele1.DeltaR( loose_ele2 ) ;
+
      M_e1j1 = e1j1.M();
      M_e1j2 = e1j2.M();
      M_e2j1 = e2j1.M();
@@ -460,24 +495,50 @@ void analysisClass::Loop()
      // Fill variables
      //--------------------------------------------------------------------------
 
+     // reweighting
+     fillVariableWithValue ( "Reweighting", 1, fakeRateEffective * min_prescale ) ; 
+     
      // JSON variable
      fillVariableWithValue(   "PassJSON"                      , passedJSON              , fakeRateEffective * min_prescale ) ; 
+
+     // Dataset variable 
+     fillVariableWithValue(   "PassDataset"                   , 1                       , fakeRateEffective * min_prescale ) ; 
 
      // Noise filters
      fillVariableWithValue(   "PassHBHENoiseFilter"           , PassHBHENoiseFilter     , fakeRateEffective * min_prescale ) ; 
      fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight , fakeRateEffective * min_prescale ) ; 
+     // fillVariableWithValue(   "PassBPTX0"                     , PassBPTX0                  ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassPhysDecl"                  , PassPhysDecl               ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassBeamScraping"              , PassBeamScraping           ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassPrimaryVertex"             , PassPrimaryVertex          ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassBeamHaloFilterLoose"	      , PassBeamHaloFilterLoose	   ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassTrackingFailure"           , PassTrackingFailure        ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassCaloBoundaryDRFilter"      , PassCaloBoundaryDRFilter   ,fakeRateEffective * min_prescale  ) ; 
+     // fillVariableWithValue(   "PassEcalMaskedCellDRFilter"    , PassEcalMaskedCellDRFilter ,fakeRateEffective * min_prescale  ) ; 
+
+
+
+     // Electrons
+     int PassNEle = 0;
+     if ( nEle_QCDFake == 2 ) PassNEle = 1;
+     
+     // Muons
+     int PassNMuon = 0;
+     if ( nMuon_Ana == 0 ) PassNMuon = 1;
 
      fillVariableWithValue ( "PassHLT"                        , passHLT                 , fakeRateEffective * min_prescale ) ;
      
      // Electrons
-     fillVariableWithValue(   "nEle"                          , nEle_QCDFake            , fakeRateEffective * min_prescale ) ;
+     fillVariableWithValue(   "PassNEle"                      , PassNEle                , fakeRateEffective * min_prescale ) ;
      if ( nEle_QCDFake >= 1 ) { 
        fillVariableWithValue( "Ele1_Pt"                       , QCDFakeEle1_Pt          , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "Ele1_Eta"                      , QCDFakeEle1_Eta         , fakeRateEffective * min_prescale ) ;
+       fillVariableWithValue( "abs_Ele1_Eta"                  , fabs(QCDFakeEle1_Eta)   , fakeRateEffective * min_prescale ) ;
      }
      if ( nEle_QCDFake >= 2 ) { 
        fillVariableWithValue( "Ele2_Pt"                       , QCDFakeEle2_Pt          , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "Ele2_Eta"                      , QCDFakeEle2_Eta         , fakeRateEffective * min_prescale ) ;
+       fillVariableWithValue( "abs_Ele2_Eta"                  , fabs(QCDFakeEle2_Eta)   , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "Pt_e1e2"                       , Pt_e1e2                 , fakeRateEffective * min_prescale ) ;
      }
@@ -497,7 +558,7 @@ void analysisClass::Loop()
      }
 
      // Muons
-     fillVariableWithValue(   "nMuon"                         , nMuon_Ana               , fakeRateEffective * min_prescale ) ;
+     fillVariableWithValue(   "PassNMuon"                     , PassNMuon               , fakeRateEffective * min_prescale ) ;
 
      // DeltaR
      if ( nEle_QCDFake >= 2 && nJetLooseEle_Stored >= 1) {
@@ -524,10 +585,41 @@ void analysisClass::Loop()
      // Fill preselection plots
      //--------------------------------------------------------------------------
      
+     FillUserTH1D( "PileupWeight"   , -1.0 );
+     FillUserTH1D( "GeneratorWeight", -1.0 );
 
      bool passed_preselection = ( passedAllPreviousCuts("M_e1e2") && passedCut ("M_e1e2") );
      
      if ( passed_preselection ) {
+
+
+       
+       double DR_Ele1Jet3 = 999.;
+       double DR_Ele2Jet3 = 999.;
+       double min_DR_EleJet = 999.;
+       TLorentzVector eejj, e1e2mu, e1, j1, e2, j2,j3, mu, met;
+       e1.SetPtEtaPhiM ( QCDFakeEle1_Pt, QCDFakeEle1_Eta, QCDFakeEle1_Phi, 0.0 );
+       e2.SetPtEtaPhiM ( QCDFakeEle2_Pt, QCDFakeEle2_Eta, QCDFakeEle2_Phi, 0.0 );
+       j1.SetPtEtaPhiM ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, 0.0 );
+       j2.SetPtEtaPhiM ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, 0.0 );
+       if ( nJetLooseEle_Ana > 2 ) {
+	 j3.SetPtEtaPhiM ( JetLooseEle3_Pt, JetLooseEle3_Eta, JetLooseEle3_Phi, 0.0 );
+	 DR_Ele1Jet3 = e1.DeltaR( j3 );
+	 DR_Ele2Jet3 = e2.DeltaR( j3 );
+       }
+       
+       
+       if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
+       if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
+       if ( DR_Ele2Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet1;
+       if ( DR_Ele2Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet2;
+       if ( nJetLooseEle_Ana > 2 ) {
+	 if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
+	 if ( DR_Ele2Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet3;
+       }
+       
+       FillUserTH1D( "minDR_EleJet_PAS", min_DR_EleJet, pileup_weight * min_prescale * fakeRateEffective ) ;
+       
 
        // TLorentzVector e1e2mu = loose_ele1 + loose_ele2 + muon ;
        // double MT_eemuMET = sqrt(2 * e1e2mu.Pt()    * MET_Pt  * (1 - cos(e1e2mu.DeltaPhi (met))));
@@ -544,6 +636,7 @@ void analysisClass::Loop()
        FillUserTH1D("Charge1stEle_PAS"	   , QCDFakeEle1_Charge                , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("Charge2ndEle_PAS"	   , QCDFakeEle2_Charge                , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("MET_PAS"              , MET_Pt                            , pileup_weight * min_prescale * fakeRateEffective ) ;
+       FillUserTH1D("METSig_PAS"           , PFMETSig                          , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("METPhi_PAS"	   , MET_Phi                           , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D( "METCharged_PAS"      , PFMETCharged                      , pileup_weight * min_prescale * fakeRateEffective );
        FillUserTH1D( "METChargedPhi_PAS"   , PFMETChargedPhi                   , pileup_weight * min_prescale * fakeRateEffective );   
@@ -577,6 +670,28 @@ void analysisClass::Loop()
        FillUserTH1D("DR_Ele2Jet1_PAS"	   , DR_Ele2Jet1                       , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("DR_Ele2Jet2_PAS"	   , DR_Ele2Jet2                       , pileup_weight * min_prescale * fakeRateEffective ) ;
        FillUserTH1D("DR_Jet1Jet2_PAS"	   , DR_Jet1Jet2                       , pileup_weight * min_prescale * fakeRateEffective ) ;
+       FillUserTH1D("DR_Ele1Ele2_PAS"	   , DR_Ele1Ele2                       , pileup_weight * min_prescale * fakeRateEffective ) ;
+
+       if ( M_e1e2 > 80.0 && M_e1e2 < 100.0 ){
+	 FillUserTH1D("Mee_80_100_Preselection", M_e1e2, pileup_weight * min_prescale * fakeRateEffective ) ;
+	 if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_80_100_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+	 else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_80_100_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+	 else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_80_100_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+	 if      ( isEB   ) FillUserTH1D( "Mee_EB_80_100_PAS"  , M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+       }
+
+       if ( M_e1e2 > 70.0 && M_e1e2 < 110.0 ){
+	 FillUserTH1D("Mee_70_110_Preselection", M_e1e2, pileup_weight * min_prescale * fakeRateEffective ) ;
+	 if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_70_110_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+	 else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_70_110_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+	 else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_70_110_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+	 if      ( isEB   ) FillUserTH1D( "Mee_EB_70_110_PAS"  , M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+       }
+       
+       if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+       else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+       else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS", M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
+       if      ( isEB   ) FillUserTH1D( "Mee_EB_PAS"  , M_e1e2, pileup_weight * min_prescale * fakeRateEffective  ); 
        
        FillUserTH1D("Meejj_PAS", M_eejj , pileup_weight * min_prescale * fakeRateEffective  );
 
