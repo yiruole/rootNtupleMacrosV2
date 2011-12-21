@@ -251,16 +251,19 @@ JetLooseEle1_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle1_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+JetLooseEle1_btagTCHE		-inf	     +inf		-		-		1	100  0 20	      SAVE
 #
 JetLooseEle2_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle2_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+JetLooseEle2_btagTCHE		-inf	     +inf		-		-		1	100  0 20	      SAVE
 #
 JetLooseEle3_Pt			-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle3_Energy		-inf	     +inf		-		-		1	100 0 1000	      SAVE
 JetLooseEle3_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle3_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+JetLooseEle3_btagTCHE		-inf	     +inf		-		-		1	100  0 20	      SAVE
 #------------------------------------------------------------------------------------------------------
 # CaloJet info
 #------------------------------------------------------------------------------------------------------
