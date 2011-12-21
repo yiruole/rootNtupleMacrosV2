@@ -10,10 +10,6 @@
 #include <TVector3.h>
 #include <TRandom3.h>
 
-
-//-----------------------------
-//-----------------------------
-
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
 {
@@ -40,8 +36,7 @@ void analysisClass::Loop()
    *
    *
    *///-----------------------------------------------------------------
-
-
+  
    //--------------------------------------------------------------------------
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
@@ -121,7 +116,7 @@ void analysisClass::Loop()
   double eleEcalHcalIsoHeep_1_end     = getPreCutValue3("eleEcalHcalIsoHeep"      );
   double eleEcalHcalIsoHeep_2_end     = getPreCutValue4("eleEcalHcalIsoHeep"      );
   double eleEcalHcalIsoHeep_PTthr_end = getPreCutValue2("eleEcalHcalIsoHeep_PTthr");
-  double eleHcalIsoD2Heep_end         = getPreCutValue2("eleHcalIsoD2Heep"        );
+  ///double eleHcalIsoD2Heep_end         = getPreCutValue2("eleHcalIsoD2Heep"        );
   double eleTrkIsoHeep_bar            = getPreCutValue1("eleTrkIsoHeep"           );
   double eleTrkIsoHeep_end            = getPreCutValue2("eleTrkIsoHeep"           );
   double eleMissingHitsHeep           = getPreCutValue1("eleMissingHitsHeep"      );
@@ -406,13 +401,15 @@ void analysisClass::Loop()
 
       bool ana_muon = true;
 
-      if ( MuonPt         ->at(imuon)   <  muon_PtCut_STORE  ) continue;      
-      if ( MuonTrkHits    ->at(imuon)   <  muNHits_minThresh ) continue;
-      if ( fabs( MuonTrkD0->at(imuon) ) >= muTrkD0Maximum    ) continue;
-      if ( MuonPassIso    ->at(imuon)   == 0                 ) continue;
-      if ( MuonPassID     ->at(imuon)   == 0                 ) continue;
-      if ( MuonPt         ->at(imuon)   <  muon_PtCut_ANA    ) ana_muon = false;
-
+      if ( MuonPassID          ->at(imuon)   == 0                 ) continue;
+      if ( MuonStationMatches  ->at(imuon)   <= 1                 ) continue;                 
+      if ( MuonPixelHitCount   ->at(imuon)   <= 0                 ) continue;
+      if ( MuonTrkHits         ->at(imuon)   <  muNHits_minThresh ) continue;
+      if ( fabs( MuonTrkD0     ->at(imuon))  >= muTrkD0Maximum    ) continue;
+      if ( MuonPt              ->at(imuon)   <  muon_PtCut_STORE  ) continue;      
+      if ( MuonPassIso         ->at(imuon)   == 0                 ) continue;
+      if ( MuonPt              ->at(imuon)   <  muon_PtCut_ANA    ) ana_muon = false;
+      
       v_idx_muon_PtCut_IDISO_STORE.push_back(imuon);
       if ( ana_muon ) v_idx_muon_PtCut_IDISO_ANA.push_back(imuon);
       
@@ -495,7 +492,7 @@ void analysisClass::Loop()
 	     && ElectronHoE->at(iele) < eleHoEHeep_end 
 	     && ElectronSigmaIEtaIEta->at(iele) < eleSigmaIetaIetaHeep_end 
 	     && passEcalHcalIsoCut == 1
-	     && ElectronHcalIsoD2DR03->at(iele) < eleHcalIsoD2Heep_end 
+	     // && ElectronHcalIsoD2DR03->at(iele) < eleHcalIsoD2Heep_end 
 	     && ElectronTrkIsoDR03->at(iele) < eleTrkIsoHeep_end 
 	     && ElectronMissingHits->at(iele) == 0 
 	     && ElectronHasEcalDrivenSeed->at(iele)
@@ -948,6 +945,25 @@ void analysisClass::Loop()
 	if ( triggerFired("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2") ) { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_2", triggerPrescale ( "HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); } else { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_2", -1 * triggerPrescale("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); }
 	if ( triggerFired("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4") ) { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_4", triggerPrescale ( "HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4")); } else { fillVariableWithValue("H_22_HEEP_CJ30_25_MHT20_4", -1 * triggerPrescale("HLT_Ele22_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v4")); }
 	if ( triggerFired("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2") ) { fillVariableWithValue("H_27_HEEP_CJ30_25_MHT20_2", triggerPrescale ( "HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); } else { fillVariableWithValue("H_27_HEEP_CJ30_25_MHT20_2", -1 * triggerPrescale("HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_CentralJet30_CentralJet25_PFMHT20_v2")); }
+
+
+	
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v2"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_2"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v2"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_2"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v2"       )); }
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v3"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_3"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v3"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_3"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v3"       )); }  
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v4"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_4"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v4"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_4"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v4"       )); }  
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v5"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_5"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v5"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_5"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v5"       )); }  
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v6"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_6"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v6"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_6"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v6"       )); }  
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v7"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_7"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v7"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_7"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v7"       )); }  
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v9"      ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_9"       , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v9"      )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_9"       , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v9"       )); }  
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v10"     ) ) { fillVariableWithValue("H_Mu15_Pho20_CIdL_10"      , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v10"     )); } else { fillVariableWithValue ("H_Mu15_Pho20_CIdL_10"      , -1 * triggerPrescale("HLT_Mu15_Photon20_CaloIdL_v10"      )); }
+	if ( triggerFired("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4") ) { fillVariableWithValue("H_Mu17_Ele8_CIdT_CIsVL_4"  , triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4")); } else { fillVariableWithValue ("H_Mu17_Ele8_CIdT_CIsVL_4"  , -1 * triggerPrescale("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4" )); }
+	
+	
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v13"     ) ) { fillVariableWithValue("H_Mu15_Photon20_CIdL_13" , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v13"     )); } else { fillVariableWithValue ("H_Mu15_Photon20_CIdL_13" , -1 * triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v13"      )); }
+	if ( triggerFired("HLT_Mu15_Photon20_CaloIdL_v14"     ) ) { fillVariableWithValue("H_Mu15_Photon20_CIdL_14" , triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v14"     )); } else { fillVariableWithValue ("H_Mu15_Photon20_CIdL_14" , -1 * triggerPrescale ("HLT_Mu15_Photon20_CaloIdL_v14"      )); }
+	if ( triggerFired("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4") ) { fillVariableWithValue("H_Mu17_Ele8_CIdT_CIsVL_4", triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4")); } else { fillVariableWithValue ("H_Mu17_Ele8_CIdT_CIsVL_4", -1 * triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4" )); }
+	if ( triggerFired("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v7") ) { fillVariableWithValue("H_Mu17_Ele8_CIdT_CIsVL_7", triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v7")); } else { fillVariableWithValue ("H_Mu17_Ele8_CIdT_CIsVL_7", -1 * triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v7" )); }
+	if ( triggerFired("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v8") ) { fillVariableWithValue("H_Mu17_Ele8_CIdT_CIsVL_8", triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v8")); } else { fillVariableWithValue ("H_Mu17_Ele8_CIdT_CIsVL_8", -1 * triggerPrescale ("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v8" )); }
 	
       }
 
@@ -1303,6 +1319,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "JetLooseEle1_Energy"  , JetEnergy->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
 	fillVariableWithValue( "JetLooseEle1_Eta"     , JetEta   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
 	fillVariableWithValue( "JetLooseEle1_Phi"     , JetPhi   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
+        fillVariableWithValue( "JetLooseEle1_btagTCHE", JetTCHE  ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[0]) );
       }
 
     // 2nd jet with no overlaps from loose electrons
@@ -1312,6 +1329,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "JetLooseEle2_Energy"  , JetEnergy->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
 	fillVariableWithValue( "JetLooseEle2_Eta"     , JetEta   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
 	fillVariableWithValue( "JetLooseEle2_Phi"     , JetPhi   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
+        fillVariableWithValue( "JetLooseEle2_btagTCHE", JetTCHE  ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[1]) );
       }
 
     // 3rd jet with no overlaps from loose electrons
@@ -1321,6 +1339,7 @@ void analysisClass::Loop()
 	fillVariableWithValue( "JetLooseEle3_Energy"  , JetEnergy->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
 	fillVariableWithValue( "JetLooseEle3_Eta"     , JetEta   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
 	fillVariableWithValue( "JetLooseEle3_Phi"     , JetPhi   ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
+        fillVariableWithValue( "JetLooseEle3_btagTCHE", JetTCHE  ->at(v_idx_jet_PtCut_noOverlapLooseEle_ID_STORE[2]) );
       }
     
     // CaloJets for HLT
