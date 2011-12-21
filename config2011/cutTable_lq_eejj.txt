@@ -1,9 +1,9 @@
 # 2011 JSON file
-JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/DoubleElectron__Run2011A-ALL_good_json.txt
+JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/Photon_160329-180296.txt
 # PILEUP REWEIGHTING
-# PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/santanas/public/PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX.txt
-PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX_v2.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/PileUp/Pileup_2011_to_173692_LPLumiScale_68mb.root
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_Spike_Flat10_Tail.txt
+# PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_observed_2011.root
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/RUN2011_0100_73500.weights.root
 #
 #############################     Example of file with list of cuts
 #
@@ -39,6 +39,13 @@ fakeRate_end2 	5.509e-02	1.810e-05	5.446e-02	-	-1
 eFakeRate_bar  	2.232e-03	3.801e-05	3.904e-04	-	-1
 eFakeRate_end1 	5.469e-03	8.769e-05	1.203e-03	-	-1
 eFakeRate_end2 	7.538e-03	1.265e-04	2.517e-03	-	-1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Dataset:
+#   0: Run2011A dataset
+#   1: Run2011B dataset
+#   2: Total 2011 dataset
+#-----------------------------------------------------------------------------------------------------------------------------
+dataset			2	     -			  -		  -		  -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -64,21 +71,41 @@ eFakeRate_end2 	7.538e-03	1.265e-04	2.517e-03	-	-1
 #| .__/|_|  \___||___/\___|_|\___|\___|\__|_|\___/|_| |_|
 #|_|                    
 #
-PassJSON			0            1			-               -               0       2 -0.5 1.5	     
-PassHLT				0	     1			-		-		0	2 -0.5 1.5	     
+Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
+PassDataset			0 	     1			-		-		0	2 -0.5 1.5	     
+# Filters
+PassJSON		  	0            1			-               -               0       2 -0.5 1.5	     
+PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
 PassHBHENoiseFilter             0	     1			-               -               0       2 -0.5 1.5	      
-PassBeamHaloFilterTight		0	     1			-               -               0       2 -0.5 1.5	      
-nEle 				1            2			-               -               1       11 -0.5 10.5	      
+PassBeamHaloFilterTight	  	0	     1			-               -               0       2 -0.5 1.5	      
+# PassBPTX0                 	0	     1			-		-		0	2 -0.5 1.5
+# PassPhysDecl              	0	     1			-		-		0	2 -0.5 1.5
+# PassBeamScraping          	0	     1			-		-		0	2 -0.5 1.5
+# PassPrimaryVertex         	0	     1			-		-		0	2 -0.5 1.5
+# PassBeamHaloFilterLoose	0	     1			-		-		0	2 -0.5 1.5
+# PassTrackingFailure       	0	     1			-		-		0	2 -0.5 1.5
+# PassCaloBoundaryDRFilter  	0	     1			-		-		0	2 -0.5 1.5
+# PassEcalMaskedCellDRFilter	0	     1			-		-		0	2 -0.5 1.5
+# 
+PassNEle 			0            1			-               -               1       11 -0.5 10.5	      
+PassNMuon			0            1			-               -               1       16 -0.5 15.5          
 Ele1_Pt				40	     +inf		-		-		1	200 0 2000	      
+# Ele1_Pt				87	     +inf		-		-		1	200 0 2000	      
 Ele1_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
 Ele2_Pt				40	     +inf		-		-		1	200 0 2000	      
+# Ele2_Pt				87	     +inf		-		-		1	200 0 2000	      
 Ele2_Eta 			-2.5         +2.5		-               -               1       100 -5 5	      
+# 
+abs_Ele1_Eta			-inf	     inf		1.6		2.2		1	100 -5 5 
+abs_Ele2_Eta			-inf	     inf		1.6		2.2		1	100 -5 5 
+# abs_Ele1_Eta			0	     1.4		1.6		2.2		1	100 -5 5 
+# abs_Ele2_Eta			0	     1.4		1.6		2.2		1	100 -5 5 
+#
 nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
 Jet1_Pt				30	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
 Jet2_Pt				30	     +inf		-		-		1	200 0 2000	      
 Jet2_Eta			-2.4         2.4                -               -               1       100 -5 5	      
-nMuon				-inf         0			-               -               1       16 -0.5 15.5          
 DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
 DR_Ele1Jet2			-inf	     +inf		-		-		1	100 0 10	      
 DR_Ele2Jet1			-inf	     +inf		-		-		1	100 0 10              
