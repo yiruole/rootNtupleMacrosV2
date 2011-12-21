@@ -85,13 +85,15 @@ void analysisClass::Loop()
    CreateUserTH1D( "Eta1stEle_PAS"	      , 100 , -5      , 5	 ); 
    CreateUserTH1D( "Phi1stEle_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "Charge1stEle_PAS"	      , 2   , -1.0001 , 1.0001	 ); 
+   CreateUserTH1D( "MatchPhotonConv1stEle_PAS",	2   , -0.5    , 1.5      );
+   CreateUserTH1D( "MatchPhotonConv2ndEle_PAS",	2   , -0.5    , 1.5      );
    CreateUserTH1D( "MET_PAS"                  , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "METPhi_PAS"		      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "METCharged_PAS"           , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "METChargedPhi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "METType1_PAS"             , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "METType1Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "METSig_PAS"               , 100 , 0       , 200      );
+   CreateUserTH1D( "METSig_PAS"               , 100 , 0       , 800      );
    CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Pt1stJet_PAS"             , 100 , 0       , 1000	 ); 
    CreateUserTH1D( "Pt2ndJet_PAS"             , 100 , 0       , 1000	 ); 
@@ -117,6 +119,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "DR_Ele1Jet1_PAS"	      , 100 , 0       , 10       ); 
    CreateUserTH1D( "DR_Ele1Jet2_PAS"	      , 100 , 0       , 10       ); 
    CreateUserTH1D( "DR_Jet1Jet2_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "minDR_EleJet_PAS"         , 100 , 0       , 10       ); 
    CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi2ndJetMET_PAS"       , 100 , 0.      ,  3.14159 );
@@ -125,6 +128,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MT_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+
+   CreateUserTH1D( "GeneratorWeight"       , 200 , -2.0    , 2.0      );
+   CreateUserTH1D( "PileupWeight"          , 200 , -2.0    , 2.0      );
+
+   CreateUserTH1D( "nVertex_PAS"           ,    31   , -0.5   , 30.5	 ) ; 
+   CreateUserTH1D( "nVertex_good_PAS"      ,    31   , -0.5   , 30.5	 ) ; 
 
    CreateUserTH1D( "MTCharged_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MTCharged_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
@@ -135,6 +144,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTType1_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MTType1_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MTType1_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+   
+   CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
    
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -378,6 +389,7 @@ void analysisClass::Loop()
      jet2.SetPtEtaPhiM       ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, 0.0 );
      met.SetPtEtaPhiM        ( MET_Pt         , 0.0             , MET_Phi         , 0.0 );
 
+     TLorentzVector e1met = loose_ele1 + met;
      TLorentzVector j1j2 = jet1 + jet2;
      TLorentzVector e1j1 = loose_ele1 + jet1;
      TLorentzVector e1j2 = loose_ele1 + jet2;
@@ -385,6 +397,7 @@ void analysisClass::Loop()
      M_e1j1 = e1j1.M();
      M_e1j2 = e1j2.M();
 
+     Pt_Ele1MET = e1met.Pt();
      MT_Ele1MET = sqrt(2 * QCDFakeEle1_Pt * MET_Pt  * (1 - cos(loose_ele1.DeltaPhi ( met) ) ) );
 
      mDPhi_METEle1= fabs(loose_ele1.DeltaPhi ( met ));
@@ -417,6 +430,9 @@ void analysisClass::Loop()
      // HLT variable							           
      fillVariableWithValue(   "PassHLT"                  , passedHLT               , min_prescale * fakeRate );
      
+     // Dataset variable 
+     fillVariableWithValue(   "PassDataset"                   , 1                  , min_prescale * fakeRate );
+
      // Filters
      fillVariableWithValue(   "PassHBHENoiseFilter"      , PassHBHENoiseFilter     , min_prescale * fakeRate );
      fillVariableWithValue(   "PassBeamHaloFilterTight"  , PassBeamHaloFilterTight , min_prescale * fakeRate );
@@ -489,48 +505,74 @@ void analysisClass::Loop()
        double deltaphi_type1   = v_METType1  .DeltaPhi(v_ele);
        double MTCharged = sqrt(2 * QCDFakeEle1_Pt * PFMETCharged  * (1 - cos(deltaphi_charged)) );
        double MTType1   = sqrt(2 * QCDFakeEle1_Pt * PFMETType1Cor * (1 - cos(deltaphi_type1  )) );
-              
-       FillUserTH1D( "MT_charged_enu_PAS"    , MTCharged                             , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "MT_type1_enu_PAS"      , MTType1                               , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "nElectron_PAS"         , nEle_QCDFake_Ana                      , pileup_weight * min_prescale * fakeRate); 
-       FillUserTH1D( "nMuon_PAS"             , nMuon_Ana                             , pileup_weight * min_prescale * fakeRate); 
-       FillUserTH1D( "Pt1stEle_PAS"	     , QCDFakeEle1_Pt                        , pileup_weight * min_prescale * fakeRate); 
-       FillUserTH1D( "Eta1stEle_PAS"	     , QCDFakeEle1_Eta                       , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Phi1stEle_PAS"	     , QCDFakeEle1_Phi                       , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Charge1stEle_PAS"      , QCDFakeEle1_Charge                    , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "METSig_PAS"	     , PFMETSig                              , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "MET_PAS"               , MET_Pt                                , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "METPhi_PAS"	     , MET_Phi                               , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "METCharged_PAS"        , PFMETCharged                          , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "METChargedPhi_PAS"     , PFMETChargedPhi                       , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "METType1_PAS"          , PFMETType1Cor                         , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "METType1Phi_PAS"       , PFMETPhiType1Cor                      , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "minMETPt1stEle_PAS"    , TMath::Min ( QCDFakeEle1_Pt, MET_Pt  ), pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Pt1stJet_PAS"          , JetLooseEle1_Pt                       , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Pt2ndJet_PAS"          , JetLooseEle2_Pt                       , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Eta1stJet_PAS"         , JetLooseEle1_Eta                      , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Eta2ndJet_PAS"         , JetLooseEle2_Eta                      , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Phi1stJet_PAS"         , JetLooseEle1_Phi                      , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Phi2ndJet_PAS"	     , JetLooseEle2_Phi                      , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "TCHE1stJet_PAS"        , JetLooseEle1_btagTCHE                 , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "TCHE2ndJet_PAS"        , JetLooseEle2_btagTCHE                 , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "nMuon_PtCut_IDISO_PAS" , nMuon_Ana                             , pileup_weight * min_prescale * fakeRate); 
-       FillUserTH1D( "MTenu_PAS"             , MT_Ele1MET                            , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Ptenu_PAS"	     , Pt_Ele1MET                            , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "sTlep_PAS"             , QCDFakeEle1_Pt + MET_Pt               , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "sTjet_PAS"             , JetLooseEle1_Pt + JetLooseEle2_Pt     , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "sT_PAS"                , sT_enujj                              , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Mjj_PAS"	             , M_j1j2                                , pileup_weight * min_prescale * fakeRate);   
-       FillUserTH1D( "DCotTheta1stEle_PAS"   , QCDFakeEle1_DCotTheta                 , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Dist1stEle_PAS"        , QCDFakeEle1_Dist                      , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "mDPhi1stEleMET_PAS"    , mDPhi_METEle1                         , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "mDPhi1stJetMET_PAS"    , mDPhi_METJet1                         , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "mDPhi2ndJetMET_PAS"    , mDPhi_METJet2                         , pileup_weight * min_prescale * fakeRate); 
-       FillUserTH1D( "Mej1_PAS"              , M_e1j1                                , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "Mej2_PAS"              , M_e1j2                                , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "DR_Ele1Jet1_PAS"	     , DR_Ele1Jet1                           , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "DR_Ele1Jet2_PAS"	     , DR_Ele1Jet2                           , pileup_weight * min_prescale * fakeRate);
-       FillUserTH1D( "DR_Jet1Jet2_PAS"	     , DR_Jet1Jet2                           , pileup_weight * min_prescale * fakeRate);
+
+       double min_DR_EleJet = 999.0;
+       double DR_Ele1Jet3 = 999.0;
+       if ( nJetLooseEle_Ana > 2 ) {
+	 TLorentzVector ele1, jet3;
+	 ele1.SetPtEtaPhiM ( QCDFakeEle1_Pt, QCDFakeEle1_Eta, QCDFakeEle1_Phi, 0.0 );
+	 jet3.SetPtEtaPhiM ( JetLooseEle3_Pt, JetLooseEle3_Eta, JetLooseEle3_Phi, 0.0 );
+	 DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
+       }
+
+       if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
+       if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
+       if ( nJet_Ana > 2 ) {
+	 if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
+       }
+
+       FillUserTH1D( "MT_charged_enu_PAS"         , MTCharged                             , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MT_type1_enu_PAS"           , MTType1                               , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nElectron_PAS"              , nEle_QCDFake_Ana                      , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "nMuon_PAS"                  , nMuon_Ana                             , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "Pt1stEle_PAS"	          , QCDFakeEle1_Pt                        , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "Eta1stEle_PAS"	          , QCDFakeEle1_Eta                       , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Phi1stEle_PAS"	          , QCDFakeEle1_Phi                       , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Charge1stEle_PAS"           , QCDFakeEle1_Charge                    , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "METSig_PAS"	          , PFMETSig                              , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "MET_PAS"                    , MET_Pt                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "METPhi_PAS"	          , MET_Phi                               , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "METCharged_PAS"             , PFMETCharged                          , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "METChargedPhi_PAS"          , PFMETChargedPhi                       , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "METType1_PAS"               , PFMETType1Cor                         , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "METType1Phi_PAS"            , PFMETPhiType1Cor                      , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "minMETPt1stEle_PAS"         , TMath::Min ( QCDFakeEle1_Pt, MET_Pt  ), pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Pt1stJet_PAS"               , JetLooseEle1_Pt                       , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Pt2ndJet_PAS"               , JetLooseEle2_Pt                       , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Eta1stJet_PAS"              , JetLooseEle1_Eta                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Eta2ndJet_PAS"              , JetLooseEle2_Eta                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Phi1stJet_PAS"              , JetLooseEle1_Phi                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Phi2ndJet_PAS"	          , JetLooseEle2_Phi                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "TCHE1stJet_PAS"             , JetLooseEle1_btagTCHE                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "TCHE2ndJet_PAS"             , JetLooseEle2_btagTCHE                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nMuon_PtCut_IDISO_PAS"      , nMuon_Ana                             , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "MTenu_PAS"                  , MT_Ele1MET                            , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Ptenu_PAS"	          , Pt_Ele1MET                            , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sTlep_PAS"                  , QCDFakeEle1_Pt + MET_Pt               , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sTjet_PAS"                  , JetLooseEle1_Pt + JetLooseEle2_Pt     , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sT_PAS"                     , sT_enujj                              , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mjj_PAS"	                  , M_j1j2                                , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "DCotTheta1stEle_PAS"        , QCDFakeEle1_DCotTheta                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Dist1stEle_PAS"             , QCDFakeEle1_Dist                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi1stEleMET_PAS"         , mDPhi_METEle1                         , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi1stJetMET_PAS"         , mDPhi_METJet1                         , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi2ndJetMET_PAS"         , mDPhi_METJet2                         , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "Mej1_PAS"                   , M_e1j1                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mej2_PAS"                   , M_e1j2                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "DR_Ele1Jet1_PAS"	          , DR_Ele1Jet1                           , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "DR_Ele1Jet2_PAS"	          , DR_Ele1Jet2                           , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "DR_Jet1Jet2_PAS"	          , DR_Jet1Jet2                           , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "minDR_EleJet_PAS"           , min_DR_EleJet                         , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nVertex_PAS"                , nVertex                               , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nVertex_good_PAS"           , nVertex_good                          , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MatchPhotonConv1stEle_PAS"  , Ele1_MatchPhotConv                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MatchPhotonConv2ndEle_PAS"  , Ele2_MatchPhotConv                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "GeneratorWeight"            , -1.0             );
+       FillUserTH1D( "PileupWeight"               , -1.0             );
+
+       if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
+	 FillUserTH1D( "MTenu_50_110", MT_Ele1MET, pileup_weight * min_prescale * fakeRate ) ;
+       }
 
        if ( nVertex_good >= 0 && nVertex_good <= 3 ) {
 	 FillUserTH1D( "MT_GoodVtxLTE3_PAS"              , MT_Ele1MET, pileup_weight * min_prescale * fakeRate ) ;
