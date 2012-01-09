@@ -3,7 +3,7 @@ JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/Photon_160329-180296.txt
 # PILEUP REWEIGHTING
 # PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/santanas/public/PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_3BX.txt
 PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_Spike_Flat10_Tail.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_observed_2011B.root
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/RUN2011B_0100_73500.weights.root
 #
 #############################     Example of file with list of cuts
 #

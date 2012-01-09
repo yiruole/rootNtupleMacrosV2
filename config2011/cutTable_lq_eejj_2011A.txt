@@ -6,7 +6,8 @@ JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/Photon_160329-180296.txt
 # New files:
 #----------------------------------------
 PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer11_PU_S4_Spike_Flat10_Tail.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_observed_2011A.root
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/RUN2011A_0100_73500.weights.root
+# PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_observed_2011A.root
 #----------------------------------------
 # Old files:
 #----------------------------------------
