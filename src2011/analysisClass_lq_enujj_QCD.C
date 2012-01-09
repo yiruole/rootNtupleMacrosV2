@@ -221,6 +221,10 @@ void analysisClass::Loop()
      if ( H_Photon30_CIdVL_5 > 0 && H_Photon30_CIdVL_5 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_5; } 
      if ( H_Photon30_CIdVL_6 > 0 && H_Photon30_CIdVL_6 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_6; } 
      if ( H_Photon30_CIdVL_7 > 0 && H_Photon30_CIdVL_7 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_7; } 
+
+     if ( isData && run > 175771 ) { // This trigger only available in 2011B
+       if ( H_Photon30_CIdVL_8 > 0 && H_Photon30_CIdVL_8 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_8; }
+     }
      
      // Did the HLT_Photon50_CaloIdVL trigger fire?
      
@@ -259,6 +263,10 @@ void analysisClass::Loop()
      // Did the HLT_Photon400 trigger fire?
      
      if ( H_Photon400_1      > 0 && H_Photon400_1      != 999 ) { N_Photon400     ++; PS_Photon400      = H_Photon400_1     ; } 
+     
+     if ( isData && run > 175771 ) { // This trigger only available in 2011B
+       if ( H_Photon400_2      > 0 && H_Photon400_2      != 999 ) { N_Photon400     ++; PS_Photon400      = H_Photon400_2     ; }
+     }
      
      // Sanity check: make sure two versions of the same trigger didn't fire in the same event (impossible)
      
@@ -376,8 +384,7 @@ void analysisClass::Loop()
      
      double fakeRate  = fakeRate1;
      double eFakeRate = eFakeRate1;
-
-
+     
      //--------------------------------------------------------------------------
      // Calculate some variables:
      //--------------------------------------------------------------------------
