@@ -56,7 +56,6 @@ channel_titles_to_include = ["Z/Z* + jets"  ,"$\gamma$ + jets","single top","WW 
 # channel_names_to_include  = ["TTbar_Madgraph"]
 # channel_titles_to_include = ["$t\\bar{t}$"   ]
 
-
 #-------------------------------------------------------
 # open file and scan contents
 #-------------------------------------------------------

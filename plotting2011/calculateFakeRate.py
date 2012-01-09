@@ -227,7 +227,7 @@ os.system ( command )
 
 os.system ( "rm " + table_file_pdf ) 
 os.system ( "rm " + plot_file_pdf ) 
-os.system ( "rm *.aux *.tex *.log") 
+os.system ( "rm *.aux *.log") 
 
 #-----------------------------------------------------------------
 # Tell the user what to do:

@@ -3,16 +3,16 @@ import sys,os, math
 import subprocess as sp
 from ROOT import *
 
-cej_data_dat_file_name = "/afs/cern.ch/user/e/eberry/scratch0/LQDATA///eejj_analysis/QCDClosureTest_cej_DataAndMC/output_cutTable_lq_QCD_FakeRateClosureTest_cej_DataAndMC/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
+cej_data_dat_file_name = os.environ["LQDATA"] + "//eejj_analysis/QCDClosureTest_cej_DataAndMC/output_cutTable_lq_QCD_FakeRateClosureTest_cej_DataAndMC/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
 
-ccj_data_dat_file_name = "/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
+ccj_data_dat_file_name = os.environ["LQDATA"] + "/eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
 
-ccjp_data_dat_file_name = "/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly_Plus1Sigma/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
+ccjp_data_dat_file_name = os.environ["LQDATA"] + "/eejj_analysis/QCDClosureTest_ccj_DataOnly_Plus1Sigma/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
 
-ccjm_data_dat_file_name = "/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly_Minus1Sigma/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
+ccjm_data_dat_file_name = os.environ["LQDATA"] + "/eejj_analysis/QCDClosureTest_ccj_DataOnly_Minus1Sigma/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
 
-ccj_data_file_name = "/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_plots.root"
-cej_mc_file_name =  "/afs/cern.ch/user/e/eberry/scratch0/LQDATA///eejj_analysis/QCDClosureTest_cej_DataAndMC/output_cutTable_lq_QCD_FakeRateClosureTest_cej_DataAndMC/analysisClass_lq_QCD_FakeRateClosureTest_plots.root"
+ccj_data_file_name = os.environ["LQDATA"] + "/eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_plots.root"
+cej_mc_file_name =  os.environ["LQDATA"] + "//eejj_analysis/QCDClosureTest_cej_DataAndMC/output_cutTable_lq_QCD_FakeRateClosureTest_cej_DataAndMC/analysisClass_lq_QCD_FakeRateClosureTest_plots.root"
 
 
 def getFRHist ( ccj_data_file, variable ) :

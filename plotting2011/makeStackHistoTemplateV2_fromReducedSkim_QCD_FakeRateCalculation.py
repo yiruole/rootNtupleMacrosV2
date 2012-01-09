@@ -461,7 +461,7 @@ class Plot:
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/330pb-1_21072011/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/0.1457pb-1_QCD/output_cutTable_lq_enujj_QCD/analysisClass_lq_enujj_QCD_plots.root")
 # File_preselection = GetFile("/Users/eberry/Code/ROOT/LQ/output//lq_enujj/0.1457pb-1_QCD/output_cutTable_lq_enujj_QCD/analysisClass_lq_enujj_QCD_plots.root")
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//enujj_analysis/QCDFakeRateCalc/output_cutTable_lq_QCD_FakeRateCalculation/analysisClass_lq_QCD_FakeRateCalculation_plots.root")
+File_preselection = GetFile(os.environ['LQDATA']+"/enujj_analysis/QCDFakeRateCalc/output_cutTable_lq_QCD_FakeRateCalculation/analysisClass_lq_QCD_FakeRateCalculation_plots.root")
 
 File_selection    = File_preselection
 

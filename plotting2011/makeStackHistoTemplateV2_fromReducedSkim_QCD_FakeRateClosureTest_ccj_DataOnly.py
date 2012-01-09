@@ -460,7 +460,7 @@ class Plot:
 #--- Input root file
 
 
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_plots.root")
+File_preselection = GetFile(os.environ["LQDATA"] + "/eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_plots.root")
 # File_preselection = GetFile(sys.argv[1])
 
 

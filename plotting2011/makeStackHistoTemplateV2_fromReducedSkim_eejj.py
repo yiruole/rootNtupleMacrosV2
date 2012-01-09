@@ -3,9 +3,9 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA///eejj_analysis/eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_preselection = GetFile(os.environ['LQDATA']+"//eejj_analysis/eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
-File_QCD = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA///eejj_analysis/eejj_qcd//output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_QCD = GetFile(os.environ['LQDATA']+"//eejj_analysis/eejj_qcd//output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
 
 #### Common values for plots:
 zUncBand="no"
@@ -34,7 +34,7 @@ keys             = ["LQ, M=450 GeV", "LQ, M=550 GeV", "LQ, M=650 GeV"]
 
 sampleForDataHisto = "DATA"
 
-QCDScale = 4623. / 2140.
+QCDScale = 1.0
 
 #--- nEle_PtCut_IDISO_noOvrlp ---
 
@@ -59,6 +59,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.stackFillStyleIds = stackFillStyleIds 
     plot.gif_folder     = "gif_eejj/"
     plot.eps_folder     = "eps_eejj/"
+    plot.suffix        = "eejj"
     plot.lumi_pb           = "4623"
     
     return plot

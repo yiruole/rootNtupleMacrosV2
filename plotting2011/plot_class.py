@@ -202,6 +202,7 @@ class Plot:
     gif_folder  = "/tmp/"
     eps_folder  = "/tmp/"
     lumi_pb = "0.0"
+    suffix = ""
     stackColorIndexes = []
     stackFillStyleIds = []
 
@@ -534,8 +535,12 @@ class Plot:
                 lineAtMinusTwo.Draw("SAME")
 
         #-- end
-        canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps","eps")
-        canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif","gif")
+        if self.suffix == "" : 
+            canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps","eps")
+            canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif","gif")
+        else:
+            canvas.SaveAs(self.eps_folder + "/" + self.name + "_" + self.suffix +  ".eps","eps")
+            canvas.SaveAs(self.gif_folder + "/" + self.name + "_" + self.suffix +  ".gif","gif")
         #canvas.SaveAs(self.name + ".png","png")
         #canvas.SaveAs(self.name + ".root","root")
         #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead

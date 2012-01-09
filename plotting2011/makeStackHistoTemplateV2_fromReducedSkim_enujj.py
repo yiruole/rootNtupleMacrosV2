@@ -3,9 +3,9 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//enujj_analysis/enujj/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
+File_preselection = GetFile(os.environ['LQDATA']+"/enujj_analysis/enujj/output_cutTable_lq_enujj/analysisClass_lq_enujj_plots.root")
 
-File_QCD = GetFile("/afs/cern.ch/user/e/eberry/scratch0/LQDATA//enujj_analysis/enujj_qcd/output_cutTable_lq_enujj/analysisClass_lq_enujj_QCD_plots.root")
+File_QCD = GetFile(os.environ['LQDATA']+"/enujj_analysis/enujj_qcd/output_cutTable_lq_enujj/analysisClass_lq_enujj_QCD_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W/W*+jets"
@@ -22,8 +22,7 @@ mass_rebin = 2
 dphi_rebin = 2
 dr_rebin   = 2
 
-
-QCDScale = 4623. / 2140.
+QCDScale = 1.0
 
 #--- Final plots are defined here
 
@@ -69,6 +68,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.stackFillStyleIds = stackFillStyleIds 
     plot.gif_folder     = "gif_enujj/"
     plot.eps_folder     = "eps_enujj/"
+    plot.suffix        = "enujj"
     plot.lumi_pb        = "4623"
 
     return plot
