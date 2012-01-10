@@ -154,9 +154,17 @@ void analysisClass::Loop()
 
   double muon_PtCut_STORE   = getPreCutValue1("muon_PtCut");
   double muon_PtCut_ANA     = getPreCutValue2("muon_PtCut");
-  double muNHits_minThresh  = getPreCutValue1("muNHits_minThresh");
-  double muTrkD0Maximum     = getPreCutValue1("muTrkD0Maximum");
-  double jet_muon_DeltaRCut = getPreCutValue1("jet_muon_DeltaRCut");
+
+  double muIsGlobal            = getPreCutValue1("muIsGlobal"           );
+  double muIsTracker           = getPreCutValue1("muIsTracker"          );
+  double muTrackerIsoSumPT     = getPreCutValue1("muTrackerIsoSumPT"    );
+  double muTrkHitsTrackerOnly  = getPreCutValue1("muTrkHitsTrackerOnly" );
+  double muStationMatches      = getPreCutValue1("muStationMatches"     );
+  double muPrimaryVertexDXY    = getPreCutValue1("muPrimaryVertexDXY"   );
+  double muGlobalChi2          = getPreCutValue1("muGlobalChi2"         );
+  double muPixelHitCount       = getPreCutValue1("muPixelHitCount"      );
+  double muGlobalTrkValidHits  = getPreCutValue1("muGlobalTrkValidHits" );
+  double jet_muon_DeltaRCut    = getPreCutValue1("jet_muon_DeltaRCut"   );
 
   if ( muon_PtCut_STORE > muon_PtCut_STORE ){ 
     STDOUT("ERROR in Muon cut values: all storage cuts must be looser or equal to analysis cuts.");
@@ -401,14 +409,17 @@ void analysisClass::Loop()
 
       bool ana_muon = true;
 
-      if ( MuonPassID          ->at(imuon)   == 0                 ) continue;
-      if ( MuonStationMatches  ->at(imuon)   <= 1                 ) continue;                 
-      if ( MuonPixelHitCount   ->at(imuon)   <= 0                 ) continue;
-      if ( MuonTrkHits         ->at(imuon)   <  muNHits_minThresh ) continue;
-      if ( fabs( MuonTrkD0     ->at(imuon))  >= muTrkD0Maximum    ) continue;
-      if ( MuonPt              ->at(imuon)   <  muon_PtCut_STORE  ) continue;      
-      if ( MuonPassIso         ->at(imuon)   == 0                 ) continue;
-      if ( MuonPt              ->at(imuon)   <  muon_PtCut_ANA    ) ana_muon = false;
+
+      if ( MuonPt                    ->at(imuon)   <  muon_PtCut_STORE     ) continue;      
+      if ( MuonIsGlobal              ->at(imuon)   != muIsGlobal           ) continue;
+      if ( MuonIsTracker             ->at(imuon)   != muIsTracker          ) continue;
+      if ( MuonTrackerIsoSumPT       ->at(imuon)   >  muTrackerIsoSumPT    ) continue;
+      if ( MuonTrkHitsTrackerOnly    ->at(imuon)   <= muTrkHitsTrackerOnly ) continue;
+      if ( MuonStationMatches        ->at(imuon)   <= muStationMatches     ) continue;
+      if ( fabs(MuonPrimaryVertexDXY ->at(imuon))  >  muPrimaryVertexDXY   ) continue;
+      if ( MuonGlobalChi2            ->at(imuon)   >  muGlobalChi2         ) continue;
+      if ( MuonPixelHitCount         ->at(imuon)   <= muPixelHitCount      ) continue;
+      if ( MuonGlobalTrkValidHits    ->at(imuon)   <= muGlobalTrkValidHits ) continue;      
       
       v_idx_muon_PtCut_IDISO_STORE.push_back(imuon);
       if ( ana_muon ) v_idx_muon_PtCut_IDISO_ANA.push_back(imuon);
