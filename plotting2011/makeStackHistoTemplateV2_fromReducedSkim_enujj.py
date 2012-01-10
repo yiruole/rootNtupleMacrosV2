@@ -405,7 +405,6 @@ plots[-1].xmax = 600
 plots[-1].xmin = 0
 plots[-1].ylog  = "yes"
 
-
 plots.append ( makeDefaultPlot ( "MTenu_50_110"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit = "50 < M_{T} (1st Electron, PFMET) (Preselection) < 100 [GeV]"
 plots[-1].rebin = mt_rebin
@@ -414,6 +413,16 @@ plots[-1].ymin = 1e-1
 plots[-1].xmax = 140
 plots[-1].xmin = 40
 plots[-1].ylog  = "yes"
+
+plots.append ( makeDefaultPlot ( "MTenu_50_110_4jet"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+plots[-1].xtit = "50 < M_{T} (1st Electron, PFMET) (Preselection + 4jets) < 100 [GeV]"
+plots[-1].rebin = mt_rebin
+plots[-1].ymax = 20000
+plots[-1].ymin = 1e-1
+plots[-1].xmax = 140
+plots[-1].xmin = 40
+plots[-1].ylog  = "yes"
+
 
 plots.append ( makeDefaultPlot ( "Ptenu_PAS"	         ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = pt_rebin
