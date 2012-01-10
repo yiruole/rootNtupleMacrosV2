@@ -115,6 +115,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Me2j2_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me1j_selected_PAS"     ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me2j_selected_PAS"     ,    200 , 0       , 2000     );
+   CreateUserTH1D( "Mej_selected_avg_PAS"  ,    200 , 0       , 2000     );
    CreateUserTH1D( "Meejj_PAS"             ,    200 , 0       , 2000     );
    CreateUserTH1D( "run_PAS"               ,    20000 , 160300  , 180300 );
    CreateUserTH1D( "run_HLT"               ,    20000 , 160300  , 180300 );
@@ -657,12 +658,20 @@ void analysisClass::Loop()
        FillUserTH1D("Meejj_PAS", M_eejj , efficiency_weight * pileup_weight);
        
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
+
+	 double M_ej_avg = (M_e1j1 + M_e2j2) / 2.0;
+
+	 FillUserTH1D("Mej_selected_avg_PAS", M_ej_avg, efficiency_weight) ;	   
 	 FillUserTH1D("Me1j_selected_PAS" , M_e1j1, efficiency_weight) ;	   
 	 FillUserTH1D("Me2j_selected_PAS" , M_e2j2, efficiency_weight) ;	   
 	 FillUserTH2D( "Me1jVsMe2j_selected", M_e1j1, M_e2j2, efficiency_weight * pileup_weight) ;
 	 FillUserTH2D( "Me1jVsMe2j_rejected", M_e1j2, M_e2j1, efficiency_weight * pileup_weight) ;
        }
        else {
+
+	 double M_ej_avg = (M_e1j2 + M_e2j1) / 2.0;
+
+	 FillUserTH1D("Mej_selected_avg_PAS", M_ej_avg, efficiency_weight) ;	   
 	 FillUserTH1D("Me1j_selected_PAS" , M_e1j2, efficiency_weight) ;	   
 	 FillUserTH1D("Me2j_selected_PAS" , M_e2j1, efficiency_weight) ;	   
 	 FillUserTH2D( "Me1jVsMe2j_selected", M_e1j2, M_e2j1, efficiency_weight * pileup_weight) ;
