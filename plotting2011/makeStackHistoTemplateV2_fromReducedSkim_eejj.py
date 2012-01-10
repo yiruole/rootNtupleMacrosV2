@@ -4,8 +4,8 @@ from plot_class import *
 from ROOT import *
 
 File_preselection = GetFile(os.environ['LQDATA']+"//eejj_analysis/eejj//output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-
-File_QCD = GetFile(os.environ['LQDATA']+"//eejj_analysis/eejj_qcd//output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_QCD          = GetFile(os.environ['LQDATA']+"//eejj_analysis/eejj_qcd//output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_TTBar        = GetFile(os.environ['LQDATA']+"//eejj_analysis/eejj-ttbar//output_cutTable_lq_eejj/analysisClass_lq_eejj_TTBar_plots.root")
 
 #### Common values for plots:
 zUncBand="no"
@@ -17,14 +17,15 @@ pt_rebin = 2
 histoBaseName = "histo1D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
-samplesForStackHistosQCD = ["DATA"]
+samplesForStackHistos_other = [ "PhotonJets", "WJet_Madgraph", "SingleTop" ]
+samplesForStackHistosQCD     = ["DATA"]
+samplesForStackHistosTTBar   = ["DATA"]
+samplesForStackHistos_ZJets  = [ "ZJet_Madgraph" ]
+samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_ZJets
 
-samplesForStackHistos = ["PhotonJets"   ,"SingleTop"   ,"WJet_Madgraph","DIBOSON"     ,"TTbar_Madgraph", "ZJet_Madgraph"]
-keysStack             = ["QCD multijets", "#gamma + jets","single top"  , "W/W* + jets" ,"WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
-# samplesForStackHistos = ["PhotonJets"   ,"SingleTop"   ,"WJet_Sherpa","DIBOSON"     ,"TTbar_Madgraph", "ZJet_Sherpa"]
-# keysStack             = ["QCD multijets", "#gamma + jets","single top"  , "W/W* + jets" ,"WW + WZ + ZZ","t#bar{t}"      , "Z/Z* + jets"  ]
-stackColorIndexes     = [7   , 3             , 4            , 2             , 14            , 92            , 6              ]
-stackFillStyleIds     = [3345, 3354          , 3345         , 3395          , 3344         , 3354           , 3345           ]
+keysStack             = [ "#gamma + jets","W/W* + jets" ,"single top"   ,"QCD multijets", "t#bar{t}, VV + jets",  "Z/Z* + jets"  ]
+stackColorIndexes     = [3               ,2             , 4             ,7              , 92                   ,  6              ]
+stackFillStyleIds     = [3354            ,3395          , 3345          ,3345           , 3354                 ,  3345           ]
 
 stackColorIndexes.reverse()
 stackFillStyleIds.reverse()
@@ -34,7 +35,8 @@ keys             = ["LQ, M=450 GeV", "LQ, M=550 GeV", "LQ, M=650 GeV"]
 
 sampleForDataHisto = "DATA"
 
-QCDScale = 1.0
+QCDScale   = 1.0
+TTBarScale = 1.0
 
 #--- nEle_PtCut_IDISO_noOvrlp ---
 
@@ -43,23 +45,23 @@ def makeDefaultPlot ( variableName, histoBaseName,
                       samplesForStackHistos, keysStack,
                       sampleForDataHisto,
                       zUncBand, makeRatio ) :
-    plot                = Plot() 
-    plot.histosStack    = generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDScale) + generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection)
-    plot.keysStack      = keysStack
-    plot.histos         = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
-    plot.keys           = keys
-    plot.addZUncBand    = zUncBand
-    plot.makeRatio      = makeRatio
-    plot.makeNSigma     = makeNSigma
-    plot.histodata      = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
-    plot.ytit           = "Events"
-    plot.ylog           = "no"
-    plot.name           = variableName
+    plot                   = Plot() 
+    plot.histosStack       = generateHistoList( histoBaseName, samplesForStackHistos_other, variableName, File_preselection) + generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDScale) + generateHistoList( histoBaseName, samplesForStackHistosTTBar, variableName, File_TTBar, TTBarScale) + generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection) 
+    plot.keysStack         = keysStack
+    plot.histos            = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+    plot.keys              = keys
+    plot.addZUncBand       = zUncBand
+    plot.makeRatio         = makeRatio
+    plot.makeNSigma        = makeNSigma
+    plot.histodata         = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+    plot.ytit              = "Events"
+    plot.ylog              = "no"
+    plot.name              = variableName
     plot.stackColorIndexes = stackColorIndexes
     plot.stackFillStyleIds = stackFillStyleIds 
-    plot.gif_folder     = "gif_eejj/"
-    plot.eps_folder     = "eps_eejj/"
-    plot.suffix        = "eejj"
+    plot.gif_folder        = "gif_eejj/"
+    plot.eps_folder        = "eps_eejj/"
+    plot.suffix            = "eejj"
     plot.lumi_pb           = "4623"
     
     return plot
