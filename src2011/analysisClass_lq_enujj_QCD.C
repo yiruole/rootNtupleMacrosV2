@@ -81,6 +81,7 @@ void analysisClass::Loop()
 
    CreateUserTH1D( "nElectron_PAS"            , 5   , -0.5    , 4.5      );
    CreateUserTH1D( "nMuon_PAS"                , 5   , -0.5    , 4.5      );
+   CreateUserTH1D( "nJet_PAS"                 , 11  , -0.5    , 10.5     );
    CreateUserTH1D( "Pt1stEle_PAS"	      , 100 , 0       , 1000     ); 
    CreateUserTH1D( "Eta1stEle_PAS"	      , 100 , -5      , 5	 ); 
    CreateUserTH1D( "Phi1stEle_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
@@ -113,7 +114,9 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_PAS"                   , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mej2_PAS"                 , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mej2_PAS"                 , 200 , 0       , 2000	 );
+   CreateUserTH1D( "Mej_PAS"                  , 200 , 0       , 2000	 );  
+   CreateUserTH1D( "MTjnu_PAS"                , 200 , 0       , 1000     );
    CreateUserTH1D( "DCotTheta1stEle_PAS"      , 100 , 0.0     , 1.0      );
    CreateUserTH1D( "Dist1stEle_PAS"           , 100 , 0.0     , 1.0      );  
    CreateUserTH1D( "DR_Ele1Jet1_PAS"	      , 100 , 0       , 10       ); 
@@ -146,6 +149,51 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTType1_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
    
    CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
+
+   
+   CreateUserTH1D( "MET_LQ250", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ350", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ400", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ450", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ500", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ550", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ600", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ650", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ750", 200, 0, 1000 );
+   CreateUserTH1D( "MET_LQ850", 200, 0, 1000 );
+   
+   CreateUserTH1D( "sT_LQ250", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ350", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ400", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ450", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ500", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ550", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ600", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ650", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ750", 200, 0, 2000 );
+   CreateUserTH1D( "sT_LQ850", 200, 0, 2000 );
+
+   CreateUserTH1D( "Mej_LQ250", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ350", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ400", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ450", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ500", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ550", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ600", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ650", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ750", 200, 0, 2000 );
+   CreateUserTH1D( "Mej_LQ850", 200, 0, 2000 );
+
+   CreateUserTH1D( "MTjnu_LQ250", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ350", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ400", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ450", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ500", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ550", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ600", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ650", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ750", 200, 0, 1000 );
+   CreateUserTH1D( "MTjnu_LQ850", 200, 0, 1000 );
    
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -458,21 +506,42 @@ void analysisClass::Loop()
      									           
      // 1st JET variables                                     		           
      fillVariableWithValue(   "nJet"                     , nJetLooseEle_Ana        , min_prescale * fakeRate );
-									           
+			
+     double MT_Jet1MET, MT_Jet2MET;						           
      // 1st JET variables                                     		           
-     if ( nJet_Stored > 0 ) { 						           
+     if ( nJetLooseEle_Ana > 0 ) { 						           
        fillVariableWithValue( "Jet1_Pt"                  , JetLooseEle1_Pt         , min_prescale * fakeRate );
        fillVariableWithValue( "Jet1_Eta"                 , JetLooseEle1_Eta        , min_prescale * fakeRate );
        fillVariableWithValue( "mDeltaPhiMET1stJet"       , mDPhi_METJet1           , min_prescale * fakeRate );
+
+       TVector2 v_MET;
+       TVector2 v_jet;
+       v_MET.SetMagPhi( MET_Pt , MET_Phi  );
+       v_jet.SetMagPhi( JetLooseEle1_Pt, JetLooseEle1_Phi );
+       float deltaphi = v_MET.DeltaPhi(v_jet);
+       MT_Jet1MET = sqrt ( 2 * Jet1_Pt * MET_Pt * ( 1 - cos ( deltaphi ) ) );
      }									           
      									           
      // 2nd JET variables                                     		           
-     if ( nJet_Stored > 1 ) { 	                                      	           
+     if ( nJetLooseEle_Ana > 1 ) { 	                                      	           
        fillVariableWithValue( "Jet2_Pt"                  , JetLooseEle2_Pt         , min_prescale * fakeRate );
        fillVariableWithValue( "Jet2_Eta"                 , JetLooseEle2_Eta        , min_prescale * fakeRate );
        fillVariableWithValue( "ST"                       , sT_enujj                , min_prescale * fakeRate );
+
+       TVector2 v_MET;
+       TVector2 v_jet;
+       v_MET.SetMagPhi( MET_Pt , MET_Phi  );
+       v_jet.SetMagPhi( JetLooseEle2_Pt, JetLooseEle2_Phi );
+       float deltaphi = v_MET.DeltaPhi(v_jet);
+       MT_Jet2MET = sqrt ( 2 * Jet2_Pt * MET_Pt * ( 1 - cos ( deltaphi ) ) );
      }
 
+     // 3rd JET variables 
+     // if ( nJetLooseEle_Ana > 2 ) {
+     //   fillVariableWithValue( "Jet3_Pt"                  , JetLooseEle3_Pt         , min_prescale * fakeRate );
+     //   fillVariableWithValue( "Jet3_Eta"                 , JetLooseEle3_Eta        , min_prescale * fakeRate );
+     // }
+     
      // 1 electron, 1 jet variables 
      if ( nEle_QCDFake > 0 && nJet_Ana > 0 ) { 
        fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             , min_prescale * fakeRate );
@@ -486,6 +555,53 @@ void analysisClass::Loop()
      // Dummy variables
      fillVariableWithValue ("preselection",1, min_prescale * fakeRate );
 
+
+     double MT_JetMET;
+     double Mej;
+     
+     if ( fabs(MT_Jet1MET - M_e1j2) < fabs (MT_Jet2MET - M_e2j1) ){
+       MT_JetMET = MT_Jet1MET;
+       Mej = M_e1j2;
+     } else { 
+       MT_JetMET = MT_Jet2MET;
+       Mej = M_e1j1;
+     }	 
+     
+     fillVariableWithValue("MET_LQ250"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ350"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ400"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ450"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ500"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ550"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ600"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ650"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ750"  , MET_Pt, min_prescale * fakeRate );
+     fillVariableWithValue("MET_LQ850"  , MET_Pt, min_prescale * fakeRate );
+
+
+     fillVariableWithValue("ST_LQ250"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ350"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ400"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ450"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ500"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ550"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ600"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ650"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ750"  ,sT_enujj , min_prescale * fakeRate );
+     fillVariableWithValue("ST_LQ850"  ,sT_enujj , min_prescale * fakeRate );
+
+
+     fillVariableWithValue("Mej_LQ250"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ350"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ400"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ450"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ500"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ550"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ600"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ650"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ750"  , Mej, min_prescale * fakeRate );
+     fillVariableWithValue("Mej_LQ850"  , Mej, min_prescale * fakeRate );
+
      //--------------------------------------------------------------------------
      // Evaluate the cuts
      //--------------------------------------------------------------------------
@@ -497,9 +613,20 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      bool passed_preselection = passedAllPreviousCuts("preselection");
+     bool passed_250          = ( passedAllPreviousCuts("Mej_LQ250"         ) && passedCut ("Mej_LQ250"         ));
+     bool passed_350          = ( passedAllPreviousCuts("Mej_LQ350"         ) && passedCut ("Mej_LQ350"         ));
+     bool passed_400          = ( passedAllPreviousCuts("Mej_LQ400"         ) && passedCut ("Mej_LQ400"         ));
+     bool passed_450          = ( passedAllPreviousCuts("Mej_LQ450"         ) && passedCut ("Mej_LQ450"         ));
+     bool passed_500          = ( passedAllPreviousCuts("Mej_LQ500"         ) && passedCut ("Mej_LQ500"         ));
+     bool passed_550          = ( passedAllPreviousCuts("Mej_LQ550"         ) && passedCut ("Mej_LQ550"         ));
+     bool passed_600          = ( passedAllPreviousCuts("Mej_LQ600"         ) && passedCut ("Mej_LQ600"         ));
+     bool passed_650          = ( passedAllPreviousCuts("Mej_LQ650"         ) && passedCut ("Mej_LQ650"         ));
+     bool passed_750          = ( passedAllPreviousCuts("Mej_LQ750"         ) && passedCut ("Mej_LQ750"         ));
+     bool passed_850          = ( passedAllPreviousCuts("Mej_LQ850"         ) && passedCut ("Mej_LQ850"         ));
+     
        
      if ( passed_preselection ) { 
-
+       
        bool use_charged_met = (PFMETCharged < MET_Pt);
 
        if ( use_charged_met ) v_METCharged.SetMagPhi(PFMETCharged , PFMETChargedPhi );
@@ -566,6 +693,8 @@ void analysisClass::Loop()
        FillUserTH1D( "mDPhi2ndJetMET_PAS"         , mDPhi_METJet2                         , pileup_weight * min_prescale * fakeRate); 
        FillUserTH1D( "Mej1_PAS"                   , M_e1j1                                , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "Mej2_PAS"                   , M_e1j2                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mej_PAS"                    , Mej                                   , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MTjnu_PAS"                  , MT_JetMET                             , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "DR_Ele1Jet1_PAS"	          , DR_Ele1Jet1                           , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "DR_Ele1Jet2_PAS"	          , DR_Ele1Jet2                           , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "DR_Jet1Jet2_PAS"	          , DR_Jet1Jet2                           , pileup_weight * min_prescale * fakeRate);
@@ -574,6 +703,7 @@ void analysisClass::Loop()
        FillUserTH1D( "nVertex_good_PAS"           , nVertex_good                          , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "MatchPhotonConv1stEle_PAS"  , Ele1_MatchPhotConv                    , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "MatchPhotonConv2ndEle_PAS"  , Ele2_MatchPhotConv                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nJet_PAS"                   , nJet_Ana                              , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "GeneratorWeight"            , -1.0             );
        FillUserTH1D( "PileupWeight"               , -1.0             );
 
@@ -603,6 +733,77 @@ void analysisClass::Loop()
 	 FillUserTH1D( "MT_GoodVtxGTE16_PAS"             , MT_Ele1MET, pileup_weight * min_prescale * fakeRate ) ;
 	 FillUserTH1D( "MTCharged_GoodVtxGTE16_PAS"      , MTCharged , pileup_weight * min_prescale * fakeRate ) ;
 	 FillUserTH1D( "MTType1_GoodVtxGTE16_PAS"        , MTType1   , pileup_weight * min_prescale * fakeRate ) ;
+       }
+
+
+       if ( passed_250 ) {
+	 FillUserTH1D( "MET_LQ250"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ250"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ250"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ250", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }
+
+       if ( passed_350 ) {
+	 FillUserTH1D( "MET_LQ350"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ350"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ350"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ350", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_400 ) {	    	        
+	 FillUserTH1D( "MET_LQ400"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ400"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ400"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ400", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_450 ) {	    	        
+	 FillUserTH1D( "MET_LQ450"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ450"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ450"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ450", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_500 ) {	    	        
+	 FillUserTH1D( "MET_LQ500"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ500"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ500"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ500", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_550 ) {	    	        
+	 FillUserTH1D( "MET_LQ550"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ550"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ550"  , MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ550", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_600 ) {	    	        
+	 FillUserTH1D( "MET_LQ600"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ600"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ600"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ600", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_650 ) {	    	        
+	 FillUserTH1D( "MET_LQ650"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ650"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ650"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ650", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_750 ) {	    	        
+	 FillUserTH1D( "MET_LQ750"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ750"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ750"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ750", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+       }			    	        
+				    	        
+       if ( passed_850 ) {	    	        
+	 FillUserTH1D( "MET_LQ850"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "sT_LQ850"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ850"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "MTjnu_LQ850", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
        }
               
      }

@@ -154,6 +154,51 @@ void analysisClass::Loop()
    CreateUserTH1D( "PileupWeight"   , 100, -10, 10 );
    CreateUserTH1D( "GeneratorWeight", 100, -2.0 , 2.0 );
 
+
+   CreateUserTH1D("Mej_selected_avg_LQ250"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ350"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ400"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ450"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ500"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ550"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ600"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ650"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ750"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_avg_LQ850"         ,   40  , 0        , 2000     );
+
+   CreateUserTH1D("Mej_selected_min_LQ250"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ350"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ400"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ450"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ500"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ550"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ600"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ650"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ750"         ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mej_selected_min_LQ850"         ,   40  , 0        , 2000     );
+
+   CreateUserTH1D("sT_eejj_LQ250"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ350"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ400"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ450"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ500"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ550"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ600"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ650"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ750"                  ,   20  , 0        , 2000     );
+   CreateUserTH1D("sT_eejj_LQ850"                  ,   20  , 0        , 2000     );
+
+   CreateUserTH1D("Mee_LQ250"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ350"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ400"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ450"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ500"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ550"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ600"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ650"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ750"                      ,   40  , 0        , 2000     );
+   CreateUserTH1D("Mee_LQ850"                      ,   40  , 0        , 2000     );
+
    //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
@@ -531,6 +576,9 @@ void analysisClass::Loop()
      int PassNEle = 0;
      if ( nEle_QCDFake == 2 ) PassNEle = 1;
      
+     double M_ej_avg;
+     double M_ej_min;
+
      // Muons
      int PassNMuon = 0;
      if ( nMuon_Ana == 0 ) PassNMuon = 1;
@@ -549,7 +597,7 @@ void analysisClass::Loop()
        fillVariableWithValue( "Ele2_Eta"                      , QCDFakeEle2_Eta         , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "abs_Ele2_Eta"                  , fabs(QCDFakeEle2_Eta)   , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
-       fillVariableWithValue( "Pt_e1e2"                       , Pt_e1e2                 , fakeRateEffective * min_prescale ) ;
+       fillVariableWithValue( "M_e1e2_Final"                  , M_e1e2                  , fakeRateEffective * min_prescale ) ;
      }
 
      // Jets
@@ -558,12 +606,48 @@ void analysisClass::Loop()
        fillVariableWithValue( "Jet1_Pt"                       , JetLooseEle1_Pt         , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "Jet1_Eta"                      , JetLooseEle1_Eta        , fakeRateEffective * min_prescale ) ;
      }
+     
      if ( nJetLooseEle_Stored >= 2 ) { 
        fillVariableWithValue( "Jet2_Pt"                       , JetLooseEle2_Pt         , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "Jet2_Eta"                      , JetLooseEle2_Eta        , fakeRateEffective * min_prescale ) ;
-       fillVariableWithValue( "Pt_j1j2"                       , Pt_j1j2                 , fakeRateEffective * min_prescale ) ;
-       fillVariableWithValue( "M_j1j2"                        , M_j1j2                  , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "DR_Jet1Jet2"                   , DR_Jet1Jet2             , fakeRateEffective * min_prescale ) ;
+
+       if ( nEle_QCDFake >= 2 && nJetLooseEle_Stored >= 2) {
+	 if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
+	   M_ej_avg = (M_e1j1 + M_e2j2) / 2.0;
+	   if    ( M_e1j1 < M_e2j2 ) M_ej_min = M_e1j1;
+	   else                      M_ej_min = M_e2j2;
+	 }
+	 else { 
+	   M_ej_avg = (M_e1j2 + M_e2j1) / 2.0;
+	   if    ( M_e1j2 < M_e2j1 ) M_ej_min = M_e1j2;
+	   else                      M_ej_min = M_e2j1;
+	 }
+	 
+	 fillVariableWithValue( "sT_eejj"                      , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ250"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ350"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ400"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ450"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ500"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ550"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ600"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ650"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ750"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "sT_eejj_LQ850"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
+	 
+	 fillVariableWithValue( "min_M_ej_LQ250"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ350"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ400"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ450"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ500"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ550"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ600"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ650"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ750"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 fillVariableWithValue( "min_M_ej_LQ850"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+	 
+       }      
      }
 
      // Muons
@@ -598,7 +682,17 @@ void analysisClass::Loop()
      FillUserTH1D( "GeneratorWeight", -1.0 );
 
      bool passed_preselection = ( passedAllPreviousCuts("M_e1e2") && passedCut ("M_e1e2") );
-     
+     bool passed_250          = ( passedAllPreviousCuts("min_M_ej_LQ250"         ) && passedCut ("min_M_ej_LQ250"         ));
+     bool passed_350          = ( passedAllPreviousCuts("min_M_ej_LQ350"         ) && passedCut ("min_M_ej_LQ350"         ));
+     bool passed_400          = ( passedAllPreviousCuts("min_M_ej_LQ400"         ) && passedCut ("min_M_ej_LQ400"         ));
+     bool passed_450          = ( passedAllPreviousCuts("min_M_ej_LQ450"         ) && passedCut ("min_M_ej_LQ450"         ));
+     bool passed_500          = ( passedAllPreviousCuts("min_M_ej_LQ500"         ) && passedCut ("min_M_ej_LQ500"         ));
+     bool passed_550          = ( passedAllPreviousCuts("min_M_ej_LQ550"         ) && passedCut ("min_M_ej_LQ550"         ));
+     bool passed_600          = ( passedAllPreviousCuts("min_M_ej_LQ600"         ) && passedCut ("min_M_ej_LQ600"         ));
+     bool passed_650          = ( passedAllPreviousCuts("min_M_ej_LQ650"         ) && passedCut ("min_M_ej_LQ650"         ));
+     bool passed_750          = ( passedAllPreviousCuts("min_M_ej_LQ750"         ) && passedCut ("min_M_ej_LQ750"         ));
+     bool passed_850          = ( passedAllPreviousCuts("min_M_ej_LQ850"         ) && passedCut ("min_M_ej_LQ850"         ));
+  
      if ( passed_preselection ) {
 
 
@@ -705,9 +799,6 @@ void analysisClass::Loop()
        FillUserTH1D("Meejj_PAS", M_eejj , pileup_weight * min_prescale * fakeRateEffective  );
 
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
-
-	 double M_ej_avg = (M_e1j1 + M_e2j2) / 2.0;
-
 	 FillUserTH1D("Mej_selected_avg_PAS", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective ) ;	   
 	 FillUserTH1D("Me1j_selected_PAS"   , M_e1j1, pileup_weight * min_prescale * fakeRateEffective ) ;	   
 	 FillUserTH1D("Me2j_selected_PAS"   , M_e2j2, pileup_weight * min_prescale * fakeRateEffective ) ;	   
@@ -715,15 +806,84 @@ void analysisClass::Loop()
 	 FillUserTH2D( "Me1jVsMe2j_rejected", M_e1j2, M_e2j1, pileup_weight * min_prescale * fakeRateEffective  ) ;
        }
        else {
-
-	 double M_ej_avg = (M_e1j2 + M_e2j1) / 2.0;
-
 	 FillUserTH1D("Mej_selected_avg_PAS", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective ) ;	   
 	 FillUserTH1D("Me1j_selected_PAS" , M_e1j2, pileup_weight * min_prescale * fakeRateEffective ) ;	   
 	 FillUserTH1D("Me2j_selected_PAS" , M_e2j1, pileup_weight * min_prescale * fakeRateEffective ) ;	   
 	 FillUserTH2D( "Me1jVsMe2j_selected", M_e1j2, M_e2j1, pileup_weight * min_prescale * fakeRateEffective  ) ;
 	 FillUserTH2D( "Me1jVsMe2j_rejected", M_e1j1, M_e2j2, pileup_weight * min_prescale * fakeRateEffective  ) ;
        }
+
+
+       if ( passed_250 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ250", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ250", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ250"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ250"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_350 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ350", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ350", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ350"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ350"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_400 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ400", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ400", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ400"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ400"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_450 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ450", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ450", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ450"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ450"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_500 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ500", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ500", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ500"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ500"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_550 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ550", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ550", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ550"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ550"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_600 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ600", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ600", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ600"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ600"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_650 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ650", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ650", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ650"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ650"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_750 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ750", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ750", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ750"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ750"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
+       if ( passed_850 ) {
+	 FillUserTH1D("Mej_selected_avg_LQ850", M_ej_avg, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mej_selected_min_LQ850", M_ej_min, pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("sT_eejj_LQ850"         , sT_eejj , pileup_weight * min_prescale * fakeRateEffective  ) ;
+	 FillUserTH1D("Mee_LQ850"             , M_e1e2  , pileup_weight * min_prescale * fakeRateEffective  ) ;
+       }
+
      }
    } // End loop over events
 
