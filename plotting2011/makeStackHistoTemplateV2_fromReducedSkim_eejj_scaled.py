@@ -19,8 +19,8 @@ histoBaseName = "histo1D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
 histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 
 # samplesForStackHistos_other = [ "PhotonJets", "WJet_Madgraph", "SingleTop" ]
-# samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph" ]
 # samplesForStackHistosQCD     = ["DATA"]
+# samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph" ]
 # samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_ZJets
 
 samplesForStackHistos_other = [ "PhotonJets", "WJet_Madgraph", "SingleTop" ]
@@ -29,7 +29,7 @@ samplesForStackHistosTTBar   = ["DATA"]
 samplesForStackHistos_ZJets  = [ "ZJet_Madgraph" ]
 samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_ZJets
 
-keysStack             = [ "#gamma + jets","W/W* + jets" ,"single top"   ,"QCD multijets", "t#bar{t}, VV + jets",  "Z/Z* + jets"  ]
+keysStack             = [ "#gamma + jets","W/W* + jets" ,"single top"   ,"QCD multijets", "t#bar{t}"           ,  "Z/Z* + jets"  ]
 stackColorIndexes     = [3               ,2             , 4             ,7              , 92                   ,  6              ]
 stackFillStyleIds     = [3354            ,3395          , 3345          ,3345           , 3354                 ,  3345           ]
 
@@ -53,7 +53,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
                       zUncBand, makeRatio ) :
     plot                   = Plot() 
     plot.histosStack       = generateHistoList( histoBaseName, samplesForStackHistos_other, variableName, File_preselection) + generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDScale) + generateHistoList( histoBaseName, samplesForStackHistosTTBar, variableName, File_TTBar, TTBarScale) + generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection) 
-    # plot.histosStack       = generateHistoList( histoBaseName, samplesForStackHistos, variableName, File_preselection) + generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDScale) 
+    # plot.histosStack       = generateHistoList( histoBaseName, samplesForStackHistos_other, variableName, File_preselection) + generateHistoList( histoBaseName, samplesForStackHistosQCD, variableName, File_QCD, QCDScale) +  generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection) 
     plot.keysStack         = keysStack
     plot.histos            = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
     plot.keys              = keys
