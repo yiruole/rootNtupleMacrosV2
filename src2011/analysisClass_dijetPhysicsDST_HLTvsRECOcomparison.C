@@ -1207,9 +1207,12 @@ void analysisClass::Loop()
 	if(mismatch_DEta==1 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  {
 	    h_FirstMismatch_HLT1_RECO0->Fill(5);
-	    cout << "SelectionHLT1RECO0 -  Deta : RECO , HLT = " 
-		 << getVariableValue("RECO_DEta_PFJet1PFJet2") << " , " << getVariableValue("HLT_DEta_PFJet1PFJet2") 
-		 << endl;
+	    if(debugEv)
+	      {
+		cout << "SelectionHLT1RECO0 -  Deta : RECO , HLT = " 
+		     << getVariableValue("RECO_DEta_PFJet1PFJet2") << " , " << getVariableValue("HLT_DEta_PFJet1PFJet2") 
+		     << endl;
+	      }
 	  }
 
 	FillUserTH1D("h_HLT_M_PFJet1PFJet2_HLT1_RECO0", getVariableValue("HLT_M_PFJet1PFJet2") );
@@ -1277,9 +1280,12 @@ void analysisClass::Loop()
 	if(mismatch_DEta==1 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  {
 	    h_FirstMismatch_HLT0_RECO1->Fill(5);
-	    cout << "SelectionHLT0RECO1 -  Deta : RECO , HLT = " 
-		 << getVariableValue("RECO_DEta_PFJet1PFJet2") << " , " << getVariableValue("HLT_DEta_PFJet1PFJet2") 
-		 << endl;
+	    if(debugEv)
+	      {
+		cout << "SelectionHLT0RECO1 -  Deta : RECO , HLT = " 
+		     << getVariableValue("RECO_DEta_PFJet1PFJet2") << " , " << getVariableValue("HLT_DEta_PFJet1PFJet2") 
+		     << endl;
+	      }
 	  }
 
 	FillUserTH1D("h_HLT_M_PFJet1PFJet2_HLT0_RECO1", getVariableValue("HLT_M_PFJet1PFJet2") );

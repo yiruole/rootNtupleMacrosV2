@@ -42,7 +42,7 @@ vertexMaxd0           2            -			-               -               -1
 # Others
 applyPFJEC	      1	           -                    -               -               -1	
 #                     JET          EVENT		      
-debug		      0		   1			-		-		-1
+debug		      0		   0			-		-		-1
 #                     DATA         MC
 ptUE		      2.525	   1.44			-		-		-1
 #
