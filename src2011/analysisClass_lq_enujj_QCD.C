@@ -626,6 +626,12 @@ void analysisClass::Loop()
      
        
      if ( passed_preselection ) { 
+
+       //--------------------------------------------------------------------------
+       // Fill skim tree, if necessary
+       //--------------------------------------------------------------------------
+       
+       // fillSkimTree();
        
        bool use_charged_met = (PFMETCharged < MET_Pt);
 
