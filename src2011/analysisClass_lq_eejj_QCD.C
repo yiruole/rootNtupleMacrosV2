@@ -695,7 +695,11 @@ void analysisClass::Loop()
   
      if ( passed_preselection ) {
 
-
+       //--------------------------------------------------------------------------
+       // Fill skim tree, if necessary
+       //--------------------------------------------------------------------------
+       
+       // fillSkimTree();
        
        double DR_Ele1Jet3 = 999.;
        double DR_Ele2Jet3 = 999.;

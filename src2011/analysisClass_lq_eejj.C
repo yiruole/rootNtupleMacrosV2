@@ -207,7 +207,7 @@ void analysisClass::Loop()
 
    CreateUserTH1D( "PileupWeight"   , 100, -10, 10 );
    CreateUserTH1D( "GeneratorWeight", 100, -2.0, 2.0);
-
+   
    //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
@@ -451,10 +451,16 @@ void analysisClass::Loop()
      
      if ( passed_preselection ) {
 
+       //--------------------------------------------------------------------------
+       // Fill skim tree, if necessary
+       //--------------------------------------------------------------------------
+       
+       // fillSkimTree();
+       
        bool isEB1 = ( fabs(Ele1_Eta) < eleEta_bar_max  ) ;
        bool isEE1 = ( fabs(Ele1_Eta) > eleEta_end_min &&
 		      fabs(Ele1_Eta) < eleEta_end_max ) ;
-
+       
        bool isEB2 = ( fabs(Ele2_Eta) < eleEta_bar_max  ) ;
        bool isEE2 = ( fabs(Ele2_Eta) > eleEta_end_min &&
 		      fabs(Ele2_Eta) < eleEta_end_max ) ;
@@ -663,6 +669,10 @@ void analysisClass::Loop()
 	 FillUserTH1D("Mej_selected_min_LQ850", M_ej_min, pileup_weight * gen_weight ) ;
 	 FillUserTH1D("sT_eejj_LQ850"         , sT_eejj , pileup_weight * gen_weight ) ;
 	 FillUserTH1D("Mee_LQ850"             , M_e1e2  , pileup_weight * gen_weight ) ;
+
+	 if ( isData ) {
+	   std::cout << "Run = " << run << ", event = " << event << ", LS = " << ls << std::endl;
+	 }
        }
      }
    } // End loop over events
