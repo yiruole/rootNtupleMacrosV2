@@ -7,9 +7,9 @@
   //TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO.root"); //MC (86k events)
 
   //2011 Selection (only two leading jets, deltaphi cut)
-  //TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel.root"); //DATA (22k events)
-  TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel.root"); //MC (86k events)
-  double Case=1;// DATA(0) , MC(1)
+  TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel.root"); //DATA (22k events)
+  //TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel.root"); //MC (86k events)
+  double Case=0;// DATA(0) , MC(1)
 
   //----------------------------------------------------------------------------------
 
@@ -80,9 +80,9 @@
   legend1.Draw();
 
   if(Case==0)
-    c1.SaveAs("DATA_MJJ_HLT_vs_RECO.gif");
+    c1.SaveAs("DATA_MJJ_HLT_vs_RECO.eps");
   else if(Case==1)
-    c1.SaveAs("MC_MJJ_HLT_vs_RECO.gif");
+    c1.SaveAs("MC_MJJ_HLT_vs_RECO.eps");
 
   TCanvas c2;
   h2Clone_FinalSelectionAgreement_recoY_vs_hltX->GetXaxis()->SetTitle("Pass HLT selection");
@@ -91,9 +91,9 @@
   h2Clone_FinalSelectionAgreement_recoY_vs_hltX->Draw("textcolz");
 
   if(Case==0)
-    c2.SaveAs("DATA_FinalSelectionAgreement.gif");
+    c2.SaveAs("DATA_FinalSelectionAgreement.eps");
   else if(Case==1)
-    c2.SaveAs("MC_FinalSelectionAgreement.gif");
+    c2.SaveAs("MC_FinalSelectionAgreement.eps");
 
   TCanvas c3;
   hClone_HLT_M_PFJet1PFJet2_MATCH->GetXaxis()->SetTitle("M(Jet1,Jet2) [GeV]");
@@ -111,12 +111,12 @@
   legend3.Draw();
 
   if(Case==0)
-    c3.SaveAs("DATA_MJJ_HLT_vs_RECO_MATCH.gif");
+    c3.SaveAs("DATA_MJJ_HLT_vs_RECO_MATCH.eps");
   else if(Case==1)
-    c3.SaveAs("MC_MJJ_HLT_vs_RECO_MATCH.gif");
+    c3.SaveAs("MC_MJJ_HLT_vs_RECO_MATCH.eps");
 
   TCanvas c4;
-  TF1 *f_gaus = new TF1("f_gaus","gaus",-0.2,0.2);
+  TF1 *f_gaus = new TF1("f_gaus","gaus",-0.1,0.1);
   f_gaus->SetLineColor(2);
   f_gaus->SetLineWidth(2);
   hClone_MassBias_MATCH->GetXaxis()->SetTitle("(M_{HLT} - M_{RECO}) / M_{RECO}");
@@ -125,14 +125,14 @@
   hClone_MassBias_MATCH->Draw();
 
   if(Case==0)
-    c4.SaveAs("DATA_MJJBias_MATCH.gif");
+    c4.SaveAs("DATA_MJJBias_MATCH.eps");
   else if(Case==1)
-    c4.SaveAs("MC_MJJBias_MATCH.gif");
+    c4.SaveAs("MC_MJJBias_MATCH.eps");
 
   TCanvas c5;
   c5->SetGridx();
   c5->SetGridy();
-  TF1 *f_pol0 = new TF1("f_pol0","pol0",50,1200);
+  TF1 *f_pol0 = new TF1("f_pol0","pol0",400,1300);
   f_pol0->SetLineColor(2);
   f_pol0->SetLineWidth(2);
   pClone_MassBias_MATCH_vs_Mreco->GetYaxis()->SetRangeUser(-0.1,0.1);
@@ -144,9 +144,9 @@
   pClone_MassBias_MATCH_vs_Mreco->Draw();
 
   if(Case==0)
-    c5.SaveAs("DATA_MJJBiasVsMJJ_MATCH.gif");
+    c5.SaveAs("DATA_MJJBiasVsMJJ_MATCH.eps");
   else if(Case==1)
-    c5.SaveAs("MC_MJJBiasVsMJJ_MATCH.gif");
+    c5.SaveAs("MC_MJJBiasVsMJJ_MATCH.eps");
 
   TCanvas c6;
   hClone_HLT_M_PFJet1PFJet2_MATCH_MassBiasMore0p2->GetXaxis()->SetTitle("M(Jet1,Jet2) [GeV]");
@@ -164,9 +164,9 @@
   legend6.Draw();
 
   if(Case==0)
-    c6.SaveAs("DATA_MJJBiasVsMJJ_MATCH_MassBiasMore0p2.gif");
+    c6.SaveAs("DATA_MJJ_HLT_vs_RECO_MATCH_MassBiasMore0p2.eps");
   else if(Case==1)
-    c6.SaveAs("MC_MJJBiasVsMJJ_MATCH_MassBiasMore0p2.gif");
+    c6.SaveAs("MC_MJJ_HLT_vs_RECO_MATCH_MassBiasMore0p2.eps");
 
   TCanvas c7;
   hClone_HLT_M_PFJet1PFJet2_HLT1_RECO0->GetXaxis()->SetTitle("M(Jet1,Jet2) [GeV]");
@@ -184,9 +184,9 @@
   legend7.Draw();
 
   if(Case==0)
-    c7.SaveAs("DATA_MJJ_HLT_HLT1_RECO0.gif");
+    c7.SaveAs("DATA_MJJ_HLT_HLT1_RECO0.eps");
   else if(Case==1)
-    c7.SaveAs("MC_MJJ_HLT_HLT1_RECO0.gif");
+    c7.SaveAs("MC_MJJ_HLT_HLT1_RECO0.eps");
 
   TCanvas c8;
   c8->SetGridx();
@@ -197,9 +197,9 @@
   hClone_FirstMismatch_HLT1_RECO0->Draw("HISTE");
 
   if(Case==0)
-    c8.SaveAs("DATA_FirstMismatch_HLT1_RECO0.gif");
+    c8.SaveAs("DATA_FirstMismatch_HLT1_RECO0.eps");
   else if(Case==1)
-    c8.SaveAs("MC_FirstMismatch_HLT1_RECO0.gif");
+    c8.SaveAs("MC_FirstMismatch_HLT1_RECO0.eps");
 
   TCanvas c9;
   c9->SetGridx();
@@ -210,9 +210,9 @@
   hClone_FirstMismatch_HLT0_RECO1->Draw("HISTE");
 
   if(Case==0)
-    c9.SaveAs("DATA_FirstMismatch_HLT0_RECO1.gif");
+    c9.SaveAs("DATA_FirstMismatch_HLT0_RECO1.eps");
   else if(Case==1)
-    c9.SaveAs("MC_FirstMismatch_HLT0_RECO1.gif");
+    c9.SaveAs("MC_FirstMismatch_HLT0_RECO1.eps");
 
   TCanvas c10;
   hClone_RECO_M_PFJet1PFJet2_HLT0_RECO1->GetXaxis()->SetTitle("M(Jet1,Jet2) [GeV]");
@@ -228,9 +228,9 @@
   legend10.Draw();
 
   if(Case==0)
-    c10.SaveAs("DATA_MJJ_RECO_HLT0_RECO1.gif");
+    c10.SaveAs("DATA_MJJ_RECO_HLT0_RECO1.eps");
   else if(Case==1)
-    c10.SaveAs("MC_MJJ_RECO_HLT0_RECO1.gif");
+    c10.SaveAs("MC_MJJ_RECO_HLT0_RECO1.eps");
 
   TCanvas c11;
   c11.Divide(3,2);
@@ -255,6 +255,7 @@
   hClone_RECOPFJetNConstituents_smallestDR_Pt30GeV_EtaL2p4->Draw("sames");
 
   c11.cd(4);
+  hClone_HLTPFJetChargedHadronEnergyFraction_smallestDR_Pt30GeV_EtaL2p4->GetYaxis()->SetRangeUser(0,hClone_RECOPFJetChargedHadronEnergyFraction_smallestDR_Pt30GeV_EtaL2p4->GetMaximum()*1.2);
   hClone_HLTPFJetChargedHadronEnergyFraction_smallestDR_Pt30GeV_EtaL2p4->SetLineColor(1);  
   hClone_RECOPFJetChargedHadronEnergyFraction_smallestDR_Pt30GeV_EtaL2p4->SetLineColor(2);  
   hClone_HLTPFJetChargedHadronEnergyFraction_smallestDR_Pt30GeV_EtaL2p4->Draw();
@@ -277,9 +278,9 @@
   hClone_RECOPFJetChargedEmEnergyFraction_smallestDR_Pt30GeV_EtaL2p4->Draw("sames");
 
   if(Case==0)
-    c11.SaveAs("DATA_JetID_HLT_vs_RECO.gif");
+    c11.SaveAs("DATA_JetID_HLT_vs_RECO.eps");
   else if(Case==1)
-    c11.SaveAs("MC_JetID_HLT_vs_RECO.gif");
+    c11.SaveAs("MC_JetID_HLT_vs_RECO.eps");
 
   TCanvas c12;
   c12.Divide(2,1);
@@ -333,9 +334,9 @@
   legend12_b.Draw();
 
   if(Case==0)
-    c12.SaveAs("DATA_JetPtBias_HLT_vs_RECO.gif");
+    c12.SaveAs("DATA_JetPtBias_HLT_vs_RECO.eps");
   else if(Case==1)
-    c12.SaveAs("MC_JetPtBias_HLT_vs_RECO.gif");
+    c12.SaveAs("MC_JetPtBias_HLT_vs_RECO.eps");
 
 
 }
