@@ -282,30 +282,34 @@ void analysisClass::Loop()
 
   CreateUserTH2D( "h2_FinalSelectionAgreement_recoY_vs_hltX"                                                , 2, -0.5, 1.5, 2, -0.5, 1.5 );
 
-  TH1D *h_FirstMismatch_HLT1_RECO0 = new TH1D ("h_FirstMismatch_HLT1_RECO0","h_FirstMismatch_HLT1_RECO0",7,-0.5,6.5);
+  TH1D *h_FirstMismatch_HLT1_RECO0 = new TH1D ("h_FirstMismatch_HLT1_RECO0","h_FirstMismatch_HLT1_RECO0",9,-0.5,8.5);
   h_FirstMismatch_HLT1_RECO0->Sumw2();
   h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(1,"Ev. Filter");
   h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(2,"Jet1Pt");
   h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(3,"Jet1Eta");
-  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(4,"Jet2Pt");
-  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(5,"Jet2Eta");
-  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(6,"DPhiJJ");
-  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(7,"DEtaJJ");
+  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(4,"Jet1ID");
+  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(5,"Jet2Pt");
+  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(6,"Jet2Eta");
+  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(7,"Jet2ID");
+  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(8,"DPhiJJ");
+  h_FirstMismatch_HLT1_RECO0->GetXaxis()->SetBinLabel(9,"DEtaJJ");
 
   CreateUserTH1D("h_HLT_M_PFJet1PFJet2_HLT1_RECO0", getHistoNBins("HLT_M_PFJet1PFJet2"), getHistoMin("HLT_M_PFJet1PFJet2"), getHistoMax("HLT_M_PFJet1PFJet2")  ) ; 
   CreateUserTH1D("h_RECO_M_PFJet1PFJet2_HLT1_RECO0",  getHistoNBins("RECO_M_PFJet1PFJet2"), getHistoMin("RECO_M_PFJet1PFJet2"), getHistoMax("RECO_M_PFJet1PFJet2")  ) ; 
   CreateUserTH1D("h_HLT_DPhi_PFJet1PFJet2_HLT1_RECO0", getHistoNBins("HLT_DPhi_PFJet1PFJet2"), getHistoMin("HLT_DPhi_PFJet1PFJet2"), getHistoMax("HLT_DPhi_PFJet1PFJet2")  ) ; 
   CreateUserTH1D("h_RECO_DPhi_PFJet1PFJet2_HLT1_RECO0",  getHistoNBins("RECO_DPhi_PFJet1PFJet2"), getHistoMin("RECO_DPhi_PFJet1PFJet2"), getHistoMax("RECO_DPhi_PFJet1PFJet2")  ) ; 
 
-  TH1D *h_FirstMismatch_HLT0_RECO1 = new TH1D ("h_FirstMismatch_HLT0_RECO1","h_FirstMismatch_HLT0_RECO1",7,-0.5,6.5);
+  TH1D *h_FirstMismatch_HLT0_RECO1 = new TH1D ("h_FirstMismatch_HLT0_RECO1","h_FirstMismatch_HLT0_RECO1",9,-0.5,8.5);
   h_FirstMismatch_HLT0_RECO1->Sumw2();
   h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(1,"Ev. Filter");
   h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(2,"Jet1Pt");
   h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(3,"Jet1Eta");
-  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(4,"Jet2Pt");
-  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(5,"Jet2Eta");
-  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(6,"DPhiJJ");
-  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(7,"DEtaJJ");
+  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(4,"Jet1ID");
+  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(5,"Jet2Pt");
+  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(6,"Jet2Eta");
+  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(7,"Jet2ID");
+  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(8,"DPhiJJ");
+  h_FirstMismatch_HLT0_RECO1->GetXaxis()->SetBinLabel(9,"DEtaJJ");
 
   CreateUserTH1D("h_HLT_M_PFJet1PFJet2_HLT0_RECO1", getHistoNBins("HLT_M_PFJet1PFJet2"), getHistoMin("HLT_M_PFJet1PFJet2"), getHistoMax("HLT_M_PFJet1PFJet2")  ) ; 
   CreateUserTH1D("h_RECO_M_PFJet1PFJet2_HLT0_RECO1",  getHistoNBins("RECO_M_PFJet1PFJet2"), getHistoMin("RECO_M_PFJet1PFJet2"), getHistoMax("RECO_M_PFJet1PFJet2")  ) ; 
@@ -1258,8 +1262,10 @@ void analysisClass::Loop()
 	int mismatch_filters = 0;
 	int mismatch_Jet1Pt = 0;
 	int mismatch_Jet1Eta = 0;
+	int mismatch_Jet1ID = 0;
 	int mismatch_Jet2Pt = 0;
 	int mismatch_Jet2Eta = 0;
+	int mismatch_Jet2ID = 0;
 	int mismatch_DPhi = 0;
 	int mismatch_DEta = 0;
 	
@@ -1272,11 +1278,17 @@ void analysisClass::Loop()
 	if( passedCut("HLT_PFJet1_Eta") != passedCut("RECO_PFJet1_Eta") )
 	  mismatch_Jet1Eta = 1;
 	
+	if( passedCut("HLT_PFJet1_PassJetID") != passedCut("RECO_PFJet1_PassJetID") )
+	  mismatch_Jet1ID = 1;
+
 	if( passedCut("HLT_PFJet2_Pt") != passedCut("RECO_PFJet2_Pt") )
 	  mismatch_Jet2Pt = 1;
 	
 	if( passedCut("HLT_PFJet2_Eta") != passedCut("RECO_PFJet2_Eta") )
 	  mismatch_Jet2Eta = 1;
+
+	if( passedCut("HLT_PFJet2_PassJetID") != passedCut("RECO_PFJet2_PassJetID") )
+	  mismatch_Jet2ID = 1;
 
 	if( passedCut("HLT_DPhi_PFJet1PFJet2") != passedCut("RECO_DPhi_PFJet1PFJet2") )
 	  mismatch_DPhi = 1;
@@ -1315,15 +1327,19 @@ void analysisClass::Loop()
 	  h_FirstMismatch_HLT1_RECO0->Fill(1);
 	if(mismatch_Jet1Eta==1 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT1_RECO0->Fill(2);
-	if(mismatch_Jet2Pt==1 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet1ID==1 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT1_RECO0->Fill(3);
-	if(mismatch_Jet2Eta==1 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet2Pt==1 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT1_RECO0->Fill(4);
-	if(mismatch_DPhi==1 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet2Eta==1 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT1_RECO0->Fill(5);
-	if(mismatch_DEta==1 && mismatch_DPhi==0 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet2ID==1 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	  h_FirstMismatch_HLT1_RECO0->Fill(6);
+	if(mismatch_DPhi==1 && mismatch_Jet2ID==0 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	  h_FirstMismatch_HLT1_RECO0->Fill(7);
+	if(mismatch_DEta==1 && mismatch_DPhi==0 && mismatch_Jet2ID==0 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  {
-	    h_FirstMismatch_HLT1_RECO0->Fill(6);
+	    h_FirstMismatch_HLT1_RECO0->Fill(8);
 	    if(debugEv)
 	      {
 		cout << "SelectionHLT1RECO0 -  Deta : RECO , HLT = " 
@@ -1343,8 +1359,10 @@ void analysisClass::Loop()
 	int mismatch_filters = 0;
 	int mismatch_Jet1Pt = 0;
 	int mismatch_Jet1Eta = 0;
+	int mismatch_Jet1ID = 0;
 	int mismatch_Jet2Pt = 0;
 	int mismatch_Jet2Eta = 0;
+	int mismatch_Jet2ID = 0;
 	int mismatch_DPhi = 0;
 	int mismatch_DEta = 0;
 	
@@ -1356,12 +1374,18 @@ void analysisClass::Loop()
 	
 	if( passedCut("HLT_PFJet1_Eta") != passedCut("RECO_PFJet1_Eta") )
 	  mismatch_Jet1Eta = 1;
+
+	if( passedCut("HLT_PFJet1_PassJetID") != passedCut("RECO_PFJet1_PassJetID") )
+	  mismatch_Jet1ID = 1;
 	
 	if( passedCut("HLT_PFJet2_Pt") != passedCut("RECO_PFJet2_Pt") )
 	  mismatch_Jet2Pt = 1;
 	
 	if( passedCut("HLT_PFJet2_Eta") != passedCut("RECO_PFJet2_Eta") )
 	  mismatch_Jet2Eta = 1;
+
+	if( passedCut("HLT_PFJet2_PassJetID") != passedCut("RECO_PFJet2_PassJetID") )
+	  mismatch_Jet2ID = 1;
 
 	if( passedCut("HLT_DPhi_PFJet1PFJet2") != passedCut("RECO_DPhi_PFJet1PFJet2") )
 	  mismatch_DPhi = 1;
@@ -1394,15 +1418,19 @@ void analysisClass::Loop()
 	  h_FirstMismatch_HLT0_RECO1->Fill(1);
 	if(mismatch_Jet1Eta==1 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT0_RECO1->Fill(2);
-	if(mismatch_Jet2Pt==1 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet1ID==1 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT0_RECO1->Fill(3);
-	if(mismatch_Jet2Eta==1 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet2Pt==1 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT0_RECO1->Fill(4);
-	if(mismatch_DPhi==1 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet2Eta==1 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  h_FirstMismatch_HLT0_RECO1->Fill(5);
-	if(mismatch_DEta==1 && mismatch_DPhi==0 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	if(mismatch_Jet2ID==1 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	  h_FirstMismatch_HLT0_RECO1->Fill(6);
+	if(mismatch_DPhi==1 && mismatch_Jet2ID==0 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
+	  h_FirstMismatch_HLT0_RECO1->Fill(7);
+	if(mismatch_DEta==1 && mismatch_DPhi==0 && mismatch_Jet2ID==0 && mismatch_Jet2Eta==0 && mismatch_Jet2Pt==0 && mismatch_Jet1ID==0 && mismatch_Jet1Eta==0 && mismatch_filters==0 && mismatch_Jet1Pt==0)
 	  {
-	    h_FirstMismatch_HLT0_RECO1->Fill(6);
+	    h_FirstMismatch_HLT0_RECO1->Fill(8);
 	    if(debugEv)
 	      {
 		cout << "SelectionHLT0RECO1 -  Deta : RECO , HLT = " 
