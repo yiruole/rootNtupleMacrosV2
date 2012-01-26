@@ -1345,6 +1345,21 @@ void analysisClass::Loop()
 		cout << "SelectionHLT1RECO0 -  Deta : RECO , HLT = " 
 		     << getVariableValue("RECO_DEta_PFJet1PFJet2") << " , " << getVariableValue("HLT_DEta_PFJet1PFJet2") 
 		     << endl;
+		
+		CreateAndFillUserTH1D("h_DEtaBias_PFJet1PFJet2_HLT1_RECO0_mismatch_deta", 100, 0, 10, fabs(getVariableValue("HLT_DEta_PFJet1PFJet2") - getVariableValue("RECO_DEta_PFJet1PFJet2")) );
+		CreateAndFillUserTH1D("h_HLT_N_PFJet_HLT1_RECO0_mismatch_deta", 51, -0.5, 50.5, v_idx_hltpfjet_PtEtaCut_ID.size() );
+
+// 		cout << "*** HLT ***" << endl;
+// 		for(int ijet=0; ijet<min(5,int(HLTPFJetCorrPt->size())); ijet++)
+// 		  {
+// 		    cout << ijet << " - PT,ETA,PHI: " <<  HLTPFJetCorrPt->at(ijet) << " , " <<  HLTPFJetEta->at(ijet) << " , " << HLTPFJetPhi->at(ijet) << endl; 
+// 		  }
+// 		cout << "*** RECO ***" << endl;
+// 		for(int ijet=0; ijet<min(5,int(PFJetPt->size())); ijet++)
+// 		  {
+// 		    cout << ijet << " - PT,ETA,PHI: " <<  PFJetPt->at(ijet) << " , " <<  PFJetEta->at(ijet) << " , " << PFJetPhi->at(ijet) << endl; 
+// 		  }
+
 	      }
 	  }
 
