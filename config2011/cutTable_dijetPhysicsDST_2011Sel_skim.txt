@@ -86,6 +86,11 @@ ls 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 orbit 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 run 				-inf	     +inf		-		-		0	100 0 100	      SAVE
 #
+ProcessID			-inf	     +inf		-		-		0	1000 0 1000	      SAVE
+is_gg				-inf	     +inf		-		-		0	2 -0.5 1.5	      SAVE
+is_qg				-inf	     +inf		-		-		0	2 -0.5 1.5	      SAVE
+is_qq				-inf	     +inf		-		-		0	2 -0.5 1.5	      SAVE
+#
 nVertex 			-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
 nVertex_good 			-inf	     +inf		-		-		0	51 -0.5 50.5	      SAVE
 Vertex1_X                       -inf	     +inf		-		-		0	100 -50 50	      SAVE

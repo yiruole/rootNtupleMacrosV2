@@ -188,7 +188,7 @@ void analysisClass::Loop()
   ////// these lines may need to be updated.                                 /////
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) { // Begin of loop over events
-  //for (Long64_t jentry=0; jentry<1000;jentry++) { // Begin of loop over events
+  //for (Long64_t jentry=0; jentry<2000;jentry++) { // Begin of loop over events
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -458,6 +458,12 @@ void analysisClass::Loop()
     fillVariableWithValue( "ls", ls ) ;
     fillVariableWithValue( "orbit", orbit ) ;
     fillVariableWithValue( "run", run ) ;
+
+    // Gen Level Info
+    fillVariableWithValue( "ProcessID", 0 ) ;
+    fillVariableWithValue( "is_gg", 0 ) ;
+    fillVariableWithValue( "is_qg", 0 ) ;
+    fillVariableWithValue( "is_qq", 0 ) ;
     
     // Trigger (HLT)
     //     if(isData)
