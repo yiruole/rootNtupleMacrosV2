@@ -9,6 +9,7 @@
   //2011 Selection (only two leading jets, deltaphi cut)
   //TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel.root"); //DATA (22k events)
   //TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel_v2.root"); //DATA (22k events, added JetID in "first mismatch" plot)
+  //TFile file("/afs/cern.ch/user/s/santanas/scratch0/DiJets/rootNtupleAnalyzerV2/analysisClass_dijetPhysicsDST_2011Sel_HLTvsRECOcomparison.root"); //DATA (22k events, added JetID in "first mismatch" plot, jetmass bias)
   //TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel.root"); //MC (86k events)
   TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel_v2.root"); //MC (86k events, added JetID in "first mismatch" plot)
   double Case=1;// DATA(0) , MC(1)
@@ -62,6 +63,16 @@
   TH1D *hClone_PtBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3 = (TH1D*)file.Get( "h_PtBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3" )->Clone();
   TH1D *hClone_PtBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3 = (TH1D*)file.Get( "h_PtBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3" )->Clone();
 
+  /*
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3" )->Clone();
+  TH1D *hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3 = (TH1D*)file.Get( "h_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3" )->Clone();
+  */
 
 
   //--------------------------------------------------------------------
@@ -340,5 +351,62 @@
   else if(Case==1)
     c12.SaveAs("MC_JetPtBias_HLT_vs_RECO.eps");
 
+  /*
+  TCanvas c13;
+  c13.Divide(2,1);
+
+  c13.cd(1);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4->SetLineColor(1);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4->SetMarkerColor(1);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4->SetLineColor(2);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4->SetMarkerColor(2);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4->SetLineColor(3);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4->SetMarkerColor(3);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4->SetLineColor(4);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4->SetMarkerColor(4);
+
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4->DrawNormalized();
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4->DrawNormalized("sames");
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4->DrawNormalized("sames");
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4->DrawNormalized("sames");
+
+  TLegend legend12_a (0.35,0.65,0.75,0.85);
+  legend12_a.SetFillColor(kWhite);
+  legend12_a.SetMargin(0.2);
+  legend12_a.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4,"PT>10 GeV","pl");
+  legend12_a.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4,"PT>30 GeV","pl");
+  legend12_a.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4,"PT>50 GeV","pl");
+  legend12_a.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4,"PT>100 GeV","pl");
+  legend12_a.Draw();
+
+  c13.cd(2);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3->SetLineColor(1);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3->SetMarkerColor(1);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3->SetLineColor(2);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3->SetMarkerColor(2);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3->SetLineColor(3);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3->SetMarkerColor(3);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3->SetLineColor(4);
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3->SetMarkerColor(4);
+
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3->DrawNormalized();
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3->DrawNormalized("sames");
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3->DrawNormalized("sames");
+  hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3->DrawNormalized("sames");
+
+  TLegend legend12_b (0.35,0.65,0.75,0.85);
+  legend12_b.SetFillColor(kWhite);
+  legend12_b.SetMargin(0.2);
+  legend12_b.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3,"PT>10 GeV","pl");
+  legend12_b.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3,"PT>30 GeV","pl");
+  legend12_b.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3,"PT>50 GeV","pl");
+  legend12_b.AddEntry(hClone_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3,"PT>100 GeV","pl");
+  legend12_b.Draw();
+
+  if(Case==0)
+    c13.SaveAs("DATA_JetMassBias_HLT_vs_RECO.eps");
+  else if(Case==1)
+    c13.SaveAs("MC_JetMassBias_HLT_vs_RECO.eps");
+  */
 
 }
