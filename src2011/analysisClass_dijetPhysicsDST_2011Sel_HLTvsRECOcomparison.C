@@ -142,21 +142,29 @@ void analysisClass::Loop()
 
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"             ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"             ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"        ,    100, -1, 1      );
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"             ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"             ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"        ,    100, -1, 1      );
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"             ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"             ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"        ,    100, -1, 1      );
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"            ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"            ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"       ,    100, -1, 1      );
 
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"             ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"             ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"        ,    100, -1, 1      );
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"             ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"             ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"        ,    100, -1, 1      );
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"             ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"             ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"        ,    100, -1, 1      );
   CreateUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"            ,    200, 0, 10      );
   CreateUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"            ,    100, -1, 1      );
+  CreateUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"       ,    100, -1, 1      );
 
   CreateUserTH1D( "h_HLTPFJetNeutralHadronEnergyFraction_smallestDR_Pt30GeV_EtaL2p4"    , 100,  0, 1   );
   CreateUserTH1D( "h_HLTPFJetNeutralEmEnergyFraction_smallestDR_Pt30GeV_EtaL2p4"        , 100,  0, 1   );
@@ -507,12 +515,20 @@ void analysisClass::Loop()
 
 	double PtBias_reco_hlt = ( HLTPFJetPt->at(idx_hlt_min_DeltaR_fromreco) - recopfjetraw.Pt() ) / recopfjetraw.Pt();   
 
+	TLorentzVector theHLTjet; 
+	theHLTjet.SetPtEtaPhiE(HLTPFJetPt->at(idx_hlt_min_DeltaR_fromreco),
+			       HLTPFJetEta->at(idx_hlt_min_DeltaR_fromreco),
+			       HLTPFJetPhi->at(idx_hlt_min_DeltaR_fromreco),
+			       HLTPFJetEnergy->at(idx_hlt_min_DeltaR_fromreco) );		
+	double JetMassBias_reco_hlt = ( theHLTjet.M() - recopfjetraw.M() ) / recopfjetraw.M();	
+
 	if ( fabs( PFJetEta->at(irecojet) ) < 2.4 )
 	  {	    
 	    if ( PFJetPtRaw->at(irecojet) > 10 )
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"               ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"               ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt10GeV_EtaL2p4"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -523,6 +539,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt30GeV_EtaL2p4"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -674,6 +691,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt50GeV_EtaL2p4"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -684,6 +702,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt100GeV_EtaL2p4"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -697,6 +716,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt10GeV_Eta2p4_3"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -707,6 +727,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt30GeV_Eta2p4_3"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -731,6 +752,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt50GeV_Eta2p4_3"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
@@ -741,6 +763,7 @@ void analysisClass::Loop()
 	      {
 		FillUserTH1D( "h_DeltaR_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"             ,  min_DeltaR_reco_hlt  );
 		FillUserTH1D( "h_PtBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"             ,  PtBias_reco_hlt  );
+		FillUserTH1D( "h_JetMassBias_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"          ,  JetMassBias_reco_hlt );
 		FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassLooseID->at(irecojet) );
 		//FillUserTH2D( "h2_LooseJetIDAgreement_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"  ,  HLTPFJetPassLooseID->at(idx_hlt_min_DeltaR_fromreco) , passLooseID_recojet );
 		FillUserTH2D( "h2_TightJetIDAgreement_reco_hlt_smallestDR_Pt100GeV_Eta2p4_3"  ,  HLTPFJetPassTightID->at(idx_hlt_min_DeltaR_fromreco) , PFJetPassTightID->at(irecojet) );
