@@ -49,6 +49,7 @@ void analysisClass::Loop()
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
 
+
   //-----------------------------------------------------------------
   // Electron cut values
   //-----------------------------------------------------------------
@@ -126,6 +127,14 @@ void analysisClass::Loop()
   double eleUseEcalDrivenHeep32         = getPreCutValue1("eleUseEcalDrivenHeep32"    );
 
   //-----------------------------------------------------------------
+  // Vertex cut values
+  //-----------------------------------------------------------------
+
+  double vertexMinimumNDOF = getPreCutValue1("vertexMinimumNDOF");
+  double vertexMaxAbsZ     = getPreCutValue1("vertexMaxAbsZ");
+  double vertexMaxd0       = getPreCutValue1("vertexMaxd0");
+
+  //-----------------------------------------------------------------
   // Which algorithms to use?
   //-----------------------------------------------------------------
 
@@ -134,10 +143,36 @@ void analysisClass::Loop()
   //-----------------------------------------------------------------
   // Counters
   //-----------------------------------------------------------------
-
   int    N_probe_PassEleOffline = 0;
   int    N_probe_PassEleOfflineAndWP80 = 0;
   int    N_probe_PassEleOfflineAndTag = 0;  
+
+  int    N_probe_PassEleOffline_bar = 0;
+  int    N_probe_PassEleOfflineAndWP80_bar = 0;
+  int    N_probe_PassEleOfflineAndTag_bar = 0;  
+
+  int    N_probe_PassEleOffline_end = 0;
+  int    N_probe_PassEleOfflineAndWP80_end = 0;
+  int    N_probe_PassEleOfflineAndTag_end = 0;  
+
+  //Histograms
+  CreateUserTH1D("eta_recoEleMatchProbe_PassEleOffline", 50, -5, 5);
+  CreateUserTH1D("pt_recoEleMatchProbe_PassEleOffline", 40, 0, 200);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOffline", 50, 0, 50);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOffline_bar", 50, 0, 50);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOffline_end", 50, 0, 50);			
+
+  CreateUserTH1D("eta_recoEleMatchProbe_PassEleOfflineAndWP80", 50, -5, 5);
+  CreateUserTH1D("pt_recoEleMatchProbe_PassEleOfflineAndWP80", 40, 0, 200);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndWP80", 50, 0, 50);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndWP80_bar", 50, 0, 50);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndWP80_end", 50, 0, 50);			
+
+  CreateUserTH1D("eta_recoEleMatchProbe_PassEleOfflineAndTag", 50, -5, 5);
+  CreateUserTH1D("pt_recoEleMatchProbe_PassEleOfflineAndTag", 40, 0, 200);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndTag", 50, 0, 50);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndTag_bar", 50, 0, 50);			
+  CreateUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndTag_end", 50, 0, 50);			
 
   /*//------------------------------------------------------------------
    *
@@ -151,7 +186,7 @@ void analysisClass::Loop()
 
 
   Long64_t nentries = fChain->GetEntries();
-  //Long64_t nentries = 1000;
+  //Long64_t nentries = 100000;
   STDOUT("analysisClass::Loop(): nentries = " << nentries);
 
   Long64_t nbytes = 0, nb = 0;
@@ -352,6 +387,24 @@ void analysisClass::Loop()
 
     }
     
+
+    //-----------------------------------------------------------------
+    // Selection: vertices
+    //-----------------------------------------------------------------
+
+    vector<int> v_idx_vertex_good;
+    // loop over vertices
+    for(int ivertex = 0; ivertex<VertexChi2->size(); ivertex++){
+      if ( !(VertexIsFake->at(ivertex))
+    	   && VertexNDF->at(ivertex) > vertexMinimumNDOF
+    	   && fabs( VertexZ->at(ivertex) ) <= vertexMaxAbsZ
+    	   && fabs( VertexRho->at(ivertex) ) <= vertexMaxd0 )
+    	{
+    	  v_idx_vertex_good.push_back(ivertex);
+    	  //STDOUT("v_idx_vertex_good.size = "<< v_idx_vertex_good.size() );
+    	}
+    }
+
     //-----------------------------------------------------------------
     // Fill your single-object variables with values
     //-----------------------------------------------------------------
@@ -369,6 +422,10 @@ void analysisClass::Loop()
     fillVariableWithValue( "ls"       , ls         ) ;
     fillVariableWithValue( "orbit"    , orbit      ) ;
     fillVariableWithValue( "run"      , run        ) ;
+
+    // nVertex and pile-up
+    fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
+    fillVariableWithValue( "nVertex_good", v_idx_vertex_good.size() ) ;
 
     // Trigger (L1 and HLT)
     if(isData==true)
@@ -415,6 +472,7 @@ void analysisClass::Loop()
 
     //Basic Event Selection
     if( passedCut("PassJSON") 
+	&& passedCut("run")
 	&& passedCut("PassBPTX0") 
 	&& passedCut("PassBeamScraping") 
 	&& passedCut("PassPrimaryVertex")
@@ -433,6 +491,14 @@ void analysisClass::Loop()
 			       HLTEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilterPhi->at(iprobe),
 			       HLTEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilterEnergy->at(iprobe)
 			       );
+
+	    int isProbeBarrel = 0;
+	    int isProbeEndcap = 0;
+	    
+	    if( fabs( probe.Eta() ) < eleEta_bar )       isProbeBarrel = 1;
+	    if( fabs( probe.Eta() ) > eleEta_end_min &&
+		fabs( probe.Eta() ) < eleEta_end_max )   isProbeEndcap = 1;
+
 
 	    CreateAndFillUserTH1D("Pt_Probe", 200, 0, 200, probe.Pt() );
 
@@ -458,13 +524,14 @@ void analysisClass::Loop()
 
 		//Now we should have a good (tag-probe) pair
 
-
 		bool IsProbeMatchedWithOfflineEle = false;
 		bool IsProbeMatchedWithTriggerWP80 = false;
 		bool IsProbeMatchedWithTriggerTag = false;
 		bool IsTagMatchedWithOfflineEle = false;
 
 		//Loop over offline electrons
+		TLorentzVector RecoEleMatchedWithProbe;
+		TLorentzVector RecoEleMatchedWithTag;
 		for(int iele=0; iele<v_idx_ele_PtCut_IDISO_ANA.size(); iele++)
 		  {
 		    TLorentzVector ele;
@@ -477,11 +544,17 @@ void analysisClass::Loop()
 		    CreateAndFillUserTH1D("DR_ProbeVsEle", 100, 0, 10, probe.DeltaR(ele) );
 		    CreateAndFillUserTH1D("DR_TagVsEle", 100, 0, 10, tag.DeltaR(ele) );
 
-		    if( probe.DeltaR(ele) < 0.2 ) 
-		      IsProbeMatchedWithOfflineEle = true;
+		    if( probe.DeltaR(ele) < 0.2 )
+		      {
+			IsProbeMatchedWithOfflineEle = true;
+			RecoEleMatchedWithProbe = ele;
+		      }
 
 		    if( tag.DeltaR(ele) < 0.2 ) 
-		      IsTagMatchedWithOfflineEle = true;		    
+		      {
+			IsTagMatchedWithOfflineEle = true;		    
+			RecoEleMatchedWithTag = ele;
+		      }
 
 		  }
 
@@ -531,13 +604,59 @@ void analysisClass::Loop()
 		      {
 			CreateAndFillUserTH1D("Mass_TagProbeSystem_ForEfficiencyCalculation", 200, 0, 200, mass );
 
+			FillUserTH1D("eta_recoEleMatchProbe_PassEleOffline", RecoEleMatchedWithProbe.Eta() );
+			FillUserTH1D("pt_recoEleMatchProbe_PassEleOffline", RecoEleMatchedWithProbe.Pt() );			
+			FillUserTH1D("NPV_recoEleMatchProbe_PassEleOffline", getVariableValue("nVertex") );			
+
 			N_probe_PassEleOffline++;
-			
+			if( isProbeBarrel )
+			  {
+			    N_probe_PassEleOffline_bar++;
+			    FillUserTH1D("NPV_recoEleMatchProbe_PassEleOffline_bar", getVariableValue("nVertex") );			
+			  }
+			if( isProbeEndcap )
+			  {
+			    N_probe_PassEleOffline_end++;
+			    FillUserTH1D("NPV_recoEleMatchProbe_PassEleOffline_end", getVariableValue("nVertex") );			
+			  }			
+
 			if(IsProbeMatchedWithTriggerWP80)
-			  N_probe_PassEleOfflineAndWP80++;
+			  {
+			    FillUserTH1D("eta_recoEleMatchProbe_PassEleOfflineAndWP80", RecoEleMatchedWithProbe.Eta() );
+			    FillUserTH1D("pt_recoEleMatchProbe_PassEleOfflineAndWP80", RecoEleMatchedWithProbe.Pt() );			
+			    FillUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndWP80", getVariableValue("nVertex") );			
+
+			    N_probe_PassEleOfflineAndWP80++;
+			    if( isProbeBarrel )
+			      {
+				N_probe_PassEleOfflineAndWP80_bar++;
+				FillUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndWP80_bar", getVariableValue("nVertex") );			
+			      }
+			    if( isProbeEndcap )
+			      {
+				N_probe_PassEleOfflineAndWP80_end++;
+				FillUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndWP80_end", getVariableValue("nVertex") );			
+			      }
+			  }
 			
 			if(IsProbeMatchedWithTriggerTag)
-			  N_probe_PassEleOfflineAndTag++;
+			  {
+			    FillUserTH1D("eta_recoEleMatchProbe_PassEleOfflineAndTag", RecoEleMatchedWithProbe.Eta() );
+			    FillUserTH1D("pt_recoEleMatchProbe_PassEleOfflineAndTag", RecoEleMatchedWithProbe.Pt() );			
+			    FillUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndTag", getVariableValue("nVertex") );			
+
+			    N_probe_PassEleOfflineAndTag++;
+			    if( isProbeBarrel )
+			      {
+				N_probe_PassEleOfflineAndTag_bar++;
+				FillUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndTag_bar", getVariableValue("nVertex") );			
+			      }
+			    if( isProbeEndcap )
+			      {
+				N_probe_PassEleOfflineAndTag_end++;
+				FillUserTH1D("NPV_recoEleMatchProbe_PassEleOfflineAndTag_end", getVariableValue("nVertex") );			
+			      }
+			  }
 			
 		      }//mass cut
 
@@ -580,12 +699,39 @@ void analysisClass::Loop()
   double eff_WP80 = double(N_probe_PassEleOfflineAndWP80)/double(N_probe_PassEleOffline);
   double eff_Tag = double(N_probe_PassEleOfflineAndTag)/double(N_probe_PassEleOffline);
 
+  cout << "*** ALL ***" << endl;
   cout << "N_probe_PassEleOffline: " << N_probe_PassEleOffline << endl;
   cout << "N_probe_PassEleOfflineAndWP80: " << N_probe_PassEleOfflineAndWP80 << endl;
   cout << "N_probe_PassEleOfflineAndTag: " << N_probe_PassEleOfflineAndTag << endl;
   cout << endl;
   cout << "eff_WP80: " << eff_WP80 << " +/- " << sqrt(eff_WP80 * (1- eff_WP80) / N_probe_PassEleOffline ) << endl;  
   cout << "eff_Tag: " << eff_Tag << " +/- " << sqrt(eff_Tag * (1- eff_Tag) / N_probe_PassEleOffline ) << endl;  
+  cout << endl;
+
+  double eff_WP80_bar = double(N_probe_PassEleOfflineAndWP80_bar)/double(N_probe_PassEleOffline_bar);
+  double eff_Tag_bar = double(N_probe_PassEleOfflineAndTag_bar)/double(N_probe_PassEleOffline_bar);
+
+  cout << "*** BARREL ***" << endl;
+  cout << "N_probe_PassEleOffline_bar: " << N_probe_PassEleOffline_bar << endl;
+  cout << "N_probe_PassEleOfflineAndWP80_bar: " << N_probe_PassEleOfflineAndWP80_bar << endl;
+  cout << "N_probe_PassEleOfflineAndTag_bar: " << N_probe_PassEleOfflineAndTag_bar << endl;
+  cout << endl;
+  cout << "eff_WP80_bar: " << eff_WP80_bar << " +/- " << sqrt(eff_WP80_bar * (1- eff_WP80_bar) / N_probe_PassEleOffline_bar ) << endl;  
+  cout << "eff_Tag_bar: " << eff_Tag_bar << " +/- " << sqrt(eff_Tag_bar * (1- eff_Tag_bar) / N_probe_PassEleOffline_bar ) << endl;  
+  cout << endl;
+
+  double eff_WP80_end = double(N_probe_PassEleOfflineAndWP80_end)/double(N_probe_PassEleOffline_end);
+  double eff_Tag_end = double(N_probe_PassEleOfflineAndTag_end)/double(N_probe_PassEleOffline_end);
+
+  cout << "*** ENDCAP ***" << endl;
+  cout << "N_probe_PassEleOffline_end: " << N_probe_PassEleOffline_end << endl;
+  cout << "N_probe_PassEleOfflineAndWP80_end: " << N_probe_PassEleOfflineAndWP80_end << endl;
+  cout << "N_probe_PassEleOfflineAndTag_end: " << N_probe_PassEleOfflineAndTag_end << endl;
+  cout << endl;
+  cout << "eff_WP80_end: " << eff_WP80_end << " +/- " << sqrt(eff_WP80_end * (1- eff_WP80_end) / N_probe_PassEleOffline_end ) << endl;  
+  cout << "eff_Tag_end: " << eff_Tag_end << " +/- " << sqrt(eff_Tag_end * (1- eff_Tag_end) / N_probe_PassEleOffline_end ) << endl;  
+  cout << endl;
+
 
   STDOUT("analysisClass::Loop() ends");
 }
