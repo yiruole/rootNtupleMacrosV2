@@ -507,7 +507,7 @@ void analysisClass::Loop()
      // 1st JET variables                                     		           
      fillVariableWithValue(   "nJet"                     , nJetLooseEle_Ana        , min_prescale * fakeRate );
 			
-     double MT_Jet1MET, MT_Jet2MET;						           
+     double MT_Jet1MET, MT_Jet2MET, MT_Ele1Jet1, MT_Ele1Jet2;					           
      // 1st JET variables                                     		           
      if ( nJetLooseEle_Ana > 0 ) { 						           
        fillVariableWithValue( "Jet1_Pt"                  , JetLooseEle1_Pt         , min_prescale * fakeRate );
@@ -545,11 +545,28 @@ void analysisClass::Loop()
      // 1 electron, 1 jet variables 
      if ( nEle_QCDFake > 0 && nJet_Ana > 0 ) { 
        fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             , min_prescale * fakeRate );
+
+
+       TVector2 v_ele;
+       TVector2 v_jet1;
+       v_ele .SetMagPhi ( QCDFakeEle1_Pt, QCDFakeEle1_Phi );
+       v_jet1.SetMagPhi ( JetLooseEle1_Pt, JetLooseEle1_Phi );
+       float deltaphi = v_ele.DeltaPhi ( v_jet1 );
+       MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle1_Pt * QCDFakeEle1_Pt * ( 1 - cos ( deltaphi ) ) );
+
      }
 
      // 1 electron, 2 jet variables 
      if ( nEle_QCDFake > 0 && nJet_Ana > 1 ) { 
        fillVariableWithValue ( "DR_Ele1Jet2"             , DR_Ele1Jet2             , min_prescale * fakeRate );
+       
+       TVector2 v_ele;
+       TVector2 v_jet2;
+       v_ele .SetMagPhi ( QCDFakeEle1_Pt, QCDFakeEle1_Phi );
+       v_jet2.SetMagPhi ( JetLooseEle2_Pt, JetLooseEle2_Phi );
+       float deltaphi = v_ele.DeltaPhi ( v_jet2 );
+       MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle2_Pt * QCDFakeEle1_Pt * ( 1 - cos ( deltaphi ) ) );
+
      }
      
      // Dummy variables
@@ -559,7 +576,7 @@ void analysisClass::Loop()
      double MT_JetMET;
      double Mej;
      
-     if ( fabs(MT_Jet1MET - M_e1j2) < fabs (MT_Jet2MET - M_e2j1) ){
+     if ( fabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 )){
        MT_JetMET = MT_Jet1MET;
        Mej = M_e1j2;
      } else { 
@@ -780,7 +797,7 @@ void analysisClass::Loop()
        if ( passed_550 ) {	    	        
 	 FillUserTH1D( "MET_LQ550"  , MET_Pt    , pileup_weight * min_prescale * fakeRate  ) ;
 	 FillUserTH1D( "sT_LQ550"   , sT_enujj  , pileup_weight * min_prescale * fakeRate  ) ;
-	 FillUserTH1D( "Mej_LQ550"  , MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
+	 FillUserTH1D( "Mej_LQ550"  , Mej       , pileup_weight * min_prescale * fakeRate  ) ;
 	 FillUserTH1D( "MTjnu_LQ550", MT_JetMET , pileup_weight * min_prescale * fakeRate  ) ;
        }			    	        
 				    	        

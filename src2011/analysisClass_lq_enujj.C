@@ -320,7 +320,7 @@ void analysisClass::Loop()
      // 1st JET variables                                     		           
      fillVariableWithValue(   "nJet"                     , nJet_Ana                , gen_weight );
 				
-     double MT_Jet1MET, MT_Jet2MET;
+     double MT_Jet1MET, MT_Jet2MET, MT_Ele1Jet1, MT_Ele1Jet2;
      // 1st JET variables                                     		           
      if ( nJet_Stored > 0 ) { 						           
        fillVariableWithValue( "Jet1_Pt"                  , Jet1_Pt                 , gen_weight );
@@ -358,21 +358,38 @@ void analysisClass::Loop()
      // 1 electron, 1 jet variables 
      if ( nEle_Ana > 0 && nJet_Ana > 0 ) { 
        fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             , gen_weight );
+
+       TVector2 v_ele;
+       TVector2 v_jet1;
+       v_ele .SetMagPhi ( Ele1_Pt, Ele1_Phi );
+       v_jet1.SetMagPhi ( Jet1_Pt, Jet1_Phi );
+       float deltaphi = v_ele.DeltaPhi ( v_jet1 );
+       MT_Ele1Jet1 = sqrt ( 2 * Jet1_Pt * Ele1_Pt * ( 1 - cos ( deltaphi ) ) );
      }
 
      // 1 electron, 2 jet variables 
      if ( nEle_Ana > 0 && nJet_Ana > 1 ) { 
        fillVariableWithValue ( "DR_Ele1Jet2"             , DR_Ele1Jet2             , gen_weight );
+
+       TVector2 v_ele;
+       TVector2 v_jet2;
+       v_ele .SetMagPhi ( Ele1_Pt, Ele1_Phi );
+       v_jet2.SetMagPhi ( Jet2_Pt, Jet2_Phi );
+       float deltaphi = v_ele.DeltaPhi ( v_jet2 );
+       MT_Ele1Jet2 = sqrt ( 2 * Jet2_Pt * Ele1_Pt * ( 1 - cos ( deltaphi ) ) );
      }
 
      double MT_JetMET;
+     double MT_EleJet;
      double Mej;
      
-     if ( fabs(MT_Jet1MET - M_e1j2) < fabs (MT_Jet2MET - M_e2j1) ){
+     if ( fabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 )){
        MT_JetMET = MT_Jet1MET;
+       MT_EleJet = MT_Ele1Jet2;
        Mej = M_e1j2;
      } else { 
        MT_JetMET = MT_Jet2MET;
+       MT_EleJet = MT_Ele1Jet1;
        Mej = M_e1j1;
      }	 
      
@@ -452,8 +469,6 @@ void analysisClass::Loop()
        //--------------------------------------------------------------------------
        // Fill skim tree, if necessary
        //--------------------------------------------------------------------------
-       
-       // fillSkimTree();
 
        bool use_charged_met = (PFMETCharged < MET_Pt);
 
@@ -603,7 +618,7 @@ void analysisClass::Loop()
        if ( passed_550 ) {	    	        
 	 FillUserTH1D( "MET_LQ550"  , MET_Pt    , pileup_weight * gen_weight ) ;
 	 FillUserTH1D( "sT_LQ550"   , sT_enujj  , pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "Mej_LQ550"  , MT_JetMET , pileup_weight * gen_weight ) ;
+	 FillUserTH1D( "Mej_LQ550"  , Mej       , pileup_weight * gen_weight ) ;
 	 FillUserTH1D( "MTjnu_LQ550", MT_JetMET , pileup_weight * gen_weight ) ;
        }			    	        
 				    	        
@@ -633,6 +648,24 @@ void analysisClass::Loop()
 	 FillUserTH1D( "sT_LQ850"   , sT_enujj  , pileup_weight * gen_weight ) ;
 	 FillUserTH1D( "Mej_LQ850"  , Mej       , pileup_weight * gen_weight ) ;
 	 FillUserTH1D( "MTjnu_LQ850", MT_JetMET , pileup_weight * gen_weight ) ;
+
+	 if ( isData ) { 
+	   
+	   std::cout.precision(0);
+	   std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
+	   std::cout.precision(3);
+	   std::cout << fixed <<  "  Mej     = " << Mej << std::endl;
+	   std::cout << fixed <<  "  MTjnu   = " << MT_JetMET << std::endl;
+	   std::cout << fixed <<  "  MTej    = " << MT_EleJet << std::endl;
+	   std::cout << fixed <<  "  sT      = " << sT_enujj << std::endl;
+	   std::cout << fixed <<  "  Ele Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+	   std::cout << fixed <<  "  Jet1 Pt = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+	   std::cout << fixed <<  "  Jet2 Pt = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
+	   std::cout << fixed <<  "  MET     = " << MET_Pt  << "\t, Phi = " << MET_Phi  << std::endl;
+
+	   // fillSkimTree();
+	 }
+
        }
      }
    } // End loop over events
