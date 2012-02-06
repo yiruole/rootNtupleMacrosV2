@@ -24,6 +24,8 @@ JSON /afs/cern.ch/user/s/santanas/public/GoodLumiSummary_20111104_140216_json.tx
 #VariableName         value1            value2          value3          value4          level
 #------------         ------------      -------------   ------------    -------------   -----
 #produceSkim          1                 -               -               -               -1
+printMass	      1			-		-		-		-1
+nominalSignalMass     500		-		-		-		-1	      
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
