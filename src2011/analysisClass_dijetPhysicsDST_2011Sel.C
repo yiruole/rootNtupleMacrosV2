@@ -77,15 +77,15 @@ void analysisClass::Loop()
  		   getHistoMax("M_FatPFJet1FatPFJet2")     ) ; 
 
    //Shifted in 0.3 - 1.3 range (divided by nominal signal mass)
-   CreateUserTH1D( "M_PFJet1PFJet2_shifted"	  , 
- 		   50, 
- 		   0.3, 
- 		   1.3  ) ; 
-   CreateUserTH1D( "M_FatPFJet1FatPFJet2_shifted"   , 
- 		   50, 
- 		   0.3, 
- 		   1.3  ) ; 
-     
+   CreateUserTH1D( "M_PFJet1PFJet2_shifted_1"	  , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_shifted_1"   , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_shifted_2"	  , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_shifted_2"   , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_shifted_3"	  , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_shifted_3"   , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_PFJet1PFJet2_shifted_4"	  , 50, 0.3, 1.3  ) ; 
+   CreateUserTH1D( "M_FatPFJet1FatPFJet2_shifted_4"   , 50, 0.3, 1.3  ) ; 
+   
    Double_t massBins[84] = {1, 3, 6, 10, 16, 23, 31, 40, 50, 61, 74, 88, 103, 119, 137, 156, 176, 197, 220, 244, 270, 296, 325, 354, 386, 419, 453, 489, 526, 565, 606, 649, 693, 740, 788, 838, 890, 944, 1000, 1058, 1118, 1181, 1246, 1313, 1383, 1455, 1530, 1607, 1687, 1770, 1856, 1945, 2037, 2132, 2231, 2332, 2438, 2546, 2659, 2775, 2895, 3019, 3147, 3279, 3416, 3558, 3704, 3854, 4010, 4171, 4337, 4509, 4686, 4869, 5058, 5253, 5455, 5663, 5877, 6099, 6328, 6564, 6808, 7000};
    
    TH1D *M_PFJet1PFJet2_VarBin = new TH1D ("M_PFJet1PFJet2_VarBin","M_PFJet1PFJet2_VarBin",83,massBins);
@@ -118,7 +118,10 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
 
    double printMass = getPreCutValue1("printMass");
-   double nominalSignalMass = getPreCutValue1("nominalSignalMass");
+   double nominalSignalMass1 = getPreCutValue1("nominalSignalMass");
+   double nominalSignalMass2 = getPreCutValue2("nominalSignalMass");
+   double nominalSignalMass3 = getPreCutValue3("nominalSignalMass");
+   double nominalSignalMass4 = getPreCutValue4("nominalSignalMass");
 
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -261,7 +264,10 @@ void analysisClass::Loop()
 
 	 if(!isData)
 	   {
-	     FillUserTH1D( "M_PFJet1PFJet2_shifted" , getVariableValue("M_PFJet1PFJet2") / nominalSignalMass ); 	     
+	     FillUserTH1D( "M_PFJet1PFJet2_shifted_1" , getVariableValue("M_PFJet1PFJet2") / nominalSignalMass1 ); 	     
+	     FillUserTH1D( "M_PFJet1PFJet2_shifted_2" , getVariableValue("M_PFJet1PFJet2") / nominalSignalMass2 ); 	     
+	     FillUserTH1D( "M_PFJet1PFJet2_shifted_3" , getVariableValue("M_PFJet1PFJet2") / nominalSignalMass3 ); 	     
+	     FillUserTH1D( "M_PFJet1PFJet2_shifted_4" , getVariableValue("M_PFJet1PFJet2") / nominalSignalMass4 ); 	     
 	   }
 
 	 if( getVariableValue("nVertex_good") < 5 )
@@ -302,7 +308,10 @@ void analysisClass::Loop()
 
 	 if(!isData)
 	   {
-	     FillUserTH1D( "M_FatPFJet1FatPFJet2_shifted"  , getVariableValue("M_FatPFJet1FatPFJet2") / nominalSignalMass ); 
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_shifted_1"  , getVariableValue("M_FatPFJet1FatPFJet2") / nominalSignalMass1 ); 
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_shifted_2"  , getVariableValue("M_FatPFJet1FatPFJet2") / nominalSignalMass2 ); 
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_shifted_3"  , getVariableValue("M_FatPFJet1FatPFJet2") / nominalSignalMass3 ); 
+	     FillUserTH1D( "M_FatPFJet1FatPFJet2_shifted_4"  , getVariableValue("M_FatPFJet1FatPFJet2") / nominalSignalMass4 ); 
 	   }
 
 	 if( getVariableValue("nVertex_good") < 5 )
