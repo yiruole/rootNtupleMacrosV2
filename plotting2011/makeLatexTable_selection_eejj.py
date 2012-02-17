@@ -22,16 +22,17 @@ def getCutDict ( file_name ) :
 
     return d_cutName_cutData
 
-dat_file_name     = os.environ["LQDATA"]+"/eejj_analysis/eejj/scaled_output_cutTable_lq_eejj/analysisClass_lq_eejj_tables.dat"
+dat_file_name     = os.environ["LQDATA"]+"eejj_analysis/eejj/WZSherpa_scaled_output_cutTable_lq_eejj/analysisClass_lq_eejj_tables.dat"
 
 dat_file = open ( dat_file_name, "r" ) 
 
 d_cutName_cutTitle = { "sT_eejj":"S_{T}^{ee} > (GeV)",
-                       "M_e1e2":"M_{ee} > (GeV)",
+                       "M_e1e2":"M(e,e) > (GeV)",
                        "min_M_ej":"minM(e,jet) > (GeV)" }
 
 cutNames = [ "sT_eejj",
-             "min_M_ej" ]
+             "min_M_ej",
+             "M_e1e2"]
 
 
 LQ_masses = [ 

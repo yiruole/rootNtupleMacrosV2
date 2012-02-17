@@ -22,7 +22,7 @@ def getCutDict ( file_name ) :
 
     return d_cutName_cutData
 
-dat_file_name     = os.environ["LQDATA"]+"/enujj_analysis/enujj/scaled_output_cutTable_lq_enujj/analysisClass_lq_enujj_tables.dat"
+dat_file_name     = os.environ["LQDATA"]+"/enujj_analysis/enujj/WZSherpa_scaled_output_cutTable_lq_enujj/analysisClass_lq_enujj_tables.dat"
 
 dat_file = open ( dat_file_name, "r" ) 
 
