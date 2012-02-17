@@ -132,6 +132,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "nVertex_good_PAS"      ,    31   , -0.5   , 30.5	 ) ; 
    
    CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 200, 40, 140 );
 
    CreateUserTH1D( "run_PAS"               ,    20000 , 160300  , 180300 );
    CreateUserTH1D( "run_HLT"               ,    20000 , 160300  , 180300 );
@@ -553,6 +554,10 @@ void analysisClass::Loop()
        
        if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
 	 FillUserTH1D( "MTenu_50_110", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+	 if ( nJet_Ana <= 4 ){ 
+	   FillUserTH1D(   "MTenu_50_110_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+	 }
        }
        
        if ( nVertex_good >= 0 && nVertex_good <= 3 ) {
@@ -651,19 +656,59 @@ void analysisClass::Loop()
 
 	 if ( isData ) { 
 	   
+	   /*
 	   std::cout.precision(0);
 	   std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
 	   std::cout.precision(3);
-	   std::cout << fixed <<  "  Mej     = " << Mej << std::endl;
-	   std::cout << fixed <<  "  MTjnu   = " << MT_JetMET << std::endl;
-	   std::cout << fixed <<  "  MTej    = " << MT_EleJet << std::endl;
-	   std::cout << fixed <<  "  sT      = " << sT_enujj << std::endl;
-	   std::cout << fixed <<  "  Ele Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
-	   std::cout << fixed <<  "  Jet1 Pt = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
-	   std::cout << fixed <<  "  Jet2 Pt = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
-	   std::cout << fixed <<  "  MET     = " << MET_Pt  << "\t, Phi = " << MET_Phi  << std::endl;
+	   std::cout << fixed <<  "  Mej      = " << Mej << std::endl;
+	   std::cout << fixed <<  "  MTjnu    = " << MT_JetMET << std::endl;
+	   std::cout << fixed <<  "  MTej     = " << MT_EleJet << std::endl;
+	   std::cout << fixed <<  "  MTenu    = " << MT_Ele1MET << std::endl;
+	   std::cout << fixed <<  "  sT       = " << sT_enujj << std::endl;
+	   std::cout << fixed <<  "  Ele Pt   = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+	   std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+	   std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
+	   std::cout << fixed <<  "  MET      = " << MET_Pt  << "\t, Phi = " << MET_Phi  << std::endl;
+	   
+	   double mej_old, mej_new;
 
+	   if ( fabs(MT_Jet1MET - M_e1j2) < fabs (MT_Jet2MET - M_e2j1) ){
+	     std::cout << "  Old matching method chooses Mej = Me1j2 (" << M_e1j2 << ")\t, MTjnu = MTj1nu (" << MT_Jet1MET << ")";
+	     mej_old = M_e1j2;
+	     if ( M_e1j2 > 510 ) std::cout << "\tOld Mej cut = 510: OLD PASS" << std::endl;
+	     else                std::cout << "\tOld Mej cut = 510: OLD FAIL" << std::endl;
+	   } else {
+	     mej_old = M_e1j1;
+	     std::cout << "  Old matching method chooses Mej = Me1j1 (" << M_e1j1 << ")\t, MTjnu = MTj2nu (" << MT_Jet2MET << ")";
+	     if ( M_e1j1 > 510 ) std::cout << "\tOld Mej cut = 510: OLD PASS" << std::endl;
+	     else                std::cout << "\tOld Mej cut = 510: OLD FAIL" << std::endl;
+	   }
+	   
+	   if ( fabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 )){
+	     mej_new = M_e1j2;
+	     std::cout << "  New matching method chooses Mej = Me1j2 (" << M_e1j2 << ")\t, MTjnu = MTj1nu (" << MT_Jet1MET << ")";
+	     if ( M_e1j2 > 540 ) std::cout << "\tNew Mej cut = 540: NEW PASS" << std::endl;
+	     else                std::cout << "\tNew Mej cut = 540: NEW FAIL" << std::endl;
+	   } else {
+	     mej_new = M_e1j1;
+	     std::cout << "  New matching method chooses Mej = Me1j1 (" << M_e1j1 << ")\t, MTjnu = MTj2nu (" << MT_Jet2MET << ")";
+	     if ( M_e1j1 > 540 ) std::cout << "\tNew Mej cut = 540: NEW PASS" << std::endl;
+	     else                std::cout << "\tNew Mej cut = 540: NEW FAIL" << std::endl;
+	   }
+
+	   std::cout.precision(0);
+
+	   std::cout << run << " & " << event << " & " << ls << " & " << mej_old << " & " << mej_new << " & ";
+	   
+	   if ( mej_old > 510. ) std::cout << " Yes & ";
+	   else                  std::cout << " No & ";
+
+	   if ( mej_new > 540. ) std::cout << " Yes \\ " << std::endl;
+	   else                  std::cout << " No \\ " << std::endl;
+	   
 	   // fillSkimTree();
+	   */
+	   
 	 }
 
        }
