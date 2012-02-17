@@ -149,7 +149,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTType1_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
    
    CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
-
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 200, 40, 140 );
    
    CreateUserTH1D( "MET_LQ250", 200, 0, 1000 );
    CreateUserTH1D( "MET_LQ350", 200, 0, 1000 );
@@ -648,8 +648,6 @@ void analysisClass::Loop()
        // Fill skim tree, if necessary
        //--------------------------------------------------------------------------
        
-       // fillSkimTree();
-       
        bool use_charged_met = (PFMETCharged < MET_Pt);
 
        if ( use_charged_met ) v_METCharged.SetMagPhi(PFMETCharged , PFMETChargedPhi );
@@ -732,6 +730,9 @@ void analysisClass::Loop()
 
        if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
 	 FillUserTH1D( "MTenu_50_110", MT_Ele1MET, pileup_weight * min_prescale * fakeRate ) ;
+	 if ( nJetLooseEle_Ana <= 4 ){
+	   FillUserTH1D(   "MTenu_50_110_Njet_lte4", MT_Ele1MET,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
        }
 
        if ( nVertex_good >= 0 && nVertex_good <= 3 ) {
