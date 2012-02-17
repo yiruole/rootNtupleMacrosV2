@@ -904,6 +904,14 @@ void analysisClass::Loop()
 	     FillUserTH1D( "Pass_End1_1Jet_DCotTheta1stEle_PAS" , QCDFakeEle1_DCotTheta          , pileup_weight * min_prescale );
 	     FillUserTH1D( "Pass_End1_1Jet_Dist1stEle_PAS"      , QCDFakeEle1_Dist               , pileup_weight * min_prescale );
 	     FillUserTH1D( "Pass_End1_1Jet_MET_PAS"             , MET_Pt                         , pileup_weight * min_prescale );
+
+
+	     // if ( ( QCDFakeEle1_Pt > 140.0 && 
+	     // 	    QCDFakeEle1_Pt < 170.0 ) ) {
+	     //   std::cout << "TRIGINFO Pass: min prescale = " << min_prescale << ", name = " << min_prescale_name << ", pt = " << QCDFakeEle1_Pt << ", run = " << run << ", event = " << event << "ls = "<< ls << std::endl;
+	     // 
+	     // }									  
+
 	   }
 
 	   if ( nJetLooseEle_Stored >= 2 ) {
