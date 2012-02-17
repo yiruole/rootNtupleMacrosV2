@@ -528,7 +528,6 @@ void analysisClass::Loop()
        fillVariableWithValue( "Ele2_Eta"                      , Ele2_Eta_new      , efficiency_weight ) ;
        fillVariableWithValue( "abs_Ele2_Eta"                  , fabs(Ele2_Eta_new), efficiency_weight ) ;
        fillVariableWithValue( "M_e1e2"                        , M_e1e2_new        , efficiency_weight ) ;
-       fillVariableWithValue( "M_e1e2_Final"                  , M_e1e2_new        , efficiency_weight ) ;
      }									    
 									    
      // Jets								    
@@ -569,6 +568,7 @@ void analysisClass::Loop()
        }
        
        fillVariableWithValue( "sT_eejj"                      , sT_eejj_new, efficiency_weight   ) ;
+       
        fillVariableWithValue( "sT_eejj_LQ250"                , sT_eejj_new, efficiency_weight   ) ;
        fillVariableWithValue( "sT_eejj_LQ350"                , sT_eejj_new, efficiency_weight   ) ;
        fillVariableWithValue( "sT_eejj_LQ400"                , sT_eejj_new, efficiency_weight   ) ;
@@ -579,6 +579,18 @@ void analysisClass::Loop()
        fillVariableWithValue( "sT_eejj_LQ650"                , sT_eejj_new, efficiency_weight   ) ;
        fillVariableWithValue( "sT_eejj_LQ750"                , sT_eejj_new, efficiency_weight   ) ;
        fillVariableWithValue( "sT_eejj_LQ850"                , sT_eejj_new, efficiency_weight   ) ;
+
+
+       fillVariableWithValue( "M_e1e2_LQ250"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ350"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ400"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ450"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ500"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ550"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ600"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ650"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ750"                , M_e1e2_new, efficiency_weight   ) ;
+       fillVariableWithValue( "M_e1e2_LQ850"                , M_e1e2_new, efficiency_weight   ) ;
        
        fillVariableWithValue( "min_M_ej_LQ250"               , M_ej_min, efficiency_weight  ) ;
        fillVariableWithValue( "min_M_ej_LQ350"               , M_ej_min, efficiency_weight  ) ;
@@ -739,16 +751,16 @@ void analysisClass::Loop()
        else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
        if      ( isEB   ) FillUserTH1D( "Mee_EB_PAS"  , M_e1e2_new, efficiency_weight * pileup_weight); 
 
-       if ( M_e1e2 > 80.0 && M_e1e2 < 100.0 ){
-	 FillUserTH1D("Mee_80_100_Preselection", M_e1e2, efficiency_weight * pileup_weight) ;
+       if ( M_e1e2_new > 80.0 && M_e1e2_new < 100.0 ){
+	 FillUserTH1D("Mee_80_100_Preselection", M_e1e2_new, efficiency_weight * pileup_weight) ;
 	 if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_80_100_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
 	 else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_80_100_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
 	 else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_80_100_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
 	 if      ( isEB   ) FillUserTH1D( "Mee_EB_80_100_PAS"  , M_e1e2_new, efficiency_weight * pileup_weight); 
        } 
 
-       if ( M_e1e2 > 70.0 && M_e1e2 < 110.0 ){
-	 FillUserTH1D("Mee_70_110_Preselection", M_e1e2, efficiency_weight * pileup_weight) ;
+       if ( M_e1e2_new > 70.0 && M_e1e2_new < 110.0 ){
+	 FillUserTH1D("Mee_70_110_Preselection", M_e1e2_new, efficiency_weight * pileup_weight) ;
 	 if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_70_110_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
 	 else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_70_110_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
 	 else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_70_110_PAS", M_e1e2_new, efficiency_weight * pileup_weight); 
