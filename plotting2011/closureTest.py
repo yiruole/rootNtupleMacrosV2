@@ -3,6 +3,8 @@ import sys,os, math
 import subprocess as sp
 from ROOT import *
 
+do_plots = True
+
 cej_data_dat_file_name = os.environ["LQDATA"] + "//eejj_analysis/QCDClosureTest_cej_DataAndMC/output_cutTable_lq_QCD_FakeRateClosureTest_cej_DataAndMC/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
 
 ccj_data_dat_file_name = os.environ["LQDATA"] + "/eejj_analysis/QCDClosureTest_ccj_DataOnly/output_cutTable_lq_QCD_FakeRateClosureTest_ccj_DataOnly/analysisClass_lq_QCD_FakeRateClosureTest_tables.dat"
@@ -68,8 +70,10 @@ def makePlots ( psfile, canvas, ccj_data_file, cej_mc_file , variable, xtitle, x
     
     fr_hist.SetLineColor(kBlue)
     fr_hist.SetMarkerColor(kBlue)
+    fr_hist.SetMarkerStyle(20)
     mc_hist.SetLineColor(kRed)
     mc_hist.SetMarkerColor(kRed)
+    mc_hist.SetMarkerStyle(23)
 
     legend = TLegend(xstart, ystart, xstart+hsize, ystart+vsize)
     legend.SetFillColor(kWhite)
@@ -117,10 +121,19 @@ def getDict ( file_name, data_name ) :
         
 
 variable_list , cej_allbkg_dict = getDict ( cej_data_dat_file_name , "ALLBKG" ) 
+print "1",  cej_allbkg_dict["sT_eej_200"][2], cej_allbkg_dict["sT_eej_200"][3]
+
 variable_list , cej_data_dict   = getDict ( cej_data_dat_file_name , "DATA"   ) 
+print "2",  cej_data_dict["sT_eej_200"][2], cej_data_dict["sT_eej_200"][3]
+
 variable_list , ccj_data_dict   = getDict ( ccj_data_dat_file_name  , "DATA"   ) 
+print "3",  ccj_data_dict["sT_eej_200"][2], ccj_data_dict["sT_eej_200"][3]
+
 variable_list , ccjp_data_dict  = getDict ( ccjp_data_dat_file_name, "DATA"   ) 
+print "4",  ccjp_data_dict["sT_eej_200"][2], ccjp_data_dict["sT_eej_200"][3]
+
 variable_list , ccjm_data_dict  = getDict ( ccjm_data_dat_file_name, "DATA"   ) 
+print "5",  ccjm_data_dict["sT_eej_200"][2], ccjm_data_dict["sT_eej_200"][3]
 
 tab_length = 7
 
@@ -198,38 +211,43 @@ latex_file.close()
 
 os.system ( "pdflatex " + latex_file_name ) 
 
-plot_file_name = "plots.ps"
-plot_file_pdf = plot_file_name.replace(".ps",".pdf")
+if do_plots:
 
-canvas = TCanvas("canvas","")
+    plot_file_name = "plots.ps"
+    plot_file_pdf = plot_file_name.replace(".ps",".pdf")
+    
+    canvas = TCanvas("canvas","")
+    
+    canvas.Print (plot_file_name + "[")
+    
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "sT_PAS" , "s_{T} (e_{1} p_{T} + e_{2} p_{T} + j_{1} p_{T}) [GeV] (preselection)"  , 0   , 2000 , 0.005, 10000000, 40, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Mee_PAS", "M(e_{1}, e_{2}) [GeV] (preselection)"                                  , 0   , 1000 , 0.005, 1000000 , 20, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Pt1stEle_PAS" , "1st electron p_{T} [GeV] (preselection)"                         , 0   , 1000 , 0.005, 1000000 , 10, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta1stEle_PAS", "1st electron #eta (preselection)"                                , -3.0, 3.0  , 0.005, 10000000, 10, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta1stEle_PAS", "1st electron #eta (preselection)"                                , -3.0, 3.0  , 0.005, 10000   , 10, False ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Pt2ndEle_PAS" , "2nd electron p_{T} [GeV] (preselection)"                         , 0   , 1000 , 0.005, 200000  , 10, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta2ndEle_PAS", "2nd electron #eta (preselection)"                                , -3.0, 3.0  , 0.005, 10000000, 10, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta2ndEle_PAS", "2nd electron #eta (preselection)"                                , -3.0, 3.0  , 0.005, 20000  , 10, False ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Pt1stJet_PAS" , "1st jet p_{T} [GeV] (preselection)"                              , 0   , 1000 , 0.005, 1000000 , 10, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta1stJet_PAS", "1st jet #eta (preselection)"                                     , -3.0, 3.0  , 0.005, 10000000, 10, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Me1j1_PAS"    , "M(e_{1}, j_{1}) [GeV] (preselection)"                            , 0   , 1000 , 0.005, 1000000  , 20, True ) 
+    makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Me2j1_PAS"    , "M(e_{2}, j_{1}) [GeV] (preselection)"                            , 0   , 1000 , 0.005, 1000000 , 20, True ) 
+    
+    canvas.Print (plot_file_name + "]")
 
-canvas.Print (plot_file_name + "[")
+    os.system ( "ps2pdf " + plot_file_name ) 
+    os.system ( "rm " + plot_file_name ) 
 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "sT_PAS" , "s_{T} (e_{1} p_{T} + e_{2} p_{T} + j_{1} p_{T}) [GeV] (preselection)"  , 0   , 2000 , 0.005, 10000000, 40, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Mee_PAS", "M(e_{1}, e_{2}) [GeV] (preselection)"                                  , 0   , 1000 , 0.005, 100000  , 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Pt1stEle_PAS" , "1st electron p_{T} [GeV] (preselection)"                         , 0   , 1000 , 0.005, 100000  , 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta1stEle_PAS", "1st electron #eta [GeV] (preselection)"                          , -3.0, 3.0  , 0.005, 10000000, 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta1stEle_PAS", "1st electron #eta [GeV] (preselection)"                          , -3.0, 3.0  , 0.005, 5000   , 10, False ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Pt2ndEle_PAS" , "2nd electron p_{T} [GeV] (preselection)"                         , 0   , 1000 , 0.005, 100000  , 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta2ndEle_PAS", "2nd electron #eta [GeV] (preselection)"                          , -3.0, 3.0  , 0.005, 10000000, 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Pt1stJet_PAS" , "1st jet p_{T} [GeV] (preselection)"                              , 0   , 1000 , 0.005, 100000  , 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Eta1stJet_PAS", "1st jet #eta [GeV] (preselection)"                               , -3.0, 3.0  , 0.005, 10000000, 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Me1j1_PAS"    , "M(e_{1}, j_{1}) [GeV] (preselection)"                            , 0   , 1000 , 0.005, 100000  , 10, True ) 
-makePlots ( plot_file_name, canvas, ccj_data_file_name, cej_mc_file_name , "Me2j1_PAS"    , "M(e_{2}, j_{1}) [GeV] (preselection)"                            , 0   , 1000 , 0.005, 100000  , 10, True ) 
-
-canvas.Print (plot_file_name + "]")
-
-os.system ( "ps2pdf " + plot_file_name ) 
-os.system ( "rm " + plot_file_name ) 
 
 #-----------------------------------------------------------------
 # Combine the PDFs
 #-----------------------------------------------------------------
 
-command = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=closureTest.pdf " + latex_file_pdf + " " + plot_file_pdf
+    command = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=closureTest.pdf " + latex_file_pdf + " " + plot_file_pdf
 
-os.system ( command ) 
+    os.system ( command ) 
 
-os.system ( "rm " + latex_file_pdf ) 
-os.system ( "rm " + plot_file_pdf ) 
+if do_plots: os.system ( "rm " + latex_file_pdf ) 
 os.system ( "rm *.aux *.tex *.log") 
+
+if do_plots: os.system ( "rm " + plot_file_pdf ) 
