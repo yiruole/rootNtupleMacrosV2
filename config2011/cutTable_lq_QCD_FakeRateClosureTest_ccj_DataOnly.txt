@@ -78,5 +78,6 @@ Jet1_Pt				30	     +inf		-		-		1	200 0 2000
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
 DR_Ele1Jet1			-inf	     +inf		-		-		1	100 0 10              
 DR_Ele2Jet1			-inf	     +inf		-		-		1	100 0 10              
-sT_eej	   	       		200	     +inf               -               -               1       200 0 2000	      		  
+sT_eej_200   	       		200	     +inf               -               -               1       200 0 2000	      		  
+sT_eej_450   	       		450	     +inf               -               -               1       200 0 2000	      		  
 Pt_e1e2				-inf	     +inf               -               -               1       200 0 2000	      
