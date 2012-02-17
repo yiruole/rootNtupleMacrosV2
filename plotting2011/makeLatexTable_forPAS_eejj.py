@@ -36,16 +36,17 @@ def getScale (sample_name, lumi, n_events):
 TTBarScale = 0.49
 QCDScale = 1.0
 
-dat_file_name     = os.environ["LQDATA"]+"/eejj_analysis/eejj/scaled_output_cutTable_lq_eejj/analysisClass_lq_eejj_tables.dat"
+dat_file_name     = os.environ["LQDATA"]+"/eejj_analysis/eejj/WZSherpa_scaled_output_cutTable_lq_eejj/analysisClass_lq_eejj_tables.dat"
 ttb_dat_file_name = os.environ["LQDATA"]+"/eejj_analysis/eejj-ttbar/output_cutTable_lq_eejj/analysisClass_lq_eejj_TTBar_tables.dat"
 qcd_dat_file_name = os.environ["LQDATA"]+"/eejj_analysis/eejj_qcd/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_tables.dat"
 
-w_n_events = float ( 75196243. ) 
-z_n_events = float ( 36005879. ) 
+w_n_events = float ( 75196243. )
+z_n_events = float ( 36005879. )
 lumi = float ( 4656. )
 
 wscale = getScale ("/WJetsToLNu_TuneZ2_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM"     , lumi, w_n_events ) 
 zscale = getScale ("/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM", lumi, z_n_events ) 
+print " wscale =", wscale
 
 LQ_masses = [ 
     250, 
