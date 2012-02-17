@@ -77,7 +77,24 @@ def generateAndAddHistoList( histoBaseName , samples , variableNames, fileName ,
 def generateHisto( histoBaseName , sample , variableName, fileName , scale = 1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
     histo = GetHisto(hname, fileName)
-    return histo
+    new = copy.deepcopy(histo)
+    if(scale!=1):
+        new.Scale(scale)
+    return new
+
+def generateIntegralHisto ( original_histo ) :
+    integral_histo = copy.deepcopy ( original_histo )
+    
+    n_bins = original_histo.GetNbinsX()
+
+    for ibin in range (0, n_bins + 1 ):
+        error = Double () 
+        integral = original_histo.IntegralAndError ( ibin, n_bins + 1, error ) 
+        integral_histo.SetBinContent ( ibin, integral ) 
+        integral_histo.SetBinError   ( ibin, error    ) 
+    
+    return integral_histo
+
 
 def generateAndAddHisto( histoBaseName , sample , variableNames, fileName , scale = 1):
     iv=0
@@ -205,8 +222,10 @@ class Plot:
     suffix = ""
     stackColorIndexes = []
     stackFillStyleIds = []
+    is_integral = False
 
     def Draw(self, fileps):
+
 
         self.histos = rebinHistos( self.histos, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
         self.histosStack = rebinHistos( self.histosStack, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl )
@@ -214,6 +233,24 @@ class Plot:
         self.histodata = resultArray[0]
         minBinW = resultArray[1]
 
+        if self.is_integral : 
+
+            integral_histoStack = []
+            integral_histos     = []
+            integral_histodata  = generateIntegralHisto ( self.histodata ) 
+
+            for histo in self.histosStack:
+                integral_histo = generateIntegralHisto ( histo ) 
+                integral_histoStack.append ( integral_histo ) 
+
+            for histo in self.histos:
+                integral_histo = generateIntegralHisto ( histo ) 
+                integral_histos.append ( integral_histo ) 
+                
+            self.histodata = integral_histodata
+            self.histosStack = integral_histoStack
+            self.histos = integral_histos
+            
         #-- create canvas
         canvas = TCanvas()
         stack = {}
@@ -258,6 +295,7 @@ class Plot:
                 fPads1.Draw()
                 fPads3.Draw()
                 
+
         #-- 1st pad
         fPads1.cd()
         #-- log scale
@@ -426,7 +464,7 @@ class Plot:
             l.DrawLatex(xstart-hsize+0,ystart+vsize-0.15,"#sqrt{s} = 7 TeV")
 #            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
 #            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.13,"#intLdt = " + self.lint)
-
+        
         legend.Draw()
         canvas.Update()
         gPad.RedrawAxis()
@@ -434,6 +472,7 @@ class Plot:
 
         #-- 2nd pad (ratio)
         if(self.makeRatio==1 or self.makeNSigma==1):
+
             h_bkgTot = copy.deepcopy(stack[0])
             h_ratio = copy.deepcopy(self.histodata)
             h_nsigma = copy.deepcopy(self.histodata)
@@ -446,7 +485,7 @@ class Plot:
                 length = len(xbinsFinal)-1
                 h_bkgTot1 = h_bkgTot.Rebin( length , "h_bkgTot1", xbinsFinal)
                 h_ratio1 = h_ratio.Rebin( length , "h_ratio1" , xbinsFinal)
-                h_nsigma1 = h_nsigma.Regin( length, "h_nsigma1", xbinsFinal)
+                h_nsigma1 = h_nsigma.Rebin( length, "h_nsigma1", xbinsFinal)
             else:
                 h_bkgTot1 = h_bkgTot
                 h_ratio1 = h_ratio
@@ -480,12 +519,14 @@ class Plot:
                 lineAtOne.Draw()
 
             if ( self.makeNSigma == 1 ):
+
                 fPads3.cd()
 
                 nsigma_x = []
                 nsigma_y = []
 
                 for ibin in range (0, h_nsigma1.GetNbinsX() + 1):
+
                     data  = h_nsigma1.GetBinContent (ibin)
                     bkgd  = h_bkgTot1.GetBinContent (ibin)
                     eData = h_nsigma1.GetBinError   (ibin)
@@ -495,44 +536,51 @@ class Plot:
 
                     diff   = data - bkgd
                     sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ))
+
                     if ( sigma != 0.0 and data != 0.0 ):
-                        nsigma_x.append ( x )
-                        nsigma_y.append ( diff / sigma )
+                        nsigma_x.append ( float (x ) )
+                        nsigma_y.append ( float (diff / sigma ) )
+                
+                    if len ( nsigma_x ) != 0 : 
+               		
+                        nsigma1_x = numpy.array ( nsigma_x ) 
+                        nsigma1_y = numpy.array ( nsigma_y ) 
 
-                nsigma1_x = numpy.array ( nsigma_x ) 
-                nsigma1_y = numpy.array ( nsigma_y ) 
+                        xmin = h_ratio.GetXaxis().GetXmin()
+                        xmax = h_ratio.GetXaxis().GetXmax()
 
-                xmin = h_ratio.GetXaxis().GetXmin()
-                xmax = h_ratio.GetXaxis().GetXmax()
+                        # if ( len ( nsigma_x ) == 0 ) continue
 
-                g_nsigma = TGraph ( len ( nsigma_x ) , nsigma1_x, nsigma1_y ) 
+                        g_nsigma = TGraph ( len ( nsigma_x ) , nsigma1_x, nsigma1_y ) 
 
-                g_nsigma.Draw("AP")
-                g_nsigma.SetMarkerStyle ( 8 )
-                g_nsigma.SetMarkerSize ( 0.4 )
+                        g_nsigma.Draw("AP")
+                        g_nsigma.SetMarkerStyle ( 8 )
 
-                g_nsigma.GetHistogram().GetXaxis().SetTitle("")
-                g_nsigma.GetHistogram().GetXaxis().SetTitleSize(0.06)
-                g_nsigma.GetHistogram().GetXaxis().SetLabelSize(0.1)
-                g_nsigma.GetHistogram().GetYaxis().SetRangeUser(-8.,8)
-                g_nsigma.GetHistogram().GetXaxis().SetLimits ( self.histodata.GetXaxis().GetXmin(), self.histodata.GetXaxis().GetXmax() )
-                g_nsigma.GetHistogram().GetYaxis().SetTitle("N(#sigma) Diff")
-                g_nsigma.GetHistogram().GetYaxis().SetLabelSize(0.1)
-                g_nsigma.GetHistogram().GetYaxis().SetTitleSize(0.13)
-                g_nsigma.GetHistogram().GetYaxis().SetTitleOffset(0.3)
+                        g_nsigma.SetMarkerSize ( 0.4 )
 
-                lineAtZero     = TLine(h_ratio.GetXaxis().GetXmin(),0 ,h_ratio.GetXaxis().GetXmax(),0 )
-                lineAtPlusTwo  = TLine(h_ratio.GetXaxis().GetXmin(),2 ,h_ratio.GetXaxis().GetXmax(),2 )
-                lineAtMinusTwo = TLine(h_ratio.GetXaxis().GetXmin(),-2,h_ratio.GetXaxis().GetXmax(),-2)
+                        g_nsigma.GetHistogram().GetXaxis().SetTitle("")
+                        g_nsigma.GetHistogram().GetXaxis().SetTitleSize(0.06)
+                        g_nsigma.GetHistogram().GetXaxis().SetLabelSize(0.1)
+                        g_nsigma.GetHistogram().GetYaxis().SetRangeUser(-8.,8)
+                        g_nsigma.GetHistogram().GetXaxis().SetLimits ( self.histodata.GetXaxis().GetXmin(), self.histodata.GetXaxis().GetXmax() )
 
-                lineAtZero    .SetLineColor(2) 
-                lineAtPlusTwo .SetLineColor(1) 
-                lineAtMinusTwo.SetLineColor(1) 
+                        g_nsigma.GetHistogram().GetYaxis().SetTitle("N(#sigma) Diff")
+                        g_nsigma.GetHistogram().GetYaxis().SetLabelSize(0.1)
+                        g_nsigma.GetHistogram().GetYaxis().SetTitleSize(0.13)
+                        g_nsigma.GetHistogram().GetYaxis().SetTitleOffset(0.3)
 
-                g_nsigma.Draw("AP")
-                lineAtZero.Draw("SAME")
-                lineAtPlusTwo .Draw("SAME")
-                lineAtMinusTwo.Draw("SAME")
+                        lineAtZero     = TLine(h_ratio.GetXaxis().GetXmin(),0 ,h_ratio.GetXaxis().GetXmax(),0 )
+                        lineAtPlusTwo  = TLine(h_ratio.GetXaxis().GetXmin(),2 ,h_ratio.GetXaxis().GetXmax(),2 )
+                        lineAtMinusTwo = TLine(h_ratio.GetXaxis().GetXmin(),-2,h_ratio.GetXaxis().GetXmax(),-2)
+
+                        lineAtZero    .SetLineColor(2) 
+                        lineAtPlusTwo .SetLineColor(1) 
+                        lineAtMinusTwo.SetLineColor(1) 
+
+                        g_nsigma.Draw("AP")
+                        lineAtZero.Draw("SAME")
+                        lineAtPlusTwo .Draw("SAME")
+                        lineAtMinusTwo.Draw("SAME")
 
         #-- end
         if self.suffix == "" : 
