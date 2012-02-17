@@ -348,7 +348,6 @@ void analysisClass::Loop()
        fillVariableWithValue( "Ele2_Eta"                      , Ele2_Eta    , gen_weight  ) ;
        fillVariableWithValue( "abs_Ele2_Eta"                  , fabs(Ele2_Eta), gen_weight  );
        fillVariableWithValue( "M_e1e2"                        , M_e1e2      , gen_weight  ) ;
-       fillVariableWithValue( "M_e1e2_Final"                  , M_e1e2      , gen_weight  ) ;
      }									    
 									    
      // Jets								    
@@ -393,6 +392,7 @@ void analysisClass::Loop()
        }
        
        fillVariableWithValue( "sT_eejj"                      , sT_eejj, gen_weight  ) ;
+
        fillVariableWithValue( "sT_eejj_LQ250"                , sT_eejj, gen_weight  ) ;
        fillVariableWithValue( "sT_eejj_LQ350"                , sT_eejj, gen_weight  ) ;
        fillVariableWithValue( "sT_eejj_LQ400"                , sT_eejj, gen_weight  ) ;
@@ -415,6 +415,18 @@ void analysisClass::Loop()
        fillVariableWithValue( "min_M_ej_LQ750"               , M_ej_min, gen_weight ) ;
        fillVariableWithValue( "min_M_ej_LQ850"               , M_ej_min, gen_weight ) ;
 
+
+       fillVariableWithValue( "M_e1e2_LQ250"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ350"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ400"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ450"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ500"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ550"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ600"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ650"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ750"                , M_e1e2, gen_weight  ) ;
+       fillVariableWithValue( "M_e1e2_LQ850"                , M_e1e2, gen_weight  ) ;
+       
      }      
 
      //--------------------------------------------------------------------------
@@ -448,14 +460,27 @@ void analysisClass::Loop()
      }
 
      bool passed_preselection = ( passedAllPreviousCuts("M_e1e2") && passedCut ("M_e1e2") );
+
+     /*
+     if ( isData ) {
+       std::cout.precision(0);
+       std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
+       std::cout.precision(3);
+       std::cout << fixed <<  "  Mej      = " << M_ej_avg << std::endl;
+       std::cout << fixed <<  "  Mee      = " << M_e1e2 << std::endl;
+       std::cout << fixed <<  "  sT       = " << sT_enujj << std::endl;
+       std::cout << fixed <<  "  Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+       std::cout << fixed <<  "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
+       std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+       std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
+     }
+     */
      
      if ( passed_preselection ) {
 
        //--------------------------------------------------------------------------
        // Fill skim tree, if necessary
        //--------------------------------------------------------------------------
-       
-       // fillSkimTree();
        
        bool isEB1 = ( fabs(Ele1_Eta) < eleEta_bar_max  ) ;
        bool isEE1 = ( fabs(Ele1_Eta) > eleEta_end_min &&
@@ -584,6 +609,7 @@ void analysisClass::Loop()
        // FillUserTH1D("MTeemunu_PAS"         , MT_eemuMET                        , pileup_weight * gen_weight );
 	      
        FillUserTH1D("Meejj_PAS", M_eejj , pileup_weight * gen_weight );
+
        
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
 	 FillUserTH1D("Mej_selected_avg_PAS", M_ej_avg, pileup_weight * gen_weight) ;	   
@@ -669,10 +695,6 @@ void analysisClass::Loop()
 	 FillUserTH1D("Mej_selected_min_LQ850", M_ej_min, pileup_weight * gen_weight ) ;
 	 FillUserTH1D("sT_eejj_LQ850"         , sT_eejj , pileup_weight * gen_weight ) ;
 	 FillUserTH1D("Mee_LQ850"             , M_e1e2  , pileup_weight * gen_weight ) ;
-
-	 if ( isData ) {
-	   std::cout << "Run = " << run << ", event = " << event << ", LS = " << ls << std::endl;
-	 }
        }
      }
    } // End loop over events
