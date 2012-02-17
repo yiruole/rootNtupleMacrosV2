@@ -36,7 +36,7 @@ def getScale (sample_name, lumi, n_events):
 TTBarScale = 0.49
 QCDScale = 1.0
 
-dat_file_name     = os.environ["LQDATA"]+"/enujj_analysis/enujj/scaled_output_cutTable_lq_enujj/analysisClass_lq_enujj_tables.dat"
+dat_file_name     = os.environ["LQDATA"]+"/enujj_analysis/enujj/ZTTBarScaledWScaled_output_cutTable_lq_enujj/analysisClass_lq_enujj_tables.dat"
 qcd_dat_file_name = os.environ["LQDATA"]+"/enujj_analysis/enujj_qcd/output_cutTable_lq_enujj/analysisClass_lq_enujj_QCD_tables.dat"
 
 w_n_events = float ( 75196243. ) 
