@@ -9,6 +9,8 @@ from math import sqrt
 # Define functions
 #--------------------------------------------------------------------------------------
 
+QCDScale = 1.0
+
 def printUsage() : 
     print "Usage: "
     print "  python makeLatexTable.py <.dat file> " 
@@ -52,9 +54,11 @@ if len ( sys.argv ) == 3 and not os.path.exists ( qcd_file_path ) :
 
 channel_names_to_include  = ["ZJet_Madgraph","PhotonJets"     ,"SingleTop" ,"DIBOSON"     ,"TTbar_Madgraph"   ,"WJet_Madgraph"]
 channel_titles_to_include = ["Z/Z* + jets"  ,"$\gamma$ + jets","single top","WW + WZ + ZZ","$t\\bar{t}$"      , "W/W* + jets" ]
+# channel_names_to_include  = ["ZJet_Sherpa"  ,"PhotonJets"     ,"SingleTop" ,"DIBOSON"     ,"TTbar_Madgraph"   ,"WJet_Sherpa"  ]
+# channel_titles_to_include = ["Z/Z* + jets"  ,"$\gamma$ + jets","single top","WW + WZ + ZZ","$t\\bar{t}$"      , "W/W* + jets" ]
 
 # channel_names_to_include  = ["TTbar_Madgraph"]
-# channel_titles_to_include = ["$t\\bar{t}$"   ]
+# channel_titles_to_include = ["$t\\bar{t}$"   ] 
 
 #-------------------------------------------------------
 # open file and scan contents
@@ -219,8 +223,8 @@ for i,row_name in enumerate(row_names):
             data     = int   ( channel_data[channel_name][row_name]["Npass"   ] / 1000.0 )
             eData    = int   ( channel_data[channel_name][row_name]["errNpass"] / 1000.0 )
         if channel_name == "QCD" : 
-            data     = int   ( channel_data[channel_name][row_name]["Npass"   ]  )
-            eData    = int   ( channel_data[channel_name][row_name]["errNpass"]  )
+            data     = int   ( channel_data[channel_name][row_name]["Npass"   ] * QCDScale )  
+            eData    = int   ( channel_data[channel_name][row_name]["errNpass"] * QCDScale ) 
         total_data = data + total_data
         total_eDataSqr = total_eDataSqr + ( eData * eData ) 
         if ( eData != 0 ) : line = line + " & $" + str( (data )) + "\pm"+ str( eData ) + "$"
@@ -235,6 +239,7 @@ for i,row_name in enumerate(row_names):
         line = line + " & " + str(int (channel_data["DATA"][row_name]["Npass"])) + " \\\ \n"
     else :
         line = line + " & NO DATA \\\ \n"
+    latex_file.write ("\hline \n")
     latex_file.write ( line ) 
 latex_file.write("  \hline \n")
 latex_file.write("\end{tabular}\n")
@@ -245,3 +250,5 @@ latex_file.close()
 
 os.system ( "pdflatex " + latex_file_name ) 
 os.system ( "open " + latex_file_name.replace (".tex",".pdf") )
+
+print "\n\nQCD scaled by " + str ( QCDScale ) + "\n\n"
