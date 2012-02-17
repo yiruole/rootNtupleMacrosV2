@@ -44,9 +44,16 @@ calojet_elePtCut      20.0	   	-  		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Muon ID and selection
 #------------------------------------------------------------------------------------------------------
-muon_PtCut            10           	0.0             -               -               -1
-muNHits_minThresh     11           	-               -               -               -1
-muTrkD0Maximum        0.2          	-               -               -               -1
+muon_PtCut            10           	0               -               -               -1
+muIsGlobal            1                 -  		-		-		-1
+muIsTracker           1                 -  		-		-		-1
+muTrackerIsoSumPT     3.0               -  		-		-		-1
+muTrkHitsTrackerOnly  10                -  		-		-		-1
+muStationMatches      1                 -  		-		-		-1
+muPrimaryVertexDXY    0.2               -  		-		-		-1
+muGlobalChi2          10.0              -  		-		-		-1
+muPixelHitCount       0                 -  		-		-		-1
+muGlobalTrkValidHits  0                 -  		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Electron ID and selection (1: HEEP, 2: WP80) 
 #------------------------------------------------------------------------------------------------------
