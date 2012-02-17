@@ -208,7 +208,7 @@ void analysisClass::Loop()
        if ( H_Photon30_CIdVL_7 > 0 && H_Photon30_CIdVL_7 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_7; } 
 
        if ( isData && run > 175771 ) {
-	 if ( H_Photon30_CIdVL_8 > 0 && H_Photon30_CIdVL_8 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_8; }
+       	 if ( H_Photon30_CIdVL_8 > 0 && H_Photon30_CIdVL_8 != 999 ) { N_Photon30_CIdVL++; PS_Photon30_CIdVL = H_Photon30_CIdVL_8; }
        }
 
        // Did the HLT_Photon50_CaloIdVL trigger fire?
@@ -250,7 +250,7 @@ void analysisClass::Loop()
        if ( H_Photon400_1      > 0 && H_Photon400_1      != 999 ) { N_Photon400     ++; PS_Photon400      = H_Photon400_1     ; } 
        
        if ( isData && run > 175771 ) {
-	 if ( H_Photon400_2      > 0 && H_Photon400_2      != 999 ) { N_Photon400     ++; PS_Photon400      = H_Photon400_2     ; }
+       	 if ( H_Photon400_2      > 0 && H_Photon400_2      != 999 ) { N_Photon400     ++; PS_Photon400      = H_Photon400_2     ; }
        }
        
        // Sanity check: make sure two versions of the same trigger didn't fire in the same event (impossible)
@@ -512,7 +512,8 @@ void analysisClass::Loop()
        double st = QCDFakeEle1_Pt + QCDFakeEle2_Pt + JetLooseEle1_Pt ;
        fillVariableWithValue( "DR_Ele1Jet1"                   , loose_ele1.DeltaR ( jet1 ), min_prescale  * fakeRateEffective );
        fillVariableWithValue( "DR_Ele2Jet1"                   , loose_ele2.DeltaR ( jet1 ), min_prescale  * fakeRateEffective );
-       fillVariableWithValue( "sT_eej"                        , st                        , min_prescale  * fakeRateEffective );
+       fillVariableWithValue( "sT_eej_200"                    , st                        , min_prescale  * fakeRateEffective );
+       fillVariableWithValue( "sT_eej_450"                    , st                        , min_prescale  * fakeRateEffective );
      }      
 
      //--------------------------------------------------------------------------
@@ -530,7 +531,7 @@ void analysisClass::Loop()
      //       if you run over Monte Carlo
      //--------------------------------------------------------------------------     
 
-     bool passed_preselection = ( passedAllPreviousCuts("sT_eej") && passedCut ("sT_eej") );
+     bool passed_preselection = ( passedAllPreviousCuts("sT_eej_200") && passedCut ("sT_eej_200") );
      
      if ( passed_preselection ) {
 
