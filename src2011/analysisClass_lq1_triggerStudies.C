@@ -125,6 +125,8 @@ void analysisClass::Loop()
   double eleMissingHitsHeep32           = getPreCutValue1("eleMissingHitsHeep32"      );
   double eleUseEcalDrivenHeep32         = getPreCutValue1("eleUseEcalDrivenHeep32"    );
 
+  CreateUserTH1D("dphi_met_ele", 100, 0, 3.14159 );
+
   //-----------------------------------------------------------------
   // Which algorithms to use?
   //-----------------------------------------------------------------
@@ -160,7 +162,7 @@ void analysisClass::Loop()
 
 
   Long64_t nentries = fChain->GetEntries();
-  //Long64_t nentries = 1000;
+  //Long64_t nentries = 200000;
   STDOUT("analysisClass::Loop(): nentries = " << nentries);
 
   Long64_t nbytes = 0, nb = 0;
@@ -405,6 +407,8 @@ void analysisClass::Loop()
     // Evaluate cuts (but do not apply them)
     evaluateCuts();
 
+    double met = PFMET -> at(0);
+    double met_phi = PFMETPhi -> at(0);
 
     //Basic Event Selection
     if( passedCut("PassJSON") 
@@ -439,12 +443,27 @@ void analysisClass::Loop()
 	    else
 	      MapTrgIt->second++;
 
+	    TLorentzVector my_v_met, my_ele;
+	    double my_delta_phi;
+	    my_v_met.SetPtEtaPhiM ( met, 0.0, met_phi, 0.0);
+	    
+	    if( v_idx_ele_PtCut_IDISO_ANA.size()==1){
+	      my_ele.SetPtEtaPhiM ( ElectronPt  -> at (v_idx_ele_PtCut_IDISO_ANA[0]),
+				    ElectronEta -> at (v_idx_ele_PtCut_IDISO_ANA[0]),
+				    ElectronPhi -> at (v_idx_ele_PtCut_IDISO_ANA[0]),
+				    0.0 );
+	      my_delta_phi = fabs(my_v_met.DeltaPhi ( my_ele ) );
+	    }
 
-	    if( v_idx_ele_PtCut_IDISO_ANA.size()==1 )
+	    
+	    if( v_idx_ele_PtCut_IDISO_ANA.size()==1 && met > 30.0 && my_delta_phi > 2.5 )
 	      {
 		//denominator
 		map<int,int>::iterator MapDenIt = MapDen.find(run);
 		map<int,int>::iterator MapDenItEnd = MapDen.end();
+
+		FillUserTH1D("dphi_met_ele", my_delta_phi );
+		
 
 		if( MapDenIt == MapDenItEnd )
 		  {
