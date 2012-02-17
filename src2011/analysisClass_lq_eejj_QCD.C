@@ -597,7 +597,6 @@ void analysisClass::Loop()
        fillVariableWithValue( "Ele2_Eta"                      , QCDFakeEle2_Eta         , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "abs_Ele2_Eta"                  , fabs(QCDFakeEle2_Eta)   , fakeRateEffective * min_prescale ) ;
        fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
-       fillVariableWithValue( "M_e1e2_Final"                  , M_e1e2                  , fakeRateEffective * min_prescale ) ;
      }
 
      // Jets
@@ -625,6 +624,7 @@ void analysisClass::Loop()
 	 }
 	 
 	 fillVariableWithValue( "sT_eejj"                      , sT_eejj, fakeRateEffective * min_prescale   ) ;
+
 	 fillVariableWithValue( "sT_eejj_LQ250"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
 	 fillVariableWithValue( "sT_eejj_LQ350"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
 	 fillVariableWithValue( "sT_eejj_LQ400"                , sT_eejj, fakeRateEffective * min_prescale   ) ;
@@ -646,6 +646,18 @@ void analysisClass::Loop()
 	 fillVariableWithValue( "min_M_ej_LQ650"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
 	 fillVariableWithValue( "min_M_ej_LQ750"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
 	 fillVariableWithValue( "min_M_ej_LQ850"               , M_ej_min, fakeRateEffective * min_prescale  ) ;
+
+   
+	 fillVariableWithValue( "M_e1e2_LQ250"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ350"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ400"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ450"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ500"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ550"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ600"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ650"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ750"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
+	 fillVariableWithValue( "M_e1e2_LQ850"                , M_e1e2, fakeRateEffective * min_prescale   ) ;
 	 
        }      
      }
