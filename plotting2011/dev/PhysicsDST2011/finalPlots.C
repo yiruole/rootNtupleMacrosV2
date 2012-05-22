@@ -23,6 +23,7 @@
   //Ranges
   double XMAX = 4000;
   double YMAX = 0.3;
+  double min_mjj_PF = 526;
   double min_mjj_FatPF = 526;
 
   //DATA - FatJets
@@ -65,7 +66,7 @@
   c0->SetLogy();
   h_mjj_FatPF_VarBin_data_hlt->GetXaxis()->SetRangeUser(0,XMAX);
   h_mjj_FatPF_VarBin_data_hlt->GetYaxis()->SetRangeUser(0.01,h_mjj_FatPF_VarBin_data_hlt->GetMaximum()*10);
-  h_mjj_FatPF_VarBin_data_hlt->GetXaxis()->SetTitle("FatPFJetMass@HLT [GeV]");
+  h_mjj_FatPF_VarBin_data_hlt->GetXaxis()->SetTitle("FatPFDiJetMass@HLT [GeV]");
   h_mjj_FatPF_VarBin_data_hlt->SetMarkerStyle(20);
   h_mjj_FatPF_VarBin_data_hlt->SetMarkerSize(0.5);
   h_mjj_FatPF_VarBin_data_hlt->Draw("HISTE");
@@ -74,12 +75,28 @@
   line_FatPF_VarBin_data_hlt->SetLineColor(2);
   line_FatPF_VarBin_data_hlt->Draw();
 
-  c0.SaveAs("data_hlt.eps");
+  c0.SaveAs("data_hlt_fat.eps");
+
+  TCanvas c01;
+  c01->SetLogy();
+  h_mjj_PF_VarBin_data_hlt->GetXaxis()->SetRangeUser(0,XMAX);
+  h_mjj_PF_VarBin_data_hlt->GetYaxis()->SetRangeUser(0.01,h_mjj_PF_VarBin_data_hlt->GetMaximum()*10);
+  h_mjj_PF_VarBin_data_hlt->GetXaxis()->SetTitle("PFDiJetMass@HLT [GeV]");
+  h_mjj_PF_VarBin_data_hlt->SetMarkerStyle(20);
+  h_mjj_PF_VarBin_data_hlt->SetMarkerSize(0.5);
+  h_mjj_PF_VarBin_data_hlt->Draw("HISTE");
+
+  TLine line_PF_VarBin_data_hlt(min_mjj_PF,0,min_mjj_PF,h_mjj_PF_VarBin_data_hlt->GetMaximum());
+  line_PF_VarBin_data_hlt->SetLineColor(2);
+  line_PF_VarBin_data_hlt->Draw();
+
+  c01.SaveAs("data_hlt.eps");
+
 
   //qg
   TCanvas c1;
   h_mjj_FatPF_VarBin_QstarToJJ_M_500_qg_hlt->GetXaxis()->SetRangeUser(0,XMAX);
-  h_mjj_FatPF_VarBin_QstarToJJ_M_500_qg_hlt->GetXaxis()->SetTitle("FatPFJetMass@HLT [GeV]");
+  h_mjj_FatPF_VarBin_QstarToJJ_M_500_qg_hlt->GetXaxis()->SetTitle("FatPFDiJetMass@HLT [GeV]");
   h_mjj_FatPF_VarBin_QstarToJJ_M_500_qg_hlt->SetLineColor(1);
   h_mjj_FatPF_VarBin_QstarToJJ_M_700_qg_hlt->SetLineColor(2);
   h_mjj_FatPF_VarBin_QstarToJJ_M_1200_qg_hlt->SetLineColor(3);
@@ -103,12 +120,41 @@
   gPad->RedrawAxis();
   gPad->Modified();
 
-  c1.SaveAs("Qstar_qg.eps");
+  c1.SaveAs("Qstar_qg_fat.eps");
+
+  TCanvas c11;
+  h_mjj_PF_VarBin_QstarToJJ_M_500_qg_hlt->GetXaxis()->SetRangeUser(0,XMAX);
+  h_mjj_PF_VarBin_QstarToJJ_M_500_qg_hlt->GetXaxis()->SetTitle("PFDiJetMass@HLT [GeV]");
+  h_mjj_PF_VarBin_QstarToJJ_M_500_qg_hlt->SetLineColor(1);
+  h_mjj_PF_VarBin_QstarToJJ_M_700_qg_hlt->SetLineColor(2);
+  h_mjj_PF_VarBin_QstarToJJ_M_1200_qg_hlt->SetLineColor(3);
+  h_mjj_PF_VarBin_QstarToJJ_M_2000_qg_hlt->SetLineColor(4);
+
+  h_mjj_PF_VarBin_QstarToJJ_M_500_qg_hlt->SetStats(0);
+  h_mjj_PF_VarBin_QstarToJJ_M_500_qg_hlt->DrawNormalized("HISTE");
+  h_mjj_PF_VarBin_QstarToJJ_M_700_qg_hlt->DrawNormalized("HISTEsame");
+  h_mjj_PF_VarBin_QstarToJJ_M_1200_qg_hlt->DrawNormalized("HISTEsame");
+  h_mjj_PF_VarBin_QstarToJJ_M_2000_qg_hlt->DrawNormalized("HISTEsame");
+
+  TLegend legend11 (0.55,0.55,0.85,0.85);
+  legend11.SetFillColor(kWhite);
+  legend11.SetMargin(0.2);
+  legend11.AddEntry(h_mjj_PF_VarBin_QstarToJJ_M_500_qg_hlt,"QstarToJJ_M_500_qg_hlt","l");
+  legend11.AddEntry(h_mjj_PF_VarBin_QstarToJJ_M_700_qg_hlt,"QstarToJJ_M_700_qg_hlt","l");
+  legend11.AddEntry(h_mjj_PF_VarBin_QstarToJJ_M_1200_qg_hlt,"QstarToJJ_M_1200_qg_hlt","l");
+  legend11.AddEntry(h_mjj_PF_VarBin_QstarToJJ_M_2000_qg_hlt,"QstarToJJ_M_2000_qg_hlt","l");
+  legend11.Draw();
+  c11.Update();
+  gPad->RedrawAxis();
+  gPad->Modified();
+
+  c11.SaveAs("Qstar_qg.eps");
+
 
   //gg
   TCanvas c2;
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_gg_hlt->GetXaxis()->SetRangeUser(0,XMAX);
-  h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_gg_hlt->GetXaxis()->SetTitle("FatPFJetMass@HLT [GeV]");
+  h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_gg_hlt->GetXaxis()->SetTitle("FatPFDiJetMass@HLT [GeV]");
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_gg_hlt->SetLineColor(2);
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_1200_gg_hlt->SetLineColor(3);
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_2000_gg_hlt->SetLineColor(4);
@@ -129,12 +175,37 @@
   gPad->RedrawAxis();
   gPad->Modified();
 
-  c2.SaveAs("RSGraviton_gg.eps");
+  c2.SaveAs("RSGraviton_gg_fat.eps");
+
+  TCanvas c21;
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_gg_hlt->GetXaxis()->SetRangeUser(0,XMAX);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_gg_hlt->GetXaxis()->SetTitle("PFDiJetMass@HLT [GeV]");
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_gg_hlt->SetLineColor(2);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_1200_gg_hlt->SetLineColor(3);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_2000_gg_hlt->SetLineColor(4);
+
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_gg_hlt->SetStats(0);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_gg_hlt->DrawNormalized("HISTE");
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_1200_gg_hlt->DrawNormalized("HISTEsame");
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_2000_gg_hlt->DrawNormalized("HISTEsame");
+
+  TLegend legend21 (0.55,0.55,0.85,0.85);
+  legend21.SetFillColor(kWhite);
+  legend21.SetMargin(0.2);
+  legend21.AddEntry(h_mjj_PF_VarBin_RSGravitonToJJ_M_700_gg_hlt,"RSGravitonToJJ_M_700_gg_hlt","l");
+  legend21.AddEntry(h_mjj_PF_VarBin_RSGravitonToJJ_M_1200_gg_hlt,"RSGravitonToJJ_M_1200_gg_hlt","l");
+  legend21.AddEntry(h_mjj_PF_VarBin_RSGravitonToJJ_M_2000_gg_hlt,"RSGravitonToJJ_M_2000_gg_hlt","l");
+  legend21.Draw();
+  c21.Update();
+  gPad->RedrawAxis();
+  gPad->Modified();
+
+  c21.SaveAs("RSGraviton_gg.eps");
 
   //qq
   TCanvas c3;
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_qq_hlt->GetXaxis()->SetRangeUser(0,XMAX);
-  h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_qq_hlt->GetXaxis()->SetTitle("FatPFJetMass@HLT [GeV]");
+  h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_qq_hlt->GetXaxis()->SetTitle("FatPFDiJetMass@HLT [GeV]");
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_700_qq_hlt->SetLineColor(2);
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_1200_qq_hlt->SetLineColor(3);
   h_mjj_FatPF_VarBin_RSGravitonToJJ_M_2000_qq_hlt->SetLineColor(4);
@@ -155,6 +226,32 @@
   gPad->RedrawAxis();
   gPad->Modified();
 
-  c3.SaveAs("RSGraviton_qq.eps");
+  c3.SaveAs("RSGraviton_qq_fat.eps");
+
+  TCanvas c31;
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_qq_hlt->GetXaxis()->SetRangeUser(0,XMAX);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_qq_hlt->GetXaxis()->SetTitle("PFDiJetMass@HLT [GeV]");
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_qq_hlt->SetLineColor(2);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_1200_qq_hlt->SetLineColor(3);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_2000_qq_hlt->SetLineColor(4);
+
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_qq_hlt->SetStats(0);
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_700_qq_hlt->DrawNormalized("HISTE");
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_1200_qq_hlt->DrawNormalized("HISTEsame");
+  h_mjj_PF_VarBin_RSGravitonToJJ_M_2000_qq_hlt->DrawNormalized("HISTEsame");
+
+  TLegend legend31 (0.55,0.55,0.85,0.85);
+  legend31.SetFillColor(kWhite);
+  legend31.SetMargin(0.2);
+  legend31.AddEntry(h_mjj_PF_VarBin_RSGravitonToJJ_M_700_qq_hlt,"RSGravitonToJJ_M_700_qq_hlt","l");
+  legend31.AddEntry(h_mjj_PF_VarBin_RSGravitonToJJ_M_1200_qq_hlt,"RSGravitonToJJ_M_1200_qq_hlt","l");
+  legend31.AddEntry(h_mjj_PF_VarBin_RSGravitonToJJ_M_2000_qq_hlt,"RSGravitonToJJ_M_2000_qq_hlt","l");
+  legend31.Draw();
+  c31.Update();
+  gPad->RedrawAxis();
+  gPad->Modified();
+
+  c31.SaveAs("RSGraviton_qq.eps");
+
 
 }
