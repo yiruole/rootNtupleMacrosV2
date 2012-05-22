@@ -8,11 +8,11 @@
 
   //2011 Selection (only two leading jets, deltaphi cut)
   //TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel.root"); //DATA (22k events)
-  //TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel_v2.root"); //DATA (22k events, added JetID in "first mismatch" plot)
+  TFile file("HLT_vs_RECO/HTDATA_HLTvsRECO_2011Sel_v2.root"); //DATA (22k events, added JetID in "first mismatch" plot)
   //TFile file("/afs/cern.ch/user/s/santanas/scratch0/DiJets/rootNtupleAnalyzerV2/analysisClass_dijetPhysicsDST_2011Sel_HLTvsRECOcomparison.root"); //DATA (22k events, added JetID in "first mismatch" plot, jetmass bias)
   //TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel.root"); //MC (86k events)
-  TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel_v2.root"); //MC (86k events, added JetID in "first mismatch" plot)
-  double Case=1;// DATA(0) , MC(1)
+  //TFile file("HLT_vs_RECO/QstarToJJ500MC_HLTvsRECO_2011Sel_v2.root"); //MC (86k events, added JetID in "first mismatch" plot)
+  double Case=0;// DATA(0) , MC(1)
 
   //----------------------------------------------------------------------------------
 
