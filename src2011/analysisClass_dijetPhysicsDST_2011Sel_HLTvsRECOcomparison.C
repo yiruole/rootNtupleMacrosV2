@@ -329,6 +329,10 @@ void analysisClass::Loop()
   TH1D *h_PtPFJetsInEvent1Ev = new TH1D ("h_PtPFJetsInEvent1Ev","h_PtPFJetsInEvent1Ev",10000,0,1000);
   h_PtPFJetsInEvent1Ev->Sumw2();
   float tobedone = 1;
+
+  //For DEtaJJ turn-on studies
+  CreateUserTH1D( "h_DEtaJJ_RECO_MJJ300Cut", getHistoNBins("RECO_DEta_PFJet1PFJet2"), getHistoMin("RECO_DEta_PFJet1PFJet2"), getHistoMax("RECO_DEta_PFJet1PFJet2")  ) ; 
+  CreateUserTH1D( "h_DEtaJJ_RECO_MJJ300Cut_HLTdeta1p5cut", getHistoNBins("RECO_DEta_PFJet1PFJet2"), getHistoMin("RECO_DEta_PFJet1PFJet2"), getHistoMax("RECO_DEta_PFJet1PFJet2")  ) ; 
   
   ////////////////////// User's code to book histos - END ///////////////////////
 
@@ -1177,6 +1181,8 @@ void analysisClass::Loop()
 	     && passedCut("HLT_PFJet2_PassJetID")
 	     && passedCut("HLT_DPhi_PFJet1PFJet2")
 	     && passedCut("HLT_DEta_PFJet1PFJet2")
+	     //================================ TO REPLY ARC QUESTION
+	     //&& passedCut("HLT_M_PFJet1PFJet2") 
 	     )
 	  {
 	    pass_HLT_selection = 1;
@@ -1190,7 +1196,7 @@ void analysisClass::Loop()
 	&& passedCut("PassHBHENoiseFilter") 
 	&& passedCut("PassBeamHaloFilterTight") 
 	&& passedCut("PassTrackingFailure") 
-	&& passedCut("PassRECOPrimaryVertex") 
+	&& passedCut("PassRECOPrimaryVertex")
 	)
       {  
 	
@@ -1204,6 +1210,8 @@ void analysisClass::Loop()
 	    && passedCut("RECO_PFJet2_PassJetID")
 	    && passedCut("RECO_DPhi_PFJet1PFJet2")
 	    && passedCut("RECO_DEta_PFJet1PFJet2")
+	    //================================ TO REPLY ARC QUESTION
+	    //&& passedCut("RECO_M_PFJet1PFJet2")
 	    )
 	  {
 	    pass_RECO_selection = 1;
@@ -1484,6 +1492,40 @@ void analysisClass::Loop()
       }
 
 
+    // DETAJJ TURN-ON CURVE
+    
+    //RECO selection
+    if( passedCut("PassJSON") 
+	&& passedCut("PassBPTX0") 
+	&& passedCut("PassBeamScraping") 
+	&& passedCut("PassHBHENoiseFilter") 
+	&& passedCut("PassBeamHaloFilterTight") 
+	&& passedCut("PassTrackingFailure") 
+	&& passedCut("PassRECOPrimaryVertex") 
+	)
+      {  
+	
+	bool passRECOMJJCut = 0;
+	if( variableIsFilled("RECO_DEta_PFJet1PFJet2") )
+	  {
+	    if (getVariableValue("RECO_M_PFJet1PFJet2") > 300 )
+	      {
+		passRECOMJJCut = 1;
+	      }
+	  }
+
+	if( passRECOMJJCut 
+	    && variableIsFilled("RECO_DEta_PFJet1PFJet2") 
+	    && variableIsFilled("HLT_DEta_PFJet1PFJet2")  
+	    )
+	  {
+	    FillUserTH1D("h_DEtaJJ_RECO_MJJ300Cut", getVariableValue("RECO_DEta_PFJet1PFJet2") );
+
+	    if( getVariableValue("HLT_DEta_PFJet1PFJet2")<1.5  )
+	      FillUserTH1D("h_DEtaJJ_RECO_MJJ300Cut_HLTdeta1p5cut", getVariableValue("RECO_DEta_PFJet1PFJet2") );
+	  }
+
+      }
 
     //INFO
     //      // retrieve value of previously filled variables (after making sure that they were filled)
