@@ -1,0 +1,16 @@
+#------------------------------------------------------------------------------------------------------
+# 2012 JSON file
+#------------------------------------------------------------------------------------------------------
+JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/combined_golden_json_Run2012ABC.txt
+#------------------------------------------------------------------------------------------------------
+#                                 Example of file with list of cuts
+#
+#------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
+# This first list of variable names and values are used to pass configurable values to the user code associated
+# to a variable name.
+# The user can retrieve the values associated to a variable name via a provided function call
+# [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1.
+produceSkim		   1            -               -               -               -1
+nLooseEle_ptCut		   0	        1  		-		-		 0	16 -0.5 15.5
