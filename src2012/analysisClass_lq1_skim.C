@@ -95,7 +95,7 @@ void analysisClass::Loop(){
   //--------------------------------------------------------------------------
 
   Long64_t nentries = fChain->GetEntries();
-  // Long64_t nentries = 20000;
+  // Long64_t nentries = 1000;
   std::cout << "analysisClass::Loop(): nentries = " << fChain -> GetEntries() << std::endl;   
   
   //--------------------------------------------------------------------------
@@ -399,7 +399,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // All skims need muons
     //-----------------------------------------------------------------
-    
+
     fillVariableWithValue ("nMuon_ptCut", n_muon_ptCut);
     fillVariableWithValue ("nMuon_store", min(n_muon_store,2));
 
@@ -941,11 +941,13 @@ void analysisClass::Loop(){
     // enujj analysis skim
 
     else if ( reducedSkimType == 1 ) { 
-      if( passedCut("nEle_store"       ) && 
+      if( passedCut("nEle_ptCut"       ) && 
 	  passedCut("Ele1_Pt"          ) && 
 	  passedCut("PFMET_Type01XY_Pt") && 
 	  passedCut("Jet1_Pt"          ) && 
-	  passedCut("Jet2_Pt"          ) ) {
+	  passedCut("Jet2_Pt"          ) && 
+	  passedCut("sT_enujj"         ) && 
+	  passedCut("MT_Ele1MET"       )) {
 	fillSkimTree();
 	fillReducedSkimTree();
       }
@@ -954,11 +956,13 @@ void analysisClass::Loop(){
     // eejj analysis skim
 
     else if ( reducedSkimType == 2 ) { 
-      if( passedCut("nEle_store"       ) && 
+      if( passedCut("nEle_ptCut"       ) && 
 	  passedCut("Ele1_Pt"          ) &&
 	  passedCut("Ele2_Pt"          ) && 
 	  passedCut("Jet1_Pt"          ) &&
-	  passedCut("Jet2_Pt"          ) ) {
+	  passedCut("Jet2_Pt"          ) &&
+	  passedCut("sT_eejj"          ) && 
+	  passedCut("M_e1e2"           )) {
 	fillSkimTree();
 	fillReducedSkimTree();
       }
