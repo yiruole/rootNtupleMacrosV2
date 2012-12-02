@@ -28,7 +28,7 @@ reducedSkimType	      	   1		-		-		-		-1
 # Jet selection
 #------------------------------------------------------------------------------------------------------
 jet_PtCut		   45		-               -               -               -1
-jet_EtaCut            	   2.6         	-               -               -               -1
+jet_EtaCut            	   2.4         	-               -               -               -1
 jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
 jet_muon_DeltaRCut    	   0.3        	-               -               -               -1
 jet_hltMatch_DeltaRCut     0.5		-		-		-		-1
