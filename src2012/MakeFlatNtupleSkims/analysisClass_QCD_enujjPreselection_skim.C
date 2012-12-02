@@ -60,6 +60,20 @@ void analysisClass::Loop() {
     //------------------------------------------------------------------
 
     if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << std::endl;   
+
+
+    //--------------------------------------------------------------------------
+    // MT_Ele1MET calculated incorrectly in flat ntuples.  Fix here.
+    //--------------------------------------------------------------------------
+    
+    if ( nLooseEle_store > 0 ){
+      TVector2 v_MET;
+      TVector2 v_ele;
+      v_MET.SetMagPhi( PFMET_Type01XY_Pt , PFMET_Type01XY_Phi  );
+      v_ele.SetMagPhi( LooseEle1_Pt, LooseEle1_Phi );
+      float deltaphi = v_MET.DeltaPhi(v_ele);
+      MT_Ele1MET = sqrt ( 2 * LooseEle1_Pt * PFMET_Type01XY_Pt * ( 1 - cos ( deltaphi ) ) );
+    }
     
     //------------------------------------------------------------------
     // Fill variables
@@ -73,7 +87,7 @@ void analysisClass::Loop() {
     fillVariableWithValue( "JetLooseEle2_Pt"      , JetLooseEle2_Pt       );
     fillVariableWithValue( "MET_Pt"               , PFMET_Type01XY_Pt     );
     fillVariableWithValue( "sT_enujj"             , sT_enujj 	          );
-    fillVariableWithValue( "MT_Ele1MET"           , M_e1e2                );
+    fillVariableWithValue( "MT_Ele1MET"           , MT_Ele1MET            );
     
     //------------------------------------------------------------------
     // Evaluate
