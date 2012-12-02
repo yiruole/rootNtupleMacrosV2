@@ -19,5 +19,6 @@ LooseEle1_hltPhotonPt      0.1	     +inf		-		-		0	100 0 2000
 LooseEle1_PassID	   -1	     0			-		-		0	2 -0.5 1.5  
 JetLooseEle1_Pt		   125.0     +inf		-		-		0	100 0 2000  
 JetLooseEle2_Pt		   45.0	     +inf		-		-		0	100 0 2000  
+MET_Pt			   55.0	     +inf		-		-		0	100 0 2000  
 sT_enujj       		   300.0     +inf		-		-		0	100 0 2000  
 MT_Ele1MET		   50.0	     +inf		-		-		0	100 0 2000

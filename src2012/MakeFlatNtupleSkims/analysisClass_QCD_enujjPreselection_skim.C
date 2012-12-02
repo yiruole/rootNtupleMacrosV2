@@ -71,6 +71,7 @@ void analysisClass::Loop() {
     fillVariableWithValue( "LooseEle1_PassID"     , LooseEle1_PassID      );
     fillVariableWithValue( "JetLooseEle1_Pt"      , JetLooseEle1_Pt       );
     fillVariableWithValue( "JetLooseEle2_Pt"      , JetLooseEle2_Pt       );
+    fillVariableWithValue( "MET_Pt"               , PFMET_Type01XY_Pt     );
     fillVariableWithValue( "sT_enujj"             , sT_enujj 	          );
     fillVariableWithValue( "MT_Ele1MET"           , M_e1e2                );
     
@@ -90,6 +91,7 @@ void analysisClass::Loop() {
 	 passedCut("LooseEle1_PassID"      ) && 
 	 passedCut("JetLooseEle1_Pt"       ) && 
 	 passedCut("JetLooseEle2_Pt"       ) && 
+	 passedCut("MET_Pt"                ) && 
 	 passedCut("sT_enujj"              ) && 
     	 passedCut("MT_Ele1MET"            ) ){
       fillSkimTree();
