@@ -769,9 +769,11 @@ void analysisClass::Loop(){
 
     if ( n_ele_store >= 1 ){
       
+      double MT_Ele1MET = sqrt ( 2.0 * t_ele1.Pt() * t_MET.Pt() * ( 1.0 - cos ( t_MET.DeltaPhi(t_ele1))));
+
       TLorentzVector t_ele1MET = t_ele1 + t_MET;
       fillVariableWithValue("mDPhi_METEle1", fabs ( t_MET.DeltaPhi(t_ele1)));
-      fillVariableWithValue("MT_Ele1MET"   , t_ele1MET.Mt());
+      fillVariableWithValue("MT_Ele1MET"   , MT_Ele1MET); 
       fillVariableWithValue("Pt_Ele1MET"   , t_ele1MET.Pt());
 
       if ( n_jet_store >= 1 ){ 
