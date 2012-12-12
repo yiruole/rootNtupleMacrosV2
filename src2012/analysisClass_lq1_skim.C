@@ -121,6 +121,7 @@ void analysisClass::Loop(){
   CollectionPtr c_hltPFJetNoPU25_Signal_all;
   CollectionPtr c_hltPFJet100_Signal_all;
   CollectionPtr c_hltPFJetNoPU100_Signal_all;
+  CollectionPtr c_hltDoubleEle_Signal_all;
   
   /*//------------------------------------------------------------------
    *
@@ -181,7 +182,9 @@ void analysisClass::Loop(){
       c_hltPFJetNoPU25_Signal_all  = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFNoPUJet25EleCleaned");
       c_hltPFJet100_Signal_all     = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFJet100EleCleaned");
       c_hltPFJetNoPU100_Signal_all = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFNoPUJet100EleCleaned");
-      
+
+      // DoubleEle signal trigger
+      c_hltDoubleEle_Signal_all    = helper.GetHLTFilterObjects("hltDiEle33CaloIdLGsfTrkIdVLDPhiDoubleFilter");
     }
 
     //-----------------------------------------------------------------
@@ -602,37 +605,42 @@ void analysisClass::Loop(){
 
       if ( n_ele_store >= 1 ){
 	Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
-	double hltEle1Pt_signal = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all  , ele1, ele_hltMatch_DeltaRCut);
-	double hltEle1Pt_ttbar  = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all, ele1, ele_hltMatch_DeltaRCut);
-	fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()               );
-	fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()       );
-	fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()              );
-	fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()              );
-	fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()           );
-	fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()             );
-	fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()        );
-	fillVariableWithValue( "Ele1_VtxD0"         , ele1.LeadVtxDistXY()    );
-	fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()        );
-	fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()      );
-	fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal );
-	fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar  );
+	double hltEle1Pt_signal          = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
+	double hltEle1Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all  , ele1, ele_hltMatch_DeltaRCut);
+	double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTFilterObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
+
+	fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
+	fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
+	fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
+	fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
+	fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
+	fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
+	fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
+	fillVariableWithValue( "Ele1_VtxD0"         , ele1.LeadVtxDistXY()      );
+	fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()          );
+	fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
+	fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
+	fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
+	fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
 
 	if ( n_ele_store >= 2 ){
 	  Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
-	  double hltEle2Pt_signal = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all  , ele2, ele_hltMatch_DeltaRCut);
-	  double hltEle2Pt_ttbar  = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all, ele2, ele_hltMatch_DeltaRCut);
-	  fillVariableWithValue( "Ele2_Pt"           , ele2.Pt()               );
-	  fillVariableWithValue( "Ele2_Energy"       , ele2.CaloEnergy()       );
-	  fillVariableWithValue( "Ele2_Eta"          , ele2.Eta()              );
-	  fillVariableWithValue( "Ele2_Phi"          , ele2.Phi()              );
-	  fillVariableWithValue( "Ele2_Charge"       , ele2.Charge()           );
-	  fillVariableWithValue( "Ele2_Dist"         , ele2.Dist()             );
-	  fillVariableWithValue( "Ele2_DCotTheta"    , ele2.DCotTheta()        );
-	  fillVariableWithValue( "Ele2_VtxD0"        , ele2.LeadVtxDistXY()    );
-	  fillVariableWithValue( "Ele2_ValidFrac"    , ele2.ValidFrac()        );
-	  fillVariableWithValue( "Ele2_MissingHits"  , ele2.MissingHits()      );
-	  fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal );
-	  fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar  );
+	  double hltEle2Pt_signal          = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all     , ele2, ele_hltMatch_DeltaRCut);
+	  double hltEle2Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all   , ele2, ele_hltMatch_DeltaRCut);
+	  double hltEle2Pt_doubleEleSignal = triggerMatchPt<HLTFilterObject, Electron>(c_hltDoubleEle_Signal_all , ele2, ele_hltMatch_DeltaRCut);
+	  fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
+	  fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
+	  fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
+	  fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
+	  fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
+	  fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
+	  fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
+	  fillVariableWithValue( "Ele2_VtxD0"         , ele2.LeadVtxDistXY()      );
+	  fillVariableWithValue( "Ele2_ValidFrac"     , ele2.ValidFrac()          );
+	  fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
+	  fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
+	  fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
+	  fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
 	
 	}
       }
@@ -917,6 +925,14 @@ void analysisClass::Loop(){
       else if ( run >= 191691 && run <= 196531 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v5", "H_Mu22_Photon22_CIdL");
       else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v6", "H_Mu22_Photon22_CIdL");
       else if ( run >= 199698 )                  fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v7", "H_Mu22_Photon22_CIdL");
+
+      if      ( ! isData )                       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v3", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v4", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 191691 && run <= 193621 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v5", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 193833 && run <= 196531 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 198022 && run <= 207279 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v7", "H_DoubleEle33_CIdL_GsfIdVL" );
+
     }
 
     //-----------------------------------------------------------------
