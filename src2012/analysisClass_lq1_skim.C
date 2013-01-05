@@ -17,6 +17,26 @@
 #include "HLTFilterObject.h"
 #include "HLTFilterObjectCollectionHelper.h"
 
+//--------------------------------------------------------------------------
+// Function for trigger matching 
+//--------------------------------------------------------------------------
+
+template < class Object1, class Object2 > 
+double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_object, double delta_r_cut ){
+  double matched_pt = -999.0;
+  if ( collection ) { 
+    int size = collection -> GetSize();
+    if ( size > 0 ){ 
+      Object1 matched_object = collection -> GetClosestInDR <Object1, Object2> ( target_object );
+      double dr = matched_object.DeltaR ( & target_object );
+      if ( dr < delta_r_cut ) { 
+	matched_pt = matched_object.Pt();
+      }
+    }
+  }
+  return matched_pt;
+}
+
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile) 
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
 {
