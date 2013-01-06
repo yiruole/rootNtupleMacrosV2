@@ -951,7 +951,7 @@ void analysisClass::Loop(){
       else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v4", "H_DoubleEle33_CIdL_GsfIdVL" );
       else if ( run >= 191691 && run <= 193621 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v5", "H_DoubleEle33_CIdL_GsfIdVL" );
       else if ( run >= 193833 && run <= 196531 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
-      else if ( run >= 198022 && run <= 207279 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v7", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 198022 )                  fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v7", "H_DoubleEle33_CIdL_GsfIdVL" );
 
     }
 
