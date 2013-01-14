@@ -30,16 +30,16 @@ void analysisClass::Loop() {
   //--------------------------------------------------------------------------
   
   fillSkim                         (  true  ) ;
-  fillAllPreviousCuts              ( !true  ) ;
-  fillAllOtherCuts                 ( !true  ) ;
-  fillAllSameLevelAndLowerLevelCuts( !true  ) ;
-  fillAllCuts                      ( !true  ) ;
+  fillAllPreviousCuts              (  true  ) ;
+  fillAllOtherCuts                 (  true  ) ;
+  fillAllSameLevelAndLowerLevelCuts(  true  ) ;
+  fillAllCuts                      (  true  ) ;
   
   //------------------------------------------------------------------
   // How many events to skim over?
   //------------------------------------------------------------------
   
-  Long64_t nentries = fChain->GetEntriesFast();
+  Long64_t nentries = fChain->GetEntries();
   std::cout << "analysisClass::Loop(): nentries = " << nentries << std::endl;   
 
   //------------------------------------------------------------------
@@ -75,7 +75,7 @@ void analysisClass::Loop() {
 
     bool muon_is_Ele1 = false;
     bool muon_is_Ele2 = false;
-    if   ( Muon1_Pt > 0.0 ) { 
+    if   ( Muon1_Pt > 0.1 ) { 
       if   ( Muon1_Pt >  Ele1_Pt ) muon_is_Ele1 = true;
       else                         muon_is_Ele2 = true;
     }
@@ -115,13 +115,15 @@ void analysisClass::Loop() {
       sT_eejj       = electron.Pt() + muon.Pt() + jet1.Pt() + jet2.Pt();
       Pt_e1e2       = e1e2.Pt();
 
+      if ( nEle_store < 2) nEle_store = 2;
+      if ( nEle_ptCut < 2) nEle_ptCut = 2;
+
       // These values cannot be re-calculated with the information stored
 
       Ele2_MissingHits    = -999.;
       Ele2_DCotTheta      = -999.;
       Ele2_Dist           = -999.;
       Ele2_Energy         = -999.;
-      Ele2_ValidFrac      = -999.;
       Ele2_VtxD0          = -999.;
       Ele2_hltDoubleElePt = -999.;
       Ele2_hltEleSignalPt = -999.;
@@ -155,7 +157,6 @@ void analysisClass::Loop() {
       Ele2_MissingHits	   = Ele1_MissingHits;	   
       Ele2_Phi		   = Ele1_Phi;		   
       Ele2_Pt		   = Ele1_Pt;		   
-      Ele2_ValidFrac	   = Ele1_ValidFrac;	   
       Ele2_VtxD0	   = Ele1_VtxD0;	   
       Ele2_hltDoubleElePt  = Ele1_hltDoubleElePt; 
       Ele2_hltEleSignalPt  = Ele1_hltEleSignalPt; 
@@ -181,6 +182,9 @@ void analysisClass::Loop() {
       M_e1j2        = e1j2.M();
       sT_eejj       = electron.Pt() + muon.Pt() + jet1.Pt() + jet2.Pt();
       Pt_e1e2       = e1e2.Pt();
+
+      if ( nEle_store < 2) nEle_store = 2;
+      if ( nEle_ptCut < 2) nEle_ptCut = 2;
       
       // These values cannot be re-calculated with the information stored
 
@@ -196,12 +200,17 @@ void analysisClass::Loop() {
       
     }
 
+    // std::cout << "N(muon, pt cut) = " << nMuon_ptCut << std::endl;
+
+    Ele2_ValidFrac = 999.0; // this is a tag
+
     //------------------------------------------------------------------
     // Fill variables 
     //------------------------------------------------------------------
     
     fillVariableWithValue("nEle_ptCut" , nEle_ptCut );
     fillVariableWithValue("nMuon_ptCut", nMuon_ptCut);
+    fillVariableWithValue("Muon1_Pt"   , Muon1_Pt   );
     fillVariableWithValue("Muon2_Pt"   , Muon2_Pt   );
     fillVariableWithValue("Ele1_Pt"    , Ele1_Pt    );	  
     fillVariableWithValue("Ele2_Pt"    , Ele2_Pt    );	  	  
@@ -225,8 +234,7 @@ void analysisClass::Loop() {
 	 passedAllPreviousCuts("PassFilter") ){
       fillSkimTree();
     }
-
-   } // End loop over events
-
-   std::cout << "analysisClass::Loop() ends" <<std::endl;   
+  } // End loop over events
+  
+  std::cout << "analysisClass::Loop() ends" <<std::endl;   
 }
