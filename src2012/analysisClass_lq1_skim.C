@@ -135,6 +135,9 @@ void analysisClass::Loop(){
   CollectionPtr c_hltMuon22_TTbar_all;
   CollectionPtr c_hltPhoton22_TTbar_all;
 
+  // muon filter
+  CollectionPtr c_hltMuon_SingleMu_all;
+
   // Signal
   CollectionPtr c_hltEle30_Signal_all;
   CollectionPtr c_hltPFJet25_Signal_all;
@@ -142,6 +145,9 @@ void analysisClass::Loop(){
   CollectionPtr c_hltPFJet100_Signal_all;
   CollectionPtr c_hltPFJetNoPU100_Signal_all;
   CollectionPtr c_hltDoubleEle_Signal_all;
+
+  // Tag and probe
+  CollectionPtr c_hltEle27WP80_all;
   
   /*//------------------------------------------------------------------
    *
@@ -190,12 +196,15 @@ void analysisClass::Loop(){
       
     }
 
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 ){
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ){
       
       // TTbar trigger
       c_hltMuon22_TTbar_all        = helper.GetHLTFilterObjects("hltEG22EtFilterL1Mu3p5EG12");
       c_hltPhoton22_TTbar_all      = helper.GetHLTFilterObjects("hltMu22Photon22CaloIdLHEFilter");
       
+      // SingleMu trigger          
+      c_hltMuon_SingleMu_all       = helper.GetHLTFilterObjects("hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q");
+
       // Ele+jets signal triggers
       c_hltEle30_Signal_all        = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDphiFilter");
       c_hltPFJet25_Signal_all      = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFJet25EleCleaned");
@@ -205,6 +214,10 @@ void analysisClass::Loop(){
 
       // DoubleEle signal trigger
       c_hltDoubleEle_Signal_all    = helper.GetHLTFilterObjects("hltDiEle33CaloIdLGsfTrkIdVLDPhiDoubleFilter");
+      
+      // Tag and probe trigger
+      c_hltEle27WP80_all           = helper.GetHLTFilterObjects("hltEle27WP80TrackIsoFilter");
+      
     }
 
     //-----------------------------------------------------------------
@@ -226,7 +239,7 @@ void analysisClass::Loop(){
     
     //-----------------------------------------------------------------
     // QCD skims    (reducedSkimType = 0     ) have loose electrons
-    // Signal skims (reducedSkimType = 1 or 2) have HEEP  electrons
+    // Signal skims (reducedSkimType = 1 - 3 ) have HEEP  electrons
     //-----------------------------------------------------------------
 
     CollectionPtr c_ele_final;
@@ -238,7 +251,7 @@ void analysisClass::Loop(){
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
 
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 ){
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ){
       CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
@@ -429,22 +442,26 @@ void analysisClass::Loop(){
     if ( n_muon_store >= 1 ){ 
 
       Muon muon1 = c_muon_final -> GetConstituent<Muon>(0);
-      double hltMuon1Pt = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all, muon1, muon_hltMatch_DeltaRCut);
-      fillVariableWithValue ("Muon1_Pt"       , muon1.Pt    ());
-      fillVariableWithValue ("Muon1_Eta"      , muon1.Eta   ());
-      fillVariableWithValue ("Muon1_Phi"      , muon1.Phi   ());
-      fillVariableWithValue ("Muon1_Charge"   , muon1.Charge());
-      fillVariableWithValue ("Muon1_hltMuonPt", hltMuon1Pt    );
+      double hltTTMuon1Pt     = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon1, muon_hltMatch_DeltaRCut);
+      double hltSingleMuon1Pt = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon_SingleMu_all, muon1, muon_hltMatch_DeltaRCut);
+      fillVariableWithValue ("Muon1_Pt"             , muon1.Pt      ());
+      fillVariableWithValue ("Muon1_Eta"            , muon1.Eta     ());
+      fillVariableWithValue ("Muon1_Phi"            , muon1.Phi     ());
+      fillVariableWithValue ("Muon1_Charge"         , muon1.Charge  ());
+      fillVariableWithValue ("Muon1_hltTTMuonPt"    , hltTTMuon1Pt    );
+      fillVariableWithValue ("Muon1_hltSingleMuonPt", hltSingleMuon1Pt);
       
       if ( n_muon_store >= 2 ){ 
-
+	
 	Muon muon2 = c_muon_final -> GetConstituent<Muon>(1);
-	double hltMuon2Pt = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all, muon2, muon_hltMatch_DeltaRCut);
-	fillVariableWithValue ("Muon2_Pt"       , muon2.Pt    ());
-	fillVariableWithValue ("Muon2_Eta"      , muon2.Eta   ());
-	fillVariableWithValue ("Muon2_Phi"      , muon2.Phi   ());
-	fillVariableWithValue ("Muon2_Charge"   , muon2.Charge());
-	fillVariableWithValue ("Muon2_hltMuonPt", hltMuon2Pt    );
+	double hltMuon2Pt       = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon2, muon_hltMatch_DeltaRCut);
+	double hltSingleMuon2Pt = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon_SingleMu_all, muon2, muon_hltMatch_DeltaRCut);
+	fillVariableWithValue ("Muon2_Pt"             , muon2.Pt      ());
+	fillVariableWithValue ("Muon2_Eta"            , muon2.Eta     ());
+	fillVariableWithValue ("Muon2_Phi"            , muon2.Phi     ());
+	fillVariableWithValue ("Muon2_Charge"         , muon2.Charge  ());
+	fillVariableWithValue ("Muon2_hltTTMuonPt"    , hltMuon2Pt      );
+	fillVariableWithValue ("Muon2_hltSingleMuonPt", hltSingleMuon2Pt);
 
       }
     }
@@ -611,12 +628,12 @@ void analysisClass::Loop(){
     }
 
     //-----------------------------------------------------------------
-    // Fill variables for signal-like skim (reducedSkimType == 1 or 2 )
+    // Fill variables for signal-like skim (reducedSkimType == 1 - 3 )
     //-----------------------------------------------------------------
     
     // Electrons
 
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 ) { 
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ) { 
       
       fillVariableWithValue ("nEle_store" , min(n_ele_store,2) );
       fillVariableWithValue ("nJet_store" , min(n_jet_store,5) );
@@ -628,6 +645,7 @@ void analysisClass::Loop(){
 	double hltEle1Pt_signal          = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
 	double hltEle1Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all  , ele1, ele_hltMatch_DeltaRCut);
 	double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTFilterObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
+	double hltEle1Pt_WP80            = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle27WP80_all       , ele1, ele_hltMatch_DeltaRCut);
 
 	fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
 	fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
@@ -642,12 +660,14 @@ void analysisClass::Loop(){
 	fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
 	fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
 	fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
+	fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
 
 	if ( n_ele_store >= 2 ){
 	  Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
 	  double hltEle2Pt_signal          = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all     , ele2, ele_hltMatch_DeltaRCut);
 	  double hltEle2Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all   , ele2, ele_hltMatch_DeltaRCut);
 	  double hltEle2Pt_doubleEleSignal = triggerMatchPt<HLTFilterObject, Electron>(c_hltDoubleEle_Signal_all , ele2, ele_hltMatch_DeltaRCut);
+	  double hltEle2Pt_WP80            = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle27WP80_all        , ele2, ele_hltMatch_DeltaRCut);
 	  fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
 	  fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
 	  fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
@@ -661,7 +681,7 @@ void analysisClass::Loop(){
 	  fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
 	  fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
 	  fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
-	
+	  fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
 	}
       }
 
@@ -925,7 +945,7 @@ void analysisClass::Loop(){
     // - HLT_Mu22_Photon22_CaloIdL
     //-----------------------------------------------------------------
     
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 ) { 
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ) { 
       
       if      ( ! isData )                       fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v5", "H_Ele30_PFJet100_25");
       else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v3", "H_Ele30_PFJet100_25");
@@ -953,6 +973,16 @@ void analysisClass::Loop(){
       else if ( run >= 193833 && run <= 196531 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
       else if ( run >= 198022 )                  fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v7", "H_DoubleEle33_CIdL_GsfIdVL" );
 
+      if      ( ! isData )                       fillTriggerVariable( "HLT_Mu40_eta2p1_v9"  , "H_Mu40_eta2p1" );
+      else if ( run >= 190456 && run <= 196531 ) fillTriggerVariable( "HLT_Mu40_eta2p1_v9"  , "H_Mu40_eta2p1" );
+      else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Mu40_eta2p1_v10" , "H_Mu40_eta2p1" );
+      else if ( run >= 199698 )                  fillTriggerVariable( "HLT_Mu40_eta2p1_v11" , "H_Mu40_eta2p1" );
+
+      if      ( ! isData )                       fillTriggerVariable ( "HLT_Ele27_WP80_v10" , "H_Ele27_WP80" );
+      else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable ( "HLT_Ele27_WP80_v8"  , "H_Ele27_WP80" );
+      else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable ( "HLT_Ele27_WP80_v9"  , "H_Ele27_WP80" );
+      else if ( run >= 191691 && run <= 196531 ) fillTriggerVariable ( "HLT_Ele27_WP80_v10" , "H_Ele27_WP80" );
+      else if ( run >= 198022 )                  fillTriggerVariable ( "HLT_Ele27_WP80_v11" , "H_Ele27_WP80" );
     }
 
     //-----------------------------------------------------------------
@@ -1001,6 +1031,16 @@ void analysisClass::Loop(){
 	  passedCut("Jet2_Pt"          ) &&
 	  passedCut("sT_eejj"          ) && 
 	  passedCut("M_e1e2"           )) {
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }
+
+    // Single electron skim
+    
+    else if ( reducedSkimType == 3 ) { 
+      if( passedCut("nEle_ptCut"       ) && 
+	  passedCut("Ele1_Pt"          ) ){
 	fillSkimTree();
 	fillReducedSkimTree();
       }
