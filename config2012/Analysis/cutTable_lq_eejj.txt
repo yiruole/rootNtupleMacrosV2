@@ -89,6 +89,8 @@ PassPrimaryVertex	        0	     1			-		-		0	2 -0.5 1.5
 PassTrackingFailure	        0	     1			-		-		0	2 -0.5 1.5
 PassNEle 			0            1			-               -               1       11 -0.5 10.5	      
 PassNMuon			0            1			-               -               1       16 -0.5 15.5          
+nEle_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
+nJet_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
 Ele1_Pt				45	     +inf		-		-		1	200 0 2000	      
 Ele2_Pt				45	     +inf		-		-		1	200 0 2000	      
 nJet				1	     +inf		-               -               1       16 -0.5 15.5	      
