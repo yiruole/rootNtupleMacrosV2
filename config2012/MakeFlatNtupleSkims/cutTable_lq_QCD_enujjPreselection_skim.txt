@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
 # 2012 JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/combined_golden_json_Run2012ABC.txt
+JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/2012/combined_golden_json_Run2012ABCD.txt
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -19,6 +19,6 @@ LooseEle1_hltPhotonPt      0.1	     +inf		-		-		0	100 0 2000
 LooseEle1_PassID	   -1	     0			-		-		0	2 -0.5 1.5  
 JetLooseEle1_Pt		   125.0     +inf		-		-		0	100 0 2000  
 JetLooseEle2_Pt		   45.0	     +inf		-		-		0	100 0 2000  
-MET_Pt			   55.0	     +inf		-		-		0	100 0 2000  
-sT_enujj       		   300.0     +inf		-		-		0	100 0 2000  
-MT_Ele1MET		   50.0	     +inf		-		-		0	100 0 2000
+MET_Pt			   -inf	     +inf		-		-		0	100 0 2000  
+sT_enujj       		   -inf      +inf		-		-		0	100 0 2000  
+MT_Ele1MET		   -inf	     +inf		-		-		0	100 0 2000
