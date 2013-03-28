@@ -91,6 +91,18 @@ void analysisClass::Loop(){
   int reducedSkimType = getPreCutValue1("reducedSkimType");
 
   //--------------------------------------------------------------------------
+  // Should we do any scaling / smearing for systematics?
+  //--------------------------------------------------------------------------
+
+  int electron_energy_scale_sign = int(getPreCutValue1("electron_energy_scale_sign" ));
+  int pfjet_energy_scale_sign    = int(getPreCutValue1("pfjet_energy_scale_sign"    ));
+
+  bool do_eer = bool ( int(getPreCutValue1("do_electron_energy_smear"   )) == 1 );
+  bool do_jer = bool ( int(getPreCutValue1("do_pfjet_energy_smear"      )) == 1 );
+  bool do_ees = bool ( electron_energy_scale_sign != 0 );
+  bool do_jes = bool ( pfjet_energy_scale_sign    != 0 );
+  
+  //--------------------------------------------------------------------------
   // Cuts for physics objects selection
   //--------------------------------------------------------------------------
 
@@ -115,7 +127,6 @@ void analysisClass::Loop(){
   //--------------------------------------------------------------------------
 
   Long64_t nentries = fChain->GetEntries();
-  // Long64_t nentries = 1000;
   std::cout << "analysisClass::Loop(): nentries = " << fChain -> GetEntries() << std::endl;   
   
   //--------------------------------------------------------------------------
@@ -148,6 +159,24 @@ void analysisClass::Loop(){
 
   // Tag and probe
   CollectionPtr c_hltEle27WP80_all;
+
+  //--------------------------------------------------------------------------
+  // For smearing systematics samples, you'll need a random number generator
+  //--------------------------------------------------------------------------
+
+  unsigned int seed = 987654321;
+  TRandom3 * rootEngine = new TRandom3 ( seed ) ;
+
+  //--------------------------------------------------------------------------
+  // For smearing/scaling systematics samples, you'll need to calculate the effect on MET
+  //--------------------------------------------------------------------------
+  
+  TLorentzVector v_delta_met;
+
+  TLorentzVector v_PFMET;
+  TLorentzVector v_PFMETType1Cor;
+  TLorentzVector v_PFMETType01Cor;
+  TLorentzVector v_PFMETType01XYCor;
   
   /*//------------------------------------------------------------------
    *
@@ -169,7 +198,7 @@ void analysisClass::Loop(){
     // Print progress
     //-----------------------------------------------------------------
     
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << std::endl;   
+    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
     //-----------------------------------------------------------------
     // Get access to HLT decisions
@@ -236,6 +265,47 @@ void analysisClass::Loop(){
 
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
     CollectionPtr c_genJet_final = c_genJet_all;
+    
+    //-----------------------------------------------------------------
+    // Energy scaling and resolution smearing here
+    //-----------------------------------------------------------------
+    
+    if ( do_eer || do_jer || do_ees || do_jes ) { 
+
+      // Set the PFMET difference to zero
+      
+      v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
+
+      // Do the energy scale / energy resolution operations
+
+      if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.5, rootEngine, v_delta_met );
+      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.5, rootEngine, v_delta_met );
+      if ( do_ees ) c_ele_all      -> ScaleEnergy <Electron> ( electron_energy_scale_sign, v_delta_met );
+      if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
+      
+      // Propagate the results to the PFMET
+
+      v_PFMET           .SetPtEtaPhiM( (*PFMET           )[0] , 0., (*PFMETPhi           )[0] , 0. );
+      v_PFMETType1Cor   .SetPtEtaPhiM( (*PFMETType1Cor   )[0] , 0., (*PFMETPhiType1Cor   )[0] , 0. );
+      v_PFMETType01Cor  .SetPtEtaPhiM( (*PFMETType01Cor  )[0] , 0., (*PFMETPhiType01Cor  )[0] , 0. );
+      v_PFMETType01XYCor.SetPtEtaPhiM( (*PFMETType01XYCor)[0] , 0., (*PFMETPhiType01XYCor)[0] , 0. );
+      
+      v_PFMET            = v_PFMET            + v_delta_met;
+      v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
+      v_PFMETType01Cor   = v_PFMETType01Cor   + v_delta_met;
+      v_PFMETType01XYCor = v_PFMETType01XYCor + v_delta_met;
+      
+      (*PFMET              )[0] = v_PFMET           .Pt();
+      (*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
+      (*PFMETType01Cor     )[0] = v_PFMETType01Cor  .Pt();
+      (*PFMETType01XYCor   )[0] = v_PFMETType01XYCor.Pt();
+      
+      (*PFMETPhi           )[0] = v_PFMET           .Phi();
+      (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
+      (*PFMETPhiType01Cor  )[0] = v_PFMETType01Cor  .Phi();
+      (*PFMETPhiType01XYCor)[0] = v_PFMETType01XYCor.Phi();
+
+    }
     
     //-----------------------------------------------------------------
     // QCD skims    (reducedSkimType = 0     ) have loose electrons
@@ -309,7 +379,6 @@ void analysisClass::Loop(){
     fillVariableWithValue("PassBeamHaloFilterLoose"    , int(passBeamHaloFilterLoose                == 1));
     fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
     fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
-    fillVariableWithValue("PassHcalLaserEventFilter"   , int(passHcalLaserEventFilter               == 0));
     fillVariableWithValue("PassEcalDeadCellBoundEnergy", int(passEcalDeadCellBoundaryEnergyFilter   == 0));
     fillVariableWithValue("PassEcalDeadCellTrigPrim"   , int(passEcalDeadCellTriggerPrimitiveFilter == 0));
     fillVariableWithValue("PassTrackingFailure"        , int(passTrackingFailureFilter              == 0));
