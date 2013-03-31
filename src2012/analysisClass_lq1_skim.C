@@ -258,7 +258,7 @@ void analysisClass::Loop(){
     CollectionPtr c_ele_all   ( new Collection(*this, ElectronPt    -> size()));
     CollectionPtr c_muon_all  ( new Collection(*this, MuonPt        -> size()));
     CollectionPtr c_pfjet_all ( new Collection(*this, PFJetPt       -> size()));
-    
+
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
@@ -271,13 +271,18 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     
     if ( do_eer || do_jer || do_ees || do_jes ) { 
-
+      
+      // If  you're scaling/smearing PFJets, recall that only jets with pt > 10 GeV affect the PFMET
+      // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
+      c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 10.0 );
+      c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
+      
       // Set the PFMET difference to zero
       
       v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
 
       // Do the energy scale / energy resolution operations
-
+      
       if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.5, rootEngine, v_delta_met );
       if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.5, rootEngine, v_delta_met );
       if ( do_ees ) c_ele_all      -> ScaleEnergy <Electron> ( electron_energy_scale_sign, v_delta_met );
@@ -304,9 +309,8 @@ void analysisClass::Loop(){
       (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
       (*PFMETPhiType01Cor  )[0] = v_PFMETType01Cor  .Phi();
       (*PFMETPhiType01XYCor)[0] = v_PFMETType01XYCor.Phi();
-
     }
-    
+
     //-----------------------------------------------------------------
     // QCD skims    (reducedSkimType = 0     ) have loose electrons
     // Signal skims (reducedSkimType = 1 - 3 ) have HEEP  electrons
@@ -390,11 +394,11 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     
     fillVariableWithValue("PFMET_Pt"            , PFMET               -> at (0));      
-    fillVariableWithValue("PFMET_Phi"		, PFMETPhi	      -> at (0));
+    fillVariableWithValue("PFMET_Phi"	      	, PFMETPhi	      -> at (0));
     fillVariableWithValue("PFMET_Type1_Pt"      , PFMETType1Cor       -> at (0));      
-    fillVariableWithValue("PFMET_Type1_Phi" 	, PFMETPhiType1Cor    -> at (0));
+    fillVariableWithValue("PFMET_Type1_Phi"   	, PFMETPhiType1Cor    -> at (0));
     fillVariableWithValue("PFMET_Type01_Pt"     , PFMETType01Cor      -> at (0));      
-    fillVariableWithValue("PFMET_Type01_Phi"	, PFMETPhiType01Cor   -> at (0));
+    fillVariableWithValue("PFMET_Type01_Phi"  	, PFMETPhiType01Cor   -> at (0));
     fillVariableWithValue("PFMET_Type01XY_Pt"   , PFMETType01XYCor    -> at (0));      
     fillVariableWithValue("PFMET_Type01XY_Phi"	, PFMETPhiType01XYCor -> at (0));
     
