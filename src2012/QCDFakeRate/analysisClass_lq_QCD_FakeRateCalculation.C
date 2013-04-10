@@ -13,72 +13,6 @@ analysisClass::analysisClass(string * inputList, string * cutFile, string * tree
 
 analysisClass::~analysisClass(){}
 
-float weightTruePileupV10toHcp53X(float input){
-  float w[60] = {
-    0.409409,
-    0.527276,
-    0.39328,
-    0.507892,
-    0.48029,
-    0.787701,
-    0.632356,
-    0.618033,
-    0.806089,
-    1.14018,
-    1.5788,
-    1.93507,
-    1.957,
-    1.73004,
-    1.46737,
-    1.28278,
-    1.18189,
-    1.13388,
-    1.12578,
-    1.14415,
-    1.16048,
-    1.1618,
-    1.15318,
-    1.13405,
-    1.09239,
-    1.01915,
-    0.914837,
-    0.786744,
-    0.644879,
-    0.502039,
-    0.371688,
-    0.263586,
-    0.18067,
-    0.120472,
-    0.0780184,
-    0.0486113,
-    0.0289039,
-    0.0163367,
-    0.00879674,
-    0.00456046,
-    0.0023098,
-    0.00115977,
-    0.000583207,
-    0.000294815,
-    0.000149865,
-    7.62892e-05,
-    3.87537e-05,
-    1.96105e-05,
-    9.87744e-06,
-    4.95418e-06,
-    2.47913e-06,
-    1.23919e-06,
-    6.19751e-07,
-    3.10125e-07,
-    1.54934e-07,
-    7.71425e-08,
-    3.8182e-08,
-    1.87455e-08,
-    9.10765e-09,
-    9.19802e-09};
-  return w[(int)floor(input)];
-}
-
-
 void analysisClass::Loop()
 {
    std::cout << "analysisClass::Loop() begins" <<std::endl;   
@@ -390,9 +324,7 @@ void analysisClass::Loop()
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     double pileup_weight;
-     if ( isData == 0 ) pileup_weight = weightTruePileupV10toHcp53X ( nPileUpInt_True );
-     else pileup_weight = 1.0;
+     double pileup_weight = getPileupWeight ( nPileUpInt_True, isData ) ;
      
      //--------------------------------------------------------------------------
      // Fill variables
@@ -439,7 +371,6 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , min_prescale * pileup_weight );
      fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , min_prescale * pileup_weight );
      fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, min_prescale * pileup_weight );
-     fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, min_prescale * pileup_weight );
      fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, min_prescale * pileup_weight );
      fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , min_prescale * pileup_weight );
      fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, min_prescale * pileup_weight );
