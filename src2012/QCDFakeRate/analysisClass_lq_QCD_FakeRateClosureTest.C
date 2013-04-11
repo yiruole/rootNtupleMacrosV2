@@ -8,10 +8,32 @@
 #include <TVector2.h>
 #include <TVector3.h>
 
+#include <TFile.h>
+#include <TH1F.h>
+#include <TF1.h>
+#include <TFitResultPtr.h>
+#include <TFitResult.h>
+
+#include "qcdFitter.h"
+
+
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
 
 analysisClass::~analysisClass(){}
+   
+/*
+double fitf ( double * x, double * par ){
+  
+  double fitval;
+  double xx = x[0];
+
+  if (xx < par[0]) fitval = par[1] + par[2] * xx;
+  else             fitval = ( par[3] * ( xx - par[0] )) + par[1] + ( par[2] * par[0] );
+  
+  return fitval;
+}
+*/
 
 void analysisClass::Loop()
 {
@@ -31,58 +53,25 @@ void analysisClass::Loop()
    // Get pre-cut values
    //--------------------------------------------------------------------------
 
-   // eta boundaries
-
-   double eleEta_bar            = getPreCutValue1("eleEta_bar");
-   double eleEta_end1_min       = getPreCutValue1("eleEta_end1");
-   double eleEta_end1_max       = getPreCutValue2("eleEta_end1");
-   double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
-   double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
-
    // fake rates
    
-   double fakeRate_low_bar_p0    = getPreCutValue1 ( "fakeRate_bar"  );
-   double fakeRate_low_bar_p1    = getPreCutValue2 ( "fakeRate_bar"  );
-   double fakeRate_high_bar_p0   = getPreCutValue3 ( "fakeRate_bar"  );
-				 
-   double fakeRate_low_end1_p0   = getPreCutValue1 ( "fakeRate_end1" );
-   double fakeRate_low_end1_p1   = getPreCutValue2 ( "fakeRate_end1" );
-   double fakeRate_high_end1_p0  = getPreCutValue3 ( "fakeRate_end1" );
-				 
-   double fakeRate_low_end2_p0   = getPreCutValue1 ( "fakeRate_end2" );
-   double fakeRate_low_end2_p1   = getPreCutValue2 ( "fakeRate_end2" );
-   double fakeRate_high_end2_p0  = getPreCutValue3 ( "fakeRate_end2" );
+   int qcd_fit_function_version      = getPreCutValue1 ("QCD_fit_func_version" );
+   std::string qcd_file_name         = getPreCutString1("QCD_file");
+   std::string qcd_barrel_plot_name  = getPreCutString1("QCD_barrel_plot" );
+   std::string qcd_endcap1_plot_name = getPreCutString1("QCD_endcap1_plot");
+   std::string qcd_endcap2_plot_name = getPreCutString1("QCD_endcap2_plot");
 
-   double eFakeRate_low_bar_p0   = getPreCutValue1 ( "eFakeRate_bar" );
-   double eFakeRate_low_bar_p1   = getPreCutValue2 ( "eFakeRate_bar" );
-   double eFakeRate_high_bar_p0  = getPreCutValue3 ( "eFakeRate_bar" );
-
-   double eFakeRate_low_end1_p0  = getPreCutValue1 ( "eFakeRate_end1");
-   double eFakeRate_low_end1_p1  = getPreCutValue2 ( "eFakeRate_end1");
-   double eFakeRate_high_end1_p0 = getPreCutValue3 ( "eFakeRate_end1");
-
-   double eFakeRate_low_end2_p0  = getPreCutValue1 ( "eFakeRate_end2");
-   double eFakeRate_low_end2_p1  = getPreCutValue2 ( "eFakeRate_end2");
-   double eFakeRate_high_end2_p0 = getPreCutValue3 ( "eFakeRate_end2");
-   
-   // New movable break point
-
-   double fakeRate_break_bar     = getPreCutValue4 ( "fakeRate_bar"  );
-   double fakeRate_break_end1    = getPreCutValue4 ( "fakeRate_end1" );
-   double fakeRate_break_end2    = getPreCutValue4 ( "fakeRate_end2" );
-   
-   double eFakeRate_break_bar    = getPreCutValue4 ( "eFakeRate_bar"  );
-   double eFakeRate_break_end1   = getPreCutValue4 ( "eFakeRate_end1" );
-   double eFakeRate_break_end2   = getPreCutValue4 ( "eFakeRate_end2" );
-   
-   // trigger requirements
-    
-   double trigger_tolerance = getPreCutValue1("trigger_tolerance"); 
+   qcdFitter * fitter = new qcdFitter(qcd_fit_function_version, 
+				      qcd_file_name           ,
+				      qcd_barrel_plot_name    , 
+				      qcd_endcap1_plot_name   , 
+				      qcd_endcap2_plot_name    );
+   fitter -> print();
 
    // override the fake rate?
    double fakeRate_override = getPreCutValue1("fakeRate_override");
    bool override_fakeRate = ( fakeRate_override > 0.0 );
-
+   
    //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
@@ -177,146 +166,13 @@ void analysisClass::Loop()
      }
      
      //--------------------------------------------------------------------------
-     // What kind of event is this?
-     //  - EB-EB
-     //  - EB-EE
-     //  - EE-EE
-     //--------------------------------------------------------------------------
-     
-     bool ele1_isBarrel  = false;
-     bool ele1_isEndcap1 = false;
-     bool ele1_isEndcap2 = false;
-     bool ele2_isBarrel  = false;
-     bool ele2_isEndcap1 = false;
-     bool ele2_isEndcap2 = false;
-     
-     if( fabs( LooseEle1_Eta  ) < eleEta_bar )        ele1_isBarrel  = true;
-     if( fabs( LooseEle1_Eta  ) > eleEta_end1_min &&
-	 fabs( LooseEle1_Eta  ) < eleEta_end1_max )   ele1_isEndcap1 = true;
-     if( fabs( LooseEle1_Eta  ) > eleEta_end2_min &&
-	 fabs( LooseEle1_Eta  ) < eleEta_end2_max )   ele1_isEndcap2 = true;
-
-     if( fabs( LooseEle2_Eta  ) < eleEta_bar )        ele2_isBarrel  = true;
-     if( fabs( LooseEle2_Eta  ) > eleEta_end1_min &&
-	 fabs( LooseEle2_Eta  ) < eleEta_end1_max )   ele2_isEndcap1 = true;
-     if( fabs( LooseEle2_Eta  ) > eleEta_end2_min &&
-	 fabs( LooseEle2_Eta  ) < eleEta_end2_max )   ele2_isEndcap2 = true;
-
-     bool isEBEB   = ( ele1_isBarrel  && ele2_isBarrel  );
-     bool isEBEE1  = ( ele1_isBarrel  && ele2_isEndcap1 );
-     bool isEBEE2  = ( ele1_isBarrel  && ele2_isEndcap2 );
-
-     bool isEE1EB  = ( ele1_isEndcap1 && ele2_isBarrel  );
-     bool isEE1EE1 = ( ele1_isEndcap1 && ele2_isEndcap1 );
-     bool isEE1EE2 = ( ele1_isEndcap1 && ele2_isEndcap2 );
-
-     bool isEE2EB  = ( ele1_isEndcap2 && ele2_isBarrel  );
-     bool isEE2EE1 = ( ele1_isEndcap2 && ele2_isEndcap1 );
-     bool isEE2EE2 = ( ele1_isEndcap2 && ele2_isEndcap2 );
-
-     bool isEBEE   = ( isEBEE1  || isEBEE2  || isEE1EB  || isEE2EB  );
-     bool isEEEE   = ( isEE1EE1 || isEE1EE2 || isEE2EE1 || isEE2EE2 );
-
-     //--------------------------------------------------------------------------
-     // Determine which fake rates to use
+     // Calculate the fake rate
      //--------------------------------------------------------------------------
 
-     double fakeRate1  = 0.0;
-     double fakeRate2  = 0.0;
-     double eFakeRate1 = 0.0 ;
-     double eFakeRate2 = 0.0;
-
-     double break_point_ele1 = -1;
-     if      ( ele1_isBarrel  ) break_point_ele1 = fakeRate_break_bar ;
-     else if ( ele1_isEndcap1 ) break_point_ele1 = fakeRate_break_end1;
-     else if ( ele1_isEndcap2 ) break_point_ele1 = fakeRate_break_end2;
-
-     double break_point_ele2 = -1;
-     if      ( ele2_isBarrel  ) break_point_ele2 = fakeRate_break_bar ;
-     else if ( ele2_isEndcap1 ) break_point_ele2 = fakeRate_break_end1;
-     else if ( ele2_isEndcap2 ) break_point_ele2 = fakeRate_break_end2;
-     
-     if ( LooseEle1_Pt < break_point_ele1 ){
-       if ( ele1_isBarrel  ) {
-	 fakeRate1  = fakeRate_low_bar_p0  + fakeRate_low_bar_p1  * LooseEle1_Pt;
-	 eFakeRate1 = sqrt ((( eFakeRate_low_bar_p1  * LooseEle1_Pt       ) * 
-			     ( eFakeRate_low_bar_p1  * LooseEle1_Pt       )) + 
-			    (( eFakeRate_low_bar_p0  * eFakeRate_low_bar_p0 ) * 
-			     ( eFakeRate_low_bar_p0  * eFakeRate_low_bar_p0 )));
-       }
-       if ( ele1_isEndcap1 ) {
-	 fakeRate1  = fakeRate_low_end1_p0 + fakeRate_low_end1_p1 * LooseEle1_Pt;
-	 eFakeRate1 = sqrt ((( eFakeRate_low_end1_p1  * LooseEle1_Pt       ) * 
-			     ( eFakeRate_low_end1_p1  * LooseEle1_Pt       )) + 
-			    (( eFakeRate_low_end1_p0  * eFakeRate_low_end1_p0 ) * 
-			     ( eFakeRate_low_end1_p0  * eFakeRate_low_end1_p0 )));
-
-       }
-       if ( ele1_isEndcap2 ) {
-	 fakeRate1 = fakeRate_low_end2_p0 + fakeRate_low_end2_p1 * LooseEle1_Pt;
-	 eFakeRate1 = sqrt ((( eFakeRate_low_end2_p1  * LooseEle1_Pt       ) * 
-			     ( eFakeRate_low_end2_p1  * LooseEle1_Pt       )) + 
-			    (( eFakeRate_low_end2_p0  * eFakeRate_low_end2_p0 ) * 
-			     ( eFakeRate_low_end2_p0  * eFakeRate_low_end2_p0 )));
-       } 
-     }
-     else if  ( LooseEle1_Pt >= break_point_ele1 ){
-       if ( ele1_isBarrel  ) {
-	 fakeRate1  = fakeRate_high_bar_p0  ;
-	 eFakeRate1 = eFakeRate_high_bar_p0 ;
-       }
-       if ( ele1_isEndcap1 ) { 
-	 fakeRate1 = fakeRate_high_end1_p0 ;
-	 eFakeRate1 = eFakeRate_high_end1_p0 ;
-       }
-       if ( ele1_isEndcap2 ) {
-	 fakeRate1 = fakeRate_high_end2_p0 ;
-	 eFakeRate1 = eFakeRate_high_end2_p0 ;
-       }
-     }
-
-     if ( LooseEle2_Pt < break_point_ele2 ){
-       if ( ele1_isBarrel  ) {
-	 fakeRate2  = fakeRate_low_bar_p0  + fakeRate_low_bar_p1  * LooseEle2_Pt;
-	 eFakeRate2 = sqrt ((( eFakeRate_low_bar_p1  * LooseEle2_Pt       ) * 
-			     ( eFakeRate_low_bar_p1  * LooseEle2_Pt       )) + 
-			    (( eFakeRate_low_bar_p0  * eFakeRate_low_bar_p0 ) * 
-			     ( eFakeRate_low_bar_p0  * eFakeRate_low_bar_p0 )));
-       }
-       if ( ele1_isEndcap1 ) {
-	 fakeRate2 = fakeRate_low_end1_p0 + fakeRate_low_end1_p1 * LooseEle2_Pt;
-	 eFakeRate2 = sqrt ((( eFakeRate_low_end1_p1  * LooseEle2_Pt       ) * 
-			     ( eFakeRate_low_end1_p1  * LooseEle2_Pt       )) + 
-			    (( eFakeRate_low_end1_p0  * eFakeRate_low_end1_p0 ) * 
-			     ( eFakeRate_low_end1_p0  * eFakeRate_low_end1_p0 )));
-       }
-       if ( ele1_isEndcap2 ) {
-	 fakeRate2 = fakeRate_low_end2_p0 + fakeRate_low_end2_p1 * LooseEle2_Pt;
-	 eFakeRate2 = sqrt ((( eFakeRate_low_end2_p1  * LooseEle2_Pt       ) * 
-			     ( eFakeRate_low_end2_p1  * LooseEle2_Pt       )) + 
-			    (( eFakeRate_low_end2_p0  * eFakeRate_low_end2_p0 ) * 
-			     ( eFakeRate_low_end2_p0  * eFakeRate_low_end2_p0 )));
-       }
-     }
-
-     else if  ( LooseEle2_Pt >= break_point_ele2 ){
-       if ( ele1_isBarrel  ) {
-	 fakeRate2  = fakeRate_high_bar_p0  ;
-	 eFakeRate2 = eFakeRate_high_bar_p0;
-       }
-       if ( ele1_isEndcap1 ) { 
-	 fakeRate2 = fakeRate_high_end1_p0 ;
-	 eFakeRate2 = eFakeRate_high_end1_p0;
-       }
-       if ( ele1_isEndcap2 ) {
-	 fakeRate2 = fakeRate_high_end2_p0 ;
-	 eFakeRate2 = eFakeRate_high_end2_p0;
-       }
-     }
-
-     //--------------------------------------------------------------------------
-     // Finally have the effective fake rate
-     //--------------------------------------------------------------------------
+     double fakeRate1  = fitter -> getFakeRate    ( LooseEle1_Pt, LooseEle1_Eta );
+     double fakeRate2  = fitter -> getFakeRate    ( LooseEle2_Pt, LooseEle2_Eta );
+     double eFakeRate1 = fitter -> getFakeRateErr ( LooseEle1_Pt, LooseEle1_Eta );
+     double eFakeRate2 = fitter -> getFakeRateErr ( LooseEle2_Pt, LooseEle2_Eta );
 
      double fakeRateEffective  = fakeRate1 + fakeRate2;
      double eFakeRateEffective = sqrt ( ( eFakeRate1 * eFakeRate1 ) +
