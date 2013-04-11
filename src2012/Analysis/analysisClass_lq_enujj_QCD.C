@@ -18,6 +18,20 @@ void analysisClass::Loop()
    std::cout << "analysisClass::Loop() begins" <<std::endl;   
 
    //--------------------------------------------------------------------------
+   // Final selection mass points
+   //--------------------------------------------------------------------------
+
+   const int n_lq_mass = 19;
+
+   int LQ_MASS[n_lq_mass] = { 
+     300,  350,  400, 450, 500, 550,  600,  650,
+     700,  750,  800, 850, 900, 950, 1000, 1050,
+     1100, 1150, 1200
+   };
+
+   std::vector<bool> passed_vector;
+   
+   //--------------------------------------------------------------------------
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
    
@@ -82,6 +96,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "nElectron_PAS"            , 5   , -0.5    , 4.5      );
    CreateUserTH1D( "nMuon_PAS"                , 5   , -0.5    , 4.5      );
    CreateUserTH1D( "nJet_PAS"                 , 11  , -0.5    , 10.5     );
+   CreateUserTH1D( "nJet_PASandFrancesco"     , 11  , -0.5    , 10.5     );
    CreateUserTH1D( "Pt1stEle_PAS"	      , 100 , 0       , 1000     ); 
    CreateUserTH1D( "Eta1stEle_PAS"	      , 100 , -5      , 5	 ); 
    CreateUserTH1D( "Phi1stEle_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
@@ -91,12 +106,14 @@ void analysisClass::Loop()
    CreateUserTH1D( "MET_Type01_PAS"           , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "MET_Type01_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
-   CreateUserTH1D( "Pt1stJet_PAS"             , 100 , 0       , 1000	 ); 
-   CreateUserTH1D( "Pt2ndJet_PAS"             , 100 , 0       , 1000	 ); 
+   CreateUserTH1D( "Pt1stJet_PAS"             , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Pt2ndJet_PAS"             , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Eta1stJet_PAS"            , 100 , -5      , 5	 ); 
    CreateUserTH1D( "Eta2ndJet_PAS"            , 100 , -5      , 5	 ); 
    CreateUserTH1D( "Phi1stJet_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "Phi2ndJet_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "Mass1stJet_PAS"           , 100 , 0       , 500      );
+   CreateUserTH1D( "Mass2ndJet_PAS"           , 100 , 0       , 500      );
    CreateUserTH1D( "CSV1stJet_PAS"            , 200 , 0       , 1.0	 ); 
    CreateUserTH1D( "CSV2ndJet_PAS"            , 200 , 0       , 1.0	 ); 
    CreateUserTH1D( "nMuon_PtCut_IDISO_PAS"    , 16  , -0.5    , 15.5	 ); 
@@ -108,7 +125,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTlep_Type01_PAS"         , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
-   CreateUserTH1D( "sT_PAS"                   , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sT_PAS"                   , 300 , 0       , 3000	 ); 
    CreateUserTH1D( "sT_Type01_PAS"            , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
@@ -163,6 +180,24 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3", 200, 40, 140 );
    CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4", 200, 40, 140 );
    CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5", 200, 40, 140 );
+
+   CreateUserTH1D( "Eta1stJet_PASand2Jet"  , 100 , -5 , 5 ); 
+   CreateUserTH1D( "Eta1stJet_PASand3Jet"  , 100 , -5 , 5 ); 
+   CreateUserTH1D( "Eta1stJet_PASand4Jet"  , 100 , -5 , 5 ); 
+   CreateUserTH1D( "Eta1stJet_PASand5Jet"  , 100 , -5 , 5 ); 
+
+   //--------------------------------------------------------------------------
+   // Final selection plots
+   //--------------------------------------------------------------------------
+   
+   char plot_name[100];
+   
+   for (int i_lq_mass = 0; i_lq_mass < n_lq_mass ; ++i_lq_mass ) { 
+     int lq_mass = LQ_MASS[i_lq_mass];
+     sprintf(plot_name, "MTenu_LQ%d" , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 1000 ); 
+     sprintf(plot_name, "Mej_LQ%d"   , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 2000 );
+     sprintf(plot_name, "ST_LQ%d"    , lq_mass ); CreateUserTH1D ( plot_name, 300 , 0 , 3000 );
+   }
    
    //--------------------------------------------------------------------------
    // Loop over the chain
@@ -314,7 +349,7 @@ void analysisClass::Loop()
      // Finally have the effective fake rate
      //--------------------------------------------------------------------------
      
-     double fakeRate  = fakeRate1;
+     double fakeRate  = fakeRate1 / ( 1.0 - fakeRate1 ) ;
      double eFakeRate = eFakeRate1;
      
      //--------------------------------------------------------------------------
@@ -368,7 +403,6 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , fakeRate * min_prescale );
      fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , fakeRate * min_prescale );
      fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, fakeRate * min_prescale );
-     fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, fakeRate * min_prescale );
      fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, fakeRate * min_prescale );
      fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , fakeRate * min_prescale );
      fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, fakeRate * min_prescale );
@@ -476,7 +510,6 @@ void analysisClass::Loop()
      // Dummy variables
      fillVariableWithValue ("preselection",1, min_prescale * fakeRate );
 
-
      double MT_JetMET;
      double Mej;
      
@@ -489,6 +522,23 @@ void analysisClass::Loop()
      }	 
      
      //--------------------------------------------------------------------------
+     // Fill final selection cuts
+     //--------------------------------------------------------------------------
+
+     char cut_name[100];
+     for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+       int lq_mass = LQ_MASS[i_lq_mass];
+       sprintf(cut_name, "MTenu_LQ%d" , lq_mass ); fillVariableWithValue( cut_name , MT_Ele1MET , min_prescale * fakeRate );
+       sprintf(cut_name, "Mej_LQ%d"   , lq_mass ); fillVariableWithValue( cut_name , Mej        , min_prescale * fakeRate );
+       sprintf(cut_name, "ST_LQ%d"    , lq_mass ); fillVariableWithValue( cut_name , sT_enujj   , min_prescale * fakeRate );
+     }
+     
+     // Optimization variables
+     fillVariableWithValue( "ST_opt"   , sT_enujj   , min_prescale * fakeRate );
+     fillVariableWithValue( "Mej_opt"  , Mej        , min_prescale * fakeRate );
+     fillVariableWithValue( "MTenu_opt", MT_Ele1MET , min_prescale * fakeRate );
+     
+     //--------------------------------------------------------------------------
      // Evaluate the cuts
      //--------------------------------------------------------------------------
      
@@ -499,6 +549,19 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      bool passed_preselection = passedAllPreviousCuts("preselection");
+
+
+     //--------------------------------------------------------------------------
+     // Did we pass any final selection cuts?
+     //--------------------------------------------------------------------------
+
+     passed_vector.clear();
+     for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+       int lq_mass = LQ_MASS[i_lq_mass];
+       sprintf(cut_name, "Mej_LQ%d", lq_mass );
+       bool decision = bool ( passedAllPreviousCuts(cut_name) && passedCut (cut_name));
+       passed_vector.push_back (decision);
+     }
      
      if ( passed_preselection ) { 
 
@@ -506,6 +569,13 @@ void analysisClass::Loop()
        // Fill skim tree, if necessary
        //--------------------------------------------------------------------------
        
+       double JetLooseEle1_Mass, JetLooseEle2_Mass;
+       TLorentzVector jetm1, jetm2;
+       jetm1.SetPtEtaPhiE       ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, JetLooseEle1_Energy );
+       jetm2.SetPtEtaPhiE       ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, JetLooseEle2_Energy );
+       JetLooseEle1_Mass = jetm1.M();
+       JetLooseEle2_Mass = jetm2.M();
+
        double min_DR_EleJet = 999.0;
        double DR_Ele1Jet3 = 999.0;
        if ( nJetLooseEle_store > 2 ) {
@@ -540,6 +610,8 @@ void analysisClass::Loop()
        FillUserTH1D( "Eta2ndJet_PAS"              , JetLooseEle2_Eta                                 , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "Phi1stJet_PAS"              , JetLooseEle1_Phi                                 , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "Phi2ndJet_PAS"	          , JetLooseEle2_Phi                                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mass1stJet_PAS"             , JetLooseEle1_Mass                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mass2ndJet_PAS"             , JetLooseEle2_Mass                                , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "CSV1stJet_PAS"              , JetLooseEle1_btagCSV                             , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "CSV2ndJet_PAS"              , JetLooseEle2_btagCSV                             , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "nMuon_PtCut_IDISO_PAS"      , nMuon_ptCut                                      , pileup_weight * min_prescale * fakeRate); 
@@ -572,6 +644,17 @@ void analysisClass::Loop()
        FillUserTH1D( "nJet_PAS"                   , nJetLooseEle_ptCut                               , pileup_weight * min_prescale * fakeRate);
        FillUserTH1D( "GeneratorWeight"            , -1.0             );
        FillUserTH1D( "PileupWeight"               , -1.0             );
+       
+       if ( Pt_Ele1MET         > 200. && 
+	    JetLooseEle1_Pt    > 200. && 
+	    JetLooseEle1_Mass  > 50.  ) {
+	 FillUserTH1D("nJet_PASandFrancesco", nJetLooseEle_ptCut, pileup_weight * min_prescale * fakeRate);
+       }
+       
+       if ( nJetLooseEle_ptCut == 2 ) FillUserTH1D( "Eta1stJet_PASand2Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       if ( nJetLooseEle_ptCut == 3 ) FillUserTH1D( "Eta1stJet_PASand3Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       if ( nJetLooseEle_ptCut == 4 ) FillUserTH1D( "Eta1stJet_PASand4Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       if ( nJetLooseEle_ptCut == 5 ) FillUserTH1D( "Eta1stJet_PASand5Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
        
        if ( LooseEle1_Pt > 40 && LooseEle1_Pt < 45 && fabs ( LooseEle1_Eta ) > 2.1 ){
 	 FillUserTH1D( "Pt1stEle_Pt40to45_EtaGT2p1", LooseEle1_Pt, pileup_weight * min_prescale * fakeRate);
@@ -620,7 +703,19 @@ void analysisClass::Loop()
 	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * min_prescale * fakeRate ) ;
 	 }
        }
+       
+       //-------------------------------------------------------------------------- 
+       // Final selection plots
+       //-------------------------------------------------------------------------- 
 
+       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+	 int  lq_mass = LQ_MASS      [i_lq_mass];
+	 bool pass    = passed_vector[i_lq_mass];
+	 if ( !pass ) continue;
+	 sprintf(plot_name, "MTenu_LQ%d" , lq_mass ); FillUserTH1D( plot_name , MT_Ele1MET , pileup_weight * min_prescale * fakeRate ) ;
+	 sprintf(plot_name, "Mej_LQ%d"   , lq_mass ); FillUserTH1D( plot_name , Mej        , pileup_weight * min_prescale * fakeRate ) ;
+	 sprintf(plot_name, "ST_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , sT_enujj   , pileup_weight * min_prescale * fakeRate ) ;
+       }
 
      }
    } // end loop over events
