@@ -5,8 +5,8 @@ JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/2012/combined_golden_json_Run2012
 #-----------------------------------------------------------------------------------------------------------------------------
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
-PILEUP_MC_TXT_FILE  /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_mc_pdf_file_Summer12_DR53X.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/PU_Central_2012.root
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/pileup_truth_Summer2012_DR53X-PU_S10.txt
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/e/eberry/public/LQ_PILEUP/PU_Central_Full2012.root
 #
 #############################     Example of file with list of cuts
 #
@@ -30,15 +30,13 @@ eleEta_end1            	1.560        2.0                  -               -     
 eleEta_end2            	2.000        2.5                  -               -               -1
 trigger_tolerance	0.90	     -			  -		  -		  -1
 #-----------------------------------------------------------------------------------------------------------------------------
-# Fake rates (2012, full dataset, 1 jet)
+# Fake rates (2012 new JECs, full dataset, 1 jet)
 #-----------------------------------------------------------------------------------------------------------------------------
-fakeRate_bar  	1.373e-02	-3.787e-05	7.222e-03	200.000		-1
-fakeRate_end1 	5.238e-02	-1.821e-04	3.173e-02	110.666		-1
-fakeRate_end2 	8.793e-02	-2.360e-04	6.120e-02	104.451		-1
-# 
-eFakeRate_bar  	4.906e-04	2.948e-06	1.460e-03	4.299		-1
-eFakeRate_end1 	2.872e-03	3.396e-05	1.900e-02	6.713		-1
-eFakeRate_end2 	4.231e-03	5.460e-05	1.860e-02	8.230		-1
+QCD_file		/afs/cern.ch/user/e/eberry/public/LQQCD/2012/qcd_fake_rate.root	- - - -1
+QCD_fit_func_version	1				-	  -		  -		  -1
+QCD_barrel_plot		hist_Bar_1Jet_Pt1stEle_PAS	-	  -		  -		  -1
+QCD_endcap1_plot	hist_End1_1Jet_Pt1stEle_PAS	-	  -		  -		  -1
+QCD_endcap2_plot	hist_End2_1Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Override the fake rate?
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -70,7 +68,6 @@ PassBeamScraping	        0	     1			-		-		0	2 -0.5 1.5
 PassEcalDeadCellBoundEnergy     0	     1			-		-		0	2 -0.5 1.5
 PassEcalDeadCellTrigPrim        0	     1			-		-		0	2 -0.5 1.5
 PassEcalLaserCorrFilter         0	     1			-		-		0	2 -0.5 1.5
-PassHcalLaserEventFilter        0	     1			-		-		0	2 -0.5 1.5
 PassPhysDecl		        0	     1			-		-		0	2 -0.5 1.5
 PassPrimaryVertex	        0	     1			-		-		0	2 -0.5 1.5
 PassTrackingFailure	        0	     1			-		-		0	2 -0.5 1.5
