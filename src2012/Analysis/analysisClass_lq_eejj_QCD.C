@@ -710,7 +710,6 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , fakeRateEffective * min_prescale );
      fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , fakeRateEffective * min_prescale );
      fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, fakeRateEffective * min_prescale );
-     fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, fakeRateEffective * min_prescale );
      fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, fakeRateEffective * min_prescale );
      fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , fakeRateEffective * min_prescale );
      fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, fakeRateEffective * min_prescale );
