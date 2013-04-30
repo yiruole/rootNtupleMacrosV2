@@ -70,6 +70,13 @@ void analysisClass::Loop() {
     resetCuts();
 
     //------------------------------------------------------------------
+    // If this is data, it has to pass the trigger
+    //------------------------------------------------------------------
+
+    int pass_trigger = 1;
+    if ( isData ) pass_trigger = int ( H_Mu40_eta2p1 > 0.5 );
+
+    //------------------------------------------------------------------
     // Is the muon going to be Ele1 or Ele2?
     //------------------------------------------------------------------
 
@@ -124,7 +131,6 @@ void analysisClass::Loop() {
       Ele2_DCotTheta      = -999.;
       Ele2_Dist           = -999.;
       Ele2_Energy         = -999.;
-      Ele2_VtxD0          = -999.;
       Ele2_hltDoubleElePt = -999.;
       Ele2_hltEleSignalPt = -999.;
       Ele2_hltEleTTbarPt  = -999.;
@@ -157,7 +163,6 @@ void analysisClass::Loop() {
       Ele2_MissingHits	   = Ele1_MissingHits;	   
       Ele2_Phi		   = Ele1_Phi;		   
       Ele2_Pt		   = Ele1_Pt;		   
-      Ele2_VtxD0	   = Ele1_VtxD0;	   
       Ele2_hltDoubleElePt  = Ele1_hltDoubleElePt; 
       Ele2_hltEleSignalPt  = Ele1_hltEleSignalPt; 
       Ele2_hltEleTTbarPt   = Ele1_hltEleTTbarPt;  
@@ -193,7 +198,6 @@ void analysisClass::Loop() {
       Ele1_Dist           = -999.;
       Ele1_Energy         = -999.;
       Ele1_ValidFrac      = -999.;
-      Ele1_VtxD0          = -999.;
       Ele1_hltDoubleElePt = -999.;
       Ele1_hltEleSignalPt = -999.;
       Ele1_hltEleTTbarPt  = -999.;
@@ -208,17 +212,18 @@ void analysisClass::Loop() {
     // Fill variables 
     //------------------------------------------------------------------
     
-    fillVariableWithValue("nEle_ptCut" , nEle_ptCut );
-    fillVariableWithValue("nMuon_ptCut", nMuon_ptCut);
-    fillVariableWithValue("Muon1_Pt"   , Muon1_Pt   );
-    fillVariableWithValue("Muon2_Pt"   , Muon2_Pt   );
-    fillVariableWithValue("Ele1_Pt"    , Ele1_Pt    );	  
-    fillVariableWithValue("Ele2_Pt"    , Ele2_Pt    );	  	  
-    fillVariableWithValue("Jet1_Pt"    , Jet1_Pt    );
-    fillVariableWithValue("Jet2_Pt"    , Jet2_Pt    );
-    fillVariableWithValue("sT_eejj"    , sT_eejj    );
-    fillVariableWithValue("M_e1e2"     , M_e1e2	    );	  
-    fillVariableWithValue("PassFilter" , 1          );
+    fillVariableWithValue( "nEle_ptCut"  , nEle_ptCut   );
+    fillVariableWithValue( "nMuon_ptCut" , nMuon_ptCut  );
+    fillVariableWithValue( "Muon1_Pt"    , Muon1_Pt     );
+    fillVariableWithValue( "Muon2_Pt"    , Muon2_Pt     );
+    fillVariableWithValue( "Ele1_Pt"     , Ele1_Pt      );	  
+    fillVariableWithValue( "Ele2_Pt"     , Ele2_Pt      );	  	  
+    fillVariableWithValue( "Jet1_Pt"     , Jet1_Pt      );
+    fillVariableWithValue( "Jet2_Pt"     , Jet2_Pt      );
+    fillVariableWithValue( "sT_eejj"     , sT_eejj      );
+    fillVariableWithValue( "M_e1e2"      , M_e1e2       );
+    fillVariableWithValue( "PassTrigger" , pass_trigger );
+    fillVariableWithValue( "PassFilter"  , 1            );
 
     //-----------------------------------------------------------------
     // Evaluate the cuts
