@@ -86,6 +86,8 @@ void analysisClass::Loop(){
   // - 0: QCD   (loose electron)
   // - 1: enujj (HEEP electron) 
   // - 2: eejj  (HEEP electron)
+  // - 3: single electron (HEEP)
+  // - 4: single muon (tight)
   //--------------------------------------------------------------------------
 
   int reducedSkimType = getPreCutValue1("reducedSkimType");
@@ -225,7 +227,7 @@ void analysisClass::Loop(){
       
     }
 
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ){
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4){
       
       // TTbar trigger
       c_hltMuon22_TTbar_all        = helper.GetHLTFilterObjects("hltEG22EtFilterL1Mu3p5EG12");
@@ -265,7 +267,7 @@ void analysisClass::Loop(){
 
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
     CollectionPtr c_genJet_final = c_genJet_all;
-    
+
     //-----------------------------------------------------------------
     // Energy scaling and resolution smearing here
     //-----------------------------------------------------------------
@@ -313,7 +315,7 @@ void analysisClass::Loop(){
 
     //-----------------------------------------------------------------
     // QCD skims    (reducedSkimType = 0     ) have loose electrons
-    // Signal skims (reducedSkimType = 1 - 3 ) have HEEP  electrons
+    // Signal skims (reducedSkimType = 1 - 4 ) have HEEP  electrons
     //-----------------------------------------------------------------
 
     CollectionPtr c_ele_final;
@@ -325,7 +327,7 @@ void analysisClass::Loop(){
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
 
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ){
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
       CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
@@ -334,7 +336,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // All skims need muons
     //-----------------------------------------------------------------
-    
+
     CollectionPtr c_muon_eta2p1            = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
     CollectionPtr c_muon_eta2p1_ID         = c_muon_eta2p1    -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04 );
     CollectionPtr c_muon_final             = c_muon_eta2p1_ID;
@@ -343,7 +345,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // All skims need PFJets
     //-----------------------------------------------------------------
-    
+
     CollectionPtr c_pfjet_central                     = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_EtaCut, jet_EtaCut   );
     CollectionPtr c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
     CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_ele_DeltaRCut  );
@@ -604,6 +606,7 @@ void analysisClass::Loop(){
 	fillVariableWithValue( "LooseEle1_BeamSpotDXYErr", loose_ele1.BeamSpotDXYErr()     );
 	fillVariableWithValue( "LooseEle1_ValidFrac"     , loose_ele1.ValidFrac()          );
 	fillVariableWithValue( "LooseEle1_Classif"       , loose_ele1.Classif()            );
+	fillVariableWithValue( "LooseEle1_EOverP"        , loose_ele1.ESuperClusterOverP() );
 
 	fillVariableWithValue( "LooseEle1_TrkIsolation"  , loose_ele1.TrkIsoDR03()         );
 	fillVariableWithValue( "LooseEle1_EcalIsolation" , loose_ele1.EcalIsoDR03()        );
@@ -665,6 +668,7 @@ void analysisClass::Loop(){
 	  fillVariableWithValue( "LooseEle2_BeamSpotDXYErr", loose_ele2.BeamSpotDXYErr()     );
 	  fillVariableWithValue( "LooseEle2_ValidFrac"     , loose_ele2.ValidFrac()          );
 	  fillVariableWithValue( "LooseEle2_Classif"       , loose_ele2.Classif()            );
+	  fillVariableWithValue( "LooseEle2_EOverP"        , loose_ele2.ESuperClusterOverP() );
 	  
 	  fillVariableWithValue( "LooseEle2_TrkIsolation"  , loose_ele2.TrkIsoDR03()         );
 	  fillVariableWithValue( "LooseEle2_EcalIsolation" , loose_ele2.EcalIsoDR03()        );
@@ -725,6 +729,7 @@ void analysisClass::Loop(){
 	    fillVariableWithValue( "LooseEle3_BeamSpotDXYErr", loose_ele3.BeamSpotDXYErr()     );
 	    fillVariableWithValue( "LooseEle3_ValidFrac"     , loose_ele3.ValidFrac()          );
 	    fillVariableWithValue( "LooseEle3_Classif"       , loose_ele3.Classif()            );
+	    fillVariableWithValue( "LooseEle3_EOverP"        , loose_ele3.ESuperClusterOverP() );
 	    			                             
 	    fillVariableWithValue( "LooseEle3_TrkIsolation"  , loose_ele3.TrkIsoDR03()         );
 	    fillVariableWithValue( "LooseEle3_EcalIsolation" , loose_ele3.EcalIsoDR03()        );
@@ -795,12 +800,12 @@ void analysisClass::Loop(){
     }
 
     //-----------------------------------------------------------------
-    // Fill variables for signal-like skim (reducedSkimType == 1 - 3 )
+    // Fill variables for signal-like skim (reducedSkimType == 1 - 4 )
     //-----------------------------------------------------------------
     
     // Electrons
 
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ) { 
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4) { 
       
       fillVariableWithValue ("nEle_store" , min(n_ele_store,2) );
       fillVariableWithValue ("nJet_store" , min(n_jet_store,5) );
@@ -842,6 +847,7 @@ void analysisClass::Loop(){
 	fillVariableWithValue( "Ele1_BeamSpotDXYErr", ele1.BeamSpotDXYErr()     );
 	fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()          );
 	fillVariableWithValue( "Ele1_Classif"       , ele1.Classif()            );
+	fillVariableWithValue( "Ele1_EOverP"        , ele1.ESuperClusterOverP() );
 
 	fillVariableWithValue( "Ele1_TrkIsolation"  , ele1.TrkIsoDR03()         );
 	fillVariableWithValue( "Ele1_EcalIsolation" , ele1.EcalIsoDR03()        );
@@ -895,6 +901,7 @@ void analysisClass::Loop(){
 	  fillVariableWithValue( "Ele2_BeamSpotDXYErr", ele2.BeamSpotDXYErr()     );
 	  fillVariableWithValue( "Ele2_ValidFrac"     , ele2.ValidFrac()          );
 	  fillVariableWithValue( "Ele2_Classif"       , ele2.Classif()            );
+	  fillVariableWithValue( "Ele2_EOverP"        , ele2.ESuperClusterOverP() );
 	  			                      
 	  fillVariableWithValue( "Ele2_TrkIsolation"  , ele2.TrkIsoDR03()         );
 	  fillVariableWithValue( "Ele2_EcalIsolation" , ele2.EcalIsoDR03()        );
@@ -1176,7 +1183,7 @@ void analysisClass::Loop(){
     // - HLT_Mu22_Photon22_CaloIdL
     //-----------------------------------------------------------------
     
-    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 ) { 
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ) { 
       
       if      ( ! isData )                       fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v5", "H_Ele30_PFJet100_25");
       else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v3", "H_Ele30_PFJet100_25");
@@ -1276,6 +1283,18 @@ void analysisClass::Loop(){
 	fillReducedSkimTree();
       }
     }
+
+    // Single muon skim
+
+    else if ( reducedSkimType == 4 ) { 
+      if( passedCut("nMuon_ptCut"       ) && 
+	  passedCut("Muon1_Pt"          ) ){
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }
+
+
   } 
   
   std::cout << "analysisClass::Loop() ends" <<std::endl;   
