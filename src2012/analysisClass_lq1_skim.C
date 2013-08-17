@@ -111,6 +111,7 @@ void analysisClass::Loop(){
   // jet cuts
   double jet_PtCut               = getPreCutValue1("jet_PtCut");
   double jet_EtaCut              = getPreCutValue1("jet_EtaCut");
+  double jet_HighEtaCut          = getPreCutValue1("jet_HighEtaCut");
   double jet_ele_DeltaRCut       = getPreCutValue1("jet_ele_DeltaRCut") ;
   double jet_muon_DeltaRCut      = getPreCutValue1("jet_muon_DeltaRCut");
   double jet_hltMatch_DeltaRCut  = getPreCutValue1("jet_hltMatch_DeltaRCut");
@@ -268,6 +269,12 @@ void analysisClass::Loop(){
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
     CollectionPtr c_genJet_final = c_genJet_all;
 
+    CollectionPtr c_genZgamma_final    = c_gen_all -> SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER);
+    CollectionPtr c_genW_final         = c_gen_all -> SkimByID<GenParticle>(GEN_W_HARD_SCATTER);
+    CollectionPtr c_genNuFromW_final   = c_gen_all -> SkimByID<GenParticle>(GEN_NU_FROM_W);
+    CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
+    CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
+
     //-----------------------------------------------------------------
     // Energy scaling and resolution smearing here
     //-----------------------------------------------------------------
@@ -354,6 +361,17 @@ void analysisClass::Loop(){
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
     
     //-----------------------------------------------------------------
+    // We need high-eta jets in order to look at boson recoil
+    //-----------------------------------------------------------------
+    
+    CollectionPtr c_pfjet_highEta                    = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_HighEtaCut, jet_HighEtaCut   );
+    CollectionPtr c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
+    CollectionPtr c_pfjet_highEta_ID_noMuonOverlap   = c_pfjet_highEta_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_ele_DeltaRCut  );
+    CollectionPtr c_pfjet_highEta_ID_noLeptonOverlap = c_pfjet_highEta_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_muon_DeltaRCut );
+    CollectionPtr c_pfjet_highEta_final              = c_pfjet_highEta_ID_noLeptonOverlap;
+    CollectionPtr c_pfjet_highEta_final_ptCut        = c_pfjet_highEta_final                -> SkimByMinPt      <PFJet>          ( jet_PtCut );
+    
+    //-----------------------------------------------------------------
     // Get ready to fill variables 
     //-----------------------------------------------------------------
 
@@ -435,16 +453,24 @@ void analysisClass::Loop(){
     // How many ID'd objects are there?
     //-----------------------------------------------------------------
 
-    int n_muon_store   = c_muon_final          -> GetSize();
-    int n_ele_store    = c_ele_final           -> GetSize();
-    int n_jet_store    = c_pfjet_final         -> GetSize();
-    int n_genEle_store = c_genEle_final        -> GetSize();
-    int n_genJet_store = c_genJet_final        -> GetSize();
-    
-    int n_muon_ptCut   = c_muon_final_ptCut    -> GetSize();
-    int n_ele_ptCut    = c_ele_final_ptCut     -> GetSize();
-    int n_jet_ptCut    = c_pfjet_final_ptCut   -> GetSize();
+    int n_muon_store         = c_muon_final                  -> GetSize();
+    int n_ele_store          = c_ele_final                   -> GetSize();
+    int n_jet_store          = c_pfjet_final                 -> GetSize();
+    int n_jet_highEta_store  = c_pfjet_highEta_final         -> GetSize();
+    int n_genEle_store       = c_genEle_final                -> GetSize();
+    int n_genJet_store       = c_genJet_final                -> GetSize();
+						             
+    int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
+    int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
+    int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
+    int n_jet_highEta_ptCut  = c_pfjet_highEta_final_ptCut   -> GetSize();
 
+    int n_genZgamma_store    = c_genZgamma_final             -> GetSize();
+    int n_genW_store         = c_genW_final                  -> GetSize();
+    int n_genNuFromW_store   = c_genNuFromW_final            -> GetSize();
+    int n_genEleFromW_store  = c_genEleFromW_final           -> GetSize();
+    int n_genEleFromDY_store = c_genEleFromDY_final          -> GetSize();
+    
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
@@ -457,6 +483,18 @@ void analysisClass::Loop(){
       fillVariableWithValue("nGenJet_store", min(n_genJet_store,5));
       fillVariableWithValue("nGenEle_store", min(n_genEle_store,2));
 
+      fillVariableWithValue("nGenW_ptCut"	 , n_genW_store         );
+      fillVariableWithValue("nGenDY_ptCut"	 , n_genZgamma_store    );  	     
+      fillVariableWithValue("nGenNuFromW_ptCut"	 , n_genNuFromW_store   );
+      fillVariableWithValue("nGenEleFromW_ptCut" , n_genEleFromW_store  );
+      fillVariableWithValue("nGenEleFromDY_ptCut", n_genEleFromDY_store );
+
+      fillVariableWithValue("nGenW_store"	 , min(n_genW_store        ,2));
+      fillVariableWithValue("nGenDY_store"	 , min(n_genZgamma_store   ,2));  	     
+      fillVariableWithValue("nGenNuFromW_store"	 , min(n_genNuFromW_store  ,2));
+      fillVariableWithValue("nGenEleFromW_store" , min(n_genEleFromW_store ,2));
+      fillVariableWithValue("nGenEleFromDY_store", min(n_genEleFromDY_store,4));
+      
       if ( n_genJet_store >= 1 ) { 
 	GenJet genJet1 = c_genJet_final -> GetConstituent<GenJet>(0);
 	fillVariableWithValue ( "GenJet1_Pt" , genJet1.Pt () );
@@ -505,8 +543,104 @@ void analysisClass::Loop(){
 	  fillVariableWithValue ( "GenEle2_Phi", genEle2.Phi() );
 	}
       }
-    }
+      
+      if ( n_genZgamma_store >= 1 ){ 
+	GenParticle genZgamma1 = c_genZgamma_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenZGamma1_Pt" , genZgamma1.Pt () );
+	fillVariableWithValue ( "GenZGamma1_Eta", genZgamma1.Eta() );
+	fillVariableWithValue ( "GenZGamma1_Phi", genZgamma1.Phi() );
+	fillVariableWithValue ( "GenZGamma1_ID" , genZgamma1.PdgId());
+	
+	if ( n_genZgamma_store >= 2 ){ 
+	  GenParticle genZgamma2 = c_genZgamma_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenZGamma2_Pt" , genZgamma2.Pt () );
+	  fillVariableWithValue ( "GenZGamma2_Eta", genZgamma2.Eta() );
+	  fillVariableWithValue ( "GenZGamma2_Phi", genZgamma2.Phi() );
+	  fillVariableWithValue ( "GenZGamma2_ID" , genZgamma2.PdgId());
+	}
+      }
+      
+      if ( n_genW_store >= 1 ){ 
+	GenParticle genW1 = c_genW_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenW1_Pt" , genW1.Pt () );
+	fillVariableWithValue ( "GenW1_Eta", genW1.Eta() );
+	fillVariableWithValue ( "GenW1_Phi", genW1.Phi() );
+	fillVariableWithValue ( "GenW1_ID" , genW1.PdgId());
+	
+	if ( n_genW_store >= 2 ){ 
+	  GenParticle genW2 = c_genW_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenW2_Pt" , genW2.Pt () );
+	  fillVariableWithValue ( "GenW2_Eta", genW2.Eta() );
+	  fillVariableWithValue ( "GenW2_Phi", genW2.Phi() );
+	  fillVariableWithValue ( "GenW2_ID" , genW2.PdgId());
+	}
+      }
+      
+      if ( n_genNuFromW_store >= 1 ){ 
+	GenParticle genNuFromW1 = c_genNuFromW_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenNuFromW1_Pt" , genNuFromW1.Pt () );
+	fillVariableWithValue ( "GenNuFromW1_Eta", genNuFromW1.Eta() );
+	fillVariableWithValue ( "GenNuFromW1_Phi", genNuFromW1.Phi() );
+	fillVariableWithValue ( "GenNuFromW1_ID" , genNuFromW1.PdgId());
+	
+	if ( n_genNuFromW_store >= 2 ){ 
+	  GenParticle genNuFromW2 = c_genNuFromW_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenNuFromW2_Pt" , genNuFromW2.Pt () );
+	  fillVariableWithValue ( "GenNuFromW2_Eta", genNuFromW2.Eta() );
+	  fillVariableWithValue ( "GenNuFromW2_Phi", genNuFromW2.Phi() );
+	  fillVariableWithValue ( "GenNuFromW2_ID" , genNuFromW2.PdgId());
+	}
+      }
 
+      if ( n_genEleFromW_store >= 1 ){ 
+	GenParticle genEleFromW1 = c_genEleFromW_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenEleFromW1_Pt" , genEleFromW1.Pt () );
+	fillVariableWithValue ( "GenEleFromW1_Eta", genEleFromW1.Eta() );
+	fillVariableWithValue ( "GenEleFromW1_Phi", genEleFromW1.Phi() );
+	fillVariableWithValue ( "GenEleFromW1_ID" , genEleFromW1.PdgId());
+	
+	if ( n_genEleFromW_store >= 2 ){ 
+	  GenParticle genEleFromW2 = c_genEleFromW_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenEleFromW2_Pt" , genEleFromW2.Pt () );
+	  fillVariableWithValue ( "GenEleFromW2_Eta", genEleFromW2.Eta() );
+	  fillVariableWithValue ( "GenEleFromW2_Phi", genEleFromW2.Phi() );
+	  fillVariableWithValue ( "GenEleFromW2_ID" , genEleFromW2.PdgId());
+	}
+      }
+      
+      if ( n_genEleFromDY_store >= 1 ){ 
+	GenParticle genEleFromDY1 = c_genEleFromDY_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenEleFromDY1_Pt" , genEleFromDY1.Pt () );
+	fillVariableWithValue ( "GenEleFromDY1_Eta", genEleFromDY1.Eta() );
+	fillVariableWithValue ( "GenEleFromDY1_Phi", genEleFromDY1.Phi() );
+	fillVariableWithValue ( "GenEleFromDY1_ID" , genEleFromDY1.PdgId());
+	
+	if ( n_genEleFromDY_store >= 2 ){ 
+	  GenParticle genEleFromDY2 = c_genEleFromDY_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenEleFromDY2_Pt" , genEleFromDY2.Pt () );
+	  fillVariableWithValue ( "GenEleFromDY2_Eta", genEleFromDY2.Eta() );
+	  fillVariableWithValue ( "GenEleFromDY2_Phi", genEleFromDY2.Phi() );
+	  fillVariableWithValue ( "GenEleFromDY2_ID" , genEleFromDY2.PdgId());
+
+	  if ( n_genEleFromDY_store >= 3 ){ 
+	    GenParticle genEleFromDY3 = c_genEleFromDY_final -> GetConstituent<GenParticle>(2);
+	    fillVariableWithValue ( "GenEleFromDY3_Pt" , genEleFromDY3.Pt () );
+	    fillVariableWithValue ( "GenEleFromDY3_Eta", genEleFromDY3.Eta() );
+	    fillVariableWithValue ( "GenEleFromDY3_Phi", genEleFromDY3.Phi() );
+	    fillVariableWithValue ( "GenEleFromDY3_ID" , genEleFromDY3.PdgId());
+	    
+	    if ( n_genEleFromDY_store >= 4 ){ 
+	      GenParticle genEleFromDY4 = c_genEleFromDY_final -> GetConstituent<GenParticle>(3);
+	      fillVariableWithValue ( "GenEleFromDY4_Pt" , genEleFromDY4.Pt () );
+	      fillVariableWithValue ( "GenEleFromDY4_Eta", genEleFromDY4.Eta() );
+	      fillVariableWithValue ( "GenEleFromDY4_Phi", genEleFromDY4.Phi() );
+	      fillVariableWithValue ( "GenEleFromDY4_ID" , genEleFromDY4.PdgId());
+	    }
+	  }
+	}
+      }
+    }
+    
     //-----------------------------------------------------------------
     // All skims need muons
     //-----------------------------------------------------------------
@@ -807,10 +941,12 @@ void analysisClass::Loop(){
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4) { 
       
-      fillVariableWithValue ("nEle_store" , min(n_ele_store,2) );
-      fillVariableWithValue ("nJet_store" , min(n_jet_store,5) );
-      fillVariableWithValue ("nEle_ptCut" , n_ele_ptCut );
-      fillVariableWithValue ("nJet_ptCut" , n_jet_ptCut );
+      fillVariableWithValue ("nEle_store"       , min(n_ele_store,2) );
+      fillVariableWithValue ("nJet_store"       , min(n_jet_store,5) );
+      fillVariableWithValue ("nHighEtaJet_store", min(n_jet_highEta_store, 1));
+      fillVariableWithValue ("nEle_ptCut"       , n_ele_ptCut );
+      fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
+      fillVariableWithValue ("nHighEtaJet_ptCut", n_jet_highEta_ptCut );
 
       if ( n_ele_store >= 1 ){
 	Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
@@ -924,6 +1060,13 @@ void analysisClass::Loop(){
       }
 
       // Jets
+
+      if ( n_jet_highEta_store >= 1 ) { 
+	PFJet jet1 = c_pfjet_highEta_final -> GetConstituent<PFJet>(0);
+	fillVariableWithValue( "HighEtaJet1_Pt" , jet1.Pt () );
+	fillVariableWithValue( "HighEtaJet1_Eta", jet1.Eta() );
+	fillVariableWithValue( "HighEtaJet1_Phi", jet1.Phi() );
+      }
       
       if ( n_jet_store >= 1 ){
 
