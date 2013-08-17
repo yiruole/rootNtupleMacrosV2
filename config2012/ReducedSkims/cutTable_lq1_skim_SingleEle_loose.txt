@@ -25,10 +25,18 @@ JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/2012/combined_golden_json_Run2012
 produceReducedSkim    	   1            -               -               -               -1
 reducedSkimType	      	   3		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
+# Energy scaling / smearing on electrons & jets
+#------------------------------------------------------------------------------------------------------
+do_electron_energy_smear   0		-		-		-		-1
+do_pfjet_energy_smear	   0		-		-		-		-1
+electron_energy_scale_sign 0		-		-		-		-1
+pfjet_energy_scale_sign	   0		-		-		-		-1
+#------------------------------------------------------------------------------------------------------
 # Jet selection
 #------------------------------------------------------------------------------------------------------
 jet_PtCut		   45		-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
+jet_HighEtaCut		   5.0		-               -               -               -1
 jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
 jet_muon_DeltaRCut    	   0.3        	-               -               -               -1
 jet_hltMatch_DeltaRCut     0.5		-		-		-		-1
@@ -78,7 +86,6 @@ PassBeamHaloFilterTight         -inf         +inf               -               
 PassHBHENoiseFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassEcalDeadCellBoundEnergy	-inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
 PassEcalDeadCellTrigPrim	-inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-PassHcalLaserEventFilter        -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassTrackingFailure             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassBadEESupercrystalFilter     -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassEcalLaserCorrFilter         -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -149,6 +156,79 @@ GenEle2_Pt 			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 GenEle2_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE			
 GenEle2_Phi 			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
+# Gen info for recoil
+#-----------------------------------------------------------------------------------------------------------------------------------------
+nGenW_store	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenDY_store	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenNuFromW_store  		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenEleFromW_store 		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenEleFromDY_store		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenW_ptCut	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenDY_ptCut	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenNuFromW_ptCut  		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenEleFromW_ptCut 		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenEleFromDY_ptCut		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+# 
+GenW1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenW1_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenW1_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenW1_ID 			-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenW2_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenW2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenW2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenW2_ID  			-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenZGamma1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenZGamma1_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenZGamma1_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenZGamma1_ID 			-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenZGamma2_Pt 		        -inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenZGamma2_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
+GenZGamma2_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenZGamma2_ID 		        -inf         +inf               -               -               1       100 0 100	      SAVE
+# 			        	                                                                                                  
+GenNuFromW1_Pt		        -inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenNuFromW1_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
+GenNuFromW1_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenNuFromW1_ID 			-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenNuFromW2_Pt 			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenNuFromW2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenNuFromW2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenNuFromW2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
+# 
+GenEleFromW1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenEleFromW1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenEleFromW1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenEleFromW1_ID 		-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenEleFromW2_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenEleFromW2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenEleFromW2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenEleFromW2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
+				                                                                                                  
+GenEleFromDY1_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenEleFromDY1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenEleFromDY1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenEleFromDY1_ID 		-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenEleFromDY2_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenEleFromDY2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenEleFromDY2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenEleFromDY2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenEleFromDY3_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenEleFromDY3_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenEleFromDY3_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenEleFromDY3_ID 		-inf         +inf               -               -               1       100 0 100	      SAVE
+# 				                                                                                                  
+GenEleFromDY4_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenEleFromDY4_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenEleFromDY4_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenEleFromDY4_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
+#-----------------------------------------------------------------------------------------------------------------------------------------
 # Electron info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nEle_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
@@ -179,6 +259,7 @@ Ele1_BeamSpotDXY                -inf	     +inf		-		-		1	100 0 2000	      SAVE
 Ele1_BeamSpotDXYErr             -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele1_ValidFrac                  -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele1_Classif                    -inf	     +inf		-		-		1	100 0 2000	      SAVE  
+Ele1_EOverP			-inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele1_TrkIsolation               -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele1_EcalIsolation              -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele1_HcalIsolation              -inf	     +inf		-		-		1	100 0 2000	      SAVE  
@@ -221,6 +302,7 @@ Ele2_BeamSpotDXY                -inf	     +inf		-		-		1	100 0 2000	      SAVE
 Ele2_BeamSpotDXYErr             -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele2_ValidFrac                  -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele2_Classif                    -inf	     +inf		-		-		1	100 0 2000	      SAVE  
+Ele2_EOverP			-inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele2_TrkIsolation               -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele2_EcalIsolation              -inf	     +inf		-		-		1	100 0 2000	      SAVE  
 Ele2_HcalIsolation              -inf	     +inf		-		-		1	100 0 2000	      SAVE  
@@ -249,10 +331,16 @@ PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Jets info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
-nJet_store    		        -inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
-nJet_ptCut    		        -inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nJet_store    	 	        -inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nJet_ptCut    	 	        -inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nHighEtaJet_store	        -inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nHighEtaJet_ptCut	        -inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+#
+HighEtaJet1_Pt			-inf         +inf		-		-		1	100 0 2000	      SAVE   		        
+HighEtaJet1_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
+HighEtaJet1_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 # 	
-Jet1_Pt				-inf         +inf		-		-		1	100 0 2000	      SAVE   		        
+Jet1_Pt   			-inf	     +inf		-		-		1	100 0 2000	      SAVE		        
 Jet1_JECUnc		        -inf	     +inf		-		-		1	100 0 2000	      SAVE
 Jet1_Energy		        -inf	     +inf		-		-		1	100 0 2000	      SAVE
 Jet1_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
