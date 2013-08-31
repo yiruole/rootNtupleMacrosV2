@@ -196,7 +196,7 @@ void analysisClass::Loop(){
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
-    
+
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
@@ -275,6 +275,12 @@ void analysisClass::Loop(){
     CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
     CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
 
+    //-----------------------------------------------------------------
+    // If this is MC, we're always going to smear the jets (do_jer = true)
+    //-----------------------------------------------------------------
+
+    if ( isData == 0 ) do_jer = true;
+      
     //-----------------------------------------------------------------
     // Energy scaling and resolution smearing here
     //-----------------------------------------------------------------
