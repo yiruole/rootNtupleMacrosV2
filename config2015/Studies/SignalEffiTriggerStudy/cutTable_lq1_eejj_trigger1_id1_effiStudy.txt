@@ -1,0 +1,79 @@
+#------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
+# This first list of variable names and values are used to pass configurable values to the user code associated
+# to a variable name.
+# The user can retrieve the values associated to a variable name via a provided function call
+# [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1.
+# Variable names must be unique.
+#
+#VariableName			value1          value2          value3          value4          level
+#------------         		------------    -------------   ------------    -------------   -----
+#------------------------------------------------------------------------------------------------------
+# Which trigger to use?
+#   1: HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
+#   2: 
+#   3: 
+#   4: 
+#------------------------------------------------------------------------------------------------------
+trigger				1		-		-		-		-1
+#------------------------------------------------------------------------------------------------------
+# Which Electron ID to use?
+#   1: HEEP51
+#   2: EGamma Tight
+#   3: EGamma Medium
+#------------------------------------------------------------------------------------------------------
+electron_id			1		-		-		-		-1
+#------------------------------------------------------------------------------------------------------
+# Jet selection
+#------------------------------------------------------------------------------------------------------
+jet_PtCut			40           	-               -               -               -1
+jet_EtaCut            		2.6         	-               -               -               -1
+jet_ele_DeltaRCut     		0.3          	-               -               -               -1
+jet_muon_DeltaRCut    		0.3          	-               -               -               -1
+#------------------------------------------------------------------------------------------------------
+# Muon cuts
+#------------------------------------------------------------------------------------------------------
+muon_PtCut			45           	-               -               -               -1
+muon_EtaCut			2.1		-               -               -               -1
+#------------------------------------------------------------------------------------------------------
+# Electron cuts 
+#------------------------------------------------------------------------------------------------------
+ele_PtCut			45              -               -               -               -1
+#------------------------------------------------------------------------------------------------------
+# Trigger matching DR cuts
+#------------------------------------------------------------------------------------------------------
+ele_triggerMatch_DeltaRMax	0.5		-		-		-		-1
+jet_triggerMatch_DeltaRMax	0.5		-		-		-		-1
+#--------------------------------- Cuts (level 0,1,2,3 ... n) below -----------------------------------
+# The cut variable names, cut boundaries and histogram binnings are provided here by the user.
+# In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
+# a provided function call [ e.g. fillVariableWithValue("nEleFinal", number_of_electrons) ]
+# The variable names in the user code has to match the names provided here.
+# Variable names must be unique.
+# The cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )
+# in case only the first range (minValue1, maxValue1) is provided,
+# otherwise the cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )  OR  ( minValue2 < VariableName <= maxValue2 )
+# in case even the second range (minValue2, maxValue2) is provided.
+# The level of the cut (0,1,2 ... n) is provided by the user and can be used in the code to easily determine if
+# groups of same-level cuts have passed or failed.
+#
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax      OptionalFlag
+#------------                   ------------ -------------      ------------    -------------   -----   ----------------      ------------
+#-----------------------------------------------------------------------------------------------------------------------------------------
+# These cuts are for eejj, ele+Jets trigger
+#-----------------------------------------------------------------------------------------------------------------------------------------
+NGenEleFiducial			1		+inf		-		-		0	11 -0.5	  10.5
+PassTrigger			0		1		-		-		0	2  -0.5    1.5	
+NRecoEleWithID			1		2		-		-		0	11 -0.5   10.5
+RecoEleWithID1_Pt		45		+inf		-		-		0	200 0.0 1000.0
+RecoEleWithID2_Pt		45		+inf		-		-		0	200 0.0 1000.0
+NRecoEleMatchedToTrig		0		+inf		-		-		0	11 -0.5   10.5
+NRecoJetWithID			1		+inf		-		-		0	21 -0.5   205.
+RecoJetWithID1_Pt		120		+inf		-		-		0	200 0.0 1000.0
+RecoJetWithID2_Pt		40		+inf		-		-		0	200 0.0 1000.0
+NRecoJetMatchedToTrig50 	1		+inf		-		-		0	21 -0.5   20.5
+NRecoJetMatchedToTrig200	0		+inf		-		-		0	21 -0.5   20.5
