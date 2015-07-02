@@ -209,7 +209,7 @@ void analysisClass::Loop(){
     // Get HLT Filter objects
     //-----------------------------------------------------------------
     
-    CollectionPtr triggerObjs_all (new Collection(*this, HLTTriggerObjPt->size() ));
+    CollectionPtr triggerObjs_all (new Collection(*this, HLTriggerObjPt->size() ));
     CollectionPtr triggerObjs_eles_all  = triggerObjs_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
     CollectionPtr triggerObjs_jets_all  = triggerObjs_all->SkimByID<HLTriggerObject>(TRIGGER_JET);
     CollectionPtr triggerObjs_200jet_all (new Collection(*this, 0 ));
