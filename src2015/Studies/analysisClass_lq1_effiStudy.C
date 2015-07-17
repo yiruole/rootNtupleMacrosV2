@@ -17,8 +17,8 @@
 #include "HLTriggerObject.h"
 #include "HLTriggerObjectCollectionHelper.h"
 
-analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string* tree2Name, string * outputFileName, string * cutEfficFile) 
-  :baseClass(inputList, cutFile, treeName, tree2Name, outputFileName, cutEfficFile)
+analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile) 
+  :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
 {
   std::cout << "analysisClass::analysisClass(): begins " << std::endl;
   std::cout << "analysisClass::analysisClass(): ends " << std::endl;
@@ -61,7 +61,7 @@ void analysisClass::Loop(){
   
   if      ( ElectronID_FromFile == 1 ) {
     ElectronID = HEEP;
-    sprintf(electron_id_name, "HEEP51" );
+    sprintf(electron_id_name, "HEEP" );
   }
   
   else if ( ElectronID_FromFile == 2 ) {
@@ -229,14 +229,17 @@ void analysisClass::Loop(){
   CreateUserTH1D("Pt1stHLTJet_pass" , 200, 0, 200 );
   CreateUserTH1D("Pt2ndHLTJet_pass" , 200, 0, 200 );
   
-  CreateUserTH1D("NGenParticlesKept",1000,0,1000);
+  CreateUserTH1D("NGenParticlesKept",500,0,500);
+  CreateUserTH1D("NGenLQElectrons",10,0,10);
+  CreateUserTH1D("NGenLQElectronsFiducial",10,0,10);
 
-  CreateUserTH1D("triggerEffVsMass",15,200,1700);
+  CreateUserTH1D("NEventsTwoGenEleECAL",38,175,2075);
+  CreateUserTH1D("NEventsTwoGenEleECALPlusTrig",38,175,2075);
   //--------------------------------------------------------------------------
   // Counting variables
   //--------------------------------------------------------------------------
-  int numEvents_withTwoGenElectronsECALFiducial = 0;
-  int numEvents_withTwoGenElectronsECALFiducial_passesTrigger = 0;
+  std::map<int,int> numEvents_withTwoGenElectronsECALFiducial_byMass;
+  std::map<int,int> numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass;
   // mass
   int sampleMass = 0;
 
@@ -244,7 +247,8 @@ void analysisClass::Loop(){
   // Tell the user how many entries we'll look at
   //--------------------------------------------------------------------------
 
-  Long64_t nentries = 20000; // fChain->GetEntriesFast();
+  Long64_t nentries = fChain->GetEntriesFast();
+  //Long64_t nentries = 10;
   std::cout << "analysisClass::Loop(): nentries = " << fChain -> GetEntries() << std::endl;   
   
   /*//------------------------------------------------------------------
@@ -259,12 +263,9 @@ void analysisClass::Loop(){
   
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
-    //for (Long64_t jentry = 0; jentry<5;jentry++) {
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
     nb = fChain->GetEntry(jentry);   nbytes += nb;
-    // for merged tree
-    fMergedChain->GetEntry(jentry);
 
     //-----------------------------------------------------------------
     // Get trigger names
@@ -325,7 +326,9 @@ void analysisClass::Loop(){
     // Print progress
     //-----------------------------------------------------------------
     
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << std::endl;   
+    bool printEvery = false;
+    if( (jentry < 10 || jentry%1000 == 0) || printEvery)
+      std::cout << "--------------------> analysisClass::Loop(): jentry = " << jentry << std::endl;   
     
     //-----------------------------------------------------------------
     // Did the trigger fire?
@@ -355,6 +358,40 @@ void analysisClass::Loop(){
     CollectionPtr trigger_50jet_noEle;
     CollectionPtr trigger_200jet_noEle;
     
+    ////-----------------------------------------------------------------
+    //// LQ mass (avg, round to nearest 25 GeV)
+    ////-----------------------------------------------------------------
+    //CollectionPtr lq_gen_all = gen_all->SkimByID<GenParticle>(GEN_LQ);
+    //lq_gen_all->examine<GenParticle>("LQ gen particles");
+    //float massF = 0;
+    //for(int i=0;i<lq_gen_all->GetSize(); ++i)
+    //{
+    //  massF+=lq_gen_all->GetConstituent<GenParticle>(i).Mass();
+    //}
+    //massF/=lq_gen_all->GetSize();
+    //int thisMass = round(massF);
+    //// round to nearest 50 GeV
+    //if(thisMass % 50 >= 26)
+    //  thisMass = thisMass + (50 - (thisMass % 50));
+    //else
+    //  thisMass = thisMass - (thisMass % 50);
+    //std::cout << "LQ mass= " << thisMass << std::endl;
+    //if(thisMass != sampleMass) // sample changed
+    //  sampleMass = thisMass;
+
+    // get mass from filename
+    std::string filename = fChain->GetCurrentFile()->GetName();
+    int lastSlash = filename.rfind("/");
+    filename = filename.substr(lastSlash);
+    std::string mass = filename.substr(filename.find("M-")+2,filename.find("_Beta")-filename.find("M-")-2);
+    // test
+    //std::cout << "Current file: " << filename << std::endl;
+    //std::cout << "CURRENT MASS: " << mass << std::endl;
+    sampleMass = stoi(mass);
+
+    //-----------------------------------------------------------------
+    // Trigger object stuff
+    //-----------------------------------------------------------------
     CollectionPtr trigger_ele_eleJetJet (new Collection(*this, ElectronHLTEleJetJetMatchPt -> size() ));
     //CollectionPtr trigger_ele_all = helper.GetHLTFilterObjects ( electron_filter_name );
   //  
@@ -376,9 +413,10 @@ void analysisClass::Loop(){
   //    trigger_100jet_noEle = CollectionPtr(new Collection (*this, 0));
   //  }
     CollectionPtr trigger_all (new Collection(*this, HLTriggerObjPt->size() ));
-    HLTriggerObjectCollectionHelper helper (*this,"New741"); // use 741 HLT branches
+    //HLTriggerObjectCollectionHelper helper (*this,"New741"); // use 741 HLT branches
+    HLTriggerObjectCollectionHelper helper (*this,"");
     //CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath(trigger_name,true); // true->verbose for testing
-    CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath(trigger_name,true);
+    CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath(trigger_name);
     //trigger_l3objects_all->examine<HLTriggerObject>("HLT L3Filter-passing objects");
     CollectionPtr trigger_l3jets_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_JET);
     //trigger_l3jets_all->examine<HLTriggerObject>("HLT L3Filter-passing jets");
@@ -387,13 +425,13 @@ void analysisClass::Loop(){
     //trigger_lastObjects->examine<HLTriggerObject>("HLT LastFilter-passing objects");
     CollectionPtr trigger_lastJets = trigger_lastObjects->SkimByID<HLTriggerObject>(TRIGGER_JET);
     //trigger_lastJets->examine<HLTriggerObject>("HLT LastFilter-passing jets");
-    // get rid of overlaps
-    CollectionPtr trigger_l3jets_noLastJet = trigger_l3jets_all -> SkimByVetoDRMatch<HLTriggerObject,HLTriggerObject>( trigger_lastJets, 0.3 );
+    //// get rid of overlaps
+    //CollectionPtr trigger_l3jets_noLastJet = trigger_l3jets_all -> SkimByVetoDRMatch<HLTriggerObject,HLTriggerObject>( trigger_lastJets, 0.3 );
     //trigger_l3jets_noLastJet->examine<HLTriggerObject>("HLT L3-passing jets (no last jet)");
 
     // electrons seem to come as TRIGGER_PHOTON most of the time
     CollectionPtr trigger_ele_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
-    trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON)");
+    //trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON)");
     // if not, try TRIGGER_ELECTRON
     if(trigger_ele_all->GetSize() == 0)
       trigger_ele_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
@@ -408,6 +446,8 @@ void analysisClass::Loop(){
     CollectionPtr gen_lq_electrons_fiducial = gen_lq_electrons -> SkimByID      <GenParticle> ( GEN_ELE_FIDUCIAL );
     
     FillUserTH1D("NGenParticlesKept"   , gen_all->GetSize());
+    FillUserTH1D("NGenLQElectrons"   , gen_lq_electrons->GetSize());
+    FillUserTH1D("NGenLQElectronsFiducial"   , gen_lq_electrons_fiducial->GetSize());
     ////if(gen_all->GetSize() > 50)
     ////{
     //  std::cout << "Size of gen_all: " << gen_all->GetSize() << std::endl;
@@ -420,55 +460,40 @@ void analysisClass::Loop(){
     //    //if(fabs(genP.PdgId())==42 && genP.Status()==62)
     //    std::cout << genP << std::endl;
     //  }
-    std::cout << "Size of gen_all: " << gen_all->GetSize() << std::endl;
-    std::cout << "Size of gen_lq_electrons: " << gen_lq_electrons->GetSize() << std::endl;
-    std::cout << "Size of gen_lq_electrons_fiducial: " << gen_lq_electrons_fiducial->GetSize() << std::endl;
+    //std::cout << "Size of gen_all: " << gen_all->GetSize() << std::endl;
+    //std::cout << "Size of gen_lq_electrons: " << gen_lq_electrons->GetSize() << std::endl;
+    //std::cout << "Size of gen_lq_electrons_fiducial: " << gen_lq_electrons_fiducial->GetSize() << std::endl;
     //  // XXX SIC TEST
     ////}
 
+    // count the events for firing the trigger
     if(gen_lq_electrons_fiducial->GetSize() >=2)
     {
-      numEvents_withTwoGenElectronsECALFiducial++;
+      numEvents_withTwoGenElectronsECALFiducial_byMass[sampleMass]++;
+      FillUserTH1D("NEventsTwoGenEleECAL",sampleMass);
       if(trigger_fired)
-        numEvents_withTwoGenElectronsECALFiducial_passesTrigger++;
+      {
+        numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[sampleMass]++;
+        FillUserTH1D("NEventsTwoGenEleECALPlusTrig",sampleMass);
+      }
     }
 
-    //-----------------------------------------------------------------
-    // LQ mass (avg, round to nearest 25 GeV)
-    //-----------------------------------------------------------------
-    CollectionPtr lq_gen_all = gen_all->SkimByID<GenParticle>(GEN_LQ);
-    lq_gen_all->examine<GenParticle>("LQ gen particles");
-    float massF = 0;
-    for(int i=0;i<lq_gen_all->GetSize(); ++i)
-    {
-      massF+=lq_gen_all->GetConstituent<GenParticle>(i).Mass();
-    }
-    massF/=lq_gen_all->GetSize();
-    int thisMass = round(massF);
-    // round to nearest 25 GeV
-    if(thisMass % 25 >= 13)
-      thisMass = thisMass + (25 - (thisMass % 25));
-    else
-      thisMass = thisMass - (thisMass % 25);
-    //std::cout << "LQ mass= " << mass << std::endl;
-    if(thisMass != sampleMass) // sample changed
-      sampleMass = thisMass;
 
-
-
+    //ele_all->examine<Electron>("reco electrons");
     //-----------------------------------------------------------------
     // RECO electrons that are matched to GEN electrons
     //-----------------------------------------------------------------
 
     CollectionPtr ele_genMatched = ele_all -> SkimByRequireDRMatch<Electron,GenParticle>( gen_lq_electrons, 0.3 );
-    ele_genMatched->examine<Electron>("Reco electrons matched to gen electrons");
+    //ele_genMatched->examine<Electron>("Reco electrons matched to gen electrons");
 
     //-----------------------------------------------------------------
     // RECO electrons that pass the ID
     //-----------------------------------------------------------------
     
+    //CollectionPtr ele_ID = ele_all -> SkimByID<Electron>( ElectronID , true);// verbose for testing
     CollectionPtr ele_ID = ele_all -> SkimByID<Electron>( ElectronID );
-    ele_ID->examine<Electron>("Reco electrons passing ID");
+    //ele_ID->examine<Electron>("Reco electrons passing ID");
 
     //-----------------------------------------------------------------
     // You cut on the PT of electrons that pass the ID
@@ -487,22 +512,27 @@ void analysisClass::Loop(){
   //  CollectionPtr ele_ID_triggerMatched = ele_ID -> SkimByRequireDRMatch<Electron, HLTFilterObject> ( trigger_ele_all, ele_triggerMatch_DeltaRMax);
     //CollectionPtr ele_ID_triggerMatched = ele_ID -> SkimByRequireDRMatch<Electron, Electron> ( trigger_ele_all, ele_triggerMatch_DeltaRMax);
     CollectionPtr ele_ID_triggerMatched = ele_ID -> SkimByRequireDRMatch<Electron, HLTriggerObject> ( trigger_ele_all, ele_triggerMatch_DeltaRMax);
-    double hltEleMatchedToRecoEleWithID1_Pt = 0.0;
-    double hltEleMatchedToRecoEleWithID2_Pt = 0.0;
+    //ele_ID_triggerMatched->examine<Electron>("reco+ID electrons matching L3 filter electrons");
+    int nRecoEleMatchedToTrig = ele_ID_triggerMatched->GetSize();
+    //std::cout << "Number of reco ele with ID matched to EleJetJet HLT path: " << nRecoEleMatchedToTrig << std::endl;
 
-    if ( ele_ID -> GetSize() >= 1 ) hltEleMatchedToRecoEleWithID1_Pt = ele_ID -> GetConstituent<Electron>(0).HLTEleJetJetMatchPt();
-    if ( ele_ID -> GetSize() >= 2 ) hltEleMatchedToRecoEleWithID2_Pt = ele_ID -> GetConstituent<Electron>(1).HLTEleJetJetMatchPt();
-    // also count them
-    int nRecoEleMatchedToTrig = 0;
-    for (int i = 0; i < ele_ID->GetSize(); ++i)
-    {
-      if(Trigger_FromFile == 1 ) //TODO: better way to make sure the embedded match is done with the same path as specified?
-      {
-        if(ele_ID -> GetConstituent<Electron>(i).IsHLTEleJetJetMatched())
-          ++nRecoEleMatchedToTrig;
-      }
-    }
-    std::cout << "Number of reco ele with ID matched to EleJetJet HLT path: " << nRecoEleMatchedToTrig << std::endl;
+    //double hltEleMatchedToRecoEleWithID1_Pt = 0.0;
+    //double hltEleMatchedToRecoEleWithID2_Pt = 0.0;
+    //if ( ele_ID -> GetSize() >= 1 ) hltEleMatchedToRecoEleWithID1_Pt = ele_ID -> GetConstituent<Electron>(0).HLTEleJetJetMatchPt();
+    //if ( ele_ID -> GetSize() >= 2 ) hltEleMatchedToRecoEleWithID2_Pt = ele_ID -> GetConstituent<Electron>(1).HLTEleJetJetMatchPt();
+    // this looks at the embedded match, but is apparently broken
+    // to be fixed FIXME
+    //// also count them
+    //int nRecoEleMatchedToTrig = 0;
+    //for (int i = 0; i < ele_ID->GetSize(); ++i)
+    //{
+    //  if(Trigger_FromFile == 1 ) //TODO: better way to make sure the embedded match is done with the same path as specified?
+    //  {
+    //    if(ele_ID -> GetConstituent<Electron>(i).IsHLTEleJetJetMatched())
+    //      ++nRecoEleMatchedToTrig;
+    //  }
+    //}
+    //std::cout << "Number of reco ele with ID matched to EleJetJet HLT path: " << nRecoEleMatchedToTrig << std::endl;
 
   //  
     //-----------------------------------------------------------------
@@ -521,9 +551,9 @@ void analysisClass::Loop(){
 
     if ( pfjet_ID -> GetSize() >= 1 ) recoJetWithID1_Pt = pfjet_ID -> GetConstituent<PFJet>(0).Pt();
     if ( pfjet_ID -> GetSize() >= 2 ) recoJetWithID2_Pt = pfjet_ID -> GetConstituent<PFJet>(1).Pt();
-    std::cout << "Size of pfjet_all: " << pfjet_all->GetSize() << std::endl;
-    std::cout << "Size of pfjet_ID: " << pfjet_ID->GetSize() << std::endl;
-    std::cout << "Size of pfjet_ID_etaSkim: " << pfjet_ID_etaSkim->GetSize() << std::endl;
+    //std::cout << "Size of pfjet_all: " << pfjet_all->GetSize() << std::endl;
+    //std::cout << "Size of pfjet_ID: " << pfjet_ID->GetSize() << std::endl;
+    //std::cout << "Size of pfjet_ID_etaSkim: " << pfjet_ID_etaSkim->GetSize() << std::endl;
 
     //-----------------------------------------------------------------
     // How many of those RECO jets with ID are matched to the trigger?
@@ -534,10 +564,11 @@ void analysisClass::Loop(){
     //  std::cout << "trigger_50jet_all has size: " << trigger_50jet_all->GetSize() << ", so skip event!" << std::endl;
     //  continue;
     //}
-    CollectionPtr pfjet_ID_trigger50Matched  = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_l3jets_noLastJet, jet_triggerMatch_DeltaRMax);
+    CollectionPtr pfjet_ID_trigger50Matched  = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_l3jets_all, jet_triggerMatch_DeltaRMax);
     CollectionPtr pfjet_ID_trigger200Matched = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_lastJets, jet_triggerMatch_DeltaRMax);
-    std::cout << "Size of pfjet_ID_trigger50Matched: " << pfjet_ID_trigger50Matched->GetSize() << std::endl;
-    std::cout << "Size of pfjet_ID_trigger200Matched: " << pfjet_ID_trigger200Matched->GetSize() << std::endl;
+    //std::cout << "Size of pfjet_ID_trigger50Matched: " << pfjet_ID_trigger50Matched->GetSize() << std::endl;
+    //std::cout << "Size of pfjet_ID_trigger200Matched: " << pfjet_ID_trigger200Matched->GetSize() << std::endl;
+    //pfjet_ID->examine<PFJet>("PFJETs with ID");
 
     //-----------------------------------------------------------------
     // Fill variables
@@ -587,30 +618,31 @@ void analysisClass::Loop(){
     }
     */
     
-    if ( trigger_enabled ) {
-      if ( nRecoEleMatchedToTrig >= 1 && 
-          trigger_l3jets_all -> GetSize() >= 2 ) {
-        FillUserTH1D("Pt1stJet_total"   , pfjet_ID_etaSkim   -> GetConstituent<PFJet>          (0).Pt());
-        std::cout << "Fill Pt1stHLTJet_total with: " << trigger_l3jets_all  -> GetConstituent<HLTriggerObject>(0).Pt() << std::endl;
-        FillUserTH1D("Pt1stHLTJet_total", trigger_l3jets_all  -> GetConstituent<HLTriggerObject>(0).Pt());
-        if ( trigger_fired ) { 
-          FillUserTH1D("Pt1stJet_pass"   , pfjet_ID_etaSkim  -> GetConstituent<PFJet>          (0).Pt());
-          FillUserTH1D("Pt1stHLTJet_pass", trigger_l3jets_all -> GetConstituent<HLTriggerObject>(0).Pt());
-        }
-      }
+    //if ( trigger_enabled ) {
+    //  if ( nRecoEleMatchedToTrig >= 1 && 
+    //      trigger_l3jets_all -> GetSize() >= 2 ) {
+    //    FillUserTH1D("Pt1stJet_total"   , pfjet_ID_etaSkim   -> GetConstituent<PFJet>          (0).Pt());
+    //    std::cout << "Fill Pt1stHLTJet_total with: " << trigger_l3jets_all  -> GetConstituent<HLTriggerObject>(0).Pt() << std::endl;
+    //    FillUserTH1D("Pt1stHLTJet_total", trigger_l3jets_all  -> GetConstituent<HLTriggerObject>(0).Pt());
+    //    if ( trigger_fired ) { 
+    //      FillUserTH1D("Pt1stJet_pass"   , pfjet_ID_etaSkim  -> GetConstituent<PFJet>          (0).Pt());
+    //      FillUserTH1D("Pt1stHLTJet_pass", trigger_l3jets_all -> GetConstituent<HLTriggerObject>(0).Pt());
+    //    }
+    //  }
 
-      if ( nRecoEleMatchedToTrig >= 1 &&
-          trigger_lastJets -> GetSize() >  0 ) {
+    //  if ( nRecoEleMatchedToTrig >= 1 &&
+    //      trigger_lastJets -> GetSize() >  0 ) {
 
-        HLTriggerObject lead_trigger_200jet = trigger_lastJets -> GetConstituent<HLTriggerObject>(0);
-        CollectionPtr pfjet_ID_etaSkim_noLeadHLT = pfjet_ID_etaSkim -> SkimByVetoDRMatch<PFJet,HLTriggerObject>( lead_trigger_200jet, 0.5 );
+    //    HLTriggerObject lead_trigger_200jet = trigger_lastJets -> GetConstituent<HLTriggerObject>(0);
+    //    CollectionPtr pfjet_ID_etaSkim_noLeadHLT = pfjet_ID_etaSkim -> SkimByVetoDRMatch<PFJet,HLTriggerObject>( lead_trigger_200jet, 0.5 );
 
-        FillUserTH1D("Pt2ndJet_total" , pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
-        if ( trigger_fired ) { 
-          FillUserTH1D("Pt2ndJet_pass", pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
-        }
-      }
-    }
+    //XXX SIC FIXME: do we need the eta skim? the collection here can be empty and cause a crash
+    //    FillUserTH1D("Pt2ndJet_total" , pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
+    //    if ( trigger_fired ) { 
+    //      FillUserTH1D("Pt2ndJet_pass", pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
+    //    }
+    //  }
+    //}
     
     //-----------------------------------------------------------------
     // Fill electron 1 histograms
@@ -713,7 +745,7 @@ void analysisClass::Loop(){
       gen_lq_electrons_fiducial  -> examine<GenParticle    >("GEN electrons from LQs");
       //trigger_ele_all            -> examine<HLTFilterObject>("HLT electrons");
       ele_ID                     -> examine<Electron       >("RECO electrons");
-      //ele_ID_triggerMatched      -> examine<Electron       >("RECO electrons, trigger matched");
+      ele_ID_triggerMatched      -> examine<Electron       >("RECO electrons, trigger matched");
       trigger_l3jets_all          -> examine<HLTriggerObject>("HLT PFJets");
       pfjet_ID                   -> examine<PFJet          >("RECO PFJets");
       pfjet_ID_trigger50Matched -> examine<PFJet          >("RECO PFJets, trigger 50 matched");
@@ -724,8 +756,14 @@ void analysisClass::Loop(){
   
   std::cout << "analysisClass::Loop() ends" <<std::endl;   
 
-  float triggerEff = numEvents_withTwoGenElectronsECALFiducial_passesTrigger/(float)numEvents_withTwoGenElectronsECALFiducial;
-  std::cout << "Trigger eff = " << numEvents_withTwoGenElectronsECALFiducial_passesTrigger << " / " << numEvents_withTwoGenElectronsECALFiducial <<
-    " = " << triggerEff << std::endl;
-  FillUserTH1D("triggerEffVsMass",sampleMass,triggerEff);
+  for(std::map<int,int>::iterator itr = numEvents_withTwoGenElectronsECALFiducial_byMass.begin();
+      itr != numEvents_withTwoGenElectronsECALFiducial_byMass.end(); ++itr)
+  {
+    //int idx = std::distance(numEvents_withTwoGenElectronsECALFiducial_byMass.begin(),itr);
+    int numPassTrig = numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[itr->first];
+    float triggerEff = numPassTrig/(float)itr->second;
+    std::cout << "Mass = " << itr->first << ", Trigger eff = " << numPassTrig << " / " << itr->second <<
+      " = " << triggerEff << std::endl;
+  }
 }
+

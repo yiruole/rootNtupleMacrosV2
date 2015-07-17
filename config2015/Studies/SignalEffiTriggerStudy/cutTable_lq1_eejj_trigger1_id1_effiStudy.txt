@@ -19,7 +19,7 @@
 trigger				1		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Which Electron ID to use?
-#   1: HEEP51
+#   1: HEEP (user5.1)
 #   2: EGamma Tight
 #   3: EGamma Medium
 #------------------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ RecoEleWithID1_Pt		45		+inf		-		-		0	200 0.0 1000.0
 RecoEleWithID2_Pt		45		+inf		-		-		0	200 0.0 1000.0
 NRecoEleMatchedToTrig		0		+inf		-		-		0	11 -0.5   10.5
 NRecoJetWithID			1		+inf		-		-		0	21 -0.5   205.
-RecoJetWithID1_Pt		120		+inf		-		-		0	200 0.0 1000.0
-RecoJetWithID2_Pt		40		+inf		-		-		0	200 0.0 1000.0
-NRecoJetMatchedToTrig50 	1		+inf		-		-		0	21 -0.5   20.5
-NRecoJetMatchedToTrig200	0		+inf		-		-		0	21 -0.5   20.5
+RecoJetWithID1_Pt		200		+inf		-		-		0	200 0.0 1000.0
+RecoJetWithID2_Pt		50		+inf		-		-		0	200 0.0 1000.0
+NRecoJetMatchedToTrig50 	2		+inf		-		-		0	21 -0.5   20.5
+NRecoJetMatchedToTrig200	1		+inf		-		-		0	21 -0.5   20.5
