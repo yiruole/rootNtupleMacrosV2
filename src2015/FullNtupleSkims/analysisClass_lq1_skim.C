@@ -1,0 +1,1451 @@
+#define analysisClass_cxx
+#include "analysisClass.h"
+#include <TH2.h>
+#include <TH1F.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <TLorentzVector.h>
+#include <TVector2.h>
+#include <TVector3.h>
+
+#include "Collection.h"
+#include "GenParticle.h"
+#include "Electron.h"
+#include "Muon.h"
+#include "PFJet.h"
+#include "GenJet.h"
+#include "HLTFilterObject.h"
+#include "HLTFilterObjectCollectionHelper.h"
+
+//--------------------------------------------------------------------------
+// Function for trigger matching 
+//--------------------------------------------------------------------------
+
+template < class Object1, class Object2 > 
+double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_object, double delta_r_cut ){
+  double matched_pt = -999.0;
+  if ( collection ) { 
+    int size = collection -> GetSize();
+    if ( size > 0 ){ 
+      Object1 matched_object = collection -> GetClosestInDR <Object1, Object2> ( target_object );
+      double dr = matched_object.DeltaR ( & target_object );
+      if ( dr < delta_r_cut ) { 
+	matched_pt = matched_object.Pt();
+      }
+    }
+  }
+  return matched_pt;
+}
+
+analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile) 
+  :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
+{
+  std::cout << "analysisClass::analysisClass(): begins " << std::endl;
+  std::cout << "analysisClass::analysisClass(): ends " << std::endl;
+}
+
+analysisClass::~analysisClass()
+{ 
+  std::cout << "analysisClass::~analysisClass(): begins " << std::endl;
+  std::cout << "analysisClass::~analysisClass(): ends " << std::endl;
+}
+
+void analysisClass::Loop(){
+
+  std::cout << "analysisClass::Loop() begins" <<std::endl;   
+  if (fChain == 0) return;
+  
+  //--------------------------------------------------------------------------
+  // Verbose? Or not?
+  //--------------------------------------------------------------------------
+  
+  bool verbose = !true;
+  
+  //--------------------------------------------------------------------------
+  // Decide which plots to save (default is to save everything)
+  //--------------------------------------------------------------------------
+  
+  fillSkim                         ( !true  ) ;
+  fillAllPreviousCuts              ( !true  ) ;
+  fillAllOtherCuts                 ( !true  ) ;
+  fillAllSameLevelAndLowerLevelCuts( !true  ) ;
+  fillAllCuts                      ( !true  ) ;
+
+  /*//------------------------------------------------------------------
+   *
+   *
+   *      
+   *      Get all Pre-cut values!
+   *
+   *
+   *
+   *///-----------------------------------------------------------------
+
+  //--------------------------------------------------------------------------
+  // What reduced skim type?
+  // - 0: QCD   (loose electron)
+  // - 1: enujj (HEEP electron) 
+  // - 2: eejj  (HEEP electron)
+  // - 3: single electron (HEEP)
+  // - 4: single muon (tight)
+  //--------------------------------------------------------------------------
+
+  int reducedSkimType = getPreCutValue1("reducedSkimType");
+
+  //--------------------------------------------------------------------------
+  // Should we do any scaling / smearing for systematics?
+  //--------------------------------------------------------------------------
+
+  int electron_energy_scale_sign = int(getPreCutValue1("electron_energy_scale_sign" ));
+  int pfjet_energy_scale_sign    = int(getPreCutValue1("pfjet_energy_scale_sign"    ));
+
+  bool do_eer = bool ( int(getPreCutValue1("do_electron_energy_smear"   )) == 1 );
+  bool do_jer = bool ( int(getPreCutValue1("do_pfjet_energy_smear"      )) == 1 );
+  bool do_ees = bool ( electron_energy_scale_sign != 0 );
+  bool do_jes = bool ( pfjet_energy_scale_sign    != 0 );
+  
+  //--------------------------------------------------------------------------
+  // Cuts for physics objects selection
+  //--------------------------------------------------------------------------
+
+  // jet cuts
+  double jet_PtCut               = getPreCutValue1("jet_PtCut");
+  double jet_EtaCut              = getPreCutValue1("jet_EtaCut");
+  double jet_HighEtaCut          = getPreCutValue1("jet_HighEtaCut");
+  double jet_ele_DeltaRCut       = getPreCutValue1("jet_ele_DeltaRCut") ;
+  double jet_muon_DeltaRCut      = getPreCutValue1("jet_muon_DeltaRCut");
+  double jet_hltMatch_DeltaRCut  = getPreCutValue1("jet_hltMatch_DeltaRCut");
+
+  // muon cuts
+  double muon_EtaCut             = getPreCutValue1("muon_EtaCut");
+  double muon_PtCut              = getPreCutValue1("muon_PtCut");
+  double muon_hltMatch_DeltaRCut = getPreCutValue1("muon_hltMatch_DeltaRCut");
+
+  // electron cuts
+  double ele_PtCut    	         = getPreCutValue1("ele_PtCut");
+  double ele_hltMatch_DeltaRCut  = getPreCutValue1("ele_hltMatch_DeltaRCut");
+
+  //--------------------------------------------------------------------------
+  // Tell the user how many entries we'll look at
+  //--------------------------------------------------------------------------
+
+  Long64_t nentries = fChain->GetEntries();
+  std::cout << "analysisClass::Loop(): nentries = " << fChain -> GetEntries() << std::endl;   
+  
+  //--------------------------------------------------------------------------
+  // Create HLT collections in advance (won't need all of them)
+  //--------------------------------------------------------------------------
+  
+  // QCD photon filters
+  CollectionPtr c_hltPhoton30_CaloIdVL_QCD_all;
+  CollectionPtr c_hltPhoton50_CaloIdVL_QCD_all;
+  CollectionPtr c_hltPhoton75_CaloIdVL_QCD_all;
+  CollectionPtr c_hltPhoton90_CaloIdVL_QCD_all;
+  CollectionPtr c_hltPhoton135_QCD_all;	      
+  CollectionPtr c_hltPhoton150_QCD_all;	      
+  CollectionPtr c_hltPhoton160_QCD_all;	      
+
+  // TTbar muon filter
+  CollectionPtr c_hltMuon22_TTbar_all;
+  CollectionPtr c_hltPhoton22_TTbar_all;
+
+  // muon filter
+  CollectionPtr c_hltMuon_SingleMu_all;
+
+  // Signal
+  CollectionPtr c_hltEle30_Signal_all;
+  CollectionPtr c_hltPFJet25_Signal_all;
+  CollectionPtr c_hltPFJetNoPU25_Signal_all;
+  CollectionPtr c_hltPFJet100_Signal_all;
+  CollectionPtr c_hltPFJetNoPU100_Signal_all;
+  CollectionPtr c_hltDoubleEle_Signal_all;
+
+  // Tag and probe
+  CollectionPtr c_hltEle27WP80_all;
+
+  //--------------------------------------------------------------------------
+  // For smearing systematics samples, you'll need a random number generator
+  //--------------------------------------------------------------------------
+
+  unsigned int seed = 987654321;
+  TRandom3 * rootEngine = new TRandom3 ( seed ) ;
+
+  //--------------------------------------------------------------------------
+  // For smearing/scaling systematics samples, you'll need to calculate the effect on MET
+  //--------------------------------------------------------------------------
+  
+  TLorentzVector v_delta_met;
+
+  TLorentzVector v_PFMET;
+  TLorentzVector v_PFMETType1Cor;
+  TLorentzVector v_PFMETType01Cor;
+  TLorentzVector v_PFMETType01XYCor;
+  
+  /*//------------------------------------------------------------------
+   *
+   *
+   *      
+   *      Start analysis loop!
+   *
+   *
+   *
+   *///-----------------------------------------------------------------
+  
+  Long64_t nbytes = 0, nb = 0;
+  for (Long64_t jentry=0; jentry<nentries;jentry++) {
+    Long64_t ientry = LoadTree(jentry);
+    if (ientry < 0) break;
+    nb = fChain->GetEntry(jentry);   nbytes += nb;
+
+    //-----------------------------------------------------------------
+    // Print progress
+    //-----------------------------------------------------------------
+    
+    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
+    
+    //-----------------------------------------------------------------
+    // Get access to HLT decisions
+    //-----------------------------------------------------------------
+
+    getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ; 
+        
+    //-----------------------------------------------------------------
+    // Get access to HLT filter objects
+    //-----------------------------------------------------------------
+    
+    HLTFilterObjectCollectionHelper helper (*this);
+
+    if ( reducedSkimType == 0 ){ 
+      
+      // QCD photon triggers
+      c_hltPhoton30_CaloIdVL_QCD_all = helper.GetHLTFilterObjects("hltEG30CaloIdVLHEFilter");
+      c_hltPhoton50_CaloIdVL_QCD_all = helper.GetHLTFilterObjects("hltPhoton50CaloIdVLHEFilter");
+      c_hltPhoton75_CaloIdVL_QCD_all = helper.GetHLTFilterObjects("hltPhoton75CaloIdVLHEFilter");
+      c_hltPhoton90_CaloIdVL_QCD_all = helper.GetHLTFilterObjects("hltPhoton90CaloIdVLHEFilter");
+      c_hltPhoton135_QCD_all	     = helper.GetHLTFilterObjects("hltPhoton135HEFilter");  
+      c_hltPhoton150_QCD_all	     = helper.GetHLTFilterObjects("hltPhoton150HEFilter");  
+      c_hltPhoton160_QCD_all	     = helper.GetHLTFilterObjects("hltPhoton160HEFilter");  
+      
+    }
+
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4){
+      
+      // TTbar trigger
+      c_hltMuon22_TTbar_all        = helper.GetHLTFilterObjects("hltEG22EtFilterL1Mu3p5EG12");
+      c_hltPhoton22_TTbar_all      = helper.GetHLTFilterObjects("hltMu22Photon22CaloIdLHEFilter");
+      
+      // SingleMu trigger          
+      c_hltMuon_SingleMu_all       = helper.GetHLTFilterObjects("hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40Q");
+
+      // Ele+jets signal triggers
+      c_hltEle30_Signal_all        = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDphiFilter");
+      c_hltPFJet25_Signal_all      = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFJet25EleCleaned");
+      c_hltPFJetNoPU25_Signal_all  = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFNoPUJet25EleCleaned");
+      c_hltPFJet100_Signal_all     = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFJet100EleCleaned");
+      c_hltPFJetNoPU100_Signal_all = helper.GetHLTFilterObjects("hltEle30CaloIdVTTrkIdTDiCentralPFNoPUJet100EleCleaned");
+
+      // DoubleEle signal trigger
+      c_hltDoubleEle_Signal_all    = helper.GetHLTFilterObjects("hltDiEle33CaloIdLGsfTrkIdVLDPhiDoubleFilter");
+      
+      // Tag and probe trigger
+      c_hltEle27WP80_all           = helper.GetHLTFilterObjects("hltEle27WP80TrackIsoFilter");
+      
+    }
+
+    //-----------------------------------------------------------------
+    // Define initial, inclusive collections for physics objects
+    //-----------------------------------------------------------------
+
+    CollectionPtr c_gen_all   ( new Collection(*this, GenParticlePt -> size()));
+    CollectionPtr c_genJet_all( new Collection(*this, GenJetPt      -> size()));
+    CollectionPtr c_ele_all   ( new Collection(*this, ElectronPt    -> size()));
+    CollectionPtr c_muon_all  ( new Collection(*this, MuonPt        -> size()));
+    CollectionPtr c_pfjet_all ( new Collection(*this, PFJetPt       -> size()));
+
+    //-----------------------------------------------------------------
+    // All skims need GEN particles/jets
+    //-----------------------------------------------------------------
+
+    CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
+    CollectionPtr c_genJet_final = c_genJet_all;
+
+    CollectionPtr c_genZgamma_final    = c_gen_all -> SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER);
+    CollectionPtr c_genW_final         = c_gen_all -> SkimByID<GenParticle>(GEN_W_HARD_SCATTER);
+    CollectionPtr c_genNuFromW_final   = c_gen_all -> SkimByID<GenParticle>(GEN_NU_FROM_W);
+    CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
+    CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
+
+    //-----------------------------------------------------------------
+    // If this is MC, we're always going to smear the jets (do_jer = true)
+    //-----------------------------------------------------------------
+
+    if ( isData == 0 ) do_jer = true;
+      
+    //-----------------------------------------------------------------
+    // Energy scaling and resolution smearing here
+    //-----------------------------------------------------------------
+    
+    if ( do_eer || do_jer || do_ees || do_jes ) { 
+      
+      // If  you're scaling/smearing PFJets, recall that only jets with pt > 10 GeV affect the PFMET
+      // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
+      c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 10.0 );
+      c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
+      
+      // Set the PFMET difference to zero
+      
+      v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
+
+      // Do the energy scale / energy resolution operations
+      
+      if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.5, rootEngine, v_delta_met );
+      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.5, rootEngine, v_delta_met );
+      if ( do_ees ) c_ele_all      -> ScaleEnergy <Electron> ( electron_energy_scale_sign, v_delta_met );
+      if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
+      
+      // Propagate the results to the PFMET
+
+      v_PFMET           .SetPtEtaPhiM( (*PFMET           )[0] , 0., (*PFMETPhi           )[0] , 0. );
+      v_PFMETType1Cor   .SetPtEtaPhiM( (*PFMETType1Cor   )[0] , 0., (*PFMETPhiType1Cor   )[0] , 0. );
+      v_PFMETType01Cor  .SetPtEtaPhiM( (*PFMETType01Cor  )[0] , 0., (*PFMETPhiType01Cor  )[0] , 0. );
+      v_PFMETType01XYCor.SetPtEtaPhiM( (*PFMETType01XYCor)[0] , 0., (*PFMETPhiType01XYCor)[0] , 0. );
+      
+      v_PFMET            = v_PFMET            + v_delta_met;
+      v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
+      v_PFMETType01Cor   = v_PFMETType01Cor   + v_delta_met;
+      v_PFMETType01XYCor = v_PFMETType01XYCor + v_delta_met;
+      
+      (*PFMET              )[0] = v_PFMET           .Pt();
+      (*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
+      (*PFMETType01Cor     )[0] = v_PFMETType01Cor  .Pt();
+      (*PFMETType01XYCor   )[0] = v_PFMETType01XYCor.Pt();
+      
+      (*PFMETPhi           )[0] = v_PFMET           .Phi();
+      (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
+      (*PFMETPhiType01Cor  )[0] = v_PFMETType01Cor  .Phi();
+      (*PFMETPhiType01XYCor)[0] = v_PFMETType01XYCor.Phi();
+    }
+
+    //-----------------------------------------------------------------
+    // QCD skims    (reducedSkimType = 0     ) have loose electrons
+    // Signal skims (reducedSkimType = 1 - 4 ) have HEEP  electrons
+    //-----------------------------------------------------------------
+
+    CollectionPtr c_ele_final;
+    CollectionPtr c_ele_final_ptCut;
+    
+    if ( reducedSkimType == 0 ){ 
+      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <Electron> ( HEEP_LOOSE );
+      c_ele_final               = c_ele_loose;
+      c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
+    }
+
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
+      CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP );
+      c_ele_final               = c_ele_HEEP;
+      c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
+    }
+
+    //-----------------------------------------------------------------
+    // All skims need muons
+    //-----------------------------------------------------------------
+
+    CollectionPtr c_muon_eta2p1            = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
+    CollectionPtr c_muon_eta2p1_ID         = c_muon_eta2p1    -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04 );
+    CollectionPtr c_muon_final             = c_muon_eta2p1_ID;
+    CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
+    
+    //-----------------------------------------------------------------
+    // All skims need PFJets
+    //-----------------------------------------------------------------
+
+    CollectionPtr c_pfjet_central                     = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_EtaCut, jet_EtaCut   );
+    CollectionPtr c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
+    CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_ele_DeltaRCut  );
+    CollectionPtr c_pfjet_central_ID_noLeptonOverlap  = c_pfjet_central_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_muon_DeltaRCut );
+    CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
+    CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
+    
+    //-----------------------------------------------------------------
+    // We need high-eta jets in order to look at boson recoil
+    //-----------------------------------------------------------------
+    
+    CollectionPtr c_pfjet_highEta                    = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_HighEtaCut, jet_HighEtaCut   );
+    CollectionPtr c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
+    CollectionPtr c_pfjet_highEta_ID_noMuonOverlap   = c_pfjet_highEta_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_ele_DeltaRCut  );
+    CollectionPtr c_pfjet_highEta_ID_noLeptonOverlap = c_pfjet_highEta_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_muon_DeltaRCut );
+    CollectionPtr c_pfjet_highEta_final              = c_pfjet_highEta_ID_noLeptonOverlap;
+    CollectionPtr c_pfjet_highEta_final_ptCut        = c_pfjet_highEta_final                -> SkimByMinPt      <PFJet>          ( jet_PtCut );
+    
+    //-----------------------------------------------------------------
+    // Get ready to fill variables 
+    //-----------------------------------------------------------------
+
+    resetCuts();
+
+    //-----------------------------------------------------------------
+    // Fill your single-object variables with values
+    //-----------------------------------------------------------------
+    
+    fillVariableWithValue( "isData"   , isData     );
+    fillVariableWithValue( "bunch"    , bunch      );
+    fillVariableWithValue( "event"    , event      );
+    fillVariableWithValue( "ls"       , ls         );
+    fillVariableWithValue( "orbit"    , orbit      );
+    fillVariableWithValue( "run"      , run        );
+    fillVariableWithValue( "ProcessID", ProcessID  );
+    fillVariableWithValue( "PtHat"    , PtHat      );
+    fillVariableWithValue( "Weight"   , Weight     );
+
+    //-----------------------------------------------------------------
+    // Fill MET filter values
+    //-----------------------------------------------------------------
+    
+    fillVariableWithValue("PassJSON"                   , passJSON(run, ls, isData)                       );    
+    fillVariableWithValue("PassBPTX0"                  , isData == 1 ? int(isBPTX0        == 1) : 1      );
+    fillVariableWithValue("PassPhysDecl"               , isData == 1 ? int(isPhysDeclared == 1) : 1      );
+    fillVariableWithValue("PassBeamScraping"           , int(isBeamScraping                         == 0));
+    fillVariableWithValue("PassPrimaryVertex"          , int(isPrimaryVertex                        == 1));
+    fillVariableWithValue("PassBeamHaloFilterLoose"    , int(passBeamHaloFilterLoose                == 1));
+    fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
+    fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
+    fillVariableWithValue("PassEcalDeadCellBoundEnergy", int(passEcalDeadCellBoundaryEnergyFilter   == 0));
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"   , int(passEcalDeadCellTriggerPrimitiveFilter == 0));
+    fillVariableWithValue("PassTrackingFailure"        , int(passTrackingFailureFilter              == 0));
+    fillVariableWithValue("PassBadEESupercrystalFilter", int(passBadEESupercrystalFilter            == 0));
+    fillVariableWithValue("PassEcalLaserCorrFilter"    , int(passEcalLaserCorrFilter                == 0));
+
+    //-----------------------------------------------------------------
+    // Fill MET values
+    //-----------------------------------------------------------------
+    
+    fillVariableWithValue("PFMET_Pt"            , PFMET               -> at (0));      
+    fillVariableWithValue("PFMET_Phi"	      	, PFMETPhi	      -> at (0));
+    fillVariableWithValue("PFMET_Type1_Pt"      , PFMETType1Cor       -> at (0));      
+    fillVariableWithValue("PFMET_Type1_Phi"   	, PFMETPhiType1Cor    -> at (0));
+    fillVariableWithValue("PFMET_Type01_Pt"     , PFMETType01Cor      -> at (0));      
+    fillVariableWithValue("PFMET_Type01_Phi"  	, PFMETPhiType01Cor   -> at (0));
+    fillVariableWithValue("PFMET_Type01XY_Pt"   , PFMETType01XYCor    -> at (0));      
+    fillVariableWithValue("PFMET_Type01XY_Phi"	, PFMETPhiType01XYCor -> at (0));
+    
+    if ( isData == 0 ) { 
+      if ( reducedSkimType != 0 ){ 
+	fillVariableWithValue("GenMET_Pt"		, GenMETTrue	      -> at (0));
+	fillVariableWithValue("GenMET_Phi"       	, GenMETPhiTrue	      -> at (0));
+      }
+    }
+
+    //-----------------------------------------------------------------
+    // Fill pileup variables
+    //-----------------------------------------------------------------
+        
+    fillVariableWithValue( "nPileUpInt_BXminus1", -1 );
+    fillVariableWithValue( "nPileUpInt_BX0"     , -1 );
+    fillVariableWithValue( "nPileUpInt_BXplus1" , -1 );
+    fillVariableWithValue( "nVertex", VertexChi2->size() ) ;
+    
+    if ( isData == 0 ){
+      for(int pu=0; pu<PileUpInteractions->size(); pu++) {
+	if(PileUpOriginBX->at(pu) == 0  ) { 
+	  fillVariableWithValue( "nPileUpInt_BX0" , PileUpInteractions    ->at(pu));
+	  fillVariableWithValue( "nPileUpInt_True", PileUpInteractionsTrue->at(pu));
+	}
+	if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu));
+	if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1" , PileUpInteractions->at(pu));
+      }
+    }
+
+    //-----------------------------------------------------------------
+    // How many ID'd objects are there?
+    //-----------------------------------------------------------------
+
+    int n_muon_store         = c_muon_final                  -> GetSize();
+    int n_ele_store          = c_ele_final                   -> GetSize();
+    int n_jet_store          = c_pfjet_final                 -> GetSize();
+    int n_jet_highEta_store  = c_pfjet_highEta_final         -> GetSize();
+    int n_genEle_store       = c_genEle_final                -> GetSize();
+    int n_genJet_store       = c_genJet_final                -> GetSize();
+						             
+    int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
+    int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
+    int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
+    int n_jet_highEta_ptCut  = c_pfjet_highEta_final_ptCut   -> GetSize();
+
+    int n_genZgamma_store    = c_genZgamma_final             -> GetSize();
+    int n_genW_store         = c_genW_final                  -> GetSize();
+    int n_genNuFromW_store   = c_genNuFromW_final            -> GetSize();
+    int n_genEleFromW_store  = c_genEleFromW_final           -> GetSize();
+    int n_genEleFromDY_store = c_genEleFromDY_final          -> GetSize();
+    
+    //-----------------------------------------------------------------
+    // All skims need GEN particles/jets
+    //-----------------------------------------------------------------
+
+    if ( reducedSkimType != 0 ) { 
+
+      fillVariableWithValue("nGenJet_ptCut", n_genJet_store);
+      fillVariableWithValue("nGenEle_ptCut", n_genEle_store);
+      
+      fillVariableWithValue("nGenJet_store", min(n_genJet_store,5));
+      fillVariableWithValue("nGenEle_store", min(n_genEle_store,2));
+
+      fillVariableWithValue("nGenW_ptCut"	 , n_genW_store         );
+      fillVariableWithValue("nGenDY_ptCut"	 , n_genZgamma_store    );  	     
+      fillVariableWithValue("nGenNuFromW_ptCut"	 , n_genNuFromW_store   );
+      fillVariableWithValue("nGenEleFromW_ptCut" , n_genEleFromW_store  );
+      fillVariableWithValue("nGenEleFromDY_ptCut", n_genEleFromDY_store );
+
+      fillVariableWithValue("nGenW_store"	 , min(n_genW_store        ,2));
+      fillVariableWithValue("nGenDY_store"	 , min(n_genZgamma_store   ,2));  	     
+      fillVariableWithValue("nGenNuFromW_store"	 , min(n_genNuFromW_store  ,2));
+      fillVariableWithValue("nGenEleFromW_store" , min(n_genEleFromW_store ,2));
+      fillVariableWithValue("nGenEleFromDY_store", min(n_genEleFromDY_store,4));
+      
+      if ( n_genJet_store >= 1 ) { 
+	GenJet genJet1 = c_genJet_final -> GetConstituent<GenJet>(0);
+	fillVariableWithValue ( "GenJet1_Pt" , genJet1.Pt () );
+	fillVariableWithValue ( "GenJet1_Eta", genJet1.Eta() );
+	fillVariableWithValue ( "GenJet1_Phi", genJet1.Phi() );
+	
+	if ( n_genJet_store >= 2 ) { 
+	  GenJet genJet2 = c_genJet_final -> GetConstituent<GenJet>(1);
+	  fillVariableWithValue ( "GenJet2_Pt" , genJet2.Pt () );
+	  fillVariableWithValue ( "GenJet2_Eta", genJet2.Eta() );
+	  fillVariableWithValue ( "GenJet2_Phi", genJet2.Phi() );
+	  
+	  if ( n_genJet_store >= 3 ) { 
+	    GenJet genJet3 = c_genJet_final -> GetConstituent<GenJet>(2);
+	    fillVariableWithValue ( "GenJet3_Pt" , genJet3.Pt () );
+	    fillVariableWithValue ( "GenJet3_Eta", genJet3.Eta() );
+	    fillVariableWithValue ( "GenJet3_Phi", genJet3.Phi() );
+	    
+	    if ( n_genJet_store >= 4 ) { 
+	      GenJet genJet4 = c_genJet_final -> GetConstituent<GenJet>(3);
+	      fillVariableWithValue ( "GenJet4_Pt" , genJet4.Pt () );
+	      fillVariableWithValue ( "GenJet4_Eta", genJet4.Eta() );
+	      fillVariableWithValue ( "GenJet4_Phi", genJet4.Phi() );
+	      
+	      if ( n_genJet_store >= 5 ) { 
+		GenJet genJet5 = c_genJet_final -> GetConstituent<GenJet>(4);
+		fillVariableWithValue ( "GenJet5_Pt" , genJet5.Pt () );
+		fillVariableWithValue ( "GenJet5_Eta", genJet5.Eta() );
+		fillVariableWithValue ( "GenJet5_Phi", genJet5.Phi() );
+	      }
+	    }
+	  }
+	}
+      }
+      
+      if ( n_genEle_store >= 1 ){ 
+	GenParticle genEle1 = c_genEle_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenEle1_Pt" , genEle1.Pt () );
+	fillVariableWithValue ( "GenEle1_Eta", genEle1.Eta() );
+	fillVariableWithValue ( "GenEle1_Phi", genEle1.Phi() );
+	
+	if ( n_genEle_store >= 2 ){ 
+	  GenParticle genEle2 = c_genEle_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenEle2_Pt" , genEle2.Pt () );
+	  fillVariableWithValue ( "GenEle2_Eta", genEle2.Eta() );
+	  fillVariableWithValue ( "GenEle2_Phi", genEle2.Phi() );
+	}
+      }
+      
+      if ( n_genZgamma_store >= 1 ){ 
+	GenParticle genZgamma1 = c_genZgamma_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenZGamma1_Pt" , genZgamma1.Pt () );
+	fillVariableWithValue ( "GenZGamma1_Eta", genZgamma1.Eta() );
+	fillVariableWithValue ( "GenZGamma1_Phi", genZgamma1.Phi() );
+	fillVariableWithValue ( "GenZGamma1_ID" , genZgamma1.PdgId());
+	
+	if ( n_genZgamma_store >= 2 ){ 
+	  GenParticle genZgamma2 = c_genZgamma_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenZGamma2_Pt" , genZgamma2.Pt () );
+	  fillVariableWithValue ( "GenZGamma2_Eta", genZgamma2.Eta() );
+	  fillVariableWithValue ( "GenZGamma2_Phi", genZgamma2.Phi() );
+	  fillVariableWithValue ( "GenZGamma2_ID" , genZgamma2.PdgId());
+	}
+      }
+      
+      if ( n_genW_store >= 1 ){ 
+	GenParticle genW1 = c_genW_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenW1_Pt" , genW1.Pt () );
+	fillVariableWithValue ( "GenW1_Eta", genW1.Eta() );
+	fillVariableWithValue ( "GenW1_Phi", genW1.Phi() );
+	fillVariableWithValue ( "GenW1_ID" , genW1.PdgId());
+	
+	if ( n_genW_store >= 2 ){ 
+	  GenParticle genW2 = c_genW_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenW2_Pt" , genW2.Pt () );
+	  fillVariableWithValue ( "GenW2_Eta", genW2.Eta() );
+	  fillVariableWithValue ( "GenW2_Phi", genW2.Phi() );
+	  fillVariableWithValue ( "GenW2_ID" , genW2.PdgId());
+	}
+      }
+      
+      if ( n_genNuFromW_store >= 1 ){ 
+	GenParticle genNuFromW1 = c_genNuFromW_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenNuFromW1_Pt" , genNuFromW1.Pt () );
+	fillVariableWithValue ( "GenNuFromW1_Eta", genNuFromW1.Eta() );
+	fillVariableWithValue ( "GenNuFromW1_Phi", genNuFromW1.Phi() );
+	fillVariableWithValue ( "GenNuFromW1_ID" , genNuFromW1.PdgId());
+	
+	if ( n_genNuFromW_store >= 2 ){ 
+	  GenParticle genNuFromW2 = c_genNuFromW_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenNuFromW2_Pt" , genNuFromW2.Pt () );
+	  fillVariableWithValue ( "GenNuFromW2_Eta", genNuFromW2.Eta() );
+	  fillVariableWithValue ( "GenNuFromW2_Phi", genNuFromW2.Phi() );
+	  fillVariableWithValue ( "GenNuFromW2_ID" , genNuFromW2.PdgId());
+	}
+      }
+
+      if ( n_genEleFromW_store >= 1 ){ 
+	GenParticle genEleFromW1 = c_genEleFromW_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenEleFromW1_Pt" , genEleFromW1.Pt () );
+	fillVariableWithValue ( "GenEleFromW1_Eta", genEleFromW1.Eta() );
+	fillVariableWithValue ( "GenEleFromW1_Phi", genEleFromW1.Phi() );
+	fillVariableWithValue ( "GenEleFromW1_ID" , genEleFromW1.PdgId());
+	
+	if ( n_genEleFromW_store >= 2 ){ 
+	  GenParticle genEleFromW2 = c_genEleFromW_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenEleFromW2_Pt" , genEleFromW2.Pt () );
+	  fillVariableWithValue ( "GenEleFromW2_Eta", genEleFromW2.Eta() );
+	  fillVariableWithValue ( "GenEleFromW2_Phi", genEleFromW2.Phi() );
+	  fillVariableWithValue ( "GenEleFromW2_ID" , genEleFromW2.PdgId());
+	}
+      }
+      
+      if ( n_genEleFromDY_store >= 1 ){ 
+	GenParticle genEleFromDY1 = c_genEleFromDY_final -> GetConstituent<GenParticle>(0);
+	fillVariableWithValue ( "GenEleFromDY1_Pt" , genEleFromDY1.Pt () );
+	fillVariableWithValue ( "GenEleFromDY1_Eta", genEleFromDY1.Eta() );
+	fillVariableWithValue ( "GenEleFromDY1_Phi", genEleFromDY1.Phi() );
+	fillVariableWithValue ( "GenEleFromDY1_ID" , genEleFromDY1.PdgId());
+	
+	if ( n_genEleFromDY_store >= 2 ){ 
+	  GenParticle genEleFromDY2 = c_genEleFromDY_final -> GetConstituent<GenParticle>(1);
+	  fillVariableWithValue ( "GenEleFromDY2_Pt" , genEleFromDY2.Pt () );
+	  fillVariableWithValue ( "GenEleFromDY2_Eta", genEleFromDY2.Eta() );
+	  fillVariableWithValue ( "GenEleFromDY2_Phi", genEleFromDY2.Phi() );
+	  fillVariableWithValue ( "GenEleFromDY2_ID" , genEleFromDY2.PdgId());
+
+	  if ( n_genEleFromDY_store >= 3 ){ 
+	    GenParticle genEleFromDY3 = c_genEleFromDY_final -> GetConstituent<GenParticle>(2);
+	    fillVariableWithValue ( "GenEleFromDY3_Pt" , genEleFromDY3.Pt () );
+	    fillVariableWithValue ( "GenEleFromDY3_Eta", genEleFromDY3.Eta() );
+	    fillVariableWithValue ( "GenEleFromDY3_Phi", genEleFromDY3.Phi() );
+	    fillVariableWithValue ( "GenEleFromDY3_ID" , genEleFromDY3.PdgId());
+	    
+	    if ( n_genEleFromDY_store >= 4 ){ 
+	      GenParticle genEleFromDY4 = c_genEleFromDY_final -> GetConstituent<GenParticle>(3);
+	      fillVariableWithValue ( "GenEleFromDY4_Pt" , genEleFromDY4.Pt () );
+	      fillVariableWithValue ( "GenEleFromDY4_Eta", genEleFromDY4.Eta() );
+	      fillVariableWithValue ( "GenEleFromDY4_Phi", genEleFromDY4.Phi() );
+	      fillVariableWithValue ( "GenEleFromDY4_ID" , genEleFromDY4.PdgId());
+	    }
+	  }
+	}
+      }
+    }
+    
+    //-----------------------------------------------------------------
+    // All skims need muons
+    //-----------------------------------------------------------------
+
+    fillVariableWithValue ("nMuon_ptCut", n_muon_ptCut);
+    fillVariableWithValue ("nMuon_store", min(n_muon_store,2));
+
+    if ( n_muon_store >= 1 ){ 
+
+      Muon muon1 = c_muon_final -> GetConstituent<Muon>(0);
+      double hltTTMuon1Pt     = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon1, muon_hltMatch_DeltaRCut);
+      double hltSingleMuon1Pt = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon_SingleMu_all, muon1, muon_hltMatch_DeltaRCut);
+      fillVariableWithValue ("Muon1_Pt"             , muon1.Pt      ());
+      fillVariableWithValue ("Muon1_Eta"            , muon1.Eta     ());
+      fillVariableWithValue ("Muon1_Phi"            , muon1.Phi     ());
+      fillVariableWithValue ("Muon1_Charge"         , muon1.Charge  ());
+      fillVariableWithValue ("Muon1_hltTTMuonPt"    , hltTTMuon1Pt    );
+      fillVariableWithValue ("Muon1_hltSingleMuonPt", hltSingleMuon1Pt);
+      
+      if ( n_muon_store >= 2 ){ 
+	
+	Muon muon2 = c_muon_final -> GetConstituent<Muon>(1);
+	double hltMuon2Pt       = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon2, muon_hltMatch_DeltaRCut);
+	double hltSingleMuon2Pt = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon_SingleMu_all, muon2, muon_hltMatch_DeltaRCut);
+	fillVariableWithValue ("Muon2_Pt"             , muon2.Pt      ());
+	fillVariableWithValue ("Muon2_Eta"            , muon2.Eta     ());
+	fillVariableWithValue ("Muon2_Phi"            , muon2.Phi     ());
+	fillVariableWithValue ("Muon2_Charge"         , muon2.Charge  ());
+	fillVariableWithValue ("Muon2_hltTTMuonPt"    , hltMuon2Pt      );
+	fillVariableWithValue ("Muon2_hltSingleMuonPt", hltSingleMuon2Pt);
+
+      }
+    }
+
+    //-----------------------------------------------------------------
+    // Fill variables for QCD skim (reducedSkimType == 0 )
+    //-----------------------------------------------------------------
+
+    if ( reducedSkimType == 0 ) { 
+
+      fillVariableWithValue ("nLooseEle_store"   , min(n_ele_store,3));
+      fillVariableWithValue ("nJetLooseEle_store", min(n_jet_store,5));
+      fillVariableWithValue ("nLooseEle_ptCut"   , n_ele_ptCut );
+      fillVariableWithValue ("nJetLooseEle_ptCut", n_jet_ptCut );
+
+      int n_filters = ( c_hltPhoton30_CaloIdVL_QCD_all -> GetSize() + 
+			c_hltPhoton50_CaloIdVL_QCD_all -> GetSize() + 
+			c_hltPhoton75_CaloIdVL_QCD_all -> GetSize() + 
+			c_hltPhoton90_CaloIdVL_QCD_all -> GetSize() + 
+			c_hltPhoton135_QCD_all         -> GetSize() + 
+			c_hltPhoton150_QCD_all         -> GetSize() + 
+			c_hltPhoton160_QCD_all         -> GetSize() );
+      
+      if ( n_ele_store >= 1 ){
+	Electron loose_ele1 = c_ele_final -> GetConstituent<Electron>(0);
+
+	double hltPhotonPt = -999.;
+	if ( n_filters != 0 ) {
+	  double hltPhotonPt_array [7] =  { triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton30_CaloIdVL_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut),
+					    triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton50_CaloIdVL_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut), 
+					    triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton75_CaloIdVL_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut), 
+					    triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton90_CaloIdVL_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut), 
+					    triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton135_QCD_all        , loose_ele1, ele_hltMatch_DeltaRCut), 
+					    triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton150_QCD_all        , loose_ele1, ele_hltMatch_DeltaRCut), 
+					    triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton160_QCD_all        , loose_ele1, ele_hltMatch_DeltaRCut) };
+	  for (int iFilter = 0; iFilter < 7; ++iFilter){
+	    if ( hltPhotonPt_array[iFilter] > 0.0 ) hltPhotonPt = hltPhotonPt_array[iFilter];
+	  }
+	}
+	
+	fillVariableWithValue( "LooseEle1_PassID"        , loose_ele1.PassUserID ( HEEP )  );
+	fillVariableWithValue( "LooseEle1_Pt"            , loose_ele1.Pt()                 );
+	fillVariableWithValue( "LooseEle1_Energy"        , loose_ele1.CaloEnergy()         );
+	fillVariableWithValue( "LooseEle1_Eta"           , loose_ele1.Eta()                );
+	fillVariableWithValue( "LooseEle1_Phi"           , loose_ele1.Phi()                );
+	fillVariableWithValue( "LooseEle1_SCPhi"         , loose_ele1.SCPhi()              );
+	fillVariableWithValue( "LooseEle1_Charge"        , loose_ele1.Charge()             );
+	fillVariableWithValue( "LooseEle1_Dist"          , loose_ele1.Dist()               );
+	fillVariableWithValue( "LooseEle1_DCotTheta"     , loose_ele1.DCotTheta()          );
+	fillVariableWithValue( "LooseEle1_MissingHits"   , loose_ele1.MissingHits()        );
+	fillVariableWithValue( "LooseEle1_TrkPt"         , loose_ele1.TrackPt()            );
+	fillVariableWithValue( "LooseEle1_SigmaIEtaIEta" , loose_ele1.SigmaIEtaIEta()      );
+	fillVariableWithValue( "LooseEle1_SigmaEtaEta"   , loose_ele1.SigmaEtaEta()        );
+	
+	fillVariableWithValue( "LooseEle1_DeltaPhiTrkSC" , loose_ele1.DeltaPhi()           );
+	fillVariableWithValue( "LooseEle1_DeltaEtaTrkSC" , loose_ele1.DeltaEta()           );
+	fillVariableWithValue( "LooseEle1_RawEnergy"     , loose_ele1.RawEnergy()          );
+	fillVariableWithValue( "LooseEle1_NBrems"        , loose_ele1.NBrems()             );
+	fillVariableWithValue( "LooseEle1_HoE"           , loose_ele1.HoE()                );
+	fillVariableWithValue( "LooseEle1_E1x5OverE5x5"  , loose_ele1.E1x5OverE5x5()       );
+	fillVariableWithValue( "LooseEle1_E2x5OverE5x5"  , loose_ele1.E2x5OverE5x5()       );
+	fillVariableWithValue( "LooseEle1_HasMatchedPhot", loose_ele1.HasMatchedConvPhot() );
+	fillVariableWithValue( "LooseEle1_FBrem"         , loose_ele1.FBrem()              );
+	fillVariableWithValue( "LooseEle1_LeadVtxDistXY" , loose_ele1.LeadVtxDistXY()      );
+	fillVariableWithValue( "LooseEle1_LeadVtxDistZ"  , loose_ele1.LeadVtxDistZ ()      );
+	fillVariableWithValue( "LooseEle1_BeamSpotDXY"   , loose_ele1.BeamSpotDXY()        );
+	fillVariableWithValue( "LooseEle1_BeamSpotDXYErr", loose_ele1.BeamSpotDXYErr()     );
+	fillVariableWithValue( "LooseEle1_ValidFrac"     , loose_ele1.ValidFrac()          );
+	fillVariableWithValue( "LooseEle1_Classif"       , loose_ele1.Classif()            );
+	fillVariableWithValue( "LooseEle1_EOverP"        , loose_ele1.ESuperClusterOverP() );
+
+	fillVariableWithValue( "LooseEle1_TrkIsolation"  , loose_ele1.TrkIsoDR03()         );
+	fillVariableWithValue( "LooseEle1_EcalIsolation" , loose_ele1.EcalIsoDR03()        );
+	fillVariableWithValue( "LooseEle1_HcalIsolation" , loose_ele1.HcalIsoD1DR03()      );
+	fillVariableWithValue( "LooseEle1_CorrIsolation" , loose_ele1.HEEPCorrIsolation()  );
+	fillVariableWithValue( "LooseEle1_PFCHIso03"     , loose_ele1.PFChargedHadronIso03());
+	fillVariableWithValue( "LooseEle1_PFPhoIso03"    , loose_ele1.PFPhotonIso03       ());
+	fillVariableWithValue( "LooseEle1_PFNHIso03"     , loose_ele1.PFNeutralHadronIso03());
+
+	fillVariableWithValue("LooseEle1_GsfCtfScPixCharge", loose_ele1.GsfCtfScPixCharge()  );
+	fillVariableWithValue("LooseEle1_GsfScPixCharge"   , loose_ele1.GsfScPixCharge()     );
+	fillVariableWithValue("LooseEle1_GsfCtfCharge"     , loose_ele1.GsfCtfCharge()       );
+
+	fillVariableWithValue( "LooseEle1_hltPhotonPt"  , hltPhotonPt );
+	
+	if ( n_ele_store >= 2 ){
+	  
+	  Electron loose_ele2 = c_ele_final -> GetConstituent<Electron>(1);
+	  hltPhotonPt = -999.;
+	  if ( n_filters != 0 ) {
+	    double hltPhotonPt_array [7] =  { triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton30_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
+					      triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton50_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
+					      triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton75_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
+					      triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton90_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
+					      triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton135_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut), 
+					      triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton150_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut), 
+					      triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton160_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut) };
+	    for (int iFilter = 0; iFilter < 7; ++iFilter){
+	      if ( hltPhotonPt_array[iFilter] > 0.0 ) hltPhotonPt = hltPhotonPt_array[iFilter];
+	    }
+	  }
+	  
+	  fillVariableWithValue( "LooseEle2_PassID"        , loose_ele2.PassUserID ( HEEP )  );
+	  fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
+	  fillVariableWithValue( "LooseEle2_Energy"        , loose_ele2.CaloEnergy()         );
+	  fillVariableWithValue( "LooseEle2_Eta"           , loose_ele2.Eta()                );
+	  fillVariableWithValue( "LooseEle2_Phi"           , loose_ele2.Phi()                );
+	  fillVariableWithValue( "LooseEle2_SCPhi"         , loose_ele2.SCPhi()              );
+	  fillVariableWithValue( "LooseEle2_Charge"        , loose_ele2.Charge()             );
+	  fillVariableWithValue( "LooseEle2_Dist"          , loose_ele2.Dist()               );
+	  fillVariableWithValue( "LooseEle2_DCotTheta"     , loose_ele2.DCotTheta()          );
+	  fillVariableWithValue( "LooseEle2_MissingHits"   , loose_ele2.MissingHits()        );
+	  fillVariableWithValue( "LooseEle2_TrkPt"         , loose_ele2.TrackPt()            );
+	  fillVariableWithValue( "LooseEle2_SigmaIEtaIEta" , loose_ele2.SigmaIEtaIEta()      );
+	  fillVariableWithValue( "LooseEle2_SigmaEtaEta"   , loose_ele2.SigmaEtaEta()        );
+	  
+	  fillVariableWithValue( "LooseEle2_DeltaPhiTrkSC" , loose_ele2.DeltaPhi()           );
+	  fillVariableWithValue( "LooseEle2_DeltaEtaTrkSC" , loose_ele2.DeltaEta()           );
+	  fillVariableWithValue( "LooseEle2_RawEnergy"     , loose_ele2.RawEnergy()          );
+	  fillVariableWithValue( "LooseEle2_NBrems"        , loose_ele2.NBrems()             );
+	  fillVariableWithValue( "LooseEle2_HoE"           , loose_ele2.HoE()                );
+	  fillVariableWithValue( "LooseEle2_E1x5OverE5x5"  , loose_ele2.E1x5OverE5x5()       );
+	  fillVariableWithValue( "LooseEle2_E2x5OverE5x5"  , loose_ele2.E2x5OverE5x5()       );
+	  fillVariableWithValue( "LooseEle2_HasMatchedPhot", loose_ele2.HasMatchedConvPhot() );
+	  fillVariableWithValue( "LooseEle2_FBrem"         , loose_ele2.FBrem()              );
+	  fillVariableWithValue( "LooseEle2_LeadVtxDistXY" , loose_ele2.LeadVtxDistXY()      );
+	  fillVariableWithValue( "LooseEle2_LeadVtxDistZ"  , loose_ele2.LeadVtxDistZ ()      );
+	  fillVariableWithValue( "LooseEle2_BeamSpotDXY"   , loose_ele2.BeamSpotDXY()        );
+	  fillVariableWithValue( "LooseEle2_BeamSpotDXYErr", loose_ele2.BeamSpotDXYErr()     );
+	  fillVariableWithValue( "LooseEle2_ValidFrac"     , loose_ele2.ValidFrac()          );
+	  fillVariableWithValue( "LooseEle2_Classif"       , loose_ele2.Classif()            );
+	  fillVariableWithValue( "LooseEle2_EOverP"        , loose_ele2.ESuperClusterOverP() );
+	  
+	  fillVariableWithValue( "LooseEle2_TrkIsolation"  , loose_ele2.TrkIsoDR03()         );
+	  fillVariableWithValue( "LooseEle2_EcalIsolation" , loose_ele2.EcalIsoDR03()        );
+	  fillVariableWithValue( "LooseEle2_HcalIsolation" , loose_ele2.HcalIsoD1DR03()      );
+	  fillVariableWithValue( "LooseEle2_CorrIsolation" , loose_ele2.HEEPCorrIsolation()  );
+	  fillVariableWithValue( "LooseEle2_PFCHIso03"     , loose_ele2.PFChargedHadronIso03());
+	  fillVariableWithValue( "LooseEle2_PFPhoIso03"    , loose_ele2.PFPhotonIso03       ());
+	  fillVariableWithValue( "LooseEle2_PFNHIso03"     , loose_ele2.PFNeutralHadronIso03());
+	  
+	  fillVariableWithValue("LooseEle2_GsfCtfScPixCharge", loose_ele2.GsfCtfScPixCharge()  );
+	  fillVariableWithValue("LooseEle2_GsfScPixCharge"   , loose_ele2.GsfScPixCharge()     );
+	  fillVariableWithValue("LooseEle2_GsfCtfCharge"     , loose_ele2.GsfCtfCharge()       );
+	  
+	  fillVariableWithValue( "LooseEle2_hltPhotonPt"  , hltPhotonPt );
+	  
+	  if ( n_ele_store >= 3 ){
+	    Electron loose_ele3 = c_ele_final -> GetConstituent<Electron>(2);
+	    hltPhotonPt = -999.;
+	    if ( n_filters != 0 ) {
+	      double hltPhotonPt_array [7] =  { triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton30_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
+						triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton50_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
+						triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton75_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
+						triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton90_CaloIdVL_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
+						triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton135_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut), 
+						triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton150_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut), 
+						triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton160_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut) };
+	      for (int iFilter = 0; iFilter < 7; ++iFilter){
+		if ( hltPhotonPt_array[iFilter] > 0.0 ) hltPhotonPt = hltPhotonPt_array[iFilter];
+	      }
+	    }
+
+	    fillVariableWithValue( "LooseEle3_PassID"        , loose_ele3.PassUserID ( HEEP )  );
+	    fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
+	    fillVariableWithValue( "LooseEle3_Energy"        , loose_ele3.CaloEnergy()         );
+	    fillVariableWithValue( "LooseEle3_Eta"           , loose_ele3.Eta()                );
+	    fillVariableWithValue( "LooseEle3_Phi"           , loose_ele3.Phi()                );
+	    fillVariableWithValue( "LooseEle3_SCPhi"         , loose_ele3.SCPhi()              );
+	    fillVariableWithValue( "LooseEle3_Charge"        , loose_ele3.Charge()             );
+	    fillVariableWithValue( "LooseEle3_Dist"          , loose_ele3.Dist()               );
+	    fillVariableWithValue( "LooseEle3_DCotTheta"     , loose_ele3.DCotTheta()          );
+	    fillVariableWithValue( "LooseEle3_MissingHits"   , loose_ele3.MissingHits()        );
+	    fillVariableWithValue( "LooseEle3_TrkPt"         , loose_ele3.TrackPt()            );
+	    fillVariableWithValue( "LooseEle3_SigmaIEtaIEta" , loose_ele3.SigmaIEtaIEta()      );
+	    fillVariableWithValue( "LooseEle3_SigmaEtaEta"   , loose_ele3.SigmaEtaEta()        );
+	    			                             
+	    fillVariableWithValue( "LooseEle3_DeltaPhiTrkSC" , loose_ele3.DeltaPhi()           );
+	    fillVariableWithValue( "LooseEle3_DeltaEtaTrkSC" , loose_ele3.DeltaEta()           );
+	    fillVariableWithValue( "LooseEle3_RawEnergy"     , loose_ele3.RawEnergy()          );
+	    fillVariableWithValue( "LooseEle3_NBrems"        , loose_ele3.NBrems()             );
+	    fillVariableWithValue( "LooseEle3_HoE"           , loose_ele3.HoE()                );
+	    fillVariableWithValue( "LooseEle3_E1x5OverE5x5"  , loose_ele3.E1x5OverE5x5()       );
+	    fillVariableWithValue( "LooseEle3_E2x5OverE5x5"  , loose_ele3.E2x5OverE5x5()       );
+	    fillVariableWithValue( "LooseEle3_HasMatchedPhot", loose_ele3.HasMatchedConvPhot() );
+	    fillVariableWithValue( "LooseEle3_FBrem"         , loose_ele3.FBrem()              );
+	    fillVariableWithValue( "LooseEle3_LeadVtxDistXY" , loose_ele3.LeadVtxDistXY()      );
+	    fillVariableWithValue( "LooseEle3_LeadVtxDistZ"  , loose_ele3.LeadVtxDistZ ()      );
+	    fillVariableWithValue( "LooseEle3_BeamSpotDXY"   , loose_ele3.BeamSpotDXY()        );
+	    fillVariableWithValue( "LooseEle3_BeamSpotDXYErr", loose_ele3.BeamSpotDXYErr()     );
+	    fillVariableWithValue( "LooseEle3_ValidFrac"     , loose_ele3.ValidFrac()          );
+	    fillVariableWithValue( "LooseEle3_Classif"       , loose_ele3.Classif()            );
+	    fillVariableWithValue( "LooseEle3_EOverP"        , loose_ele3.ESuperClusterOverP() );
+	    			                             
+	    fillVariableWithValue( "LooseEle3_TrkIsolation"  , loose_ele3.TrkIsoDR03()         );
+	    fillVariableWithValue( "LooseEle3_EcalIsolation" , loose_ele3.EcalIsoDR03()        );
+	    fillVariableWithValue( "LooseEle3_HcalIsolation" , loose_ele3.HcalIsoD1DR03()      );
+	    fillVariableWithValue( "LooseEle3_CorrIsolation" , loose_ele3.HEEPCorrIsolation()  );
+	    fillVariableWithValue( "LooseEle3_PFCHIso03"     , loose_ele3.PFChargedHadronIso03());
+	    fillVariableWithValue( "LooseEle3_PFPhoIso03"    , loose_ele3.PFPhotonIso03       ());
+	    fillVariableWithValue( "LooseEle3_PFNHIso03"     , loose_ele3.PFNeutralHadronIso03());
+	    
+	    fillVariableWithValue("LooseEle3_GsfCtfScPixCharge", loose_ele3.GsfCtfScPixCharge()  );
+	    fillVariableWithValue("LooseEle3_GsfScPixCharge"   , loose_ele3.GsfScPixCharge()     );
+	    fillVariableWithValue("LooseEle3_GsfCtfCharge"     , loose_ele3.GsfCtfCharge()       );
+	    
+	    fillVariableWithValue( "LooseEle3_hltPhotonPt"  , hltPhotonPt );
+	  }
+	}
+      }
+
+      if ( n_jet_store >= 1 ){
+	PFJet loose_jet1 = c_pfjet_final -> GetConstituent<PFJet>(0);
+	fillVariableWithValue( "JetLooseEle1_Pt"      , loose_jet1.Pt()                         );
+	fillVariableWithValue( "JetLooseEle1_JECUnc"  , loose_jet1.JECUnc()                     );
+	fillVariableWithValue( "JetLooseEle1_Energy"  , loose_jet1.Energy()                     );
+	fillVariableWithValue( "JetLooseEle1_Eta"     , loose_jet1.Eta()                        );
+	fillVariableWithValue( "JetLooseEle1_Phi"     , loose_jet1.Phi()                        );
+        fillVariableWithValue( "JetLooseEle1_btagCSV" , loose_jet1.CombinedSecondaryVertexBTag());
+	
+	if ( n_jet_store >= 2 ){
+	  PFJet loose_jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+	  fillVariableWithValue( "JetLooseEle2_Pt"      , loose_jet2.Pt()                         );
+	  fillVariableWithValue( "JetLooseEle2_JECUnc"  , loose_jet2.JECUnc()                     );
+	  fillVariableWithValue( "JetLooseEle2_Energy"  , loose_jet2.Energy()                     );
+	  fillVariableWithValue( "JetLooseEle2_Eta"     , loose_jet2.Eta()                        );
+	  fillVariableWithValue( "JetLooseEle2_Phi"     , loose_jet2.Phi()                        );
+	  fillVariableWithValue( "JetLooseEle2_btagCSV" , loose_jet2.CombinedSecondaryVertexBTag());
+
+	  if ( n_jet_store >= 3 ){
+	    PFJet loose_jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
+	    fillVariableWithValue( "JetLooseEle3_Pt"      , loose_jet3.Pt()                         );
+	    fillVariableWithValue( "JetLooseEle3_JECUnc"  , loose_jet3.JECUnc()                     );
+	    fillVariableWithValue( "JetLooseEle3_Energy"  , loose_jet3.Energy()                     );
+	    fillVariableWithValue( "JetLooseEle3_Eta"     , loose_jet3.Eta()                        );
+	    fillVariableWithValue( "JetLooseEle3_Phi"     , loose_jet3.Phi()                        );
+	    fillVariableWithValue( "JetLooseEle3_btagCSV" , loose_jet3.CombinedSecondaryVertexBTag());
+
+	    if ( n_jet_store >= 4 ){
+	      PFJet loose_jet4 = c_pfjet_final -> GetConstituent<PFJet>(3);
+	      fillVariableWithValue( "JetLooseEle4_Pt"      , loose_jet4.Pt()                         );
+	      fillVariableWithValue( "JetLooseEle4_JECUnc"  , loose_jet4.JECUnc()                     );
+	      fillVariableWithValue( "JetLooseEle4_Energy"  , loose_jet4.Energy()                     );
+	      fillVariableWithValue( "JetLooseEle4_Eta"     , loose_jet4.Eta()                        );
+	      fillVariableWithValue( "JetLooseEle4_Phi"     , loose_jet4.Phi()                        );
+	      fillVariableWithValue( "JetLooseEle4_btagCSV" , loose_jet4.CombinedSecondaryVertexBTag());
+
+	      if ( n_jet_store >= 5 ){
+		PFJet loose_jet5 = c_pfjet_final -> GetConstituent<PFJet>(4);
+		fillVariableWithValue( "JetLooseEle5_Pt"      , loose_jet5.Pt()                         );
+		fillVariableWithValue( "JetLooseEle5_JECUnc"  , loose_jet5.JECUnc()                     );
+		fillVariableWithValue( "JetLooseEle5_Energy"  , loose_jet5.Energy()                     );
+		fillVariableWithValue( "JetLooseEle5_Eta"     , loose_jet5.Eta()                        );
+		fillVariableWithValue( "JetLooseEle5_Phi"     , loose_jet5.Phi()                        );
+		fillVariableWithValue( "JetLooseEle5_btagCSV" , loose_jet5.CombinedSecondaryVertexBTag());
+	      }
+	    }
+	  }
+	}
+      }
+    }
+
+    //-----------------------------------------------------------------
+    // Fill variables for signal-like skim (reducedSkimType == 1 - 4 )
+    //-----------------------------------------------------------------
+    
+    // Electrons
+
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4) { 
+      
+      fillVariableWithValue ("nEle_store"       , min(n_ele_store,2) );
+      fillVariableWithValue ("nJet_store"       , min(n_jet_store,5) );
+      fillVariableWithValue ("nHighEtaJet_store", min(n_jet_highEta_store, 1));
+      fillVariableWithValue ("nEle_ptCut"       , n_ele_ptCut );
+      fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
+      fillVariableWithValue ("nHighEtaJet_ptCut", n_jet_highEta_ptCut );
+
+      if ( n_ele_store >= 1 ){
+	Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
+	double hltEle1Pt_signal          = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
+	double hltEle1Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all  , ele1, ele_hltMatch_DeltaRCut);
+	double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTFilterObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
+	double hltEle1Pt_WP80            = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle27WP80_all       , ele1, ele_hltMatch_DeltaRCut);
+
+	fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
+	fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
+	fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
+	fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
+	fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
+	fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
+	fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
+	fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
+	fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
+	fillVariableWithValue( "Ele1_TrkPt"         , ele1.TrackPt()            );
+	fillVariableWithValue( "Ele1_SigmaIEtaIEta" , ele1.SigmaIEtaIEta()      );
+	fillVariableWithValue( "Ele1_SigmaEtaEta"   , ele1.SigmaEtaEta()        );
+	
+	fillVariableWithValue( "Ele1_DeltaPhiTrkSC" , ele1.DeltaPhi()           );
+	fillVariableWithValue( "Ele1_DeltaEtaTrkSC" , ele1.DeltaEta()           );
+	fillVariableWithValue( "Ele1_RawEnergy"     , ele1.RawEnergy()          );
+	fillVariableWithValue( "Ele1_NBrems"        , ele1.NBrems()             );
+	fillVariableWithValue( "Ele1_HoE"           , ele1.HoE()                );
+	fillVariableWithValue( "Ele1_E1x5OverE5x5"  , ele1.E1x5OverE5x5()       );
+	fillVariableWithValue( "Ele1_E2x5OverE5x5"  , ele1.E2x5OverE5x5()       );
+	fillVariableWithValue( "Ele1_HasMatchedPhot", ele1.HasMatchedConvPhot() );
+	fillVariableWithValue( "Ele1_FBrem"         , ele1.FBrem()              );
+	fillVariableWithValue( "Ele1_LeadVtxDistXY" , ele1.LeadVtxDistXY()      );
+	fillVariableWithValue( "Ele1_LeadVtxDistZ"  , ele1.LeadVtxDistZ ()      );
+	fillVariableWithValue( "Ele1_BeamSpotDXY"   , ele1.BeamSpotDXY()        );
+	fillVariableWithValue( "Ele1_BeamSpotDXYErr", ele1.BeamSpotDXYErr()     );
+	fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()          );
+	fillVariableWithValue( "Ele1_Classif"       , ele1.Classif()            );
+	fillVariableWithValue( "Ele1_EOverP"        , ele1.ESuperClusterOverP() );
+
+	fillVariableWithValue( "Ele1_TrkIsolation"  , ele1.TrkIsoDR03()         );
+	fillVariableWithValue( "Ele1_EcalIsolation" , ele1.EcalIsoDR03()        );
+	fillVariableWithValue( "Ele1_HcalIsolation" , ele1.HcalIsoD1DR03()      );
+	fillVariableWithValue( "Ele1_CorrIsolation" , ele1.HEEPCorrIsolation()  );
+	fillVariableWithValue( "Ele1_PFCHIso03"     , ele1.PFChargedHadronIso03());
+	fillVariableWithValue( "Ele1_PFPhoIso03"    , ele1.PFPhotonIso03       ());
+	fillVariableWithValue( "Ele1_PFNHIso03"     , ele1.PFNeutralHadronIso03());
+
+	fillVariableWithValue("Ele1_GsfCtfScPixCharge", ele1.GsfCtfScPixCharge()  );
+	fillVariableWithValue("Ele1_GsfScPixCharge"   , ele1.GsfScPixCharge()     );
+	fillVariableWithValue("Ele1_GsfCtfCharge"     , ele1.GsfCtfCharge()       );
+
+	fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
+	fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
+	fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
+	fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
+
+	if ( n_ele_store >= 2 ){
+	  Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
+	  double hltEle2Pt_signal          = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle30_Signal_all     , ele2, ele_hltMatch_DeltaRCut);
+	  double hltEle2Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all   , ele2, ele_hltMatch_DeltaRCut);
+	  double hltEle2Pt_doubleEleSignal = triggerMatchPt<HLTFilterObject, Electron>(c_hltDoubleEle_Signal_all , ele2, ele_hltMatch_DeltaRCut);
+	  double hltEle2Pt_WP80            = triggerMatchPt<HLTFilterObject, Electron>(c_hltEle27WP80_all        , ele2, ele_hltMatch_DeltaRCut);
+
+	  fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
+	  fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
+	  fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
+	  fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
+	  fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
+	  fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
+	  fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
+	  fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
+	  fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
+	  fillVariableWithValue( "Ele2_TrkPt"         , ele2.TrackPt()            );
+	  fillVariableWithValue( "Ele2_SigmaIEtaIEta" , ele2.SigmaIEtaIEta()      );
+	  fillVariableWithValue( "Ele2_SigmaEtaEta"   , ele2.SigmaEtaEta()        );
+	  			                      
+	  fillVariableWithValue( "Ele2_DeltaPhiTrkSC" , ele2.DeltaPhi()           );
+	  fillVariableWithValue( "Ele2_DeltaEtaTrkSC" , ele2.DeltaEta()           );
+	  fillVariableWithValue( "Ele2_RawEnergy"     , ele2.RawEnergy()          );
+	  fillVariableWithValue( "Ele2_NBrems"        , ele2.NBrems()             );
+	  fillVariableWithValue( "Ele2_HoE"           , ele2.HoE()                );
+	  fillVariableWithValue( "Ele2_E1x5OverE5x5"  , ele2.E1x5OverE5x5()       );
+	  fillVariableWithValue( "Ele2_E2x5OverE5x5"  , ele2.E2x5OverE5x5()       );
+	  fillVariableWithValue( "Ele2_HasMatchedPhot", ele2.HasMatchedConvPhot() );
+	  fillVariableWithValue( "Ele2_FBrem"         , ele2.FBrem()              );
+	  fillVariableWithValue( "Ele2_LeadVtxDistXY" , ele2.LeadVtxDistXY()      );
+	  fillVariableWithValue( "Ele2_LeadVtxDistZ"  , ele2.LeadVtxDistZ ()      );
+	  fillVariableWithValue( "Ele2_BeamSpotDXY"   , ele2.BeamSpotDXY()        );
+	  fillVariableWithValue( "Ele2_BeamSpotDXYErr", ele2.BeamSpotDXYErr()     );
+	  fillVariableWithValue( "Ele2_ValidFrac"     , ele2.ValidFrac()          );
+	  fillVariableWithValue( "Ele2_Classif"       , ele2.Classif()            );
+	  fillVariableWithValue( "Ele2_EOverP"        , ele2.ESuperClusterOverP() );
+	  			                      
+	  fillVariableWithValue( "Ele2_TrkIsolation"  , ele2.TrkIsoDR03()         );
+	  fillVariableWithValue( "Ele2_EcalIsolation" , ele2.EcalIsoDR03()        );
+	  fillVariableWithValue( "Ele2_HcalIsolation" , ele2.HcalIsoD1DR03()      );
+	  fillVariableWithValue( "Ele2_CorrIsolation" , ele2.HEEPCorrIsolation()  );
+	  fillVariableWithValue( "Ele2_PFCHIso03"     , ele2.PFChargedHadronIso03());
+	  fillVariableWithValue( "Ele2_PFPhoIso03"    , ele2.PFPhotonIso03       ());
+	  fillVariableWithValue( "Ele2_PFNHIso03"     , ele2.PFNeutralHadronIso03());
+	  
+	  fillVariableWithValue("Ele2_GsfCtfScPixCharge", ele2.GsfCtfScPixCharge()  );
+	  fillVariableWithValue("Ele2_GsfScPixCharge"   , ele2.GsfScPixCharge()     );
+	  fillVariableWithValue("Ele2_GsfCtfCharge"     , ele2.GsfCtfCharge()       );
+	  
+	  fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
+	  fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
+	  fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
+	  fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
+
+	}
+      }
+
+      // Jets
+
+      if ( n_jet_highEta_store >= 1 ) { 
+	PFJet jet1 = c_pfjet_highEta_final -> GetConstituent<PFJet>(0);
+	fillVariableWithValue( "HighEtaJet1_Pt" , jet1.Pt () );
+	fillVariableWithValue( "HighEtaJet1_Eta", jet1.Eta() );
+	fillVariableWithValue( "HighEtaJet1_Phi", jet1.Phi() );
+      }
+      
+      if ( n_jet_store >= 1 ){
+
+	PFJet jet1 = c_pfjet_final -> GetConstituent<PFJet>(0);
+	double hltJet1Pt     = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJet25_Signal_all     , jet1, jet_hltMatch_DeltaRCut);
+	double hltNoPUJet1Pt = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJetNoPU25_Signal_all , jet1, jet_hltMatch_DeltaRCut);
+	fillVariableWithValue( "Jet1_Pt"      , jet1.Pt()                         );
+	fillVariableWithValue( "Jet1_JECUnc"  , jet1.JECUnc()                     );
+	fillVariableWithValue( "Jet1_Energy"  , jet1.Energy()                     );
+	fillVariableWithValue( "Jet1_Eta"     , jet1.Eta()                        );
+	fillVariableWithValue( "Jet1_Phi"     , jet1.Phi()                        );
+        fillVariableWithValue( "Jet1_btagCSV" , jet1.CombinedSecondaryVertexBTag());
+	fillVariableWithValue( "Jet1_hltJetPt"	  , hltJet1Pt     );
+	fillVariableWithValue( "Jet1_hltNoPUJetPt", hltNoPUJet1Pt );
+	
+	if ( n_jet_store >= 2 ){
+	  PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+	  double hltJet2Pt     = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJet25_Signal_all     , jet2, jet_hltMatch_DeltaRCut);
+	  double hltNoPUJet2Pt = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJetNoPU25_Signal_all , jet2, jet_hltMatch_DeltaRCut);
+	  fillVariableWithValue( "Jet2_Pt"      , jet2.Pt()                         );
+	  fillVariableWithValue( "Jet2_JECUnc"  , jet2.JECUnc()                     );
+	  fillVariableWithValue( "Jet2_Energy"  , jet2.Energy()                     );
+	  fillVariableWithValue( "Jet2_Eta"     , jet2.Eta()                        );
+	  fillVariableWithValue( "Jet2_Phi"     , jet2.Phi()                        );
+	  fillVariableWithValue( "Jet2_btagCSV" , jet2.CombinedSecondaryVertexBTag());
+	  fillVariableWithValue( "Jet2_hltJetPt"    , hltJet2Pt     );
+	  fillVariableWithValue( "Jet2_hltNoPUJetPt", hltNoPUJet2Pt );
+
+	  if ( n_jet_store >= 3 ){
+	    PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
+	    double hltJet3Pt     = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJet25_Signal_all     , jet3, jet_hltMatch_DeltaRCut);
+	    double hltNoPUJet3Pt = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJetNoPU25_Signal_all , jet3, jet_hltMatch_DeltaRCut);
+	    fillVariableWithValue( "Jet3_Pt"      , jet3.Pt()                         );
+	    fillVariableWithValue( "Jet3_JECUnc"  , jet3.JECUnc()                     );
+	    fillVariableWithValue( "Jet3_Energy"  , jet3.Energy()                     );
+	    fillVariableWithValue( "Jet3_Eta"     , jet3.Eta()                        );
+	    fillVariableWithValue( "Jet3_Phi"     , jet3.Phi()                        );
+	    fillVariableWithValue( "Jet3_btagCSV" , jet3.CombinedSecondaryVertexBTag());
+	    fillVariableWithValue( "Jet3_hltJetPt"    , hltJet3Pt     );
+	    fillVariableWithValue( "Jet3_hltNoPUJetPt", hltNoPUJet3Pt );
+
+	    if ( n_jet_store >= 4 ){
+	      PFJet jet4 = c_pfjet_final -> GetConstituent<PFJet>(3);
+	      double hltJet4Pt     = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJet25_Signal_all     , jet4, jet_hltMatch_DeltaRCut);
+	      double hltNoPUJet4Pt = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJetNoPU25_Signal_all , jet4, jet_hltMatch_DeltaRCut);
+	      fillVariableWithValue( "Jet4_Pt"      , jet4.Pt()                         );
+	      fillVariableWithValue( "Jet4_JECUnc"  , jet4.JECUnc()                     );
+	      fillVariableWithValue( "Jet4_Energy"  , jet4.Energy()                     );
+	      fillVariableWithValue( "Jet4_Eta"     , jet4.Eta()                        );
+	      fillVariableWithValue( "Jet4_Phi"     , jet4.Phi()                        );
+	      fillVariableWithValue( "Jet4_btagCSV" , jet4.CombinedSecondaryVertexBTag());
+	      fillVariableWithValue( "Jet4_hltJetPt"    , hltJet4Pt     );
+	      fillVariableWithValue( "Jet4_hltNoPUJetPt", hltNoPUJet4Pt );
+
+	      if ( n_jet_store >= 5 ){
+		PFJet jet5 = c_pfjet_final -> GetConstituent<PFJet>(4);
+		double hltJet5Pt     = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJet25_Signal_all     , jet5, jet_hltMatch_DeltaRCut);
+		double hltNoPUJet5Pt = triggerMatchPt<HLTFilterObject, PFJet >( c_hltPFJetNoPU25_Signal_all , jet5, jet_hltMatch_DeltaRCut);
+		fillVariableWithValue( "Jet5_Pt"      , jet5.Pt()                         );
+		fillVariableWithValue( "Jet5_JECUnc"  , jet5.JECUnc()                     );
+		fillVariableWithValue( "Jet5_Energy"  , jet5.Energy()                     );
+		fillVariableWithValue( "Jet5_Eta"     , jet5.Eta()                        );
+		fillVariableWithValue( "Jet5_Phi"     , jet5.Phi()                        );
+		fillVariableWithValue( "Jet5_btagCSV" , jet5.CombinedSecondaryVertexBTag());
+		fillVariableWithValue( "Jet5_hltJetPt"    , hltJet5Pt     );
+		fillVariableWithValue( "Jet5_hltNoPUJetPt", hltNoPUJet5Pt );
+	      }
+	    }
+	  }
+	}
+      }
+    }
+
+    //-----------------------------------------------------------------
+    // Fill variables that depend on more than one object
+    // All skims need this
+    //-----------------------------------------------------------------
+
+    TLorentzVector t_ele1, t_ele2, t_jet1, t_jet2, t_jet3;
+    TLorentzVector t_MET;
+    
+    t_MET.SetPtEtaPhiM( PFMETType01XYCor -> at (0), 0.0, PFMETPhiType01XYCor -> at (0), 0.0 );
+
+    if ( n_jet_store >= 1 ){
+
+      PFJet jet1 = c_pfjet_final -> GetConstituent<PFJet>(0);
+      t_jet1.SetPtEtaPhiM ( jet1.Pt(), jet1.Eta(), jet1.Phi(), 0.0 );
+
+      fillVariableWithValue ("mDPhi_METJet1", fabs( t_MET.DeltaPhi ( t_jet1 )));
+      
+      if ( n_jet_store >= 2 ){
+	
+	PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+	t_jet2.SetPtEtaPhiM ( jet2.Pt(), jet2.Eta(), jet2.Phi(), 0.0 );
+	TLorentzVector t_jet1jet2 = t_jet1 + t_jet2;
+
+	fillVariableWithValue ("M_j1j2" , t_jet1jet2.M ());
+	fillVariableWithValue ("Pt_j1j2", t_jet1jet2.Pt());
+	fillVariableWithValue ("mDPhi_METJet2", fabs( t_MET.DeltaPhi ( t_jet2 )));
+	fillVariableWithValue ("DR_Jet1Jet2"  , t_jet1.DeltaR( t_jet2 ));
+	
+	if ( n_jet_store >= 3 ){
+	  
+	  PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
+	  t_jet3.SetPtEtaPhiM ( jet3.Pt(), jet3.Eta(), jet3.Phi(), 0.0 );
+	  TLorentzVector t_jet1jet3 = t_jet1 + t_jet3;
+	  TLorentzVector t_jet2jet3 = t_jet2 + t_jet3;
+
+	  fillVariableWithValue ("M_j1j3", t_jet1jet3.M());
+	  fillVariableWithValue ("M_j2j3", t_jet2jet3.M());
+	  fillVariableWithValue ("mDPhi_METJet3", fabs( t_MET.DeltaPhi ( t_jet3 )));
+	  
+	}
+      }
+    }
+    
+    if ( n_ele_store >= 1 ) { 
+      Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
+      t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
+      if ( n_ele_store >= 2 ) {
+	Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
+	t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
+
+	TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
+	fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
+	fillVariableWithValue ("Pt_e1e2", t_ele1ele2.Pt());
+      }
+    } 
+
+    if ( n_ele_store >= 1 ){
+      
+      double MT_Ele1MET = sqrt ( 2.0 * t_ele1.Pt() * t_MET.Pt() * ( 1.0 - cos ( t_MET.DeltaPhi(t_ele1))));
+
+      TLorentzVector t_ele1MET = t_ele1 + t_MET;
+      fillVariableWithValue("mDPhi_METEle1", fabs ( t_MET.DeltaPhi(t_ele1)));
+      fillVariableWithValue("MT_Ele1MET"   , MT_Ele1MET); 
+      fillVariableWithValue("Pt_Ele1MET"   , t_ele1MET.Pt());
+
+      if ( n_jet_store >= 1 ){ 
+	
+	TLorentzVector t_ele1jet1 = t_ele1 + t_jet1;
+	fillVariableWithValue("DR_Ele1Jet1", t_ele1.DeltaR ( t_jet1 ));
+	fillVariableWithValue("M_e1j1"     , t_ele1jet1.M());
+
+	if ( n_jet_store >= 2 ){ 
+	  
+	  TLorentzVector t_ele1jet2 = t_ele1 + t_jet2;
+	  fillVariableWithValue("DR_Ele1Jet2", t_ele1.DeltaR ( t_jet2 ));
+	  fillVariableWithValue("M_e1j2"     , t_ele1jet2.M());
+	  fillVariableWithValue("sT_enujj"   , t_ele1.Pt() + t_MET.Pt() + t_jet1.Pt() + t_jet2.Pt());
+	}
+      }
+    }
+
+
+    if ( n_ele_store >= 2 ){
+      fillVariableWithValue("mDPhi_METEle2", fabs ( t_MET.DeltaPhi(t_ele2)));
+
+      if ( n_jet_store >= 1 ){ 
+	
+	TLorentzVector t_ele2jet1 = t_ele2 + t_jet1;
+	fillVariableWithValue("DR_Ele2Jet1", t_ele2.DeltaR ( t_jet1 ));
+	fillVariableWithValue("M_e2j1"     , t_ele2jet1.M());
+
+	if ( n_jet_store >= 2 ){ 
+	  
+	  TLorentzVector t_ele2jet2 = t_ele2 + t_jet2;
+	  fillVariableWithValue("DR_Ele2Jet2", t_ele2.DeltaR ( t_jet2 ));
+	  fillVariableWithValue("M_e2j2"     , t_ele2jet2.M());
+	  fillVariableWithValue("sT_eejj"    , t_ele1.Pt() + t_ele2.Pt() + t_jet1.Pt() + t_jet2.Pt());
+	  
+	}
+      }
+    }
+    
+    //-----------------------------------------------------------------
+    // QCD triggers
+    // - H_Photon30_CIdVL
+    // - H_Photon50_CIdVL
+    // - H_Photon75_CIdVL
+    // - H_Photon90_CIdVL
+    // - H_Photon135    
+    // - H_Photon150    
+    // - H_Photon160    
+    //-----------------------------------------------------------------
+
+    if ( reducedSkimType == 0 ) { 
+    
+      if ( ! isData ){
+	fillTriggerVariable ( "HLT_Photon30_CaloIdVL_v13", "H_Photon30_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon50_CaloIdVL_v9" , "H_Photon50_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon75_CaloIdVL_v12", "H_Photon75_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon90_CaloIdVL_v9" , "H_Photon90_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon135_v6"         , "H_Photon135"      );
+	fillTriggerVariable ( "HLT_Photon150_v3"         , "H_Photon150"      );
+	fillTriggerVariable ( "HLT_Photon160_v3"         , "H_Photon160"      );
+      }
+      
+      else if ( run >= 190456 && run <= 190738 ) {
+	fillTriggerVariable ( "HLT_Photon30_CaloIdVL_v11", "H_Photon30_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon50_CaloIdVL_v7" , "H_Photon50_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon75_CaloIdVL_v10", "H_Photon75_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon90_CaloIdVL_v7" , "H_Photon90_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon135_v4"         , "H_Photon135"      );
+	fillTriggerVariable ( "HLT_Photon150_v1"         , "H_Photon150"      );
+	fillTriggerVariable ( "HLT_Photon160_v1"         , "H_Photon160"      );
+      }
+      
+      else if ( run >= 190782 && run <= 191419 ) {
+	fillTriggerVariable ( "HLT_Photon30_CaloIdVL_v12", "H_Photon30_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon50_CaloIdVL_v8" , "H_Photon50_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon75_CaloIdVL_v11", "H_Photon75_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon90_CaloIdVL_v8" , "H_Photon90_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon135_v5"         , "H_Photon135"      ); 
+	fillTriggerVariable ( "HLT_Photon150_v2"         , "H_Photon150"      );
+	fillTriggerVariable ( "HLT_Photon160_v2"         , "H_Photon160"      );
+      }
+      
+      else if ( run >= 191691 && run <= 196531 ) {
+	fillTriggerVariable ( "HLT_Photon30_CaloIdVL_v13", "H_Photon30_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon50_CaloIdVL_v9" , "H_Photon50_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon75_CaloIdVL_v12", "H_Photon75_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon90_CaloIdVL_v9" , "H_Photon90_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon135_v6"         , "H_Photon135"      );
+	fillTriggerVariable ( "HLT_Photon150_v3"         , "H_Photon150"      );
+	fillTriggerVariable ( "HLT_Photon160_v3"         , "H_Photon160"      );
+      }
+      
+      else if ( run >= 198022 ) {
+	fillTriggerVariable ( "HLT_Photon30_CaloIdVL_v14", "H_Photon30_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon50_CaloIdVL_v10", "H_Photon50_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon75_CaloIdVL_v13", "H_Photon75_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon90_CaloIdVL_v10", "H_Photon90_CIdVL" );
+	fillTriggerVariable ( "HLT_Photon135_v7"         , "H_Photon135"      );
+	fillTriggerVariable ( "HLT_Photon150_v4"         , "H_Photon150"      );
+	fillTriggerVariable ( "HLT_Photon160_v4"         , "H_Photon160"      );
+      }
+      
+      bool pass_trigger = ( getVariableValue("H_Photon30_CIdVL") > 0 || 
+			    getVariableValue("H_Photon50_CIdVL") > 0 || 
+			    getVariableValue("H_Photon75_CIdVL") > 0 || 
+			    getVariableValue("H_Photon90_CIdVL") > 0 || 
+			    getVariableValue("H_Photon135"     ) > 0 || 
+			    getVariableValue("H_Photon150"     ) > 0 || 
+			    getVariableValue("H_Photon160"     ) > 0 );
+      
+      fillVariableWithValue ("PassTrigger", pass_trigger ? 1 : 0 );
+      
+    }
+
+    //-----------------------------------------------------------------
+    // Signal triggers:
+    // - HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25
+    // - HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25
+    // 
+    // MuEG triggers
+    // - HLT_Mu22_Photon22_CaloIdL
+    //-----------------------------------------------------------------
+    
+    else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ) { 
+      
+      if      ( ! isData )                       fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v5", "H_Ele30_PFJet100_25");
+      else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v3", "H_Ele30_PFJet100_25");
+      else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v4", "H_Ele30_PFJet100_25");
+      else if ( run >= 191691 && run <= 196027 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v5", "H_Ele30_PFJet100_25");
+      
+      if      ( ! isData )                       fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v5", "H_Ele30_PFNoPUJet100_25");
+      else if ( run >= 191691 && run <= 194225 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v4", "H_Ele30_PFNoPUJet100_25");
+      else if ( run >= 194270 && run <= 196531 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v5", "H_Ele30_PFNoPUJet100_25");
+      else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v6", "H_Ele30_PFNoPUJet100_25");
+      else if ( run >= 199698 && run <= 202504 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v7", "H_Ele30_PFNoPUJet100_25");
+      else if ( run >= 202970 )                  fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v8", "H_Ele30_PFNoPUJet100_25");
+      
+      if      ( ! isData )                       fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v5", "H_Mu22_Photon22_CIdL");
+      else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v3", "H_Mu22_Photon22_CIdL");
+      else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v4", "H_Mu22_Photon22_CIdL");
+      else if ( run >= 191691 && run <= 196531 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v5", "H_Mu22_Photon22_CIdL");
+      else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v6", "H_Mu22_Photon22_CIdL");
+      else if ( run >= 199698 )                  fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v7", "H_Mu22_Photon22_CIdL");
+
+      if      ( ! isData )                       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v3", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v4", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 191691 && run <= 193621 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v5", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 193833 && run <= 196531 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
+      else if ( run >= 198022 )                  fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v7", "H_DoubleEle33_CIdL_GsfIdVL" );
+
+      if      ( ! isData )                       fillTriggerVariable( "HLT_Mu40_eta2p1_v9"  , "H_Mu40_eta2p1" );
+      else if ( run >= 190456 && run <= 196531 ) fillTriggerVariable( "HLT_Mu40_eta2p1_v9"  , "H_Mu40_eta2p1" );
+      else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Mu40_eta2p1_v10" , "H_Mu40_eta2p1" );
+      else if ( run >= 199698 )                  fillTriggerVariable( "HLT_Mu40_eta2p1_v11" , "H_Mu40_eta2p1" );
+
+      if      ( ! isData )                       fillTriggerVariable ( "HLT_Ele27_WP80_v10" , "H_Ele27_WP80" );
+      else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable ( "HLT_Ele27_WP80_v8"  , "H_Ele27_WP80" );
+      else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable ( "HLT_Ele27_WP80_v9"  , "H_Ele27_WP80" );
+      else if ( run >= 191691 && run <= 196531 ) fillTriggerVariable ( "HLT_Ele27_WP80_v10" , "H_Ele27_WP80" );
+      else if ( run >= 198022 )                  fillTriggerVariable ( "HLT_Ele27_WP80_v11" , "H_Ele27_WP80" );
+    }
+
+    //-----------------------------------------------------------------
+    // Evaluate the cuts
+    //-----------------------------------------------------------------    
+
+    evaluateCuts();
+
+    //-----------------------------------------------------------------    
+    // Fill the trees
+    //-----------------------------------------------------------------    
+
+    // QCD fake rate calculation skim
+    
+    if ( reducedSkimType == 0 ) { 
+      if(passedCut("PassTrigger"      ) &&  
+	 passedCut("nLooseEle_ptCut"  ) && 
+	 passedCut("LooseEle1_Pt"     ) ){
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }    
+ 
+    // enujj analysis skim
+
+    else if ( reducedSkimType == 1 ) { 
+      if( passedCut("nEle_ptCut"       ) && 
+	  passedCut("Ele1_Pt"          ) && 
+	  passedCut("PFMET_Type01XY_Pt") && 
+	  passedCut("Jet1_Pt"          ) && 
+	  passedCut("Jet2_Pt"          ) && 
+	  passedCut("sT_enujj"         ) && 
+	  passedCut("MT_Ele1MET"       )) {
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }
+
+    // eejj analysis skim
+
+    else if ( reducedSkimType == 2 ) { 
+      if( passedCut("nEle_ptCut"       ) && 
+	  passedCut("Ele1_Pt"          ) &&
+	  passedCut("Ele2_Pt"          ) && 
+	  passedCut("Jet1_Pt"          ) &&
+	  passedCut("Jet2_Pt"          ) &&
+	  passedCut("sT_eejj"          ) && 
+	  passedCut("M_e1e2"           )) {
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }
+
+    // Single electron skim
+    
+    else if ( reducedSkimType == 3 ) { 
+      if( passedCut("nEle_ptCut"       ) && 
+	  passedCut("Ele1_Pt"          ) ){
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }
+
+    // Single muon skim
+
+    else if ( reducedSkimType == 4 ) { 
+      if( passedCut("nMuon_ptCut"       ) && 
+	  passedCut("Muon1_Pt"          ) ){
+	fillSkimTree();
+	fillReducedSkimTree();
+      }
+    }
+
+
+  } 
+  
+  std::cout << "analysisClass::Loop() ends" <<std::endl;   
+  
+}
