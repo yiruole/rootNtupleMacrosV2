@@ -60,18 +60,24 @@ void analysisClass::Loop(){
   ID ElectronID = NULL_ID;
   
   if      ( ElectronID_FromFile == 1 ) {
-    ElectronID = HEEP;
-    sprintf(electron_id_name, "HEEP" );
+    ElectronID = HEEP60;
+    sprintf(electron_id_name, "HEEPv6p0" );
   }
-  
-  else if ( ElectronID_FromFile == 2 ) {
+  else if      ( ElectronID_FromFile == 2 ) {
+    ElectronID = HEEP51;
+    sprintf(electron_id_name, "HEEPv5p1" );
+  }
+  else if ( ElectronID_FromFile == 3 ) {
     ElectronID = EGAMMA_TIGHT;
     sprintf(electron_id_name, "EGamma Tight" );
   }
-  
-  else if ( ElectronID_FromFile == 3 ) {
+  else if ( ElectronID_FromFile == 4 ) {
     ElectronID = EGAMMA_MEDIUM;
     sprintf(electron_id_name, "EGamma Medium" );
+  }
+  else if ( ElectronID_FromFile == 5 ) {
+    ElectronID = EGAMMA_LOOSE;
+    sprintf(electron_id_name, "EGamma Loose" );
   }
 
   //--------------------------------------------------------------------------    
@@ -235,6 +241,13 @@ void analysisClass::Loop(){
 
   CreateUserTH1D("NEventsTwoGenEleECAL",38,175,2075);
   CreateUserTH1D("NEventsTwoGenEleECALPlusTrig",38,175,2075);
+  CreateUserTH1D("NEventsTwoGenEleECALPlusTrigPlusTwoID",38,175,2075);
+  CreateUserTH1D("Pt1stGenEle",400,0,2000);
+  CreateUserTH1D("Pt1stGenEle_passTrigger",400,0,2000);
+  CreateUserTH1D("Pt1stGenEle_passTrigger_passID",400,0,2000);
+  CreateUserTH1D("Pt2ndGenEle",400,0,2000);
+  CreateUserTH1D("Pt2ndGenEle_passTrigger",400,0,2000);
+  CreateUserTH1D("Pt2ndGenEle_passTrigger_passID",400,0,2000);
   //--------------------------------------------------------------------------
   // Counting variables
   //--------------------------------------------------------------------------
@@ -288,39 +301,25 @@ void analysisClass::Loop(){
       n_eles_in_trigger    = 1;
     }
 
-    //else if ( Trigger_FromFile == 2 ) {
-    //  //if ( isData ){ 
-    //  //  if      ( run >= 190456 && run <= 190738 ) sprintf(trigger_name, "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v3");
-    //  //  else trigger_enabled = false;
-    //  //} else
-    //  sprintf(trigger_name, "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v5");
-    //  //sprintf(electron_filter_name,"hltEle30CaloIdVTTrkIdTDphiFilter"                    );
-    //  //sprintf(jet25_filter_name   ,"hltEle30CaloIdVTTrkIdTDiCentralPFJet25EleCleaned"    );
-    //  //sprintf(jet100_filter_name  ,"hltEle30CaloIdVTTrkIdTDiCentralPFJet100EleCleaned"   );
-    //  n_25jets_in_trigger  = 2;
-    //  n_100jets_in_trigger = 1;
-    //  n_eles_in_trigger    = 1;
-    //}
+    else if ( Trigger_FromFile == 2 ) {
+      sprintf(trigger_name        ,"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1" );
+      //sprintf(electron_filter_name,"hltEle30CaloIdVTTrkIdTDphiFilter"      );
+      sprintf(jet50_filter_name   ,""                           );
+      sprintf(jet200_filter_name  ,""                           );
+      n_50jets_in_trigger  = 0;
+      n_200jets_in_trigger = 0;
+      n_eles_in_trigger    = 2;
+    }
 
-    //else if ( Trigger_FromFile == 3 ) {
-    //  sprintf(trigger_name        ,"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6" );
-    //  //sprintf(electron_filter_name,"hltEle30CaloIdVTTrkIdTDphiFilter"      );
-    //  //sprintf(jet25_filter_name   ,""                                      );
-    //  //sprintf(jet100_filter_name  ,""                                      );
-    //  n_25jets_in_trigger  = 0;
-    //  n_100jets_in_trigger = 0;
-    //  n_eles_in_trigger    = 2;
-    //}
-
-    //else if ( Trigger_FromFile == 4 ){
-    //  sprintf(trigger_name        ,"HLT_Ele27_WP80_v10"         );
-    //  //sprintf(electron_filter_name,"hltEle27WP80TrackIsoFilter" );
-    //  //sprintf(jet25_filter_name   ,""                           );
-    //  //sprintf(jet100_filter_name  ,""                           );
-    //  n_25jets_in_trigger  = 0;
-    //  n_100jets_in_trigger = 0;
-    //  n_eles_in_trigger    = 1;
-    //}
+    else if ( Trigger_FromFile == 3 ){
+      sprintf(trigger_name        ,"HLT_Ele27_WP85_Gsf_v1"         );
+      //sprintf(electron_filter_name,"hltEle27WP80TrackIsoFilter" );
+      sprintf(jet50_filter_name   ,""                           );
+      sprintf(jet200_filter_name  ,""                           );
+      n_50jets_in_trigger  = 0;
+      n_200jets_in_trigger = 0;
+      n_eles_in_trigger    = 1;
+    }
     
     //-----------------------------------------------------------------
     // Print progress
@@ -387,12 +386,16 @@ void analysisClass::Loop(){
     // test
     //std::cout << "Current file: " << filename << std::endl;
     //std::cout << "CURRENT MASS: " << mass << std::endl;
-    sampleMass = stoi(mass);
+    try
+    {
+      sampleMass = stoi(mass);
+    }
+    catch (...) {}
 
     //-----------------------------------------------------------------
     // Trigger object stuff
     //-----------------------------------------------------------------
-    CollectionPtr trigger_ele_eleJetJet (new Collection(*this, ElectronHLTEleJetJetMatchPt -> size() ));
+    //CollectionPtr trigger_ele_eleJetJet (new Collection(*this, ElectronHLTEleJetJetMatchPt -> size() ));
     //CollectionPtr trigger_ele_all = helper.GetHLTFilterObjects ( electron_filter_name );
   //  
   //  if ( n_25jets_in_trigger  > 0 ) { 
@@ -466,19 +469,6 @@ void analysisClass::Loop(){
     //  // XXX SIC TEST
     ////}
 
-    // count the events for firing the trigger
-    if(gen_lq_electrons_fiducial->GetSize() >=2)
-    {
-      numEvents_withTwoGenElectronsECALFiducial_byMass[sampleMass]++;
-      FillUserTH1D("NEventsTwoGenEleECAL",sampleMass);
-      if(trigger_fired)
-      {
-        numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[sampleMass]++;
-        FillUserTH1D("NEventsTwoGenEleECALPlusTrig",sampleMass);
-      }
-    }
-
-
     //ele_all->examine<Electron>("reco electrons");
     //-----------------------------------------------------------------
     // RECO electrons that are matched to GEN electrons
@@ -505,6 +495,36 @@ void analysisClass::Loop(){
     if ( ele_ID -> GetSize() >= 1 ) recoEleWithID1_Pt = ele_ID -> GetConstituent<Electron>(0).Pt();
     if ( ele_ID -> GetSize() >= 2 ) recoEleWithID2_Pt = ele_ID -> GetConstituent<Electron>(1).Pt();
     
+
+    //-----------------------------------------------------------------
+    // RECO electrons that are matched to GEN electrons, passing the ID
+    //-----------------------------------------------------------------
+    CollectionPtr ele_genMatched_ID = ele_genMatched -> SkimByID<Electron>(ElectronID );
+
+
+    // count the events for firing the trigger
+    if(gen_lq_electrons_fiducial->GetSize() >=2)
+    {
+      numEvents_withTwoGenElectronsECALFiducial_byMass[sampleMass]++;
+      FillUserTH1D("NEventsTwoGenEleECAL",sampleMass);
+      FillUserTH1D("Pt1stGenEle",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(0).Pt());
+      FillUserTH1D("Pt2ndGenEle",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(1).Pt());
+      if(trigger_fired)
+      {
+        numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[sampleMass]++;
+        FillUserTH1D("NEventsTwoGenEleECALPlusTrig",sampleMass);
+        FillUserTH1D("Pt1stGenEle_passTrigger",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(0).Pt());
+        FillUserTH1D("Pt2ndGenEle_passTrigger",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(1).Pt());
+        // if we have two reco ele matched to gen which pass the ID
+        if(ele_genMatched_ID->GetSize() >=2)
+        {
+          FillUserTH1D("NEventsTwoGenEleECALPlusTrigPlusTwoID",sampleMass);
+          FillUserTH1D("Pt1stGenEle_passTrigger_passID",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(0).Pt());
+          FillUserTH1D("Pt2ndGenEle_passTrigger_passID",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(1).Pt());
+        }
+      }
+    }
+
   //  //-----------------------------------------------------------------
   //  // How many of those RECO electrons with ID are matched to the trigger?
   //  //-----------------------------------------------------------------
@@ -574,7 +594,8 @@ void analysisClass::Loop(){
     // Fill variables
     //-----------------------------------------------------------------
 
-    fillVariableWithValue("NGenEleFiducial"	     , gen_lq_electrons_fiducial  -> GetSize());
+    fillVariableWithValue("NGenEleLQ"	     , gen_lq_electrons  -> GetSize());
+    fillVariableWithValue("NGenEleLQFiducial"	     , gen_lq_electrons_fiducial  -> GetSize());
     fillVariableWithValue("PassTrigger"		     , int(trigger_fired)                     );
     fillVariableWithValue("NRecoEleWithID"           , ele_ID                     -> GetSize());	
     fillVariableWithValue("RecoEleWithID1_Pt"	     , recoEleWithID1_Pt                      );
