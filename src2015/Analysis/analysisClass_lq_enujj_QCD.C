@@ -1,0 +1,724 @@
+#define analysisClass_cxx
+#include "analysisClass.h"
+#include <TH2.h>
+#include <TH1F.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <TLorentzVector.h>
+#include <TVector2.h>
+#include <TVector3.h>
+
+analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
+  :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
+
+analysisClass::~analysisClass(){}
+
+void analysisClass::Loop()
+{
+   std::cout << "analysisClass::Loop() begins" <<std::endl;   
+
+   //--------------------------------------------------------------------------
+   // Final selection mass points
+   //--------------------------------------------------------------------------
+
+   const int n_lq_mass = 19;
+
+   int LQ_MASS[n_lq_mass] = { 
+     300,  350,  400, 450, 500, 550,  600,  650,
+     700,  750,  800, 850, 900, 950, 1000, 1050,
+     1100, 1150, 1200
+   };
+
+   std::vector<bool> passed_vector;
+   
+   //--------------------------------------------------------------------------
+   // Decide which plots to save (default is to save everything)
+   //--------------------------------------------------------------------------
+   
+   fillSkim                         (  true  ) ;
+   fillAllPreviousCuts              ( !true  ) ;
+   fillAllOtherCuts                 (  true  ) ;
+   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
+   fillAllCuts                      ( !true  ) ;
+
+   //--------------------------------------------------------------------------
+   // Get pre-cut values
+   //--------------------------------------------------------------------------
+
+   // eta boundaries
+
+   double eleEta_bar            = getPreCutValue1("eleEta_bar");
+   double eleEta_end1_min       = getPreCutValue1("eleEta_end1");
+   double eleEta_end1_max       = getPreCutValue2("eleEta_end1");
+   double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
+   double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
+
+   // fake rates
+   
+   double fakeRate_low_bar_p0    = getPreCutValue1 ( "fakeRate_bar"  );
+   double fakeRate_low_bar_p1    = getPreCutValue2 ( "fakeRate_bar"  );
+   double fakeRate_high_bar_p0   = getPreCutValue3 ( "fakeRate_bar"  );
+				 
+   double fakeRate_low_end1_p0   = getPreCutValue1 ( "fakeRate_end1" );
+   double fakeRate_low_end1_p1   = getPreCutValue2 ( "fakeRate_end1" );
+   double fakeRate_high_end1_p0  = getPreCutValue3 ( "fakeRate_end1" );
+				 
+   double fakeRate_low_end2_p0   = getPreCutValue1 ( "fakeRate_end2" );
+   double fakeRate_low_end2_p1   = getPreCutValue2 ( "fakeRate_end2" );
+   double fakeRate_high_end2_p0  = getPreCutValue3 ( "fakeRate_end2" );
+   
+   double eFakeRate_low_bar_p0   = getPreCutValue1 ( "eFakeRate_bar" );
+   double eFakeRate_low_bar_p1   = getPreCutValue2 ( "eFakeRate_bar" );
+   double eFakeRate_high_bar_p0  = getPreCutValue3 ( "eFakeRate_bar" );
+
+   double eFakeRate_low_end1_p0  = getPreCutValue1 ( "eFakeRate_end1");
+   double eFakeRate_low_end1_p1  = getPreCutValue2 ( "eFakeRate_end1");
+   double eFakeRate_high_end1_p0 = getPreCutValue3 ( "eFakeRate_end1");
+
+   double eFakeRate_low_end2_p0  = getPreCutValue1 ( "eFakeRate_end2");
+   double eFakeRate_low_end2_p1  = getPreCutValue2 ( "eFakeRate_end2");
+   double eFakeRate_high_end2_p0 = getPreCutValue3 ( "eFakeRate_end2");
+
+   // New movable break point
+
+   double fakeRate_break_bar     = getPreCutValue4 ( "fakeRate_bar"  );
+   double fakeRate_break_end1    = getPreCutValue4 ( "fakeRate_end1" );
+   double fakeRate_break_end2    = getPreCutValue4 ( "fakeRate_end2" );
+   
+   double eFakeRate_break_bar    = getPreCutValue4 ( "eFakeRate_bar"  );
+   double eFakeRate_break_end1   = getPreCutValue4 ( "eFakeRate_end1" );
+   double eFakeRate_break_end2   = getPreCutValue4 ( "eFakeRate_end2" );
+   
+   //--------------------------------------------------------------------------
+   // Create TH1D's
+   //--------------------------------------------------------------------------
+
+   CreateUserTH1D( "nElectron_PAS"            , 5   , -0.5    , 4.5      );
+   CreateUserTH1D( "nMuon_PAS"                , 5   , -0.5    , 4.5      );
+   CreateUserTH1D( "nJet_PAS"                 , 11  , -0.5    , 10.5     );
+   CreateUserTH1D( "nJet_PASandFrancesco"     , 11  , -0.5    , 10.5     );
+   CreateUserTH1D( "Pt1stEle_PAS"	      , 100 , 0       , 1000     ); 
+   CreateUserTH1D( "Eta1stEle_PAS"	      , 100 , -5      , 5	 ); 
+   CreateUserTH1D( "Phi1stEle_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "Charge1stEle_PAS"	      , 2   , -1.0001 , 1.0001	 ); 
+   CreateUserTH1D( "MET_PAS"                  , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "METPhi_PAS"		      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "MET_Type01_PAS"           , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MET_Type01_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "Pt1stJet_PAS"             , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Pt2ndJet_PAS"             , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Eta1stJet_PAS"            , 100 , -5      , 5	 ); 
+   CreateUserTH1D( "Eta2ndJet_PAS"            , 100 , -5      , 5	 ); 
+   CreateUserTH1D( "Phi1stJet_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "Phi2ndJet_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   CreateUserTH1D( "Mass1stJet_PAS"           , 100 , 0       , 500      );
+   CreateUserTH1D( "Mass2ndJet_PAS"           , 100 , 0       , 500      );
+   CreateUserTH1D( "CSV1stJet_PAS"            , 200 , 0       , 1.0	 ); 
+   CreateUserTH1D( "CSV2ndJet_PAS"            , 200 , 0       , 1.0	 ); 
+   CreateUserTH1D( "nMuon_PtCut_IDISO_PAS"    , 16  , -0.5    , 15.5	 ); 
+   CreateUserTH1D( "MTenu_PAS"                , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MTenu_Type01_PAS"         , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MT_charged_enu_PAS"       , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "MT_type1_enu_PAS"         , 200 , 0       , 1000	 ); 
+   CreateUserTH1D( "Ptenu_PAS"		      , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sTlep_Type01_PAS"         , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "sT_PAS"                   , 300 , 0       , 3000	 ); 
+   CreateUserTH1D( "sT_Type01_PAS"            , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mej2_PAS"                 , 200 , 0       , 2000	 );
+   CreateUserTH1D( "Mej_PAS"                  , 200 , 0       , 2000	 );  
+   CreateUserTH1D( "MTjnu_PAS"                , 200 , 0       , 1000     );
+   CreateUserTH1D( "DCotTheta1stEle_PAS"      , 100 , 0.0     , 1.0      );
+   CreateUserTH1D( "Dist1stEle_PAS"           , 100 , 0.0     , 1.0      );  
+   CreateUserTH1D( "DR_Ele1Jet1_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "DR_Ele1Jet2_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "DR_Jet1Jet2_PAS"	      , 100 , 0       , 10       ); 
+   CreateUserTH1D( "minDR_EleJet_PAS"         , 100 , 0       , 10       ); 
+   CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      ,  3.14159 );
+   CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      ,  3.14159 );
+   CreateUserTH1D( "mDPhi2ndJetMET_PAS"       , 100 , 0.      ,  3.14159 );
+   CreateUserTH1D( "mDPhi1stEleMET_Type01_PAS", 100 , 0.      , 3.14159  );
+   CreateUserTH1D( "mDPhi1stJetMET_Type01_PAS", 100 , 0.      , 3.14159  );
+   CreateUserTH1D( "mDPhi2ndJetMET_Type01_PAS", 100 , 0.      , 3.14159  );
+
+   CreateUserTH1D( "Pt1stEle_Pt40to45_EtaGT2p1", 150, 35., 50. );
+
+   CreateUserTH1D( "MT_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MT_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MT_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MT_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+
+   CreateUserTH1D( "GeneratorWeight"       , 200 , -2.0    , 2.0      );
+   CreateUserTH1D( "PileupWeight"          , 200 , -2.0    , 2.0      );
+
+   CreateUserTH1D( "nVertex_PAS"           ,    101   , -0.5   , 100.5	 ) ; 
+
+   CreateUserTH1D( "MTCharged_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTCharged_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTCharged_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTCharged_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+
+   CreateUserTH1D( "MTType1_GoodVtxLTE3_PAS"       , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTType1_GoodVtxGTE4_LTE8_PAS"  , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTType1_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
+   CreateUserTH1D( "MTType1_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
+   
+   CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
+   CreateUserTH1D( "nJets_MTenu_50_110"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte4", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte5", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte3", 200, 40, 140 );
+   
+   CreateUserTH1D( "MTenu_Type01_50_110", 200, 40, 140 );
+   CreateUserTH1D( "nJets_MTenu_Type01_50_110"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5", 200, 40, 140 );
+
+   CreateUserTH1D( "Eta1stJet_PASand2Jet"  , 100 , -5 , 5 ); 
+   CreateUserTH1D( "Eta1stJet_PASand3Jet"  , 100 , -5 , 5 ); 
+   CreateUserTH1D( "Eta1stJet_PASand4Jet"  , 100 , -5 , 5 ); 
+   CreateUserTH1D( "Eta1stJet_PASand5Jet"  , 100 , -5 , 5 ); 
+
+   //--------------------------------------------------------------------------
+   // Final selection plots
+   //--------------------------------------------------------------------------
+   
+   char plot_name[100];
+   
+   for (int i_lq_mass = 0; i_lq_mass < n_lq_mass ; ++i_lq_mass ) { 
+     int lq_mass = LQ_MASS[i_lq_mass];
+     sprintf(plot_name, "MTenu_LQ%d" , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 1000 ); 
+     sprintf(plot_name, "Mej_LQ%d"   , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 2000 );
+     sprintf(plot_name, "ST_LQ%d"    , lq_mass ); CreateUserTH1D ( plot_name, 300 , 0 , 3000 );
+   }
+   
+   //--------------------------------------------------------------------------
+   // Loop over the chain
+   //--------------------------------------------------------------------------
+
+   if (fChain == 0) return;
+   
+   Long64_t nentries = fChain->GetEntries();
+   std::cout << "analysisClass::Loop(): nentries = " << nentries << std::endl;   
+
+   Long64_t nbytes = 0, nb = 0;
+   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+     Long64_t ientry = LoadTree(jentry);
+     if (ientry < 0) break;
+     nb = fChain->GetEntry(jentry);   nbytes += nb;
+     if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
+
+     //--------------------------------------------------------------------------
+     // Reset the cuts
+     //--------------------------------------------------------------------------
+
+     resetCuts();
+
+     //--------------------------------------------------------------------------
+     // Do pileup re-weighting
+     //--------------------------------------------------------------------------
+     
+     // int NPILEUP_AVE = int( (nPileUpInt_BXminus1 + nPileUpInt_BX0 + nPileUpInt_BXplus1)/3 );
+     int NPILEUP_AVE = int( nPileUpInt_BX0 );
+     int NPILEUP_FINAL = min ( NPILEUP_AVE , 25 );
+     double pileup_weight = getPileupWeight ( NPILEUP_FINAL, isData ) ;
+
+     //--------------------------------------------------------------------------
+     // Check good run list
+     //--------------------------------------------------------------------------
+     
+     int passedJSON = passJSON ( run, ls , isData ) ;
+
+     //--------------------------------------------------------------------------
+     // Find the right prescale for this event
+     //--------------------------------------------------------------------------
+     
+     int min_prescale = 0;
+     int passTrigger  = 0;
+
+     if ( LooseEle1_hltPhotonPt > 0.0 ) { 
+       if ( H_Photon30_CIdVL > 0.1 && LooseEle1_hltPhotonPt >= 30.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; min_prescale = H_Photon30_CIdVL; } 
+       if ( H_Photon50_CIdVL > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; min_prescale = H_Photon50_CIdVL; } 
+       if ( H_Photon75_CIdVL > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; min_prescale = H_Photon75_CIdVL; } 
+       if ( H_Photon90_CIdVL > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 135.) { passTrigger = 1; min_prescale = H_Photon90_CIdVL; } 
+       if ( H_Photon135      > 0.1 && LooseEle1_hltPhotonPt >= 135. && LooseEle1_hltPhotonPt < 150.) { passTrigger = 1; min_prescale = H_Photon135     ; } 
+       if ( H_Photon150      > 0.1 && LooseEle1_hltPhotonPt >= 150.                                ) { passTrigger = 1; min_prescale = H_Photon150     ; } 
+     }
+
+     //--------------------------------------------------------------------------
+     // MT_Ele1MET calculated incorrectly in flat ntuples.  Fix here.
+     //--------------------------------------------------------------------------
+     
+     /*
+     if ( nLooseEle_store > 0 ){
+       TVector2 v_MET;
+       TVector2 v_ele;
+       v_MET.SetMagPhi( PFMET_Type01XY_Pt , PFMET_Type01XY_Phi  );
+       v_ele.SetMagPhi( LooseEle1_Pt, LooseEle1_Phi );
+       float deltaphi = v_MET.DeltaPhi(v_ele);
+       MT_Ele1MET = sqrt ( 2 * LooseEle1_Pt * PFMET_Type01XY_Pt * ( 1 - cos ( deltaphi ) ) );
+     }
+     */
+          
+     //--------------------------------------------------------------------------
+     // What kind of event is this?
+     //   - Barrel
+     //   - Endcap 1 (eta < 2.0)
+     //   - Endcap 2 (eta > 2.0) 
+     //--------------------------------------------------------------------------
+     
+     bool ele1_isBarrel  = false;
+     bool ele1_isEndcap1 = false;
+     bool ele1_isEndcap2 = false;
+     bool ele2_isBarrel  = false;
+     bool ele2_isEndcap1 = false;
+     bool ele2_isEndcap2 = false;
+     
+     if( fabs( LooseEle1_Eta  ) < eleEta_bar )        ele1_isBarrel  = true;
+     if( fabs( LooseEle1_Eta  ) > eleEta_end1_min &&
+	 fabs( LooseEle1_Eta  ) < eleEta_end1_max )   ele1_isEndcap1 = true;
+     if( fabs( LooseEle1_Eta  ) > eleEta_end2_min &&
+	 fabs( LooseEle1_Eta  ) < eleEta_end2_max )   ele1_isEndcap2 = true;
+
+     if( fabs( LooseEle2_Eta  ) < eleEta_bar )        ele2_isBarrel  = true;
+     if( fabs( LooseEle2_Eta  ) > eleEta_end1_min &&
+	 fabs( LooseEle2_Eta  ) < eleEta_end1_max )   ele2_isEndcap1 = true;
+     if( fabs( LooseEle2_Eta  ) > eleEta_end2_min &&
+	 fabs( LooseEle2_Eta  ) < eleEta_end2_max )   ele2_isEndcap2 = true;
+
+     
+     //--------------------------------------------------------------------------
+     // Determine which fake rates to use
+     //--------------------------------------------------------------------------
+     
+     double fakeRate1  = 0.0;
+     double eFakeRate1 = 0.0 ;
+     
+     double break_point_ele1 = -1;
+     if      ( ele1_isBarrel  ) break_point_ele1 = fakeRate_break_bar ;
+     else if ( ele1_isEndcap1 ) break_point_ele1 = fakeRate_break_end1;
+     else if ( ele1_isEndcap2 ) break_point_ele1 = fakeRate_break_end2;
+
+     if ( LooseEle1_Pt < break_point_ele1 ){
+       if ( ele1_isBarrel  ) {
+	 fakeRate1  = fakeRate_low_bar_p0  + fakeRate_low_bar_p1  * LooseEle1_Pt;
+	 eFakeRate1 = sqrt ((( eFakeRate_low_bar_p1  * LooseEle1_Pt       ) * 
+			     ( eFakeRate_low_bar_p1  * LooseEle1_Pt       )) + 
+			    (( eFakeRate_low_bar_p0  * eFakeRate_low_bar_p0 ) * 
+			     ( eFakeRate_low_bar_p0  * eFakeRate_low_bar_p0 )));
+       }
+       if ( ele1_isEndcap1 ) {
+	 fakeRate1  = fakeRate_low_end1_p0 + fakeRate_low_end1_p1 * LooseEle1_Pt;
+	 eFakeRate1 = sqrt ((( eFakeRate_low_end1_p1  * LooseEle1_Pt       ) * 
+			     ( eFakeRate_low_end1_p1  * LooseEle1_Pt       )) + 
+			    (( eFakeRate_low_end1_p0  * eFakeRate_low_end1_p0 ) * 
+			     ( eFakeRate_low_end1_p0  * eFakeRate_low_end1_p0 )));
+	 
+       }
+       if ( ele1_isEndcap2 ) {
+	 fakeRate1 = fakeRate_low_end2_p0 + fakeRate_low_end2_p1 * LooseEle1_Pt;
+	 eFakeRate1 = sqrt ((( eFakeRate_low_end2_p1  * LooseEle1_Pt       ) * 
+			     ( eFakeRate_low_end2_p1  * LooseEle1_Pt       )) + 
+			    (( eFakeRate_low_end2_p0  * eFakeRate_low_end2_p0 ) * 
+			     ( eFakeRate_low_end2_p0  * eFakeRate_low_end2_p0 )));
+       } 
+     }
+     else if  ( LooseEle1_Pt >= break_point_ele1 ){
+       if ( ele1_isBarrel  ) {
+	 fakeRate1  = fakeRate_high_bar_p0  ;
+	 eFakeRate1 = eFakeRate_high_bar_p0 ;
+       }
+       if ( ele1_isEndcap1 ) { 
+	 fakeRate1 = fakeRate_high_end1_p0 ;
+	 eFakeRate1 = eFakeRate_high_end1_p0 ;
+       }
+       if ( ele1_isEndcap2 ) {
+	 fakeRate1 = fakeRate_high_end2_p0 ;
+	 eFakeRate1 = eFakeRate_high_end2_p0 ;
+       }
+     }
+     
+     //--------------------------------------------------------------------------
+     // Finally have the effective fake rate
+     //--------------------------------------------------------------------------
+     
+     double fakeRate  = fakeRate1 / ( 1.0 - fakeRate1 ) ;
+     double eFakeRate = eFakeRate1;
+     
+     //--------------------------------------------------------------------------
+     // Calculate some variables:
+     //--------------------------------------------------------------------------
+     
+     TLorentzVector loose_ele1, loose_ele2, jet1, jet2, met;
+     loose_ele1.SetPtEtaPhiM ( LooseEle1_Pt , LooseEle1_Eta , LooseEle1_Phi , 0.0 );
+     loose_ele2.SetPtEtaPhiM ( LooseEle2_Pt , LooseEle2_Eta , LooseEle2_Phi , 0.0 );
+     jet1.SetPtEtaPhiM       ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, 0.0 );
+     jet2.SetPtEtaPhiM       ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, 0.0 );
+     met.SetPtEtaPhiM        ( PFMET_Type01XY_Pt         , 0.0             , PFMET_Type01XY_Phi         , 0.0 );
+
+     TLorentzVector e1met = loose_ele1 + met;
+     TLorentzVector j1j2 = jet1 + jet2;
+     TLorentzVector e1j1 = loose_ele1 + jet1;
+     TLorentzVector e1j2 = loose_ele1 + jet2;
+
+     M_e1j1 = e1j1.M();
+     M_e1j2 = e1j2.M();
+
+     Pt_Ele1MET = e1met.Pt();
+     MT_Ele1MET = sqrt(2 * LooseEle1_Pt * PFMET_Type01XY_Pt  * (1 - cos(loose_ele1.DeltaPhi ( met) ) ) );
+
+     mDPhi_METEle1= fabs(loose_ele1.DeltaPhi ( met ));
+     mDPhi_METJet1= fabs(jet1.DeltaPhi ( met ));
+     mDPhi_METJet2= fabs(jet2.DeltaPhi ( met ));
+
+     sT_enujj = LooseEle1_Pt + PFMET_Type01XY_Pt + JetLooseEle1_Pt + JetLooseEle2_Pt ;
+     
+     DR_Ele1Jet1 = loose_ele1.DeltaR ( jet1 ) ;
+     DR_Ele1Jet2 = loose_ele1.DeltaR ( jet2 ) ;
+
+
+     //--------------------------------------------------------------------------
+     // Fill variables
+     //--------------------------------------------------------------------------
+
+     // JSON variable
+     fillVariableWithValue(   "Reweighting"              , 1                       , min_prescale * fakeRate ); 
+     fillVariableWithValue(   "PassJSON"                 , passedJSON              , min_prescale * fakeRate ); 
+     									          
+     // HLT variable							           
+     fillVariableWithValue(   "PassHLT"                  , passTrigger             , min_prescale * fakeRate );
+     
+     // Noise filters
+     fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , fakeRate * min_prescale );
+     fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , fakeRate * min_prescale );
+     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, fakeRate * min_prescale );
+     fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, fakeRate * min_prescale );
+     fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , fakeRate * min_prescale );
+     fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , fakeRate * min_prescale );
+     fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, fakeRate * min_prescale );
+     fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, fakeRate * min_prescale );
+     fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , fakeRate * min_prescale );
+     fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, fakeRate * min_prescale );
+     				      
+     // Muon variables ( for veto ) 					      
+     fillVariableWithValue(   "nMuon"                    , nMuon_ptCut             , min_prescale * fakeRate );
+			                                      		                
+     // 1st Electron variables				      		                
+     fillVariableWithValue(   "nEle"                     , nLooseEle_ptCut       , min_prescale * fakeRate ); 
+     fillVariableWithValue(   "Ele1_Pt"                  , LooseEle1_Pt          , min_prescale * fakeRate );
+     fillVariableWithValue(   "MTenu"                    , MT_Ele1MET            , min_prescale * fakeRate );
+									           
+     // MET variables	                                      		           
+     fillVariableWithValue(   "MET"                      , PFMET_Type01XY_Pt                  , min_prescale * fakeRate );
+     fillVariableWithValue(   "mDeltaPhiMETEle"          , mDPhi_METEle1           , min_prescale * fakeRate );
+     									           
+     // 1st JET variables                                     		           
+     fillVariableWithValue(   "nJet"                     , nJetLooseEle_ptCut      , min_prescale * fakeRate );
+			
+     double MT_Jet1MET, MT_Jet2MET, MT_Ele1Jet1, MT_Ele1Jet2, MT_Ele1MET_Type01;
+     double mDPhi_METType01_Ele1, mDPhi_METType01_Jet1, mDPhi_METType01_Jet2;
+
+     // alternate METs
+     if ( nLooseEle_store > 0 ) {
+       TVector2 v_ele;
+       TVector2 v_MET_Type01;
+       v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
+       v_ele.SetMagPhi( LooseEle1_Pt, LooseEle1_Phi );
+       mDPhi_METType01_Ele1 = fabs(v_MET_Type01.DeltaPhi ( v_ele ));
+       float deltaphi = v_MET_Type01.DeltaPhi(v_ele);
+       MT_Ele1MET_Type01 = sqrt ( 2 * LooseEle1_Pt * PFMET_Type01_Pt * ( 1 - cos ( deltaphi ) ) );
+     }
+				           
+     // 1st JET variables                                     		           
+     if ( nJetLooseEle_store > 0 ) { 						           
+       fillVariableWithValue( "Jet1_Pt"                  , JetLooseEle1_Pt         , min_prescale * fakeRate );
+       fillVariableWithValue( "Jet1_Eta"                 , JetLooseEle1_Eta        , min_prescale * fakeRate );
+       fillVariableWithValue( "mDeltaPhiMET1stJet"       , mDPhi_METJet1           , min_prescale * fakeRate );
+
+       TVector2 v_MET;
+       TVector2 v_jet;
+       TVector2 v_MET_Type01;
+       v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
+       v_MET.SetMagPhi( PFMET_Type01XY_Pt , PFMET_Type01XY_Phi  );
+       v_jet.SetMagPhi( JetLooseEle1_Pt, JetLooseEle1_Phi );
+       mDPhi_METType01_Jet1 = fabs(v_MET_Type01.DeltaPhi ( v_jet ));
+       float deltaphi = v_MET.DeltaPhi(v_jet);
+       MT_Jet1MET = sqrt ( 2 * JetLooseEle1_Pt * PFMET_Type01XY_Pt * ( 1 - cos ( deltaphi ) ) );
+     }									           
+     									           
+     // 2nd JET variables                                     		           
+     if ( nJetLooseEle_store > 1 ) { 	                                      	           
+       fillVariableWithValue( "Jet2_Pt"                  , JetLooseEle2_Pt         , min_prescale * fakeRate );
+       fillVariableWithValue( "Jet2_Eta"                 , JetLooseEle2_Eta        , min_prescale * fakeRate );
+       fillVariableWithValue( "ST"                       , sT_enujj                , min_prescale * fakeRate );
+
+       TVector2 v_MET;
+       TVector2 v_jet;
+       TVector2 v_MET_Type01;
+       v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
+       v_MET.SetMagPhi( PFMET_Type01XY_Pt , PFMET_Type01XY_Phi  );
+       v_jet.SetMagPhi( JetLooseEle2_Pt, JetLooseEle2_Phi );
+       mDPhi_METType01_Jet2 = fabs(v_MET_Type01.DeltaPhi ( v_jet ));
+       float deltaphi = v_MET.DeltaPhi(v_jet);
+       MT_Jet2MET = sqrt ( 2 * JetLooseEle2_Pt * PFMET_Type01XY_Pt * ( 1 - cos ( deltaphi ) ) );
+     }
+
+     // 3rd JET variables 
+     // if ( nJetLooseEle_store > 2 ) {
+     //   fillVariableWithValue( "Jet3_Pt"                  , JetLooseEle3_Pt         , min_prescale * fakeRate );
+     //   fillVariableWithValue( "Jet3_Eta"                 , JetLooseEle3_Eta        , min_prescale * fakeRate );
+     // }
+     
+     // 1 electron, 1 jet variables 
+     if ( nLooseEle_store > 0 && nJetLooseEle_store > 0 ) { 
+       fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             , min_prescale * fakeRate );
+
+
+       TVector2 v_ele;
+       TVector2 v_jet1;
+       TVector2 v_MET_Type01;
+       v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
+       v_ele .SetMagPhi ( LooseEle1_Pt, LooseEle1_Phi );
+       v_jet1.SetMagPhi ( JetLooseEle1_Pt, JetLooseEle1_Phi );
+       float deltaphi = v_ele.DeltaPhi ( v_jet1 );
+       MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle1_Pt * LooseEle1_Pt * ( 1 - cos ( deltaphi ) ) );
+
+     }
+
+     // 1 electron, 2 jet variables 
+     if ( nLooseEle_store > 0 && nJetLooseEle_store > 1 ) { 
+       fillVariableWithValue ( "DR_Ele1Jet2"             , DR_Ele1Jet2             , min_prescale * fakeRate );
+       
+       TVector2 v_ele;
+       TVector2 v_jet2;
+       TVector2 v_MET_Type01;
+       v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
+       v_ele .SetMagPhi ( LooseEle1_Pt, LooseEle1_Phi );
+       v_jet2.SetMagPhi ( JetLooseEle2_Pt, JetLooseEle2_Phi );
+       float deltaphi = v_ele.DeltaPhi ( v_jet2 );
+       MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle2_Pt * LooseEle1_Pt * ( 1 - cos ( deltaphi ) ) );
+
+     }
+     
+     // Dummy variables
+     fillVariableWithValue ("preselection",1, min_prescale * fakeRate );
+
+     double MT_JetMET;
+     double Mej;
+     
+     if ( fabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 )){
+       MT_JetMET = MT_Jet1MET;
+       Mej = M_e1j2;
+     } else { 
+       MT_JetMET = MT_Jet2MET;
+       Mej = M_e1j1;
+     }	 
+     
+     //--------------------------------------------------------------------------
+     // Fill final selection cuts
+     //--------------------------------------------------------------------------
+
+     char cut_name[100];
+     for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+       int lq_mass = LQ_MASS[i_lq_mass];
+       sprintf(cut_name, "MTenu_LQ%d" , lq_mass ); fillVariableWithValue( cut_name , MT_Ele1MET , min_prescale * fakeRate );
+       sprintf(cut_name, "Mej_LQ%d"   , lq_mass ); fillVariableWithValue( cut_name , Mej        , min_prescale * fakeRate );
+       sprintf(cut_name, "ST_LQ%d"    , lq_mass ); fillVariableWithValue( cut_name , sT_enujj   , min_prescale * fakeRate );
+     }
+     
+     // Optimization variables
+     fillVariableWithValue( "ST_opt"   , sT_enujj   , min_prescale * fakeRate );
+     fillVariableWithValue( "Mej_opt"  , Mej        , min_prescale * fakeRate );
+     fillVariableWithValue( "MTenu_opt", MT_Ele1MET , min_prescale * fakeRate );
+     
+     //--------------------------------------------------------------------------
+     // Evaluate the cuts
+     //--------------------------------------------------------------------------
+     
+     evaluateCuts();
+
+     //--------------------------------------------------------------------------
+     // Fill preselection plots
+     //--------------------------------------------------------------------------
+     
+     bool passed_preselection = passedAllPreviousCuts("preselection");
+
+
+     //--------------------------------------------------------------------------
+     // Did we pass any final selection cuts?
+     //--------------------------------------------------------------------------
+
+     passed_vector.clear();
+     for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+       int lq_mass = LQ_MASS[i_lq_mass];
+       sprintf(cut_name, "Mej_LQ%d", lq_mass );
+       bool decision = bool ( passedAllPreviousCuts(cut_name) && passedCut (cut_name));
+       passed_vector.push_back (decision);
+     }
+     
+     if ( passed_preselection ) { 
+
+       //--------------------------------------------------------------------------
+       // Fill skim tree, if necessary
+       //--------------------------------------------------------------------------
+       
+       double JetLooseEle1_Mass, JetLooseEle2_Mass;
+       TLorentzVector jetm1, jetm2;
+       jetm1.SetPtEtaPhiE       ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, JetLooseEle1_Energy );
+       jetm2.SetPtEtaPhiE       ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, JetLooseEle2_Energy );
+       JetLooseEle1_Mass = jetm1.M();
+       JetLooseEle2_Mass = jetm2.M();
+
+       double min_DR_EleJet = 999.0;
+       double DR_Ele1Jet3 = 999.0;
+       if ( nJetLooseEle_store > 2 ) {
+	 TLorentzVector ele1, jet3;
+	 ele1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_Eta, LooseEle1_Phi, 0.0 );
+	 jet3.SetPtEtaPhiM ( JetLooseEle3_Pt, JetLooseEle3_Eta, JetLooseEle3_Phi, 0.0 );
+	 DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
+       }
+
+       if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
+       if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
+       if ( nJetLooseEle_store > 2 ) {
+	 if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
+       }
+
+       double sT_enujj_Type01 = LooseEle1_Pt + PFMET_Type01_Pt + JetLooseEle1_Pt + JetLooseEle2_Pt;
+
+       FillUserTH1D( "nElectron_PAS"              , nLooseEle_ptCut                                  , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "nMuon_PAS"                  , nMuon_ptCut                                      , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "Pt1stEle_PAS"	          , LooseEle1_Pt                                     , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "Eta1stEle_PAS"	          , LooseEle1_Eta                                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Phi1stEle_PAS"	          , LooseEle1_Phi                                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Charge1stEle_PAS"           , LooseEle1_Charge                                 , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "MET_PAS"                    , PFMET_Type01XY_Pt                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "METPhi_PAS"	          , PFMET_Type01XY_Phi                               , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "MET_Type01_PAS"             , PFMET_Type01_Pt                                  , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MET_Type01_Phi_PAS"	  , PFMET_Type01_Phi                                 , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "minMETPt1stEle_PAS"         , TMath::Min ( LooseEle1_Pt, PFMET_Type01XY_Pt  )  , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Pt1stJet_PAS"               , JetLooseEle1_Pt                                  , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Pt2ndJet_PAS"               , JetLooseEle2_Pt                                  , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Eta1stJet_PAS"              , JetLooseEle1_Eta                                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Eta2ndJet_PAS"              , JetLooseEle2_Eta                                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Phi1stJet_PAS"              , JetLooseEle1_Phi                                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Phi2ndJet_PAS"	          , JetLooseEle2_Phi                                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mass1stJet_PAS"             , JetLooseEle1_Mass                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mass2ndJet_PAS"             , JetLooseEle2_Mass                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "CSV1stJet_PAS"              , JetLooseEle1_btagCSV                             , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "CSV2ndJet_PAS"              , JetLooseEle2_btagCSV                             , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nMuon_PtCut_IDISO_PAS"      , nMuon_ptCut                                      , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "MTenu_PAS"                  , MT_Ele1MET                                       , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MTenu_Type01_PAS"           , MT_Ele1MET_Type01                                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Ptenu_PAS"	          , Pt_Ele1MET                                       , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sTlep_PAS"                  , LooseEle1_Pt + PFMET_Type01XY_Pt                 , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sTlep_Type01_PAS"           , LooseEle1_Pt + PFMET_Type01_Pt                   , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sTjet_PAS"                  , JetLooseEle1_Pt + JetLooseEle2_Pt                , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sT_PAS"                     , sT_enujj                                         , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "sT_Type01_PAS"              , sT_enujj_Type01                                  , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mjj_PAS"	                  , M_j1j2                                           , pileup_weight * min_prescale * fakeRate);   
+       FillUserTH1D( "DCotTheta1stEle_PAS"        , LooseEle1_DCotTheta                              , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Dist1stEle_PAS"             , LooseEle1_Dist                                   , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi1stEleMET_PAS"         , mDPhi_METEle1                                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi1stJetMET_PAS"         , mDPhi_METJet1                                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi2ndJetMET_PAS"         , mDPhi_METJet2                                    , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "mDPhi1stEleMET_Type01_PAS"  , mDPhi_METType01_Ele1                             , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi1stJetMET_Type01_PAS"  , mDPhi_METType01_Jet1                             , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "mDPhi2ndJetMET_Type01_PAS"  , mDPhi_METType01_Jet2                             , pileup_weight * min_prescale * fakeRate); 
+       FillUserTH1D( "Mej1_PAS"                   , M_e1j1                                           , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mej2_PAS"                   , M_e1j2                                           , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "Mej_PAS"                    , Mej                                              , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "MTjnu_PAS"                  , MT_JetMET                                        , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "DR_Ele1Jet1_PAS"	          , DR_Ele1Jet1                                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "DR_Ele1Jet2_PAS"	          , DR_Ele1Jet2                                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "DR_Jet1Jet2_PAS"	          , DR_Jet1Jet2                                      , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "minDR_EleJet_PAS"           , min_DR_EleJet                                    , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nVertex_PAS"                , nVertex                                          , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "nJet_PAS"                   , nJetLooseEle_ptCut                               , pileup_weight * min_prescale * fakeRate);
+       FillUserTH1D( "GeneratorWeight"            , -1.0             );
+       FillUserTH1D( "PileupWeight"               , -1.0             );
+       
+       if ( Pt_Ele1MET         > 200. && 
+	    JetLooseEle1_Pt    > 200. && 
+	    JetLooseEle1_Mass  > 50.  ) {
+	 FillUserTH1D("nJet_PASandFrancesco", nJetLooseEle_ptCut, pileup_weight * min_prescale * fakeRate);
+       }
+       
+       if ( nJetLooseEle_ptCut == 2 ) FillUserTH1D( "Eta1stJet_PASand2Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       if ( nJetLooseEle_ptCut == 3 ) FillUserTH1D( "Eta1stJet_PASand3Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       if ( nJetLooseEle_ptCut == 4 ) FillUserTH1D( "Eta1stJet_PASand4Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       if ( nJetLooseEle_ptCut == 5 ) FillUserTH1D( "Eta1stJet_PASand5Jet", JetLooseEle1_Eta, pileup_weight * min_prescale * fakeRate);
+       
+       if ( LooseEle1_Pt > 40 && LooseEle1_Pt < 45 && fabs ( LooseEle1_Eta ) > 2.1 ){
+	 FillUserTH1D( "Pt1stEle_Pt40to45_EtaGT2p1", LooseEle1_Pt, pileup_weight * min_prescale * fakeRate);
+       }
+
+       if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
+	 
+	 FillUserTH1D( "MTenu_50_110"      , MT_Ele1MET, pileup_weight * min_prescale * fakeRate );
+	 FillUserTH1D( "nJets_MTenu_50_110", nJetLooseEle_ptCut, pileup_weight * min_prescale * fakeRate );
+	 
+	 if ( nJetLooseEle_ptCut <= 3 ){
+	   FillUserTH1D(   "MTenu_50_110_Njet_lte3", MT_Ele1MET,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+	 
+	 if ( nJetLooseEle_ptCut <= 4 ){
+	   FillUserTH1D(   "MTenu_50_110_Njet_lte4", MT_Ele1MET,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+
+	 if ( nJetLooseEle_ptCut >= 4 ){
+	   FillUserTH1D(   "MTenu_50_110_Njet_gte4", MT_Ele1MET,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+
+	 if ( nJetLooseEle_ptCut >= 5 ){ 
+	   FillUserTH1D(   "MTenu_50_110_Njet_gte5", MT_Ele1MET,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+       }
+
+       if ( MT_Ele1MET_Type01 > 50 && MT_Ele1MET_Type01 < 110 ){
+	 
+	 FillUserTH1D( "MTenu_Type01_50_110"      , MT_Ele1MET_Type01,  pileup_weight * min_prescale * fakeRate ) ;
+	 FillUserTH1D( "nJets_MTenu_Type01_50_110", nJetLooseEle_ptCut,  pileup_weight * min_prescale * fakeRate ) ;
+
+	 if ( nJetLooseEle_ptCut <= 3 ){ 
+	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+
+	 if ( nJetLooseEle_ptCut <= 4 ){ 
+	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+
+	 if ( nJetLooseEle_ptCut >= 4 ){ 
+	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+	 
+	 if ( nJetLooseEle_ptCut >= 5 ){ 
+	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * min_prescale * fakeRate ) ;
+	 }
+       }
+       
+       //-------------------------------------------------------------------------- 
+       // Final selection plots
+       //-------------------------------------------------------------------------- 
+
+       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+	 int  lq_mass = LQ_MASS      [i_lq_mass];
+	 bool pass    = passed_vector[i_lq_mass];
+	 if ( !pass ) continue;
+	 sprintf(plot_name, "MTenu_LQ%d" , lq_mass ); FillUserTH1D( plot_name , MT_Ele1MET , pileup_weight * min_prescale * fakeRate ) ;
+	 sprintf(plot_name, "Mej_LQ%d"   , lq_mass ); FillUserTH1D( plot_name , Mej        , pileup_weight * min_prescale * fakeRate ) ;
+	 sprintf(plot_name, "ST_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , sT_enujj   , pileup_weight * min_prescale * fakeRate ) ;
+       }
+
+     }
+   } // end loop over events
+
+   std::cout << "analysisClass::Loop() ends" <<std::endl;   
+}
