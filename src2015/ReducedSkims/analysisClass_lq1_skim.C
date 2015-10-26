@@ -210,6 +210,8 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
 
     getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ; 
+    //printTriggers();
+    //printFiredTriggers();
         
     //-----------------------------------------------------------------
     // Get access to HLT filter objects
@@ -247,16 +249,14 @@ void analysisClass::Loop(){
       //c_hltPhoton22_TTbar_all      = helper.GetHLTFilterObjects("hltMu22Photon22CaloIdLHEFilter");
       
       // SingleMu trigger: path was HLT_Mu40_eta2p1_v9+
-      // SIC FIXME TODO: remove hardcoding of trigger path versions
-      c_hltMuon_SingleMu_all       = helper.GetL3FilterObjectsByPath("HLT_Mu45_eta2p1_v1");
+      c_hltMuon_SingleMu_all       = helper.GetL3FilterObjectsByPath("HLT_Mu45_eta2p1_v"); // will do prefix matching
 
       // Ele+jets signal triggers
-      // SIC FIXME TODO: remove hardcoding of trigger path versions (in data, it's already v2)
-      CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1"); // hardcoded trigger version
+      CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v");
       c_trigger_l3jets_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_JET);
       //c_trigger_l3jets_all->examine<HLTriggerObject>("c_trigger_l3jets_all");
       // which one passed the last filter?
-      CollectionPtr trigger_lastObjects_all = helper.GetLastFilterObjectsByPath("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1");
+      CollectionPtr trigger_lastObjects_all = helper.GetLastFilterObjectsByPath("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v");
 
       // electrons seem to come as TRIGGER_PHOTON most of the time
       c_hltEle45_Signal_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
@@ -272,14 +272,19 @@ void analysisClass::Loop(){
       //c_hltPFJet50_Signal_all      =  c_trigger_l3jets_all -> SkimByVetoDRMatch<HLTriggerObject,HLTriggerObject>( c_hltPFJet200_Signal_all, 0.3 );
 
       // DoubleEle signal trigger
-      CollectionPtr double_ele_l3objects_all    = helper.GetL3FilterObjectsByPath("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1"); // hardcoded trigger version
+      CollectionPtr double_ele_l3objects_all    = helper.GetL3FilterObjectsByPath("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
       c_hltDoubleEle_Signal_all    = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
       // if not, try TRIGGER_ELECTRON
       if(c_hltDoubleEle_Signal_all->GetSize() == 0)
        c_hltDoubleEle_Signal_all = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
       
       // Tag and probe trigger
-      CollectionPtr tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WP85_Gsf_v1");
+      CollectionPtr tagProbe_l3objects_all;
+      if(!isData)
+        tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WP85_Gsf_v");
+      else
+        tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
+      //XXX TODO: check if the WPLoose is the same...
       c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
       // if not, try TRIGGER_ELECTRON
       if(c_hltEle27WP85Gsf_all->GetSize() == 0)
@@ -292,10 +297,11 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
 
     CollectionPtr c_gen_all   ( new Collection(*this, GenParticlePt -> size()));
-    CollectionPtr c_genJet_all( new Collection(*this, GenJetPt      -> size()));
     CollectionPtr c_ele_all   ( new Collection(*this, ElectronPt    -> size()));
     CollectionPtr c_muon_all  ( new Collection(*this, MuonPt        -> size()));
-    CollectionPtr c_pfjet_all ( new Collection(*this, PFJetPt       -> size()));
+    // FIXME must study AK4CHS,Puppi
+    CollectionPtr c_genJet_all( new Collection(*this, GenJetPtAK5      -> size()));
+    CollectionPtr c_pfjet_all ( new Collection(*this, PFJetPtAK5    -> size()));
 
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
@@ -1364,43 +1370,30 @@ void analysisClass::Loop(){
     
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ) { 
       
-      //FIXME: update for 2015 data
       if      ( ! isData )                       fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1", "H_Ele45_PFJet200_PFJet50");
-      //else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v3", "H_Ele30_PFJet100_25");
-      //else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v4", "H_Ele30_PFJet100_25");
-      //else if ( run >= 191691 && run <= 196027 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFJet100_PFJet25_v5", "H_Ele30_PFJet100_25");
+      // search for HLT path by prefix
+      else                                       fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v", "H_Ele45_PFJet200_PFJet50");
       
       //if      ( ! isData )                       fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v5", "H_Ele30_PFNoPUJet100_25");
       //else if ( run >= 191691 && run <= 194225 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v4", "H_Ele30_PFNoPUJet100_25");
-      //else if ( run >= 194270 && run <= 196531 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v5", "H_Ele30_PFNoPUJet100_25");
-      //else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v6", "H_Ele30_PFNoPUJet100_25");
-      //else if ( run >= 199698 && run <= 202504 ) fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v7", "H_Ele30_PFNoPUJet100_25");
-      //else if ( run >= 202970 )                  fillTriggerVariable( "HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v8", "H_Ele30_PFNoPUJet100_25");
       
       if      ( ! isData )                       fillTriggerVariable( "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v1", "H_Mu23NoFiltNoVtx_Photon23_CIdL");
-      //else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v3", "H_Mu22_Photon22_CIdL");
-      //else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v4", "H_Mu22_Photon22_CIdL");
-      //else if ( run >= 191691 && run <= 196531 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v5", "H_Mu22_Photon22_CIdL");
-      //else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v6", "H_Mu22_Photon22_CIdL");
-      //else if ( run >= 199698 )                  fillTriggerVariable( "HLT_Mu22_Photon22_CaloIdL_v7", "H_Mu22_Photon22_CIdL");
+      // search for HLT path by prefix
+      else                                       fillTriggerVariable( "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v", "H_Mu23NoFiltNoVtx_Photon23_CIdL");
 
       if      ( ! isData )                       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v1", "H_DoubleEle33_CIdL_GsfIdVL" );
-      //else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v3", "H_DoubleEle33_CIdL_GsfIdVL" );
-      //else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v4", "H_DoubleEle33_CIdL_GsfIdVL" );
-      //else if ( run >= 191691 && run <= 193621 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v5", "H_DoubleEle33_CIdL_GsfIdVL" );
-      //else if ( run >= 193833 && run <= 196531 ) fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v6", "H_DoubleEle33_CIdL_GsfIdVL" );
-      //else if ( run >= 198022 )                  fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v7", "H_DoubleEle33_CIdL_GsfIdVL" );
+      // search for HLT path by prefix
+      else                                       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v", "H_DoubleEle33_CIdL_GsfIdVL" ); 
 
       if      ( ! isData )                       fillTriggerVariable("HLT_Mu45_eta2p1_v1"  , "H_Mu45_eta2p1" );
-      //else if ( run >= 190456 && run <= 196531 ) fillTriggerVariable( "HLT_Mu40_eta2p1_v9"  , "H_Mu40_eta2p1" );
-      //else if ( run >= 198022 && run <= 199608 ) fillTriggerVariable( "HLT_Mu40_eta2p1_v10" , "H_Mu40_eta2p1" );
-      //else if ( run >= 199698 )                  fillTriggerVariable( "HLT_Mu40_eta2p1_v11" , "H_Mu40_eta2p1" );
+      // search for HLT path by prefix
+      else                                       fillTriggerVariable("HLT_Mu45_eta2p1_v"  , "H_Mu45_eta2p1" );
 
-      if      ( ! isData )                       fillTriggerVariable ( "HLT_Ele27_WP85_Gsf_v1" , "H_Ele27_WP85" );
-      //else if ( run >= 190456 && run <= 190738 ) fillTriggerVariable ( "HLT_Ele27_WP80_v8"  , "H_Ele27_WP80" );
-      //else if ( run >= 190782 && run <= 191419 ) fillTriggerVariable ( "HLT_Ele27_WP80_v9"  , "H_Ele27_WP80" );
-      //else if ( run >= 191691 && run <= 196531 ) fillTriggerVariable ( "HLT_Ele27_WP80_v10" , "H_Ele27_WP80" );
-      //else if ( run >= 198022 )                  fillTriggerVariable ( "HLT_Ele27_WP80_v11" , "H_Ele27_WP80" );
+      if      ( ! isData )                       fillTriggerVariable( "HLT_Ele27_WP85_Gsf_v1" , "H_Ele27_WP85" );
+      // search for HLT path by prefix
+      //else                                       fillTriggerVariable( "HLT_Ele27_WP85_Gsf_v" , "H_Ele27_WP85" );
+      // in 2015D, Oct05 data, trigger is different
+      else                                       fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WP85" );
     }
 
     //-----------------------------------------------------------------
