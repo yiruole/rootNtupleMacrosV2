@@ -70,8 +70,8 @@ def FillSampleDataDict(tableFile,sampleDataDict):
 ####################################################################################################
 # user config options
 ####################################################################################################
-fileAK4CHS = os.getenv('LQDATA')+'/RunII/'+'eejj_analysis_24Nov2015_AK4CHS_1547invPb_MiniAODV2_presels_hltDataOnly_withMETFilters_NoEEBadSC/output_cutTable_lq_eejj_preselectionOnly_tightenEleCuts/analysisClass_lq_eejj_preselectionOnly_tables.dat'
-fileAK5 = os.getenv('LQDATA')+'/RunII/'+'eejj_analysis_10Nov2015_1547invPb_MiniAODV2_presels_hltDataOnly_withMETFilters_NoEEBadSC/output_cutTable_lq_eejj_preselectionOnly_tightenEleCuts/analysisClass_lq_eejj_preselectionOnly_tables.dat'
+fileAK4CHS = os.getenv('LQDATA')+'/RunII/'+'eejj_analysis_7Dec2015_AK4CHS_2094invPb_MiniAODV2_presels_hltDataOnly_withOldMETFilters//output_cutTable_lq_eejj_preselectionOnly/analysisClass_lq_eejj_preselectionOnly_tables.dat'
+fileAK5 = os.getenv('LQDATA')+'/RunII/'+'eejj_analysis_7Dec2015_AK5_2094invPb_MiniAODV2_presels_hltDataOnly_withOldMETFilters/output_cutTable_lq_eejj_preselectionOnly/analysisClass_lq_eejj_preselectionOnly_tables.dat'
 doPrint = True
 ####################################################################################################
 # end of user config options
@@ -95,24 +95,32 @@ samplePreselectionAK5FinalAbsEffErrDict = {}
 # loop over them and make tables, plots, etc.
 for keyAK4,sampleDataAK4 in sampleDataDictAK4CHS.iteritems():
   sampleDataAK5 = sampleDataDictAK5[keyAK4]
-  t = PrettyTable(['VarName', 'EffRelAK4','EffRelAK5','EffAbsAK4','EffAbsAK5'])
-  maxAbsRelEffDiff = 0.0
-  maxAbsRelEffVar = ''
+  t = PrettyTable(['VarName', 'EffRelAK5','EffRelAK4','deltaEffRel/effRel','EffAbsAK5','EffAbsAK4','deltaEffAvs/effAbs'])
+  t.float_format = "4.3"
+  #t.align['VarName'] = 'l'
+  t.align = 'l'
+  maxAbsRelEffRelDiff = 0.0
+  maxAbsRelEffRelVar = ''
   if len(sampleDataAK4.varInfoDict) < 1:
     continue
   for var,varInfoAK4 in sampleDataAK4.varInfoDict.iteritems():
     #print 'variable:',var,'effRelAK4',varInfoAK4.effRel,'effRelAK5:',sampleDataAK5.varInfoDict[var].effRel
-    t.add_row([var,varInfoAK4.effRel,sampleDataAK5.varInfoDict[var].effRel,varInfoAK4.effAbs,sampleDataAK5.varInfoDict[var].effAbs])
-    relEffDiff = math.fabs(sampleDataAK5.varInfoDict[var].effRel-varInfoAK4.effRel)
-    if relEffDiff > maxAbsRelEffDiff:
-      maxAbsRelEffDiff = relEffDiff
-      maxAbsRelEffVar = var
+    try:
+      relEffRelDiff = (varInfoAK4.effRel-sampleDataAK5.varInfoDict[var].effRel)/sampleDataAK5.varInfoDict[var].effRel
+      absEffRelDiff = (varInfoAK4.effAbs-sampleDataAK5.varInfoDict[var].effAbs)/sampleDataAK5.varInfoDict[var].effAbs
+    except ZeroDivisionError:
+      print 'WARN: AK5 had 0 passing events for sample:',keyAK4,'and var:',var
+      continue
+    t.add_row([var,sampleDataAK5.varInfoDict[var].effRel,varInfoAK4.effRel,relEffRelDiff,sampleDataAK5.varInfoDict[var].effAbs,varInfoAK4.effAbs,absEffRelDiff])
+    if math.fabs(relEffRelDiff) > maxAbsRelEffRelDiff:
+      maxAbsRelEffRelDiff = math.fabs(relEffRelDiff)
+      maxAbsRelEffRelVar = var
   samplePreselectionAK4FinalAbsEffDict[keyAK4] = sampleDataAK4.varInfoDict[next(reversed(sampleDataAK4.varInfoDict))].effAbs
   samplePreselectionAK4FinalAbsEffErrDict[keyAK4] = sampleDataAK4.varInfoDict[next(reversed(sampleDataAK4.varInfoDict))].errEffAbs
   samplePreselectionAK5FinalAbsEffDict[keyAK4] = sampleDataAK5.varInfoDict[next(reversed(sampleDataAK5.varInfoDict))].effAbs
   samplePreselectionAK5FinalAbsEffErrDict[keyAK4] = sampleDataAK5.varInfoDict[next(reversed(sampleDataAK5.varInfoDict))].errEffAbs
   if doPrint:
-    print 'sample:',keyAK4,'MaxRelEffDiff for var:',maxAbsRelEffVar
+    print 'sample:',keyAK4,'MaxRelEffRelDiff for var:',maxAbsRelEffRelVar
     print t
     print
 
@@ -133,9 +141,12 @@ for index,key in enumerate(sorted(samplePreselectionAK4FinalAbsEffDict)):
 
 c = TCanvas()
 c.SetLogy()
+c.SetGridx()
 hist.SetStats(False)
 hist.SetMaximum(1)
 hist.SetMinimum(5e-9)
+hist.GetXaxis().SetLabelSize(0.02)
+hist.GetXaxis().SetNdivisions(hist.GetNbinsX())
 hist.Draw()
 #gr = TGraph(len(samplePreselectionAK4FinalAbsEffDict),array.array('f',indexList),array.array('f',ak4effList))
 gr4 = TGraphErrors(len(samplePreselectionAK4FinalAbsEffDict),array.array('f',indexList),array.array('f',ak4effList),array.array('f',[0]*len(ak4effList)),array.array('f',ak4effErrList))
@@ -145,7 +156,8 @@ gr5.SetLineColor(2)
 gr5.SetMarkerColor(2)
 gr5.Draw('p')
 
-t = TLegend(0.2,0.2,0.4,0.4)
+t = TLegend(0.2,0.2,0.3,0.3)
+t.SetBorderSize(0)
 t.AddEntry(gr5,'AK5','lp')
 t.AddEntry(gr4,'AK4','lp')
 t.Draw()
