@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
-# First 2015 JSON file
+# Next 2015 JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON_v3.txt
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -451,8 +451,10 @@ Pt_e1e2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 # Signal and TTbar triggers
 #-----------------------------------------------------------------------------------------------------------------------------------------
 H_Ele45_PFJet200_PFJet50		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
-#H_Ele30_PFNoPUJet100_25		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Mu23NoFiltNoVtx_Photon23_CIdL		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_DoubleEle33_CIdL_GsfIdVL	-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Mu45_eta2p1			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Ele27_WP75			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele27_WP85			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Ele27_WPLoose			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Ele27_WPLoose_eta2p1			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
