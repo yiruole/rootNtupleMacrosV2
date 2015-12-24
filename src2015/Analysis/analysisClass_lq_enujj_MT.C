@@ -630,13 +630,26 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mej_LQ300_NoMETCut", 200 , 0 , 2000 ); 
    CreateUserTH1D( "MT_LQ300_NoMETCut" , 200 , 0 , 1000 ); 
    CreateUserTH1D( "ST_LQ300_NoMETCut" , 300 , 0 , 3000 ); 
+
+   //--------------------------------------------------------------------------
+   // Make event lists for various filters
+   //--------------------------------------------------------------------------
+   // XXX NB: the hcal noise filter event lists are incomplete!
+   //    Need to rentuplize everything and run the filters at that point
+   EventListHelper HBHENoiseRun2LooseEventList;
+   HBHENoiseRun2LooseEventList.addFileToList("eventlist_hbher2l.txt");
+   EventListHelper HBHENoiseRun2IsoEventList;
+   HBHENoiseRun2IsoEventList.addFileToList("eventlist_hbheiso.txt");
+   EventListHelper CSCBeamHaloTight2015EventList;
+   CSCBeamHaloTight2015EventList.addFileToList("SingleElectron_csc2015.txt");
+   
    
    //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
 
    if (fChain == 0) return;
-   std::cout << "fChain = " << fChain << std::endl;
+   //std::cout << "fChain = " << fChain << std::endl;
 
    Long64_t nentries = fChain->GetEntries();
    // Long64_t nentries = 1;
@@ -655,6 +668,13 @@ void analysisClass::Loop()
 
      resetCuts();
 
+     //--------------------------------------------------------------------------
+     // Check good run list
+     //--------------------------------------------------------------------------
+     
+     int passedJSON = passJSON ( int(run), int(ls) , bool(isData) ) ;
+     if ( !isData ) passedJSON = 1;
+     
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
@@ -724,56 +744,78 @@ void analysisClass::Loop()
      */
      
      //--------------------------------------------------------------------------
-     // Check good run list
-     //--------------------------------------------------------------------------
-     
-     int passedJSON = passJSON ( int(run), int(ls) , bool(isData) ) ;
-     if ( !isData ) passedJSON = 1;
-     
-     //--------------------------------------------------------------------------
-     // Check HLT
-     //--------------------------------------------------------------------------
-     
-     // Fill HLT 
-     int passHLT = 1;
-     if ( isData ) { 
-       passHLT = 0;
-       if ( H_Ele30_PFJet100_25      == 1 ||
-	    H_Ele30_PFNoPUJet100_25  == 1 ){
-       	 passHLT = 1;
-       }
-     }
-     if ( Ele2_ValidFrac > 998. && Ele1_ValidFrac > 998. ) passHLT = 1;
-
-     //--------------------------------------------------------------------------
      // Is this a barrel electron?
      //--------------------------------------------------------------------------
 
      bool Ele1_IsBarrel = bool ( fabs (Ele1_Eta) < 1.442 );
 
      //--------------------------------------------------------------------------
-     // Fill variables
+     // First variable to fill just shows the "reweighting".  Always passes.
+     //--------------------------------------------------------------------------
+
+     fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
+
+     //--------------------------------------------------------------------------
+     // Fill JSON variable
      //--------------------------------------------------------------------------
 
      // JSON variable
-     fillVariableWithValue(   "Reweighting"              , 1                       , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassJSON"                 , passedJSON              , gen_weight * pileup_weight ); 
-     				
-     // HLT variable							           
-     fillVariableWithValue(   "PassHLT"                  , passHLT                 , gen_weight * pileup_weight );
+     fillVariableWithValue ("PassJSON", passedJSON, gen_weight * pileup_weight); 
+
+     //--------------------------------------------------------------------------
+     // Fill noise filters
+     //--------------------------------------------------------------------------
+
+     // Noise/MET filters
+     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+     // XXX Right now, we have to read the bad events from event lists
+     // txt files sent to me privately
+     // see: https://indico.cern.ch/event/458729/contribution/8/attachments/1179252/1706416/metscan.pdf
+     // Later this will be included in a re-reco
+     //fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter                              , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , gen_weight * pileup_weight );
+     //TODO to be implemented in skim?
+     //fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, gen_weight * pileup_weight );
      
-     // Noise filters
-     fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
+     fillVariableWithValue(   "PassHBHENoiseFilter"	        , HBHENoiseRun2LooseEventList.eventInList(run,ls,event)    ?  0 : 1  , gen_weight * pileup_weight );
+     fillVariableWithValue(   "PassHBHENoiseIsoFilter"	    , HBHENoiseRun2IsoEventList.eventInList(run,ls,event)      ?  0 : 1  , gen_weight * pileup_weight );
+     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"  , CSCBeamHaloTight2015EventList.eventInList(run,ls,event)  ?  0 : 1  , gen_weight * pileup_weight );
+     //
      fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
      fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
      
+     
+     //--------------------------------------------------------------------------
+     // Fill HLT
+     //--------------------------------------------------------------------------
+
+     //int passHLT = 1;
+     //if ( isData ) { 
+     //  passHLT = 0;
+     //  if ( H_Ele30_PFJet100_25 == 1 || H_Ele30_PFNoPUJet100_25  == 1 ){
+	 ////if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
+     //  	 passHLT = 1;
+     //  }
+     //}
+     int passHLT = 1;
+     if ( isData ) { 
+       passHLT = 0;
+       if ( H_Ele45_PFJet200_PFJet50 == 1)
+         passHLT = 1;
+     }
+
+     fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
+
+     //--------------------------------------------------------------------------
+     // Fill more variables
+     //--------------------------------------------------------------------------
      // Muon variables ( for veto ) 					      
      fillVariableWithValue(   "nMuon"                    , nMuon_ptCut             , gen_weight * pileup_weight );
 			                                      		                
@@ -1135,6 +1177,8 @@ void analysisClass::Loop()
        for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
          // SIC note: This appears to be where the final selection variables are defined (in terms of quantites calculated/known to the analysisClass)
          int lq_mass = LQ_MASS[i_lq_mass];
+         //XXX Only look at specific selections for now
+         if(lq_mass!=300 && lq_mass!=600 && lq_mass!=650 && lq_mass!=1200) continue;
          // SIC edit
          //sprintf(cut_name, "MET_LQ%d"   , lq_mass ); fillVariableWithValue( cut_name , PFMET_Type01XY_Pt , gen_weight * pileup_weight );
          //sprintf(cut_name, "Mej_LQ%d"   , lq_mass ); fillVariableWithValue( cut_name , Mej        , gen_weight * pileup_weight );
@@ -1173,7 +1217,8 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      bool passed_preselection = passedAllPreviousCuts("preselection");
-     bool passed_minimum      = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
+     //bool passed_minimum      = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
+     bool passed_minimum      = ( passedAllPreviousCuts("PassPhysDecl") && passedCut ("PassPhysDecl"));
     
      if ( passed_minimum && isData ){ 
        FillUserTH1D ("run_HLT", run );
@@ -1205,6 +1250,8 @@ void analysisClass::Loop()
 
        for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
 	 int lq_mass = LQ_MASS[i_lq_mass];
+   //XXX Only look at specific selections for now
+   if(lq_mass!=300 && lq_mass!=600 && lq_mass!=650 && lq_mass!=1200) continue;
 	 sprintf(cut_name    ,"Mej_LQ%d", lq_mass );
 	 sprintf(mt_cut_name ,"MT_LQ%d" , lq_mass );
 	 sprintf(st_cut_name ,"ST_LQ%d" , lq_mass );

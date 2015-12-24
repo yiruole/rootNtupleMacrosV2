@@ -1,4 +1,5 @@
 #define analysisClass_cxx
+#define USE_SINGLE_ELE_REDUCED_NTUPLE
 #include "analysisClass.h"
 #include <TH2.h>
 #include <TH1F.h>
@@ -595,6 +596,18 @@ void analysisClass::Loop()
    }
   
    //--------------------------------------------------------------------------
+   // Make event lists for various filters
+   //--------------------------------------------------------------------------
+   // XXX NB: the hcal noise filter event lists are incomplete!
+   //    Need to rentuplize everything and run the filters at that point
+   EventListHelper HBHENoiseRun2LooseEventList;
+   HBHENoiseRun2LooseEventList.addFileToList("eventlist_hbher2l.txt");
+   EventListHelper HBHENoiseRun2IsoEventList;
+   HBHENoiseRun2IsoEventList.addFileToList("eventlist_hbheiso.txt");
+   EventListHelper CSCBeamHaloTight2015EventList;
+   CSCBeamHaloTight2015EventList.addFileToList("SingleElectron_csc2015.txt");
+   
+   //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
 
@@ -662,30 +675,48 @@ void analysisClass::Loop()
      // Fill noise filters
      //--------------------------------------------------------------------------
 
-     // Noise filters
-     fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
+     // Noise/MET filters
+     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+     // XXX Right now, we have to read the bad events from event lists
+     // txt files sent to me privately
+     // see: https://indico.cern.ch/event/458729/contribution/8/attachments/1179252/1706416/metscan.pdf
+     // Later this will be included in a re-reco
+     //fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter                              , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , gen_weight * pileup_weight );
+     //TODO to be implemented in skim?
+     //fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, gen_weight * pileup_weight );
+     
+     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
+     fillVariableWithValue(   "PassHBHENoiseFilter"	        , HBHENoiseRun2LooseEventList.eventInList(run,ls,event)    ?  0 : 1  , gen_weight * pileup_weight );
+     fillVariableWithValue(   "PassHBHENoiseIsoFilter"	    , HBHENoiseRun2IsoEventList.eventInList(run,ls,event)      ?  0 : 1  , gen_weight * pileup_weight );
+     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"  , CSCBeamHaloTight2015EventList.eventInList(run,ls,event)  ?  0 : 1  , gen_weight * pileup_weight );
+     //
      fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
      fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
+     //fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
      
      //--------------------------------------------------------------------------
      // Fill HLT
      //--------------------------------------------------------------------------
 
+     //int passHLT = 1;
+     //if ( isData ) { 
+     //  passHLT = 0;
+     //  if ( H_Ele30_PFJet100_25 == 1 || H_Ele30_PFNoPUJet100_25  == 1 ){
+	 ////if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
+     //  	 passHLT = 1;
+     //  }
+     //}
      int passHLT = 1;
      if ( isData ) { 
        passHLT = 0;
-       if ( H_Ele30_PFJet100_25 == 1 || H_Ele30_PFNoPUJet100_25  == 1 ){
-	 //if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
-       	 passHLT = 1;
-       }
+       if ( H_Ele45_PFJet200_PFJet50 == 1)
+         passHLT = 1;
      }
 
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
@@ -805,6 +836,9 @@ void analysisClass::Loop()
      char cut_name[100];
      for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
        int lq_mass = LQ_MASS[i_lq_mass];
+       //XXX Only look at specific selections for now
+       if(lq_mass!=300 && lq_mass!=600 && lq_mass!=650 && lq_mass!=650 && lq_mass!=1200) continue;
+       // end Only look at specific selections for now
        sprintf(cut_name, "M_e1e2_LQ%d"  , lq_mass ); fillVariableWithValue ( cut_name, M_e1e2  , gen_weight * pileup_weight  ) ;
        sprintf(cut_name, "sT_eejj_LQ%d" , lq_mass ); fillVariableWithValue ( cut_name, sT_eejj , gen_weight * pileup_weight  ) ;
        sprintf(cut_name, "min_M_ej_LQ%d", lq_mass ); fillVariableWithValue ( cut_name, M_ej_min, gen_weight * pileup_weight  ) ;
@@ -820,7 +854,8 @@ void analysisClass::Loop()
      // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
      
-     bool passed_minimum = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
+     //bool passed_minimum = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
+     bool passed_minimum = ( passedAllPreviousCuts("PassPrimaryVertex") && passedCut ("PassPrimaryVertex"));
      
      //--------------------------------------------------------------------------
      // Did we pass preselection?
@@ -841,6 +876,9 @@ void analysisClass::Loop()
      passed_vector.clear();
      for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
        int lq_mass = LQ_MASS[i_lq_mass];
+       //XXX Only look at specific selections for now
+       if(lq_mass!=300 && lq_mass!=600 && lq_mass!=650 && lq_mass!=650 && lq_mass!=1200) continue;
+       // end Only look at specific selections for now
        sprintf(cut_name, "M_e1e2_LQ%d", lq_mass );
        bool decision = bool ( passedAllPreviousCuts(cut_name) && passedCut (cut_name));
        passed_vector.push_back (decision);
@@ -934,25 +972,25 @@ void analysisClass::Loop()
        double DR_ZJ2 = ee.DeltaR ( j2 );
 
        if ( nJet_ptCut > 2 ) { 
-	 j3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );
-	 
-	 e1j3 = e1 + j3;
-	 e2j3 = e2 + j3;
-	 j1j3 = j1 + j3;
-	 j2j3 = j2 + j3;
-	 j1j2j3 = j1 + j2 + j3;
-	 eejjj = e1 + e2 + j1 + j2 + j3;
-	 
-	 DR_Ele1Jet3 = e1.DeltaR( j3 );
-	 DR_Ele2Jet3 = e2.DeltaR( j3 );
-	 M_e1j3 = e1j3.M();
-	 M_e2j3 = e2j3.M();
-	 M_j1j3 = j1j3.M();
-	 M_j2j3 = j2j3.M();
-	 Pt_j1j3 = j1j3.Pt();
-	 Pt_j2j3 = j2j3.Pt();
-	 Pt_j1j2j3 = j1j2j3.Pt();
-	 M_eejjj = eejjj.M();
+         j3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );
+
+         e1j3 = e1 + j3;
+         e2j3 = e2 + j3;
+         j1j3 = j1 + j3;
+         j2j3 = j2 + j3;
+         j1j2j3 = j1 + j2 + j3;
+         eejjj = e1 + e2 + j1 + j2 + j3;
+
+         DR_Ele1Jet3 = e1.DeltaR( j3 );
+         DR_Ele2Jet3 = e2.DeltaR( j3 );
+         M_e1j3 = e1j3.M();
+         M_e2j3 = e2j3.M();
+         M_j1j3 = j1j3.M();
+         M_j2j3 = j2j3.M();
+         Pt_j1j3 = j1j3.Pt();
+         Pt_j2j3 = j2j3.Pt();
+         Pt_j1j2j3 = j1j2j3.Pt();
+         M_eejjj = eejjj.M();
        }
        
        if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
@@ -960,8 +998,8 @@ void analysisClass::Loop()
        if ( DR_Ele2Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet1;
        if ( DR_Ele2Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet2;
        if ( nJet_ptCut > 2 ) {
-	 if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
-	 if ( DR_Ele2Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet3;
+         if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
+         if ( DR_Ele2Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet3;
        }
 
        //--------------------------------------------------------------------------
@@ -1015,14 +1053,14 @@ void analysisClass::Loop()
        FillUserTH1D("EnergyORawEnergy_1stEle_PAS"      , Ele1_Energy / Ele1_RawEnergy        , pileup_weight * gen_weight    ); 
        FillUserTH1D("TrkPtOPt_1stEle_PAS"              , Ele1_TrkPt  / Ele1_Pt               , pileup_weight * gen_weight    ); 
        if ( fabs(Ele1_Eta) < eleEta_bar ) { 
-	 FillUserTH1D("SigmaEtaEta_Barrel_1stEle_PAS"  , Ele1_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
-	 FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS", Ele1_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaEtaEta_Barrel_1stEle_PAS"  , Ele1_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS", Ele1_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
        }
        else if ( fabs(Ele1_Eta) > eleEta_end1_min && fabs(Ele2_Eta) < eleEta_end2_max ){
-	 FillUserTH1D("SigmaEtaEta_Endcap_1stEle_PAS"  , Ele1_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
-	 FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS", Ele1_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaEtaEta_Endcap_1stEle_PAS"  , Ele1_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS", Ele1_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
        }
-       
+
        FillUserTH1D("BeamSpotDXY_2ndEle_PAS"           , Ele2_BeamSpotDXY                    , pileup_weight * gen_weight    ); 
        FillUserTH1D("Classif_2ndEle_PAS"               , Ele2_Classif                        , pileup_weight * gen_weight    ); 
        FillUserTH1D("CorrIsolation_2ndEle_PAS"         , Ele2_CorrIsolation                  , pileup_weight * gen_weight    ); 
@@ -1048,12 +1086,12 @@ void analysisClass::Loop()
        FillUserTH1D("EnergyORawEnergy_2ndEle_PAS"      , Ele2_Energy / Ele2_RawEnergy        , pileup_weight * gen_weight    ); 
        FillUserTH1D("TrkPtOPt_2ndEle_PAS"              , Ele2_TrkPt  / Ele2_Pt               , pileup_weight * gen_weight    ); 
        if ( fabs(Ele2_Eta) < eleEta_bar ) { 
-	 FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_PAS"  , Ele2_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
-	 FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_PAS"  , Ele2_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
        }
        else if ( fabs(Ele2_Eta) > eleEta_end1_min && fabs(Ele2_Eta) < eleEta_end2_max ){
-	 FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_PAS"  , Ele2_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
-	 FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_PAS"  , Ele2_SigmaEtaEta                    , pileup_weight * gen_weight    ); 
+         FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
        }
        
        //--------------------------------------------------------------------------
@@ -1130,46 +1168,46 @@ void analysisClass::Loop()
        //--------------------------------------------------------------------------
        // Mass-pairing histograms at preselection
        //--------------------------------------------------------------------------
-       
+
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) ) {
-	 FillUserTH1D("Me1j_selected_PAS"   , M_e1j1          , pileup_weight * gen_weight);	   
-	 FillUserTH1D("Me2j_selected_PAS"   , M_e2j2          , pileup_weight * gen_weight);	   
-	 FillUserTH2D("Me1jVsMe2j_selected" , M_e1j1  , M_e2j2, pileup_weight * gen_weight);
-	 FillUserTH2D("Me1jVsMe2j_rejected" , M_e1j2  , M_e2j1, pileup_weight * gen_weight);
+         FillUserTH1D("Me1j_selected_PAS"   , M_e1j1          , pileup_weight * gen_weight);	   
+         FillUserTH1D("Me2j_selected_PAS"   , M_e2j2          , pileup_weight * gen_weight);	   
+         FillUserTH2D("Me1jVsMe2j_selected" , M_e1j1  , M_e2j2, pileup_weight * gen_weight);
+         FillUserTH2D("Me1jVsMe2j_rejected" , M_e1j2  , M_e2j1, pileup_weight * gen_weight);
        }
        else {
-	 FillUserTH1D("Me1j_selected_PAS"   , M_e1j2          , pileup_weight * gen_weight);	   
-	 FillUserTH1D("Me2j_selected_PAS"   , M_e2j1          , pileup_weight * gen_weight);	   
-	 FillUserTH2D("Me1jVsMe2j_selected" , M_e1j2  , M_e2j1, pileup_weight * gen_weight);
-	 FillUserTH2D("Me1jVsMe2j_rejected" , M_e1j1  , M_e2j2, pileup_weight * gen_weight);
+         FillUserTH1D("Me1j_selected_PAS"   , M_e1j2          , pileup_weight * gen_weight);	   
+         FillUserTH1D("Me2j_selected_PAS"   , M_e2j1          , pileup_weight * gen_weight);	   
+         FillUserTH2D("Me1jVsMe2j_selected" , M_e1j2  , M_e2j1, pileup_weight * gen_weight);
+         FillUserTH2D("Me1jVsMe2j_rejected" , M_e1j1  , M_e2j2, pileup_weight * gen_weight);
        }
-       
+
        //--------------------------------------------------------------------------
        // Preselection + data-only
        //--------------------------------------------------------------------------
-       
+
        if ( isData == 1 ) { 
-	 FillUserTH1D("split_PAS"    , get_split     ( run ), pileup_weight * gen_weight ) ;
-	 FillUserTH1D("split_1fb_PAS", get_split_1fb ( run ), pileup_weight * gen_weight ) ;
-	 FillUserTH1D("run_PAS"  , run );
-	 profile_run_vs_nvtx_PAS -> Fill ( run, nVertex, 1 );
+         FillUserTH1D("split_PAS"    , get_split     ( run ), pileup_weight * gen_weight ) ;
+         FillUserTH1D("split_1fb_PAS", get_split_1fb ( run ), pileup_weight * gen_weight ) ;
+         FillUserTH1D("run_PAS"  , run );
+         profile_run_vs_nvtx_PAS -> Fill ( run, nVertex, 1 );
        }
-       
+
        //--------------------------------------------------------------------------
        // Preselection + N(Jet) > 2 
        //--------------------------------------------------------------------------
-       
-       if ( nJet_ptCut > 2 ){ 
-	 FillUserTH1D( "M_e1j3_PAS"  , M_e1j3, pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "M_e2j3_PAS"  , M_e2j3, pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "M_j1j3_PAS"  , M_j1j3, pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "M_j2j3_PAS"  , M_j2j3, pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "M_eejjj_PAS" , M_eejjj,pileup_weight * gen_weight ) ;
 
-	 FillUserTH1D( "Ptj1j2j3_PAS"            , Pt_j1j2j3           , pileup_weight * gen_weight );
-	 FillUserTH1D( "Ptj2j3_PAS"              , Pt_j2j3             , pileup_weight * gen_weight );
-	 FillUserTH1D( "Ptj1j3_PAS"              , Pt_j1j3             , pileup_weight * gen_weight );
-	 FillUserTH1D( "Ptee_Minus_Ptj1j2j3_PAS" , Pt_e1e2 - Pt_j1j2j3 , pileup_weight * gen_weight ); 
+       if ( nJet_ptCut > 2 ){ 
+         FillUserTH1D( "M_e1j3_PAS"  , M_e1j3, pileup_weight * gen_weight ) ;
+         FillUserTH1D( "M_e2j3_PAS"  , M_e2j3, pileup_weight * gen_weight ) ;
+         FillUserTH1D( "M_j1j3_PAS"  , M_j1j3, pileup_weight * gen_weight ) ;
+         FillUserTH1D( "M_j2j3_PAS"  , M_j2j3, pileup_weight * gen_weight ) ;
+         FillUserTH1D( "M_eejjj_PAS" , M_eejjj,pileup_weight * gen_weight ) ;
+
+         FillUserTH1D( "Ptj1j2j3_PAS"            , Pt_j1j2j3           , pileup_weight * gen_weight );
+         FillUserTH1D( "Ptj2j3_PAS"              , Pt_j2j3             , pileup_weight * gen_weight );
+         FillUserTH1D( "Ptj1j3_PAS"              , Pt_j1j3             , pileup_weight * gen_weight );
+         FillUserTH1D( "Ptee_Minus_Ptj1j2j3_PAS" , Pt_e1e2 - Pt_j1j2j3 , pileup_weight * gen_weight ); 
        }
 
        //--------------------------------------------------------------------------
@@ -1180,7 +1218,7 @@ void analysisClass::Loop()
        if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS", M_e1e2, pileup_weight * gen_weight ); 
        else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS", M_e1e2, pileup_weight * gen_weight ); 
        else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS", M_e1e2, pileup_weight * gen_weight ); 
-       
+
        //--------------------------------------------------------------------------
        // Preselection + high ST plot
        //--------------------------------------------------------------------------
@@ -1271,7 +1309,7 @@ void analysisClass::Loop()
 	   FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
 	 }
 	 
-	 if ( isData == 1 ) FillUserTH1D("split_PASandMee100", get_split ( run ), pileup_weight * gen_weight ) ;
+	 //if ( isData == 1 ) FillUserTH1D("split_PASandMee100", get_split ( run ), pileup_weight * gen_weight ) ;
 	 FillUserTH1D("Ptee_PASandMee100"              , Pt_e1e2                        , pileup_weight * gen_weight );
 	 FillUserTH2D("MeeVsST_PASandMee100" , M_e1e2, sT_eejj, pileup_weight * gen_weight );	   
 	 FillUserTH1D("sT_zjj_PASandMee100"            , sT_zjj                         , pileup_weight * gen_weight );
@@ -1346,7 +1384,7 @@ void analysisClass::Loop()
 
        if ( passed_region_of_interest ) { 
 
-	 if ( isData == 1 ) FillUserTH1D( "split_ROI" , get_split_1fb ( run ) , pileup_weight * gen_weight );
+	 //if ( isData == 1 ) FillUserTH1D( "split_ROI" , get_split_1fb ( run ) , pileup_weight * gen_weight );
 
 	 FillUserTH1D("BeamSpotDXY_1stEle_ROI"           , Ele1_BeamSpotDXY                    , pileup_weight * gen_weight    ); 
 	 FillUserTH1D("Classif_1stEle_ROI"               , Ele1_Classif                        , pileup_weight * gen_weight    ); 
@@ -1602,11 +1640,11 @@ void analysisClass::Loop()
 	 sprintf(plot_name, "Ptj1j2_LQ%d"            , lq_mass ); FillUserTH1D( plot_name , Pt_j1j2                        , pileup_weight * gen_weight );
 	 sprintf(plot_name, "Ptee_Minus_Ptj1j2_LQ%d" , lq_mass ); FillUserTH1D( plot_name , Pt_e1e2 - Pt_j1j2              , pileup_weight * gen_weight );
 
-	 if ( isData == 1 ) {
-	   sprintf(plot_name, "split_1fb_LQ%d", lq_mass ); 
-	   int split_1fb = get_split_1fb ( run );
-	   FillUserTH1D( plot_name, split_1fb , pileup_weight * gen_weight );
-	 }
+	 //if ( isData == 1 ) {
+	 //  sprintf(plot_name, "split_1fb_LQ%d", lq_mass ); 
+	 //  int split_1fb = get_split_1fb ( run );
+	 //  FillUserTH1D( plot_name, split_1fb , pileup_weight * gen_weight );
+	 //}
        } // End final selection
      } // End preselection 
    } // End loop over events
