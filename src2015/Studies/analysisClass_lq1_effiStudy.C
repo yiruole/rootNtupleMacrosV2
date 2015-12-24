@@ -248,11 +248,17 @@ void analysisClass::Loop(){
   CreateUserTH1D("Pt2ndGenEle",400,0,2000);
   CreateUserTH1D("Pt2ndGenEle_passTrigger",400,0,2000);
   CreateUserTH1D("Pt2ndGenEle_passTrigger_passID",400,0,2000);
+
+  CreateUserTH1D("NEventsOneGenEleECAL",38,175,2075);
+  CreateUserTH1D("NEventsOneGenEleECALPlusTrig",38,175,2075);
+  CreateUserTH1D("NEventsOneGenEleECALPlusTrigPlusOneID",38,175,2075);
   //--------------------------------------------------------------------------
   // Counting variables
   //--------------------------------------------------------------------------
   std::map<int,int> numEvents_withTwoGenElectronsECALFiducial_byMass;
   std::map<int,int> numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass;
+  std::map<int,int> numEvents_withOneGenElectronECALFiducial_byMass;
+  std::map<int,int> numEvents_withOneGenElectronECALFiducial_passesTrigger_byMass;
   // mass
   int sampleMass = 0;
 
@@ -313,7 +319,6 @@ void analysisClass::Loop(){
 
     else if ( Trigger_FromFile == 3 ){
       sprintf(trigger_name        ,"HLT_Ele27_WP85_Gsf_v1"         );
-      //sprintf(electron_filter_name,"hltEle27WP80TrackIsoFilter" );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
       n_50jets_in_trigger  = 0;
@@ -321,6 +326,24 @@ void analysisClass::Loop(){
       n_eles_in_trigger    = 1;
     }
     
+    else if ( Trigger_FromFile == 4 ){
+      sprintf(trigger_name        ,"HLT_Ele27_WP75_Gsf_v1"         );
+      sprintf(jet50_filter_name   ,""                           );
+      sprintf(jet200_filter_name  ,""                           );
+      n_50jets_in_trigger  = 0;
+      n_200jets_in_trigger = 0;
+      n_eles_in_trigger    = 1;
+    }
+
+    else if ( Trigger_FromFile == 5 ){
+      sprintf(trigger_name        ,"HLT_Ele27_WPLoose_Gsf_v1"         );
+      sprintf(jet50_filter_name   ,""                           );
+      sprintf(jet200_filter_name  ,""                           );
+      n_50jets_in_trigger  = 0;
+      n_200jets_in_trigger = 0;
+      n_eles_in_trigger    = 1;
+    }
+
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
@@ -346,7 +369,7 @@ void analysisClass::Loop(){
     CollectionPtr gen_all   ( new Collection(*this, GenParticlePt -> size() ));
     CollectionPtr ele_all   ( new Collection(*this, ElectronPt    -> size() ));
     CollectionPtr muon_all  ( new Collection(*this, MuonPt        -> size() ));
-    CollectionPtr pfjet_all ( new Collection(*this, PFJetPt       -> size() ));
+    CollectionPtr pfjet_all ( new Collection(*this, PFJetPtAK4CHS       -> size() ));
 
     //-----------------------------------------------------------------
     // Similarly, for HLT Filter objects
@@ -503,6 +526,24 @@ void analysisClass::Loop(){
 
 
     // count the events for firing the trigger
+    if(gen_lq_electrons_fiducial->GetSize() >=1)
+    {
+      numEvents_withOneGenElectronECALFiducial_byMass[sampleMass]++;
+      FillUserTH1D("NEventsOneGenEleECAL",sampleMass);
+      FillUserTH1D("Pt1stGenEle",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(0).Pt());
+      if(trigger_fired)
+      {
+        numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[sampleMass]++;
+        FillUserTH1D("NEventsOneGenEleECALPlusTrig",sampleMass);
+        FillUserTH1D("Pt1stGenEle_passTrigger",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(0).Pt());
+        // if we have two reco ele matched to gen which pass the ID
+        if(ele_genMatched_ID->GetSize() >=1)
+        {
+          FillUserTH1D("NEventsOneGenEleECALPlusTrigPlusOneID",sampleMass);
+          FillUserTH1D("Pt1stGenEle_passTrigger_passID",gen_lq_electrons_fiducial->GetConstituent<GenParticle>(0).Pt());
+        }
+      }
+    }
     if(gen_lq_electrons_fiducial->GetSize() >=2)
     {
       numEvents_withTwoGenElectronsECALFiducial_byMass[sampleMass]++;
@@ -777,14 +818,14 @@ void analysisClass::Loop(){
   
   std::cout << "analysisClass::Loop() ends" <<std::endl;   
 
-  for(std::map<int,int>::iterator itr = numEvents_withTwoGenElectronsECALFiducial_byMass.begin();
-      itr != numEvents_withTwoGenElectronsECALFiducial_byMass.end(); ++itr)
-  {
-    //int idx = std::distance(numEvents_withTwoGenElectronsECALFiducial_byMass.begin(),itr);
-    int numPassTrig = numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[itr->first];
-    float triggerEff = numPassTrig/(float)itr->second;
-    std::cout << "Mass = " << itr->first << ", Trigger eff = " << numPassTrig << " / " << itr->second <<
-      " = " << triggerEff << std::endl;
-  }
+  //for(std::map<int,int>::iterator itr = numEvents_withTwoGenElectronsECALFiducial_byMass.begin();
+  //    itr != numEvents_withTwoGenElectronsECALFiducial_byMass.end(); ++itr)
+  //{
+  //  //int idx = std::distance(numEvents_withTwoGenElectronsECALFiducial_byMass.begin(),itr);
+  //  int numPassTrig = numEvents_withTwoGenElectronsECALFiducial_passesTrigger_byMass[itr->first];
+  //  float triggerEff = numPassTrig/(float)itr->second;
+  //  std::cout << "Mass = " << itr->first << ", Trigger eff = " << numPassTrig << " / " << itr->second <<
+  //    " = " << triggerEff << std::endl;
+  //}
 }
 
