@@ -597,9 +597,11 @@ class Plot:
 
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
-        dataColorIndexes = [1,4,1,1,4,1]
+        #dataColorIndexes = [1,4,1,1,4,1]
+        dataColorIndexes = [8,4,1,1,4,1]
         dataLineIndexes = [1,2,3,1,2,3]
-        # dataLineIndexes = [2,1,3,1,2,3]
+        #dataLineIndexes = [2,1,3,1,2,3]
+        #dataLineIndexes = [9,2,3,1,2,3]
         
         for histo in self.histos:
             histo.SetMarkerStyle(dataColorIndexes[ih])
