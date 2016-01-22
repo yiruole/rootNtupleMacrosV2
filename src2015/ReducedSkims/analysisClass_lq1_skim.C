@@ -191,6 +191,25 @@ void analysisClass::Loop(){
   TLorentzVector v_PFMETType01Cor;
   TLorentzVector v_PFMETType01XYCor;
   
+
+  //--------------------------------------------------------------------------
+  // Make event lists for various filters
+  //--------------------------------------------------------------------------
+  // NB: the hcal noise filter event lists are incomplete!
+  //    But we already ran the HCAL noise filters when ntupling
+  EventListHelper HBHENoiseRun2LooseEventList;
+  HBHENoiseRun2LooseEventList.addFileToList("eventlist_hbher2l.txt.gz");
+  EventListHelper HBHENoiseRun2IsoEventList;
+  HBHENoiseRun2IsoEventList.addFileToList("eventlist_hbheiso.txt.gz");
+  EventListHelper CSCBeamHaloTight2015EventList;
+  CSCBeamHaloTight2015EventList.addFileToList("csc2015_Dec01.txt.gz");
+  EventListHelper ECALFourthBadSCEventList;
+  ECALFourthBadSCEventList.addFileToList("ecalscn1043093_Dec01.txt");
+  EventListHelper badResolutionTrackEventList;
+  badResolutionTrackEventList.addFileToList("badResolutionTrack_Jan13.txt");
+  EventListHelper badMuonTrackEventList;
+  badMuonTrackEventList.addFileToList("muonBadTrack_Jan13.txt");
+   
   /*//------------------------------------------------------------------
    *
    *
@@ -343,8 +362,9 @@ void analysisClass::Loop(){
     if ( do_eer || do_jer || do_ees || do_jes ) { 
       
       // If  you're scaling/smearing PFJets, recall that only jets with pt > 10 GeV affect the PFMET
+      //  New: This is now 15 GeV
       // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
-      c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 10.0 );
+      c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 15.0 );
       c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
       
       // Set the PFMET difference to zero
@@ -470,13 +490,20 @@ void analysisClass::Loop(){
     //fillVariableWithValue("PassBeamScraping"           , int(isBeamScraping                         == 0));
     fillVariableWithValue("PassPrimaryVertex"          , int(isPrimaryVertex                        == 1));
     //fillVariableWithValue("PassBeamHaloFilterLoose"    , int(passBeamHaloFilterLoose                == 1));
-    fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
-    fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
-    fillVariableWithValue("PassBadEESupercrystalFilter", int(passBadEESupercrystalFilter            == 1));
+    //fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
+    //fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
+    // FIXME Add HBHENoiseIso for 76X
+    //fillVariableWithValue("PassBadEESupercrystalFilter", int(passBadEESupercrystalFilter            == 1));
     //fillVariableWithValue("PassEcalDeadCellBoundEnergy", int(passEcalDeadCellBoundaryEnergyFilter   == 0));
     //fillVariableWithValue("PassEcalDeadCellTrigPrim"   , int(passEcalDeadCellTriggerPrimitiveFilter == 0));
     //fillVariableWithValue("PassTrackingFailure"        , int(passTrackingFailureFilter              == 0));
     //fillVariableWithValue("PassEcalLaserCorrFilter"    , int(passEcalLaserCorrFilter                == 0));
+    fillVariableWithValue(   "PassHBHENoiseFilter"	        , HBHENoiseRun2LooseEventList.eventInList(run,ls,event)    ?  0 : 1);
+    fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , HBHENoiseRun2IsoEventList.eventInList(run,ls,event)      ?  0 : 1);
+    fillVariableWithValue(   "PassCSCBeamHaloFilterTight"   , CSCBeamHaloTight2015EventList.eventInList(run,ls,event)  ?  0 : 1);
+    fillVariableWithValue(   "PassBadResolutionTrackFilter" , badResolutionTrackEventList.eventInList(run,ls,event)  ?  0 : 1);
+    fillVariableWithValue(   "PassMuonTrackFilter"          , badMuonTrackEventList.eventInList(run,ls,event)  ?  0 : 1);
+    fillVariableWithValue(   "PassBadEESupercrystalFilter"  , ECALFourthBadSCEventList.eventInList(run,ls,event)       ?  0 : 1);
 
     //-----------------------------------------------------------------
     // Fill MET values
@@ -1228,30 +1255,30 @@ void analysisClass::Loop(){
       t_jet1.SetPtEtaPhiM ( jet1.Pt(), jet1.Eta(), jet1.Phi(), 0.0 );
 
       fillVariableWithValue ("mDPhi_METJet1", fabs( t_MET.DeltaPhi ( t_jet1 )));
-      
+
       if ( n_jet_store >= 2 ){
-	
-	PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
-	t_jet2.SetPtEtaPhiM ( jet2.Pt(), jet2.Eta(), jet2.Phi(), 0.0 );
-	TLorentzVector t_jet1jet2 = t_jet1 + t_jet2;
 
-	fillVariableWithValue ("M_j1j2" , t_jet1jet2.M ());
-	fillVariableWithValue ("Pt_j1j2", t_jet1jet2.Pt());
-	fillVariableWithValue ("mDPhi_METJet2", fabs( t_MET.DeltaPhi ( t_jet2 )));
-	fillVariableWithValue ("DR_Jet1Jet2"  , t_jet1.DeltaR( t_jet2 ));
-	
-	if ( n_jet_store >= 3 ){
-	  
-	  PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
-	  t_jet3.SetPtEtaPhiM ( jet3.Pt(), jet3.Eta(), jet3.Phi(), 0.0 );
-	  TLorentzVector t_jet1jet3 = t_jet1 + t_jet3;
-	  TLorentzVector t_jet2jet3 = t_jet2 + t_jet3;
+        PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+        t_jet2.SetPtEtaPhiM ( jet2.Pt(), jet2.Eta(), jet2.Phi(), 0.0 );
+        TLorentzVector t_jet1jet2 = t_jet1 + t_jet2;
 
-	  fillVariableWithValue ("M_j1j3", t_jet1jet3.M());
-	  fillVariableWithValue ("M_j2j3", t_jet2jet3.M());
-	  fillVariableWithValue ("mDPhi_METJet3", fabs( t_MET.DeltaPhi ( t_jet3 )));
-	  
-	}
+        fillVariableWithValue ("M_j1j2" , t_jet1jet2.M ());
+        fillVariableWithValue ("Pt_j1j2", t_jet1jet2.Pt());
+        fillVariableWithValue ("mDPhi_METJet2", fabs( t_MET.DeltaPhi ( t_jet2 )));
+        fillVariableWithValue ("DR_Jet1Jet2"  , t_jet1.DeltaR( t_jet2 ));
+
+        if ( n_jet_store >= 3 ){
+
+          PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
+          t_jet3.SetPtEtaPhiM ( jet3.Pt(), jet3.Eta(), jet3.Phi(), 0.0 );
+          TLorentzVector t_jet1jet3 = t_jet1 + t_jet3;
+          TLorentzVector t_jet2jet3 = t_jet2 + t_jet3;
+
+          fillVariableWithValue ("M_j1j3", t_jet1jet3.M());
+          fillVariableWithValue ("M_j2j3", t_jet2jet3.M());
+          fillVariableWithValue ("mDPhi_METJet3", fabs( t_MET.DeltaPhi ( t_jet3 )));
+
+        }
       }
     }
     
@@ -1259,12 +1286,12 @@ void analysisClass::Loop(){
       Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
       t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( n_ele_store >= 2 ) {
-	Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
-	t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
+        Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
+        t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
 
-	TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
-	fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
-	fillVariableWithValue ("Pt_e1e2", t_ele1ele2.Pt());
+        TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
+        fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
+        fillVariableWithValue ("Pt_e1e2", t_ele1ele2.Pt());
       }
     } 
 
