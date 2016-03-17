@@ -195,12 +195,7 @@ void analysisClass::Loop(){
   //--------------------------------------------------------------------------
   // Make event lists for various filters
   //--------------------------------------------------------------------------
-  // NB: the hcal noise filter event lists are incomplete!
-  //    But we already ran the HCAL noise filters when ntupling
-  EventListHelper HBHENoiseRun2LooseEventList;
-  HBHENoiseRun2LooseEventList.addFileToList("eventlist_hbher2l.txt.gz");
-  EventListHelper HBHENoiseRun2IsoEventList;
-  HBHENoiseRun2IsoEventList.addFileToList("eventlist_hbheiso.txt.gz");
+  // we already ran the HCAL noise filters when ntupling
   EventListHelper CSCBeamHaloTight2015EventList;
   CSCBeamHaloTight2015EventList.addFileToList("csc2015_Dec01.txt.gz");
   EventListHelper ECALFourthBadSCEventList;
@@ -476,7 +471,8 @@ void analysisClass::Loop(){
     fillVariableWithValue( "run"      , run        );
     fillVariableWithValue( "ProcessID", ProcessID  );
     fillVariableWithValue( "PtHat"    , PtHat      );
-    fillVariableWithValue( "Weight"   , Weight     );
+    // if amcNLOWeight filled, use it _instead_ of the nominal weight
+    fillVariableWithValue( "Weight"   , fabs(amcNLOWeight)==1 ? amcNLOWeight : Weight   );
 
     //-----------------------------------------------------------------
     // Fill MET filter values
@@ -491,15 +487,14 @@ void analysisClass::Loop(){
     fillVariableWithValue("PassPrimaryVertex"          , int(isPrimaryVertex                        == 1));
     //fillVariableWithValue("PassBeamHaloFilterLoose"    , int(passBeamHaloFilterLoose                == 1));
     //fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
-    //fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
-    // FIXME Add HBHENoiseIso for 76X
+    fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
+    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(passHBHENoiseFilter                    == 1));
     //fillVariableWithValue("PassBadEESupercrystalFilter", int(passBadEESupercrystalFilter            == 1));
     //fillVariableWithValue("PassEcalDeadCellBoundEnergy", int(passEcalDeadCellBoundaryEnergyFilter   == 0));
     //fillVariableWithValue("PassEcalDeadCellTrigPrim"   , int(passEcalDeadCellTriggerPrimitiveFilter == 0));
     //fillVariableWithValue("PassTrackingFailure"        , int(passTrackingFailureFilter              == 0));
     //fillVariableWithValue("PassEcalLaserCorrFilter"    , int(passEcalLaserCorrFilter                == 0));
-    fillVariableWithValue(   "PassHBHENoiseFilter"	        , HBHENoiseRun2LooseEventList.eventInList(run,ls,event)    ?  0 : 1);
-    fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , HBHENoiseRun2IsoEventList.eventInList(run,ls,event)      ?  0 : 1);
+    // txt files
     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"   , CSCBeamHaloTight2015EventList.eventInList(run,ls,event)  ?  0 : 1);
     fillVariableWithValue(   "PassBadResolutionTrackFilter" , badResolutionTrackEventList.eventInList(run,ls,event)  ?  0 : 1);
     fillVariableWithValue(   "PassMuonTrackFilter"          , badMuonTrackEventList.eventInList(run,ls,event)  ?  0 : 1);
@@ -520,8 +515,8 @@ void analysisClass::Loop(){
     
     if ( isData == 0 ) { 
       if ( reducedSkimType != 0 ){ 
-	fillVariableWithValue("GenMET_Pt"		, GenMETTrue	      -> at (0));
-	fillVariableWithValue("GenMET_Phi"       	, GenMETPhiTrue	      -> at (0));
+        fillVariableWithValue("GenMET_Pt"		, GenMETTrue	      -> at (0));
+        fillVariableWithValue("GenMET_Phi"       	, GenMETPhiTrue	      -> at (0));
       }
     }
 
@@ -536,12 +531,12 @@ void analysisClass::Loop(){
     
     if ( isData == 0 ){
       for(int pu=0; pu<PileUpInteractions->size(); pu++) {
-	if(PileUpOriginBX->at(pu) == 0  ) { 
-	  fillVariableWithValue( "nPileUpInt_BX0" , PileUpInteractions    ->at(pu));
-	  fillVariableWithValue( "nPileUpInt_True", PileUpInteractionsTrue->at(pu));
-	}
-	if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu));
-	if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1" , PileUpInteractions->at(pu));
+        if(PileUpOriginBX->at(pu) == 0  ) { 
+          fillVariableWithValue( "nPileUpInt_BX0" , PileUpInteractions    ->at(pu));
+          fillVariableWithValue( "nPileUpInt_True", PileUpInteractionsTrue->at(pu));
+        }
+        if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu));
+        if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1" , PileUpInteractions->at(pu));
       }
     }
 
@@ -1410,7 +1405,10 @@ void analysisClass::Loop(){
         if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
           fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v1" , "H_Ele27_WPLoose_eta2p1" );
         else
+        {
           fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
+          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v1" , "H_Ele27_WPLoose_eta2p1" );
+        }
       }
       // NB: previously, WP85 variable was filled for WPLoose in data!
 

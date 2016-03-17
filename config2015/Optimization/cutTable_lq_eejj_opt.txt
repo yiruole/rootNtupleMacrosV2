@@ -95,11 +95,11 @@ M_e1e2				50	     +inf               -               -               1       200
 #-----------------------------------------------------------------------------------------------------------------------------
 # Variables for optimization
 #-----------------------------------------------------------------------------------------------------------------------------
-sT_eejj_opt                     -inf         +inf               -               -               1       200 0 2000
-M_e1e2_opt                      -inf         +inf               -               -               1       200 0 2000
-Mej_min_opt                     -inf         +inf               -               -               1       200 0 2000 	       
+sT_eejj_opt                     -inf         +inf               -               -               1       300 0 3000
+M_e1e2_opt                      -inf         +inf               -               -               1       300 0 3000
+Mej_min_opt                     -inf         +inf               -               -               1       300 0 3000 	       
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
-sT_eejj_opt                     OPT           >         300             2200            1
-M_e1e2_opt                      OPT           >         50              240             1
-Mej_min_opt                     OPT           >         30              980             1
+sT_eejj_opt                     OPT           >         400             3000            1
+M_e1e2_opt                      OPT           >         50              300             1
+Mej_min_opt                     OPT           >         30              2000            1

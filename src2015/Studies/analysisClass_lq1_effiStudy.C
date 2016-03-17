@@ -301,14 +301,14 @@ void analysisClass::Loop(){
       //sprintf(electron_filter_name,"hltEle30CaloIdVTTrkIdTDphiFilter"                       );
       sprintf(jet50_filter_name   ,"hltEle45CaloIdVTGsfTrkIdTDiCentralPFJet50EleCleaned"   );
       sprintf(jet200_filter_name  ,"hltEle45CaloIdVTGsfTrkIdTCentralPFJet200EleCleaned"  );
-      sprintf(trigger_name, "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1");
+      sprintf(trigger_name, "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v");
       n_50jets_in_trigger  = 2;
       n_200jets_in_trigger = 1;
       n_eles_in_trigger    = 1;
     }
 
     else if ( Trigger_FromFile == 2 ) {
-      sprintf(trigger_name        ,"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1" );
+      sprintf(trigger_name        ,"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" );
       //sprintf(electron_filter_name,"hltEle30CaloIdVTTrkIdTDphiFilter"      );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
@@ -318,7 +318,7 @@ void analysisClass::Loop(){
     }
 
     else if ( Trigger_FromFile == 3 ){
-      sprintf(trigger_name        ,"HLT_Ele27_WP85_Gsf_v1"         );
+      sprintf(trigger_name        ,"HLT_Ele27_WP85_Gsf_v"         );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
       n_50jets_in_trigger  = 0;
@@ -327,7 +327,7 @@ void analysisClass::Loop(){
     }
     
     else if ( Trigger_FromFile == 4 ){
-      sprintf(trigger_name        ,"HLT_Ele27_WP75_Gsf_v1"         );
+      sprintf(trigger_name        ,"HLT_Ele27_WP75_Gsf_v"         );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
       n_50jets_in_trigger  = 0;
@@ -336,7 +336,7 @@ void analysisClass::Loop(){
     }
 
     else if ( Trigger_FromFile == 5 ){
-      sprintf(trigger_name        ,"HLT_Ele27_WPLoose_Gsf_v1"         );
+      sprintf(trigger_name        ,"HLT_Ele27_WPLoose_Gsf_v"         );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
       n_50jets_in_trigger  = 0;
@@ -462,7 +462,15 @@ void analysisClass::Loop(){
     if(trigger_ele_all->GetSize() == 0)
       trigger_ele_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
     // Note: could also be TRIGGER_CLUSTER?
+    //trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON or TRIGGER_ELECTRON)");
 
+    if(trigger_l3jets_all->GetSize() < 2 && trigger_l3jets_all->GetSize() > 0)
+    {
+      std::cout << "Interesting event found:" << std::endl;
+      trigger_l3jets_all->examine<HLTriggerObject>("HLT L3Filter-passing jets");
+      trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON or TRIGGER_ELECTRON)");
+      trigger_lastObjects->examine<HLTriggerObject>("HLT LastFilter-passing objects");
+    }
     //-----------------------------------------------------------------
     // Skim and examine GEN electrons:
     // - Electrons that come from LQs 
@@ -680,6 +688,7 @@ void analysisClass::Loop(){
     }
     */
     
+    // FIXME TODO
     //if ( trigger_enabled ) {
     //  if ( nRecoEleMatchedToTrig >= 1 && 
     //      trigger_l3jets_all -> GetSize() >= 2 ) {
@@ -698,8 +707,8 @@ void analysisClass::Loop(){
     //    HLTriggerObject lead_trigger_200jet = trigger_lastJets -> GetConstituent<HLTriggerObject>(0);
     //    CollectionPtr pfjet_ID_etaSkim_noLeadHLT = pfjet_ID_etaSkim -> SkimByVetoDRMatch<PFJet,HLTriggerObject>( lead_trigger_200jet, 0.5 );
 
-    //XXX SIC FIXME: do we need the eta skim? the collection here can be empty and cause a crash
-    //    FillUserTH1D("Pt2ndJet_total" , pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
+    //    //XXX SIC FIXME: do we need the eta skim? the collection here can be empty and cause a crash
+    //      FillUserTH1D("Pt2ndJet_total" , pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
     //    if ( trigger_fired ) { 
     //      FillUserTH1D("Pt2ndJet_pass", pfjet_ID_etaSkim_noLeadHLT    -> GetConstituent<PFJet>          (0).Pt());
     //    }
