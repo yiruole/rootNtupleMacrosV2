@@ -26,17 +26,17 @@ produceSkim          1                 -               -               -        
 #-----------------------------------------------------------------------------------------------------------------------------
 # Preselection cuts
 #-----------------------------------------------------------------------------------------------------------------------------
-eleEta_bar            	1.442        -                    -               -               -1
+eleEta_bar            	1.4442        -                    -               -               -1
 eleEta_end1            	1.560        2.0                  -               -               -1
 eleEta_end2            	2.000        2.5                  -               -               -1
 #-----------------------------------------------------------------------------------------------------------------------------
-# Fake rates, 2012 new JECs, full dataset 
+# Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
-QCD_file		/afs/cern.ch/user/e/eberry/public/LQQCD/2012/qcd_fake_rate.root	- - - -1
-QCD_fit_func_version	1				-	  -		  -		  -1
-QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
+QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/TWO_Jet_FakeRate.root	- - - -1
+#QCD_fit_func_version	1				-	  -		  -		  -1
+#QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
+#QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
+#QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 # 
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
