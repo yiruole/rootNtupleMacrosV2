@@ -16,6 +16,7 @@ from ROOT import *
 import re
 from array import array
 import copy
+import math
 
 #--- ROOT general options
 gROOT.SetBatch(kTRUE);
@@ -70,14 +71,14 @@ def GetErrorIntegralTH1( histo, xmin, xmax):
     integral = histo.Integral(bmin,bmax) - bminResidual - bmaxResidual
     error = 0
     for bin in range(bmin, bmax+1):
-	print "bin: " +str(bin)
+	#print "bin: " +str(bin)
         if(bin==bmax and bmaxResidual==histo.GetBinContent(bmax)): # skip last bin if out of range
             print "     --> skip bin: " + str(bin)
         else:
             error = error + histo.GetBinError(bin)**2
-            print "error**2 : " + str(error)
+            #print "error**2 : " + str(error)
 
-    error = sqrt(error)
+    error = math.sqrt(error)
     print  " "
     return error
 
@@ -87,6 +88,7 @@ class Plot:
     histoDATA   = "" # DATA
     histoMCZ    = "" # MCZ
     histoMCall  = "" # MCall
+    histoQCD    = "" # QCD
     xtit        = "" # xtitle
     ytit        = "" # ytitle
     xmin        = "" # set xmin to calculate rescaling factor (-- please take into account the bin size of histograms --)
@@ -125,21 +127,23 @@ class Plot:
         ERRintegralMCall = GetErrorIntegralTH1(self.histoMCall,self.xmin,self.xmax)
         integralMCZ = GetIntegralTH1(self.histoMCZ,self.xmin,self.xmax)
         ERRintegralMCZ = GetErrorIntegralTH1(self.histoMCZ,self.xmin,self.xmax)
+        integralQCD = GetIntegralTH1(self.histoQCD,self.xmin,self.xmax)
+        ERRintegralQCD = GetErrorIntegralTH1(self.histoQCD,self.xmin,self.xmax)
 
         #contamination from other backgrounds (except Z) in the integral range
-        integralMCothers = integralMCall - integralMCZ
-        ERRintegralMCothers = sqrt(ERRintegralMCall**2 + ERRintegralMCZ**2)
+        integralMCothers = integralMCall - integralMCZ + integralQCD
+        ERRintegralMCothers = math.sqrt(ERRintegralMCall**2 + ERRintegralMCZ**2 + ERRintegralQCD**2)
         contamination = integralMCothers / integralMCall
 
         #DATA corrected for other bkg contamination --> best estimate of DATA (due to Z only)
         integralDATAcorr = (integralDATA - integralMCothers)
-        ERRintegralDATAcorr = sqrt(ERRintegralDATA**2 + ERRintegralMCothers**2)
+        ERRintegralDATAcorr = math.sqrt(ERRintegralDATA**2 + ERRintegralMCothers**2)
 
         #rescale factor
         rescale = integralDATAcorr / integralMCZ
         relERRintegralDATAcorr = ERRintegralDATAcorr / integralDATAcorr
         relERRintegralMCZ = ERRintegralMCZ / integralMCZ
-        relERRrescale = sqrt(relERRintegralDATAcorr**2 + relERRintegralMCZ**2)
+        relERRrescale = math.sqrt(relERRintegralDATAcorr**2 + relERRintegralMCZ**2)
 
         #draw histo
         self.histoMCall.SetFillColor(kBlue)
@@ -160,9 +164,11 @@ class Plot:
         #printout
         print " "
         print "######################################## "
-        print "integral range: " + str(self.xmin) + " < Mee < " + str(self.xmax) + " GeV/c2"
-        print "integral MC Z: "   + str( integralMCZ ) + " +/- " + str( ERRintegralMCZ )
-        print "integral DATA: "   + str( integralDATA ) + " +/- " + str( ERRintegralDATA )
+        print "integral range:  " + str(self.xmin) + " < Mee < " + str(self.xmax) + " GeV/c2"
+        print "integral MC All: "   + str( integralMCall ) + " +/- " + str( ERRintegralMCall )
+        print "integral QCD:    "   + str( integralQCD ) + " +/- " + str( ERRintegralQCD )
+        print "integral MC Z:   "   + str( integralMCZ ) + " +/- " + str( ERRintegralMCZ )
+        print "integral DATA:   "   + str( integralDATA ) + " +/- " + str( ERRintegralDATA )
         print "contribution from other bkgs (except Z+jet): " + str(contamination*100) + "%"
         print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr ) + " +/- " + str( ERRintegralDATAcorr )
         print "rescale factor for Z background: " + str(rescale) + " +\- " + str(relERRrescale*rescale)
@@ -203,32 +209,62 @@ class Plot:
 #File_preselection = GetFile("$LQDATA/collisions/10.9pb-1/output_cutTable_eejjSample_preSt250/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/10.9pb-1/output_cutTable_eejjSample/analysisClass_eejjSample_plots.root")
 #File_preselection = GetFile("$LQDATA/eejj/34.7pb-1/output_cutTable_eejjSample_preSt250/analysisClass_eejjSample_plots.root")
-File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots_noZjetRescale.root")
+#File_preselection = GetFile("$LQDATA/eejj/33.2pb-1/output_cutTable_eejjSample_preSt250_ZjetsRescaled/analysisClass_eejjSample_plots_noZjetRescale.root")
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_analysis_6Nov2015_1547invPb_MiniAODV2_presel_withTrig_withMETFilters_NoEEBadSC/output_cutTable_lq_eejj_preselectionOnly/analysisClass_lq_eejj_preselectionOnly_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_analysis_10Nov2015_1547invPb_MiniAODV2_presels_hltDataOnly_withMETFilters_NoEEBadSC//output_cutTable_lq_eejj_preselectionOnly/analysisClass_lq_eejj_preselectionOnly_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_analysis_7Dec2015_AK5_2094invPb_MiniAODV2_presels_hltDataOnly_withOldMETFilters//output_cutTable_lq_eejj_preselectionOnly/analysisClass_lq_eejj_preselectionOnly_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_20jan2016_v1-4-3_updateEcalCondsRun2015D/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_16Dec2015_AK4CHS_v1-4-3_Few2012LQFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_1feb2016_v1-5-2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_ele27wplooseData_eles35GeV_noJets_noSt_28feb2016_v1-5-3/output_cutTable_lq_eejj_loosenEleRequirements_noJetRequirement/analysisClass_lq_eejj_noJets_plots.root")
+
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_1mar2016_v1-5-3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_ele27WPLooseWithZPrimeEta2p1TurnOn_13mar2016_v1-5-3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
+#File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_loosenEles_2LowPTJets_ele27WPLooseWithZPrimeEta2p1TurnOn_14mar2016_v1-5-3/output_cutTable_lq_eejj_loosenEleRequirements_2lowPtJets/analysisClass_lq_eejj_plots.root")
+
+File_preselection = GetFile("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_eles50GeV_jets50GeV_sT300GeV_ele27WPLooseWithZPrimeEta2p1TurnOn_17mar2016_v1-5-3/output_cutTable_lq_eejj_eles50GeV_jets50GeV_st300GeV/analysisClass_lq_eejj_plots.root")
+File_QCD_preselection = GetFile()
 
 
 #--- Rescaling of Z/gamma + jet background
 
 #-----------------------------------------
-# h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee_PAS", File_preselection) # MC all
-# h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee_PAS", File_preselection) # MC Z
-# h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee_PAS", File_preselection) #DATA
-h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection) # MC all
-h_ZJetAlpgen_Mee = GetHisto("histo1D__ZJetAlpgen__cutHisto_allPreviousCuts________Mee", File_preselection) # MC Z
-h_DATA_Mee = GetHisto("histo1D__DATA__cutHisto_allPreviousCuts________Mee", File_preselection) #DATA
+h_DATA_Mee = GetHisto("histo1D__DATA__Mee_80_100_Preselection", File_preselection) #DATA
+#h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection) # MC all
+# because M_e1e2 is the last cut applied, all passing all previous cuts is the same as passing all other cuts
+#h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__Mee_80_100_Preselection", File_preselection) # MC all
+#h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_Madgraph_HT__Mee_80_100_Preselection", File_preselection) # MC Z
+## amcatnlo
+#h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_amcAtNLOInc_TTBar__Mee_80_100_Preselection", File_preselection) # MC all
+#h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_amcatnlo_Inc__Mee_80_100_Preselection", File_preselection) # MC Z
+## MG Inc
+#h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MGInc__Mee_80_100_Preselection", File_preselection) # MC all
+#h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_Madgraph_Inc__Mee_80_100_Preselection", File_preselection) # MC Z
+# MG HT
+h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MG_HT__Mee_80_100_Preselection", File_preselection) # MC all
+h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_Madgraph_HT__Mee_80_100_Preselection", File_preselection) # MC Z
+
+# QCD
+h_QCD_DataDriven = GetHisto("histo1D__DATA__Mee_80_100_Preselection",File_QCD_preselection)
 
 plot0 = Plot()
 plot0.histoDATA = h_DATA_Mee
 plot0.histoMCall = h_ALLBKG_Mee
-plot0.histoMCZ = h_ZJetAlpgen_Mee
+plot0.histoMCZ = h_ZJetMadgraph_Mee
+plot0.histoQCD = h_QCD_DataDriven
 plot0.xmin = 80
 plot0.xmax = 100
 plot0.name = "Zrescale"
-plot0.fileXsectionNoRescale = "../../rootNtupleAnalyzerV2/config/xsection_7TeV.txt"
+plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/cmssw/LQRootTuples7414/src/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
 plot0.xminplot = 0
 plot0.xmaxplot = 200
 plot0.yminplot = 0
 plot0.ymaxplot = 15
-plot0.datasetName = "Z.+Jets_Pt.+alpgen"
+plot0.datasetName = "DYJetsToLL_M-50_HT.+Tune"
+#plot0.datasetName = "Z.+Jets_Pt.+alpgen"
 # example: this match with /Z3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
 
 plots = [plot0]
