@@ -810,9 +810,11 @@ void analysisClass::Loop(){
 
         fillVariableWithValue( "LooseEle1_PassID"        , loose_ele1.PassUserID ( HEEP60 )  );
         fillVariableWithValue( "LooseEle1_Pt"            , loose_ele1.Pt()                 );
+        fillVariableWithValue( "LooseEle1_PtHeep"        , loose_ele1.PtHeep()                 );
         fillVariableWithValue( "LooseEle1_Energy"        , loose_ele1.CaloEnergy()         );
         fillVariableWithValue( "LooseEle1_Eta"           , loose_ele1.Eta()                );
         fillVariableWithValue( "LooseEle1_Phi"           , loose_ele1.Phi()                );
+        fillVariableWithValue( "LooseEle1_SCEta"         , loose_ele1.SCEta()              );
         fillVariableWithValue( "LooseEle1_SCPhi"         , loose_ele1.SCPhi()              );
         fillVariableWithValue( "LooseEle1_Charge"        , loose_ele1.Charge()             );
         fillVariableWithValue( "LooseEle1_Dist"          , loose_ele1.Dist()               );
@@ -875,9 +877,11 @@ void analysisClass::Loop(){
 
           fillVariableWithValue( "LooseEle2_PassID"        , loose_ele2.PassUserID ( HEEP60 )  );
           fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
+          fillVariableWithValue( "LooseEle2_PtHeep"        , loose_ele2.PtHeep()                 );
           fillVariableWithValue( "LooseEle2_Energy"        , loose_ele2.CaloEnergy()         );
           fillVariableWithValue( "LooseEle2_Eta"           , loose_ele2.Eta()                );
           fillVariableWithValue( "LooseEle2_Phi"           , loose_ele2.Phi()                );
+          fillVariableWithValue( "LooseEle2_SCEta"         , loose_ele2.SCEta()              );
           fillVariableWithValue( "LooseEle2_SCPhi"         , loose_ele2.SCPhi()              );
           fillVariableWithValue( "LooseEle2_Charge"        , loose_ele2.Charge()             );
           fillVariableWithValue( "LooseEle2_Dist"          , loose_ele2.Dist()               );
@@ -939,9 +943,11 @@ void analysisClass::Loop(){
 
             fillVariableWithValue( "LooseEle3_PassID"        , loose_ele3.PassUserID ( HEEP60 )  );
             fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
+            fillVariableWithValue( "LooseEle3_PtHeep"        , loose_ele3.PtHeep()                 );
             fillVariableWithValue( "LooseEle3_Energy"        , loose_ele3.CaloEnergy()         );
             fillVariableWithValue( "LooseEle3_Eta"           , loose_ele3.Eta()                );
             fillVariableWithValue( "LooseEle3_Phi"           , loose_ele3.Phi()                );
+            fillVariableWithValue( "LooseEle3_SCEta"         , loose_ele3.SCEta()              );
             fillVariableWithValue( "LooseEle3_SCPhi"         , loose_ele3.SCPhi()              );
             fillVariableWithValue( "LooseEle3_Charge"        , loose_ele3.Charge()             );
             fillVariableWithValue( "LooseEle3_Dist"          , loose_ele3.Dist()               );
@@ -1062,6 +1068,8 @@ void analysisClass::Loop(){
 	fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
 	fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
 	fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
+	fillVariableWithValue( "Ele1_PtHeep"        , ele1.PtHeep()             );
+	fillVariableWithValue( "Ele1_SCEta"         , ele1.SCEta()              );
 	fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
 	fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
 	fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
@@ -1116,6 +1124,8 @@ void analysisClass::Loop(){
 	  fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
 	  fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
 	  fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
+    fillVariableWithValue( "Ele2_PtHeep"        , ele2.PtHeep()             );
+    fillVariableWithValue( "Ele2_SCEta"         , ele2.SCEta()              );
 	  fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
 	  fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
 	  fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
@@ -1403,11 +1413,11 @@ void analysisClass::Loop(){
       if      ( isData )
       {
         if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v1" , "H_Ele27_WPLoose_eta2p1" );
+          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
         else
         {
           fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
-          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v1" , "H_Ele27_WPLoose_eta2p1" );
+          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
         }
       }
       // NB: previously, WP85 variable was filled for WPLoose in data!
