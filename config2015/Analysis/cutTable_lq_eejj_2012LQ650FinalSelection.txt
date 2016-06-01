@@ -6,7 +6,7 @@ JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
 PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_2015_RunIIWinter15GS.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_SingleElectron__Run2015D_all.root 
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_SingleElectron__Run2015D_all.root
 #
 #############################     Example of file with list of cuts
 #
@@ -93,16 +93,22 @@ DR_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10
 sT_eejj				300	     +inf		-		-		1	200 0 2000
 M_e1e2				50	     +inf               -               -               1       200 0 2000
 #-----------------------------------------------------------------------------------------------------------------------------
-# Variables for optimization
+# Optimization variables (unused)
 #-----------------------------------------------------------------------------------------------------------------------------
-sT_eejj_opt                     -inf         +inf               -               -               1       300 0 3000
-M_e1e2_opt                      -inf         +inf               -               -               1       300 0 3000
-Mej_min_opt                     -inf         +inf               -               -               1       300 0 3000 	       
-#VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
-#------------                   -----------   ------    ------------    -------------   ------
-sT_eejj_opt                     OPT           >         300             2000            1
-M_e1e2_opt                      OPT           >         50              500             1
-Mej_min_opt                     OPT           >         50              1200            1
+sT_eejj_opt                     -inf         +inf               -               -               1       200 0 2000
+M_e1e2_opt                      -inf         +inf               -               -               1       200 0 2000
+Mej_min_opt                     -inf         +inf               -               -               1       200 0 2000 	       
 #-----------------------------------------------------------------------------------------------------------------------------
-# End of the line
-# Don't put anything below here, or else the optimizer will require it to pass as well...
+#  __ _             _            _           _   _                                                                        
+# / _(_)_ __   __ _| |  ___  ___| | ___  ___| |_(_) ___  _ __                                                             
+#| |_| | '_ \ / _` | | / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \                                                            
+#|  _| | | | | (_| | | \__ \  __/ |  __/ (__| |_| | (_) | | | |                                                           
+#|_| |_|_| |_|\__,_|_| |___/\___|_|\___|\___|\__|_|\___/|_| |_|                                                           
+#-----------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------
+# LQ M 650 optimization  - 2012
+#------------------------------------------------------------------------------------------------
+sT_eejj_LQ6502012			850		+inf		-		-	2	200 0 2000
+M_e1e2_LQ6502012			155		+inf		-		-	2	200 0 2000
+min_M_ej_LQ6502012			360		+inf		-		-	2	200 0 2000
+

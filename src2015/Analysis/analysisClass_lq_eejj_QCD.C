@@ -32,8 +32,20 @@ void analysisClass::Loop()
   //  1100, 1150, 1200
   //};
 
-  const int n_lq_mass = 1;
-  int LQ_MASS[n_lq_mass] = { 650 };
+  //const int n_lq_mass = 37;
+  const int n_lq_mass = 35;
+  int LQ_MASS[n_lq_mass] = { 
+    //FIXME: do optimization for these
+    //200,  250,
+    300,  350,  400, 450, 500, 550,  600,  650,
+    700,  750,  800, 850, 900, 950, 1000, 1050,
+    1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450,
+    1500, 1550, 1600, 1650, 1700, 1750, 1800, 1850,
+    1900, 1950, 2000
+  };
+
+  //const int n_lq_mass = 1;
+  //int LQ_MASS[n_lq_mass] = { 6502012 };
 
   std::vector<bool> passed_vector;
 
@@ -697,10 +709,10 @@ void analysisClass::Loop()
     // Electrons								        
     fillVariableWithValue(   "PassNEle"                      , PassNEle                , fakeRateEffective * min_prescale ) ;
     if ( nLooseEle_store >= 1 ) { 							        
-      fillVariableWithValue( "Ele1_Pt"                       , LooseEle1_Pt            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_PtHeep"                       , LooseEle1_PtHeep            , fakeRateEffective * min_prescale ) ;
     }										        
     if ( nLooseEle_store >= 2 ) { 							        
-      fillVariableWithValue( "Ele2_Pt"                       , LooseEle2_Pt            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_PtHeep"                       , LooseEle2_PtHeep            , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2_opt"                    , M_e1e2                  , fakeRateEffective * min_prescale ) ;
     }
@@ -750,6 +762,8 @@ void analysisClass::Loop()
 
     // sT
     if ( nLooseEle_store >= 2 && nJetLooseEle_store >= 2) {
+      // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
+      //sT_eejj = LooseEle1_PtHeep+LooseEle2_PtHeep+JetLooseEle1_Pt+JetLooseEle2_Pt;
       fillVariableWithValue( "sT_eejj"                       , sT_eejj                 , fakeRateEffective  * min_prescale ) ;
       fillVariableWithValue( "sT_eejj_opt"                   , sT_eejj                 , fakeRateEffective  * min_prescale ) ;
       fillVariableWithValue( "Mej_min_opt"                   , M_ej_min                , fakeRateEffective  * min_prescale ) ;

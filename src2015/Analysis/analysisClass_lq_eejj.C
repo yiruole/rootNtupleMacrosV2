@@ -91,19 +91,24 @@ void analysisClass::Loop()
    // Final selection mass points
    //--------------------------------------------------------------------------
 
-   //const int n_lq_mass = 19;
-   //int LQ_MASS[n_lq_mass] = { 
-   //  300,  350,  400, 450, 500, 550,  600,  650,
-   //  700,  750,  800, 850, 900, 950, 1000, 1050,
-   //  1100, 1150, 1200
-   //};
-
-   // SIC only look at LQ650 selection for now
-   // LQ650 only
-   const int n_lq_mass = 1;
+   //const int n_lq_mass = 37;
+   const int n_lq_mass = 35;
    int LQ_MASS[n_lq_mass] = { 
-      650
+     // FIXME: do optimization for these...
+     //200,  250,
+     300,  350,  400, 450, 500, 550,  600,  650,
+     700,  750,  800, 850, 900, 950, 1000, 1050,
+     1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450,
+     1500, 1550, 1600, 1650, 1700, 1750, 1800, 1850,
+     1900, 1950, 2000
    };
+
+   //// SIC only look at LQ650 selection for now
+   //// LQ650 only 2012
+   //const int n_lq_mass = 1;
+   //int LQ_MASS[n_lq_mass] = { 
+   //   6502012
+   //};
 
    // turn off totally for optimization
    //const int n_lq_mass = 0;
@@ -868,8 +873,8 @@ void analysisClass::Loop()
      // Fill electron variables 
      //--------------------------------------------------------------------------
      
-     if ( nEle_store >= 1 ) fillVariableWithValue( "Ele1_Pt", Ele1_Pt, gen_weight * pileup_weight  ) ;
-     if ( nEle_store >= 2 ) fillVariableWithValue( "Ele2_Pt", Ele2_Pt, gen_weight * pileup_weight  ) ;
+     if ( nEle_store >= 1 ) fillVariableWithValue( "Ele1_PtHeep", Ele1_PtHeep, gen_weight * pileup_weight  ) ;
+     if ( nEle_store >= 2 ) fillVariableWithValue( "Ele2_PtHeep", Ele2_PtHeep, gen_weight * pileup_weight  ) ;
 			
      //--------------------------------------------------------------------------
      // Fill jet variables 
@@ -908,11 +913,13 @@ void analysisClass::Loop()
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
-       
+
        if ( nJet_store >= 2 ) { 
-	 fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
-	 fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
-	 fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
+         // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
+         sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
+         fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
+         fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
+         fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
        }      
      }
 
