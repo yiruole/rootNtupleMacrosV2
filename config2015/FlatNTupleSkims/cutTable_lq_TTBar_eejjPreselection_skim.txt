@@ -1,7 +1,13 @@
 #------------------------------------------------------------------------------------------------------
-# 2012 JSON file
+# 2015 JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/e/eberry/public/LQ_JSON/2012/combined_golden_json_Run2012ABCD.txt
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt
+#-----------------------------------------------------------------------------------------------------------------------------
+# Pileup files for applying pileup re-weighting
+#-----------------------------------------------------------------------------------------------------------------------------
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_2015_RunIIWinter15GS.txt
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_SingleElectron__Run2015D_all.root
+#
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #

@@ -63,7 +63,7 @@ void analysisClass::Loop() {
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
 
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << std::endl;   
+    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
     //-----------------------------------------------------------------
     // Get ready to fill variables 
@@ -149,7 +149,8 @@ void analysisClass::Loop() {
       Pt_e1e2       = e1e2.Pt();
 
       if ( nEle_store < 2) nEle_store = 2;
-      if ( nEle_ptCut < 2) nEle_ptCut = 2;
+      // why do this? let's keep the original value instead, which could be 1 for emu events
+      //if ( nEle_ptCut < 2) nEle_ptCut = 2;
 
       // These values cannot be re-calculated with the information stored
 
@@ -216,7 +217,8 @@ void analysisClass::Loop() {
       Pt_e1e2       = e1e2.Pt();
 
       if ( nEle_store < 2) nEle_store = 2;
-      if ( nEle_ptCut < 2) nEle_ptCut = 2;
+      // why do this? let's keep the original value instead, which could be 1 for emu events
+      //if ( nEle_ptCut < 2) nEle_ptCut = 2;
       
       // These values cannot be re-calculated with the information stored
 
