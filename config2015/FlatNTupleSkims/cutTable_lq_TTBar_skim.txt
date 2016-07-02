@@ -24,11 +24,13 @@ produceSkim			1	     -                  -               -              -1
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nEle_ptCut			0	     2  		-		-		0	16 -0.5 15.5
-nMuon_ptCut			-inf	     +inf		-		-		0	16 -0.5 15.5
-Muon1_Pt			50.0	     +inf		-		-		0	100 0 2000  
-Muon2_Pt			-inf	     10.0		-		-		0	100 0 2000  
-Ele1_PtHeep	  			50.0	     +inf		-		-		0	100 0 2000  
-Ele2_PtHeep	  			50.0	     +inf		-		-		0	100 0 2000     
+nMuon_ptCut			-inf	     1	  	-		-		0	16 -0.5 15.5
+#Muon1_Pt			-inf	     +inf		-		-		0	100 0 2000  
+#Muon2_Pt			-inf	     10.0		-		-		0	100 0 2000  
+#Ele1_Pt	  			35.0	     +inf		-		-		0	100 0 2000  
+#Ele2_Pt	  			35.0	     +inf		-		-		0	100 0 2000     
+Ele1_PtHeep	  50.0	     +inf		-		-		0	100 0 2000  
+Ele2_PtHeep	  -inf	     +inf		-		-		0	100 0 2000     
 Jet1_Pt   			50.0        +inf		-		-		0	100 0 2000     
 Jet2_Pt   			50.0	     +inf		-		-		0	100 0 2000  
 sT_eejj   			300.0	     +inf		-		-		0	100 0 2000  
