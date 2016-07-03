@@ -87,11 +87,11 @@ void analysisClass::Loop() {
       // lead electron only
       if(Ele1_PtHeep > Ele2_PtHeep)
       {
-        passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+        pass_trigger = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
         trigEff = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
       }
       else {
-        passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+        pass_trigger = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
         trigEff = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
       }
     }
@@ -144,6 +144,7 @@ void analysisClass::Loop() {
       Pt_e1e2       = e1e2.Pt();
 
       if ( nEle_store < 2) nEle_store = 2;
+      // why do this? let's keep the original value instead, which could be 1 for emu events
       //if ( nEle_ptCut < 2) nEle_ptCut = 2;
 
       // These values cannot be re-calculated with the information stored
@@ -212,7 +213,8 @@ void analysisClass::Loop() {
       Pt_e1e2       = e1e2.Pt();
 
       if ( nEle_store < 2) nEle_store = 2;
-      if ( nEle_ptCut < 2) nEle_ptCut = 2;
+      // why do this? let's keep the original value instead, which could be 1 for emu events
+      //if ( nEle_ptCut < 2) nEle_ptCut = 2;
       
       // These values cannot be re-calculated with the information stored
 
@@ -242,6 +244,7 @@ void analysisClass::Loop() {
     //fillVariableWithValue( "Ele1_Pt"     , Ele1_Pt      );	  
     //fillVariableWithValue( "Ele2_Pt"     , Ele2_Pt      );	  	  
     fillVariableWithValue( "Ele1_PtHeep"     , Ele1_PtHeep      );	  
+    fillVariableWithValue( "Ele2_PtHeep"     , Ele2_PtHeep      );	  
     fillVariableWithValue( "Jet1_Pt"     , Jet1_Pt      );
     fillVariableWithValue( "Jet2_Pt"     , Jet2_Pt      );
     fillVariableWithValue( "sT_eejj"     , sT_eejj      );
