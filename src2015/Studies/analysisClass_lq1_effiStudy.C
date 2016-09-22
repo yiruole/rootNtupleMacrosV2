@@ -59,7 +59,11 @@ void analysisClass::Loop(){
   char electron_id_name[200];
   ID ElectronID = NULL_ID;
   
-  if      ( ElectronID_FromFile == 1 ) {
+  if      ( ElectronID_FromFile == 0 ) {
+    ElectronID = HEEP61;
+    sprintf(electron_id_name, "HEEPv6p1" );
+  }
+  else if      ( ElectronID_FromFile == 1 ) {
     ElectronID = HEEP60;
     sprintf(electron_id_name, "HEEPv6p0" );
   }
@@ -89,9 +93,11 @@ void analysisClass::Loop(){
   int n_200jets_in_trigger = 0;
   int n_eles_in_trigger    = 0;
   char trigger_name         [200];
+  char trigger2_name        [200];
   char electron_filter_name [200];
   char jet50_filter_name    [200];
   char jet200_filter_name   [200];
+  sprintf(trigger2_name        ,"" );
 
   //--------------------------------------------------------------------------
   // Jet ID and muon ID, which should not be changed
@@ -306,7 +312,6 @@ void analysisClass::Loop(){
       n_200jets_in_trigger = 1;
       n_eles_in_trigger    = 1;
     }
-
     else if ( Trigger_FromFile == 2 ) {
       sprintf(trigger_name        ,"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" );
       //sprintf(electron_filter_name,"hltEle30CaloIdVTTrkIdTDphiFilter"      );
@@ -316,7 +321,6 @@ void analysisClass::Loop(){
       n_200jets_in_trigger = 0;
       n_eles_in_trigger    = 2;
     }
-
     else if ( Trigger_FromFile == 3 ){
       sprintf(trigger_name        ,"HLT_Ele27_WP85_Gsf_v"         );
       sprintf(jet50_filter_name   ,""                           );
@@ -325,18 +329,34 @@ void analysisClass::Loop(){
       n_200jets_in_trigger = 0;
       n_eles_in_trigger    = 1;
     }
-    
     else if ( Trigger_FromFile == 4 ){
-      sprintf(trigger_name        ,"HLT_Ele27_WP75_Gsf_v"         );
+      sprintf(trigger_name        ,"HLT_Ele27_WPTight_Gsf_v"         );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
       n_50jets_in_trigger  = 0;
       n_200jets_in_trigger = 0;
       n_eles_in_trigger    = 1;
     }
-
     else if ( Trigger_FromFile == 5 ){
       sprintf(trigger_name        ,"HLT_Ele27_WPLoose_Gsf_v"         );
+      sprintf(jet50_filter_name   ,""                           );
+      sprintf(jet200_filter_name  ,""                           );
+      n_50jets_in_trigger  = 0;
+      n_200jets_in_trigger = 0;
+      n_eles_in_trigger    = 1;
+    }
+    else if ( Trigger_FromFile == 6 ){
+      sprintf(trigger_name        ,"HLT_Ele27_WPTight_Gsf_v"         );
+      sprintf(trigger2_name       ,"HLT_Photon175_v"         );
+      sprintf(jet50_filter_name   ,""                           );
+      sprintf(jet200_filter_name  ,""                           );
+      n_50jets_in_trigger  = 0;
+      n_200jets_in_trigger = 0;
+      n_eles_in_trigger    = 1;
+    }
+    else if ( Trigger_FromFile == 7 ){
+      sprintf(trigger_name        ,"HLT_Ele27_WPTight_Gsf_v"         );
+      sprintf(trigger2_name       ,"HLT_Ele105_CaloIdVT_GsfTrkIdT_v"         );
       sprintf(jet50_filter_name   ,""                           );
       sprintf(jet200_filter_name  ,""                           );
       n_50jets_in_trigger  = 0;
@@ -358,7 +378,17 @@ void analysisClass::Loop(){
 
     getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ; 
     bool trigger_fired = triggerFired ( trigger_name );
+    if(trigger2_name[0] != '\0')
+      trigger_fired = trigger_fired || triggerFired (trigger2_name);
     int trigger_prescale = triggerPrescale ( trigger_name );
+    if(trigger2_name[0] != '\0') {
+      int trigger2_prescale = triggerPrescale (trigger2_name);
+      if (trigger_prescale != trigger2_prescale) {
+        std::cerr << "WARNING: Trigger " << trigger_name << " has prescale " << trigger_prescale << " while trigger " <<
+          trigger2_name << " has prescale " << trigger2_prescale << ". You selected the OR of these triggers." << std::endl;
+      }
+    }
+    
     // check
     //std::cout << "did trigger fire? " << (trigger_fired==true ? "yes" : "no") << std::endl;
         
