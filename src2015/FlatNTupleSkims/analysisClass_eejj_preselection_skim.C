@@ -125,24 +125,26 @@ void analysisClass::Loop() {
     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter       , gen_weight * pileup_weight );
     fillVariableWithValue(   "PassMuonTrackFilter"           , PassMuonTrackFilter               , gen_weight * pileup_weight );
     fillVariableWithValue(   "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter      , gen_weight * pileup_weight );
-    fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight);
-    fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                        , gen_weight * pileup_weight );
+    // no longer in 2016
+    //fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight);
+    //fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                        , gen_weight * pileup_weight );
 
-    //--------------------------------------------------------------------------
-    // Exclude runs with bad beam spot ?
-    //--------------------------------------------------------------------------
-    bool passBadBeamspot = true;
-    if(run==259626 ||
-        run==259636 ||
-        run==259637 ||
-        run==259681 ||
-        run==259682 ||
-        run==259683 ||
-        run==259685)
-      //continue;
-      passBadBeamspot = false;
+    // no longer in 2016
+    ////--------------------------------------------------------------------------
+    //// Exclude runs with bad beam spot ?
+    ////--------------------------------------------------------------------------
+    //bool passBadBeamspot = true;
+    //if(run==259626 ||
+    //    run==259636 ||
+    //    run==259637 ||
+    //    run==259681 ||
+    //    run==259682 ||
+    //    run==259683 ||
+    //    run==259685)
+    //  //continue;
+    //  passBadBeamspot = false;
 
-    fillVariableWithValue(   "PassBadBeamspot"	    , passBadBeamspot                          , gen_weight * pileup_weight );
+    //fillVariableWithValue(   "PassBadBeamspot"	    , passBadBeamspot                          , gen_weight * pileup_weight );
 
     //--------------------------------------------------------------------------
     // Fill HLT
@@ -156,30 +158,27 @@ void analysisClass::Loop() {
     //  	 passHLT = 1;
     //  }
     //}
-    //XXX SIC FIXME TEST
-    // ignore Run2015C stuff
-    if(isData)
-    {
-      if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-        // continue;
-        // no, treat this case like failing the HLT
-        fillVariableWithValue("PassHLT",0,gen_weight*pileup_weight);
-    }
+    // no longer in 2016
+    //// ignore Run2015C stuff
+    //if(isData)
+    //{
+    //  if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
+    //    // continue;
+    //    // no, treat this case like failing the HLT
+    //    fillVariableWithValue("PassHLT",0,gen_weight*pileup_weight);
+    //}
 
     int passHLT = 1;
     if ( isData ) { 
       passHLT = 0;
-      if ( H_Ele27_WPLoose == 1)
-        //if ( H_Ele45_PFJet200_PFJet50 == 1)
-        // later //if ( H_Ele27_WPLoose == 1)
-        //if ( H_Ele27_WP85 == 1)
+      if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
         passHLT = 1;
     }
-    else // using the turn-on in the MC
+    // FIXME: Update to new 2016 curve?
+    else // using the turn-on in the MC?
     {
       // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
       //   we get two chances to pass since we may have two electrons in the event
-      // UPDATE TO SCETA/ptheep
       passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
       //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
       if(!passHLT) // if the first one doesn't pass, try the second one
