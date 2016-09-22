@@ -186,25 +186,12 @@ void analysisClass::Loop(){
   
   TLorentzVector v_delta_met;
 
-  TLorentzVector v_PFMET;
+  TLorentzVector v_PFMETRaw;
   TLorentzVector v_PFMETType1Cor;
   TLorentzVector v_PFMETType01Cor;
   TLorentzVector v_PFMETType01XYCor;
   
 
-  //--------------------------------------------------------------------------
-  // Make event lists for various filters
-  //--------------------------------------------------------------------------
-  // we already ran the HCAL noise filters when ntupling
-  EventListHelper CSCBeamHaloTight2015EventList;
-  CSCBeamHaloTight2015EventList.addFileToList("csc2015_Dec01.txt.gz");
-  EventListHelper ECALFourthBadSCEventList;
-  ECALFourthBadSCEventList.addFileToList("ecalscn1043093_Dec01.txt");
-  EventListHelper badResolutionTrackEventList;
-  badResolutionTrackEventList.addFileToList("badResolutionTrack_Jan13.txt");
-  EventListHelper badMuonTrackEventList;
-  badMuonTrackEventList.addFileToList("muonBadTrack_Jan13.txt");
-   
   /*//------------------------------------------------------------------
    *
    *
@@ -303,12 +290,11 @@ void analysisClass::Loop(){
       // Tag and probe trigger
       CollectionPtr tagProbe_l3objects_all;
       if(!isData)
-        tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WP85_Gsf_v");
+        tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
         // XXX use below for reHLT
         //tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
       else
         tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
-      //XXX WPLoose is not the same as WP75/WP85
       c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
       // if not, try TRIGGER_ELECTRON
       if(c_hltEle27WP85Gsf_all->GetSize() == 0)
@@ -345,9 +331,11 @@ void analysisClass::Loop(){
 
     //-----------------------------------------------------------------
     // If this is MC, we're always going to smear the jets (do_jer = true)
+    // Don't do it for data
     //-----------------------------------------------------------------
 
     if ( isData == 0 ) do_jer = true;
+    else do_jer = false; // not for data
       
     //-----------------------------------------------------------------
     // Energy scaling and resolution smearing here
@@ -367,30 +355,32 @@ void analysisClass::Loop(){
       v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
 
       // Do the energy scale / energy resolution operations
+      // dR for matching = Rcone/2
+      //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
       
-      if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.5, rootEngine, v_delta_met );
-      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.5, rootEngine, v_delta_met );
+      if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.4/2.0, rootEngine, v_delta_met );
+      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met );
       if ( do_ees ) c_ele_all      -> ScaleEnergy <Electron> ( electron_energy_scale_sign, v_delta_met );
       if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
       
       // Propagate the results to the PFMET
 
-      v_PFMET           .SetPtEtaPhiM( (*PFMET           )[0] , 0., (*PFMETPhi           )[0] , 0. );
+      v_PFMETRaw        .SetPtEtaPhiM( (*PFMETRaw        )[0] , 0., (*PFMETPhiRaw        )[0] , 0. );
       v_PFMETType1Cor   .SetPtEtaPhiM( (*PFMETType1Cor   )[0] , 0., (*PFMETPhiType1Cor   )[0] , 0. );
       v_PFMETType01Cor  .SetPtEtaPhiM( (*PFMETType01Cor  )[0] , 0., (*PFMETPhiType01Cor  )[0] , 0. );
       v_PFMETType01XYCor.SetPtEtaPhiM( (*PFMETType01XYCor)[0] , 0., (*PFMETPhiType01XYCor)[0] , 0. );
       
-      v_PFMET            = v_PFMET            + v_delta_met;
+      v_PFMETRaw         = v_PFMETRaw         + v_delta_met;
       v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
       v_PFMETType01Cor   = v_PFMETType01Cor   + v_delta_met;
       v_PFMETType01XYCor = v_PFMETType01XYCor + v_delta_met;
       
-      (*PFMET              )[0] = v_PFMET           .Pt();
+      (*PFMETRaw           )[0] = v_PFMETRaw        .Pt();
       (*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
       (*PFMETType01Cor     )[0] = v_PFMETType01Cor  .Pt();
       (*PFMETType01XYCor   )[0] = v_PFMETType01XYCor.Pt();
       
-      (*PFMETPhi           )[0] = v_PFMET           .Phi();
+      (*PFMETPhiRaw        )[0] = v_PFMETRaw        .Phi();
       (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
       (*PFMETPhiType01Cor  )[0] = v_PFMETType01Cor  .Phi();
       (*PFMETPhiType01XYCor)[0] = v_PFMETType01XYCor.Phi();
@@ -411,7 +401,7 @@ void analysisClass::Loop(){
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
-      CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP60 );
+      CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP61 );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
@@ -480,11 +470,11 @@ void analysisClass::Loop(){
     // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     
     fillVariableWithValue("PassJSON"                   , passJSON(run, ls, isData)                       );    
-    fillVariableWithValue("PassBPTX0"                  , isData == 1 ? int(isBPTX0        == 1) : 1      );
-    fillVariableWithValue("PassPhysDecl"               , isData == 1 ? int(isPhysDeclared == 1) : 1      );
+    //fillVariableWithValue("PassBPTX0"                  , isData == 1 ? int(isBPTX0        == 1) : 1      );
+    //fillVariableWithValue("PassPhysDecl"               , isData == 1 ? int(isPhysDeclared == 1) : 1      );
     // no more scraping: apparently "outdated" https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/RecoMET/METFilters/python/metFilters_cff.py
     //fillVariableWithValue("PassBeamScraping"           , int(isBeamScraping                         == 0));
-    fillVariableWithValue("PassPrimaryVertex"          , int(isPrimaryVertex                        == 1));
+    //fillVariableWithValue("PassPrimaryVertex"          , int(isPrimaryVertex                        == 1));
     //fillVariableWithValue("PassBeamHaloFilterLoose"    , int(passBeamHaloFilterLoose                == 1));
     //fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
     fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
@@ -494,18 +484,18 @@ void analysisClass::Loop(){
     //fillVariableWithValue("PassEcalDeadCellTrigPrim"   , int(passEcalDeadCellTriggerPrimitiveFilter == 0));
     //fillVariableWithValue("PassTrackingFailure"        , int(passTrackingFailureFilter              == 0));
     //fillVariableWithValue("PassEcalLaserCorrFilter"    , int(passEcalLaserCorrFilter                == 0));
-    // txt files
-    fillVariableWithValue(   "PassCSCBeamHaloFilterTight"   , CSCBeamHaloTight2015EventList.eventInList(run,ls,event)  ?  0 : 1);
-    fillVariableWithValue(   "PassBadResolutionTrackFilter" , badResolutionTrackEventList.eventInList(run,ls,event)  ?  0 : 1);
-    fillVariableWithValue(   "PassMuonTrackFilter"          , badMuonTrackEventList.eventInList(run,ls,event)  ?  0 : 1);
-    fillVariableWithValue(   "PassBadEESupercrystalFilter"  , ECALFourthBadSCEventList.eventInList(run,ls,event)       ?  0 : 1);
+    fillVariableWithValue("PassCSCBeamHaloFilterTight"   , int(passCSCTightHaloFilter)  ?  0 : 1);
+    //XXX is this the right one?
+    fillVariableWithValue("PassBadResolutionTrackFilter" , int(passTrackingFailureFilter)  ?  0 : 1);
+    fillVariableWithValue("PassMuonTrackFilter"          , int(passMuonBadTrackFilter)  ?  0 : 1);
+    fillVariableWithValue("PassBadEESupercrystalFilter"  , int(passEEBadScFilter)  ?  0 : 1);
 
     //-----------------------------------------------------------------
     // Fill MET values
     //-----------------------------------------------------------------
     
-    fillVariableWithValue("PFMET_Pt"            , PFMET               -> at (0));      
-    fillVariableWithValue("PFMET_Phi"	      	, PFMETPhi	      -> at (0));
+    fillVariableWithValue("PFMET_Raw_Pt"       , PFMETRaw            -> at (0));      
+    fillVariableWithValue("PFMET_Raw_Phi"	    , PFMETPhiRaw	        -> at (0));
     fillVariableWithValue("PFMET_Type1_Pt"      , PFMETType1Cor       -> at (0));      
     fillVariableWithValue("PFMET_Type1_Phi"   	, PFMETPhiType1Cor    -> at (0));
     fillVariableWithValue("PFMET_Type01_Pt"     , PFMETType01Cor      -> at (0));      
@@ -1058,118 +1048,175 @@ void analysisClass::Loop(){
       fillVariableWithValue ("nHighEtaJet_ptCut", n_jet_highEta_ptCut );
 
       if ( n_ele_store >= 1 ){
-	Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
-	double hltEle1Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
-	//double hltEle1Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all  , ele1, ele_hltMatch_DeltaRCut);
-	double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
-	double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
+        Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
+        double hltEle1Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
+        //double hltEle1Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all  , ele1, ele_hltMatch_DeltaRCut);
+        double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
+        double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
 
-	fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
-	fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
-	fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
-	fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
-	fillVariableWithValue( "Ele1_PtHeep"        , ele1.PtHeep()             );
-	fillVariableWithValue( "Ele1_SCEta"         , ele1.SCEta()              );
-	fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
-	fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
-	fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
-	fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
-	fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
-	fillVariableWithValue( "Ele1_TrkPt"         , ele1.TrackPt()            );
-	fillVariableWithValue( "Ele1_SigmaIEtaIEta" , ele1.SigmaIEtaIEta()      );
-	fillVariableWithValue( "Ele1_SigmaEtaEta"   , ele1.SigmaEtaEta()        );
-	
-	fillVariableWithValue( "Ele1_DeltaPhiTrkSC" , ele1.DeltaPhi()           );
-	fillVariableWithValue( "Ele1_DeltaEtaTrkSC" , ele1.DeltaEta()           );
-	fillVariableWithValue( "Ele1_RawEnergy"     , ele1.RawEnergy()          );
-	fillVariableWithValue( "Ele1_NBrems"        , ele1.NBrems()             );
-	fillVariableWithValue( "Ele1_HoE"           , ele1.HoE()                );
-	fillVariableWithValue( "Ele1_E1x5OverE5x5"  , ele1.E1x5OverE5x5()       );
-	fillVariableWithValue( "Ele1_E2x5OverE5x5"  , ele1.E2x5OverE5x5()       );
-	fillVariableWithValue( "Ele1_HasMatchedPhot", ele1.HasMatchedConvPhot() );
-	fillVariableWithValue( "Ele1_FBrem"         , ele1.FBrem()              );
-	fillVariableWithValue( "Ele1_LeadVtxDistXY" , ele1.LeadVtxDistXY()      );
-	fillVariableWithValue( "Ele1_LeadVtxDistZ"  , ele1.LeadVtxDistZ ()      );
-	fillVariableWithValue( "Ele1_BeamSpotDXY"   , ele1.BeamSpotDXY()        );
-	fillVariableWithValue( "Ele1_BeamSpotDXYErr", ele1.BeamSpotDXYErr()     );
-	fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()          );
-	fillVariableWithValue( "Ele1_Classif"       , ele1.Classif()            );
-	fillVariableWithValue( "Ele1_EOverP"        , ele1.ESuperClusterOverP() );
+        fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
+        fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
+        fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
+        fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
+        fillVariableWithValue( "Ele1_PtHeep"        , ele1.PtHeep()             );
+        fillVariableWithValue( "Ele1_SCEta"         , ele1.SCEta()              );
+        fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
+        fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
+        fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
+        fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
+        fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
+        fillVariableWithValue( "Ele1_TrkPt"         , ele1.TrackPt()            );
+        fillVariableWithValue( "Ele1_SigmaIEtaIEta" , ele1.SigmaIEtaIEta()      );
+        fillVariableWithValue( "Ele1_SigmaEtaEta"   , ele1.SigmaEtaEta()        );
 
-	fillVariableWithValue( "Ele1_TrkIsolation"  , ele1.TrkIsoDR03()         );
-	fillVariableWithValue( "Ele1_EcalIsolation" , ele1.EcalIsoDR03()        );
-	fillVariableWithValue( "Ele1_HcalIsolation" , ele1.HcalIsoD1DR03()      );
-	fillVariableWithValue( "Ele1_CorrIsolation" , ele1.HEEPCorrIsolation()  );
-	fillVariableWithValue( "Ele1_PFCHIso03"     , ele1.PFChargedHadronIso03());
-	fillVariableWithValue( "Ele1_PFPhoIso03"    , ele1.PFPhotonIso03       ());
-	fillVariableWithValue( "Ele1_PFNHIso03"     , ele1.PFNeutralHadronIso03());
+        fillVariableWithValue( "Ele1_DeltaPhiTrkSC" , ele1.DeltaPhi()           );
+        fillVariableWithValue( "Ele1_DeltaEtaTrkSC" , ele1.DeltaEta()           );
+        fillVariableWithValue( "Ele1_RawEnergy"     , ele1.RawEnergy()          );
+        fillVariableWithValue( "Ele1_NBrems"        , ele1.NBrems()             );
+        fillVariableWithValue( "Ele1_HoE"           , ele1.HoE()                );
+        fillVariableWithValue( "Ele1_E1x5OverE5x5"  , ele1.E1x5OverE5x5()       );
+        fillVariableWithValue( "Ele1_E2x5OverE5x5"  , ele1.E2x5OverE5x5()       );
+        fillVariableWithValue( "Ele1_HasMatchedPhot", ele1.HasMatchedConvPhot() );
+        fillVariableWithValue( "Ele1_FBrem"         , ele1.FBrem()              );
+        fillVariableWithValue( "Ele1_LeadVtxDistXY" , ele1.LeadVtxDistXY()      );
+        fillVariableWithValue( "Ele1_LeadVtxDistZ"  , ele1.LeadVtxDistZ ()      );
+        fillVariableWithValue( "Ele1_BeamSpotDXY"   , ele1.BeamSpotDXY()        );
+        fillVariableWithValue( "Ele1_BeamSpotDXYErr", ele1.BeamSpotDXYErr()     );
+        fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()          );
+        fillVariableWithValue( "Ele1_Classif"       , ele1.Classif()            );
+        fillVariableWithValue( "Ele1_EOverP"        , ele1.ESuperClusterOverP() );
 
-	fillVariableWithValue("Ele1_GsfCtfScPixCharge", ele1.GsfCtfScPixCharge()  );
-	fillVariableWithValue("Ele1_GsfScPixCharge"   , ele1.GsfScPixCharge()     );
-	fillVariableWithValue("Ele1_GsfCtfCharge"     , ele1.GsfCtfCharge()       );
+        fillVariableWithValue( "Ele1_TrkIsolation"  , ele1.TrkIsoDR03()         );
+        fillVariableWithValue( "Ele1_EcalIsolation" , ele1.EcalIsoDR03()        );
+        fillVariableWithValue( "Ele1_HcalIsolation" , ele1.HcalIsoD1DR03()      );
+        fillVariableWithValue( "Ele1_CorrIsolation" , ele1.HEEPCorrIsolation()  );
+        fillVariableWithValue( "Ele1_PFCHIso03"     , ele1.PFChargedHadronIso03());
+        fillVariableWithValue( "Ele1_PFPhoIso03"    , ele1.PFPhotonIso03       ());
+        fillVariableWithValue( "Ele1_PFNHIso03"     , ele1.PFNeutralHadronIso03());
 
-	fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
-	//fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
-	fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
-	fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
+        fillVariableWithValue("Ele1_GsfCtfScPixCharge", ele1.GsfCtfScPixCharge()  );
+        fillVariableWithValue("Ele1_GsfScPixCharge"   , ele1.GsfScPixCharge()     );
+        fillVariableWithValue("Ele1_GsfCtfCharge"     , ele1.GsfCtfCharge()       );
 
-	if ( n_ele_store >= 2 ){
-	  Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
-	  double hltEle2Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all     , ele2, ele_hltMatch_DeltaRCut);
-	  //double hltEle2Pt_ttbar           = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_TTbar_all   , ele2, ele_hltMatch_DeltaRCut);
-	  double hltEle2Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all , ele2, ele_hltMatch_DeltaRCut);
-	  double hltEle2Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele2, ele_hltMatch_DeltaRCut);
+        fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
+        //fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
+        fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
+        fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
 
-	  fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
-	  fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
-	  fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
-	  fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
-    fillVariableWithValue( "Ele2_PtHeep"        , ele2.PtHeep()             );
-    fillVariableWithValue( "Ele2_SCEta"         , ele2.SCEta()              );
-	  fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
-	  fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
-	  fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
-	  fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
-	  fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
-	  fillVariableWithValue( "Ele2_TrkPt"         , ele2.TrackPt()            );
-	  fillVariableWithValue( "Ele2_SigmaIEtaIEta" , ele2.SigmaIEtaIEta()      );
-	  fillVariableWithValue( "Ele2_SigmaEtaEta"   , ele2.SigmaEtaEta()        );
-	  			                      
-	  fillVariableWithValue( "Ele2_DeltaPhiTrkSC" , ele2.DeltaPhi()           );
-	  fillVariableWithValue( "Ele2_DeltaEtaTrkSC" , ele2.DeltaEta()           );
-	  fillVariableWithValue( "Ele2_RawEnergy"     , ele2.RawEnergy()          );
-	  fillVariableWithValue( "Ele2_NBrems"        , ele2.NBrems()             );
-	  fillVariableWithValue( "Ele2_HoE"           , ele2.HoE()                );
-	  fillVariableWithValue( "Ele2_E1x5OverE5x5"  , ele2.E1x5OverE5x5()       );
-	  fillVariableWithValue( "Ele2_E2x5OverE5x5"  , ele2.E2x5OverE5x5()       );
-	  fillVariableWithValue( "Ele2_HasMatchedPhot", ele2.HasMatchedConvPhot() );
-	  fillVariableWithValue( "Ele2_FBrem"         , ele2.FBrem()              );
-	  fillVariableWithValue( "Ele2_LeadVtxDistXY" , ele2.LeadVtxDistXY()      );
-	  fillVariableWithValue( "Ele2_LeadVtxDistZ"  , ele2.LeadVtxDistZ ()      );
-	  fillVariableWithValue( "Ele2_BeamSpotDXY"   , ele2.BeamSpotDXY()        );
-	  fillVariableWithValue( "Ele2_BeamSpotDXYErr", ele2.BeamSpotDXYErr()     );
-	  fillVariableWithValue( "Ele2_ValidFrac"     , ele2.ValidFrac()          );
-	  fillVariableWithValue( "Ele2_Classif"       , ele2.Classif()            );
-	  fillVariableWithValue( "Ele2_EOverP"        , ele2.ESuperClusterOverP() );
-	  			                      
-	  fillVariableWithValue( "Ele2_TrkIsolation"  , ele2.TrkIsoDR03()         );
-	  fillVariableWithValue( "Ele2_EcalIsolation" , ele2.EcalIsoDR03()        );
-	  fillVariableWithValue( "Ele2_HcalIsolation" , ele2.HcalIsoD1DR03()      );
-	  fillVariableWithValue( "Ele2_CorrIsolation" , ele2.HEEPCorrIsolation()  );
-	  fillVariableWithValue( "Ele2_PFCHIso03"     , ele2.PFChargedHadronIso03());
-	  fillVariableWithValue( "Ele2_PFPhoIso03"    , ele2.PFPhotonIso03       ());
-	  fillVariableWithValue( "Ele2_PFNHIso03"     , ele2.PFNeutralHadronIso03());
-	  
-	  fillVariableWithValue("Ele2_GsfCtfScPixCharge", ele2.GsfCtfScPixCharge()  );
-	  fillVariableWithValue("Ele2_GsfScPixCharge"   , ele2.GsfScPixCharge()     );
-	  fillVariableWithValue("Ele2_GsfCtfCharge"     , ele2.GsfCtfCharge()       );
-	  
-	  fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
-	  //fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
-	  fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
-	  fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
+        if ( n_ele_store >= 2 ){
+          Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
+          double hltEle2Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all     , ele2, ele_hltMatch_DeltaRCut);
+          //double hltEle2Pt_ttbar           = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_TTbar_all   , ele2, ele_hltMatch_DeltaRCut);
+          double hltEle2Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all , ele2, ele_hltMatch_DeltaRCut);
+          double hltEle2Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele2, ele_hltMatch_DeltaRCut);
 
-	}
+          fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
+          fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
+          fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
+          fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
+          fillVariableWithValue( "Ele2_PtHeep"        , ele2.PtHeep()             );
+          fillVariableWithValue( "Ele2_SCEta"         , ele2.SCEta()              );
+          fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
+          fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
+          fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
+          fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
+          fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
+          fillVariableWithValue( "Ele2_TrkPt"         , ele2.TrackPt()            );
+          fillVariableWithValue( "Ele2_SigmaIEtaIEta" , ele2.SigmaIEtaIEta()      );
+          fillVariableWithValue( "Ele2_SigmaEtaEta"   , ele2.SigmaEtaEta()        );
+
+          fillVariableWithValue( "Ele2_DeltaPhiTrkSC" , ele2.DeltaPhi()           );
+          fillVariableWithValue( "Ele2_DeltaEtaTrkSC" , ele2.DeltaEta()           );
+          fillVariableWithValue( "Ele2_RawEnergy"     , ele2.RawEnergy()          );
+          fillVariableWithValue( "Ele2_NBrems"        , ele2.NBrems()             );
+          fillVariableWithValue( "Ele2_HoE"           , ele2.HoE()                );
+          fillVariableWithValue( "Ele2_E1x5OverE5x5"  , ele2.E1x5OverE5x5()       );
+          fillVariableWithValue( "Ele2_E2x5OverE5x5"  , ele2.E2x5OverE5x5()       );
+          fillVariableWithValue( "Ele2_HasMatchedPhot", ele2.HasMatchedConvPhot() );
+          fillVariableWithValue( "Ele2_FBrem"         , ele2.FBrem()              );
+          fillVariableWithValue( "Ele2_LeadVtxDistXY" , ele2.LeadVtxDistXY()      );
+          fillVariableWithValue( "Ele2_LeadVtxDistZ"  , ele2.LeadVtxDistZ ()      );
+          fillVariableWithValue( "Ele2_BeamSpotDXY"   , ele2.BeamSpotDXY()        );
+          fillVariableWithValue( "Ele2_BeamSpotDXYErr", ele2.BeamSpotDXYErr()     );
+          fillVariableWithValue( "Ele2_ValidFrac"     , ele2.ValidFrac()          );
+          fillVariableWithValue( "Ele2_Classif"       , ele2.Classif()            );
+          fillVariableWithValue( "Ele2_EOverP"        , ele2.ESuperClusterOverP() );
+
+          fillVariableWithValue( "Ele2_TrkIsolation"  , ele2.TrkIsoDR03()         );
+          fillVariableWithValue( "Ele2_EcalIsolation" , ele2.EcalIsoDR03()        );
+          fillVariableWithValue( "Ele2_HcalIsolation" , ele2.HcalIsoD1DR03()      );
+          fillVariableWithValue( "Ele2_CorrIsolation" , ele2.HEEPCorrIsolation()  );
+          fillVariableWithValue( "Ele2_PFCHIso03"     , ele2.PFChargedHadronIso03());
+          fillVariableWithValue( "Ele2_PFPhoIso03"    , ele2.PFPhotonIso03       ());
+          fillVariableWithValue( "Ele2_PFNHIso03"     , ele2.PFNeutralHadronIso03());
+
+          fillVariableWithValue("Ele2_GsfCtfScPixCharge", ele2.GsfCtfScPixCharge()  );
+          fillVariableWithValue("Ele2_GsfScPixCharge"   , ele2.GsfScPixCharge()     );
+          fillVariableWithValue("Ele2_GsfCtfCharge"     , ele2.GsfCtfCharge()       );
+
+          fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
+          //fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
+          fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
+          fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
+
+          if ( n_ele_store >= 3 ){
+            Electron ele3 = c_ele_final -> GetConstituent<Electron>(2);
+            double hltEle3Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all     , ele3, ele_hltMatch_DeltaRCut);
+            //double hltEle3Pt_ttbar           = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_TTbar_all   , ele3, ele_hltMatch_DeltaRCut);
+            double hltEle3Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all , ele3, ele_hltMatch_DeltaRCut);
+            double hltEle3Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele3, ele_hltMatch_DeltaRCut);
+
+            fillVariableWithValue( "Ele3_Pt"            , ele3.Pt()                 );
+            fillVariableWithValue( "Ele3_Energy"        , ele3.CaloEnergy()         );
+            fillVariableWithValue( "Ele3_Eta"           , ele3.Eta()                );
+            fillVariableWithValue( "Ele3_Phi"           , ele3.Phi()                );
+            fillVariableWithValue( "Ele3_PtHeep"        , ele3.PtHeep()             );
+            fillVariableWithValue( "Ele3_SCEta"         , ele3.SCEta()              );
+            fillVariableWithValue( "Ele3_SCPhi"         , ele3.SCPhi()              );
+            fillVariableWithValue( "Ele3_Charge"        , ele3.Charge()             );
+            fillVariableWithValue( "Ele3_Dist"          , ele3.Dist()               );
+            fillVariableWithValue( "Ele3_DCotTheta"     , ele3.DCotTheta()          );
+            fillVariableWithValue( "Ele3_MissingHits"   , ele3.MissingHits()        );
+            fillVariableWithValue( "Ele3_TrkPt"         , ele3.TrackPt()            );
+            fillVariableWithValue( "Ele3_SigmaIEtaIEta" , ele3.SigmaIEtaIEta()      );
+            fillVariableWithValue( "Ele3_SigmaEtaEta"   , ele3.SigmaEtaEta()        );
+
+            fillVariableWithValue( "Ele3_DeltaPhiTrkSC" , ele3.DeltaPhi()           );
+            fillVariableWithValue( "Ele3_DeltaEtaTrkSC" , ele3.DeltaEta()           );
+            fillVariableWithValue( "Ele3_RawEnergy"     , ele3.RawEnergy()          );
+            fillVariableWithValue( "Ele3_NBrems"        , ele3.NBrems()             );
+            fillVariableWithValue( "Ele3_HoE"           , ele3.HoE()                );
+            fillVariableWithValue( "Ele3_E1x5OverE5x5"  , ele3.E1x5OverE5x5()       );
+            fillVariableWithValue( "Ele3_E2x5OverE5x5"  , ele3.E2x5OverE5x5()       );
+            fillVariableWithValue( "Ele3_HasMatchedPhot", ele3.HasMatchedConvPhot() );
+            fillVariableWithValue( "Ele3_FBrem"         , ele3.FBrem()              );
+            fillVariableWithValue( "Ele3_LeadVtxDistXY" , ele3.LeadVtxDistXY()      );
+            fillVariableWithValue( "Ele3_LeadVtxDistZ"  , ele3.LeadVtxDistZ ()      );
+            fillVariableWithValue( "Ele3_BeamSpotDXY"   , ele3.BeamSpotDXY()        );
+            fillVariableWithValue( "Ele3_BeamSpotDXYErr", ele3.BeamSpotDXYErr()     );
+            fillVariableWithValue( "Ele3_ValidFrac"     , ele3.ValidFrac()          );
+            fillVariableWithValue( "Ele3_Classif"       , ele3.Classif()            );
+            fillVariableWithValue( "Ele3_EOverP"        , ele3.ESuperClusterOverP() );
+
+            fillVariableWithValue( "Ele3_TrkIsolation"  , ele3.TrkIsoDR03()         );
+            fillVariableWithValue( "Ele3_EcalIsolation" , ele3.EcalIsoDR03()        );
+            fillVariableWithValue( "Ele3_HcalIsolation" , ele3.HcalIsoD1DR03()      );
+            fillVariableWithValue( "Ele3_CorrIsolation" , ele3.HEEPCorrIsolation()  );
+            fillVariableWithValue( "Ele3_PFCHIso03"     , ele3.PFChargedHadronIso03());
+            fillVariableWithValue( "Ele3_PFPhoIso03"    , ele3.PFPhotonIso03       ());
+            fillVariableWithValue( "Ele3_PFNHIso03"     , ele3.PFNeutralHadronIso03());
+
+            fillVariableWithValue("Ele3_GsfCtfScPixCharge", ele3.GsfCtfScPixCharge()  );
+            fillVariableWithValue("Ele3_GsfScPixCharge"   , ele3.GsfScPixCharge()     );
+            fillVariableWithValue("Ele3_GsfCtfCharge"     , ele3.GsfCtfCharge()       );
+
+            fillVariableWithValue( "Ele3_hltEleSignalPt", hltEle3Pt_signal          );
+            //fillVariableWithValue( "Ele3_hltEleTTbarPt" , hltEle3Pt_ttbar           );
+            fillVariableWithValue( "Ele3_hltDoubleElePt", hltEle3Pt_doubleEleSignal ); 
+            fillVariableWithValue( "Ele3_hltEleWP80Pt"  , hltEle3Pt_WP80            );
+
+          }
+        }
       }
 
       // Jets
@@ -1408,8 +1455,6 @@ void analysisClass::Loop(){
       // in 2015 data, trigger is different
       // this exists in special from-RAW MC and data only
       //fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
-      //if      ( ! isData )                       fillTriggerVariable( "HLT_Ele27_WP75_Gsf_v" , "H_Ele27_WP75" );
-      if      ( ! isData )                       fillTriggerVariable( "HLT_Ele27_WP85_Gsf_v" , "H_Ele27_WP85" );
       if      ( isData )
       {
         if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
@@ -1418,9 +1463,9 @@ void analysisClass::Loop(){
         {
           fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
           fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
+          fillTriggerVariable( "HLT_Ele27_WPTight_Gsf_v" , "H_Ele27_WPTight" );
         }
       }
-      // NB: previously, WP85 variable was filled for WPLoose in data!
 
       // XXX Don't use the above for reHLT MC
 
@@ -1428,7 +1473,8 @@ void analysisClass::Loop(){
       fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v", "H_Ele45_PFJet200_PFJet50");
       fillTriggerVariable( "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v", "H_Mu23NoFiltNoVtx_Photon23_CIdL");
       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v", "H_DoubleEle33_CIdL_GsfIdVL" ); 
-      fillTriggerVariable("HLT_Mu45_eta2p1_v"  , "H_Mu45_eta2p1" );
+      fillTriggerVariable( "HLT_Mu45_eta2p1_v"  , "H_Mu45_eta2p1" );
+      fillTriggerVariable( "HLT_Photon175_v" , "H_Photon175" );
     }
 
     //-----------------------------------------------------------------
