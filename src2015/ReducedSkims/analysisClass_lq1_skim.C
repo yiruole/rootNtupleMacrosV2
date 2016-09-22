@@ -328,6 +328,26 @@ void analysisClass::Loop(){
     CollectionPtr c_genNuFromW_final   = c_gen_all -> SkimByID<GenParticle>(GEN_NU_FROM_W);
     CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
     CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
+    CollectionPtr c_genTop             = c_gen_all -> SkimByID<GenParticle>(GEN_TOP);
+    CollectionPtr c_genTop_final       = c_genTop  -> SkimByID<GenParticle>(GEN_STATUS62);
+
+    //-----------------------------------------------------------------
+    // Top Pt reweight
+    //-----------------------------------------------------------------
+    float topPtWeight = 1.0;
+    //c_genTop_final->examine<GenParticle>("GenTops");
+    if(c_genTop_final->GetSize()==2)
+    {
+      GenParticle top1 = c_genTop_final -> GetConstituent<GenParticle>(0);
+      float pt1 = top1.Pt();
+      GenParticle top2 = c_genTop_final -> GetConstituent<GenParticle>(1);
+      float pt2 = top2.Pt();
+      if(pt1>400)
+        pt1=400;
+      if(pt2>400)
+        pt2=400;
+      topPtWeight = sqrt(exp(0.156-0.00137*pt1)*exp(0.156-0.00137*pt2));
+    }
 
     //-----------------------------------------------------------------
     // If this is MC, we're always going to smear the jets (do_jer = true)
@@ -463,6 +483,7 @@ void analysisClass::Loop(){
     fillVariableWithValue( "PtHat"    , PtHat      );
     // if amcNLOWeight filled, use it _instead_ of the nominal weight
     fillVariableWithValue( "Weight"   , fabs(amcNLOWeight)==1 ? amcNLOWeight : Weight   );
+    fillVariableWithValue( "TopPtWeight",topPtWeight);
 
     //-----------------------------------------------------------------
     // Fill MET filter values
