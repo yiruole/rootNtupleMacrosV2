@@ -39,6 +39,8 @@ def MakeTrigEffGraphs(inputFilesTrigs, IsEEJJ):
   
     denominator = tfile.Get('NEventsTwoGenEleECAL') if IsEEJJ else tfile.Get('NEventsOneGenEleECAL')
     numerator = tfile.Get('NEventsTwoGenEleECALPlusTrig') if IsEEJJ else tfile.Get('NEventsOneGenEleECALPlusTrig')
+    print '\tdenominator bins:',denominator.GetNbinsX()
+    print '\tnumerator bins:',numerator.GetNbinsX()
   
     trigEff = TGraphAsymmErrors()
     trigEff.BayesDivide(numerator,denominator)
@@ -70,14 +72,20 @@ def GetTrigNameFromIndex(index):
   elif index==3:
     return 'HLT_Ele27_WP85_Gsf_v1'
   elif index==4:
-    return 'HLT_Ele27_WP75_Gsf_v1'
+    return 'HLT_Ele27_WPTight_Gsf_v2'
   elif index==5:
-    return 'HLT_Ele27_WPLoose_Gsf_v1'
+    return 'HLT_Ele27_WPLoose_Gsf_v2'
+  elif index==6:
+    return 'HLT_Ele27_WPTight_Gsf || HLT_Photon175'
+  elif index==7:
+    return 'HLT_Ele27_WPTight_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT'
 
 
 def GetIDNameFromIndex(index):
   index=int(index)
-  if index==1:
+  if index==0:
+    return 'HEEPv6.1'
+  elif index==1:
     return 'HEEPv6.0'
   elif index==2:
     return 'HEEPv5.1'
@@ -147,7 +155,8 @@ def MakeIDEffGraphs(inputFilesIDs, IsEEJJ):
     idEffPt.GetYaxis().SetNdivisions(514)
     idEffVsPt1stGenEleGraphs.append(idEffPt)
     trigNum = fileName[fileName.find('trigger')+7:fileName.find('trigger')+8]
-    trigNames.append(GetTrigNameFromIndex(trigNum))
+    trigName = GetTrigNameFromIndex(trigNum)
+    trigNames.append(trigName)
     #print 'fileName=',fileName
     #print 'trigNum=',trigNum
     #print 'GetTrigNameFromIndex(trigNum)=',GetTrigNameFromIndex(trigNum)
@@ -290,7 +299,10 @@ def MakeTrigAndIDEffMultigraphWithID(idname,trigNames,idNames,trigAndIdEffGraphs
   # work with a copy, or else there are seg faults later
   trigAndIdEffGraphs = copy.deepcopy(trigAndIdEffGraphsOrig)
   mg3 = TMultiGraph()
-  leg3 = TLegend(0.375,0.178,0.852,0.451)
+  if IsEEJJ:
+    leg3 = TLegend(0.375,0.6,0.852,0.9)
+  else:
+    leg3 = TLegend(0.375,0.178,0.852,0.451)
   leg3.SetHeader(idname)
   counter = 0
   if not idname in idNames:
@@ -315,9 +327,9 @@ def MakeTrigAndIDEffMultigraphWithID(idname,trigNames,idNames,trigAndIdEffGraphs
     mg3.GetYaxis().SetTitle('Efficiency [e#nujj]')
   mg3.GetYaxis().SetTitleOffset(0.8)
   mg3.GetYaxis().SetNdivisions(514)
-  mg3.GetYaxis().SetRangeUser(0.6,1.0)
+  mg3.GetYaxis().SetRangeUser(0.5,0.9)
   if IsEEJJ:
-    mg3.GetYaxis().SetRangeUser(0.3,1.0)
+    mg3.GetYaxis().SetRangeUser(0.5,0.9)
   mg3.Draw('ap')
   leg3.SetBorderSize(0)
   leg3.Draw()
@@ -364,83 +376,107 @@ def MakeFirstEleGenPtMultigraph(trigger,trigNames,idNames,idEffVsPt1stGenEleGrap
 gROOT.SetBatch(True)
 
 lqdata = os.environ['LQDATA']
-eejjAnalysisDir = lqdata+'/trigIDSpring15EffStudyEejjSignals/'
+#eejjAnalysisDir = lqdata+'/2016analysis/trigEffStudies_2016sep13/'
+eejjAnalysisDir = lqdata+'/2016analysis/trigEffStudies_2016sep19/'
 
 # diff trigs
 eejjInputFilesTrigs = []
-eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id1_effiStudy/combined.root')
-eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger2_id1_effiStudy/combined.root')
-eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id1_effiStudy/combined.root')
-eejjInputFilesTrigs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined.root')
+eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_eejj.root')
+eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_eejj.root')
+eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_eejj.root')
+eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_eejj.root')
+eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_eejj.root')
+eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_eejj.root')
+#eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id2_effiStudy/combined.root')
+#eejjInputFilesTrigs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined.root')
 # diff IDs
 eejjInputFilesIDs = []
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id1_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id1_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id2_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id2_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id3_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id3_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id4_effiStudy/combined.root')
-eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id4_effiStudy/combined.root')
-#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id5_effiStudy/combined.root')
-#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id5_effiStudy/combined.root')
-eejjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined.root')
-eejjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id4_effiStudy/combined.root')
-# ENUJJ
-enujjAnalysisDir = lqdata+'/RunII/enujj_trigEff_9Dec2015_AK5/'
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id1_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id1_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id2_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id2_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id3_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id3_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id4_effiStudy/combined.root')
+#eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id4_effiStudy/combined.root')
+##eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger1_id5_effiStudy/combined.root')
+##eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id5_effiStudy/combined.root')
+#eejjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined.root')
+#eejjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id4_effiStudy/combined.root')
+eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_eejj.root')
+eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_eejj.root')
+eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_eejj.root')
+eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_eejj.root')
+eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_eejj.root')
+eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_eejj.root')
+
+## ENUJJ
+#enujjAnalysisDir = lqdata+'/2016analysis/trigEffStudies_2016sep13/'
+enujjAnalysisDir = lqdata+'/2016analysis/trigEffStudies_2016sep19/'
 # diff trigs
 enujjInputFilesTrigs = []
-enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id1_effiStudy/combined.root')
-enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger2_id1_effiStudy/combined.root')
-enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger3_id1_effiStudy/combined.root')
+enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_enujj.root')
+enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_enujj.root')
+enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_enujj.root')
+enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_enujj.root')
+enujjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_enujj.root')
+enujjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_enujj.root')
 #enujjInputFilesTrigs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger4_id1_effiStudy/combined.root')
-enujjInputFilesTrigs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/enujj_trigEff_10Dec2015_AK5_reHLT/output_cutTable_lq1_enujj_trigger5_id1_effiStudy/combined.root')
+#enujjInputFilesTrigs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/enujj_trigEff_10Dec2015_AK5_reHLT/output_cutTable_lq1_enujj_trigger5_id1_effiStudy/combined.root')
 # diff IDs
 enujjInputFilesIDs = []
-enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id1_effiStudy/combined.root')
-enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id2_effiStudy/combined.root')
-enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id3_effiStudy/combined.root')
-enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id4_effiStudy/combined.root')
-#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id5_effiStudy/combined.root')
-enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger2_id1_effiStudy/combined.root')
-enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger3_id1_effiStudy/combined.root')
-enujjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/enujj_trigEff_10Dec2015_AK5_reHLT/output_cutTable_lq1_enujj_trigger5_id1_effiStudy/combined.root')
-enujjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/enujj_trigEff_10Dec2015_AK5_reHLT/output_cutTable_lq1_enujj_trigger5_id4_effiStudy/combined.root')
+#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id1_effiStudy/combined.root')
+#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id2_effiStudy/combined.root')
+#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id3_effiStudy/combined.root')
+#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id4_effiStudy/combined.root')
+##enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger1_id5_effiStudy/combined.root')
+#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger2_id1_effiStudy/combined.root')
+#enujjInputFilesIDs.append(enujjAnalysisDir+'output_cutTable_lq1_enujj_trigger3_id1_effiStudy/combined.root')
+#enujjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/enujj_trigEff_10Dec2015_AK5_reHLT/output_cutTable_lq1_enujj_trigger5_id1_effiStudy/combined.root')
+#enujjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/enujj_trigEff_10Dec2015_AK5_reHLT/output_cutTable_lq1_enujj_trigger5_id4_effiStudy/combined.root')
+enujjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_enujj.root')
+enujjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_enujj.root')
+enujjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_enujj.root')
+enujjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_enujj.root')
+enujjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_enujj.root')
+enujjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_enujj.root')
 
 
 eejjTrigEffGraphs = MakeTrigEffGraphs(eejjInputFilesTrigs,True)
 eejjTrigNames, eejjIdNames, eejjIdEffGraphs, eejjTrigAndIdEffGraphs, eejjIdEffVsPt1stGenEleGraphs = MakeIDEffGraphs(eejjInputFilesIDs,True)
 # EEJJ trig eff multigraph
 MakeTrigEffMultigraph(eejjTrigEffGraphs,True)
-# EEJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
-MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
-MakeIDEffMultigraph('HLT_Ele27_WP85_Gsf_v1',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
-MakeIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v1',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
+## EEJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
+#MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
+MakeIDEffMultigraph('HLT_Ele27_WPTight_Gsf_v2',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
+MakeIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v2',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
 #MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
-#MakeFirstEleGenPtMultigraph('HLT_Ele27_WP85_Gsf_v1',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
-#MakeFirstEleGenPtMultigraph('HLT_Ele27_WPLoose_Gsf_v1',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
-MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
-MakeTrigAndIDEffMultigraph('HLT_Ele27_WP85_Gsf_v1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
-MakeTrigAndIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+MakeFirstEleGenPtMultigraph('HLT_Ele27_WPTight_Gsf_v2',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
+MakeFirstEleGenPtMultigraph('HLT_Ele27_WPLoose_Gsf_v2',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
+#MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+MakeTrigAndIDEffMultigraph('HLT_Ele27_WPTight_Gsf_v2',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+MakeTrigAndIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v2',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
 #
 MakeTrigAndIDEffMultigraphWithID('HEEPv6.0',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
-MakeTrigAndIDEffMultigraphWithID('EGamma Medium',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+MakeTrigAndIDEffMultigraphWithID('HEEPv6.1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+#MakeTrigAndIDEffMultigraphWithID('EGamma Medium',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
 
 enujjTrigEffGraphs = MakeTrigEffGraphs(enujjInputFilesTrigs,False)
 enujjTrigNames, enujjIdNames, enujjIdEffGraphs, enujjTrigAndIdEffGraphs, enujjIdEffVsPt1stGenEleGraphs = MakeIDEffGraphs(enujjInputFilesIDs,False)
 # ENUJJ trig eff multigraph
 MakeTrigEffMultigraph(enujjTrigEffGraphs,False)
 # ENUJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
-MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
-MakeIDEffMultigraph('HLT_Ele27_WP85_Gsf_v1',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
-MakeIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v1',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
-#MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffVsPt1stGenEleGraphs,False)
-MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
-MakeTrigAndIDEffMultigraph('HLT_Ele27_WP85_Gsf_v1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
-MakeTrigAndIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
-#
+#MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
+MakeIDEffMultigraph('HLT_Ele27_WPTight_Gsf_v2',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
+MakeIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v2',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
+##MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffVsPt1stGenEleGraphs,False)
+#MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
+MakeTrigAndIDEffMultigraph('HLT_Ele27_WPTight_Gsf_v2',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
+MakeTrigAndIDEffMultigraph('HLT_Ele27_WPLoose_Gsf_v2',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
+##
 MakeTrigAndIDEffMultigraphWithID('HEEPv6.0',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
-MakeTrigAndIDEffMultigraphWithID('EGamma Medium',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
+MakeTrigAndIDEffMultigraphWithID('HEEPv6.1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
+##MakeTrigAndIDEffMultigraphWithID('EGamma Medium',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
 
 
 ### wait for input to keep the GUI (which lives on a ROOT event dispatcher) alive
