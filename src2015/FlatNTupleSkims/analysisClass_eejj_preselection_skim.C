@@ -90,9 +90,10 @@ void analysisClass::Loop() {
       // weight the event by 2-eff.
       gen_weight *= Ele1_Energy < -998 ? 2-Ele1_hltEleTTbarPt : 2-Ele2_hltEleTTbarPt;
     }
-    //XXX For TopPt reweighting
-    if (TopPtWeight != -999)
-      gen_weight *= TopPtWeight;
+    //FIXME Add back at some point
+    ////XXX For TopPt reweighting
+    //if (TopPtWeight != -999)
+    //  gen_weight *= TopPtWeight;
 
     //------------------------------------------------------------------
     // Fill variables 
@@ -119,15 +120,14 @@ void analysisClass::Loop() {
     // Noise/MET filters
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue(   "PassHBHENoiseFilter"	          , PassHBHENoiseFilter              , gen_weight * pileup_weight );
-    fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter             , gen_weight * pileup_weight);
-    fillVariableWithValue(   "PassCSCBeamHaloFilterTight"    , PassCSCBeamHaloFilterTight        , gen_weight * pileup_weight );
-    fillVariableWithValue(   "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter       , gen_weight * pileup_weight );
-    fillVariableWithValue(   "PassMuonTrackFilter"           , PassMuonTrackFilter               , gen_weight * pileup_weight );
-    fillVariableWithValue(   "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter      , gen_weight * pileup_weight );
-    // no longer in 2016
-    //fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight);
-    //fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                        , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassGoodVertices"              , PassGoodVertices              , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassHBHENoiseFilter"	         , PassHBHENoiseFilter           , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , PassHBHENoiseIsoFilter        , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter   , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim      , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter  , gen_weight * pileup_weight );
+    fillVariableWithValue( "PassMuonTrackFilter"           , PassMuonTrackFilter           , gen_weight * pileup_weight );
 
     // no longer in 2016
     ////--------------------------------------------------------------------------

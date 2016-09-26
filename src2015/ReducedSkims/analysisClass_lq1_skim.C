@@ -486,43 +486,36 @@ void analysisClass::Loop(){
     fillVariableWithValue( "TopPtWeight",topPtWeight);
 
     //-----------------------------------------------------------------
-    // Fill MET filter values
+    // Pass JSON
     //-----------------------------------------------------------------
-    // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
-    
     fillVariableWithValue("PassJSON"                   , passJSON(run, ls, isData)                       );    
-    //fillVariableWithValue("PassBPTX0"                  , isData == 1 ? int(isBPTX0        == 1) : 1      );
-    //fillVariableWithValue("PassPhysDecl"               , isData == 1 ? int(isPhysDeclared == 1) : 1      );
-    // no more scraping: apparently "outdated" https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/RecoMET/METFilters/python/metFilters_cff.py
-    //fillVariableWithValue("PassBeamScraping"           , int(isBeamScraping                         == 0));
-    //fillVariableWithValue("PassPrimaryVertex"          , int(isPrimaryVertex                        == 1));
-    //fillVariableWithValue("PassBeamHaloFilterLoose"    , int(passBeamHaloFilterLoose                == 1));
-    //fillVariableWithValue("PassBeamHaloFilterTight"    , int(passBeamHaloFilterTight                == 1));
-    fillVariableWithValue("PassHBHENoiseFilter"        , int(passHBHENoiseFilter                    == 1));
+
+    //-----------------------------------------------------------------
+    // Fill MET filter values
+    // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+    //-----------------------------------------------------------------
+    fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(passGlobalTightHalo2016Filter)         == 1);
+    fillVariableWithValue("PassGoodVertices"              , int(passGoodVertices)                      == 1);
+    fillVariableWithValue("PassHBHENoiseFilter"           , int(passHBHENoiseFilter                    == 1));
     fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(passHBHENoiseFilter                    == 1));
-    //fillVariableWithValue("PassBadEESupercrystalFilter", int(passBadEESupercrystalFilter            == 1));
-    //fillVariableWithValue("PassEcalDeadCellBoundEnergy", int(passEcalDeadCellBoundaryEnergyFilter   == 0));
-    //fillVariableWithValue("PassEcalDeadCellTrigPrim"   , int(passEcalDeadCellTriggerPrimitiveFilter == 0));
-    //fillVariableWithValue("PassTrackingFailure"        , int(passTrackingFailureFilter              == 0));
-    //fillVariableWithValue("PassEcalLaserCorrFilter"    , int(passEcalLaserCorrFilter                == 0));
-    fillVariableWithValue("PassCSCBeamHaloFilterTight"   , int(passCSCTightHaloFilter)  ?  0 : 1);
-    //XXX is this the right one?
-    fillVariableWithValue("PassBadResolutionTrackFilter" , int(passTrackingFailureFilter)  ?  0 : 1);
-    fillVariableWithValue("PassMuonTrackFilter"          , int(passMuonBadTrackFilter)  ?  0 : 1);
-    fillVariableWithValue("PassBadEESupercrystalFilter"  , int(passEEBadScFilter)  ?  0 : 1);
+    fillVariableWithValue("PassBadEESupercrystalFilter"   , int(passEEBadScFilter                      == 1));
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(passEcalDeadCellTriggerPrimitiveFilter == 1));
+    //FIXME UPDATE TO THE RIGHT ONES
+    fillVariableWithValue("PassBadResolutionTrackFilter"  , int(passTrackingFailureFilter)             == 1);
+    fillVariableWithValue("PassMuonTrackFilter"           , int(passMuonBadTrackFilter)                == 1);
 
     //-----------------------------------------------------------------
     // Fill MET values
     //-----------------------------------------------------------------
     
     fillVariableWithValue("PFMET_Raw_Pt"       , PFMETRaw            -> at (0));      
-    fillVariableWithValue("PFMET_Raw_Phi"	    , PFMETPhiRaw	        -> at (0));
-    fillVariableWithValue("PFMET_Type1_Pt"      , PFMETType1Cor       -> at (0));      
-    fillVariableWithValue("PFMET_Type1_Phi"   	, PFMETPhiType1Cor    -> at (0));
-    fillVariableWithValue("PFMET_Type01_Pt"     , PFMETType01Cor      -> at (0));      
-    fillVariableWithValue("PFMET_Type01_Phi"  	, PFMETPhiType01Cor   -> at (0));
-    fillVariableWithValue("PFMET_Type01XY_Pt"   , PFMETType01XYCor    -> at (0));      
-    fillVariableWithValue("PFMET_Type01XY_Phi"	, PFMETPhiType01XYCor -> at (0));
+    fillVariableWithValue("PFMET_Raw_Phi"	     , PFMETPhiRaw	       -> at (0));
+    fillVariableWithValue("PFMET_Type1_Pt"     , PFMETType1Cor       -> at (0));      
+    fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
+    fillVariableWithValue("PFMET_Type01_Pt"    , PFMETType01Cor      -> at (0));      
+    fillVariableWithValue("PFMET_Type01_Phi"   , PFMETPhiType01Cor   -> at (0));
+    fillVariableWithValue("PFMET_Type01XY_Pt"  , PFMETType01XYCor    -> at (0));      
+    fillVariableWithValue("PFMET_Type01XY_Phi" , PFMETPhiType01XYCor -> at (0));
     
     if ( isData == 0 ) { 
       if ( reducedSkimType != 0 ){ 
