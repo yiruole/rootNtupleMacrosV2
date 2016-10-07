@@ -1469,26 +1469,31 @@ void analysisClass::Loop(){
       // in 2015 data, trigger is different
       // this exists in special from-RAW MC and data only
       //fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
-      if      ( isData )
-      {
-        if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
-        else
-        {
-          fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
-          fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
-          fillTriggerVariable( "HLT_Ele27_WPTight_Gsf_v" , "H_Ele27_WPTight" );
-        }
-      }
+      //if      ( isData )
+      //{
+      //  if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
+      //    fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
+      //  else
+      //  {
+      //    fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
+      //    fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
+      //    fillTriggerVariable( "HLT_Ele27_WPTight_Gsf_v" , "H_Ele27_WPTight" );
+      //  }
+      //}
 
       // XXX Don't use the above for reHLT MC
 
       // just search by prefix
+      fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
+      fillTriggerVariable( "HLT_Ele27_eta2p1_WPTight_Gsf_v" , "H_Ele27_WPTight_eta2p1" );
+      fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
+      //fillTriggerVariable( "HLT_Ele27_WPTight_Gsf_v" , "H_Ele27_WPTight" );
       fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v", "H_Ele45_PFJet200_PFJet50");
       fillTriggerVariable( "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v", "H_Mu23NoFiltNoVtx_Photon23_CIdL");
       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v", "H_DoubleEle33_CIdL_GsfIdVL" ); 
       fillTriggerVariable( "HLT_Mu45_eta2p1_v"  , "H_Mu45_eta2p1" );
       fillTriggerVariable( "HLT_Photon175_v" , "H_Photon175" );
+      fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT_v" , "H_Ele105_CIdVT_GsfIdT");
     }
 
     //-----------------------------------------------------------------
