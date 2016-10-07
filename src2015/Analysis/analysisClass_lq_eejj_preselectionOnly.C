@@ -196,27 +196,14 @@ void analysisClass::Loop()
      fillVariableWithValue(   "PassJSON"                      , passedJSON, gen_weight * pileup_weight   ) ; 
 
      // Noise filters
-     fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     // below has very low efficiency
-     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
-     
-     //fillVariableWithValue(   "PassBPTX0"                     , PassBPTX0                  , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassPhysDecl"                  , PassPhysDecl               , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassBeamScraping"              , PassBeamScraping           , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassPrimaryVertex"             , PassPrimaryVertex          , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassBeamHaloFilterLoose"	      , PassBeamHaloFilterLoose	   , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassTrackingFailure"           , PassTrackingFailure        , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassCaloBoundaryDRFilter"      , PassCaloBoundaryDRFilter   , gen_weight  ) ; 
-     //fillVariableWithValue(   "PassEcalMaskedCellDRFilter"    , PassEcalMaskedCellDRFilter , gen_weight  ) ; 
+     fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGoodVertices"              , PassGoodVertices              , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseFilter"	          , PassHBHENoiseFilter           , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter        , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter   , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim      , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter  , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassMuonTrackFilter"           , PassMuonTrackFilter           , gen_weight * pileup_weight );
 
      // Fill HLT
 
@@ -261,10 +248,10 @@ void analysisClass::Loop()
      // Electrons
      fillVariableWithValue(   "PassNEle"                      , PassNEle    , gen_weight * pileup_weight  ) ;
      if ( nEle_store >= 1 ) { 
-       fillVariableWithValue( "Ele1_Pt"                       , Ele1_Pt     , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Ele1_PtHeep"                   , Ele1_PtHeep , gen_weight * pileup_weight  ) ;
      }									    
      if ( nEle_store >= 2 ) { 						    
-       fillVariableWithValue( "Ele2_Pt"                       , Ele2_Pt     , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Ele2_PtHeep"                   , Ele2_PtHeep , gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "M_e1e2"                        , M_e1e2      , gen_weight * pileup_weight  ) ;
      }									    
 									    
@@ -323,7 +310,7 @@ void analysisClass::Loop()
      // Fill skim-level plots
      //--------------------------------------------------------------------------
      
-     bool passed_minimum = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
+     bool passed_minimum = ( passedAllPreviousCuts("PassMuonTrackFilter") && passedCut ("PassMuonTrackFilter"));
 
      if ( passed_minimum && isData ){ 
        FillUserTH1D ("run_HLT", run );
