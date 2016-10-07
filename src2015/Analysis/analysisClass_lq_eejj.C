@@ -15,68 +15,6 @@
 // for fake rate
 #include "include/QCDFakeRate.h"
 
-int run_max[38] = { 191718, 193621, 194223, 194533, 194912, 195304, 195552, 195930, 196239, 196453, 
-                    196531, 198941, 199319, 199571, 199812, 200042, 200369, 200991, 201278, 201705, 
-                    202045, 202209, 202477, 203002, 204250, 204601, 205339, 205694, 206187, 206389, 
-                    206512, 206745, 207214, 207372, 207515, 208307, 208487, 208686 };
-
-
-
-int run_min[38] = { 190645, 191720, 193834, 194224, 194619, 194914, 195378, 195633, 195937, 196249, 
-                    196495, 198049, 198954, 199336, 199572, 199833, 200049, 200381, 200992, 201554, 
-                    201706, 202054, 202237, 202478, 203894, 204511, 205086, 205344, 205718, 206188, 
-                    206391, 206513, 206859, 207217, 207397, 207517, 208339, 208509 };
-
-
-int run_max_1fb[20] = { 193621, 194533, 195304, 195915, 196452, 196531, 199319, 199804, 200244, 201196, 
-			202014, 202305, 203002, 204577, 205666, 206246, 206598, 207273, 207905, 208686 };
-
-
-
-int run_min_1fb[20] = { 190645, 193834, 194619, 195378, 195916, 196453, 198049, 199336, 199812, 200245, 
-			201197, 202016, 202314, 203894, 204599, 205667, 206257, 206605, 207279, 207920 };
-
-
-int get_split ( int run ) { 
-  
-  int n_split = 38;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min [i_split];
-    int tmp_run_max = run_max [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split for run = " << run << std::endl;
-  
-  return split;
-}
-
-
-
-int get_split_1fb ( int run ) { 
-  
-  int n_split = 20;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min_1fb [i_split];
-    int tmp_run_max = run_max_1fb [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split (1 fb-1) for run = " << run << std::endl;
-  
-  return split;
-}
-
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -91,11 +29,9 @@ void analysisClass::Loop()
    // Final selection mass points
    //--------------------------------------------------------------------------
 
-   //const int n_lq_mass = 37;
-   const int n_lq_mass = 35;
+   const int n_lq_mass = 37;
    int LQ_MASS[n_lq_mass] = { 
-     // FIXME: do optimization for these...
-     //200,  250,
+     200,  250,
      300,  350,  400, 450, 500, 550,  600,  650,
      700,  750,  800, 850, 900, 950, 1000, 1050,
      1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450,
@@ -156,10 +92,6 @@ void analysisClass::Loop()
    // Create TH1D's
    //--------------------------------------------------------------------------
    
-   CreateUserTH1D( "split_PAS"                       ,    38    , -0.5    , 37.5     );
-   CreateUserTH1D( "split_1fb_PAS"                   ,    38    , -0.5    , 37.5     );
-   CreateUserTH1D( "split_ROI"                       ,    38    , -0.5    , 37.5     );
-   CreateUserTH1D( "split_PASandMee100"              ,    38    , -0.5    , 37.5     );
    CreateUserTH1D( "sTfrac_Jet1_PAS"                 ,   100    ,  0.0    , 1.0      );
    CreateUserTH1D( "sTfrac_Jet2_PAS"                 ,   100    ,  0.0    , 1.0      );
    CreateUserTH1D( "sTfrac_Ele1_PAS"                 ,   100    ,  0.0    , 1.0      );
@@ -536,6 +468,54 @@ void analysisClass::Loop()
    CreateUserTH1D("TrkPtOPt_1stEle_ROI"                      , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_ROI"                      , 200,  0.0,  100.0  );
    CreateUserTH1D("ValidFrac_1stEle_ROI"                     , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_ROI"                     , 200,  0.0 ,   2.0  );
    
+   // for scale factor dependence studies
+   CreateUserTH1D( "Mee_NJetEq2_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetEq3_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetEq4_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetEq5_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetEq6_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetEq7_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetGeq3_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_NJetGeq4_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT300To500_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT500To750_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT750To1250_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1250ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin100To200_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin200To300_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin300To400_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin400To500_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin500To650_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin650ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   // more plots with sT cuts for final selection thresholds
+   CreateUserTH1D( "Mee_sT340_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT405_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT470_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT535_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT595_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT660_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT720_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT780_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT840_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT900_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT960_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1015_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1075_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1130_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1190_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1245_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1300_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1355_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1410_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1460_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1515_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1565_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1615_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1670_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1720_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1770_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1815_PAS"		             ,    200   , 0       , 2000	  ); 
+
    //--------------------------------------------------------------------------
    // Final selection plots
    //--------------------------------------------------------------------------
@@ -551,7 +531,6 @@ void analysisClass::Loop()
      sprintf(plot_name, "sT_eejj_LQ%d"                , lq_mass ); CreateUserTH1D ( plot_name, 25  , 0 , 2500 );
      sprintf(plot_name, "Mee_LQ%d"                    , lq_mass ); CreateUserTH1D ( plot_name, 40  , 0 , 2000 );
      sprintf(plot_name, "Mej_selected_min_vs_max_LQ%d", lq_mass ); CreateUserTH2D ( plot_name, 50  , 0 , 1000, 50  , 0 , 1000 );
-     sprintf(plot_name, "split_1fb_LQ%d"              , lq_mass ); CreateUserTH1D ( plot_name, 21  , -0.5, 20.5);
      sprintf(plot_name, "DR_Ele1Jet1_LQ%d"            , lq_mass ); CreateUserTH1D ( plot_name, 
 										    getHistoNBins("DR_Ele1Jet1"), 
 										    getHistoMin  ("DR_Ele1Jet1"), 
@@ -736,38 +715,30 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Fill noise filters
      //--------------------------------------------------------------------------
-
-     // Noise/MET filters
      // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
      // we filled these at skim time
-     fillVariableWithValue(   "PassHBHENoiseFilter"	          , PassHBHENoiseFilter                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter             , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"    , PassCSCBeamHaloFilterTight         , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter        , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassMuonTrackFilter"           , PassMuonTrackFilter                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter       , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                          , gen_weight * pileup_weight );
-     // old filters
-     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter  , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGoodVertices"	            , PassGoodVertices               , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseFilter"	          , PassHBHENoiseFilter            , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter         , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter    , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim       , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter   , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassMuonTrackFilter"           , PassMuonTrackFilter            , gen_weight * pileup_weight );
      //
 
+     // no longer in 2016
      //--------------------------------------------------------------------------
      // Exclude runs with bad beam spot ?
      //--------------------------------------------------------------------------
-     if(run==259626 ||
-         run==259636 ||
-         run==259637 ||
-         run==259681 ||
-         run==259682 ||
-         run==259683 ||
-         run==259685)
-       continue;
+     //if(run==259626 ||
+     //    run==259636 ||
+     //    run==259637 ||
+     //    run==259681 ||
+     //    run==259682 ||
+     //    run==259683 ||
+     //    run==259685)
+     //  continue;
      
      //--------------------------------------------------------------------------
      // Fill HLT
@@ -781,33 +752,44 @@ void analysisClass::Loop()
      //  	 passHLT = 1;
      //  }
      //}
-     //XXX SIC FIXME TEST
-     // ignore Run2015C stuff
-     if(isData)
-     {
-       if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-         continue;
-     }
+     // no longer in 2016
+     //// ignore Run2015C stuff
+     //if(isData)
+     //{
+     //  if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
+     //    continue;
+     //}
 
      int passHLT = 1;
-     if ( isData ) { 
+     //if ( isData ) { 
+     //  passHLT = 0;
+     //  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+     //    passHLT = 1;
+     //}
+     //// FIXME: Update to new 2016 curve?
+     //else // using the turn-on in the MC
+     //{
+     //  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+     //  //   we get two chances to pass since we may have two electrons in the event
+     //  // UPDATE TO SCETA/ptheep
+     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+     //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
+     //  if(!passHLT) // if the first one doesn't pass, try the second one
+     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+     //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
+     //}
+     //XXX SIC FIXME TEST
+     if (isData) {
        passHLT = 0;
-       if ( H_Ele27_WPLoose == 1)
-       //if ( H_Ele45_PFJet200_PFJet50 == 1)
-       // later //if ( H_Ele27_WPLoose == 1)
-       //if ( H_Ele27_WP85 == 1)
+       //if ( H_Ele27_WPLoose == 1)
+       //if ( H_Ele27_WPTight == 1)
+       if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
          passHLT = 1;
      }
-     else // using the turn-on in the MC
-     {
-       // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-       //   we get two chances to pass since we may have two electrons in the event
-       // UPDATE TO SCETA/ptheep
+     else {
        passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-       //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
        if(!passHLT) // if the first one doesn't pass, try the second one
          passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-         //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
      }
 
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
@@ -916,7 +898,7 @@ void analysisClass::Loop()
 
        if ( nJet_store >= 2 ) { 
          // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
-         sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
+         //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
          fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
@@ -948,8 +930,7 @@ void analysisClass::Loop()
      // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
      
-     //bool passed_minimum = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
-     bool passed_minimum = ( passedAllPreviousCuts("PassPrimaryVertex") && passedCut ("PassPrimaryVertex"));
+     bool passed_minimum = ( passedAllPreviousCuts("PassMuonTrackFilter") && passedCut ("PassMuonTrackFilter"));
      
      //--------------------------------------------------------------------------
      // Did we pass preselection?
@@ -1226,6 +1207,100 @@ void analysisClass::Loop()
        FillUserTH1D("Mee_PAS"		    , M_e1e2                         , pileup_weight * gen_weight );
        FillUserTH1D( "MTenu_PAS"            , MT_Ele1MET                     , pileup_weight * gen_weight );
        FillUserTH1D("Me1j1_PAS"             , M_e1j1                         , pileup_weight * gen_weight );
+       // scale factor dependence histos
+       if ( nJet_ptCut == 2 )
+         FillUserTH1D("Mee_NJetEq2_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 3 )
+         FillUserTH1D("Mee_NJetEq3_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 4 )
+         FillUserTH1D("Mee_NJetEq4_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 5 )
+         FillUserTH1D("Mee_NJetEq5_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 6 )
+         FillUserTH1D("Mee_NJetEq6_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 7 )
+         FillUserTH1D("Mee_NJetEq7_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       //
+       if ( nJet_ptCut >= 3 )
+         FillUserTH1D("Mee_NJetGeq3_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       if ( nJet_ptCut >= 4 )
+         FillUserTH1D("Mee_NJetGeq4_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       //
+       if (sT_eejj >= 300 && sT_eejj < 500)
+         FillUserTH1D("Mee_sT300To500_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (sT_eejj >= 500 && sT_eejj < 750)
+         FillUserTH1D("Mee_sT500To750_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (sT_eejj >= 750 && sT_eejj < 1250)
+         FillUserTH1D("Mee_sT750To1250_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (sT_eejj >= 1250)
+         FillUserTH1D("Mee_sT1250ToInf_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       if (sT_eejj > 340)
+         FillUserTH1D( "Mee_sT340_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 405)
+         FillUserTH1D( "Mee_sT405_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 470)
+         FillUserTH1D( "Mee_sT470_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 535)
+         FillUserTH1D( "Mee_sT535_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 595)
+         FillUserTH1D( "Mee_sT595_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 660)
+         FillUserTH1D( "Mee_sT660_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 720)
+         FillUserTH1D( "Mee_sT720_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 780)
+         FillUserTH1D( "Mee_sT780_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 840)
+         FillUserTH1D( "Mee_sT840_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 900)
+         FillUserTH1D( "Mee_sT900_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 960)
+         FillUserTH1D( "Mee_sT960_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1015)
+         FillUserTH1D( "Mee_sT1015_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1075)
+         FillUserTH1D( "Mee_sT1075_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1130)
+         FillUserTH1D( "Mee_sT1130_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1190)
+         FillUserTH1D( "Mee_sT1190_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1245)
+         FillUserTH1D( "Mee_sT1245_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1300)
+         FillUserTH1D( "Mee_sT1300_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1355)
+         FillUserTH1D( "Mee_sT1355_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1410)
+         FillUserTH1D( "Mee_sT1410_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1460)
+         FillUserTH1D( "Mee_sT1460_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1515)
+         FillUserTH1D( "Mee_sT1515_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1565)
+         FillUserTH1D( "Mee_sT1565_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1615)
+         FillUserTH1D( "Mee_sT1615_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1670)
+         FillUserTH1D( "Mee_sT1670_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1720)
+         FillUserTH1D( "Mee_sT1720_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1770)
+         FillUserTH1D( "Mee_sT1770_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       if (sT_eejj > 1815)
+         FillUserTH1D( "Mee_sT1815_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       //
+       if (M_ej_min >= 100 && M_ej_min < 200)
+         FillUserTH1D("Mee_MejMin100To200_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 200 && M_ej_min < 300)
+         FillUserTH1D("Mee_MejMin200To300_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 300 && M_ej_min < 400)
+         FillUserTH1D("Mee_MejMin300To400_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 400 && M_ej_min < 500)
+         FillUserTH1D("Mee_MejMin400To500_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 500 && M_ej_min < 650)
+         FillUserTH1D("Mee_MejMin500To650_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 650)
+         FillUserTH1D("Mee_MejMin650ToInf_PAS", M_e1e2                         , pileup_weight * gen_weight );
        if(M_e1j1 < 200)
        {
          FillUserTH1D("lowMe1j1_DR_Ele1Jet1_PAS"	                , DR_Ele1Jet1                         , pileup_weight * gen_weight );
@@ -1334,8 +1409,6 @@ void analysisClass::Loop()
        //--------------------------------------------------------------------------
 
        if ( isData == 1 ) { 
-         //FillUserTH1D("split_PAS"    , get_split     ( run ), pileup_weight * gen_weight ) ;
-         //FillUserTH1D("split_1fb_PAS", get_split_1fb ( run ), pileup_weight * gen_weight ) ;
          FillUserTH1D("run_PAS"  , run );
          profile_run_vs_nvtx_PAS -> Fill ( run, nVertex, 1 );
        }
@@ -1456,7 +1529,6 @@ void analysisClass::Loop()
 	   FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
 	 }
 	 
-	 //if ( isData == 1 ) FillUserTH1D("split_PASandMee100", get_split ( run ), pileup_weight * gen_weight ) ;
 	 FillUserTH1D("Ptee_PASandMee100"              , Pt_e1e2                        , pileup_weight * gen_weight );
 	 FillUserTH2D("MeeVsST_PASandMee100" , M_e1e2, sT_eejj, pileup_weight * gen_weight );	   
 	 FillUserTH1D("sT_zjj_PASandMee100"            , sT_zjj                         , pileup_weight * gen_weight );
@@ -1531,7 +1603,6 @@ void analysisClass::Loop()
 
        if ( passed_region_of_interest ) { 
 
-	 //if ( isData == 1 ) FillUserTH1D( "split_ROI" , get_split_1fb ( run ) , pileup_weight * gen_weight );
 
 	 FillUserTH1D("BeamSpotDXY_1stEle_ROI"           , Ele1_BeamSpotDXY                    , pileup_weight * gen_weight    ); 
 	 FillUserTH1D("Classif_1stEle_ROI"               , Ele1_Classif                        , pileup_weight * gen_weight    ); 
@@ -1789,11 +1860,6 @@ void analysisClass::Loop()
            sprintf(plot_name, "Ptj1j2_LQ%d"            , lq_mass ); FillUserTH1D( plot_name , Pt_j1j2                        , pileup_weight * gen_weight );
            sprintf(plot_name, "Ptee_Minus_Ptj1j2_LQ%d" , lq_mass ); FillUserTH1D( plot_name , Pt_e1e2 - Pt_j1j2              , pileup_weight * gen_weight );
 
-           //if ( isData == 1 ) {
-           //  sprintf(plot_name, "split_1fb_LQ%d", lq_mass ); 
-           //  int split_1fb = get_split_1fb ( run );
-           //  FillUserTH1D( plot_name, split_1fb , pileup_weight * gen_weight );
-           //}
          } // End final selection
        }
 
