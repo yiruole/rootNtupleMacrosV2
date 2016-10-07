@@ -146,6 +146,8 @@ def GetHisto( histoName , file , scale = 1 ):
     histo = file.Get( histoName )
     ## XXX SIC TEST
     #print 'Get histo',histoName,'from file:',file.GetName()
+    #c2 = TCanvas()
+    #c2.cd()
     #histo.Draw()
     ### wait for input to keep the GUI (which lives on a ROOT event dispatcher) alive
     #rep = ''
@@ -397,8 +399,6 @@ class Plot:
         #-- create canvas
         canvas = TCanvas()
 
-        stack = {}
-
         if(self.makeNSigma==0):
             if(self.makeRatio==1):
                 fPads1 = TPad("pad1", "", 0.00, 0.20, 0.99, 0.99)
@@ -460,7 +460,8 @@ class Plot:
             xstart=0.35
             ystart=0.25
         elif(self.lpos=="top-left"):
-            xstart=0.12
+            #xstart=0.12
+            xstart=0.15
 #            ystart=0.63
             ystart=0.54
         else:
@@ -481,100 +482,75 @@ class Plot:
         legend.AddEntry(self.histodata, "Data, "+self.lumi_fb +" fb^{-1}","lp")
 
         #-- loop over histograms (stacked)
-        Nstacked = len(self.histosStack)
         #stackColorIndexes = [20,38,14,45,20,38,14,45]
         #stackColorIndexes = [20,38,12,14,20,38,12,14]
         
         stkcp = []
+        stackedHistos = []
+        thStack = THStack()
+        bkgTotalHist = TH1D()
 
-
-        ## XXX SIC TEST
-        #print 'Nstacked=',Nstacked
-        for iter in range(0, Nstacked):
+        for index,sampleHisto in enumerate(self.histosStack):
             #make this stack
-            stack[iter] = TH1F()
             plot_maximum = -999.
-            Nloop = Nstacked - iter
-            ## XXX SIC TEST
-            #print 'Nloop=',Nloop
-            for iter1 in range(0,Nloop):
-                histo = copy.deepcopy(self.histosStack[iter1])
-                if(iter1==0):
-                    stack[iter] = histo
-                    #stack[iter].SetName( self.keysStack[iter] )
-                else:
-                    stack[iter].Add(histo)
-                ## XXX SIC TEST
-                #print 'added histo to stack:',histo.GetName()
+            histo = copy.deepcopy(sampleHisto)
+            stackedHistos.append(histo)
             if self.histodata:
-              plot_maximum = max(stack[iter].GetMaximum(), self.histodata.GetMaximum())
+              plot_maximum = max(stackedHistos[-1].GetMaximum(), self.histodata.GetMaximum())
             else:
-              plot_maximum = stack[iter].GetMaximum()
+              plot_maximum = stackedHistos[-1].GetMaximum()
             #define style
-            stack[iter].SetMarkerStyle(20+2*iter)
-            stack[iter].SetMarkerColor(self.stackColorIndexes[iter])
-            stack[iter].SetLineColor(  self.stackColorIndexes[iter])
-            stack[iter].SetLineWidth(  2 )
-            stack[iter].SetFillColor(  self.stackColorIndexes[iter])
-            stack[iter].SetFillStyle(  self.stackFillStyleIds[iter])
-            legend.AddEntry(stack[iter], self.keysStack[Nstacked - iter - 1],"lf")
-            #draw stack
-            if iter==0:
-                stack[iter].SetTitle("")
-                stack[iter].GetXaxis().SetTitle(self.xtit)
-                stack[iter].GetXaxis().SetTitleFont(132)
-                stack[iter].GetXaxis().SetTitleOffset(0.8)
-                stack[iter].GetXaxis().SetLabelOffset(0.0)
-                stack[iter].GetXaxis().SetTitleSize(0.065)
-                stack[iter].GetXaxis().SetLabelSize(0.055)
-                stack[iter].GetXaxis().SetLabelFont(132)
-                stack[iter].GetYaxis().SetTitleFont(132)
-                stack[iter].GetYaxis().SetTitleOffset(0.7)
-                stack[iter].GetYaxis().SetTitleSize(0.065)
-                stack[iter].GetYaxis().SetLabelSize(0.055)
-                stack[iter].GetYaxis().SetLabelOffset(0.0)
-                stack[iter].GetYaxis().SetLabelFont(132)
-#                stack[iter].GetXaxis().SetTitleFont(132)
-#                stack[iter].GetXaxis().SetTitleOffset(0.62)
-#                stack[iter].GetXaxis().SetTitleSize(0.05)
-#                stack[iter].GetXaxis().SetLabelFont(132)
-#                stack[iter].GetXaxis().SetTitleSize(0.05)
-#                stack[iter].GetXaxis().SetLabelSize(0.045)
-#                stack[iter].GetYaxis().SetTitleFont(132)
-#                stack[iter].GetYaxis().SetLabelFont(132)
-#                stack[iter].GetYaxis().SetTitleOffset(0.8)
-#                stack[iter].GetYaxis().SetTitleSize(0.05)
-#                stack[iter].GetYaxis().SetLabelSize(0.045)
-                stack[iter].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)") # units omitted or no units for x-axis
-                #stack[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW)) # for x-axis in units of GeV
-                if (self.ymin!="" and self.ymax!=""):
-                    #stack[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
-                    stack[iter].GetYaxis().SetRangeUser(self.ymin,self.ymax)
-                elif self.ylog != "yes":
-                    my_ymin = 0.
-                    my_ymax = ( plot_maximum + math.sqrt ( plot_maximum ) )
-                    my_ymax = my_ymax * 1.3
-                    stack[iter].GetYaxis().SetRangeUser(my_ymin,my_ymax)
-                #search for maximum of histograms
-                #maxHisto = stack[iter].GetMaximum()
-                #print maxHisto
-                #for hh in self.histos:
-                #    if(hh.GetMaximum() > maxHisto):
-                #        maxHisto = hh.GetMaximum()
-                #stack[iter].GetYaxis().SetLimits(0.,maxHisto*1.2)
-                #stack[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)
-                #draw first histo
-                stack[iter].Draw("HIST")
-                stkcp.append(copy.deepcopy(stack[iter]))
+            stackedHistos[-1].SetMarkerStyle(20+2*index)
+            stackedHistos[-1].SetMarkerColor(self.stackColorIndexes[index])
+            stackedHistos[-1].SetLineColor(  self.stackColorIndexes[index])
+            stackedHistos[-1].SetLineWidth(  2 )
+            stackedHistos[-1].SetFillColor(  self.stackColorIndexes[index])
+            stackedHistos[-1].SetFillStyle(  self.stackFillStyleIds[index])
+            # set style
+            #stackedHistos[-1].SetTitle("")
+            #stackedHistos[-1].GetXaxis().SetTitle(self.xtit)
+            #stackedHistos[-1].GetXaxis().SetTitleFont(132)
+            #stackedHistos[-1].GetXaxis().SetTitleOffset(0.8)
+            #stackedHistos[-1].GetXaxis().SetLabelOffset(0.0)
+            #stackedHistos[-1].GetXaxis().SetTitleSize(0.065)
+            #stackedHistos[-1].GetXaxis().SetLabelSize(0.055)
+            #stackedHistos[-1].GetXaxis().SetLabelFont(132)
+            #stackedHistos[-1].GetYaxis().SetTitleFont(132)
+            #stackedHistos[-1].GetYaxis().SetTitleOffset(0.7)
+            #stackedHistos[-1].GetYaxis().SetTitleSize(0.065)
+            #stackedHistos[-1].GetYaxis().SetLabelSize(0.055)
+            #stackedHistos[-1].GetYaxis().SetLabelOffset(0.0)
+            #stackedHistos[-1].GetYaxis().SetLabelFont(132)
+            #stackedHistos[-1].GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)") # units omitted or no units for x-axis
+            #stackedHistos[iter].GetYaxis().SetTitle((self.ytit + " #times (%.0f GeV)/(bin width)")%(minBinW)) # for x-axis in units of GeV
+            if (self.ymin!="" and self.ymax!=""):
+                #stackedHistos[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
+                stackedHistos[-1].GetYaxis().SetRangeUser(self.ymin,self.ymax)
+            elif self.ylog != "yes":
+                my_ymin = 0.
+                my_ymax = ( plot_maximum + math.sqrt ( plot_maximum ) )
+                my_ymax = my_ymax * 1.3
+                stackedHistos[-1].GetYaxis().SetRangeUser(my_ymin,my_ymax)
+            #search for maximum of histograms
+            #maxHisto = stackedHistos[iter].GetMaximum()
+            #print maxHisto
+            #for hh in self.histos:
+            #    if(hh.GetMaximum() > maxHisto):
+            #        maxHisto = hh.GetMaximum()
+            #stackedHistos[iter].GetYaxis().SetLimits(0.,maxHisto*1.2)
+            #stackedHistos[iter].GetYaxis().SetRangeUser(0.001,maxHisto*1.2)
+            #draw first histo
+            #stackedHistos[-1].Draw("HIST")
+            stkcp.append(copy.deepcopy(stackedHistos[-1]))
+            legend.AddEntry(stackedHistos[-1], self.keysStack[index],"lf")
+            thStack.Add(histo)
+            if index==0:
+              bkgTotalHist = histo.Clone()
             else:
-                stkcp.append(copy.deepcopy(stack[iter])) # this is the only way that I figured out to cover the previous histogram!
-                stkcp[iter].SetFillStyle(1001)
-                stkcp[iter].SetFillColor(10)
-                stkcp[iter].Draw("HISTsame")
-                stack[iter].Draw("HISTsame")
+              bkgTotalHist.Add(histo)
             ## XXX SIC TEST
-            #print 'draw hist: entries=',stack[iter].GetEntries()
-            #print 'draw hist: mean=',stack[iter].GetMean()
+            #print 'draw hist: entries=',stackedHistos[iter].GetEntries()
+            #print 'draw hist: mean=',stackedHistos[iter].GetMean()
             ### wait for input to keep the GUI (which lives on a ROOT event dispatcher) alive
             #rep = ''
             #while not rep in [ 'c', 'C' ]:
@@ -582,10 +558,46 @@ class Plot:
             #   if 1 < len(rep):
             #      rep = rep[0]
 
+        if (self.ymin!="" and self.ymax!=""):
+            thStack.SetMinimum(self.ymin)
+            thStack.SetMaximum(self.ymax)
+        elif self.ylog != "yes":
+            my_ymin = 0.
+            my_ymax = ( plot_maximum + math.sqrt ( plot_maximum ) )
+            my_ymax = my_ymax * 1.3
+            thStack.SetMinimum(my_ymin)
+            thStack.SetMaximum(my_ymax)
+        else:
+            my_ymin = 1e-1
+            my_ymax = ( plot_maximum + 100*math.sqrt ( plot_maximum ) )
+            my_ymax = my_ymax * 1.3
+            thStack.SetMinimum(my_ymin)
+            thStack.SetMaximum(my_ymax)
+        # set stack style
+        thStack.Draw()
+        thStack.SetTitle("")
+        thStack.GetXaxis().SetTitle(self.xtit)
+        thStack.GetXaxis().SetTitleFont(132)
+        thStack.GetXaxis().SetTitleOffset(0.8)
+        thStack.GetXaxis().SetLabelOffset(0.0)
+        thStack.GetXaxis().SetTitleSize(0.065)
+        thStack.GetXaxis().SetLabelSize(0.055)
+        thStack.GetXaxis().SetLabelFont(132)
+        thStack.GetYaxis().SetTitleFont(132)
+        thStack.GetYaxis().SetTitleOffset(0.7)
+        thStack.GetYaxis().SetTitleSize(0.065)
+        thStack.GetYaxis().SetLabelSize(0.055)
+        thStack.GetYaxis().SetLabelOffset(0.0)
+        thStack.GetYaxis().SetLabelFont(132)
+        thStack.GetYaxis().SetTitle(self.ytit + " #times ("+ str(minBinW) + ")/(bin width)") # units omitted or no units for x-axis
+        # draw the stack!
+        thStack.Draw('hist')
+        
+
         #-- Z+jets uncertainty band
         if(self.addZUncBand == "yes"):
             Zhisto = copy.deepcopy(self.histosStack[self.ZPlotIndex])
-            zUncHisto = copy.deepcopy(stack[0])
+            zUncHisto = copy.deepcopy(stackedHistos[0])
             for bin in range(0,Zhisto.GetNbinsX()):
                 zUncHisto.SetBinError(bin+1,self.ZScaleUnc*Zhisto.GetBinContent(bin+1))
             zUncHisto.SetMarkerStyle(0)
@@ -618,7 +630,8 @@ class Plot:
 
         #-- plot data
         if(self.histodata!=""):
-            self.histodata.SetMarkerStyle(1)
+            self.histodata.SetMarkerStyle(20)
+            self.histodata.SetMarkerSize(0.8)
             self.histodata.SetLineWidth(2)
             self.histodata.SetLineColor(kBlack)
             #legend.AddEntry(self.histodata, "Data","lp")
@@ -628,7 +641,8 @@ class Plot:
         l = TLatex()
         l.SetTextAlign(12)
         l.SetTextFont(132)
-        l.SetTextSize(0.065)
+        #l.SetTextSize(0.065)
+        l.SetTextSize(0.055)
         if ( self.makeRatio  == 0 and self.makeNSigma == 0 ): l.SetTextSize(0.041)
         l.SetNDC()
 #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
@@ -640,6 +654,7 @@ class Plot:
         if (self.lpos=="top-left"):
             # l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS")
             l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.03,"CMS Preliminary")
+            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.13,"#sqrt{s} = 13 TeV")
 #            l.DrawLatex(xstart+hsize+0.02,ystart+vsize-0.13,"#intLdt = " + self.lint)
         else:
             if ( self.makeRatio  == 0 and self.makeNSigma == 0 ): 
@@ -647,9 +662,10 @@ class Plot:
                 l.DrawLatex(xstart-hsize+0,ystart+vsize-0.11,"#sqrt{s} = 13 TeV")            
                 #l.DrawLatex(xstart-hsize+0,ystart+vsize-0.11,"#sqrt{s} = 8 TeV")            
             else:
-                l.DrawLatex(xstart-hsize+0,ystart+vsize-0.05,"CMS Preliminary")
-                l.DrawLatex(xstart-hsize+0,ystart+vsize-0.15,"#sqrt{s} = 13 TeV")
-                #l.DrawLatex(xstart-hsize+0,ystart+vsize-0.15,"#sqrt{s} = 8 TeV")
+                #l.DrawLatex(xstart-hsize+0,ystart+vsize-0.05,"CMS Preliminary")
+                #l.DrawLatex(xstart-hsize+0,ystart+vsize-0.15,"#sqrt{s} = 13 TeV")
+                l.DrawLatex(xstart-hsize+0,ystart+vsize-0.0,"CMS Preliminary")
+                l.DrawLatex(xstart-hsize+0,ystart+vsize-0.05,"#sqrt{s} = 13 TeV")
                 
 #            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.03,"CMS Preliminary 2010")
 #            l.DrawLatex(xstart-hsize-0.10,ystart+vsize-0.13,"#intLdt = " + self.lint)
@@ -662,7 +678,7 @@ class Plot:
         #-- 2nd pad (ratio)
         if(self.makeRatio==1 or self.makeNSigma==1) and self.histodata:
 
-            h_bkgTot = copy.deepcopy(stack[0])
+            h_bkgTot = copy.deepcopy(bkgTotalHist)
             h_ratio = copy.deepcopy(self.histodata)
             h_nsigma = copy.deepcopy(self.histodata)
             h_bkgTot1 = TH1F()
@@ -741,6 +757,7 @@ class Plot:
                         # if ( len ( nsigma_x ) == 0 ) continue
 
                         g_nsigma = TGraph ( len ( nsigma_x ) , nsigma1_x, nsigma1_y ) 
+                        g_nsigma.SetTitle('')
 
                         g_nsigma.Draw("AP")
                         g_nsigma.SetMarkerStyle ( 8 )
