@@ -9,60 +9,11 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
+// for trigger turn-on
+#include "Ele27WPLooseTrigTurnOn.C"
+// for fake rate
+#include "include/QCDFakeRate.h"
 
-int run_max[38] = { 191718, 193621, 194223, 194533, 194912, 195304, 195552, 195930, 196239, 196453, 
-                    196531, 198941, 199319, 199571, 199812, 200042, 200369, 200991, 201278, 201705, 
-                    202045, 202209, 202477, 203002, 204250, 204601, 205339, 205694, 206187, 206389, 
-                    206512, 206745, 207214, 207372, 207515, 208307, 208487, 208686 };
-
-int run_min[38] = { 190645, 191720, 193834, 194224, 194619, 194914, 195378, 195633, 195937, 196249, 
-                    196495, 198049, 198954, 199336, 199572, 199833, 200049, 200381, 200992, 201554, 
-                    201706, 202054, 202237, 202478, 203894, 204511, 205086, 205344, 205718, 206188, 
-                    206391, 206513, 206859, 207217, 207397, 207517, 208339, 208509 };
-
-int run_max_1fb[20] = { 193621, 194533, 195304, 195915, 196452, 196531, 199319, 199804, 200244, 201196, 
-			202014, 202305, 203002, 204577, 205666, 206246, 206598, 207273, 207905, 208686 };
-
-int run_min_1fb[20] = { 190645, 193834, 194619, 195378, 195916, 196453, 198049, 199336, 199812, 200245, 
-			201197, 202016, 202314, 203894, 204599, 205667, 206257, 206605, 207279, 207920 };
-
-int get_split ( int run ) { 
-  
-  int n_split = 38;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min [i_split];
-    int tmp_run_max = run_max [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split for run = " << run << std::endl;
-  
-  return split;
-}
-
-int get_split_1fb ( int run ) { 
-  
-  int n_split = 20;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min_1fb [i_split];
-    int tmp_run_max = run_max_1fb [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split (1 fb-1) for run = " << run << std::endl;
-  
-  return split;
-}
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -121,13 +72,27 @@ void analysisClass::Loop()
    // Final selection mass points
    //--------------------------------------------------------------------------
 
-   const int n_lq_mass = 19;
-
+   const int n_lq_mass = 37;
    int LQ_MASS[n_lq_mass] = { 
+     200,  250,
      300,  350,  400, 450, 500, 550,  600,  650,
      700,  750,  800, 850, 900, 950, 1000, 1050,
-     1100, 1150, 1200
+     1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450,
+     1500, 1550, 1600, 1650, 1700, 1750, 1800, 1850,
+     1900, 1950, 2000
    };
+
+   //// SIC only look at LQ650 selection for now
+   //// LQ650 only 2012
+   //const int n_lq_mass = 1;
+   //int LQ_MASS[n_lq_mass] = { 
+   //   6502012
+   //};
+
+   // turn off totally for optimization
+   //const int n_lq_mass = 0;
+   //int LQ_MASS[n_lq_mass];
+
 
    std::vector<bool> passed_vector;
    
@@ -632,19 +597,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "ST_LQ300_NoMETCut" , 300 , 0 , 3000 ); 
 
    //--------------------------------------------------------------------------
-   // Make event lists for various filters
-   //--------------------------------------------------------------------------
-   // XXX NB: the hcal noise filter event lists are incomplete!
-   //    Need to rentuplize everything and run the filters at that point
-   EventListHelper HBHENoiseRun2LooseEventList;
-   HBHENoiseRun2LooseEventList.addFileToList("eventlist_hbher2l.txt");
-   EventListHelper HBHENoiseRun2IsoEventList;
-   HBHENoiseRun2IsoEventList.addFileToList("eventlist_hbheiso.txt");
-   EventListHelper CSCBeamHaloTight2015EventList;
-   CSCBeamHaloTight2015EventList.addFileToList("SingleElectron_csc2015.txt");
-   
-   
-   //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
 
@@ -672,14 +624,13 @@ void analysisClass::Loop()
      // Check good run list
      //--------------------------------------------------------------------------
      
-     int passedJSON = passJSON ( int(run), int(ls) , bool(isData) ) ;
-     if ( !isData ) passedJSON = 1;
+     int passedJSON = passJSON ( run, ls , isData ) ;
      
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     double pileup_weight = getPileupWeight ( int (nPileUpInt_True) , bool (isData) ) ;
+     double pileup_weight = getPileupWeight ( nPileUpInt_True , isData ) ;
      
      //--------------------------------------------------------------------------
      // Get information about gen-level reweighting (should be for Sherpa only)
@@ -765,50 +716,53 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Fill noise filters
      //--------------------------------------------------------------------------
-
-     // Noise/MET filters
      // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
-     // XXX Right now, we have to read the bad events from event lists
-     // txt files sent to me privately
-     // see: https://indico.cern.ch/event/458729/contribution/8/attachments/1179252/1706416/metscan.pdf
-     // Later this will be included in a re-reco
-     //fillVariableWithValue(   "PassHBHENoiseFilter"	      , PassHBHENoiseFilter                              , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter                              , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassBeamHaloFilterTight"       , PassBeamHaloFilterTight                          , gen_weight * pileup_weight );
-     //TODO to be implemented in skim?
-     //fillVariableWithValue(   "PassBadEESupercrystalFilter"   , ( isData == 1 ) ? PassBadEESupercrystalFilter : 1, gen_weight * pileup_weight );
-     
-     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassHBHENoiseFilter"	        , HBHENoiseRun2LooseEventList.eventInList(run,ls,event)    ?  0 : 1  , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassHBHENoiseIsoFilter"	    , HBHENoiseRun2IsoEventList.eventInList(run,ls,event)      ?  0 : 1  , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"  , CSCBeamHaloTight2015EventList.eventInList(run,ls,event)  ?  0 : 1  , gen_weight * pileup_weight );
+     // we filled these at skim time
+     fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter  , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGoodVertices"	            , PassGoodVertices               , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseFilter"	          , PassHBHENoiseFilter            , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter         , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter    , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim       , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter   , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassMuonTrackFilter"           , PassMuonTrackFilter            , gen_weight * pileup_weight );
      //
-     fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPrimaryVertex"	      , PassPrimaryVertex                                , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
-     
+
      
      //--------------------------------------------------------------------------
      // Fill HLT
      //--------------------------------------------------------------------------
 
-     //int passHLT = 1;
+     int passHLT = 1;
      //if ( isData ) { 
      //  passHLT = 0;
-     //  if ( H_Ele30_PFJet100_25 == 1 || H_Ele30_PFNoPUJet100_25  == 1 ){
-	 ////if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
-     //  	 passHLT = 1;
-     //  }
+     //  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+     //    passHLT = 1;
      //}
-     int passHLT = 1;
-     if ( isData ) { 
+     //// FIXME: Update to new 2016 curve?
+     //else // using the turn-on in the MC
+     //{
+     //  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+     //  //   we get two chances to pass since we may have two electrons in the event
+     //  // UPDATE TO SCETA/ptheep
+     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+     //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
+     //  if(!passHLT) // if the first one doesn't pass, try the second one
+     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+     //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
+     //}
+     //XXX SIC FIXME TEST
+     if (isData) {
        passHLT = 0;
-       if ( H_Ele45_PFJet200_PFJet50 == 1)
+       //if ( H_Ele27_WPLoose == 1)
+       //if ( H_Ele27_WPTight == 1)
+       if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
          passHLT = 1;
+     }
+     else {
+       passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+       if(!passHLT) // if the first one doesn't pass, try the second one
+         passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
      }
 
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
@@ -1173,12 +1127,10 @@ void analysisClass::Loop()
      // Fill final selection cuts
      //--------------------------------------------------------------------------
 
-     if ( do_final_selection ) { 
+     if (!isOptimizationEnabled()) { 
        for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
          // SIC note: This appears to be where the final selection variables are defined (in terms of quantites calculated/known to the analysisClass)
          int lq_mass = LQ_MASS[i_lq_mass];
-         //XXX Only look at specific selections for now
-         if(lq_mass!=300 && lq_mass!=600 && lq_mass!=650 && lq_mass!=1200) continue;
          // SIC edit
          //sprintf(cut_name, "MET_LQ%d"   , lq_mass ); fillVariableWithValue( cut_name , PFMET_Type01XY_Pt , gen_weight * pileup_weight );
          //sprintf(cut_name, "Mej_LQ%d"   , lq_mass ); fillVariableWithValue( cut_name , Mej        , gen_weight * pileup_weight );
@@ -1218,7 +1170,7 @@ void analysisClass::Loop()
      
      bool passed_preselection = passedAllPreviousCuts("preselection");
      //bool passed_minimum      = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
-     bool passed_minimum      = ( passedAllPreviousCuts("PassPhysDecl") && passedCut ("PassPhysDecl"));
+     bool passed_minimum      = ( passedAllPreviousCuts("PassMuonTrackFilter") && passedCut ("PassMuonTrackFilter"));
     
      if ( passed_minimum && isData ){ 
        FillUserTH1D ("run_HLT", run );
@@ -1249,39 +1201,37 @@ void analysisClass::Loop()
        passed_mtAndMetAndMej_vector.clear();
 
        for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	 int lq_mass = LQ_MASS[i_lq_mass];
-   //XXX Only look at specific selections for now
-   if(lq_mass!=300 && lq_mass!=600 && lq_mass!=650 && lq_mass!=1200) continue;
-	 sprintf(cut_name    ,"Mej_LQ%d", lq_mass );
-	 sprintf(mt_cut_name ,"MT_LQ%d" , lq_mass );
-	 sprintf(st_cut_name ,"ST_LQ%d" , lq_mass );
-	 sprintf(met_cut_name,"MET_LQ%d", lq_mass );
-	 sprintf(mej_cut_name,"Mej_LQ%d", lq_mass );
-	 
-	 bool decision     = bool ( passedAllPreviousCuts(      cut_name) && passedCut (    cut_name));
-	 bool st_decision  = bool ( passedAllPreviousCuts("preselection") && passedCut ( st_cut_name));
-	 bool mt_decision  = bool ( passedAllPreviousCuts("preselection") && passedCut ( mt_cut_name));
-	 bool met_decision = bool ( passedAllPreviousCuts("preselection") && passedCut (met_cut_name));
-	 bool mej_decision = bool ( passedAllPreviousCuts("preselection") && passedCut (mej_cut_name));
-	 
-	 passed_vector.push_back (decision);
+         int lq_mass = LQ_MASS[i_lq_mass];
+         sprintf(cut_name    ,"Mej_LQ%d", lq_mass );
+         sprintf(mt_cut_name ,"MT_LQ%d" , lq_mass );
+         sprintf(st_cut_name ,"ST_LQ%d" , lq_mass );
+         sprintf(met_cut_name,"MET_LQ%d", lq_mass );
+         sprintf(mej_cut_name,"Mej_LQ%d", lq_mass );
 
-	 passed_st_vector .push_back ( st_decision  );
-	 passed_mt_vector .push_back ( mt_decision  );
-	 passed_met_vector.push_back ( met_decision );
-	 passed_mej_vector.push_back ( mej_decision );
+         bool decision     = bool ( passedAllPreviousCuts(      cut_name) && passedCut (    cut_name));
+         bool st_decision  = bool ( passedAllPreviousCuts("preselection") && passedCut ( st_cut_name));
+         bool mt_decision  = bool ( passedAllPreviousCuts("preselection") && passedCut ( mt_cut_name));
+         bool met_decision = bool ( passedAllPreviousCuts("preselection") && passedCut (met_cut_name));
+         bool mej_decision = bool ( passedAllPreviousCuts("preselection") && passedCut (mej_cut_name));
 
-	 passed_stAndMej_vector .push_back( st_decision  && mej_decision );
-	 passed_mtAndMej_vector .push_back( mt_decision  && mej_decision );
-	 passed_metAndMej_vector.push_back( met_decision && mej_decision );
-	 passed_stAndMet_vector .push_back( st_decision  && met_decision );
-	 passed_mtAndMet_vector .push_back( mt_decision  && met_decision );
-	 passed_stAndMt_vector  .push_back( st_decision  && mt_decision  );
-       
-	 passed_stAndMtAndMet_vector .push_back(st_decision && mt_decision  && met_decision ); 
-	 passed_stAndMtAndMej_vector .push_back(st_decision && mt_decision  && mej_decision ); 
-	 passed_stAndMetAndMej_vector.push_back(st_decision && met_decision && mej_decision ); 
-	 passed_mtAndMetAndMej_vector.push_back(mt_decision && met_decision && mej_decision ); 
+         passed_vector.push_back (decision);
+
+         passed_st_vector .push_back ( st_decision  );
+         passed_mt_vector .push_back ( mt_decision  );
+         passed_met_vector.push_back ( met_decision );
+         passed_mej_vector.push_back ( mej_decision );
+
+         passed_stAndMej_vector .push_back( st_decision  && mej_decision );
+         passed_mtAndMej_vector .push_back( mt_decision  && mej_decision );
+         passed_metAndMej_vector.push_back( met_decision && mej_decision );
+         passed_stAndMet_vector .push_back( st_decision  && met_decision );
+         passed_mtAndMet_vector .push_back( mt_decision  && met_decision );
+         passed_stAndMt_vector  .push_back( st_decision  && mt_decision  );
+
+         passed_stAndMtAndMet_vector .push_back(st_decision && mt_decision  && met_decision ); 
+         passed_stAndMtAndMej_vector .push_back(st_decision && mt_decision  && mej_decision ); 
+         passed_stAndMetAndMej_vector.push_back(st_decision && met_decision && mej_decision ); 
+         passed_mtAndMetAndMej_vector.push_back(mt_decision && met_decision && mej_decision ); 
 
        }
      }
@@ -1298,14 +1248,14 @@ void analysisClass::Loop()
        
        
        if ( MT_Ele1MET  > 110. && 
-	    sT_enujj > 300. && 
-	    sT_enujj < 495. ){
-	 if ( nJet_ptCut >= 4 ){ 
-	   FillUserTH1D("sT_ControlRegion_Njet_gte4", sT_enujj, pileup_weight * gen_weight );
-	 }
-	 if ( nJet_ptCut <= 3 ){
-	   FillUserTH1D("sT_ControlRegion_Njet_lte3", sT_enujj, pileup_weight * gen_weight );
-	 }
+           sT_enujj > 300. && 
+           sT_enujj < 495. ){
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D("sT_ControlRegion_Njet_gte4", sT_enujj, pileup_weight * gen_weight );
+         }
+         if ( nJet_ptCut <= 3 ){
+           FillUserTH1D("sT_ControlRegion_Njet_lte3", sT_enujj, pileup_weight * gen_weight );
+         }
        }
 
        //--------------------------------------------------------------------------
@@ -1325,22 +1275,22 @@ void analysisClass::Loop()
        double min_DR_EleJet = 999.0;
        double DR_Ele1Jet3 = 999.0;
        if ( nJet_store > 2 ) {
-	 TLorentzVector ele1,  jet3;
-	 ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
-	 jet3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );	 
-	 DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
+         TLorentzVector ele1,  jet3;
+         ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+         jet3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );	 
+         DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
        }
 
        if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
        if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
        if ( nJet_store > 2 ) {
-	 if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
+         if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
        }
-       
+
        if ( isData ) {
-	 FillUserTH1D("run_PAS", run ) ;
-	 FillUserTH1D("split_PAS"    , get_split     ( run ), pileup_weight * gen_weight ) ;
-	 FillUserTH1D("split_1fb_PAS", get_split_1fb ( run ), pileup_weight * gen_weight ) ;
+         FillUserTH1D("run_PAS", run ) ;
+         //FillUserTH1D("split_PAS"    , get_split     ( run ), pileup_weight * gen_weight ) ;
+         //FillUserTH1D("split_1fb_PAS", get_split_1fb ( run ), pileup_weight * gen_weight ) ;
        }
 
        FillUserTH1D( "nElectron_PAS"              , nEle_ptCut                                   , pileup_weight * gen_weight); 
@@ -1415,461 +1365,462 @@ void analysisClass::Loop()
        likelihood_values.push_back ( PFMET_Type01XY_Pt   );
        likelihood_values.push_back ( MT_Ele1MET );
 
-       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	 int  lq_mass = LQ_MASS      [i_lq_mass];
-	 char signal_name[100]; sprintf( signal_name, "LQ_M%d", lq_mass );
-	 double likelihood     = myLikelihoodGetter -> getLikelihood    ( signal_name, likelihood_values ) ;
-	 double log_likelihood = myLikelihoodGetter -> getLogLikelihood ( signal_name, likelihood_values ) ;
-	 sprintf(plot_name, "likelihood_LQ%d"   , lq_mass ); FillUserTH1D ( plot_name, likelihood    , pileup_weight * gen_weight );	 
-	 sprintf(plot_name, "logLikelihood_LQ%d", lq_mass ); FillUserTH1D ( plot_name, log_likelihood, pileup_weight * gen_weight );	 
-       }
+       // possibly FIXME
+       //for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+       //  int  lq_mass = LQ_MASS      [i_lq_mass];
+       //  char signal_name[100]; sprintf( signal_name, "LQ_M%d", lq_mass );
+       //  double likelihood     = myLikelihoodGetter -> getLikelihood    ( signal_name, likelihood_values ) ;
+       //  double log_likelihood = myLikelihoodGetter -> getLogLikelihood ( signal_name, likelihood_values ) ;
+       //  sprintf(plot_name, "likelihood_LQ%d"   , lq_mass ); FillUserTH1D ( plot_name, likelihood    , pileup_weight * gen_weight );	 
+       //  sprintf(plot_name, "logLikelihood_LQ%d", lq_mass ); FillUserTH1D ( plot_name, log_likelihood, pileup_weight * gen_weight );	 
+       //}
 
        if ( Pt_Ele1MET > 200. && 
-	    Jet1_Pt    > 200. && 
-	    Jet1_Mass  > 50.  ) {
-	 FillUserTH1D("nJet_PASandFrancesco", nJet_ptCut, pileup_weight * gen_weight);
+           Jet1_Pt    > 200. && 
+           Jet1_Mass  > 50.  ) {
+         FillUserTH1D("nJet_PASandFrancesco", nJet_ptCut, pileup_weight * gen_weight);
        }
 
        if ( nJet_ptCut == 2 ) FillUserTH1D( "Eta1stJet_PASand2Jet", Jet1_Eta, pileup_weight * gen_weight);
        if ( nJet_ptCut == 3 ) FillUserTH1D( "Eta1stJet_PASand3Jet", Jet1_Eta, pileup_weight * gen_weight);
        if ( nJet_ptCut == 4 ) FillUserTH1D( "Eta1stJet_PASand4Jet", Jet1_Eta, pileup_weight * gen_weight);
        if ( nJet_ptCut == 5 ) FillUserTH1D( "Eta1stJet_PASand5Jet", Jet1_Eta, pileup_weight * gen_weight);
-       
+
        if ( Ele1_Pt > 40 && Ele1_Pt < 45 && fabs ( Ele1_Eta ) > 2.1 ){
-	 FillUserTH1D( "Pt1stEle_Pt40to45_EtaGT2p1", Ele1_Pt, pileup_weight * gen_weight);
+         FillUserTH1D( "Pt1stEle_Pt40to45_EtaGT2p1", Ele1_Pt, pileup_weight * gen_weight);
        }
 
 
        if ( MT_Ele1MET > 70 && MT_Ele1MET < 110 ){
-	 
-	 FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
-	 FillUserTH1D( "MTenu_70_110"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "nJets_MTenu_70_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut <= 3 ){ 
-	   FillUserTH1D(   "MTenu_70_110_Njet_lte3"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+         FillUserTH1D( "MTenu_70_110"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "nJets_MTenu_70_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_70_110_Njet_lte3"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_70_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+         if ( nJet_ptCut <= 3 ){ 
+           FillUserTH1D(   "MTenu_70_110_Njet_lte3"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut <= 4 ){ 
-	   FillUserTH1D(   "MTenu_70_110_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_110_Njet_lte3"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_70_110_Njet_lte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_70_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+         if ( nJet_ptCut <= 4 ){ 
+           FillUserTH1D(   "MTenu_70_110_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut >= 4 ){ 
-	   FillUserTH1D(   "MTenu_70_110_Njet_gte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_110_Njet_lte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_70_110_Njet_gte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_70_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
-	 
-	 if ( nJet_ptCut >= 5 ){ 
-	   FillUserTH1D(   "MTenu_70_110_Njet_gte5", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D(   "MTenu_70_110_Njet_gte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_70_110_Njet_gte5"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_70_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+           FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_110_Njet_gte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 5 ){ 
+           FillUserTH1D(   "MTenu_70_110_Njet_gte5", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_110_Njet_gte5"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
        }
-       
+
 
        if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
-	 
-	 FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
-	 FillUserTH1D( "MTenu_50_110"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "nJets_MTenu_50_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut <= 3 ){ 
-	   FillUserTH1D(   "MTenu_50_110_Njet_lte3"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+         FillUserTH1D( "MTenu_50_110"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "nJets_MTenu_50_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_50_110_Njet_lte3"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_50_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+         if ( nJet_ptCut <= 3 ){ 
+           FillUserTH1D(   "MTenu_50_110_Njet_lte3"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut <= 4 ){ 
-	   FillUserTH1D(   "MTenu_50_110_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_50_110_Njet_lte3"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_50_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_50_110_Njet_lte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_50_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+         if ( nJet_ptCut <= 4 ){ 
+           FillUserTH1D(   "MTenu_50_110_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut >= 4 ){ 
-	   FillUserTH1D(   "MTenu_50_110_Njet_gte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_50_110_Njet_lte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_50_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_50_110_Njet_gte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_50_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
-	 
-	 if ( nJet_ptCut >= 5 ){ 
-	   FillUserTH1D(   "MTenu_50_110_Njet_gte5", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D(   "MTenu_50_110_Njet_gte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_50_110_Njet_gte5"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_50_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+           FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_50_110_Njet_gte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_50_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 5 ){ 
+           FillUserTH1D(   "MTenu_50_110_Njet_gte5", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_50_110_Njet_gte5"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_50_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
        }
-       
+
        if ( MT_Ele1MET_Type01 > 50 && MT_Ele1MET_Type01 < 110 ){
-	 
-	 FillUserTH1D( "MTenu_Type01_50_110"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-	 FillUserTH1D( "nJets_MTenu_Type01_50_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut <= 3 ){ 
-	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "MTenu_Type01_50_110"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "nJets_MTenu_Type01_50_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte3"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+         if ( nJet_ptCut <= 3 ){ 
+           FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut <= 4 ){ 
-	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte3"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+         if ( nJet_ptCut <= 4 ){ 
+           FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
 
-	 if ( nJet_ptCut >= 4 ){ 
-	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
-	 
-	 if ( nJet_ptCut >= 5 ){ 
-	   FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
 
-	   FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte5"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-	   FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
-	 }
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte4"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 5 ){ 
+           FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte5"     , PFMET_Type01XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
        }
 
        //-------------------------------------------------------------------------- 
        // Final selection plots
        //-------------------------------------------------------------------------- 
-       if ( do_final_selection ) { 
+       if ( !isOptimizationEnabled() ) { 
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS         [i_lq_mass];
-	   bool pass    = passed_st_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_StLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_StLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS         [i_lq_mass];
+           bool pass    = passed_st_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_StLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_StLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS         [i_lq_mass];
-	   bool pass    = passed_mt_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_MtLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_MtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_MtLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_MtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS         [i_lq_mass];
+           bool pass    = passed_mt_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_MtLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_MtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_MtLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_MtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS         [i_lq_mass];
-	   bool pass    = passed_mej_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_MejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_MejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_MejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_MejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS         [i_lq_mass];
+           bool pass    = passed_mej_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_MejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_MejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_MejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_MejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS         [i_lq_mass];
-	   bool pass    = passed_met_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_MetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_MetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_MetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_MetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS         [i_lq_mass];
+           bool pass    = passed_met_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_MetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_MetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_MetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_MetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS         [i_lq_mass];
-	   bool pass    = passed_st_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_StLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_StLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS         [i_lq_mass];
+           bool pass    = passed_st_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_StLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_StLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_StLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS                     [i_lq_mass];
-	   bool pass    = passed_stAndMtAndMet_vector [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_stAndMtAndMetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "Mej_stAndMtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MTenu_stAndMtAndMetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MET_stAndMtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS                     [i_lq_mass];
-	   bool pass    = passed_stAndMtAndMej_vector [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_stAndMtAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "Mej_stAndMtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MTenu_stAndMtAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MET_stAndMtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS                     [i_lq_mass];
-	   bool pass    = passed_stAndMetAndMej_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_stAndMetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "Mej_stAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MTenu_stAndMetAndMejLQ%d"   , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MET_stAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS                     [i_lq_mass];
-	   bool pass    = passed_mtAndMetAndMej_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_mtAndMetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "Mej_mtAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MTenu_mtAndMetAndMejLQ%d"   , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
-	   sprintf(plot_name, "MET_mtAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass = passed_stAndMej_vector [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_StAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_StAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_StAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_StAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS                     [i_lq_mass];
+           bool pass    = passed_stAndMtAndMet_vector [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_stAndMtAndMetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "Mej_stAndMtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MTenu_stAndMtAndMetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MET_stAndMtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass = passed_mtAndMej_vector [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_MtAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_MtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_MtAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_MtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass = passed_metAndMej_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_MetAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_MetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_MetAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_MetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass = passed_stAndMet_vector [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_StAndMetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_StAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_StAndMetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_StAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass = passed_mtAndMet_vector [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_MtAndMetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_MtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_MtAndMetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_MtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
-	 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass = passed_stAndMt_vector  [i_lq_mass];
-	   if ( !pass ) continue;
-	   sprintf(plot_name, "ST_StAndMtLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "Mej_StAndMtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MTenu_StAndMtLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
-	   sprintf(plot_name, "MET_StAndMtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS                     [i_lq_mass];
+           bool pass    = passed_stAndMtAndMej_vector [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_stAndMtAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "Mej_stAndMtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MTenu_stAndMtAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MET_stAndMtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
+         }
 
-	 for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-	   int  lq_mass = LQ_MASS      [i_lq_mass];
-	   bool pass    = passed_vector[i_lq_mass];
-	   if ( !pass ) continue;
-	   
-	   // if ( lq_mass == 650 && isData > 0.5 ) { 
-	   //   std::string root_file_name( fChain -> GetCurrentFile() -> GetName() );
-	   //   std::size_t found = root_file_name.find ( std::string ("ElectronHad"));
-	   //   if ( found != std::string::npos ) {
-	   //     ofstream myfile;
-	   //     myfile.open ( file_name.c_str() ,  ios::out | ios::app );
-	   //     myfile << fixed << int(run) << ":" << int(ls) << ":" << int(event) << "\n";
-	   //     myfile.close();
-	   //   }
-	   // }
-	   
-	   sprintf(plot_name, "Ele_EtaVsPhi_LQ%d" , lq_mass ); FillUserTH2D( plot_name , Ele1_Eta, Ele1_Phi, gen_weight * pileup_weight );
-	   sprintf(plot_name, "Jet_EtaVsPhi_LQ%d" , lq_mass ); FillUserTH2D( plot_name , Jet1_Eta, Jet1_Phi, gen_weight * pileup_weight );
-	   sprintf(plot_name, "Jet_EtaVsPhi_LQ%d" , lq_mass ); FillUserTH2D( plot_name , Jet2_Eta, Jet2_Phi, gen_weight * pileup_weight );
-	   sprintf(plot_name, "Jet1_EtaVsPhi_LQ%d", lq_mass ); FillUserTH2D( plot_name , Jet1_Eta, Jet1_Phi, gen_weight * pileup_weight );
-	   sprintf(plot_name, "Jet2_EtaVsPhi_LQ%d", lq_mass ); FillUserTH2D( plot_name , Jet2_Eta, Jet2_Phi, gen_weight * pileup_weight );
-       
-	   sprintf(plot_name, "MET_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_Pt ,gen_weight * pileup_weight );
-     //// SIC ADD
-	   //sprintf(plot_name, "MET_UnclUp_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_UnclUp_Pt ,gen_weight * pileup_weight );
-	   //sprintf(plot_name, "MET_UnclDown_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_UnclDown_Pt ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "Mej_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , Mej               ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "Mejj_LQ%d"   , lq_mass ); FillUserTH1D( plot_name , Mejj              ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "Mjj_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , M_j1j2            ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "ST_LQ%d"     , lq_mass ); FillUserTH1D( plot_name , sT_enujj          ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "MTjnu_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , MT_JetMET         ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "MTenu_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , MT_Ele1MET        ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "MTjjnu_LQ%d" , lq_mass ); FillUserTH1D( plot_name , MT_jjnu           ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "MTejjnu_LQ%d", lq_mass ); FillUserTH1D( plot_name , MT_ejjnu          ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "nJets_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , nJet_ptCut        ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "mDPhi_Jet1Jet2_LQ%d", lq_mass ); FillUserTH1D( plot_name, mDPhi_Jet1Jet2,gen_weight * pileup_weight );
-	   sprintf(plot_name, "mDPhi_Ele1MET_LQ%d" , lq_mass ); FillUserTH1D( plot_name, mDPhi_METEle1 ,gen_weight * pileup_weight );
-	   sprintf(plot_name, "nBJet_loose_LQ%d" , lq_mass ); FillUserTH1D( plot_name , nBJet_loose_ptCut , pileup_weight * gen_weight );
-	   sprintf(plot_name, "nBJet_medium_LQ%d", lq_mass ); FillUserTH1D( plot_name , nBJet_medium_ptCut, pileup_weight * gen_weight );
-	   sprintf(plot_name, "nBJet_tight_LQ%d" , lq_mass ); FillUserTH1D( plot_name , nBJet_tight_ptCut , pileup_weight * gen_weight );
-	   if ( nJet_store > 2 ) 
-	     sprintf(plot_name, "Mej3_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Mej3              , gen_weight * pileup_weight );
-	   
-	   
-	   if ( do_extra_finalSelection_plots ) { 
-	     sprintf(plot_name, "Me1j1_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j1                         , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Me1j2_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j2                         , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Eta1stJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet1_Eta                       , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Eta2ndJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet2_Eta                       , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Eta1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Ele1_Eta                       , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Charge1stEle_LQ%d"      , lq_mass ); FillUserTH1D( plot_name , Ele1_Charge                    , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Phi1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Ele1_Phi                       , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Phi1stJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet1_Phi                       , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Phi2ndJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet2_Phi                       , pileup_weight * gen_weight );
-	     sprintf(plot_name, "nVertex_LQ%d"           , lq_mass ); FillUserTH1D( plot_name , nVertex                        , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTlep_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , Ele1_Pt + PFMET_Type01XY_Pt    , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTjet_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , Jet1_Pt + Jet2_Pt              , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Energy1stEle_LQ%d"      , lq_mass ); FillUserTH1D( plot_name , Ele1_Energy                    , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Pt1stEle_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , Ele1_Pt                        , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Pt1stJet_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , Jet1_Pt                        , pileup_weight * gen_weight );
-	     sprintf(plot_name, "Pt2ndJet_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , Jet2_Pt                        , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTfrac_Jet1_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , Jet1_Pt / sT_enujj              , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTfrac_Jet2_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , Jet2_Pt / sT_enujj              , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTfrac_Ele1_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , Ele1_Pt / sT_enujj              , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTfrac_MET_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_Pt / sT_enujj              , pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTfrac_Jet_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , ( Jet1_Pt + Jet2_Pt ) / sT_enujj, pileup_weight * gen_weight );
-	     sprintf(plot_name, "sTfrac_Lep_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , ( Ele1_Pt + PFMET_Type01XY_Pt ) / sT_enujj, pileup_weight * gen_weight );
-	   }
- 
-	   if ( do_eleQuality_plots ) { 
-	     sprintf(plot_name, "BeamSpotDXY_1stEle_LQ%d"        , lq_mass );   FillUserTH1D(plot_name,  Ele1_BeamSpotDXY               , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "Classif_1stEle_LQ%d"            , lq_mass );   FillUserTH1D(plot_name,  Ele1_Classif                   , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "CorrIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_CorrIsolation             , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "DeltaEtaTrkSC_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_DeltaEtaTrkSC             , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "DeltaPhiTrkSC_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_DeltaPhiTrkSC             , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "E1x5OverE5x5_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_E1x5OverE5x5              , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "E2x5OverE5x5_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_E2x5OverE5x5              , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "EcalIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_EcalIsolation             , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "HcalIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_HcalIsolation             , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "TrkIsolation_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_TrkIsolation              , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "Energy_1stEle_LQ%d"             , lq_mass );   FillUserTH1D(plot_name,  Ele1_Energy                    , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "FBrem_1stEle_LQ%d"              , lq_mass );   FillUserTH1D(plot_name,  Ele1_FBrem                     , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "GsfCtfCharge_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_GsfCtfCharge              , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "GsfCtfScPixCharge_1stEle_LQ%d"  , lq_mass );   FillUserTH1D(plot_name,  Ele1_GsfCtfScPixCharge         , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "GsfScPixCharge_1stEle_LQ%d"     , lq_mass );   FillUserTH1D(plot_name,  Ele1_GsfScPixCharge            , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "HasMatchedPhot_1stEle_LQ%d"     , lq_mass );   FillUserTH1D(plot_name,  Ele1_HasMatchedPhot            , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "HoE_1stEle_LQ%d"                , lq_mass );   FillUserTH1D(plot_name,  Ele1_HoE                       , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "LeadVtxDistXY_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_LeadVtxDistXY             , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "LeadVtxDistZ_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_LeadVtxDistZ              , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "MissingHits_1stEle_LQ%d"        , lq_mass );   FillUserTH1D(plot_name,  Ele1_MissingHits               , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "NBrems_1stEle_LQ%d"             , lq_mass );   FillUserTH1D(plot_name,  Ele1_NBrems                    , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "ValidFrac_1stEle_LQ%d"          , lq_mass );   FillUserTH1D(plot_name,  Ele1_ValidFrac                 , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "EnergyORawEnergy_1stEle_LQ%d"   , lq_mass );   FillUserTH1D(plot_name,  Ele1_Energy / Ele1_RawEnergy   , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "TrkPtOPt_1stEle_LQ%d"           , lq_mass );   FillUserTH1D(plot_name,  Ele1_TrkPt  / Ele1_Pt          , pileup_weight * gen_weight ); 
-	     sprintf(plot_name, "EOverP_1stEle_LQ%d"             , lq_mass );   FillUserTH1D(plot_name,  Ele1_EOverP                    , pileup_weight * gen_weight ); 
-	     
-	     if ( fabs(Ele1_Eta) < eleEta_bar ) { 
-	       sprintf(plot_name, "SigmaEtaEta_Barrel_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaEtaEta   , pileup_weight * gen_weight    ); 
-	       sprintf(plot_name, "SigmaIEtaIEta_Barrel_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaIEtaIEta , pileup_weight * gen_weight    ); 
-	     }
-	     else if ( fabs(Ele1_Eta) > eleEta_end1_min && fabs(Ele2_Eta) < eleEta_end2_max ){
-	       sprintf(plot_name, "SigmaEtaEta_Endcap_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaEtaEta   , pileup_weight * gen_weight    ); 
-	       sprintf(plot_name, "SigmaIEtaIEta_Endcap_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaIEtaIEta , pileup_weight * gen_weight    ); 
-	     }
-	   }
-	   
-	   if ( isData == 1 ) {
-	     sprintf(plot_name, "split_1fb_LQ%d", lq_mass ); 
-	     int split_1fb = get_split_1fb ( run );
-	     FillUserTH1D( plot_name, split_1fb , pileup_weight * gen_weight );
-	     if ( lq_mass == 600 || lq_mass == 650 ) { 
-	       std::cout << std::fixed << lq_mass << ", " << int(run) << ":" << int(ls) << ":" << int(event) << std::endl;
-	     }
-	   }
-	 }
-	 
-	 if ( passedCut ("ST_LQ300") && passedCut ("Mej_LQ300") ){
-	   FillUserTH1D("MET_LQ300_NoMETCut", PFMET_Type01XY_Pt , gen_weight * pileup_weight );
-	   FillUserTH1D("Mej_LQ300_NoMETCut", Mej               , gen_weight * pileup_weight );
-	   FillUserTH1D("ST_LQ300_NoMETCut" , sT_enujj          , gen_weight * pileup_weight ); 
-	   FillUserTH1D("MT_LQ300_NoMETCut" , MT_Ele1MET        , gen_weight * pileup_weight ); 
-	 }
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS                     [i_lq_mass];
+           bool pass    = passed_stAndMetAndMej_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_stAndMetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "Mej_stAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MTenu_stAndMetAndMejLQ%d"   , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MET_stAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS                     [i_lq_mass];
+           bool pass    = passed_mtAndMetAndMej_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_mtAndMetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "Mej_mtAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MTenu_mtAndMetAndMejLQ%d"   , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight);
+           sprintf(plot_name, "MET_mtAndMetAndMejLQ%d"     , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass = passed_stAndMej_vector [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_StAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_StAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_StAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_StAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass = passed_mtAndMej_vector [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_MtAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_MtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_MtAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_MtAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass = passed_metAndMej_vector[i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_MetAndMejLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_MetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_MetAndMejLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_MetAndMejLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass = passed_stAndMet_vector [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_StAndMetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_StAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_StAndMetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_StAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass = passed_mtAndMet_vector [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_MtAndMetLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_MtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_MtAndMetLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_MtAndMetLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass = passed_stAndMt_vector  [i_lq_mass];
+           if ( !pass ) continue;
+           sprintf(plot_name, "ST_StAndMtLQ%d"       , lq_mass ); FillUserTH1D ( plot_name, sT_enujj         ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "Mej_StAndMtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, Mej              ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MTenu_StAndMtLQ%d"    , lq_mass ); FillUserTH1D ( plot_name, MT_Ele1MET       ,  pileup_weight * gen_weight );
+           sprintf(plot_name, "MET_StAndMtLQ%d"      , lq_mass ); FillUserTH1D ( plot_name, PFMET_Type01XY_Pt,  pileup_weight * gen_weight ); 
+         }
+
+         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+           int  lq_mass = LQ_MASS      [i_lq_mass];
+           bool pass    = passed_vector[i_lq_mass];
+           if ( !pass ) continue;
+
+           // if ( lq_mass == 650 && isData > 0.5 ) { 
+           //   std::string root_file_name( fChain -> GetCurrentFile() -> GetName() );
+           //   std::size_t found = root_file_name.find ( std::string ("ElectronHad"));
+           //   if ( found != std::string::npos ) {
+           //     ofstream myfile;
+           //     myfile.open ( file_name.c_str() ,  ios::out | ios::app );
+           //     myfile << fixed << int(run) << ":" << int(ls) << ":" << int(event) << "\n";
+           //     myfile.close();
+           //   }
+           // }
+
+           sprintf(plot_name, "Ele_EtaVsPhi_LQ%d" , lq_mass ); FillUserTH2D( plot_name , Ele1_Eta, Ele1_Phi, gen_weight * pileup_weight );
+           sprintf(plot_name, "Jet_EtaVsPhi_LQ%d" , lq_mass ); FillUserTH2D( plot_name , Jet1_Eta, Jet1_Phi, gen_weight * pileup_weight );
+           sprintf(plot_name, "Jet_EtaVsPhi_LQ%d" , lq_mass ); FillUserTH2D( plot_name , Jet2_Eta, Jet2_Phi, gen_weight * pileup_weight );
+           sprintf(plot_name, "Jet1_EtaVsPhi_LQ%d", lq_mass ); FillUserTH2D( plot_name , Jet1_Eta, Jet1_Phi, gen_weight * pileup_weight );
+           sprintf(plot_name, "Jet2_EtaVsPhi_LQ%d", lq_mass ); FillUserTH2D( plot_name , Jet2_Eta, Jet2_Phi, gen_weight * pileup_weight );
+
+           sprintf(plot_name, "MET_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_Pt ,gen_weight * pileup_weight );
+           //// SIC ADD
+           //sprintf(plot_name, "MET_UnclUp_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_UnclUp_Pt ,gen_weight * pileup_weight );
+           //sprintf(plot_name, "MET_UnclDown_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_UnclDown_Pt ,gen_weight * pileup_weight );
+           sprintf(plot_name, "Mej_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , Mej               ,gen_weight * pileup_weight );
+           sprintf(plot_name, "Mejj_LQ%d"   , lq_mass ); FillUserTH1D( plot_name , Mejj              ,gen_weight * pileup_weight );
+           sprintf(plot_name, "Mjj_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , M_j1j2            ,gen_weight * pileup_weight );
+           sprintf(plot_name, "ST_LQ%d"     , lq_mass ); FillUserTH1D( plot_name , sT_enujj          ,gen_weight * pileup_weight );
+           sprintf(plot_name, "MTjnu_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , MT_JetMET         ,gen_weight * pileup_weight );
+           sprintf(plot_name, "MTenu_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , MT_Ele1MET        ,gen_weight * pileup_weight );
+           sprintf(plot_name, "MTjjnu_LQ%d" , lq_mass ); FillUserTH1D( plot_name , MT_jjnu           ,gen_weight * pileup_weight );
+           sprintf(plot_name, "MTejjnu_LQ%d", lq_mass ); FillUserTH1D( plot_name , MT_ejjnu          ,gen_weight * pileup_weight );
+           sprintf(plot_name, "nJets_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , nJet_ptCut        ,gen_weight * pileup_weight );
+           sprintf(plot_name, "mDPhi_Jet1Jet2_LQ%d", lq_mass ); FillUserTH1D( plot_name, mDPhi_Jet1Jet2,gen_weight * pileup_weight );
+           sprintf(plot_name, "mDPhi_Ele1MET_LQ%d" , lq_mass ); FillUserTH1D( plot_name, mDPhi_METEle1 ,gen_weight * pileup_weight );
+           sprintf(plot_name, "nBJet_loose_LQ%d" , lq_mass ); FillUserTH1D( plot_name , nBJet_loose_ptCut , pileup_weight * gen_weight );
+           sprintf(plot_name, "nBJet_medium_LQ%d", lq_mass ); FillUserTH1D( plot_name , nBJet_medium_ptCut, pileup_weight * gen_weight );
+           sprintf(plot_name, "nBJet_tight_LQ%d" , lq_mass ); FillUserTH1D( plot_name , nBJet_tight_ptCut , pileup_weight * gen_weight );
+           if ( nJet_store > 2 ) 
+             sprintf(plot_name, "Mej3_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Mej3              , gen_weight * pileup_weight );
+
+
+           if ( do_extra_finalSelection_plots ) { 
+             sprintf(plot_name, "Me1j1_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j1                         , pileup_weight * gen_weight );
+             sprintf(plot_name, "Me1j2_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j2                         , pileup_weight * gen_weight );
+             sprintf(plot_name, "Eta1stJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet1_Eta                       , pileup_weight * gen_weight );
+             sprintf(plot_name, "Eta2ndJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet2_Eta                       , pileup_weight * gen_weight );
+             sprintf(plot_name, "Eta1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Ele1_Eta                       , pileup_weight * gen_weight );
+             sprintf(plot_name, "Charge1stEle_LQ%d"      , lq_mass ); FillUserTH1D( plot_name , Ele1_Charge                    , pileup_weight * gen_weight );
+             sprintf(plot_name, "Phi1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Ele1_Phi                       , pileup_weight * gen_weight );
+             sprintf(plot_name, "Phi1stJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet1_Phi                       , pileup_weight * gen_weight );
+             sprintf(plot_name, "Phi2ndJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Jet2_Phi                       , pileup_weight * gen_weight );
+             sprintf(plot_name, "nVertex_LQ%d"           , lq_mass ); FillUserTH1D( plot_name , nVertex                        , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTlep_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , Ele1_Pt + PFMET_Type01XY_Pt    , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTjet_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , Jet1_Pt + Jet2_Pt              , pileup_weight * gen_weight );
+             sprintf(plot_name, "Energy1stEle_LQ%d"      , lq_mass ); FillUserTH1D( plot_name , Ele1_Energy                    , pileup_weight * gen_weight );
+             sprintf(plot_name, "Pt1stEle_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , Ele1_Pt                        , pileup_weight * gen_weight );
+             sprintf(plot_name, "Pt1stJet_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , Jet1_Pt                        , pileup_weight * gen_weight );
+             sprintf(plot_name, "Pt2ndJet_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , Jet2_Pt                        , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTfrac_Jet1_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , Jet1_Pt / sT_enujj              , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTfrac_Jet2_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , Jet2_Pt / sT_enujj              , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTfrac_Ele1_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , Ele1_Pt / sT_enujj              , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTfrac_MET_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_Pt / sT_enujj              , pileup_weight * gen_weight );
+             sprintf(plot_name, "sTfrac_Jet_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , ( Jet1_Pt + Jet2_Pt ) / sT_enujj, pileup_weight * gen_weight );
+             sprintf(plot_name, "sTfrac_Lep_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , ( Ele1_Pt + PFMET_Type01XY_Pt ) / sT_enujj, pileup_weight * gen_weight );
+           }
+
+           if ( do_eleQuality_plots ) { 
+             sprintf(plot_name, "BeamSpotDXY_1stEle_LQ%d"        , lq_mass );   FillUserTH1D(plot_name,  Ele1_BeamSpotDXY               , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "Classif_1stEle_LQ%d"            , lq_mass );   FillUserTH1D(plot_name,  Ele1_Classif                   , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "CorrIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_CorrIsolation             , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "DeltaEtaTrkSC_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_DeltaEtaTrkSC             , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "DeltaPhiTrkSC_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_DeltaPhiTrkSC             , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "E1x5OverE5x5_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_E1x5OverE5x5              , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "E2x5OverE5x5_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_E2x5OverE5x5              , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "EcalIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_EcalIsolation             , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "HcalIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_HcalIsolation             , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "TrkIsolation_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_TrkIsolation              , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "Energy_1stEle_LQ%d"             , lq_mass );   FillUserTH1D(plot_name,  Ele1_Energy                    , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "FBrem_1stEle_LQ%d"              , lq_mass );   FillUserTH1D(plot_name,  Ele1_FBrem                     , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "GsfCtfCharge_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_GsfCtfCharge              , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "GsfCtfScPixCharge_1stEle_LQ%d"  , lq_mass );   FillUserTH1D(plot_name,  Ele1_GsfCtfScPixCharge         , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "GsfScPixCharge_1stEle_LQ%d"     , lq_mass );   FillUserTH1D(plot_name,  Ele1_GsfScPixCharge            , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "HasMatchedPhot_1stEle_LQ%d"     , lq_mass );   FillUserTH1D(plot_name,  Ele1_HasMatchedPhot            , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "HoE_1stEle_LQ%d"                , lq_mass );   FillUserTH1D(plot_name,  Ele1_HoE                       , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "LeadVtxDistXY_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  Ele1_LeadVtxDistXY             , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "LeadVtxDistZ_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  Ele1_LeadVtxDistZ              , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "MissingHits_1stEle_LQ%d"        , lq_mass );   FillUserTH1D(plot_name,  Ele1_MissingHits               , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "NBrems_1stEle_LQ%d"             , lq_mass );   FillUserTH1D(plot_name,  Ele1_NBrems                    , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "ValidFrac_1stEle_LQ%d"          , lq_mass );   FillUserTH1D(plot_name,  Ele1_ValidFrac                 , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "EnergyORawEnergy_1stEle_LQ%d"   , lq_mass );   FillUserTH1D(plot_name,  Ele1_Energy / Ele1_RawEnergy   , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "TrkPtOPt_1stEle_LQ%d"           , lq_mass );   FillUserTH1D(plot_name,  Ele1_TrkPt  / Ele1_Pt          , pileup_weight * gen_weight ); 
+             sprintf(plot_name, "EOverP_1stEle_LQ%d"             , lq_mass );   FillUserTH1D(plot_name,  Ele1_EOverP                    , pileup_weight * gen_weight ); 
+
+             if ( fabs(Ele1_Eta) < eleEta_bar ) { 
+               sprintf(plot_name, "SigmaEtaEta_Barrel_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaEtaEta   , pileup_weight * gen_weight    ); 
+               sprintf(plot_name, "SigmaIEtaIEta_Barrel_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaIEtaIEta , pileup_weight * gen_weight    ); 
+             }
+             else if ( fabs(Ele1_Eta) > eleEta_end1_min && fabs(Ele2_Eta) < eleEta_end2_max ){
+               sprintf(plot_name, "SigmaEtaEta_Endcap_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaEtaEta   , pileup_weight * gen_weight    ); 
+               sprintf(plot_name, "SigmaIEtaIEta_Endcap_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaIEtaIEta , pileup_weight * gen_weight    ); 
+             }
+           }
+
+           //if ( isData == 1 ) {
+           //  sprintf(plot_name, "split_1fb_LQ%d", lq_mass ); 
+           //  int split_1fb = get_split_1fb ( run );
+           //  FillUserTH1D( plot_name, split_1fb , pileup_weight * gen_weight );
+           //  if ( lq_mass == 600 || lq_mass == 650 ) { 
+           //    std::cout << std::fixed << lq_mass << ", " << int(run) << ":" << int(ls) << ":" << int(event) << std::endl;
+           //  }
+           //}
+         }
+
+         if ( passedCut ("ST_LQ300") && passedCut ("Mej_LQ300") ){
+           FillUserTH1D("MET_LQ300_NoMETCut", PFMET_Type01XY_Pt , gen_weight * pileup_weight );
+           FillUserTH1D("Mej_LQ300_NoMETCut", Mej               , gen_weight * pileup_weight );
+           FillUserTH1D("ST_LQ300_NoMETCut" , sT_enujj          , gen_weight * pileup_weight ); 
+           FillUserTH1D("MT_LQ300_NoMETCut" , MT_Ele1MET        , gen_weight * pileup_weight ); 
+         }
        } // End do final selection
      } // End do preselection
    } // End loop over events
