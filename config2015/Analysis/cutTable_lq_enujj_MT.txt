@@ -8,7 +8,7 @@ JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
 PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/SpringMC_PUScenarioV1_PoissonOOTPU.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_Sep21.root
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016oct18.root
 #
 #############################     Example of file with list of cuts
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -64,8 +64,8 @@ PassHBHENoiseFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseIsoFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassBadEESupercrystalFilter     0	     1			-		-		0	2 -0.5 1.5
 PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
-PassBadResolutionTrackFilter     0	     1			-		-		0	2 -0.5 1.5
-PassMuonTrackFilter     0	     1			-		-		0	2 -0.5 1.5
+PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
+PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
 nEle		     		0	     1			-		-		1	16 -0.5 15.5
 nMuon		     		-1	     0			-		-		1	11 -0.5 10.5
 Ele1_Pt		     	  	50	     +inf		-		-		1	100 0.0	1000.0

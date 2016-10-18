@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
-# Silver 2015 JSON file
+# 2016 JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt 
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
