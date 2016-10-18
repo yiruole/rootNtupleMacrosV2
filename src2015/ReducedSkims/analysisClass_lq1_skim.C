@@ -189,6 +189,7 @@ void analysisClass::Loop(){
   TLorentzVector v_PFMETRaw;
   TLorentzVector v_PFMETType1Cor;
   TLorentzVector v_PFMETType01Cor;
+  TLorentzVector v_PFMETType1XYCor;
   TLorentzVector v_PFMETType01XYCor;
   
 
@@ -332,24 +333,6 @@ void analysisClass::Loop(){
     CollectionPtr c_genTop_final       = c_genTop  -> SkimByID<GenParticle>(GEN_STATUS62);
 
     //-----------------------------------------------------------------
-    // Top Pt reweight
-    //-----------------------------------------------------------------
-    float topPtWeight = 1.0;
-    //c_genTop_final->examine<GenParticle>("GenTops");
-    if(c_genTop_final->GetSize()==2)
-    {
-      GenParticle top1 = c_genTop_final -> GetConstituent<GenParticle>(0);
-      float pt1 = top1.Pt();
-      GenParticle top2 = c_genTop_final -> GetConstituent<GenParticle>(1);
-      float pt2 = top2.Pt();
-      if(pt1>400)
-        pt1=400;
-      if(pt2>400)
-        pt2=400;
-      topPtWeight = sqrt(exp(0.156-0.00137*pt1)*exp(0.156-0.00137*pt2));
-    }
-
-    //-----------------------------------------------------------------
     // If this is MC, we're always going to smear the jets (do_jer = true)
     // Don't do it for data
     //-----------------------------------------------------------------
@@ -388,21 +371,25 @@ void analysisClass::Loop(){
       v_PFMETRaw        .SetPtEtaPhiM( (*PFMETRaw        )[0] , 0., (*PFMETPhiRaw        )[0] , 0. );
       v_PFMETType1Cor   .SetPtEtaPhiM( (*PFMETType1Cor   )[0] , 0., (*PFMETPhiType1Cor   )[0] , 0. );
       v_PFMETType01Cor  .SetPtEtaPhiM( (*PFMETType01Cor  )[0] , 0., (*PFMETPhiType01Cor  )[0] , 0. );
+      v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
       v_PFMETType01XYCor.SetPtEtaPhiM( (*PFMETType01XYCor)[0] , 0., (*PFMETPhiType01XYCor)[0] , 0. );
       
       v_PFMETRaw         = v_PFMETRaw         + v_delta_met;
       v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
       v_PFMETType01Cor   = v_PFMETType01Cor   + v_delta_met;
+      v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
       v_PFMETType01XYCor = v_PFMETType01XYCor + v_delta_met;
       
       (*PFMETRaw           )[0] = v_PFMETRaw        .Pt();
       (*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
       (*PFMETType01Cor     )[0] = v_PFMETType01Cor  .Pt();
+      (*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
       (*PFMETType01XYCor   )[0] = v_PFMETType01XYCor.Pt();
       
       (*PFMETPhiRaw        )[0] = v_PFMETRaw        .Phi();
       (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
       (*PFMETPhiType01Cor  )[0] = v_PFMETType01Cor  .Phi();
+      (*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
       (*PFMETPhiType01XYCor)[0] = v_PFMETType01XYCor.Phi();
     }
 
@@ -483,7 +470,7 @@ void analysisClass::Loop(){
     fillVariableWithValue( "PtHat"    , PtHat      );
     // if amcNLOWeight filled, use it _instead_ of the nominal weight
     fillVariableWithValue( "Weight"   , fabs(amcNLOWeight)==1 ? amcNLOWeight : Weight   );
-    fillVariableWithValue( "TopPtWeight",topPtWeight);
+    fillVariableWithValue( "TopPtWeight",GenParticleTopPtWeight);
 
     //-----------------------------------------------------------------
     // Pass JSON
@@ -500,9 +487,8 @@ void analysisClass::Loop(){
     fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(passHBHENoiseFilter                    == 1));
     fillVariableWithValue("PassBadEESupercrystalFilter"   , int(passEEBadScFilter                      == 1));
     fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(passEcalDeadCellTriggerPrimitiveFilter == 1));
-    //FIXME UPDATE TO THE RIGHT ONES
-    fillVariableWithValue("PassBadResolutionTrackFilter"  , int(passTrackingFailureFilter)             == 1);
-    fillVariableWithValue("PassMuonTrackFilter"           , int(passMuonBadTrackFilter)                == 1);
+    fillVariableWithValue("PassChargedCandidateFilter"    , int(passBadChargedCandidateFilter)         == 1);
+    fillVariableWithValue("PassBadPFMuonFilter"           , int(passBadPFMuonFilter)                   == 1);
 
     //-----------------------------------------------------------------
     // Fill MET values
@@ -514,6 +500,8 @@ void analysisClass::Loop(){
     fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
     fillVariableWithValue("PFMET_Type01_Pt"    , PFMETType01Cor      -> at (0));      
     fillVariableWithValue("PFMET_Type01_Phi"   , PFMETPhiType01Cor   -> at (0));
+    fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
+    fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
     fillVariableWithValue("PFMET_Type01XY_Pt"  , PFMETType01XYCor    -> at (0));      
     fillVariableWithValue("PFMET_Type01XY_Phi" , PFMETPhiType01XYCor -> at (0));
     
@@ -1313,7 +1301,7 @@ void analysisClass::Loop(){
     TLorentzVector t_ele1, t_ele2, t_jet1, t_jet2, t_jet3;
     TLorentzVector t_MET;
     
-    t_MET.SetPtEtaPhiM( PFMETType01XYCor -> at (0), 0.0, PFMETPhiType01XYCor -> at (0), 0.0 );
+    t_MET.SetPtEtaPhiM( PFMETType1XYCor -> at (0), 0.0, PFMETPhiType1XYCor -> at (0), 0.0 );
 
     if ( n_jet_store >= 1 ){
 
@@ -1522,7 +1510,7 @@ void analysisClass::Loop(){
     else if ( reducedSkimType == 1 ) { 
       if( passedCut("nEle_ptCut"       ) && 
 	  passedCut("Ele1_Pt"          ) && 
-	  passedCut("PFMET_Type01XY_Pt") && 
+	  passedCut("PFMET_Type1XY_Pt") && 
 	  passedCut("Jet1_Pt"          ) && 
 	  passedCut("Jet2_Pt"          ) && 
 	  passedCut("sT_enujj"         ) && 

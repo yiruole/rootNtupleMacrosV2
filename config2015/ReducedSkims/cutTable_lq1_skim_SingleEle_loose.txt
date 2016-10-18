@@ -36,7 +36,7 @@ pfjet_energy_scale_sign	   0		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Jet selection
 #------------------------------------------------------------------------------------------------------
-jet_PtCut		   45		-               -               -               -1
+jet_PtCut		               50	         	-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
 jet_HighEtaCut		   5.0		-               -               -               -1
 jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
@@ -85,8 +85,8 @@ PassHBHENoiseFilter             -inf         +inf               -               
 PassHBHENoiseIsoFilter          -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassBadEESupercrystalFilter     -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassEcalDeadCellTrigPrim        -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassBadResolutionTrackFilter    -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassMuonTrackFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassChargedCandidateFilter      -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassBadPFMuonFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -374,6 +374,8 @@ PFMET_Type1_Pt                  -inf	     +inf               -               -  
 PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
