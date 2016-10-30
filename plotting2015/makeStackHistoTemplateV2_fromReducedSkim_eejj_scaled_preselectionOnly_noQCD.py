@@ -62,8 +62,8 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.name              = variableName
     plot.stackColorIndexes = stackColorIndexes
     plot.stackFillStyleIds = stackFillStyleIds 
-    plot.gif_folder        = "gif_eejj_scaled_preselectionOnly/"
-    plot.eps_folder        = "eps_eejj_scaled_preselectionOnly/"
+    #plot.gif_folder        = "gif_eejj_scaled_preselectionOnly/"
+    #plot.eps_folder        = "eps_eejj_scaled_preselectionOnly/"
     plot.pdf_folder        = "pdf_eejj_scaled_preselectionOnly/"
     plot.png_folder        = "png_eejj_scaled_preselectionOnly/"
     plot.suffix            = "eejj"

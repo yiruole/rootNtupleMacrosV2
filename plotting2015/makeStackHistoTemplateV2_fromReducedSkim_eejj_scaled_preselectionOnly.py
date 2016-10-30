@@ -3,8 +3,8 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection = GetFile("$LQDATA/2016analysis/oct2_redoAllDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016analysis/oct2_redoAllDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_preselection =     GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_QCD_preselection = GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
 
 LQmasses = [650]
 
@@ -101,13 +101,13 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.name              = variableName
     plot.stackColorIndexes = stackColorIndexes
     plot.stackFillStyleIds = stackFillStyleIds 
-    plot.gif_folder        = "gif_eejj_scaled_preselectionOnly/"
-    plot.eps_folder        = "eps_eejj_scaled_preselectionOnly/"
+    #plot.gif_folder        = "gif_eejj_scaled_preselectionOnly/"
+    #plot.eps_folder        = "eps_eejj_scaled_preselectionOnly/"
     plot.pdf_folder        = "pdf_eejj_scaled_preselectionOnly/"
     plot.png_folder        = "png_eejj_scaled_preselectionOnly/"
     plot.suffix            = "eejj"
     #plot.lumi_fb           = "12.9"
-    plot.lumi_fb           = "21.8"
+    plot.lumi_fb           = "27.2"
     
     return plot
 
