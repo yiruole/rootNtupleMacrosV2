@@ -357,8 +357,8 @@ class Plot:
     makeNSigma  = "" # 1= yes, 0 = no
     xbins       = "" #array with variable bin structure
     histodata   = "" # data histogram
-    gif_folder  = "/tmp/"
-    eps_folder  = "/tmp/"
+    gif_folder  = ""
+    eps_folder  = ""
     png_folder  = "/tmp/"
     pdf_folder  = "/tmp/"
     lumi_fb = "0.0"
@@ -797,10 +797,10 @@ class Plot:
         #      rep = rep[0]
 
         #-- end
-        if not os.path.isdir(self.eps_folder):
+        if not os.path.isdir(self.eps_folder) and self.eps_folder != '':
           'Making directory',self.eps_folder
           os.mkdir(self.eps_folder)
-        if not os.path.isdir(self.gif_folder):
+        if not os.path.isdir(self.gif_folder) and self.gif_folder != '':
           'Making directory',self.gif_folder
           os.mkdir(self.gif_folder)
         if not os.path.isdir(self.png_folder):
@@ -810,13 +810,17 @@ class Plot:
           'Making directory',self.pdf_folder
           os.mkdir(self.pdf_folder)
         if self.suffix == "" : 
-            canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps","eps")
-            canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif","gif")
+            if self.eps_folder != '':
+              canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps","eps")
+            if self.gif_folder != '':
+              canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif","gif")
             canvas.SaveAs(self.png_folder + "/" + self.name + ".png","png")
             canvas.SaveAs(self.pdf_folder + "/" + self.name + ".pdf","pdf")
         else:
-            canvas.SaveAs(self.eps_folder + "/" + self.name + "_" + self.suffix +  ".eps","eps")
-            canvas.SaveAs(self.gif_folder + "/" + self.name + "_" + self.suffix +  ".gif","gif")
+            if self.eps_folder != '':
+              canvas.SaveAs(self.eps_folder + "/" + self.name + "_" + self.suffix +  ".eps","eps")
+            if self.gif_folder != '':
+              canvas.SaveAs(self.gif_folder + "/" + self.name + "_" + self.suffix +  ".gif","gif")
             canvas.SaveAs(self.png_folder + "/" + self.name + "_" + self.suffix +  ".png","png")
             canvas.SaveAs(self.pdf_folder + "/" + self.name + "_" + self.suffix +  ".pdf","pdf")
         #canvas.SaveAs(self.name + ".png","png")
