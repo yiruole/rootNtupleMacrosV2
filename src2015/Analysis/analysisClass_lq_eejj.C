@@ -689,12 +689,12 @@ void analysisClass::Loop()
 
      double gen_weight = Weight;
      if ( isData ) gen_weight = 1.0;
-     if ( isData && Ele2_ValidFrac > 998. ){
-       gen_weight = 0.0;
-       if      (  60.0 < M_e1e2 < 120. ) gen_weight = 0.61;
-       else if ( 120.0 < M_e1e2 < 200. ) gen_weight = 0.42;
-       else if ( 200.0 < M_e1e2        ) gen_weight = 0.42;
-     }
+     //if ( isData && Ele2_ValidFrac > 998. ){
+     //  gen_weight = 0.0;
+     //  if      (  60.0 < M_e1e2 < 120. ) gen_weight = 0.61;
+     //  else if ( 120.0 < M_e1e2 < 200. ) gen_weight = 0.42;
+     //  else if ( 200.0 < M_e1e2        ) gen_weight = 0.42;
+     //}
 
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
      //std::cout << "Gen weight = " << gen_weight << std::endl;
@@ -723,8 +723,8 @@ void analysisClass::Loop()
      fillVariableWithValue( "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter         , gen_weight * pileup_weight );
      fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter    , gen_weight * pileup_weight );
      fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim       , gen_weight * pileup_weight );
-     fillVariableWithValue( "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter   , gen_weight * pileup_weight );
-     fillVariableWithValue( "PassMuonTrackFilter"           , PassMuonTrackFilter            , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter     , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter            , gen_weight * pileup_weight );
      //
 
      // no longer in 2016
@@ -930,7 +930,7 @@ void analysisClass::Loop()
      // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
      
-     bool passed_minimum = ( passedAllPreviousCuts("PassMuonTrackFilter") && passedCut ("PassMuonTrackFilter"));
+     bool passed_minimum = ( passedAllPreviousCuts("PassBadPFMuonFilter") && passedCut ("PassBadPFMuonFilter"));
      
      //--------------------------------------------------------------------------
      // Did we pass preselection?

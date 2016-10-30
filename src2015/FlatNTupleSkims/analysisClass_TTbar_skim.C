@@ -79,7 +79,8 @@ void analysisClass::Loop() {
     int pass_trigger = 0;
     if ( isData ) { 
       pass_trigger = 0;
-      if ( H_Ele27_WPLoose == 1)
+      //if ( H_Ele27_WPLoose == 1)
+      if ( H_Ele27_WPTight == 1 || H_Photon175 == 1) // for 2016
         pass_trigger = 1;
     }
     else // using the turn-on in the MC
