@@ -503,6 +503,6 @@ H_Mu45_eta2p1			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele27_WPLoose			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele27_WPLoose_eta2p1			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele27_WPTight_eta2p1			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
-#H_Ele27_WPTight			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Ele27_WPTight			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Photon175			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele105_CIdVT_GsfIdT			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE

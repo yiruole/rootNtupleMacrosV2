@@ -8,7 +8,7 @@ JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
 PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/SpringMC_PUScenarioV1_PoissonOOTPU.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016oct18.root
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016oct25.root
 #
 #############################     Example of file with list of cuts
 #
