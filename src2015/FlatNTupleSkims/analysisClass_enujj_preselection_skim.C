@@ -66,14 +66,38 @@ void analysisClass::Loop() {
 
     resetCuts();
     
+    //--------------------------------------------------------------------------
+    // Check good run list
+    //--------------------------------------------------------------------------
+    
+    int    passedJSON = passJSON ( run, ls , isData ) ;
+
+    //--------------------------------------------------------------------------
+    // Fill JSON variable
+    //--------------------------------------------------------------------------
+    fillVariableWithValue ("PassJSON", passedJSON); 
+
+    //--------------------------------------------------------------------------
+    // Fill noise filters
+    //--------------------------------------------------------------------------
+    // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+    // we filled these at skim time
+    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter );
+    fillVariableWithValue( "PassGoodVertices"	             , PassGoodVertices              );
+    fillVariableWithValue( "PassHBHENoiseFilter"	         , PassHBHENoiseFilter           );
+    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , PassHBHENoiseIsoFilter        );
+    fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter   );
+    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim      );
+    fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter    );
+    fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter           );
+
     //------------------------------------------------------------------
     // Fill variables 
     //------------------------------------------------------------------
-    
     fillVariableWithValue("nEle_ptCut"	      , nEle_ptCut	  );
     fillVariableWithValue("Ele1_PtHeep"  	    , Ele1_PtHeep   );	  
-    //fillVariableWithValue("PFMET_Type01XY_Pt" , PFMET_Type01XY_Pt );	  	  
-    fillVariableWithValue("PFMET_Type1_Pt" , PFMET_Type1_Pt );	  	  
+    fillVariableWithValue("PFMET_Type1XY_Pt" , PFMET_Type1XY_Pt );	  	  
+    //fillVariableWithValue("PFMET_Type1_Pt" , PFMET_Type1_Pt );	  	  
     fillVariableWithValue("Jet1_Pt"   	      , Jet1_Pt   	  );
     fillVariableWithValue("Jet2_Pt"   	      , Jet2_Pt   	  );
     fillVariableWithValue("sT_enujj"   	      , sT_enujj   	  );
