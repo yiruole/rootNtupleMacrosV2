@@ -278,33 +278,135 @@ void analysisClass::Loop()
 
    CreateUserTH1D( "nVertex_PAS"           ,    101   , -0.5   , 100.5	 ) ; 
    
-   CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
+   // MT plots
+   CreateUserTH1D( "MTenu_50_110", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_50_110"    , 20 , -0.5, 19.5 );
-   CreateUserTH1D( "MTenu_50_110_Njet_gte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_50_110_Njet_lte3", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_50_110_Njet_gte5", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte5", 240, 40, 160 );
 
-   CreateUserTH1D( "MTenu_Type01_50_110", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_50_110", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_Type01_50_110"    , 20 , -0.5, 19.5 );
-   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5", 240, 40, 160 );
 
-   CreateUserTH1D( "MTenu_70_110", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_70_110", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_110"    , 20 , -0.5, 19.5 );
-   CreateUserTH1D( "MTenu_70_110_Njet_gte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_70_110_Njet_lte3", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_70_110_Njet_lte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_70_110_Njet_gte5", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_70_110_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_gte5", 240, 40, 160 );
 
-   CreateUserTH1D( "MTenu_Type01_70_110", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_70_110", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_Type01_70_110"    , 20 , -0.5, 19.5 );
-   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_70_150", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_70_150"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_70_150_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_gte5", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_70_150", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_70_150"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_gte5", 240, 40, 160 );
+
+   // without btags
+   CreateUserTH1D( "MTenu_50_110_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_50_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_50_110_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_50_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_70_110_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_70_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_70_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_70_110_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_70_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_70_150_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_70_150_noBtaggedJets"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_70_150_Njet_gte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_lte3_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_lte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_gte5_noBtaggedJets", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_70_150_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_70_150_noBtaggedJets"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", 240, 40, 160 );
+
+   // with a btag
+   CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_50_110_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_50_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_70_110_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_70_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_70_110_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_70_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_70_150_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_70_150_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_70_150_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_70_150_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
+
+   CreateUserTH1D( "MTenu_Type01_70_150_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "nJets_MTenu_Type01_70_150_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
+
 
    CreateUserTH1D( "run_PAS"               ,    20000 , 160300  , 180300 );
    CreateUserTH1D( "run_HLT"               ,    20000 , 160300  , 180300 );
@@ -370,6 +472,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte5"      , 300 , 0 , 3000 ); 
    CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte5"     , 200 , 0 , 2000 );
 
+   // 70-110
    CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte3", 100 , 0 , 1000 ); 
    CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte3", 200 , 0 , 2000 ); 
    CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte3", 200 , 0 , 2000 ); 
@@ -398,6 +501,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_MTenu_70_110_Njet_gte5"      , 300 , 0 , 3000 ); 
    CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte5"     , 200 , 0 , 2000 ); 
    
+   // 70-110 type01
    CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte3", 100 , 0 , 1000 ); 
    CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte3", 200 , 0 , 2000 ); 
    CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3", 200 , 0 , 2000 ); 
@@ -425,6 +529,410 @@ void analysisClass::Loop()
    CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte5"     , 200 , 0 , 1000 ); 
    CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte5"      , 300 , 0 , 3000 ); 
    CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte5"     , 200 , 0 , 2000 );
+
+   // 70-150
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte3", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte3", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_lte3", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_lte3"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_lte3"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_lte3"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte4", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_lte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_lte4"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_lte4"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_lte4"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_gte4", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_gte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_gte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_gte4"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_gte4"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_gte4"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_gte5", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_gte5", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_gte5", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_gte5"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_gte5"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_gte5"     , 200 , 0 , 2000 ); 
+   
+   // 70-150 type01
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_lte3", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_lte3", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_lte3", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_lte3"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_lte3"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_lte3"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_lte4", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_lte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_lte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_lte4"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_lte4"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_lte4"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_gte4", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_gte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_gte4", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_gte4"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_gte4"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_gte4"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_gte5", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_gte5", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_gte5", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_gte5"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_gte5"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_gte5"     , 200 , 0 , 2000 );
+
+   // no btags
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 );
+
+   // 70-110
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   // 70-110 type01
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 );
+
+   // 70-150
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   // 70-150 type01
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 );
+
+   // at least one btag
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_50_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_50_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_50_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 );
+
+   // 70-110
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   // 70-110 type01
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 );
+
+   // 70-150
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_70_150_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_70_150_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_70_150_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_70_150_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   // 70-150 type01
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
+   
+   CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
+   CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
+   CreateUserTH1D( "MET_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
+   CreateUserTH1D( "sT_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
+   CreateUserTH1D( "Mej_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 );
 
    char plot_name[200];
    
@@ -1101,9 +1609,9 @@ void analysisClass::Loop()
      // Fill bjet variables
      //--------------------------------------------------------------------------
      
-     double btagCSV_loose_cut  = 0.244;
-     double btagCSV_medium_cut = 0.679;
-     double btagCSV_tight_cut  = 0.898;
+     double btagCSV_loose_cut  = 0.460;
+     double btagCSV_medium_cut = 0.800;
+     double btagCSV_tight_cut  = 0.935;
        
      int nBJet_loose_ptCut  = 0;
      int nBJet_medium_ptCut = 0;
@@ -1451,6 +1959,55 @@ void analysisClass::Loop()
          }
        }
 
+       if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 110 ){
+
+         FillUserTH1D( "MTenu_Type01_70_110"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "nJets_MTenu_Type01_70_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+         if ( nJet_ptCut <= 3 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte3"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut <= 4 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 5 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+       }
 
        if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
 
@@ -1550,6 +2107,723 @@ void analysisClass::Loop()
            FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
            FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
            FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+       }
+
+       if ( MT_Ele1MET > 70 && MT_Ele1MET < 150 ){
+
+         FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+         FillUserTH1D( "MTenu_70_150"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "nJets_MTenu_70_150", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+         if ( nJet_ptCut <= 3 ){ 
+           FillUserTH1D(   "MTenu_70_150_Njet_lte3"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_150_Njet_lte3"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_150_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_150_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut <= 4 ){ 
+           FillUserTH1D(   "MTenu_70_150_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_150_Njet_lte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_150_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_150_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D(   "MTenu_70_150_Njet_gte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_150_Njet_gte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_150_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_150_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 5 ){ 
+           FillUserTH1D(   "MTenu_70_150_Njet_gte5", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_70_150_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_70_150_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_70_150_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+       }
+
+       if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 150 ){
+
+         FillUserTH1D( "MTenu_Type01_70_150"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+         FillUserTH1D( "nJets_MTenu_Type01_70_150", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+         if ( nJet_ptCut <= 3 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_150_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_lte3"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut <= 4 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_150_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_lte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 4 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_150_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_gte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+
+         if ( nJet_ptCut >= 5 ){ 
+           FillUserTH1D(   "MTenu_Type01_70_150_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+           FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+           FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
+         }
+       }
+
+       // no b tags
+       //-------------------------------------------------------------------------- 
+       if (nBJet_medium_ptCut==0) {
+
+         if ( MT_Ele1MET > 70 && MT_Ele1MET < 110 ){
+
+           FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+           FillUserTH1D( "MTenu_70_110_noBtaggedJets"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_70_110_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_lte3_noBtaggedJets"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte3_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte3_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte3_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_lte3_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_lte3_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte3_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_lte4_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_lte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_lte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_gte4_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_gte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_gte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_gte5_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte5_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte5_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte5_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_gte5_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_gte5_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 110 ){
+
+           FillUserTH1D( "MTenu_Type01_70_110_noBtaggedJets"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_Type01_70_110_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
+
+           FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+           FillUserTH1D( "MTenu_50_110_noBtaggedJets"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_lte3_noBtaggedJets"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte3_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte3_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte3_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_lte3_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_lte3_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte3_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_lte4_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_lte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_lte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_gte4_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_gte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_gte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_gte5_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte5_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte5_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte5_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_gte5_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_gte5_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET_Type01 > 50 && MT_Ele1MET_Type01 < 110 ){
+
+           FillUserTH1D( "MTenu_Type01_50_110_noBtaggedJets"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_Type01_50_110_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET > 70 && MT_Ele1MET < 150 ){
+
+           FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+           FillUserTH1D( "MTenu_70_150_noBtaggedJets"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_70_150_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_lte3_noBtaggedJets"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_lte3_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_lte3_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_lte3_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_lte3_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_lte3_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_lte3_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_lte4_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_lte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_lte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_lte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_lte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_lte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_lte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_gte4_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_gte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_gte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_gte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_gte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_gte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_gte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_gte5_noBtaggedJets", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_gte5_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_gte5_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_gte5_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_gte5_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_gte5_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 150 ){
+
+           FillUserTH1D( "MTenu_Type01_70_150_noBtaggedJets"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_Type01_70_150_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_lte3_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_lte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_gte4_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+       }
+
+       // at least 1 b tag
+       //-------------------------------------------------------------------------- 
+       if (nBJet_medium_ptCut>=1) {
+
+         if ( MT_Ele1MET > 70 && MT_Ele1MET < 110 ){
+
+           FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+           FillUserTH1D( "MTenu_70_110_gteOneBtaggedJet"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_70_110_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_lte3_gteOneBtaggedJet"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_lte4_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_gte4_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_70_110_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 110 ){
+
+           FillUserTH1D( "MTenu_Type01_70_110_gteOneBtaggedJet"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_Type01_70_110_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
+
+           FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+           FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_lte3_gteOneBtaggedJet"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte3_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte3_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte3_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_lte3_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_lte3_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte3_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_lte4_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_lte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_lte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_lte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_lte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_lte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_lte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_gte4_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_gte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_gte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_50_110_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_50_110_Njet_gte5_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_50_110_Njet_gte5_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_50_110_Njet_gte5_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET_Type01 > 50 && MT_Ele1MET_Type01 < 110 ){
+
+           FillUserTH1D( "MTenu_Type01_50_110_gteOneBtaggedJet"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_Type01_50_110_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET > 70 && MT_Ele1MET < 150 ){
+
+           FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
+           FillUserTH1D( "MTenu_70_150_gteOneBtaggedJet"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_70_150_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_lte3_gteOneBtaggedJet"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_lte3_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_lte3_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_lte3_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_lte4_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_lte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_lte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_lte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_lte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_lte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_lte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_gte4_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_gte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_gte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_gte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_gte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_gte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_gte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_70_150_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_70_150_Njet_gte5_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_70_150_Njet_gte5_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_70_150_Njet_gte5_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_70_150_Njet_gte5_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_70_150_Njet_gte5_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_70_150_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+         }
+
+         if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 150 ){
+
+           FillUserTH1D( "MTenu_Type01_70_150_gteOneBtaggedJet"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+           FillUserTH1D( "nJets_MTenu_Type01_70_150_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight ) ;
+
+           if ( nJet_ptCut <= 3 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_lte3_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut <= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_lte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 4 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_gte4_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
+
+           if ( nJet_ptCut >= 5 ){ 
+             FillUserTH1D(   "MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
+
+             FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "MET_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "sT_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
+             FillUserTH1D(   "Mej_MTenu_Type01_70_150_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight ) ;
+           }
          }
        }
 
