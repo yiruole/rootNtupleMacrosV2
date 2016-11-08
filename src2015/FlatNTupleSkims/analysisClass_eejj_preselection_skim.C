@@ -168,24 +168,24 @@ void analysisClass::Loop() {
     //    fillVariableWithValue("PassHLT",0,gen_weight*pileup_weight);
     //}
 
-    //int passHLT = 1;
-    //if ( isData ) { 
-    //  passHLT = 0;
-    //  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-    //    passHLT = 1;
-    //}
-    //// FIXME: Update to new 2016 curve?
-    //else // using the turn-on in the MC?
-    //{
-    //  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-    //  //   we get two chances to pass since we may have two electrons in the event
-    //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-    //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
-    //  if(!passHLT) // if the first one doesn't pass, try the second one
-    //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-    //  //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
-    //}
-    //fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
+    int passHLT = 1;
+    if ( isData ) { 
+      passHLT = 0;
+      if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+        passHLT = 1;
+    }
+    // FIXME: Update to new 2016 curve?
+    else // using the turn-on in the MC?
+    {
+      // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+      //   we get two chances to pass since we may have two electrons in the event
+      passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+      //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
+      if(!passHLT) // if the first one doesn't pass, try the second one
+        passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+      //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
+    }
+    fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
 
     //--------------------------------------------------------------------------
     // Calculate variables for trigger matching 
