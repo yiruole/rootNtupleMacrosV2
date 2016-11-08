@@ -3,8 +3,8 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_oct26_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
-File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_oct26_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_onRSK_local_nov1_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_onRSK_local_nov1_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W+jets"
@@ -47,11 +47,20 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 #samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph_Inc" ]
 #keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG Inc)"  ]
 
-## MG HT
-samplesForStackHistos_other = [ "OTHERBKG_MG_HT" ]
-#samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph_HT" ]
-samplesForStackHistos_WJets  = [ "TTbar_Madgraph", "WJet_Madgraph_HT" ]
-#keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
+### MG HT
+#samplesForStackHistos_other = [ "OTHERBKG_MG_HT" ]
+##samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph_HT" ]
+#samplesForStackHistos_WJets  = [ "TTbar_Madgraph", "WJet_Madgraph_HT" ]
+##keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
+#keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "W + jets (MG HT)"  ]
+
+## amc@NLO WJets PtBinned
+samplesForStackHistos_other = [ "OTHERBKG_ZJetWJetPt" ]
+#samplesForStackHistos_WJets  = [ "TTbar_Madgraph", "WJet_amcatnlo_ptBinned" ]
+##keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
+#keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "W + jets (amc@NLO Pt)"  ]
+samplesForStackHistos_WJets  = [ "TTbar_amcatnlo_Inc", "WJet_amcatnlo_ptBinned" ]
+keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (amc@NLO)"  ,  "W + jets (amc@NLO Pt)"  ]
 
 # QCD
 #samplesForStackHistos_QCD = ["QCDFakes_DATA"]
@@ -63,7 +72,7 @@ keysForStackHistos_QCD = ["QCD multijet"]
 # older
 #samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_ZJets
 samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_QCD + samplesForStackHistos_WJets
-keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "W + jets (MG HT)"  ]
+#keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "W + jets (MG HT)"  ]
 stackColorIndexes     = [ 9                  , kCyan         ,         600            ,  kRed           ]
 stackFillStyleIds     = [ 1001               , 1001          ,  1001                  , 1001   ]
 
@@ -390,50 +399,50 @@ plots[-1].xmin = 0
 plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "MTenu_50_110"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "50 < M_{T} (e, PFMET) < 100 (GeV) [Preselection] "
+plots[-1].xtit = "50 < M_{T} (e, PFMET) < 110 (GeV) [Preselection] "
 plots[-1].rebin = mt_rebin
-plots[-1].ymax = 200000
-plots[-1].ymin = 1e-1
-plots[-1].xmax = 140
+plots[-1].ymax = 2e4
+plots[-1].ymin = 200
+plots[-1].xmax = 145
 plots[-1].xmin = 40
 plots[-1].ylog  = "yes"
 
 
 plots.append ( makeDefaultPlot ( "MTenu_50_110_Njet_gte5"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "50 < M_{T} (e, PFMET) < 100 (GeV) [Preselection + N(Jet) #geq 5]"
+plots[-1].xtit = "50 < M_{T} (e, PFMET) < 110 (GeV) [Preselection + N(Jet) #geq 5]"
 plots[-1].rebin = mt_rebin
-plots[-1].ymax = 200000
-plots[-1].ymin = 1e-1
-plots[-1].xmax = 140
+plots[-1].ymax = 3e3
+plots[-1].ymin = 1
+plots[-1].xmax = 145
 plots[-1].xmin = 40
 plots[-1].ylog  = "yes"
 
 
 plots.append ( makeDefaultPlot ( "MTenu_50_110_Njet_lte4"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "50 < M_{T} (e, PFMET) < 100 (GeV) [Preselection + N(Jet) #leq 4]"
+plots[-1].xtit = "50 < M_{T} (e, PFMET) < 110 (GeV) [Preselection + N(Jet) #leq 4]"
 plots[-1].rebin = mt_rebin
-plots[-1].ymax = 200000
-plots[-1].ymin = 1e-1
-plots[-1].xmax = 140
+plots[-1].ymax = 2e4
+plots[-1].ymin = 200
+plots[-1].xmax = 145
 plots[-1].xmin = 40
 plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "MTenu_50_110_Njet_gte4"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "50 < M_{T} (e, PFMET) < 100 (GeV) [Preselection + N(Jet) #geq 4]"
+plots[-1].xtit = "50 < M_{T} (e, PFMET) < 110 (GeV) [Preselection + N(Jet) #geq 4]"
 plots[-1].rebin = mt_rebin
-plots[-1].ymax = 200000
-plots[-1].ymin = 1e-1
-plots[-1].xmax = 140
+plots[-1].ymax = 3e3
+plots[-1].ymin = 20
+plots[-1].xmax = 145
 plots[-1].xmin = 40
 plots[-1].ylog  = "yes"
 
 
 plots.append ( makeDefaultPlot ( "MTenu_50_110_Njet_lte3"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "50 < M_{T} (e, PFMET) < 100 (GeV) [Preselection + N(Jet) #leq 3]"
+plots[-1].xtit = "50 < M_{T} (e, PFMET) < 110 (GeV) [Preselection + N(Jet) #leq 3]"
 plots[-1].rebin = mt_rebin
-plots[-1].ymax = 200000
-plots[-1].ymin = 1e-1
-plots[-1].xmax = 140
+plots[-1].ymax = 1e4
+plots[-1].ymin = 200
+plots[-1].xmax = 145
 plots[-1].xmin = 40
 plots[-1].ylog  = "yes"
 
@@ -578,6 +587,10 @@ c = TCanvas()
 fileps = "allPlots_enujj_scaled_analysis.pdf"
 
 c.Print(fileps + "[")
-for plot in plots:
-    plot.Draw(fileps)
+for i_plot, plot in enumerate(plots):
+    #print 'draw plot:',plot
+    plot.Draw(fileps, i_plot + 1)
 c.Print(fileps+"]")
+
+makeTOC ( "allPlots_enujj_analysis_toc.tex" , fileps, plots ) 
+
