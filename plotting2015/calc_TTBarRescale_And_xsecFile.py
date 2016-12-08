@@ -227,8 +227,10 @@ class Plot:
 #--- Input files
 #File_preselection = GetFile("$LQDATA/RunII/eejj_analysis_ttbarRescaleFinalSels_2jun2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_noTTbarRescale.root")
 #File_QCD_preselection = GetFile("$LQDATA/RunII/eejj_analysis_ttbarRescaleFinalSels_2jun2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots_noTTbarRescale.root")
-File_preselection = GetFile("$LQDATA/RunII/eejj_analysis_MeePlotsWithStCuts_13jul2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/RunII/eejj_analysis_MeePlotsWithStCuts_13jul2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection = GetFile("$LQDATA/RunII/eejj_analysis_MeePlotsWithStCuts_13jul2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/RunII/eejj_analysis_MeePlotsWithStCuts_13jul2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_preselection = GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_QCD_preselection = GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
 
 #--- Rescaling of Z/gamma + jet background
 
@@ -248,61 +250,67 @@ File_QCD_preselection = GetFile("$LQDATA/RunII/eejj_analysis_MeePlotsWithStCuts_
 histBaseNames = []
 # nominal
 histBaseNames.append('Mee_PAS')
-#histBaseNames.append('Mee_NJetEq2_PAS')
-#histBaseNames.append('Mee_NJetEq3_PAS')
-#histBaseNames.append('Mee_NJetEq4_PAS')
-#histBaseNames.append('Mee_NJetEq5_PAS')
-#histBaseNames.append('Mee_NJetEq6_PAS')
-#histBaseNames.append('Mee_NJetEq7_PAS')
-#histBaseNames.append('Mee_NJetGeq3_PAS')
-#histBaseNames.append('Mee_NJetGeq4_PAS')
-#histBaseNames.append('Mee_sT300To500_PAS')
-#histBaseNames.append('Mee_sT500To750_PAS')
-#histBaseNames.append('Mee_sT750To1250_PAS')
-#histBaseNames.append('Mee_sT1250ToInf_PAS')
-#histBaseNames.append('Mee_MejMin100To200_PAS')
-#histBaseNames.append('Mee_MejMin200To300_PAS')
-#histBaseNames.append('Mee_MejMin300To400_PAS')
-#histBaseNames.append('Mee_MejMin400To500_PAS')
-#histBaseNames.append('Mee_MejMin500To650_PAS')
-#histBaseNames.append('Mee_MejMin650ToInf_PAS')
-histBaseNames.append( "Mee_sT340_PAS")
-histBaseNames.append( "Mee_sT405_PAS")
-histBaseNames.append( "Mee_sT470_PAS")
-histBaseNames.append( "Mee_sT535_PAS")
-histBaseNames.append( "Mee_sT595_PAS")
-histBaseNames.append( "Mee_sT660_PAS")
-histBaseNames.append( "Mee_sT720_PAS")
-histBaseNames.append( "Mee_sT780_PAS")
-histBaseNames.append( "Mee_sT840_PAS")
-histBaseNames.append( "Mee_sT900_PAS")
-histBaseNames.append( "Mee_sT960_PAS")
-histBaseNames.append( "Mee_sT1015_PAS")
-histBaseNames.append( "Mee_sT1075_PAS")
-histBaseNames.append( "Mee_sT1130_PAS")
-histBaseNames.append( "Mee_sT1190_PAS")
-histBaseNames.append( "Mee_sT1245_PAS")
-histBaseNames.append( "Mee_sT1300_PAS")
-histBaseNames.append( "Mee_sT1355_PAS")
-histBaseNames.append( "Mee_sT1410_PAS")
-histBaseNames.append( "Mee_sT1460_PAS")
-histBaseNames.append( "Mee_sT1515_PAS")
-histBaseNames.append( "Mee_sT1565_PAS")
-histBaseNames.append( "Mee_sT1615_PAS")
-histBaseNames.append( "Mee_sT1670_PAS")
-histBaseNames.append( "Mee_sT1720_PAS")
-histBaseNames.append( "Mee_sT1770_PAS")
-histBaseNames.append( "Mee_sT1815_PAS")
+##histBaseNames.append('Mee_NJetEq2_PAS')
+##histBaseNames.append('Mee_NJetEq3_PAS')
+##histBaseNames.append('Mee_NJetEq4_PAS')
+##histBaseNames.append('Mee_NJetEq5_PAS')
+##histBaseNames.append('Mee_NJetEq6_PAS')
+##histBaseNames.append('Mee_NJetEq7_PAS')
+##histBaseNames.append('Mee_NJetGeq3_PAS')
+##histBaseNames.append('Mee_NJetGeq4_PAS')
+##histBaseNames.append('Mee_sT300To500_PAS')
+##histBaseNames.append('Mee_sT500To750_PAS')
+##histBaseNames.append('Mee_sT750To1250_PAS')
+##histBaseNames.append('Mee_sT1250ToInf_PAS')
+##histBaseNames.append('Mee_MejMin100To200_PAS')
+##histBaseNames.append('Mee_MejMin200To300_PAS')
+##histBaseNames.append('Mee_MejMin300To400_PAS')
+##histBaseNames.append('Mee_MejMin400To500_PAS')
+##histBaseNames.append('Mee_MejMin500To650_PAS')
+##histBaseNames.append('Mee_MejMin650ToInf_PAS')
+## for rescale factor as a function of sT
+#histBaseNames.append( "Mee_sT340_PAS")
+#histBaseNames.append( "Mee_sT405_PAS")
+#histBaseNames.append( "Mee_sT470_PAS")
+#histBaseNames.append( "Mee_sT535_PAS")
+#histBaseNames.append( "Mee_sT595_PAS")
+#histBaseNames.append( "Mee_sT660_PAS")
+#histBaseNames.append( "Mee_sT720_PAS")
+#histBaseNames.append( "Mee_sT780_PAS")
+#histBaseNames.append( "Mee_sT840_PAS")
+#histBaseNames.append( "Mee_sT900_PAS")
+#histBaseNames.append( "Mee_sT960_PAS")
+#histBaseNames.append( "Mee_sT1015_PAS")
+#histBaseNames.append( "Mee_sT1075_PAS")
+#histBaseNames.append( "Mee_sT1130_PAS")
+#histBaseNames.append( "Mee_sT1190_PAS")
+#histBaseNames.append( "Mee_sT1245_PAS")
+#histBaseNames.append( "Mee_sT1300_PAS")
+#histBaseNames.append( "Mee_sT1355_PAS")
+#histBaseNames.append( "Mee_sT1410_PAS")
+#histBaseNames.append( "Mee_sT1460_PAS")
+#histBaseNames.append( "Mee_sT1515_PAS")
+#histBaseNames.append( "Mee_sT1565_PAS")
+#histBaseNames.append( "Mee_sT1615_PAS")
+#histBaseNames.append( "Mee_sT1670_PAS")
+#histBaseNames.append( "Mee_sT1720_PAS")
+#histBaseNames.append( "Mee_sT1770_PAS")
+#histBaseNames.append( "Mee_sT1815_PAS")
 
 plots = []
 
 for histBaseName in histBaseNames:
   # MG HT BKG
-  h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MG_HT__"+histBaseName, File_preselection) # MC all
+  h_ALLBKG_HT_Mee = GetHisto("histo1D__ALLBKG_MG_HT__"+histBaseName, File_preselection) # MC all
+  # amc@NLO BG
+  h_ALLBKG_amcatnlo_Mee = GetHisto("histo1D__ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt__"+histBaseName, File_preselection) # MC all
   
   h_TTbarMadgraph_Mee = GetHisto("histo1D__TTbar_Madgraph__"+histBaseName, File_preselection) # MC TTbar
   h_ZJets_Mee = GetHisto("histo1D__ZJet_Madgraph_HT__"+histBaseName, File_preselection)
   h_WJets_Mee = GetHisto("histo1D__WJet_Madgraph_HT__"+histBaseName, File_preselection)
+  h_TTbar_amcatnlo_Mee = GetHisto("histo1D__TTbar_amcatnlo_Inc__"+histBaseName, File_preselection) # MC TTbar
+  h_ZJets_amcatnlo_Mee = GetHisto("histo1D__ZJet_amcatnlo_ptBinned__"+histBaseName, File_preselection)
+  h_WJets_amcatnlo_Mee = GetHisto("histo1D__WJet_amcatnlo_ptBinned__"+histBaseName, File_preselection)
   h_SingleTop_Mee = GetHisto("histo1D__SingleTop__"+histBaseName, File_preselection)
   h_PhotonJets_Mee = GetHisto("histo1D__PhotonJets_Madgraph__"+histBaseName, File_preselection)
   h_Diboson_Mee = GetHisto("histo1D__DIBOSON__"+histBaseName, File_preselection)
@@ -310,15 +318,16 @@ for histBaseName in histBaseNames:
   # DATA
   h_DATA_Mee = GetHisto("histo1D__DATA__"+histBaseName, File_preselection) #DATA
   # QCD
-  h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+histBaseName,File_QCD_preselection)
+  #h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+histBaseName,File_QCD_preselection)
+  h_QCD = GetHisto("histo1D__QCD_EMEnriched__"+histBaseName,File_QCD_preselection)
   
   plot0 = Plot()
   plot0.histoDATA = h_DATA_Mee
-  plot0.histoMCall = h_ALLBKG_Mee
-  plot0.histoMCTTbar = h_TTbarMadgraph_Mee
-  plot0.histoQCD = h_QCD_DataDriven
-  plot0.histoZJet = h_ZJets_Mee
-  plot0.histoWJet = h_WJets_Mee
+  plot0.histoMCall = h_ALLBKG_amcatnlo_Mee
+  plot0.histoMCTTbar = h_TTbar_amcatnlo_Mee
+  plot0.histoQCD = h_QCD
+  plot0.histoZJet = h_ZJets_amcatnlo_Mee
+  plot0.histoWJet = h_WJets_amcatnlo_Mee
   plot0.histoSingleTop = h_SingleTop_Mee
   plot0.histoPhotonJets = h_PhotonJets_Mee
   plot0.histoDiboson = h_Diboson_Mee
@@ -326,7 +335,7 @@ for histBaseName in histBaseNames:
   plot0.xmax = h_TTbarMadgraph_Mee.GetXaxis().GetXmax()
   #plot0.name = "TTbarRescale"
   plot0.name = histBaseName
-  plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/cmssw/LQRootTuples7414/src/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
+  plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/cmssw/8011/TestRootNTuplizerRecipe/src/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
   plot0.xminplot = 0
   plot0.xmaxplot = 2000
   plot0.yminplot = 0
