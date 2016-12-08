@@ -87,7 +87,7 @@ void analysisClass::Loop()
    double eleEta_end1_max       = getPreCutValue2("eleEta_end1");
    double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
    double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
-   
+
    //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
@@ -201,8 +201,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "Meejj_ROI"                       ,    400   , 0       , 4000   );
    CreateUserTH1D( "Mejj_ROI"                        ,    400   , 0       , 4000   );
    CreateUserTH1D( "Meej_ROI"                        ,    400   , 0       , 4000   );
-   CreateUserTH1D( "run_PAS"                         ,    15000 , 246000  , 261000 );
-   CreateUserTH1D( "run_HLT"                         ,    15000 , 246000  , 261000 );
+   CreateUserTH1D( "run_PAS"                         ,    20000 , 270000  , 290000 );
+   CreateUserTH1D( "run_HLT"                         ,    20000 , 270000  , 290000 );
 						     
    CreateUserTH1D( "Ptj1j2j3_PAS"                    ,    200 , 0       , 2000     );
    CreateUserTH1D( "Ptj1j2_PAS"                      ,    200 , 0       , 2000     );
@@ -487,6 +487,15 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_MejMin400To500_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mee_MejMin500To650_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mee_MejMin650ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   // for Ptee bins
+   CreateUserTH1D( "Mee_Ptee0To100_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee100To150_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee150To200_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee200To250_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee250To300_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee300To350_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee350To400_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_Ptee400ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
    // more plots with sT cuts for final selection thresholds
    CreateUserTH1D( "Mee_sT340_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mee_sT405_PAS"		             ,    200   , 0       , 2000	  ); 
@@ -706,6 +715,28 @@ void analysisClass::Loop()
      fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
 
      //--------------------------------------------------------------------------
+     // Special treatment of inclusive W/Z
+     //--------------------------------------------------------------------------
+     bool passGenWZPt = true;
+     std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+     if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+         || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+       if(GenW1_Pt > 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+     }
+     if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+       if(GenZGamma1_Pt > 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+     }
+     //// testing
+     //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+     //    || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+     //  if(GenW1_Pt <= 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+     //}
+     //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+     //  if(GenZGamma1_Pt <= 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+     //}
+     fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
+
+     //--------------------------------------------------------------------------
      // Fill JSON variable
      //--------------------------------------------------------------------------
 
@@ -727,19 +758,6 @@ void analysisClass::Loop()
      fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter            , gen_weight * pileup_weight );
      //
 
-     // no longer in 2016
-     //--------------------------------------------------------------------------
-     // Exclude runs with bad beam spot ?
-     //--------------------------------------------------------------------------
-     //if(run==259626 ||
-     //    run==259636 ||
-     //    run==259637 ||
-     //    run==259681 ||
-     //    run==259682 ||
-     //    run==259683 ||
-     //    run==259685)
-     //  continue;
-     
      //--------------------------------------------------------------------------
      // Fill HLT
      //--------------------------------------------------------------------------
@@ -783,8 +801,13 @@ void analysisClass::Loop()
        passHLT = 0;
        //if ( H_Ele27_WPLoose == 1)
        //if ( H_Ele27_WPTight == 1)
-       if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+       //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+       if ( H_Ele27_WPLoose_eta2p1 == 1)
          passHLT = 1;
+       if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
+         passHLT = 0;
+       if(run < 275676) // L1 EGM efficiency going to zero
+         passHLT = 0;
      }
      else {
        passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
@@ -1301,6 +1324,24 @@ void analysisClass::Loop()
          FillUserTH1D("Mee_MejMin500To650_PAS", M_e1e2                         , pileup_weight * gen_weight );
        else if (M_ej_min >= 650)
          FillUserTH1D("Mee_MejMin650ToInf_PAS", M_e1e2                         , pileup_weight * gen_weight );
+       //
+       if (Pt_e1e2 < 100)
+         FillUserTH1D( "Mee_Ptee0To100_PAS"		               ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else if(Pt_e1e2 < 150 && Pt_e1e2 >= 100)
+         FillUserTH1D( "Mee_Ptee100To150_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else if(Pt_e1e2 < 200 && Pt_e1e2 >= 150)
+         FillUserTH1D( "Mee_Ptee150To200_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else if(Pt_e1e2 < 250 && Pt_e1e2 >= 200)
+         FillUserTH1D( "Mee_Ptee200To250_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else if(Pt_e1e2 < 300 && Pt_e1e2 >= 250)
+         FillUserTH1D( "Mee_Ptee250To300_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else if(Pt_e1e2 < 350 && Pt_e1e2 >= 300)
+         FillUserTH1D( "Mee_Ptee300To350_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else if(Pt_e1e2 < 400 && Pt_e1e2 >= 350)
+         FillUserTH1D( "Mee_Ptee350To400_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       else
+         FillUserTH1D( "Mee_Ptee400ToInf_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
+       //
        if(M_e1j1 < 200)
        {
          FillUserTH1D("lowMe1j1_DR_Ele1Jet1_PAS"	                , DR_Ele1Jet1                         , pileup_weight * gen_weight );
