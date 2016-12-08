@@ -129,63 +129,6 @@ void analysisClass::Loop() {
     fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter    , gen_weight * pileup_weight );
     fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter           , gen_weight * pileup_weight );
 
-    // no longer in 2016
-    ////--------------------------------------------------------------------------
-    //// Exclude runs with bad beam spot ?
-    ////--------------------------------------------------------------------------
-    //bool passBadBeamspot = true;
-    //if(run==259626 ||
-    //    run==259636 ||
-    //    run==259637 ||
-    //    run==259681 ||
-    //    run==259682 ||
-    //    run==259683 ||
-    //    run==259685)
-    //  //continue;
-    //  passBadBeamspot = false;
-
-    //fillVariableWithValue(   "PassBadBeamspot"	    , passBadBeamspot                          , gen_weight * pileup_weight );
-
-    //--------------------------------------------------------------------------
-    // Fill HLT
-    //--------------------------------------------------------------------------
-
-    //int passHLT = 1;
-    //if ( isData ) { 
-    //  passHLT = 0;
-    //  if ( H_Ele30_PFJet100_25 == 1 || H_Ele30_PFNoPUJet100_25  == 1 ){
-    ////if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
-    //  	 passHLT = 1;
-    //  }
-    //}
-    // no longer in 2016
-    //// ignore Run2015C stuff
-    //if(isData)
-    //{
-    //  if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-    //    // continue;
-    //    // no, treat this case like failing the HLT
-    //    fillVariableWithValue("PassHLT",0,gen_weight*pileup_weight);
-    //}
-
-    int passHLT = 1;
-    if ( isData ) { 
-      passHLT = 0;
-      if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-        passHLT = 1;
-    }
-    // FIXME: Update to new 2016 curve?
-    else // using the turn-on in the MC?
-    {
-      // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-      //   we get two chances to pass since we may have two electrons in the event
-      passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-      //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
-      if(!passHLT) // if the first one doesn't pass, try the second one
-        passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-      //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
-    }
-    fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
 
     //--------------------------------------------------------------------------
     // Calculate variables for trigger matching 
