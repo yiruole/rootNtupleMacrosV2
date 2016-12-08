@@ -4,6 +4,11 @@
 JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt 
 #ICHEP JSON
 #JSON  /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt
+#-----------------------------------------------------------------------------------------------------------------------------
+# Pileup files for applying pileup re-weighting
+#-----------------------------------------------------------------------------------------------------------------------------
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/SpringMC_PUScenarioV1_PoissonOOTPU.txt
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016nov8.root
 #
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
@@ -20,6 +25,7 @@ produceSkim			1	     -                  -               -              -1
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------
+Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
 PassJSON		  	                0      1			-   -               0       2 -0.5 1.5	     
 PassGlobalTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
 PassGoodVertices	              0	     1			-		-		0	2 -0.5 1.5
@@ -30,10 +36,20 @@ PassEcalDeadCellTrigPrim        0	     1			-		-		0	2 -0.5 1.5
 PassChargedCandidateFilter      0	     1			-		-		0	2 -0.5 1.5
 PassBadPFMuonFilter             0	     1			-		-		0	2 -0.5 1.5
 nEle_ptCut		                	0	     1  		-		-		0	16 -0.5 15.5
+nMuon_ptCut	          	     		-1	     0			-		-		1	11 -0.5 10.5
 Ele1_PtHeep		                	50.0	     +inf		-		-		0	100 0 2000  
+Ele1_Eta			                  -2.2	     2.2		-		-		1	100 -5.0 5.0
+Ele1_IsBarrel		              	-inf	     +inf		-		-		1	2 -0.5 1.5
 PFMET_Type1XY_Pt                55.0	     +inf   -   -   0 200 0 2000  
+nJet		                      	1	     +inf		-		-		1	16 -0.5 15.5
 Jet1_Pt   		                	50.0       +inf		-		-		0	100 0 2000     
+Jet1_Eta	     	              	-2.4	     2.4		-		-		1	100 -5.0 5.0
 Jet2_Pt   		                	50.0	     +inf		-		-		0	100 0 2000  
+Jet2_Eta	                  		-2.4	     2.4		-		-		1	100 -5.0 5.0
 sT_enujj   		                	300.0	     +inf		-		-		0	100 0 2000  
+DR_Ele1Jet1	     		-inf	     +inf		-		-		1	100 0.0 10
+DR_Ele1Jet2	     		-inf	     +inf		-		-		1	100 0.0 10
+mDeltaPhiMETEle	     		0.5	     +inf		-		-		1	100 0 3.14159
+mDeltaPhiMET1stJet   		0.5 	     +inf		-		-		1	100 0 3.14159
 MT_Ele1MET		                  50.0	     +inf		-		-		0	100 0 2000  
 PassFilter		                	-inf	     +inf		-		-		0	2 -0.5 1.5

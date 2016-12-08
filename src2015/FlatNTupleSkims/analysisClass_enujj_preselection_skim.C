@@ -7,6 +7,10 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
+// for trigger turn-on
+#include "Ele27WPLooseTrigTurnOn.C"
+// for fake rate
+#include "include/QCDFakeRate.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
@@ -73,36 +77,71 @@ void analysisClass::Loop() {
     int    passedJSON = passJSON ( run, ls , isData ) ;
 
     //--------------------------------------------------------------------------
+    // Do pileup re-weighting
+    //--------------------------------------------------------------------------
+    
+    double pileup_weight = getPileupWeight ( nPileUpInt_True , isData ) ;
+    
+    //--------------------------------------------------------------------------
+    // Get information about gen-level reweighting (should be for Sherpa only)
+    //--------------------------------------------------------------------------
+
+    double gen_weight = Weight;
+    if ( isData ) gen_weight = 1.0;
+
+    //--------------------------------------------------------------------------
+    // Is this a barrel electron?
+    //--------------------------------------------------------------------------
+
+    bool Ele1_IsBarrel = bool ( fabs (Ele1_Eta) < 1.442 );
+
+    //--------------------------------------------------------------------------
+    // First variable to fill just shows the "reweighting".  Always passes.
+    //--------------------------------------------------------------------------
+
+    fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
+
+    //--------------------------------------------------------------------------
     // Fill JSON variable
     //--------------------------------------------------------------------------
-    fillVariableWithValue ("PassJSON", passedJSON); 
+    fillVariableWithValue ("PassJSON", passedJSON, gen_weight * pileup_weight  ); 
 
     //--------------------------------------------------------------------------
     // Fill noise filters
     //--------------------------------------------------------------------------
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter );
-    fillVariableWithValue( "PassGoodVertices"	             , PassGoodVertices              );
-    fillVariableWithValue( "PassHBHENoiseFilter"	         , PassHBHENoiseFilter           );
-    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , PassHBHENoiseIsoFilter        );
-    fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter   );
-    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim      );
-    fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter    );
-    fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter           );
+    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassGoodVertices"	             , PassGoodVertices              , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassHBHENoiseFilter"	         , PassHBHENoiseFilter           , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , PassHBHENoiseIsoFilter        , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter   , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim      , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter    , gen_weight * pileup_weight  );
+    fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter           , gen_weight * pileup_weight  );
 
     //------------------------------------------------------------------
     // Fill variables 
     //------------------------------------------------------------------
-    fillVariableWithValue("nEle_ptCut"	      , nEle_ptCut	  );
-    fillVariableWithValue("Ele1_PtHeep"  	    , Ele1_PtHeep   );	  
-    fillVariableWithValue("PFMET_Type1XY_Pt" , PFMET_Type1XY_Pt );	  	  
-    //fillVariableWithValue("PFMET_Type1_Pt" , PFMET_Type1_Pt );	  	  
-    fillVariableWithValue("Jet1_Pt"   	      , Jet1_Pt   	  );
-    fillVariableWithValue("Jet2_Pt"   	      , Jet2_Pt   	  );
-    fillVariableWithValue("sT_enujj"   	      , sT_enujj   	  );
-    fillVariableWithValue("MT_Ele1MET"	      , MT_Ele1MET	  );	  
-    fillVariableWithValue("PassFilter"        , 1                 );
+    fillVariableWithValue("nMuon_ptCut"       , nMuon_ptCut             , gen_weight * pileup_weight );
+    fillVariableWithValue("nEle_ptCut"	      , nEle_ptCut	  , gen_weight * pileup_weight  );
+    fillVariableWithValue("Ele1_PtHeep"  	    , Ele1_PtHeep   , gen_weight * pileup_weight  );	  
+    fillVariableWithValue("Ele1_Eta"          , Ele1_Eta                , gen_weight * pileup_weight );
+    fillVariableWithValue("Ele1_IsBarrel"     , Ele1_IsBarrel           , gen_weight * pileup_weight );
+    fillVariableWithValue("PFMET_Type1XY_Pt" , PFMET_Type1XY_Pt, gen_weight * pileup_weight   );	  	  
+    //fillVariableWithValue("PFMET_Type1_Pt" , PFMET_Type1_Pt , gen_weight * pileup_weight  );	  	  
+    fillVariableWithValue(   "mDeltaPhiMETEle"          , mDPhi_METEle1           , gen_weight * pileup_weight );
+    fillVariableWithValue( "mDeltaPhiMET1stJet"       , mDPhi_METJet1           , gen_weight * pileup_weight );
+    fillVariableWithValue(   "nJet"                     , nJet_ptCut              , gen_weight * pileup_weight );
+    fillVariableWithValue("Jet1_Pt"   	      , Jet1_Pt   	  , gen_weight * pileup_weight  );
+    fillVariableWithValue( "Jet1_Eta"                 , Jet1_Eta                , gen_weight * pileup_weight );
+    fillVariableWithValue("Jet2_Pt"   	      , Jet2_Pt   	  , gen_weight * pileup_weight  );
+    fillVariableWithValue("Jet2_Eta"                 , Jet2_Eta                , gen_weight * pileup_weight );
+    fillVariableWithValue("sT_enujj"   	      , sT_enujj   	  , gen_weight * pileup_weight  );
+    fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             , gen_weight * pileup_weight );
+    fillVariableWithValue ( "DR_Ele1Jet2"             , DR_Ele1Jet2             , gen_weight * pileup_weight );
+    fillVariableWithValue("MT_Ele1MET"	      , MT_Ele1MET	  , gen_weight * pileup_weight  );	  
+    fillVariableWithValue("PassFilter"        , 1             , gen_weight * pileup_weight      );
     
     //-----------------------------------------------------------------
     // Evaluate the cuts
