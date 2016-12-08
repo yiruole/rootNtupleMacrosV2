@@ -3,8 +3,16 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection =     GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_preselection     = GetFile("$LQDATA/2016analysis/nov20_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov20_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/nov26_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov26_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection =     GetFile("$LQDATA/2016analysis/nov28_noJets_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov28_noJets_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_QCD_hack_plots.root")
+#File_preselection =     GetFile("$LQDATA/2016analysis/nov26_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov26_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/nov28_onRSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov28_onRSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
 
 LQmasses = [650]
 
@@ -34,18 +42,22 @@ histoBaseName2D_userDef = "histo2D__SAMPLE__VARIABLE"
 #samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph_Inc" ]
 #keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG Inc)"  ]
 
-# MG HT
-samplesForStackHistos_other = [ "OTHERBKG_MG_HT" ]
-samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph_HT" ]
-#keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
-keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
+## MG HT
+#samplesForStackHistos_other = [ "OTHERBKG_MG_HT" ]
+#samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_Madgraph_HT" ]
+##keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
+#keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
 
-## amc@NLO Pt
+## amc@NLO Pt Z, TTBar MG
 #samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_amcatnlo_ptBinned" ]
 #samplesForStackHistos_other = [ "OTHERBKG_MG_ZJetPt" ]
 ##keysStack             = [ "Other backgrounds", "t#bar{t} (MG)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
 #keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
 
+# amc@NLO Pt ZJets and TTBar
+samplesForStackHistos_ZJets  = [ "TTbar_amcatnlo_Inc", "ZJet_amcatnlo_ptBinned" ]
+samplesForStackHistos_other = [ "OTHERBKG_amcAtNLOIncTTBar_ZJetWJetPt" ]
+keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (amc@NLO)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
 
 # QCD
 #samplesForStackHistos_QCD = ["QCDFakes_DATA"]

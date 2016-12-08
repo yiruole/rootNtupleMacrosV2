@@ -3,8 +3,10 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_onRSK_local_nov1_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
-File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_onRSK_local_nov1_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_noIncWStitch.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W+jets"
@@ -129,8 +131,8 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.pdf_folder        = "pdf_enujj_scaled_preselectionOnly/"
     plot.png_folder        = "png_enujj_scaled_preselectionOnly/"
     plot.suffix            = "enujj"
-    #plot.lumi_fb           = "12.9"
-    plot.lumi_fb           = "27.2"
+    plot.lumi_fb           = "12.9"
+    #plot.lumi_fb           = "27.2"
     
     return plot
 
