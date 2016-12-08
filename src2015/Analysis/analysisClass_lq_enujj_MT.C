@@ -1220,6 +1220,21 @@ void analysisClass::Loop()
      fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
 
      //--------------------------------------------------------------------------
+     // Special treatment of inclusive W/Z
+     //--------------------------------------------------------------------------
+     bool passGenWZPt = true;
+     std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+     if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+         || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+       if(GenW1_Pt > 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+     }
+     if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+       if(GenZGamma1_Pt > 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+     }
+     fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
+
+     
+     //--------------------------------------------------------------------------
      // Fill JSON variable
      //--------------------------------------------------------------------------
 
@@ -1269,8 +1284,13 @@ void analysisClass::Loop()
        passHLT = 0;
        //if ( H_Ele27_WPLoose == 1)
        //if ( H_Ele27_WPTight == 1)
-       if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+       //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+       if ( H_Ele27_WPLoose_eta2p1 == 1)
          passHLT = 1;
+       if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
+         passHLT = 0;
+       if(run < 275676) // L1 EGM efficiency going to zero
+         passHLT = 0;
      }
      else {
        passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
