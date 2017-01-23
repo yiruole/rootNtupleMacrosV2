@@ -226,18 +226,21 @@ class Plot:
 
 #--- Input files
 #preselection
-#File_preselection     = GetFile("$LQDATA/2016analysis/nov20_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov20_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-#File_preselection     = GetFile("$LQDATA/2016analysis/nov26_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov26_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-#File_preselection     = GetFile("$LQDATA/2016analysis/nov28_noJets_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root")
-#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov28_noJets_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_QCD_hack_plots.root")
-#File_preselection     = GetFile("$LQDATA/2016analysis/nov28_onRSK_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov28_onRSK_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-#File_preselection     = GetFile("$LQDATA/2016analysis/nov28_onRSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-#File_QCD_preselection = GetFile("$LQDATA/2016analysis/nov28_onRSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-File_preselection     = GetFile("$LQDATA/2016analysis/dec1_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016analysis/dec1_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+
+#File_preselection     = GetFile("$LQDATA/2016analysis/dec1_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/dec1_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/dec13_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_rereco_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/dec13_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_rereco_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+
+#File_preselection     = GetFile("$LQDATA/2016analysis/jan18_onPSK_rereco_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan18_onPSK_rereco_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_excludeBadL1runs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_excludeBadL1runs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_DYWStitch100GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_DYWStitch100GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
+File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan22_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 
 #--- Rescaling of Z/gamma + jet background
 
@@ -310,7 +313,7 @@ histBaseNames.append('Mee_EEEE_PAS')
 plots = []
 
 for histBaseName in histBaseNames:
-  useMGHT = True
+  useMGHT = False
   # MG HT BKG
   if useMGHT:
     h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MG_HT__"+histBaseName, File_preselection) # MC all
@@ -341,8 +344,8 @@ for histBaseName in histBaseNames:
   # DATA
   h_DATA_Mee = GetHisto("histo1D__DATA__"+histBaseName, File_preselection) #DATA
   # QCD
-  #h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+histBaseName,File_QCD_preselection)
-  h_QCD_DataDriven = GetHisto("histo1D__QCD_EMEnriched__"+histBaseName,File_QCD_preselection)
+  h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+histBaseName,File_QCD_preselection)
+  #h_QCD_DataDriven = GetHisto("histo1D__QCD_EMEnriched__"+histBaseName,File_QCD_preselection)
   
   plot0 = Plot()
   plot0.histoDATA = h_DATA_Mee
