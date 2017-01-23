@@ -123,6 +123,66 @@ class Plot:
             sys.exit()
 
 
+def GetRTTBarWJets(plotObjTTBar, plotObjWJets, randomize=False):
+
+    #integrals: ttbar
+    integralDATA_ttbar = GetIntegralTH1(plotObjTTBar.histoDATA,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    ERRintegralDATA_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoDATA,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    integralMCall_ttbar = GetIntegralTH1(plotObjTTBar.histoMCall,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    ERRintegralMCall_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoMCall,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    integralTTbar_ttbar = GetIntegralTH1(plotObjTTBar.histoTTbar,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    ERRintegralTTbar_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoTTbar,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    integralWJets_ttbar = GetIntegralTH1(plotObjTTBar.histoWJet,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    ERRintegralWJets_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoWJet,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    integralQCD_ttbar = GetIntegralTH1(plotObjTTBar.histoQCD,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    ERRintegralQCD_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoQCD,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    #contamination from other backgrounds (except TTbar and WJets) in the integral range [QCD is not in MCall]
+    integralMCothers_ttbar = integralMCall_ttbar - integralTTbar_ttbar - integralWJets_ttbar
+    ERRintegralMCothers_ttbar = math.sqrt(ERRintegralMCall_ttbar**2 + ERRintegralTTbar_ttbar**2)
+
+    # integrals: wjets
+    integralDATA_wjets = GetIntegralTH1(plotObjWJets.histoDATA,plotObjWJets.xmin,plotObjWJets.xmax)
+    ERRintegralDATA_wjets = GetErrorIntegralTH1(plotObjWJets.histoDATA,plotObjWJets.xmin,plotObjWJets.xmax)
+    integralMCall_wjets = GetIntegralTH1(plotObjWJets.histoMCall,plotObjWJets.xmin,plotObjWJets.xmax)
+    ERRintegralMCall_wjets = GetErrorIntegralTH1(plotObjWJets.histoMCall,plotObjWJets.xmin,plotObjWJets.xmax)
+    integralTTbar_wjets = GetIntegralTH1(plotObjWJets.histoTTbar,plotObjWJets.xmin,plotObjWJets.xmax)
+    ERRintegralTTbar_wjets = GetErrorIntegralTH1(plotObjWJets.histoTTbar,plotObjWJets.xmin,plotObjWJets.xmax)
+    integralWJets_wjets = GetIntegralTH1(plotObjWJets.histoWJet,plotObjWJets.xmin,plotObjWJets.xmax)
+    ERRintegralWJets_wjets = GetErrorIntegralTH1(plotObjWJets.histoWJet,plotObjWJets.xmin,plotObjWJets.xmax)
+    integralQCD_wjets = GetIntegralTH1(plotObjWJets.histoQCD,plotObjWJets.xmin,plotObjWJets.xmax)
+    ERRintegralQCD_wjets = GetErrorIntegralTH1(plotObjWJets.histoQCD,plotObjWJets.xmin,plotObjWJets.xmax)
+    #contamination from other backgrounds (except WJets and TTBar) in the integral range [QCD is not in MCall]
+    integralMCothers_wjets = integralMCall_wjets - integralWJets_wjets - integralTTbar_wjets
+    ERRintegralMCothers_wjets = math.sqrt(ERRintegralMCall_wjets**2 + ERRintegralWJets_wjets**2)
+    contamination_wjets = (integralMCothers_wjets+integralTTbar_wjets+integralQCD_wjets) / (integralMCall_wjets+integralQCD_wjets)
+
+    # randomize
+    trand = TRandom3(0)
+    integralDATA_ttbar = trand.Gaus(integralDATA_ttbar,ERRintegralDATA_ttbar)
+    integralMCall_ttbar = trand.Gaus(integralMCall_ttbar,ERRintegralMCall_ttbar)
+    integralTTbar_ttbar = trand.Gaus(integralTTbar_ttbar,ERRintegralTTbar_ttbar)
+    integralWJets_ttbar = trand.Gaus(integralWJets_ttbar,ERRintegralWJets_ttbar)
+    integralQCD_ttbar = trand.Gaus(integralQCD_ttbar,ERRintegralQCD_ttbar)
+    integralMCothers_ttbar = integralMCall_ttbar - integralTTbar_ttbar - integralWJets_ttbar
+    #
+    integralDATA_wjets = trand.Gaus(integralDATA_wjets,ERRintegralDATA_wjets)
+    integralMCall_wjets = trand.Gaus(integralMCall_wjets,ERRintegralMCall_wjets)
+    integralTTbar_wjets = trand.Gaus(integralTTbar_wjets,ERRintegralTTbar_wjets)
+    integralWJets_wjets = trand.Gaus(integralWJets_wjets,ERRintegralWJets_wjets)
+    integralQCD_wjets = trand.Gaus(integralQCD_wjets,ERRintegralQCD_wjets)
+
+    # solve the system of equations
+    # (1) --> wjets
+    # (2) --> ttbar
+    rTTBar = integralDATA_wjets*integralWJets_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralWJets_ttbar
+    rTTBar+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralWJets_wjets
+    rTTBar/= (integralTTbar_wjets*integralWJets_ttbar - integralTTbar_ttbar*integralWJets_wjets)
+    rWJets = integralDATA_wjets*integralTTbar_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralTTbar_ttbar
+    rWJets+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralTTbar_wjets
+    rWJets/= (integralTTbar_ttbar*integralWJets_wjets-integralTTbar_wjets*integralWJets_ttbar)
+
+    return rTTBar,rWJets
+
 def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     #calculate rescaling factor for Z/gamma+jet background and create new cross section file
     canvas = TCanvas()
@@ -130,6 +190,48 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     plotObjTTBar.CheckMCDataConsistency()
     plotObjWJets.CheckMCDataConsistency()
 
+    # do the following N times, so we can calculate the stat. uncertainty
+    N=100
+    # NB: the commented code below makes a nice progress bar but causes the dict to be undefined...
+    steps = N
+    print 'Randomizing histos and calculating scale factors:'
+    progressString = '0% ['+' '*steps+'] 100%'
+    print progressString,
+    print '\b'*(len(progressString)-3),
+    sys.stdout.flush()
+    rTTBarList = []
+    rWJetsList = []
+    for i in range(0,N):
+        print ''
+        rTTBar,rWJets = GetRTTBarWJets(plotObjTTBar,plotObjWJets,True)
+        rTTBarList.append(rTTBar)
+        rWJetsList.append(rWJets)
+        print '\b.',
+        sys.stdout.flush()
+    print '\b] 100%'
+
+    ttMean = 0
+    for rtt in rTTBarList:
+      ttMean+=rtt
+    ttMean/=N
+    #
+    wMean = 0
+    for rw in rWJetsList:
+      wMean+=rw
+    wMean/=N
+    
+    rTTBarSigma = 0
+    for rtt in rTTBarList:
+      rTTBarSigma+=pow(rtt-ttMean,2)
+    rTTBarSigma/=N
+    rTTBarSigma = math.sqrt(rTTBarSigma)
+    #
+    rWJetsSigma = 0
+    for rw in rWJetsList:
+      rWJetsSigma+=pow(rw-wMean,2)
+    rWJetsSigma/=N
+    rWJetsSigma = math.sqrt(rWJetsSigma)
+    
     #integrals: ttbar
     integralDATA_ttbar = GetIntegralTH1(plotObjTTBar.histoDATA,plotObjTTBar.xmin,plotObjTTBar.xmax)
     ERRintegralDATA_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoDATA,plotObjTTBar.xmin,plotObjTTBar.xmax)
@@ -171,7 +273,6 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     rWJets = integralDATA_wjets*integralTTbar_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralTTbar_ttbar
     rWJets+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralTTbar_wjets
     rWJets/= (integralTTbar_ttbar*integralWJets_wjets-integralTTbar_wjets*integralWJets_ttbar)
-
 
 
 # FIXME
@@ -220,8 +321,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     print "integral DATA:                "   + str( integralDATA_ttbar ) + " +/- " + str( ERRintegralDATA_ttbar )
     print "contribution from other bkgs (except TTbar): " + str(contamination_ttbar*100) + "%"
     #print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr_ttbar ) + " +/- " + str( ERRintegralDATAcorr_ttbar )
-    print "rescale factor for TTbar background: " + str(rTTBar) #+ " +\- " + str(relERRrescale*rescale)
-    # FIXME
+    print "rescale factor for TTbar background: " + str(rTTBar) + " +\- " + str(rTTBarSigma)
     #print "systematical uncertainty of TTbar background modeling: " + str(relERRrescale*100) + "%"
     print "######################################## "
     print
@@ -240,9 +340,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     print "integral DATA:                "   + str( integralDATA_wjets ) + " +/- " + str( ERRintegralDATA_wjets )
     print "contribution from other bkgs (except wjets): " + str(contamination_wjets*100) + "%"
     #print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr_wjets ) + " +/- " + str( ERRintegralDATAcorr_wjets )
-    print "rescale factor for WJets background: " + str(rWJets) #+ " +\- " + str(relERRrescale*rescale)
-    # FIXME
-    #print "systematical uncertainty of WJets background modeling: " + str(relERRrescale*100) + "%"
+    print "rescale factor for WJets background: " + str(rWJets) + " +\- " + str(rWJetsSigma)
     print "######################################## "
     print
 
