@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
-# 2016 JSON file
+# 2016 Sep23 ReReco JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt 
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -36,7 +36,7 @@ pfjet_energy_scale_sign	   0		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Jet selection
 #------------------------------------------------------------------------------------------------------
-jet_PtCut		   45		-               -               -               -1
+jet_PtCut		               45	         	-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
 jet_HighEtaCut		   5.0		-               -               -               -1
 jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
@@ -80,24 +80,14 @@ PassTrigger			0	     1			-		-		0	2 -0.5 1.5	      SAVE
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 PassJSON			-inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-PassBPTX0                       -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassPhysDecl                    -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassPrimaryVertex               -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassGlobalTightHalo2016Filter   -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassGoodVertices                -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassHBHENoiseFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassHBHENoiseIsoFilter          -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassCSCBeamHaloFilterTight      -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassBadResolutionTrackFilter    -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassMuonTrackFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 PassBadEESupercrystalFilter     -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-#PassBeamHaloFilterLoose         -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-#PassBeamScraping                -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-#PassEcalDeadCellBoundEnergy	   -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-#PassEcalDeadCellTrigPrim	       -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-#PassTrackingFailure             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-#PassEcalLaserCorrFilter         -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-#PassManyStripClus53X		         -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-#PassTooManyStripClus53X		     -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-#PassLogErrorTooManyClusters	   -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
+PassEcalDeadCellTrigPrim        -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassChargedCandidateFilter      -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassBadPFMuonFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -110,6 +100,7 @@ run 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
 PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
+TopPtWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Vertex and pileup info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -253,12 +244,14 @@ LooseEle3_hltPhotonPt           -inf	     +inf               -               -  
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # MET info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
-PFMET_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMET_Raw_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
