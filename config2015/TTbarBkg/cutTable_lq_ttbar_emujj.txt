@@ -1,12 +1,14 @@
 #------------------------------------------------------------------------------------------------------
-# 2015 JSON file
+# 2016 Sep23 ReReco JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+#ICHEP JSON
+#JSON  /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt
 #-----------------------------------------------------------------------------------------------------------------------------
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
-PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_2015_RunIIWinter15GS.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2015/Pileup_SingleElectron__Run2015D_all.root
+PILEUP_MC_TXT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/SpringMC_PUScenarioV1_PoissonOOTPU.txt
+PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016dec13.root
 #
 #############################     Example of file with list of cuts
 #
@@ -65,19 +67,19 @@ TrigCorrForSingleLeptonFinalState false   -   -   -   -1
 #|_|                    
 #-----------------------------------------------------------------------------------------------------------------------------
 Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
+PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
 PassJSON		  	0            1			-               -               0       2 -0.5 1.5	     
-# No trig requirement, already done in reduced skim
-#PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
+PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
+PassGlobalTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
+PassGoodVertices	        0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseIsoFilter    		0	     1			-		-		0	2 -0.5 1.5
-PassCSCBeamHaloFilterTight		0	     1			-		-		0	2 -0.5 1.5
 PassBadEESupercrystalFilter     0	     1			-		-		0	2 -0.5 1.5
-PassMuonTrackFilter     0	     1			-		-		0	2 -0.5 1.5
-PassBadResolutionTrackFilter     0	     1			-		-		0	2 -0.5 1.5
-PassPrimaryVertex	        0	     1			-		-		0	2 -0.5 1.5
-PassPhysDecl		        0	     1			-		-		0	2 -0.5 1.5
-nEle_ptCut             0         1			-               -               1       11 -0.5 10.5	      
-nMuon_ptCut            0         1			-               -               1       16 -0.5 15.5          
+PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
+PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
+PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
+nEle_ptCut             	0      1		-               -               1       11 -0.5 10.5	      
+nMuon_ptCut            	0      1		-               -               1       16 -0.5 15.5          
 nEle_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
 nJet_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
 Ele1_PtHeep				50	     +inf		-		-		1	200 0 2000	      
