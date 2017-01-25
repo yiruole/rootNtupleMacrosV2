@@ -5,8 +5,12 @@ from ROOT import *
 
 #File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_noIncWStitch.root")
 #File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
-File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
-File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_local_nov18_addStSFplots_ICHEPDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+
+File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jan20_rereco_stitch120_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jan20_rereco_stitch120_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_QCD_jan22_rereco_enujj2012FinSels/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
 
 #### Common values for plots:
 #otherBkgsKey="QCD, single top, VV+jets, W+jets"
@@ -57,17 +61,18 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 #keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "W + jets (MG HT)"  ]
 
 ## amc@NLO WJets PtBinned
-samplesForStackHistos_other = [ "OTHERBKG_ZJetWJetPt" ]
+#samplesForStackHistos_other = [ "OTHERBKG_ZJetWJetPt" ]
+samplesForStackHistos_other = [ "OTHERBKG_amcAtNLOIncTTBar_ZJetWJetPt" ]
 #samplesForStackHistos_WJets  = [ "TTbar_Madgraph", "WJet_amcatnlo_ptBinned" ]
 ##keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
 #keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "W + jets (amc@NLO Pt)"  ]
 samplesForStackHistos_WJets  = [ "TTbar_amcatnlo_Inc", "WJet_amcatnlo_ptBinned" ]
-keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (amc@NLO)"  ,  "W + jets (amc@NLO Pt)"  ]
+keysStack             = [ "Other backgrounds", "QCD multijet (data)", "t#bar{t} (amc@NLO)"  ,  "W + jets (amc@NLO Pt)"  ]
 
 # QCD
-#samplesForStackHistos_QCD = ["QCDFakes_DATA"]
-samplesForStackHistos_QCD = ["QCD_EMEnriched"]
-keysForStackHistos_QCD = ["QCD multijet"]
+samplesForStackHistos_QCD = ["QCDFakes_DATA"]
+#samplesForStackHistos_QCD = ["QCD_EMEnriched"]
+keysForStackHistos_QCD = ["QCD multijet (data)"]
 
 
 #samplesForStackHistos_ZJets  = [ "TTbar_FromData", "ZJet_Madgraph" ]
@@ -131,8 +136,8 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.pdf_folder        = "pdf_enujj_scaled_preselectionOnly/"
     plot.png_folder        = "png_enujj_scaled_preselectionOnly/"
     plot.suffix            = "enujj"
-    plot.lumi_fb           = "12.9"
-    #plot.lumi_fb           = "27.2"
+    #plot.lumi_fb           = "12.9"
+    plot.lumi_fb           = "36.8"
     
     return plot
 
@@ -442,7 +447,7 @@ plots[-1].ylog  = "yes"
 plots.append ( makeDefaultPlot ( "MTenu_50_110_Njet_lte3"            ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit = "50 < M_{T} (e, PFMET) < 110 (GeV) [Preselection + N(Jet) #leq 3]"
 plots[-1].rebin = mt_rebin
-plots[-1].ymax = 1e4
+plots[-1].ymax = 4e4
 plots[-1].ymin = 200
 plots[-1].xmax = 145
 plots[-1].xmin = 40
