@@ -16,6 +16,8 @@
 #include "GenJet.h"
 #include "HLTriggerObject.h"
 #include "HLTriggerObjectCollectionHelper.h"
+// for 2016 L1 prescales
+#include "src/EGPrescales2016.C"
 
 //--------------------------------------------------------------------------
 // Function for trigger matching 
@@ -193,6 +195,9 @@ void analysisClass::Loop(){
   TLorentzVector v_PFMETType01XYCor;
   
 
+  // prepare 2016 EG prescales
+  EGPrescales2016 egPrescales2016;
+
   /*//------------------------------------------------------------------
    *
    *
@@ -308,7 +313,6 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
 
     CollectionPtr c_gen_all   ( new Collection(*this, GenParticlePt -> size()));
-    //c_gen_all->examine<GenParticle>("c_gen_all");
     CollectionPtr c_ele_all   ( new Collection(*this, ElectronPt    -> size()));
     //c_ele_all->examine<Electron>("c_ele_all");
     CollectionPtr c_muon_all  ( new Collection(*this, MuonPt        -> size()));
@@ -320,12 +324,18 @@ void analysisClass::Loop(){
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
 
+    //c_gen_all->examine<GenParticle>("c_gen_all");
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
     //c_genEle_final->examine<GenParticle>("c_genEle_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER)");
     CollectionPtr c_genJet_final = c_genJet_all;
 
     CollectionPtr c_genZgamma_final    = c_gen_all -> SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER);
+    //c_genZgamma_final->examine<GenParticle>("c_genZgamma_final = c_gen_all after SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER)");
     CollectionPtr c_genW_final         = c_gen_all -> SkimByID<GenParticle>(GEN_W_HARD_SCATTER);
+    //if(c_genW_final->GetSize()<1) {
+    //  cout << "DID NOT FIND A W THIS EVENT! HERE ARE ALL THE GENPARTICLES" << endl;
+    //  c_gen_all->examine<GenParticle>("c_gen_all");
+    //}
     CollectionPtr c_genNuFromW_final   = c_gen_all -> SkimByID<GenParticle>(GEN_NU_FROM_W);
     CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
     CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
@@ -408,7 +418,7 @@ void analysisClass::Loop(){
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
-      CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP61 );
+      CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70 );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
@@ -800,7 +810,7 @@ void analysisClass::Loop(){
           }
         }
 
-        fillVariableWithValue( "LooseEle1_PassID"        , loose_ele1.PassUserID ( HEEP60 )  );
+        fillVariableWithValue( "LooseEle1_PassID"        , loose_ele1.PassUserID ( HEEP70 )  );
         fillVariableWithValue( "LooseEle1_Pt"            , loose_ele1.Pt()                 );
         fillVariableWithValue( "LooseEle1_PtHeep"        , loose_ele1.PtHeep()                 );
         fillVariableWithValue( "LooseEle1_Energy"        , loose_ele1.CaloEnergy()         );
@@ -867,7 +877,7 @@ void analysisClass::Loop(){
             }
           }
 
-          fillVariableWithValue( "LooseEle2_PassID"        , loose_ele2.PassUserID ( HEEP60 )  );
+          fillVariableWithValue( "LooseEle2_PassID"        , loose_ele2.PassUserID ( HEEP70 )  );
           fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
           fillVariableWithValue( "LooseEle2_PtHeep"        , loose_ele2.PtHeep()                 );
           fillVariableWithValue( "LooseEle2_Energy"        , loose_ele2.CaloEnergy()         );
@@ -933,7 +943,7 @@ void analysisClass::Loop(){
               }
             }
 
-            fillVariableWithValue( "LooseEle3_PassID"        , loose_ele3.PassUserID ( HEEP60 )  );
+            fillVariableWithValue( "LooseEle3_PassID"        , loose_ele3.PassUserID ( HEEP70 )  );
             fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
             fillVariableWithValue( "LooseEle3_PtHeep"        , loose_ele3.PtHeep()                 );
             fillVariableWithValue( "LooseEle3_Energy"        , loose_ele3.CaloEnergy()         );
@@ -1420,9 +1430,14 @@ void analysisClass::Loop(){
       }
       else {
         // same as MC
-        fillTriggerVariable ( "HLT_Photon22_v"  , "H_Photon22"  );
-        fillTriggerVariable ( "HLT_Photon30_v"  , "H_Photon30"  );
-        fillTriggerVariable ( "HLT_Photon36_v"  , "H_Photon36"  );
+        // for 2016, need to feed in extra L1 prescales
+        int l1prescale = egPrescales2016.LookupPrescale("SingleEG18", run, L1PrescaleColumn);
+        //std::cout << "For seed: SingleEG18, run="<<run<<", prescaleCol="<<L1PrescaleColumn<<", prescale is: " << l1prescale << std::endl;
+        fillTriggerVariable ( "HLT_Photon22_v"  , "H_Photon22"  , l1prescale);
+        l1prescale = egPrescales2016.LookupPrescale("SingleEG26", run, L1PrescaleColumn);
+        fillTriggerVariable ( "HLT_Photon30_v"  , "H_Photon30"  , l1prescale);
+        fillTriggerVariable ( "HLT_Photon36_v"  , "H_Photon36"  , l1prescale);
+        //
         fillTriggerVariable ( "HLT_Photon50_v"  , "H_Photon50"  );
         fillTriggerVariable ( "HLT_Photon75_v"  , "H_Photon75"  );
         fillTriggerVariable ( "HLT_Photon90_v"  , "H_Photon90"  );
@@ -1474,15 +1489,18 @@ void analysisClass::Loop(){
       // just search by prefix
       fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
       fillTriggerVariable( "HLT_Ele27_eta2p1_WPTight_Gsf_v" , "H_Ele27_WPTight_eta2p1" );
-      fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
+      if(triggerExists("HLT_Ele27_WPLoose_Gsf_v"))
+          fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
       if(triggerExists("HLT_Ele27_WPTight_Gsf_v"))
         fillTriggerVariable( "HLT_Ele27_WPTight_Gsf_v" , "H_Ele27_WPTight" );
       fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v", "H_Ele45_PFJet200_PFJet50");
       fillTriggerVariable( "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v", "H_Mu23NoFiltNoVtx_Photon23_CIdL");
-      fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v", "H_DoubleEle33_CIdL_GsfIdVL" ); 
+      if(triggerExists("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"))
+        fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v", "H_DoubleEle33_CIdL_GsfIdVL" ); 
       fillTriggerVariable( "HLT_Mu45_eta2p1_v"  , "H_Mu45_eta2p1" );
       fillTriggerVariable( "HLT_Photon175_v" , "H_Photon175" );
       fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT_v" , "H_Ele105_CIdVT_GsfIdT");
+      fillTriggerVariable( "HLT_Ele115_CaloIdVT_GsfTrkIdT_v" , "H_Ele115_CIdVT_GsfIdT");
     }
 
     //-----------------------------------------------------------------
