@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
-# A 2016 JSON file
+# 2016 Sep23 ReReco JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt 
+JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -506,3 +506,4 @@ H_Ele27_WPTight_eta2p1			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele27_WPTight			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Photon175			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele105_CIdVT_GsfIdT			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Ele115_CIdVT_GsfIdT			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
