@@ -122,9 +122,9 @@ void analysisClass::Loop()
   CreateUserTH1D( "nJet_PAS"              ,    10  , -0.5    , 9.5      );
   CreateUserTH1D( "nJet_PASandMee100"        ,    10  , -0.5    , 9.5      );
   CreateUserTH1D( "nJet_ROI"              ,    10  , -0.5    , 9.5      );
-  CreateUserTH1D( "Pt1stEle_PAS"	   , 	300 , 0       , 3000     ); 
-  CreateUserTH1D( "Pt1stEle_PASandMee100" , 	300 , 0       , 3000     ); 
-  CreateUserTH1D( "Pt1stEle_ROI"	   , 	300 , 0       , 3000     ); 
+  CreateUserTH1D( "Pt1stEle_PAS"	   , 	100 , 0       , 1000     ); 
+  CreateUserTH1D( "Pt1stEle_PASandMee100" , 	100 , 0       , 1000     ); 
+  CreateUserTH1D( "Pt1stEle_ROI"	   , 	100 , 0       , 1000     ); 
   CreateUserTH1D( "Eta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
   CreateUserTH1D( "Phi1stEle_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
   CreateUserTH1D( "Pt2ndEle_PAS"	   , 	300 , 0       , 3000     ); 
@@ -140,65 +140,65 @@ void analysisClass::Loop()
   CreateUserTH1D( "MET_PAS"               ,    200 , 0       , 1000	 ); 
   CreateUserTH1D( "MET_ROI"               ,    200 , 0       , 1000	 ); 
   CreateUserTH1D( "METPhi_PAS"		   , 	60  , -3.1416 , +3.1416	 ); 
-  CreateUserTH1D( "Pt1stJet_PAS"          ,    300 , 0       , 3000	 ); 
-  CreateUserTH1D( "Pt2ndJet_PAS"          ,    300 , 0       , 3000	 ); 
-  CreateUserTH1D( "Pt1stJet_PASandMee100" ,    300 , 0       , 3000	 ); 
-  CreateUserTH1D( "Pt2ndJet_PASandMee100" ,    300 , 0       , 3000	 ); 
-  CreateUserTH1D( "Pt1stJet_ROI"          ,    300 , 0       , 3000	 ); 
-  CreateUserTH1D( "Pt2ndJet_ROI"          ,    300 , 0       , 3000	 ); 
+  CreateUserTH1D( "Pt1stJet_PAS"          ,    100 , 0       , 1000	 ); 
+  CreateUserTH1D( "Pt2ndJet_PAS"          ,    100 , 0       , 1000	 ); 
+  CreateUserTH1D( "Pt1stJet_PASandMee100" ,    100 , 0       , 1000	 ); 
+  CreateUserTH1D( "Pt2ndJet_PASandMee100" ,    100 , 0       , 1000	 ); 
+  CreateUserTH1D( "Pt1stJet_ROI"          ,    100 , 0       , 1000	 ); 
+  CreateUserTH1D( "Pt2ndJet_ROI"          ,    100 , 0       , 1000	 ); 
   CreateUserTH1D( "Eta1stJet_PAS"         ,    100 , -5      , 5	 ); 
   CreateUserTH1D( "Eta2ndJet_PAS"         ,    100 , -5      , 5	 ); 
   CreateUserTH1D( "Phi1stJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
   CreateUserTH1D( "Phi2ndJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-  CreateUserTH1D( "sTlep_PAS"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sTjet_PAS"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sTlep_PASandMee100"    ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sTjet_PASandMee100"    ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sTlep_ROI"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sTjet_ROI"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PAS"                ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_zjj_PAS"                      ,    400   , 0       , 4000	  ); 
-  CreateUserTH1D( "sT_zjj_PASandMee100"             ,    400   , 0       , 4000	  ); 
-  CreateUserTH1D( "sT_zjj_ROI"                      ,    400   , 0       , 4000	  ); 
-  CreateUserTH1D( "sT_PASandMee100"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee110"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee120"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee130"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee140"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee150"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee160"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee170"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee180"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee190"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_PASandMee200"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "sT_ROI"                ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Mjj_PAS"		   ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Mjj_PASandMee100"	   ,    400 , 0       , 4000	 ); 
+  CreateUserTH1D( "sTlep_PAS"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sTjet_PAS"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sTlep_PASandMee100"    ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sTjet_PASandMee100"    ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sTlep_ROI"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sTjet_ROI"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_zjj_PAS"                      ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "sT_zjj_PASandMee100"             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "sT_zjj_ROI"                      ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "sT_PASandMee100"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee110"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee120"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee130"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee140"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee150"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee160"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee170"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee180"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee190"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_PASandMee200"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "sT_ROI"                ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mjj_PAS"		   ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mjj_PASandMee100"	   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mjj_ROI"		   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_ROI"		   ,    200 , 0       , 2000	 ); 
-  CreateUserTH1D( "Mee_PASandST445"       ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "MTenu_PAS"             ,    400 , 0       , 2000	 ); 
-  CreateUserTH1D( "Me1j1_PAS"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me1j1_PASandMee100"    ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me1j1_ROI"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me1j2_PAS"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me2j1_PAS"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me2j2_PAS"             ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me1j_selected_PAS"     ,    400 , 0       , 4000	 ); 
-  CreateUserTH1D( "Me2j_selected_PAS"     ,    400 , 0       , 4000     );
-  CreateUserTH1D( "Mej_selected_min_PAS"  ,    400 , 0       , 4000     ); 
-  CreateUserTH1D( "Mej_selected_max_PAS"  ,    400 , 0       , 4000     ); 
-  CreateUserTH1D( "Mej_minmax_PAS"        ,    400 , 0       , 4000     ); 
-  CreateUserTH1D( "Mej_selected_avg_PAS"  ,    400 , 0       , 4000     );
-  CreateUserTH1D( "Mej_selected_avg_PASandMee100"  ,    400 , 0       , 4000     );
-  CreateUserTH1D( "Mej_selected_avg_ROI"  ,    400 , 0       , 4000     );
-  CreateUserTH1D( "Mejj_PAS"              ,    600 , 0       , 6000     );
-  CreateUserTH1D( "Meej_PAS"              ,    600 , 0       , 6000     );
-  CreateUserTH1D( "Meejj_ROI"             ,    600 , 0       , 6000     );
-  CreateUserTH1D( "Mejj_ROI"              ,    600 , 0       , 6000     );
-  CreateUserTH1D( "Meej_ROI"              ,    600 , 0       , 6000     );
-  CreateUserTH1D( "Meejj_PAS"             ,    600 , 0       , 6000     );
+  CreateUserTH1D( "Mee_PASandST445"       ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "MTenu_PAS"             ,    200 , 0       , 1000	 ); 
+  CreateUserTH1D( "Me1j1_PAS"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me1j1_PASandMee100"    ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me1j1_ROI"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me1j2_PAS"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me2j1_PAS"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me2j2_PAS"             ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me1j_selected_PAS"     ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Me2j_selected_PAS"     ,    200 , 0       , 2000     );
+  CreateUserTH1D( "Mej_selected_min_PAS"  ,    200 , 0       , 2000     ); 
+  CreateUserTH1D( "Mej_selected_max_PAS"  ,    200 , 0       , 2000     ); 
+  CreateUserTH1D( "Mej_minmax_PAS"        ,    200 , 0       , 2000     ); 
+  CreateUserTH1D( "Mej_selected_avg_PAS"  ,    200 , 0       , 2000     );
+  CreateUserTH1D( "Mej_selected_avg_PASandMee100"  ,    200 , 0       , 2000     );
+  CreateUserTH1D( "Mej_selected_avg_ROI"  ,    200 , 0       , 2000     );
+  CreateUserTH1D( "Meejj_ROI"             ,    400 , 0       , 4000     );
+  CreateUserTH1D( "Mejj_PAS"              ,    400 , 0       , 4000     );
+  CreateUserTH1D( "Meej_PAS"              ,    400 , 0       , 4000     );
+  CreateUserTH1D( "Mejj_ROI"              ,    400 , 0       , 4000     );
+  CreateUserTH1D( "Meej_ROI"              ,    400 , 0       , 4000     );
+  CreateUserTH1D( "Meejj_PAS"             ,    400 , 0       , 4000     );
 
   CreateUserTH1D( "Eta1stJet_ROI"                   ,    100   , -5      , 5	  ); 
   CreateUserTH1D( "Eta2ndJet_ROI"                   ,    100   , -5      , 5	  ); 
@@ -669,27 +669,20 @@ void analysisClass::Loop()
     // JSON variable
     fillVariableWithValue(   "PassJSON"                      , passedJSON              , fakeRateEffective * min_prescale ) ; 
 
-    // Noise filters
-    fillVariableWithValue(   "PassHBHENoiseFilter"	          , PassHBHENoiseFilter                , fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter             , fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassCSCBeamHaloFilterTight"    , PassCSCBeamHaloFilterTight         , fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter        , fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassMuonTrackFilter"           , PassMuonTrackFilter                , fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter       , fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, fakeRateEffective * min_prescale );
-    fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                          , fakeRateEffective * min_prescale );
-
     //--------------------------------------------------------------------------
-    // Exclude runs with bad beam spot ?
+    // Fill noise filters
     //--------------------------------------------------------------------------
-    if(run==259626 ||
-        run==259636 ||
-        run==259637 ||
-        run==259681 ||
-        run==259682 ||
-        run==259683 ||
-        run==259685)
-      continue;
+    // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+    // we filled these at skim time
+    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter  , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassGoodVertices"	             , PassGoodVertices               , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassHBHENoiseFilter"	         , PassHBHENoiseFilter            , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , PassHBHENoiseIsoFilter         , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter    , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim       , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter     , fakeRateEffective * min_prescale );
+    fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter            , fakeRateEffective * min_prescale );
+    //
 
     // Electrons
     int PassNEle = 0;
@@ -813,7 +806,7 @@ void analysisClass::Loop()
     // Did we at least pass the noise filtes?
     //--------------------------------------------------------------------------
 
-    bool passed_minimum = ( passedAllPreviousCuts("PassPrimaryVertex") && passedCut ("PassPrimaryVertex"));
+    bool passed_minimum = ( passedAllPreviousCuts("PassBadPFMuonFilter") && passedCut ("PassBadPFMuonFilter"));
 
     //--------------------------------------------------------------------------
     // Did we pass preselection?
