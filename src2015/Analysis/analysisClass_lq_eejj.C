@@ -684,7 +684,7 @@ void analysisClass::Loop()
      // Check good run list
      //--------------------------------------------------------------------------
      
-     int    passedJSON = passJSON ( run, ls , isData ) ;
+     int passedJSON = passJSON ( run, ls , isData ) ;
 
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
@@ -719,12 +719,20 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      bool passGenWZPt = true;
      std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+     // inclusive
      if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
          || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
-       if(GenW1_Pt > 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+       if(GenW1_Pt > 120) passGenWZPt = false; // if W Pt > 120 GeV, cut it out
      }
      if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
-       if(GenZGamma1_Pt > 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+       if(GenZGamma1_Pt > 120) passGenWZPt = false; // if Z/gamma Pt > 120 GeV, cut it out
+     }
+     // first pt bin
+     if(current_file_name.find("WJetsToLNu_Pt-100") != std::string::npos) {
+       if(GenW1_Pt <= 120) passGenWZPt = false;
+     }
+     if(current_file_name.find("DYJetsToLL_Pt-100") != std::string::npos) {
+       if(GenZGamma1_Pt <= 120) passGenWZPt = false;
      }
      //// testing
      //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
@@ -779,41 +787,45 @@ void analysisClass::Loop()
      //}
 
      int passHLT = 1;
-     //if ( isData ) { 
-     //  passHLT = 0;
-     //  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-     //    passHLT = 1;
-     //}
-     //// FIXME: Update to new 2016 curve?
-     //else // using the turn-on in the MC
-     //{
-     //  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-     //  //   we get two chances to pass since we may have two electrons in the event
-     //  // UPDATE TO SCETA/ptheep
-     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-     //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
-     //  if(!passHLT) // if the first one doesn't pass, try the second one
-     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-     //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
-     //}
-     //XXX SIC FIXME TEST
-     if (isData) {
+     if ( isData ) { 
        passHLT = 0;
-       //if ( H_Ele27_WPLoose == 1)
-       //if ( H_Ele27_WPTight == 1)
        //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-       if ( H_Ele27_WPLoose_eta2p1 == 1)
+       //  passHLT = 1;
+       if (H_Ele27_WPTight_eta2p1 == 1)
          passHLT = 1;
-       if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
-         passHLT = 0;
-       if(run < 275676) // L1 EGM efficiency going to zero
-         passHLT = 0;
+       ////XXX SIC FIXME TEST
+       //if(run < 275676) // L1 EGM efficiency going to zero
+       //  passHLT = 0;
      }
-     else {
+     // FIXME: Update to new 2016 curve
+     else // using the turn-on in the MC
+     {
+       // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+       //   we get two chances to pass since we may have two electrons in the event
        passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+       //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
        if(!passHLT) // if the first one doesn't pass, try the second one
          passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+         //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
      }
+     ////XXX SIC FIXME TEST
+     //if (isData) {
+     //  passHLT = 0;
+     //  //if ( H_Ele27_WPLoose == 1)
+     //  //if ( H_Ele27_WPTight == 1)
+     //  //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+     //  if ( H_Ele27_WPLoose_eta2p1 == 1)
+     //    passHLT = 1;
+     //  if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
+     //    passHLT = 0;
+     //  if(run < 275676) // L1 EGM efficiency going to zero
+     //    passHLT = 0;
+     //}
+     //else {
+     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+     //  if(!passHLT) // if the first one doesn't pass, try the second one
+     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+     //}
 
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
 

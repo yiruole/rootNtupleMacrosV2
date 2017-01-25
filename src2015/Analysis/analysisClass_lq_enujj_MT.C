@@ -1122,6 +1122,7 @@ void analysisClass::Loop()
 
    Long64_t nbytes = 0, nb = 0;
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
+
      Long64_t ientry = LoadTree(jentry);
      if (ientry < 0) break;
      nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -1138,12 +1139,12 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      int passedJSON = passJSON ( run, ls , isData ) ;
-     
+
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     double pileup_weight = getPileupWeight ( nPileUpInt_True , isData ) ;
+     double pileup_weight = getPileupWeight ( nPileUpInt_True, isData ) ;
      
      //--------------------------------------------------------------------------
      // Get information about gen-level reweighting (should be for Sherpa only)
@@ -1224,16 +1225,31 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      bool passGenWZPt = true;
      std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+     // inclusive
      if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
          || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
-       if(GenW1_Pt > 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+       if(GenW1_Pt > 120) passGenWZPt = false; // if W Pt > 120 GeV, cut it out
      }
      if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
-       if(GenZGamma1_Pt > 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+       if(GenZGamma1_Pt > 120) passGenWZPt = false; // if Z/gamma Pt > 120 GeV, cut it out
      }
+     // first pt bin
+     if(current_file_name.find("WJetsToLNu_Pt-100") != std::string::npos) {
+       if(GenW1_Pt <= 120) passGenWZPt = false;
+     }
+     if(current_file_name.find("DYJetsToLL_Pt-100") != std::string::npos) {
+       if(GenZGamma1_Pt <= 120) passGenWZPt = false;
+     }
+     //// testing
+     //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+     //    || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+     //  if(GenW1_Pt <= 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+     //}
+     //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+     //  if(GenZGamma1_Pt <= 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+     //}
      fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
 
-     
      //--------------------------------------------------------------------------
      // Fill JSON variable
      //--------------------------------------------------------------------------
@@ -1274,23 +1290,22 @@ void analysisClass::Loop()
      //  //   we get two chances to pass since we may have two electrons in the event
      //  // UPDATE TO SCETA/ptheep
      //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-     //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
      //  if(!passHLT) // if the first one doesn't pass, try the second one
      //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-     //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
      //}
-     //XXX SIC FIXME TEST
      if (isData) {
        passHLT = 0;
+       if (H_Ele27_WPTight_eta2p1 == 1)
+         passHLT = 1;
        //if ( H_Ele27_WPLoose == 1)
        //if ( H_Ele27_WPTight == 1)
        //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-       if ( H_Ele27_WPLoose_eta2p1 == 1)
-         passHLT = 1;
-       if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
-         passHLT = 0;
-       if(run < 275676) // L1 EGM efficiency going to zero
-         passHLT = 0;
+       //if ( H_Ele27_WPLoose_eta2p1 == 1)
+       //  passHLT = 1;
+       //if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
+       //  passHLT = 0;
+       //if(run < 275676) // L1 EGM efficiency going to zero
+       //  passHLT = 0;
      }
      else {
        passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
