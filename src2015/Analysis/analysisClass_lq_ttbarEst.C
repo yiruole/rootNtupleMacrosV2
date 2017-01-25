@@ -9,68 +9,10 @@
 #include <TVector2.h>
 #include <TVector3.h>
 #include <TProfile.h>
-
-int run_max[38] = { 191718, 193621, 194223, 194533, 194912, 195304, 195552, 195930, 196239, 196453, 
-                    196531, 198941, 199319, 199571, 199812, 200042, 200369, 200991, 201278, 201705, 
-                    202045, 202209, 202477, 203002, 204250, 204601, 205339, 205694, 206187, 206389, 
-                    206512, 206745, 207214, 207372, 207515, 208307, 208487, 208686 };
-
-
-
-int run_min[38] = { 190645, 191720, 193834, 194224, 194619, 194914, 195378, 195633, 195937, 196249, 
-                    196495, 198049, 198954, 199336, 199572, 199833, 200049, 200381, 200992, 201554, 
-                    201706, 202054, 202237, 202478, 203894, 204511, 205086, 205344, 205718, 206188, 
-                    206391, 206513, 206859, 207217, 207397, 207517, 208339, 208509 };
-
-
-int run_max_1fb[20] = { 193621, 194533, 195304, 195915, 196452, 196531, 199319, 199804, 200244, 201196, 
-			202014, 202305, 203002, 204577, 205666, 206246, 206598, 207273, 207905, 208686 };
-
-
-
-int run_min_1fb[20] = { 190645, 193834, 194619, 195378, 195916, 196453, 198049, 199336, 199812, 200245, 
-			201197, 202016, 202314, 203894, 204599, 205667, 206257, 206605, 207279, 207920 };
-
-
-int get_split ( int run ) { 
-  
-  int n_split = 38;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min [i_split];
-    int tmp_run_max = run_max [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split for run = " << run << std::endl;
-  
-  return split;
-}
-
-
-
-int get_split_1fb ( int run ) { 
-  
-  int n_split = 20;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min_1fb [i_split];
-    int tmp_run_max = run_max_1fb [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split (1 fb-1) for run = " << run << std::endl;
-  
-  return split;
-}
+// for trigger turn-on
+#include "Ele27WPLooseTrigTurnOn.C"
+// for fake rate
+#include "include/QCDFakeRate.h"
 
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
@@ -189,9 +131,9 @@ void analysisClass::Loop()
    CreateUserTH1D( "nJet_PAS"                        ,    10    , -0.5    , 9.5      );
    CreateUserTH1D( "nJet_PASandMee100"               ,    10    , -0.5    , 9.5      );
    CreateUserTH1D( "nJet_ROI"                        ,    10    , -0.5    , 9.5      );
-   CreateUserTH1D( "Pt1stEle_PAS"	             , 	300    , 0       , 3000     ); 
-   CreateUserTH1D( "Pt1stEle_PASandMee100"           , 	300    , 0       , 3000     ); 
-   CreateUserTH1D( "Pt1stEle_ROI"	             , 	300    , 0       , 3000     ); 
+   CreateUserTH1D( "Pt1stEle_PAS"	             , 	100    , 0       , 1000     ); 
+   CreateUserTH1D( "Pt1stEle_PASandMee100"           , 	100    , 0       , 1000     ); 
+   CreateUserTH1D( "Pt1stEle_ROI"	             , 	100    , 0       , 1000     ); 
    CreateUserTH1D( "Eta1stEle_PAS"	             , 	100    , -5      , 5	  ); 
    CreateUserTH1D( "Eta1stEle_ROI"	             , 	100    , -5      , 5	  ); 
    CreateUserTH1D( "Phi1stEle_PAS"	             , 	60     , -3.1416 , +3.1416  ); 
@@ -208,12 +150,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MET_PAS"                         ,    200   , 0       , 1000	  ); 
    CreateUserTH1D( "MET_ROI"                         ,    200   , 0       , 1000	  ); 
    CreateUserTH1D( "METPhi_PAS"		             , 	60     , -3.1416 , +3.1416  ); 
-   CreateUserTH1D( "Pt1stJet_PAS"                    ,    300   , 0       , 3000	  ); 
-   CreateUserTH1D( "Pt2ndJet_PAS"                    ,    300   , 0       , 3000	  ); 
-   CreateUserTH1D( "Pt1stJet_PASandMee100"           ,    300   , 0       , 3000	  ); 
-   CreateUserTH1D( "Pt2ndJet_PASandMee100"           ,    300   , 0       , 3000	  ); 
-   CreateUserTH1D( "Pt1stJet_ROI"                    ,    300   , 0       , 3000	  ); 
-   CreateUserTH1D( "Pt2ndJet_ROI"                    ,    300   , 0       , 3000	  ); 
+   CreateUserTH1D( "Pt1stJet_PAS"                    ,    100   , 0       , 1000	  ); 
+   CreateUserTH1D( "Pt2ndJet_PAS"                    ,    100   , 0       , 1000	  ); 
+   CreateUserTH1D( "Pt1stJet_PASandMee100"           ,    100   , 0       , 1000	  ); 
+   CreateUserTH1D( "Pt2ndJet_PASandMee100"           ,    100   , 0       , 1000	  ); 
+   CreateUserTH1D( "Pt1stJet_ROI"                    ,    100   , 0       , 1000	  ); 
+   CreateUserTH1D( "Pt2ndJet_ROI"                    ,    100   , 0       , 1000	  ); 
    CreateUserTH1D( "Eta1stJet_PAS"                   ,    100   , -5      , 5	  ); 
    CreateUserTH1D( "Eta1stJet_ROI"                   ,    100   , -5      , 5	  ); 
    CreateUserTH1D( "Eta2ndJet_PAS"                   ,    100   , -5      , 5	  ); 
@@ -222,51 +164,51 @@ void analysisClass::Loop()
    CreateUserTH1D( "Phi1stJet_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
    CreateUserTH1D( "Phi2ndJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
    CreateUserTH1D( "Phi2ndJet_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
-   CreateUserTH1D( "sTlep_PAS"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sTlep_PASandMee100"              ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sTlep_ROI"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sTjet_PAS"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sTjet_PASandMee100"              ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sTjet_ROI"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PAS"                          ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_zjj_PAS"                      ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_zjj_PASandMee100"             ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_zjj_ROI"                      ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee100"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee110"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee120"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee130"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee140"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee150"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee160"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee170"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee180"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee190"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_PASandMee200"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "sT_ROI"                          ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Mjj_PAS"		             ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Mjj_PASandMee100"	             ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Mjj_ROI"		             ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Mee_PAS"		             ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Mee_ROI"		             ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Mee_PASandST445"                 ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "MTenu_PAS"                       ,    400   , 0       , 2000	  ); 
-   CreateUserTH1D( "Me1j1_PAS"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Me1j2_PAS"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Me2j1_PAS"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Me2j2_PAS"                       ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Me1j_selected_PAS"               ,    400   , 0       , 4000	  ); 
-   CreateUserTH1D( "Me2j_selected_PAS"               ,    400   , 0       , 4000   );
-   CreateUserTH1D( "Mej_selected_avg_PAS"            ,    400   , 0       , 4000   ); 
-   CreateUserTH1D( "Mej_selected_min_PAS"            ,    400   , 0       , 4000   ); 
-   CreateUserTH1D( "Mej_selected_max_PAS"            ,    400   , 0       , 4000   ); 
-   CreateUserTH1D( "Mej_minmax_PAS"                  ,    400   , 0       , 4000   ); 
-   CreateUserTH1D( "Meejj_PAS"                       ,    600   , 0       , 6000   );
-   CreateUserTH1D( "Mejj_PAS"                        ,    600   , 0       , 6000   );
-   CreateUserTH1D( "Meej_PAS"                        ,    600   , 0       , 6000   );
-   CreateUserTH1D( "Meejj_ROI"                       ,    600   , 0       , 6000   );
-   CreateUserTH1D( "Mejj_ROI"                        ,    600   , 0       , 6000   );
-   CreateUserTH1D( "Meej_ROI"                        ,    600   , 0       , 6000   );
+   CreateUserTH1D( "sTlep_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sTlep_PASandMee100"              ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sTlep_ROI"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sTjet_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sTjet_PASandMee100"              ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sTjet_ROI"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PAS"                          ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_zjj_PAS"                      ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_zjj_PASandMee100"             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_zjj_ROI"                      ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee100"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee110"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee120"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee130"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee140"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee150"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee160"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee170"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee180"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee190"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_PASandMee200"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sT_ROI"                          ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mjj_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mjj_PASandMee100"	             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mjj_ROI"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_ROI"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_PASandST445"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_PAS"                       ,    200   , 0       , 1000	  ); 
+   CreateUserTH1D( "Me1j1_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Me1j2_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Me2j1_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Me2j2_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Me1j_selected_PAS"               ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Me2j_selected_PAS"               ,    200   , 0       , 2000   );
+   CreateUserTH1D( "Mej_selected_avg_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1D( "Mej_selected_min_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1D( "Mej_selected_max_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1D( "Mej_minmax_PAS"                  ,    200   , 0       , 2000   ); 
+   CreateUserTH1D( "Meejj_PAS"                       ,    400   , 0       , 4000   );
+   CreateUserTH1D( "Mejj_PAS"                        ,    400   , 0       , 4000   );
+   CreateUserTH1D( "Meej_PAS"                        ,    400   , 0       , 4000   );
+   CreateUserTH1D( "Meejj_ROI"                       ,    400   , 0       , 4000   );
+   CreateUserTH1D( "Mejj_ROI"                        ,    400   , 0       , 4000   );
+   CreateUserTH1D( "Meej_ROI"                        ,    400   , 0       , 4000   );
    CreateUserTH1D( "run_PAS"                         ,    15000 , 246000  , 261000 );
    CreateUserTH1D( "run_HLT"                         ,    15000 , 246000  , 261000 );
 						     
@@ -729,13 +671,6 @@ void analysisClass::Loop()
 
      double gen_weight = Weight;
      if ( isData ) gen_weight = 1.0;
-     if ( getPreCutString1("TrigCorrForSingleLeptonFinalState")=="true")
-     {
-       // efficiency of electron firing the trigger is stored in hltEleTTbarPt of the muon
-       // the muon has Energy==-999
-       // weight the event by 2-eff.
-       gen_weight *= Ele1_Energy < -998 ? 2-Ele1_hltEleTTbarPt : 2-Ele2_hltEleTTbarPt;
-     }
 
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
      //std::cout << "Gen weight = " << gen_weight << std::endl;
@@ -747,6 +682,36 @@ void analysisClass::Loop()
      fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
 
      //--------------------------------------------------------------------------
+     // Special treatment of inclusive W/Z
+     //--------------------------------------------------------------------------
+     bool passGenWZPt = true;
+     std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+     // inclusive
+     if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+         || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+       if(GenW1_Pt > 120) passGenWZPt = false; // if W Pt > 120 GeV, cut it out
+     }
+     if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+       if(GenZGamma1_Pt > 120) passGenWZPt = false; // if Z/gamma Pt > 120 GeV, cut it out
+     }
+     // first pt bin
+     if(current_file_name.find("WJetsToLNu_Pt-100") != std::string::npos) {
+       if(GenW1_Pt <= 120) passGenWZPt = false;
+     }
+     if(current_file_name.find("DYJetsToLL_Pt-100") != std::string::npos) {
+       if(GenZGamma1_Pt <= 120) passGenWZPt = false;
+     }
+     //// testing
+     //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+     //    || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+     //  if(GenW1_Pt <= 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+     //}
+     //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+     //  if(GenZGamma1_Pt <= 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+     //}
+     fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
+
+     //--------------------------------------------------------------------------
      // Fill JSON variable
      //--------------------------------------------------------------------------
 
@@ -756,44 +721,73 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Fill noise filters
      //--------------------------------------------------------------------------
-
-     // Noise/MET filters
      // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
      // we filled these at skim time
-     fillVariableWithValue(   "PassHBHENoiseFilter"	          , PassHBHENoiseFilter                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter             , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"    , PassCSCBeamHaloFilterTight         , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter        , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassMuonTrackFilter"           , PassMuonTrackFilter                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter       , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                          , gen_weight * pileup_weight );
-     // old filters
-     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter  , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGoodVertices"	            , PassGoodVertices               , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseFilter"	          , PassHBHENoiseFilter            , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter         , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter    , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim       , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter     , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter            , gen_weight * pileup_weight );
      //
 
      //--------------------------------------------------------------------------
-     // Exclude runs with bad beam spot ?
+     // Fill HLT
      //--------------------------------------------------------------------------
-     if(run==259626 ||
-         run==259636 ||
-         run==259637 ||
-         run==259681 ||
-         run==259682 ||
-         run==259683 ||
-         run==259685)
-       continue;
-     
-     // ignore Run2015C stuff
-     if(isData)
+
+     float triggerEfficiency = 0.0;
+     int passHLT = 1;
+     //if ( isData ) { 
+     //  passHLT = 0;
+     //  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+     //    passHLT = 1;
+     //}
+     //// FIXME: Update to new 2016 curve?
+     //else // using the turn-on in the MC
+     //{
+     //  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+     //  //   we get two chances to pass since we may have two electrons in the event
+     //  // UPDATE TO SCETA/ptheep
+     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+     //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
+     //  if(!passHLT) // if the first one doesn't pass, try the second one
+     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+     //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
+     //}
+     //XXX SIC FIXME TEST
+     if (isData) {
+       passHLT = 0;
+       //if ( H_Ele27_WPLoose == 1)
+       //if ( H_Ele27_WPTight == 1)
+       //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+       if ( H_Ele27_WPLoose_eta2p1 == 1)
+         passHLT = 1;
+       //if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
+       //  passHLT = 0;
+       //if(run < 275676) // L1 EGM efficiency going to zero
+       //  passHLT = 0;
+     }
+     else {
+       if(Ele1_Energy < -998) // if Ele1 is the muon, check ele2; otherwise check Ele1 only for trigger
+       {
+         passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+         triggerEfficiency = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta);
+       }
+       else
+       {
+         passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+         triggerEfficiency = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta);
+       }
+     }
+
+     fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
+
+     if ( getPreCutString1("TrigCorrForSingleLeptonFinalState")=="true")
      {
-       if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-         continue;
+       // weight the event by 2-eff.
+       gen_weight *= 2-triggerEfficiency;
      }
 
      //--------------------------------------------------------------------------
@@ -922,8 +916,7 @@ void analysisClass::Loop()
      // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
      
-     //bool passed_minimum = ( passedAllPreviousCuts("PassTrackingFailure") && passedCut ("PassTrackingFailure"));
-     bool passed_minimum = ( passedAllPreviousCuts("PassPrimaryVertex") && passedCut ("PassPrimaryVertex"));
+     bool passed_minimum = ( passedAllPreviousCuts("PassBadPFMuonFilter") && passedCut ("PassBadPFMuonFilter"));
      
      //--------------------------------------------------------------------------
      // Did we pass preselection?
