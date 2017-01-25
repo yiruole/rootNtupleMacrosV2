@@ -71,31 +71,31 @@ void analysisClass::Loop() {
 
     resetCuts();
 
-    //------------------------------------------------------------------
-    // If this is data, it has to pass the trigger
-    //------------------------------------------------------------------
+    ////------------------------------------------------------------------
+    //// If this is data, it has to pass the trigger
+    ////------------------------------------------------------------------
 
-    float trigEff = 0.0;
-    int pass_trigger = 0;
-    if ( isData ) { 
-      pass_trigger = 0;
-      //if ( H_Ele27_WPLoose == 1)
-      if ( H_Ele27_WPTight == 1 || H_Photon175 == 1) // for 2016
-        pass_trigger = 1;
-    }
-    else // using the turn-on in the MC
-    {
-      // lead electron only
-      if(Ele1_PtHeep > Ele2_PtHeep)
-      {
-        pass_trigger = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-        trigEff = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-      }
-      else {
-        pass_trigger = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-        trigEff = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-      }
-    }
+    //float trigEff = 0.0;
+    //int pass_trigger = 0;
+    //if ( isData ) { 
+    //  pass_trigger = 0;
+    //  //if ( H_Ele27_WPLoose == 1)
+    //  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1) // for 2016
+    //    pass_trigger = 1;
+    //}
+    //else // using the turn-on in the MC
+    //{
+    //  // lead electron only
+    //  if(Ele1_PtHeep > Ele2_PtHeep)
+    //  {
+    //    pass_trigger = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+    //    trigEff = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+    //  }
+    //  else {
+    //    pass_trigger = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+    //    trigEff = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+    //  }
+    //}
 
     //------------------------------------------------------------------
     // Is the muon going to be Ele1 or Ele2?
@@ -156,7 +156,7 @@ void analysisClass::Loop() {
       Ele2_Energy         = -999.;
       Ele2_hltDoubleElePt = -999.;
       Ele2_hltEleSignalPt = -999.;
-      Ele1_hltEleTTbarPt  = trigEff;
+      //Ele1_hltEleTTbarPt  = trigEff;
       
     }
 
@@ -226,7 +226,7 @@ void analysisClass::Loop() {
       Ele1_ValidFrac      = -999.;
       Ele1_hltDoubleElePt = -999.;
       Ele1_hltEleSignalPt = -999.;
-      Ele2_hltEleTTbarPt  = trigEff;
+      //Ele2_hltEleTTbarPt  = trigEff;
       
     }
 
@@ -250,7 +250,7 @@ void analysisClass::Loop() {
     fillVariableWithValue( "Jet2_Pt"     , Jet2_Pt      );
     fillVariableWithValue( "sT_eejj"     , sT_eejj      );
     fillVariableWithValue( "M_e1e2"      , M_e1e2       );
-    fillVariableWithValue( "PassTrigger" , pass_trigger );
+    //fillVariableWithValue( "PassTrigger" , pass_trigger );
     fillVariableWithValue( "PassFilter"  , 1            );
 
     //-----------------------------------------------------------------
