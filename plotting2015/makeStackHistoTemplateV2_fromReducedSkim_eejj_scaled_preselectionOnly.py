@@ -19,9 +19,11 @@ from ROOT import *
 
 
 #File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_scaled.root")
-#File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan22_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan24_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_scaled.root")
+##File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan22_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan24_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+File_preselection     = GetFile("$LQDATA/2016analysis/feb22_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_QCD_preselection = GetFile("$LQDATA/2016analysis/feb22_onPsk_QCD_jan24_rereco/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 
 LQmasses = [650]
 
@@ -67,11 +69,12 @@ if useMGHT:
 
 else:
     # amc@NLO Pt ZJets and TTBar
-    #samplesForStackHistos_ZJets  = [ "TTbar_amcatnlo_Inc", "ZJet_amcatnlo_ptBinned" ]
-    samplesForStackHistos_ZJets  = [ "TTBarFromDATA", "ZJet_amcatnlo_ptBinned" ]
     samplesForStackHistos_other = [ "OTHERBKG_amcAtNLOIncTTBar_ZJetWJetPt" ]
-    #keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (amc@NLO)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
-    keysStack             = [ "Other backgrounds", "QCD multijet (data)", "t#bar{t} (data)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
+    samplesForStackHistos_ZJets  = [ "TTbar_amcatnlo_Inc", "ZJet_amcatnlo_ptBinned" ]
+    keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (amc@NLO)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
+    # data-driven ttbar
+    #samplesForStackHistos_ZJets  = [ "TTBarFromDATA", "ZJet_amcatnlo_ptBinned" ]
+    #keysStack             = [ "Other backgrounds", "QCD multijet (data)", "t#bar{t} (data)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
 
 # QCD
 samplesForStackHistos_QCD = ["QCDFakes_DATA"]
