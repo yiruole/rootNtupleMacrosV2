@@ -220,6 +220,42 @@ void analysisClass::Loop(){
     
     if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
+    ////XXX SIC TEST
+    //if(jentry<300000) continue;
+    //if(run!=284043 && run!=284044) continue;
+    //if(event!=70975993 &&
+    //    event!=70918301 &&
+    //    event!=73627195 &&
+    //    event!=133736325 &&
+    //    event!=136506189 &&
+    //    event!=135521192 &&
+    //    event!=192926568 &&
+    //    event!=198410242 &&
+    //    event!=204527875 &&
+    //    event!=225766389 &&
+    //    event!=282558012 &&
+    //    event!=291389617 &&
+    //    event!=314309190 &&
+    //    event!=321159687 &&
+    //    event!=2738627 &&
+    //    event!=14391027 &&
+    //    event!=16683135 &&
+    //    event!=93896303 &&
+    //    event!=94961791 &&
+    //    event!=103480571 &&
+    //    event!=109519848 &&
+    //    event!=121253333 &&
+    //    event!=153954016 &&
+    //    event!=181932523 &&
+    //    event!=258963068 &&
+    //    event!=263410936 &&
+    //    event!=279522058 &&
+    //    event!=300444764 &&
+    //    event!=302556098 &&
+    //    event!=9391263 &&
+    //    event!=34304818) continue;
+    //std::cout << (uint64_t)run << " " << (uint64_t)ls << " " << (uint64_t)event << std::endl;
+    ////XXX SIC TEST
     //-----------------------------------------------------------------
     // Get access to HLT decisions
     //-----------------------------------------------------------------
@@ -412,7 +448,10 @@ void analysisClass::Loop(){
     CollectionPtr c_ele_final_ptCut;
     
     if ( reducedSkimType == 0 ){ 
-      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <Electron> ( FAKE_RATE_HEEP_LOOSE );
+      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <Electron> ( FAKE_RATE_HEEP_LOOSE);
+      ////XXX SIC TEST
+      //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL, true );
+      ////XXX SIC TEST
       c_ele_final               = c_ele_loose;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
@@ -444,8 +483,8 @@ void analysisClass::Loop(){
 
     CollectionPtr c_pfjet_central                     = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_EtaCut, jet_EtaCut   );
     CollectionPtr c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
-    CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_ele_DeltaRCut  );
-    CollectionPtr c_pfjet_central_ID_noLeptonOverlap  = c_pfjet_central_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_muon_DeltaRCut );
+    CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
+    CollectionPtr c_pfjet_central_ID_noLeptonOverlap  = c_pfjet_central_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
     CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
     
@@ -455,8 +494,8 @@ void analysisClass::Loop(){
     
     CollectionPtr c_pfjet_highEta                    = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_HighEtaCut, jet_HighEtaCut   );
     CollectionPtr c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
-    CollectionPtr c_pfjet_highEta_ID_noMuonOverlap   = c_pfjet_highEta_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_ele_DeltaRCut  );
-    CollectionPtr c_pfjet_highEta_ID_noLeptonOverlap = c_pfjet_highEta_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_muon_DeltaRCut );
+    CollectionPtr c_pfjet_highEta_ID_noMuonOverlap   = c_pfjet_highEta_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
+    CollectionPtr c_pfjet_highEta_ID_noLeptonOverlap = c_pfjet_highEta_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
     CollectionPtr c_pfjet_highEta_final              = c_pfjet_highEta_ID_noLeptonOverlap;
     CollectionPtr c_pfjet_highEta_final_ptCut        = c_pfjet_highEta_final                -> SkimByMinPt      <PFJet>          ( jet_PtCut );
     
@@ -810,21 +849,28 @@ void analysisClass::Loop(){
           }
         }
 
-        fillVariableWithValue( "LooseEle1_PassID"        , loose_ele1.PassUserID ( HEEP70 )  );
-        fillVariableWithValue( "LooseEle1_Pt"            , loose_ele1.Pt()                 );
-        fillVariableWithValue( "LooseEle1_PtHeep"        , loose_ele1.PtHeep()                 );
-        fillVariableWithValue( "LooseEle1_Energy"        , loose_ele1.CaloEnergy()         );
-        fillVariableWithValue( "LooseEle1_Eta"           , loose_ele1.Eta()                );
-        fillVariableWithValue( "LooseEle1_Phi"           , loose_ele1.Phi()                );
-        fillVariableWithValue( "LooseEle1_SCEta"         , loose_ele1.SCEta()              );
-        fillVariableWithValue( "LooseEle1_SCPhi"         , loose_ele1.SCPhi()              );
-        fillVariableWithValue( "LooseEle1_Charge"        , loose_ele1.Charge()             );
-        fillVariableWithValue( "LooseEle1_Dist"          , loose_ele1.Dist()               );
-        fillVariableWithValue( "LooseEle1_DCotTheta"     , loose_ele1.DCotTheta()          );
-        fillVariableWithValue( "LooseEle1_MissingHits"   , loose_ele1.MissingHits()        );
-        fillVariableWithValue( "LooseEle1_TrkPt"         , loose_ele1.TrackPt()            );
-        fillVariableWithValue( "LooseEle1_SigmaIEtaIEta" , loose_ele1.SigmaIEtaIEta()      );
-        fillVariableWithValue( "LooseEle1_SigmaEtaEta"   , loose_ele1.SigmaEtaEta()        );
+        fillVariableWithValue( "LooseEle1_PassHEEPID"           , loose_ele1.PassUserID ( HEEP70 )  );
+        fillVariableWithValue( "LooseEle1_Pt"                   , loose_ele1.Pt()                 );
+        fillVariableWithValue( "LooseEle1_PtHeep"               , loose_ele1.PtHeep()                 );
+        fillVariableWithValue( "LooseEle1_EcalDriven"           , loose_ele1.EcalSeed()           );
+        fillVariableWithValue( "LooseEle1_DeltaEtaSeed"         , loose_ele1.DeltaEtaSeed()       );
+        fillVariableWithValue( "LooseEle1_SCEnergy"             , loose_ele1.SCEnergy()           );
+        fillVariableWithValue( "LooseEle1_Full5x5E1x5OverE5x5"  , loose_ele1.Full5x5E1x5OverE5x5());
+        fillVariableWithValue( "LooseEle1_Full5x5E2x5OverE5x5"  , loose_ele1.Full5x5E2x5OverE5x5());
+        fillVariableWithValue( "LooseEle1_RhoForHeep"           , loose_ele1.RhoForHEEP());
+        fillVariableWithValue( "LooseEle1_Energy"               , loose_ele1.CaloEnergy()         );
+        fillVariableWithValue( "LooseEle1_Eta"                  , loose_ele1.Eta()                );
+        fillVariableWithValue( "LooseEle1_Phi"                  , loose_ele1.Phi()                );
+        fillVariableWithValue( "LooseEle1_SCEta"                , loose_ele1.SCEta()              );
+        fillVariableWithValue( "LooseEle1_SCPhi"                , loose_ele1.SCPhi()              );
+        fillVariableWithValue( "LooseEle1_Charge"               , loose_ele1.Charge()             );
+        fillVariableWithValue( "LooseEle1_Dist"                 , loose_ele1.Dist()               );
+        fillVariableWithValue( "LooseEle1_DCotTheta"            , loose_ele1.DCotTheta()          );
+        fillVariableWithValue( "LooseEle1_MissingHits"          , loose_ele1.MissingHits()        );
+        fillVariableWithValue( "LooseEle1_TrkPt"                , loose_ele1.TrackPt()            );
+        fillVariableWithValue( "LooseEle1_SigmaIEtaIEta"        , loose_ele1.SigmaIEtaIEta()      );
+        fillVariableWithValue( "LooseEle1_Full5x5SigmaIEtaIEta" , loose_ele1.Full5x5SigmaIEtaIEta());
+        fillVariableWithValue( "LooseEle1_SigmaEtaEta"          , loose_ele1.SigmaEtaEta()        );
 
         fillVariableWithValue( "LooseEle1_DeltaPhiTrkSC" , loose_ele1.DeltaPhi()           );
         fillVariableWithValue( "LooseEle1_DeltaEtaTrkSC" , loose_ele1.DeltaEta()           );
@@ -843,10 +889,11 @@ void analysisClass::Loop(){
         fillVariableWithValue( "LooseEle1_Classif"       , loose_ele1.Classif()            );
         fillVariableWithValue( "LooseEle1_EOverP"        , loose_ele1.ESuperClusterOverP() );
 
-        fillVariableWithValue( "LooseEle1_TrkIsolation"  , loose_ele1.TrkIsoDR03()         );
-        fillVariableWithValue( "LooseEle1_EcalIsolation" , loose_ele1.EcalIsoDR03()        );
-        fillVariableWithValue( "LooseEle1_HcalIsolation" , loose_ele1.HcalIsoD1DR03()      );
-        fillVariableWithValue( "LooseEle1_CorrIsolation" , loose_ele1.HEEPCorrIsolation()  );
+        fillVariableWithValue( "LooseEle1_TrkIsolation"  , loose_ele1.TrkIsoDR03()          );
+        fillVariableWithValue( "LooseEle1_TrkIsoHEEP7"   , loose_ele1.HEEP70TrackIsolation());
+        fillVariableWithValue( "LooseEle1_EcalIsolation" , loose_ele1.EcalIsoDR03()         );
+        fillVariableWithValue( "LooseEle1_HcalIsolation" , loose_ele1.HcalIsoD1DR03()       );
+        fillVariableWithValue( "LooseEle1_CorrIsolation" , loose_ele1.HEEPCorrIsolation()   );
         fillVariableWithValue( "LooseEle1_PFCHIso03"     , loose_ele1.PFChargedHadronIso03());
         fillVariableWithValue( "LooseEle1_PFPhoIso03"    , loose_ele1.PFPhotonIso03       ());
         fillVariableWithValue( "LooseEle1_PFNHIso03"     , loose_ele1.PFNeutralHadronIso03());
@@ -877,9 +924,15 @@ void analysisClass::Loop(){
             }
           }
 
-          fillVariableWithValue( "LooseEle2_PassID"        , loose_ele2.PassUserID ( HEEP70 )  );
+          fillVariableWithValue( "LooseEle2_PassHEEPID"    , loose_ele2.PassUserID ( HEEP70 ));
           fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
-          fillVariableWithValue( "LooseEle2_PtHeep"        , loose_ele2.PtHeep()                 );
+          fillVariableWithValue( "LooseEle2_PtHeep"        , loose_ele2.PtHeep()             );
+          fillVariableWithValue( "LooseEle2_EcalDriven"    , loose_ele2.EcalSeed()           );
+          fillVariableWithValue( "LooseEle2_DeltaEtaSeed"  , loose_ele2.DeltaEtaSeed()       );
+          fillVariableWithValue( "LooseEle2_SCEnergy"      , loose_ele2.SCEnergy()           );
+          fillVariableWithValue( "LooseEle2_Full5x5E1x5OverE5x5"  , loose_ele2.Full5x5E1x5OverE5x5());
+          fillVariableWithValue( "LooseEle2_Full5x5E2x5OverE5x5"  , loose_ele2.Full5x5E2x5OverE5x5());
+          fillVariableWithValue( "LooseEle2_RhoForHeep"  , loose_ele2.RhoForHEEP());
           fillVariableWithValue( "LooseEle2_Energy"        , loose_ele2.CaloEnergy()         );
           fillVariableWithValue( "LooseEle2_Eta"           , loose_ele2.Eta()                );
           fillVariableWithValue( "LooseEle2_Phi"           , loose_ele2.Phi()                );
@@ -891,6 +944,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_MissingHits"   , loose_ele2.MissingHits()        );
           fillVariableWithValue( "LooseEle2_TrkPt"         , loose_ele2.TrackPt()            );
           fillVariableWithValue( "LooseEle2_SigmaIEtaIEta" , loose_ele2.SigmaIEtaIEta()      );
+          fillVariableWithValue( "LooseEle2_Full5x5SigmaIEtaIEta" , loose_ele2.Full5x5SigmaIEtaIEta());
           fillVariableWithValue( "LooseEle2_SigmaEtaEta"   , loose_ele2.SigmaEtaEta()        );
 
           fillVariableWithValue( "LooseEle2_DeltaPhiTrkSC" , loose_ele2.DeltaPhi()           );
@@ -910,10 +964,11 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_Classif"       , loose_ele2.Classif()            );
           fillVariableWithValue( "LooseEle2_EOverP"        , loose_ele2.ESuperClusterOverP() );
 
-          fillVariableWithValue( "LooseEle2_TrkIsolation"  , loose_ele2.TrkIsoDR03()         );
-          fillVariableWithValue( "LooseEle2_EcalIsolation" , loose_ele2.EcalIsoDR03()        );
-          fillVariableWithValue( "LooseEle2_HcalIsolation" , loose_ele2.HcalIsoD1DR03()      );
-          fillVariableWithValue( "LooseEle2_CorrIsolation" , loose_ele2.HEEPCorrIsolation()  );
+          fillVariableWithValue( "LooseEle2_TrkIsolation"  , loose_ele2.TrkIsoDR03()          );
+          fillVariableWithValue( "LooseEle2_TrkIsoHEEP7"   , loose_ele1.HEEP70TrackIsolation());
+          fillVariableWithValue( "LooseEle2_EcalIsolation" , loose_ele2.EcalIsoDR03()         );
+          fillVariableWithValue( "LooseEle2_HcalIsolation" , loose_ele2.HcalIsoD1DR03()       );
+          fillVariableWithValue( "LooseEle2_CorrIsolation" , loose_ele2.HEEPCorrIsolation()   );
           fillVariableWithValue( "LooseEle2_PFCHIso03"     , loose_ele2.PFChargedHadronIso03());
           fillVariableWithValue( "LooseEle2_PFPhoIso03"    , loose_ele2.PFPhotonIso03       ());
           fillVariableWithValue( "LooseEle2_PFNHIso03"     , loose_ele2.PFNeutralHadronIso03());
@@ -943,9 +998,15 @@ void analysisClass::Loop(){
               }
             }
 
-            fillVariableWithValue( "LooseEle3_PassID"        , loose_ele3.PassUserID ( HEEP70 )  );
+            fillVariableWithValue( "LooseEle3_PassHEEPID"    , loose_ele3.PassUserID ( HEEP70 )  );
             fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
             fillVariableWithValue( "LooseEle3_PtHeep"        , loose_ele3.PtHeep()                 );
+            fillVariableWithValue( "LooseEle3_EcalDriven"           , loose_ele3.EcalSeed()           );
+            fillVariableWithValue( "LooseEle3_DeltaEtaSeed"         , loose_ele3.DeltaEtaSeed()       );
+            fillVariableWithValue( "LooseEle3_SCEnergy"             , loose_ele3.SCEnergy()           );
+            fillVariableWithValue( "LooseEle3_Full5x5E1x5OverE5x5"  , loose_ele3.Full5x5E1x5OverE5x5());
+            fillVariableWithValue( "LooseEle3_Full5x5E2x5OverE5x5"  , loose_ele3.Full5x5E2x5OverE5x5());
+            fillVariableWithValue( "LooseEle3_RhoForHeep"           , loose_ele3.RhoForHEEP());
             fillVariableWithValue( "LooseEle3_Energy"        , loose_ele3.CaloEnergy()         );
             fillVariableWithValue( "LooseEle3_Eta"           , loose_ele3.Eta()                );
             fillVariableWithValue( "LooseEle3_Phi"           , loose_ele3.Phi()                );
@@ -957,6 +1018,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_MissingHits"   , loose_ele3.MissingHits()        );
             fillVariableWithValue( "LooseEle3_TrkPt"         , loose_ele3.TrackPt()            );
             fillVariableWithValue( "LooseEle3_SigmaIEtaIEta" , loose_ele3.SigmaIEtaIEta()      );
+            fillVariableWithValue( "LooseEle3_Full5x5SigmaIEtaIEta" , loose_ele3.Full5x5SigmaIEtaIEta());
             fillVariableWithValue( "LooseEle3_SigmaEtaEta"   , loose_ele3.SigmaEtaEta()        );
 
             fillVariableWithValue( "LooseEle3_DeltaPhiTrkSC" , loose_ele3.DeltaPhi()           );
@@ -976,10 +1038,11 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_Classif"       , loose_ele3.Classif()            );
             fillVariableWithValue( "LooseEle3_EOverP"        , loose_ele3.ESuperClusterOverP() );
 
-            fillVariableWithValue( "LooseEle3_TrkIsolation"  , loose_ele3.TrkIsoDR03()         );
-            fillVariableWithValue( "LooseEle3_EcalIsolation" , loose_ele3.EcalIsoDR03()        );
-            fillVariableWithValue( "LooseEle3_HcalIsolation" , loose_ele3.HcalIsoD1DR03()      );
-            fillVariableWithValue( "LooseEle3_CorrIsolation" , loose_ele3.HEEPCorrIsolation()  );
+            fillVariableWithValue( "LooseEle3_TrkIsolation"  , loose_ele3.TrkIsoDR03()          );
+            fillVariableWithValue( "LooseEle3_TrkIsoHEEP7"   , loose_ele1.HEEP70TrackIsolation());
+            fillVariableWithValue( "LooseEle3_EcalIsolation" , loose_ele3.EcalIsoDR03()         );
+            fillVariableWithValue( "LooseEle3_HcalIsolation" , loose_ele3.HcalIsoD1DR03()       );
+            fillVariableWithValue( "LooseEle3_CorrIsolation" , loose_ele3.HEEPCorrIsolation()   );
             fillVariableWithValue( "LooseEle3_PFCHIso03"     , loose_ele3.PFChargedHadronIso03());
             fillVariableWithValue( "LooseEle3_PFPhoIso03"    , loose_ele3.PFPhotonIso03       ());
             fillVariableWithValue( "LooseEle3_PFNHIso03"     , loose_ele3.PFNeutralHadronIso03());
@@ -1512,7 +1575,6 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------    
     // Fill the trees
     //-----------------------------------------------------------------    
-
     // QCD fake rate calculation skim
     
     if ( reducedSkimType == 0 ) { 
