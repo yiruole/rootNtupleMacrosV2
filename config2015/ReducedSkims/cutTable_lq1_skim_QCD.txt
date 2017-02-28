@@ -39,7 +39,7 @@ pfjet_energy_scale_sign	   0		-		-		-		-1
 jet_PtCut		               45	         	-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
 jet_HighEtaCut		   5.0		-               -               -               -1
-jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
+jet_ele_DeltaRCut     	   0.7        	-               -               -               -1
 jet_muon_DeltaRCut    	   0.3        	-               -               -               -1
 jet_hltMatch_DeltaRCut     0.5		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
@@ -114,8 +114,14 @@ nPileUpInt_BXplus1              -inf         +inf               -               
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nLooseEle_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 # 
-LooseEle1_PassID                -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle1_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
 LooseEle1_PtHeep                -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_EcalDriven            -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_DeltaEtaSeed          -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_SCEnergy              -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_Full5x5E1x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_Full5x5E2x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_Energy                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_Eta                   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_Phi                   -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -127,6 +133,7 @@ LooseEle1_DCotTheta             -inf	     +inf               -               -  
 LooseEle1_MissingHits           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_TrkPt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_SigmaIEtaIEta         -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_Full5x5SigmaIEtaIEta  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_SigmaEtaEta           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_DeltaPhiTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_DeltaEtaTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -145,6 +152,7 @@ LooseEle1_ValidFrac             -inf	     +inf               -               -  
 LooseEle1_Classif               -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_EOverP                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_TrkIsolation          -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_TrkIsoHEEP7           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_EcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_HcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_CorrIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -156,9 +164,15 @@ LooseEle1_GsfScPixCharge        -inf	     +inf               -               -  
 LooseEle1_GsfCtfCharge          -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_hltPhotonPt           -inf	     +inf               -               -               1       200 0 2000            SAVE 
 # 
-LooseEle2_PassID                -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle2_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
 LooseEle2_Pt                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_PtHeep                -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_EcalDriven            -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_DeltaEtaSeed          -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_SCEnergy              -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_Full5x5E1x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_Full5x5E2x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Energy                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Eta                   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Phi                   -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -170,6 +184,7 @@ LooseEle2_DCotTheta             -inf	     +inf               -               -  
 LooseEle2_MissingHits           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_TrkPt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_SigmaIEtaIEta         -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_Full5x5SigmaIEtaIEta  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_SigmaEtaEta           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_DeltaPhiTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_DeltaEtaTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -188,6 +203,7 @@ LooseEle2_ValidFrac             -inf	     +inf               -               -  
 LooseEle2_Classif               -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_EOverP                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_TrkIsolation          -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_TrkIsoHEEP7           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_EcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_HcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_CorrIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -199,9 +215,15 @@ LooseEle2_GsfScPixCharge        -inf	     +inf               -               -  
 LooseEle2_GsfCtfCharge          -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_hltPhotonPt           -inf	     +inf               -               -               1       200 0 2000            SAVE 
 # 
-LooseEle3_PassID                -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle3_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
 LooseEle3_Pt                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_PtHeep                -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_EcalDriven            -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_DeltaEtaSeed          -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_SCEnergy              -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_Full5x5E1x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_Full5x5E2x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Energy                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Eta                   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Phi                   -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -213,6 +235,7 @@ LooseEle3_DCotTheta             -inf	     +inf               -               -  
 LooseEle3_MissingHits           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_TrkPt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_SigmaIEtaIEta         -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_Full5x5SigmaIEtaIEta  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_SigmaEtaEta           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_DeltaPhiTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_DeltaEtaTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -231,6 +254,7 @@ LooseEle3_ValidFrac             -inf	     +inf               -               -  
 LooseEle3_Classif               -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_EOverP                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_TrkIsolation          -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_TrkIsoHEEP7           -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_EcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_HcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_CorrIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
