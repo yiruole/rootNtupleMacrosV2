@@ -90,10 +90,10 @@ void analysisClass::Loop() {
       // weight the event by 2-eff.
       gen_weight *= Ele1_Energy < -998 ? 2-Ele1_hltEleTTbarPt : 2-Ele2_hltEleTTbarPt;
     }
-    //FIXME Add back at some point
-    ////XXX For TopPt reweighting
-    //if (TopPtWeight != -999)
-    //  gen_weight *= TopPtWeight;
+
+    // For TopPt reweighting
+    if (TopPtWeight != -999)
+      gen_weight *= TopPtWeight;
 
     //------------------------------------------------------------------
     // Fill variables 
@@ -162,6 +162,7 @@ void analysisClass::Loop() {
     // SIC test
     //int PassNEle = 1;
 
+    // remove muon veto for fake rate calc
     int PassNMuon = 0;
     //if ( !is_ttbar_from_data && nMuon_ptCut == 0 ) PassNMuon = 1;
     //if (  is_ttbar_from_data && nMuon_ptCut >  0 ) PassNMuon = 1;
@@ -241,8 +242,6 @@ void analysisClass::Loop() {
       fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
 
       if ( nJet_store >= 2 ) { 
-        // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
-        //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
         fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
         fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
         fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
