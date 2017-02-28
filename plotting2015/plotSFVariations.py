@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from ROOT import TGraphErrors,TCanvas,TLegend,TLine,kBlue
+from ROOT import TGraphErrors,TCanvas,TLegend,TLine,kBlue,TGraph
 import numpy as numpy
 import math
 import os
 
 #txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/oct27_tupleV211/zjet_ht/log.log'
-txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/oct27_tupleV211/zjet_amcAtNLO_PtBinned/log.log'
+txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb28/logDYrescale.log'
 bkgName = 'zjet'
 #varList = ['sT','MejMin']
 #txtFilename = 'ttbar/logAllVariations.log'
@@ -59,7 +59,10 @@ for var in varList:
           rescaleErr = math.fabs(rescaleErr)
         yPointErrs.append(rescaleErr)
         isVarPoint = False
-  
+ 
+  if len(xPoints) <= 0:
+    print 'No data in logfile found for var:',var
+    continue
   # make graph
   #print numpy.array(xPoints)
   #print numpy.array(xPointErrs)
@@ -85,10 +88,16 @@ for var in varList:
     graph.GetYaxis().SetTitle('Z+jets scale factor')
     #sfNom = 0.94 # MGHT
     #sfNomErr = 0.01
-    sfNom = 0.94 # amc@NLO PtBinned
-    sfNomErr = 0.03
+    sfNom = 0.95 # amc@NLO PtBinned
+    sfNomErr = 0.02
   lineSFNom = TLine(graph.GetXaxis().GetXmin(),sfNom,graph.GetXaxis().GetXmax(),sfNom)
   lineSFNom.Draw()
+  uncertaintyXpoints = [xPoints[0]-xPointErrs[0],xPoints[-1]+xPointErrs[-1],xPoints[-1]+xPointErrs[-1],xPoints[0]-xPointErrs[0]]
+  uncertaintyYpoints = [sfNom+sfNomErr,sfNom+sfNomErr,sfNom-sfNomErr,sfNom-sfNomErr]
+  uncertaintyRegionGraph = TGraph(len(uncertaintyXpoints),numpy.array(uncertaintyXpoints),numpy.array(uncertaintyYpoints))
+  uncertaintyRegionGraph.SetFillColor(15)
+  uncertaintyRegionGraph.SetFillStyle(3001)
+  uncertaintyRegionGraph.Draw('f')
   #lineUp = TLine(graph.GetXaxis().GetXmin(),sfNom*1.1,graph.GetXaxis().GetXmax(),sfNom*1.1)
   #lineUp.SetLineStyle(2)
   #lineUp.Draw()
