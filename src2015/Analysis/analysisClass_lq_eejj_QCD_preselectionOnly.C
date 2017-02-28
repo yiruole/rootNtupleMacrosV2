@@ -21,7 +21,7 @@ void analysisClass::Loop()
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
    
-   fillSkim                         ( !true  ) ;
+   fillSkim                         ( true  ) ;
    fillAllPreviousCuts              ( !true  ) ;
    fillAllOtherCuts                 ( !true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -495,7 +495,7 @@ void analysisClass::Loop()
        // Fill skim tree, if necessary
        //--------------------------------------------------------------------------
        
-       // fillSkimTree();
+       fillSkimTree();
        
        double DR_Ele1Jet3 = 999.;
        double DR_Ele2Jet3 = 999.;

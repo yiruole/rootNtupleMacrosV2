@@ -53,7 +53,7 @@ void analysisClass::Loop()
 
   fillSkim                         ( !true  ) ;
   fillAllPreviousCuts              ( !true  ) ;
-  fillAllOtherCuts                 ( !true  ) ;
+  fillAllOtherCuts                 ( true  ) ;
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
   fillAllCuts                      ( !true  ) ;
 

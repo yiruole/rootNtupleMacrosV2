@@ -58,7 +58,7 @@ void analysisClass::Loop()
    
    fillSkim                         ( !true  ) ;
    fillAllPreviousCuts              ( !true  ) ;
-   fillAllOtherCuts                 ( !true  ) ;
+   fillAllOtherCuts                 ( true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
 
@@ -725,14 +725,14 @@ void analysisClass::Loop()
        if(GenW1_Pt > 120) passGenWZPt = false; // if W Pt > 120 GeV, cut it out
      }
      if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
-       if(GenZGamma1_Pt > 120) passGenWZPt = false; // if Z/gamma Pt > 120 GeV, cut it out
+       if(GenZGamma1_Pt > 70) passGenWZPt = false; // if Z/gamma Pt > 70 GeV, cut it out
      }
      // first pt bin
      if(current_file_name.find("WJetsToLNu_Pt-100") != std::string::npos) {
        if(GenW1_Pt <= 120) passGenWZPt = false;
      }
-     if(current_file_name.find("DYJetsToLL_Pt-100") != std::string::npos) {
-       if(GenZGamma1_Pt <= 120) passGenWZPt = false;
+     if(current_file_name.find("DYJetsToLL_Pt-50") != std::string::npos) {
+       if(GenZGamma1_Pt <= 70) passGenWZPt = false;
      }
      //// testing
      //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 

@@ -153,12 +153,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTType1_GoodVtxGTE9_LTE15_PAS" , 200 , 0.      ,  1000    );
    CreateUserTH1D( "MTType1_GoodVtxGTE16_PAS"      , 200 , 0.      ,  1000    );
    
-   CreateUserTH1D( "MTenu_50_110", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_50_110"    , 20 , -0.5, 19.5 );
-   CreateUserTH1D( "MTenu_50_110_Njet_gte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_50_110_Njet_gte5", 200, 40, 140 );
-   CreateUserTH1D( "MTenu_50_110_Njet_lte3", 200, 40, 140 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte3", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_lte4", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_Njet_gte5", 240, 40, 160 );
    
    CreateUserTH1D( "MTenu_Type01_50_110", 200, 40, 140 );
    CreateUserTH1D( "nJets_MTenu_Type01_50_110"    , 20 , -0.5, 19.5 );
