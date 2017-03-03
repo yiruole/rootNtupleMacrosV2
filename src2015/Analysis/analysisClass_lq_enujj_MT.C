@@ -13,6 +13,8 @@
 #include "Ele27WPLooseTrigTurnOn.C"
 // for fake rate
 #include "include/QCDFakeRate.h"
+// for scale factors
+#include "ElectronScaleFactors.C"
 
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
@@ -1172,6 +1174,15 @@ void analysisClass::Loop()
      //  gen_weight = total_weight;
      //  
      //}
+
+     if(!isData)
+     {
+       // scale factors for MC only
+       float recoSFEle1 = ElectronScaleFactors2016::LookupRecoSF(Ele1_SCEta);
+       float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(Ele1_SCEta);
+       float totalScaleFactor = recoSFEle1*heepSFEle1;
+       gen_weight*=totalScaleFactor;
+     }
 
      //--------------------------------------------------------------------------
      // Reweighting MET & MT

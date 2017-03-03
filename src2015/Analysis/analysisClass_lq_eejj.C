@@ -14,6 +14,8 @@
 #include "Ele27WPLooseTrigTurnOn.C"
 // for fake rate
 #include "include/QCDFakeRate.h"
+// for scale factors
+#include "ElectronScaleFactors.C"
 
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
@@ -656,6 +658,7 @@ void analysisClass::Loop()
      sprintf(plot_name, "DR_ZJet1_LQ%d"            , lq_mass ); CreateUserTH1D( plot_name ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
      sprintf(plot_name, "DR_ZJet2_LQ%d"            , lq_mass ); CreateUserTH1D( plot_name ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
    }
+
    //--------------------------------------------------------------------------
    // Loop over the chain
    //--------------------------------------------------------------------------
@@ -707,6 +710,17 @@ void analysisClass::Loop()
 
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
      //std::cout << "Gen weight = " << gen_weight << std::endl;
+    
+     if(!isData)
+     {
+       // scale factors for MC only
+       float recoSFEle1 = ElectronScaleFactors2016::LookupRecoSF(Ele1_SCEta);
+       float recoSFEle2 = ElectronScaleFactors2016::LookupRecoSF(Ele2_SCEta);
+       float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(Ele1_SCEta);
+       float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(Ele2_SCEta);
+       float totalScaleFactor = recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+       gen_weight*=totalScaleFactor;
+     }
 
      //--------------------------------------------------------------------------
      // First variable to fill just shows the "reweighting".  Always passes.
