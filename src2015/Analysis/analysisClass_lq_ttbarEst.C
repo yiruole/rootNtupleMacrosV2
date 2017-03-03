@@ -13,6 +13,8 @@
 #include "Ele27WPLooseTrigTurnOn.C"
 // for fake rate
 #include "include/QCDFakeRate.h"
+#include "ElectronScaleFactors.C"
+#include "MuonScaleFactors.C"
 
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
@@ -675,6 +677,37 @@ void analysisClass::Loop()
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
      //std::cout << "Gen weight = " << gen_weight << std::endl;
 
+     if(!isData)
+     {
+       float sf1 = 1.0;
+       float sf2 = 1.0;
+       // for eejj events, nEle_ptCut==2 and nMuon_ptCut==0
+       // for emujj events, nEle_ptCut==1 and nMuon_ptCut==1
+       if(nEle_ptCut==2)
+       {
+         sf1 = ElectronScaleFactors2016::LookupRecoSF(Ele1_SCEta)*ElectronScaleFactors2016::LookupHeepSF(Ele1_SCEta);
+         sf2 = ElectronScaleFactors2016::LookupRecoSF(Ele2_SCEta)*ElectronScaleFactors2016::LookupHeepSF(Ele2_SCEta);
+       }
+       else // emu
+       {
+         if(Ele1_Energy < -998) // if Ele1 is the muon
+         {
+           sf1 = MuonScaleFactors::LookupIDSF(Ele1_Pt)*MuonScaleFactors::LookupIsoSF(Ele1_Pt);
+           sf2 = ElectronScaleFactors2016::LookupRecoSF(Ele2_SCEta)*ElectronScaleFactors2016::LookupHeepSF(Ele2_SCEta);
+         }
+         else
+         {
+           sf1 = ElectronScaleFactors2016::LookupRecoSF(Ele1_SCEta)*ElectronScaleFactors2016::LookupHeepSF(Ele1_SCEta);
+           sf2 = MuonScaleFactors::LookupIDSF(Ele2_Pt)*MuonScaleFactors::LookupIsoSF(Ele2_Pt);
+         }
+       }
+
+       // scale factors for MC only
+       float totalScaleFactor = sf1*sf2;
+       gen_weight*=totalScaleFactor;
+     }
+
+
      //--------------------------------------------------------------------------
      // First variable to fill just shows the "reweighting".  Always passes.
      //--------------------------------------------------------------------------
@@ -692,14 +725,14 @@ void analysisClass::Loop()
        if(GenW1_Pt > 120) passGenWZPt = false; // if W Pt > 120 GeV, cut it out
      }
      if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
-       if(GenZGamma1_Pt > 120) passGenWZPt = false; // if Z/gamma Pt > 120 GeV, cut it out
+       if(GenZGamma1_Pt > 70) passGenWZPt = false; // if Z/gamma Pt > 70 GeV, cut it out
      }
      // first pt bin
      if(current_file_name.find("WJetsToLNu_Pt-100") != std::string::npos) {
        if(GenW1_Pt <= 120) passGenWZPt = false;
      }
      if(current_file_name.find("DYJetsToLL_Pt-100") != std::string::npos) {
-       if(GenZGamma1_Pt <= 120) passGenWZPt = false;
+       if(GenZGamma1_Pt <= 70) passGenWZPt = false;
      }
      //// testing
      //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
@@ -757,29 +790,30 @@ void analysisClass::Loop()
      //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
      //}
      //XXX SIC FIXME TEST
+
+     if(Ele1_Energy < -998) // if Ele1 is the muon, check ele2; otherwise check Ele1 only for trigger
+     {
+       passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+       triggerEfficiency = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta);
+     }
+     else
+     {
+       passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+       triggerEfficiency = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta);
+     }
+
      if (isData) {
        passHLT = 0;
        //if ( H_Ele27_WPLoose == 1)
        //if ( H_Ele27_WPTight == 1)
        //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-       if ( H_Ele27_WPLoose_eta2p1 == 1)
+       //if ( H_Ele27_WPLoose_eta2p1 == 1)
+       if ( H_Ele27_WPTight_eta2p1 == 1)
          passHLT = 1;
        //if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
        //  passHLT = 0;
        //if(run < 275676) // L1 EGM efficiency going to zero
        //  passHLT = 0;
-     }
-     else {
-       if(Ele1_Energy < -998) // if Ele1 is the muon, check ele2; otherwise check Ele1 only for trigger
-       {
-         passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-         triggerEfficiency = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta);
-       }
-       else
-       {
-         passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-         triggerEfficiency = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta);
-       }
      }
 
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
