@@ -6,7 +6,7 @@ import math
 import os
 
 #txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/oct27_tupleV211/zjet_ht/log.log'
-txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb28/logDYrescale.log'
+txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb28/dyRescale.log'
 bkgName = 'zjet'
 #varList = ['sT','MejMin']
 #txtFilename = 'ttbar/logAllVariations.log'
@@ -88,16 +88,27 @@ for var in varList:
     graph.GetYaxis().SetTitle('Z+jets scale factor')
     #sfNom = 0.94 # MGHT
     #sfNomErr = 0.01
-    sfNom = 0.95 # amc@NLO PtBinned
+    sfNom = 1.03 # amc@NLO PtBinned
     sfNomErr = 0.02
-  lineSFNom = TLine(graph.GetXaxis().GetXmin(),sfNom,graph.GetXaxis().GetXmax(),sfNom)
-  lineSFNom.Draw()
-  uncertaintyXpoints = [xPoints[0]-xPointErrs[0],xPoints[-1]+xPointErrs[-1],xPoints[-1]+xPointErrs[-1],xPoints[0]-xPointErrs[0]]
-  uncertaintyYpoints = [sfNom+sfNomErr,sfNom+sfNomErr,sfNom-sfNomErr,sfNom-sfNomErr]
-  uncertaintyRegionGraph = TGraph(len(uncertaintyXpoints),numpy.array(uncertaintyXpoints),numpy.array(uncertaintyYpoints))
+  uncertaintyXpoints = [xPoints[0]-xPointErrs[0],xPoints[-1]+xPointErrs[-1]]
+  uncertaintyYpoints = [sfNom,sfNom]
+  uncertaintyXpointsErrs = [0,0]
+  uncertaintyYpointsErrs = [sfNomErr,sfNomErr]
+  uncertaintyRegionGraph = TGraphErrors(len(uncertaintyXpoints),numpy.array(uncertaintyXpoints),numpy.array(uncertaintyYpoints),numpy.array(uncertaintyXpointsErrs),numpy.array(uncertaintyYpointsErrs))
   uncertaintyRegionGraph.SetFillColor(15)
   uncertaintyRegionGraph.SetFillStyle(3001)
-  uncertaintyRegionGraph.Draw('f')
+  uncertaintyRegionGraph.SetLineColor(1)
+  uncertaintyRegionGraph.Draw('3l')
+  #lineSFNom = TLine(xPoints[0]-xPointErrs[0],sfNom,xPoints[0]-xPointErrs[0],sfNom)
+  #lineSFNom.SetLineColor(2)
+  #lineSFNom.Draw()
+  # draw the polygon for shading
+  #uncertaintyXpoints = [xPoints[0]-xPointErrs[0],xPoints[-1]+xPointErrs[-1],xPoints[-1]+xPointErrs[-1],xPoints[0]-xPointErrs[0]]
+  #uncertaintyYpoints = [sfNom+sfNomErr,sfNom+sfNomErr,sfNom-sfNomErr,sfNom-sfNomErr]
+  #uncertaintyRegionGraph = TGraph(len(uncertaintyXpoints),numpy.array(uncertaintyXpoints),numpy.array(uncertaintyYpoints))
+  #uncertaintyRegionGraph.SetFillColor(15)
+  #uncertaintyRegionGraph.SetFillStyle(3001)
+  #uncertaintyRegionGraph.Draw('f')
   #lineUp = TLine(graph.GetXaxis().GetXmin(),sfNom*1.1,graph.GetXaxis().GetXmax(),sfNom*1.1)
   #lineUp.SetLineStyle(2)
   #lineUp.Draw()
@@ -116,7 +127,7 @@ for var in varList:
     elif var=='MejMin':
       leg = TLegend(0.19,0.79,0.51,0.89)
     leg.AddEntry(graph,'Z+jets scale factor variations','lp')
-  leg.AddEntry(lineSFNom,'Nominal scale factor = '+str(round(sfNom,3))+' #pm '+str(round(sfNomErr,3)),'l')
+  leg.AddEntry(uncertaintyRegionGraph,'Nominal scale factor = '+str(round(sfNom,3))+' #pm '+str(round(sfNomErr,3)),'fl')
   #leg.AddEntry(lineUp,'Nominal scale factor #pm 10%','l')
   leg.SetBorderSize(0)
   leg.Draw()
