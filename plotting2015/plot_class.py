@@ -542,7 +542,7 @@ class Plot:
             #draw first histo
             #stackedHistos[-1].Draw("HIST")
             stkcp.append(copy.deepcopy(stackedHistos[-1]))
-            legend.AddEntry(stackedHistos[-1], self.keysStack[index],"lf")
+            #legend.AddEntry(stackedHistos[-1], self.keysStack[index],"lf")
             thStack.Add(histo)
             if index==0:
               bkgTotalHist = histo.Clone()
@@ -557,6 +557,9 @@ class Plot:
             #   rep = raw_input( 'enter "c" to continue: ' )
             #   if 1 < len(rep):
             #      rep = rep[0]
+
+        for index in xrange(len(self.histosStack)-1,-1,-1):
+            legend.AddEntry(stkcp[index], self.keysStack[index],"lf")
 
         if (self.ymin!="" and self.ymax!=""):
             thStack.SetMinimum(self.ymin)
