@@ -190,9 +190,7 @@ void analysisClass::Loop(){
 
   TLorentzVector v_PFMETRaw;
   TLorentzVector v_PFMETType1Cor;
-  TLorentzVector v_PFMETType01Cor;
   TLorentzVector v_PFMETType1XYCor;
-  TLorentzVector v_PFMETType01XYCor;
   
 
   // prepare 2016 EG prescales
@@ -220,42 +218,6 @@ void analysisClass::Loop(){
     
     if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
-    ////XXX SIC TEST
-    //if(jentry<300000) continue;
-    //if(run!=284043 && run!=284044) continue;
-    //if(event!=70975993 &&
-    //    event!=70918301 &&
-    //    event!=73627195 &&
-    //    event!=133736325 &&
-    //    event!=136506189 &&
-    //    event!=135521192 &&
-    //    event!=192926568 &&
-    //    event!=198410242 &&
-    //    event!=204527875 &&
-    //    event!=225766389 &&
-    //    event!=282558012 &&
-    //    event!=291389617 &&
-    //    event!=314309190 &&
-    //    event!=321159687 &&
-    //    event!=2738627 &&
-    //    event!=14391027 &&
-    //    event!=16683135 &&
-    //    event!=93896303 &&
-    //    event!=94961791 &&
-    //    event!=103480571 &&
-    //    event!=109519848 &&
-    //    event!=121253333 &&
-    //    event!=153954016 &&
-    //    event!=181932523 &&
-    //    event!=258963068 &&
-    //    event!=263410936 &&
-    //    event!=279522058 &&
-    //    event!=300444764 &&
-    //    event!=302556098 &&
-    //    event!=9391263 &&
-    //    event!=34304818) continue;
-    //std::cout << (uint64_t)run << " " << (uint64_t)ls << " " << (uint64_t)event << std::endl;
-    ////XXX SIC TEST
     //-----------------------------------------------------------------
     // Get access to HLT decisions
     //-----------------------------------------------------------------
@@ -416,27 +378,19 @@ void analysisClass::Loop(){
 
       v_PFMETRaw        .SetPtEtaPhiM( (*PFMETRaw        )[0] , 0., (*PFMETPhiRaw        )[0] , 0. );
       v_PFMETType1Cor   .SetPtEtaPhiM( (*PFMETType1Cor   )[0] , 0., (*PFMETPhiType1Cor   )[0] , 0. );
-      v_PFMETType01Cor  .SetPtEtaPhiM( (*PFMETType01Cor  )[0] , 0., (*PFMETPhiType01Cor  )[0] , 0. );
       v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
-      v_PFMETType01XYCor.SetPtEtaPhiM( (*PFMETType01XYCor)[0] , 0., (*PFMETPhiType01XYCor)[0] , 0. );
       
       v_PFMETRaw         = v_PFMETRaw         + v_delta_met;
       v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
-      v_PFMETType01Cor   = v_PFMETType01Cor   + v_delta_met;
       v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
-      v_PFMETType01XYCor = v_PFMETType01XYCor + v_delta_met;
       
       (*PFMETRaw           )[0] = v_PFMETRaw        .Pt();
       (*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
-      (*PFMETType01Cor     )[0] = v_PFMETType01Cor  .Pt();
       (*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
-      (*PFMETType01XYCor   )[0] = v_PFMETType01XYCor.Pt();
       
       (*PFMETPhiRaw        )[0] = v_PFMETRaw        .Phi();
       (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
-      (*PFMETPhiType01Cor  )[0] = v_PFMETType01Cor  .Phi();
       (*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
-      (*PFMETPhiType01XYCor)[0] = v_PFMETType01XYCor.Phi();
     }
 
     //-----------------------------------------------------------------
@@ -449,9 +403,6 @@ void analysisClass::Loop(){
     
     if ( reducedSkimType == 0 ){ 
       CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <Electron> ( FAKE_RATE_HEEP_LOOSE);
-      ////XXX SIC TEST
-      //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL, true );
-      ////XXX SIC TEST
       c_ele_final               = c_ele_loose;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
@@ -547,12 +498,8 @@ void analysisClass::Loop(){
     fillVariableWithValue("PFMET_Raw_Phi"	     , PFMETPhiRaw	       -> at (0));
     fillVariableWithValue("PFMET_Type1_Pt"     , PFMETType1Cor       -> at (0));      
     fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
-    fillVariableWithValue("PFMET_Type01_Pt"    , PFMETType01Cor      -> at (0));      
-    fillVariableWithValue("PFMET_Type01_Phi"   , PFMETPhiType01Cor   -> at (0));
     fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
     fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
-    fillVariableWithValue("PFMET_Type01XY_Pt"  , PFMETType01XYCor    -> at (0));      
-    fillVariableWithValue("PFMET_Type01XY_Phi" , PFMETPhiType01XYCor -> at (0));
     
     if ( isData == 0 ) { 
       if ( reducedSkimType != 0 ){ 
