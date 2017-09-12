@@ -352,6 +352,12 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
 
     for line in open( plotTTbar.fileXsectionNoRescale ):
         line = string.strip(line,"\n")
+        lineNoComments = line.split("#")[0] # strip off anything after any '#' if present
+        # ignore empty lines
+        if len(lineNoComments) <= 0:
+          print >> outputFile, line
+          continue
+        #FIXME this doesn't support keeping comments at the end of lines
 
         if( re.search(plotTTbar.datasetName, line) ):
             list = re.split( '\s+' , line  )
@@ -372,6 +378,11 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
 
     for line in open( ttbarFileName ):
         line = string.strip(line,"\n")
+        lineNoComments = line.split("#")[0] # strip off anything after any '#' if present
+        # ignore empty lines
+        if len(lineNoComments) <= 0:
+          print >> outputFile, line
+          continue
 
         if( re.search(plotWJets.datasetName, line) ):
             list = re.split( '\s+' , line  )
@@ -407,9 +418,32 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
 #File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_dec14_ICHEPDataExcludeEarlyRunsAndMC_rereco_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
 #File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_dec14_ICHEPDataExcludeEarlyRunsAndMC_rereco_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
 
-File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jan20_rereco_stitch120_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
-#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jan20_rereco_stitch120_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
-File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_QCD_jan22_rereco_enujj2012FinSels/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jan20_rereco_stitch120_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+##File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jan20_rereco_stitch120_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_QCD_plots.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_QCD_jan22_rereco_enujj2012FinSels/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb28_recoHeepSF_rereco_stitchDYW_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_QCD_feb27_rereco_enujj2012FinSels/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+
+# unscaled
+# no topPt reweight
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_mar28_recoHeepSF_rereco_stitchDYW_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+# with reweight
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_mar30_topPtWeight_recoHeepSF_rereco_ele27wptightEta2p1CurveMC_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_apr11_ele27wptightOREle115_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_psk_feb28_recoHeepSF_rereco_stitchDYW_ele27wptightEta2p1CurveMC/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_psk_jun1_ele27wptightOREle115ORPhoton175/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+
+# unscaled
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_may8_ele27wptightOREle115_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+# unscaled ele27 from Bibhu
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_may11_ele27wptight_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jun1_ele27wptightOREle115ORPhoton175_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
+File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jul4_ele27wptightOREle115ORPhoton175_enujjOptFinalSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_jul4_ele27wptightOREle115ORPhoton175_enujjOptFinalSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root.jul4")
+
+useMGHT = False
+useAMCAtNLOTTBar = False # if False use powheg
 
 #--- Rescaling of W + jet and ttbar+jets background
 
@@ -422,11 +456,16 @@ plotBaseName = 'MTenu_50_110_Njet_gte4'
 #h_ALLBKG_HT_ttbar = GetHisto("histo1D__ALLBKG_MG_HT__"+plotBaseName, File_preselection) # MC all
 # amc@NLO BKG
 h_ALLBKG_amcatnlo_ttbar = GetHisto("histo1D__ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
+# powheg ttbar
+h_ALLBKG_powheg_ttbar = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
 
 #h_TTbar_MG_ttbar = GetHisto("histo1D__TTbar_Madgraph__"+plotBaseName, File_preselection) # MC TTbar
 #h_ZJets_MGHT_ttbar = GetHisto("histo1D__ZJet_Madgraph_HT__"+plotBaseName, File_preselection)
 #h_WJets_MGHT_ttbar = GetHisto("histo1D__WJet_Madgraph_HT__"+plotBaseName, File_preselection)
+
 h_TTbar_amcatnlo_ttbar = GetHisto("histo1D__TTbar_amcatnlo_Inc__"+plotBaseName, File_preselection) # MC TTbar
+# powheg ttbar
+h_TTbar_powheg_ttbar = GetHisto("histo1D__TTbar_powheg__"+plotBaseName, File_preselection) # MC TTbar
 h_ZJets_amcatnlo_ttbar = GetHisto("histo1D__ZJet_amcatnlo_ptBinned__"+plotBaseName, File_preselection)
 h_WJets_amcatnlo_ttbar = GetHisto("histo1D__WJet_amcatnlo_ptBinned__"+plotBaseName, File_preselection)
 h_SingleTop_ttbar = GetHisto("histo1D__SingleTop__"+plotBaseName, File_preselection)
@@ -441,13 +480,14 @@ h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+plotBaseName,File_QCD_pre
 
 plotTTbar = Plot()
 plotTTbar.histoDATA = h_DATA_ttbar
-#
-useMGHT = False
-#
 # amc@NLO
 if not useMGHT:
-  plotTTbar.histoMCall = h_ALLBKG_amcatnlo_ttbar
-  plotTTbar.histoTTbar = h_TTbar_amcatnlo_ttbar
+  if useAMCAtNLOTTBar:
+    plotTTbar.histoMCall = h_ALLBKG_amcatnlo_ttbar
+    plotTTbar.histoTTbar = h_TTbar_amcatnlo_ttbar
+  else:
+    plotTTbar.histoMCall = h_ALLBKG_powheg_ttbar
+    plotTTbar.histoTTbar = h_TTbar_powheg_ttbar
   #plotTTbar.histoQCD = h_QCD_ttbar
   plotTTbar.histoQCD = h_QCD_DataDriven
   plotTTbar.histoZJet = h_ZJets_amcatnlo_ttbar
@@ -472,7 +512,7 @@ plotTTbar.xminplot = 0
 plotTTbar.xmaxplot = 2000
 plotTTbar.yminplot = 0
 plotTTbar.ymaxplot = 2000
-plotTTbar.datasetName = "TTJets_Tune"
+plotTTbar.datasetName = "TT"
 #plot0.datasetName = "DYJetsToLL_M-50_HT.+Tune"
 #plot0.datasetName = "Z.+Jets_Pt.+alpgen"
 # example: this match with /Z3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
@@ -486,11 +526,14 @@ plotBaseName = 'MTenu_50_110_Njet_lte3'
 #h_ALLBKG_HT_wjets = GetHisto("histo1D__ALLBKG_MG_HT__"+plotBaseName, File_preselection) # MC all
 # amc@NLO BKG
 h_ALLBKG_amcatnlo_wjets = GetHisto("histo1D__ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
+# powheg
+h_ALLBKG_powheg_wjets = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
 
 #h_TTbar_MG_wjets = GetHisto("histo1D__TTbar_Madgraph__"+plotBaseName, File_preselection) # MC TTbar
 #h_ZJets_MGHT_wjets = GetHisto("histo1D__ZJet_Madgraph_HT__"+plotBaseName, File_preselection)
 #h_WJets_MGHT_wjets = GetHisto("histo1D__WJet_Madgraph_HT__"+plotBaseName, File_preselection)
 h_TTbar_amcatnlo_wjets = GetHisto("histo1D__TTbar_amcatnlo_Inc__"+plotBaseName, File_preselection) # MC TTbar
+h_TTbar_powheg_wjets = GetHisto("histo1D__TTbar_powheg__"+plotBaseName, File_preselection) # MC TTbar
 h_ZJets_amcatnlo_wjets = GetHisto("histo1D__ZJet_amcatnlo_ptBinned__"+plotBaseName, File_preselection)
 h_WJets_amcatnlo_wjets = GetHisto("histo1D__WJet_amcatnlo_ptBinned__"+plotBaseName, File_preselection)
 h_SingleTop_wjets = GetHisto("histo1D__SingleTop__"+plotBaseName, File_preselection)
@@ -507,8 +550,12 @@ plotWJets = Plot()
 plotWJets.histoDATA = h_DATA_wjets
 if not useMGHT:
   # amc@NLO
-  plotWJets.histoMCall = h_ALLBKG_amcatnlo_wjets
-  plotWJets.histoTTbar = h_TTbar_amcatnlo_wjets
+  if useAMCAtNLOTTBar:
+    plotWJets.histoMCall = h_ALLBKG_amcatnlo_wjets
+    plotWJets.histoTTbar = h_TTbar_amcatnlo_wjets
+  else:
+    plotWJets.histoMCall = h_ALLBKG_powheg_wjets
+    plotWJets.histoTTbar = h_TTbar_powheg_wjets
   #plotWJets.histoQCD = h_QCD_wjets
   plotWJets.histoQCD = h_QCD_DataDriven
   plotWJets.histoZJet = h_ZJets_amcatnlo_wjets
