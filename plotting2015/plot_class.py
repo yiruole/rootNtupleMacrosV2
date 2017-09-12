@@ -188,12 +188,18 @@ def generateAndAddHistoList( histoBaseName , samples , variableNames, fileName ,
         histolist.append(histo)
     return histolist
 
-def generateHisto( histoBaseName , sample , variableName, fileName , scale = 1):
+def generateHisto( histoBaseName , sample , variableName, fileName , scale = 1, maxX = -1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
     histo = GetHisto(hname, fileName)
     new = copy.deepcopy(histo)
     if(scale!=1):
         new.Scale(scale)
+    # for blinding
+    if maxX > -1:
+        maxBin = new.GetXaxis().FindBin(maxX)
+        for iBin in range(maxBin,new.GetNbinsX()+2):
+            new.SetBinContent(iBin,0)
+            new.SetBinError(iBin,0)
     return new
 
 
