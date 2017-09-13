@@ -215,8 +215,18 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
-    
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
+    //if(event!=1764962 || ls!=3911 || run!=1) {
+    //  if(event!=5844049 || ls!=12949 || run!=1) {
+    //    if(event!=6858631 || ls!=15197 || run!=1) {
+    //      if(event!=7449662 || ls!=16506 || run!=1) {
+    //          continue;
+    //      }
+    //    }
+    //  }
+    //} 
+    //if(event!=93773619 || ls!=184739) continue;
+
+    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     
     //-----------------------------------------------------------------
     // Get access to HLT decisions
@@ -312,7 +322,7 @@ void analysisClass::Loop(){
 
     CollectionPtr c_gen_all   ( new Collection(*this, GenParticlePt -> size()));
     CollectionPtr c_ele_all   ( new Collection(*this, ElectronPt    -> size()));
-    //c_ele_all->examine<Electron>("c_ele_all");
+    //c_ele_all->examine<Electron>("c_ele_all = All reco electrons");
     CollectionPtr c_muon_all  ( new Collection(*this, MuonPt        -> size()));
     // FIXME must study AK4CHS,Puppi
     CollectionPtr c_genJet_all( new Collection(*this, GenJetPtAK4      -> size()));
@@ -322,14 +332,20 @@ void analysisClass::Loop(){
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
 
+    // run ls event
+    //std::cout << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << static_cast<int>(event) << std::endl;
+
     //c_gen_all->examine<GenParticle>("c_gen_all");
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
     //c_genEle_final->examine<GenParticle>("c_genEle_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER)");
+    CollectionPtr c_genNu_final = c_gen_all    -> SkimByID<GenParticle>(GEN_NU_HARD_SCATTER);
+    //c_genNu_final->examine<GenParticle>("c_genNu_final = c_gen_all after SkimByID<GenParticle>(GEN_NU_HARD_SCATTER)");
     CollectionPtr c_genJet_final = c_genJet_all;
 
     CollectionPtr c_genZgamma_final    = c_gen_all -> SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER);
     //c_genZgamma_final->examine<GenParticle>("c_genZgamma_final = c_gen_all after SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER)");
     CollectionPtr c_genW_final         = c_gen_all -> SkimByID<GenParticle>(GEN_W_HARD_SCATTER);
+    //c_genW_final->examine<GenParticle>("c_genW_final = c_gen_all after SkimByID<GenParticle>(GEN_W_HARD_SCATTER)");
     //if(c_genW_final->GetSize()<1) {
     //  cout << "DID NOT FIND A W THIS EVENT! HERE ARE ALL THE GENPARTICLES" << endl;
     //  c_gen_all->examine<GenParticle>("c_gen_all");
@@ -337,6 +353,9 @@ void analysisClass::Loop(){
     CollectionPtr c_genNuFromW_final   = c_gen_all -> SkimByID<GenParticle>(GEN_NU_FROM_W);
     CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
     CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
+    //c_genEleFromDY_final->examine<GenParticle>("c_genEleFromDY_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_FROM_DY)");
+    //c_genEleFromW_final->examine<GenParticle>("c_genEleFromW_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_FROM_W)");
+    //c_genNuFromW_final->examine<GenParticle>("c_genNuFromW_final = c_gen_all after SkimByID<GenParticle>(GEN_NU_FROM_W)");
     CollectionPtr c_genTop             = c_gen_all -> SkimByID<GenParticle>(GEN_TOP);
     CollectionPtr c_genTop_final       = c_genTop  -> SkimByID<GenParticle>(GEN_STATUS62);
 
@@ -409,6 +428,7 @@ void analysisClass::Loop(){
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
       CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70 );
+      //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
@@ -537,6 +557,7 @@ void analysisClass::Loop(){
     int n_jet_store          = c_pfjet_final                 -> GetSize();
     int n_jet_highEta_store  = c_pfjet_highEta_final         -> GetSize();
     int n_genEle_store       = c_genEle_final                -> GetSize();
+    int n_genNu_store        = c_genNu_final                 -> GetSize();
     int n_genJet_store       = c_genJet_final                -> GetSize();
 						             
     int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
@@ -554,13 +575,15 @@ void analysisClass::Loop(){
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
 
-    if ( reducedSkimType != 0 ) { 
+    if ( reducedSkimType != 0 ) {
 
       fillVariableWithValue("nGenJet_ptCut", n_genJet_store);
       fillVariableWithValue("nGenEle_ptCut", n_genEle_store);
-      
+      fillVariableWithValue("nGenNu_ptCut",  n_genNu_store);
+
       fillVariableWithValue("nGenJet_store", min(n_genJet_store,5));
       fillVariableWithValue("nGenEle_store", min(n_genEle_store,2));
+      fillVariableWithValue("nGenNu_store" , min(n_genNu_store,2));
 
       fillVariableWithValue("nGenW_ptCut"	 , n_genW_store         );
       fillVariableWithValue("nGenDY_ptCut"	 , n_genZgamma_store    );  	     
@@ -573,150 +596,164 @@ void analysisClass::Loop(){
       fillVariableWithValue("nGenNuFromW_store"	 , min(n_genNuFromW_store  ,2));
       fillVariableWithValue("nGenEleFromW_store" , min(n_genEleFromW_store ,2));
       fillVariableWithValue("nGenEleFromDY_store", min(n_genEleFromDY_store,4));
-      
+
       if ( n_genJet_store >= 1 ) { 
-	GenJet genJet1 = c_genJet_final -> GetConstituent<GenJet>(0);
-	fillVariableWithValue ( "GenJet1_Pt" , genJet1.Pt () );
-	fillVariableWithValue ( "GenJet1_Eta", genJet1.Eta() );
-	fillVariableWithValue ( "GenJet1_Phi", genJet1.Phi() );
-	
-	if ( n_genJet_store >= 2 ) { 
-	  GenJet genJet2 = c_genJet_final -> GetConstituent<GenJet>(1);
-	  fillVariableWithValue ( "GenJet2_Pt" , genJet2.Pt () );
-	  fillVariableWithValue ( "GenJet2_Eta", genJet2.Eta() );
-	  fillVariableWithValue ( "GenJet2_Phi", genJet2.Phi() );
-	  
-	  if ( n_genJet_store >= 3 ) { 
-	    GenJet genJet3 = c_genJet_final -> GetConstituent<GenJet>(2);
-	    fillVariableWithValue ( "GenJet3_Pt" , genJet3.Pt () );
-	    fillVariableWithValue ( "GenJet3_Eta", genJet3.Eta() );
-	    fillVariableWithValue ( "GenJet3_Phi", genJet3.Phi() );
-	    
-	    if ( n_genJet_store >= 4 ) { 
-	      GenJet genJet4 = c_genJet_final -> GetConstituent<GenJet>(3);
-	      fillVariableWithValue ( "GenJet4_Pt" , genJet4.Pt () );
-	      fillVariableWithValue ( "GenJet4_Eta", genJet4.Eta() );
-	      fillVariableWithValue ( "GenJet4_Phi", genJet4.Phi() );
-	      
-	      if ( n_genJet_store >= 5 ) { 
-		GenJet genJet5 = c_genJet_final -> GetConstituent<GenJet>(4);
-		fillVariableWithValue ( "GenJet5_Pt" , genJet5.Pt () );
-		fillVariableWithValue ( "GenJet5_Eta", genJet5.Eta() );
-		fillVariableWithValue ( "GenJet5_Phi", genJet5.Phi() );
-	      }
-	    }
-	  }
-	}
+        GenJet genJet1 = c_genJet_final -> GetConstituent<GenJet>(0);
+        fillVariableWithValue ( "GenJet1_Pt" , genJet1.Pt () );
+        fillVariableWithValue ( "GenJet1_Eta", genJet1.Eta() );
+        fillVariableWithValue ( "GenJet1_Phi", genJet1.Phi() );
+
+        if ( n_genJet_store >= 2 ) { 
+          GenJet genJet2 = c_genJet_final -> GetConstituent<GenJet>(1);
+          fillVariableWithValue ( "GenJet2_Pt" , genJet2.Pt () );
+          fillVariableWithValue ( "GenJet2_Eta", genJet2.Eta() );
+          fillVariableWithValue ( "GenJet2_Phi", genJet2.Phi() );
+
+          if ( n_genJet_store >= 3 ) { 
+            GenJet genJet3 = c_genJet_final -> GetConstituent<GenJet>(2);
+            fillVariableWithValue ( "GenJet3_Pt" , genJet3.Pt () );
+            fillVariableWithValue ( "GenJet3_Eta", genJet3.Eta() );
+            fillVariableWithValue ( "GenJet3_Phi", genJet3.Phi() );
+
+            if ( n_genJet_store >= 4 ) { 
+              GenJet genJet4 = c_genJet_final -> GetConstituent<GenJet>(3);
+              fillVariableWithValue ( "GenJet4_Pt" , genJet4.Pt () );
+              fillVariableWithValue ( "GenJet4_Eta", genJet4.Eta() );
+              fillVariableWithValue ( "GenJet4_Phi", genJet4.Phi() );
+
+              if ( n_genJet_store >= 5 ) { 
+                GenJet genJet5 = c_genJet_final -> GetConstituent<GenJet>(4);
+                fillVariableWithValue ( "GenJet5_Pt" , genJet5.Pt () );
+                fillVariableWithValue ( "GenJet5_Eta", genJet5.Eta() );
+                fillVariableWithValue ( "GenJet5_Phi", genJet5.Phi() );
+              }
+            }
+          }
+        }
       }
-      
+
       if ( n_genEle_store >= 1 ){ 
-	GenParticle genEle1 = c_genEle_final -> GetConstituent<GenParticle>(0);
-	fillVariableWithValue ( "GenEle1_Pt" , genEle1.Pt () );
-	fillVariableWithValue ( "GenEle1_Eta", genEle1.Eta() );
-	fillVariableWithValue ( "GenEle1_Phi", genEle1.Phi() );
-	
-	if ( n_genEle_store >= 2 ){ 
-	  GenParticle genEle2 = c_genEle_final -> GetConstituent<GenParticle>(1);
-	  fillVariableWithValue ( "GenEle2_Pt" , genEle2.Pt () );
-	  fillVariableWithValue ( "GenEle2_Eta", genEle2.Eta() );
-	  fillVariableWithValue ( "GenEle2_Phi", genEle2.Phi() );
-	}
+        GenParticle genEle1 = c_genEle_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenEle1_Pt" , genEle1.Pt () );
+        fillVariableWithValue ( "GenEle1_Eta", genEle1.Eta() );
+        fillVariableWithValue ( "GenEle1_Phi", genEle1.Phi() );
+
+        if ( n_genEle_store >= 2 ){ 
+          GenParticle genEle2 = c_genEle_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenEle2_Pt" , genEle2.Pt () );
+          fillVariableWithValue ( "GenEle2_Eta", genEle2.Eta() );
+          fillVariableWithValue ( "GenEle2_Phi", genEle2.Phi() );
+        }
       }
-      
+
+      if ( n_genNu_store >= 1 ){ 
+        GenParticle genNu1 = c_genNu_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenNu1_Pt" , genNu1.Pt () );
+        fillVariableWithValue ( "GenNu1_Eta", genNu1.Eta() );
+        fillVariableWithValue ( "GenNu1_Phi", genNu1.Phi() );
+
+        if ( n_genNu_store >= 2 ){ 
+          GenParticle genNu2 = c_genNu_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenNu2_Pt" , genNu2.Pt () );
+          fillVariableWithValue ( "GenNu2_Eta", genNu2.Eta() );
+          fillVariableWithValue ( "GenNu2_Phi", genNu2.Phi() );
+        }
+      }
+
       if ( n_genZgamma_store >= 1 ){ 
-	GenParticle genZgamma1 = c_genZgamma_final -> GetConstituent<GenParticle>(0);
-	fillVariableWithValue ( "GenZGamma1_Pt" , genZgamma1.Pt () );
-	fillVariableWithValue ( "GenZGamma1_Eta", genZgamma1.Eta() );
-	fillVariableWithValue ( "GenZGamma1_Phi", genZgamma1.Phi() );
-	fillVariableWithValue ( "GenZGamma1_ID" , genZgamma1.PdgId());
-	
-	if ( n_genZgamma_store >= 2 ){ 
-	  GenParticle genZgamma2 = c_genZgamma_final -> GetConstituent<GenParticle>(1);
-	  fillVariableWithValue ( "GenZGamma2_Pt" , genZgamma2.Pt () );
-	  fillVariableWithValue ( "GenZGamma2_Eta", genZgamma2.Eta() );
-	  fillVariableWithValue ( "GenZGamma2_Phi", genZgamma2.Phi() );
-	  fillVariableWithValue ( "GenZGamma2_ID" , genZgamma2.PdgId());
-	}
+        GenParticle genZgamma1 = c_genZgamma_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenZGamma1_Pt" , genZgamma1.Pt () );
+        fillVariableWithValue ( "GenZGamma1_Eta", genZgamma1.Eta() );
+        fillVariableWithValue ( "GenZGamma1_Phi", genZgamma1.Phi() );
+        fillVariableWithValue ( "GenZGamma1_ID" , genZgamma1.PdgId());
+
+        if ( n_genZgamma_store >= 2 ){ 
+          GenParticle genZgamma2 = c_genZgamma_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenZGamma2_Pt" , genZgamma2.Pt () );
+          fillVariableWithValue ( "GenZGamma2_Eta", genZgamma2.Eta() );
+          fillVariableWithValue ( "GenZGamma2_Phi", genZgamma2.Phi() );
+          fillVariableWithValue ( "GenZGamma2_ID" , genZgamma2.PdgId());
+        }
       }
-      
+
       if ( n_genW_store >= 1 ){ 
-	GenParticle genW1 = c_genW_final -> GetConstituent<GenParticle>(0);
-	fillVariableWithValue ( "GenW1_Pt" , genW1.Pt () );
-	fillVariableWithValue ( "GenW1_Eta", genW1.Eta() );
-	fillVariableWithValue ( "GenW1_Phi", genW1.Phi() );
-	fillVariableWithValue ( "GenW1_ID" , genW1.PdgId());
-	
-	if ( n_genW_store >= 2 ){ 
-	  GenParticle genW2 = c_genW_final -> GetConstituent<GenParticle>(1);
-	  fillVariableWithValue ( "GenW2_Pt" , genW2.Pt () );
-	  fillVariableWithValue ( "GenW2_Eta", genW2.Eta() );
-	  fillVariableWithValue ( "GenW2_Phi", genW2.Phi() );
-	  fillVariableWithValue ( "GenW2_ID" , genW2.PdgId());
-	}
+        GenParticle genW1 = c_genW_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenW1_Pt" , genW1.Pt () );
+        fillVariableWithValue ( "GenW1_Eta", genW1.Eta() );
+        fillVariableWithValue ( "GenW1_Phi", genW1.Phi() );
+        fillVariableWithValue ( "GenW1_ID" , genW1.PdgId());
+
+        if ( n_genW_store >= 2 ){ 
+          GenParticle genW2 = c_genW_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenW2_Pt" , genW2.Pt () );
+          fillVariableWithValue ( "GenW2_Eta", genW2.Eta() );
+          fillVariableWithValue ( "GenW2_Phi", genW2.Phi() );
+          fillVariableWithValue ( "GenW2_ID" , genW2.PdgId());
+        }
       }
-      
+
       if ( n_genNuFromW_store >= 1 ){ 
-	GenParticle genNuFromW1 = c_genNuFromW_final -> GetConstituent<GenParticle>(0);
-	fillVariableWithValue ( "GenNuFromW1_Pt" , genNuFromW1.Pt () );
-	fillVariableWithValue ( "GenNuFromW1_Eta", genNuFromW1.Eta() );
-	fillVariableWithValue ( "GenNuFromW1_Phi", genNuFromW1.Phi() );
-	fillVariableWithValue ( "GenNuFromW1_ID" , genNuFromW1.PdgId());
-	
-	if ( n_genNuFromW_store >= 2 ){ 
-	  GenParticle genNuFromW2 = c_genNuFromW_final -> GetConstituent<GenParticle>(1);
-	  fillVariableWithValue ( "GenNuFromW2_Pt" , genNuFromW2.Pt () );
-	  fillVariableWithValue ( "GenNuFromW2_Eta", genNuFromW2.Eta() );
-	  fillVariableWithValue ( "GenNuFromW2_Phi", genNuFromW2.Phi() );
-	  fillVariableWithValue ( "GenNuFromW2_ID" , genNuFromW2.PdgId());
-	}
+        GenParticle genNuFromW1 = c_genNuFromW_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenNuFromW1_Pt" , genNuFromW1.Pt () );
+        fillVariableWithValue ( "GenNuFromW1_Eta", genNuFromW1.Eta() );
+        fillVariableWithValue ( "GenNuFromW1_Phi", genNuFromW1.Phi() );
+        fillVariableWithValue ( "GenNuFromW1_ID" , genNuFromW1.PdgId());
+
+        if ( n_genNuFromW_store >= 2 ){ 
+          GenParticle genNuFromW2 = c_genNuFromW_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenNuFromW2_Pt" , genNuFromW2.Pt () );
+          fillVariableWithValue ( "GenNuFromW2_Eta", genNuFromW2.Eta() );
+          fillVariableWithValue ( "GenNuFromW2_Phi", genNuFromW2.Phi() );
+          fillVariableWithValue ( "GenNuFromW2_ID" , genNuFromW2.PdgId());
+        }
       }
 
       if ( n_genEleFromW_store >= 1 ){ 
-	GenParticle genEleFromW1 = c_genEleFromW_final -> GetConstituent<GenParticle>(0);
-	fillVariableWithValue ( "GenEleFromW1_Pt" , genEleFromW1.Pt () );
-	fillVariableWithValue ( "GenEleFromW1_Eta", genEleFromW1.Eta() );
-	fillVariableWithValue ( "GenEleFromW1_Phi", genEleFromW1.Phi() );
-	fillVariableWithValue ( "GenEleFromW1_ID" , genEleFromW1.PdgId());
-	
-	if ( n_genEleFromW_store >= 2 ){ 
-	  GenParticle genEleFromW2 = c_genEleFromW_final -> GetConstituent<GenParticle>(1);
-	  fillVariableWithValue ( "GenEleFromW2_Pt" , genEleFromW2.Pt () );
-	  fillVariableWithValue ( "GenEleFromW2_Eta", genEleFromW2.Eta() );
-	  fillVariableWithValue ( "GenEleFromW2_Phi", genEleFromW2.Phi() );
-	  fillVariableWithValue ( "GenEleFromW2_ID" , genEleFromW2.PdgId());
-	}
-      }
-      
-      if ( n_genEleFromDY_store >= 1 ){ 
-	GenParticle genEleFromDY1 = c_genEleFromDY_final -> GetConstituent<GenParticle>(0);
-	fillVariableWithValue ( "GenEleFromDY1_Pt" , genEleFromDY1.Pt () );
-	fillVariableWithValue ( "GenEleFromDY1_Eta", genEleFromDY1.Eta() );
-	fillVariableWithValue ( "GenEleFromDY1_Phi", genEleFromDY1.Phi() );
-	fillVariableWithValue ( "GenEleFromDY1_ID" , genEleFromDY1.PdgId());
-	
-	if ( n_genEleFromDY_store >= 2 ){ 
-	  GenParticle genEleFromDY2 = c_genEleFromDY_final -> GetConstituent<GenParticle>(1);
-	  fillVariableWithValue ( "GenEleFromDY2_Pt" , genEleFromDY2.Pt () );
-	  fillVariableWithValue ( "GenEleFromDY2_Eta", genEleFromDY2.Eta() );
-	  fillVariableWithValue ( "GenEleFromDY2_Phi", genEleFromDY2.Phi() );
-	  fillVariableWithValue ( "GenEleFromDY2_ID" , genEleFromDY2.PdgId());
+        GenParticle genEleFromW1 = c_genEleFromW_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenEleFromW1_Pt" , genEleFromW1.Pt () );
+        fillVariableWithValue ( "GenEleFromW1_Eta", genEleFromW1.Eta() );
+        fillVariableWithValue ( "GenEleFromW1_Phi", genEleFromW1.Phi() );
+        fillVariableWithValue ( "GenEleFromW1_ID" , genEleFromW1.PdgId());
 
-	  if ( n_genEleFromDY_store >= 3 ){ 
-	    GenParticle genEleFromDY3 = c_genEleFromDY_final -> GetConstituent<GenParticle>(2);
-	    fillVariableWithValue ( "GenEleFromDY3_Pt" , genEleFromDY3.Pt () );
-	    fillVariableWithValue ( "GenEleFromDY3_Eta", genEleFromDY3.Eta() );
-	    fillVariableWithValue ( "GenEleFromDY3_Phi", genEleFromDY3.Phi() );
-	    fillVariableWithValue ( "GenEleFromDY3_ID" , genEleFromDY3.PdgId());
-	    
-	    if ( n_genEleFromDY_store >= 4 ){ 
-	      GenParticle genEleFromDY4 = c_genEleFromDY_final -> GetConstituent<GenParticle>(3);
-	      fillVariableWithValue ( "GenEleFromDY4_Pt" , genEleFromDY4.Pt () );
-	      fillVariableWithValue ( "GenEleFromDY4_Eta", genEleFromDY4.Eta() );
-	      fillVariableWithValue ( "GenEleFromDY4_Phi", genEleFromDY4.Phi() );
-	      fillVariableWithValue ( "GenEleFromDY4_ID" , genEleFromDY4.PdgId());
-	    }
-	  }
-	}
+        if ( n_genEleFromW_store >= 2 ){ 
+          GenParticle genEleFromW2 = c_genEleFromW_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenEleFromW2_Pt" , genEleFromW2.Pt () );
+          fillVariableWithValue ( "GenEleFromW2_Eta", genEleFromW2.Eta() );
+          fillVariableWithValue ( "GenEleFromW2_Phi", genEleFromW2.Phi() );
+          fillVariableWithValue ( "GenEleFromW2_ID" , genEleFromW2.PdgId());
+        }
+      }
+
+      if ( n_genEleFromDY_store >= 1 ){ 
+        GenParticle genEleFromDY1 = c_genEleFromDY_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenEleFromDY1_Pt" , genEleFromDY1.Pt () );
+        fillVariableWithValue ( "GenEleFromDY1_Eta", genEleFromDY1.Eta() );
+        fillVariableWithValue ( "GenEleFromDY1_Phi", genEleFromDY1.Phi() );
+        fillVariableWithValue ( "GenEleFromDY1_ID" , genEleFromDY1.PdgId());
+
+        if ( n_genEleFromDY_store >= 2 ){ 
+          GenParticle genEleFromDY2 = c_genEleFromDY_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenEleFromDY2_Pt" , genEleFromDY2.Pt () );
+          fillVariableWithValue ( "GenEleFromDY2_Eta", genEleFromDY2.Eta() );
+          fillVariableWithValue ( "GenEleFromDY2_Phi", genEleFromDY2.Phi() );
+          fillVariableWithValue ( "GenEleFromDY2_ID" , genEleFromDY2.PdgId());
+
+          if ( n_genEleFromDY_store >= 3 ){ 
+            GenParticle genEleFromDY3 = c_genEleFromDY_final -> GetConstituent<GenParticle>(2);
+            fillVariableWithValue ( "GenEleFromDY3_Pt" , genEleFromDY3.Pt () );
+            fillVariableWithValue ( "GenEleFromDY3_Eta", genEleFromDY3.Eta() );
+            fillVariableWithValue ( "GenEleFromDY3_Phi", genEleFromDY3.Phi() );
+            fillVariableWithValue ( "GenEleFromDY3_ID" , genEleFromDY3.PdgId());
+
+            if ( n_genEleFromDY_store >= 4 ){ 
+              GenParticle genEleFromDY4 = c_genEleFromDY_final -> GetConstituent<GenParticle>(3);
+              fillVariableWithValue ( "GenEleFromDY4_Pt" , genEleFromDY4.Pt () );
+              fillVariableWithValue ( "GenEleFromDY4_Eta", genEleFromDY4.Eta() );
+              fillVariableWithValue ( "GenEleFromDY4_Phi", genEleFromDY4.Phi() );
+              fillVariableWithValue ( "GenEleFromDY4_ID" , genEleFromDY4.PdgId());
+            }
+          }
+        }
       }
     }
     
@@ -912,7 +949,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_EOverP"        , loose_ele2.ESuperClusterOverP() );
 
           fillVariableWithValue( "LooseEle2_TrkIsolation"  , loose_ele2.TrkIsoDR03()          );
-          fillVariableWithValue( "LooseEle2_TrkIsoHEEP7"   , loose_ele1.HEEP70TrackIsolation());
+          fillVariableWithValue( "LooseEle2_TrkIsoHEEP7"   , loose_ele2.HEEP70TrackIsolation());
           fillVariableWithValue( "LooseEle2_EcalIsolation" , loose_ele2.EcalIsoDR03()         );
           fillVariableWithValue( "LooseEle2_HcalIsolation" , loose_ele2.HcalIsoD1DR03()       );
           fillVariableWithValue( "LooseEle2_CorrIsolation" , loose_ele2.HEEPCorrIsolation()   );
@@ -986,7 +1023,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_EOverP"        , loose_ele3.ESuperClusterOverP() );
 
             fillVariableWithValue( "LooseEle3_TrkIsolation"  , loose_ele3.TrkIsoDR03()          );
-            fillVariableWithValue( "LooseEle3_TrkIsoHEEP7"   , loose_ele1.HEEP70TrackIsolation());
+            fillVariableWithValue( "LooseEle3_TrkIsoHEEP7"   , loose_ele3.HEEP70TrackIsolation());
             fillVariableWithValue( "LooseEle3_EcalIsolation" , loose_ele3.EcalIsoDR03()         );
             fillVariableWithValue( "LooseEle3_HcalIsolation" , loose_ele3.HcalIsoD1DR03()       );
             fillVariableWithValue( "LooseEle3_CorrIsolation" , loose_ele3.HEEPCorrIsolation()   );
@@ -1090,6 +1127,13 @@ void analysisClass::Loop(){
         fillVariableWithValue( "Ele1_TrkPt"         , ele1.TrackPt()            );
         fillVariableWithValue( "Ele1_SigmaIEtaIEta" , ele1.SigmaIEtaIEta()      );
         fillVariableWithValue( "Ele1_SigmaEtaEta"   , ele1.SigmaEtaEta()        );
+        fillVariableWithValue( "Ele1_EcalDriven"    , ele1.EcalDriven()         );
+        fillVariableWithValue( "Ele1_DeltaEtaSeed"  , ele1.DeltaEtaSeed()       );
+        fillVariableWithValue( "Ele1_SCEnergy"      , ele1.SCEnergy()           );
+        fillVariableWithValue( "Ele1_Full5x5SigmaIEtaIEta" , ele1.Full5x5SigmaIEtaIEta() );
+        fillVariableWithValue( "Ele1_Full5x5E1x5OverE5x5"  , ele1.Full5x5E1x5OverE5x5()  );
+        fillVariableWithValue( "Ele1_Full5x5E2x5OverE5x5"  , ele1.Full5x5E2x5OverE5x5()  );
+        fillVariableWithValue( "Ele1_RhoForHEEP"    , ele1.RhoForHEEP()         );
 
         fillVariableWithValue( "Ele1_DeltaPhiTrkSC" , ele1.DeltaPhi()           );
         fillVariableWithValue( "Ele1_DeltaEtaTrkSC" , ele1.DeltaEta()           );
@@ -1109,6 +1153,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "Ele1_EOverP"        , ele1.ESuperClusterOverP() );
 
         fillVariableWithValue( "Ele1_TrkIsolation"  , ele1.TrkIsoDR03()         );
+        fillVariableWithValue( "Ele1_TrkIsoHEEP7"   , ele1.HEEP70TrackIsolation());
         fillVariableWithValue( "Ele1_EcalIsolation" , ele1.EcalIsoDR03()        );
         fillVariableWithValue( "Ele1_HcalIsolation" , ele1.HcalIsoD1DR03()      );
         fillVariableWithValue( "Ele1_CorrIsolation" , ele1.HEEPCorrIsolation()  );
@@ -1146,6 +1191,13 @@ void analysisClass::Loop(){
           fillVariableWithValue( "Ele2_TrkPt"         , ele2.TrackPt()            );
           fillVariableWithValue( "Ele2_SigmaIEtaIEta" , ele2.SigmaIEtaIEta()      );
           fillVariableWithValue( "Ele2_SigmaEtaEta"   , ele2.SigmaEtaEta()        );
+          fillVariableWithValue( "Ele2_EcalDriven"    , ele2.EcalDriven()         );
+          fillVariableWithValue( "Ele2_DeltaEtaSeed"  , ele2.DeltaEtaSeed()       );
+          fillVariableWithValue( "Ele2_SCEnergy"      , ele2.SCEnergy()           );
+          fillVariableWithValue( "Ele2_Full5x5SigmaIEtaIEta" , ele2.Full5x5SigmaIEtaIEta() );
+          fillVariableWithValue( "Ele2_Full5x5E1x5OverE5x5"  , ele2.Full5x5E1x5OverE5x5()  );
+          fillVariableWithValue( "Ele2_Full5x5E2x5OverE5x5"  , ele2.Full5x5E2x5OverE5x5()  );
+          fillVariableWithValue( "Ele2_RhoForHEEP"    , ele2.RhoForHEEP()         );
 
           fillVariableWithValue( "Ele2_DeltaPhiTrkSC" , ele2.DeltaPhi()           );
           fillVariableWithValue( "Ele2_DeltaEtaTrkSC" , ele2.DeltaEta()           );
@@ -1165,6 +1217,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "Ele2_EOverP"        , ele2.ESuperClusterOverP() );
 
           fillVariableWithValue( "Ele2_TrkIsolation"  , ele2.TrkIsoDR03()         );
+          fillVariableWithValue( "Ele2_TrkIsoHEEP7"   , ele2.HEEP70TrackIsolation());
           fillVariableWithValue( "Ele2_EcalIsolation" , ele2.EcalIsoDR03()        );
           fillVariableWithValue( "Ele2_HcalIsolation" , ele2.HcalIsoD1DR03()      );
           fillVariableWithValue( "Ele2_CorrIsolation" , ele2.HEEPCorrIsolation()  );
@@ -1202,6 +1255,13 @@ void analysisClass::Loop(){
             fillVariableWithValue( "Ele3_TrkPt"         , ele3.TrackPt()            );
             fillVariableWithValue( "Ele3_SigmaIEtaIEta" , ele3.SigmaIEtaIEta()      );
             fillVariableWithValue( "Ele3_SigmaEtaEta"   , ele3.SigmaEtaEta()        );
+            fillVariableWithValue( "Ele3_EcalDriven"    , ele3.EcalDriven()         );
+            fillVariableWithValue( "Ele3_DeltaEtaSeed"  , ele3.DeltaEtaSeed()       );
+            fillVariableWithValue( "Ele3_SCEnergy"      , ele3.SCEnergy()           );
+            fillVariableWithValue( "Ele3_Full5x5SigmaIEtaIEta" , ele3.Full5x5SigmaIEtaIEta() );
+            fillVariableWithValue( "Ele3_Full5x5E1x5OverE5x5"  , ele3.Full5x5E1x5OverE5x5()  );
+            fillVariableWithValue( "Ele3_Full5x5E2x5OverE5x5"  , ele3.Full5x5E2x5OverE5x5()  );
+            fillVariableWithValue( "Ele3_RhoForHEEP"    , ele3.RhoForHEEP()         );
 
             fillVariableWithValue( "Ele3_DeltaPhiTrkSC" , ele3.DeltaPhi()           );
             fillVariableWithValue( "Ele3_DeltaEtaTrkSC" , ele3.DeltaEta()           );
@@ -1221,6 +1281,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "Ele3_EOverP"        , ele3.ESuperClusterOverP() );
 
             fillVariableWithValue( "Ele3_TrkIsolation"  , ele3.TrkIsoDR03()         );
+            fillVariableWithValue( "Ele3_TrkIsoHEEP7"   , ele3.HEEP70TrackIsolation());
             fillVariableWithValue( "Ele3_EcalIsolation" , ele3.EcalIsoDR03()        );
             fillVariableWithValue( "Ele3_HcalIsolation" , ele3.HcalIsoD1DR03()      );
             fillVariableWithValue( "Ele3_CorrIsolation" , ele3.HEEPCorrIsolation()  );
