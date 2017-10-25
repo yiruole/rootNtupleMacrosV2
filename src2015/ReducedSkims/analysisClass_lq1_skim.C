@@ -209,8 +209,18 @@ void analysisClass::Loop(){
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     Long64_t ientry = LoadTree(jentry);
-    if (ientry < 0) break;
+    //if (ientry < 0) break;
+    if (ientry < 0)
+    {
+      std::cout << "ERROR: Could not read from TTree; exiting." << std::endl;
+      exit(-1);
+    }
     nb = fChain->GetEntry(jentry);   nbytes += nb;
+    if (nb < 0)
+    {
+      std::cout << "ERROR: Could not read entry from TTree: read " << nb << "bytes; exiting." << std::endl;
+      exit(-2);
+    }
 
     //-----------------------------------------------------------------
     // Print progress
@@ -1047,7 +1057,8 @@ void analysisClass::Loop(){
         fillVariableWithValue( "JetLooseEle1_Energy"  , loose_jet1.Energy()                     );
         fillVariableWithValue( "JetLooseEle1_Eta"     , loose_jet1.Eta()                        );
         fillVariableWithValue( "JetLooseEle1_Phi"     , loose_jet1.Phi()                        );
-        fillVariableWithValue( "JetLooseEle1_btagCSV" , loose_jet1.CombinedSecondaryVertexBTag());
+        fillVariableWithValue( "JetLooseEle1_btagCISV" , loose_jet1.CombinedInclusiveSecondaryVertexBTag());
+        fillVariableWithValue( "JetLooseEle1_btagCMVA" , loose_jet1.CombinedMVABTag());
 
         if ( n_jet_store >= 2 ){
           PFJet loose_jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
@@ -1056,7 +1067,8 @@ void analysisClass::Loop(){
           fillVariableWithValue( "JetLooseEle2_Energy"  , loose_jet2.Energy()                     );
           fillVariableWithValue( "JetLooseEle2_Eta"     , loose_jet2.Eta()                        );
           fillVariableWithValue( "JetLooseEle2_Phi"     , loose_jet2.Phi()                        );
-          fillVariableWithValue( "JetLooseEle2_btagCSV" , loose_jet2.CombinedSecondaryVertexBTag());
+          fillVariableWithValue( "JetLooseEle2_btagCISV" , loose_jet2.CombinedInclusiveSecondaryVertexBTag());
+          fillVariableWithValue( "JetLooseEle2_btagCMVA" , loose_jet2.CombinedMVABTag());
 
           if ( n_jet_store >= 3 ){
             PFJet loose_jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
@@ -1065,7 +1077,8 @@ void analysisClass::Loop(){
             fillVariableWithValue( "JetLooseEle3_Energy"  , loose_jet3.Energy()                     );
             fillVariableWithValue( "JetLooseEle3_Eta"     , loose_jet3.Eta()                        );
             fillVariableWithValue( "JetLooseEle3_Phi"     , loose_jet3.Phi()                        );
-            fillVariableWithValue( "JetLooseEle3_btagCSV" , loose_jet3.CombinedSecondaryVertexBTag());
+            fillVariableWithValue( "JetLooseEle3_btagCISV" , loose_jet3.CombinedInclusiveSecondaryVertexBTag());
+            fillVariableWithValue( "JetLooseEle3_btagCMVA" , loose_jet3.CombinedMVABTag());
 
             if ( n_jet_store >= 4 ){
               PFJet loose_jet4 = c_pfjet_final -> GetConstituent<PFJet>(3);
@@ -1074,7 +1087,8 @@ void analysisClass::Loop(){
               fillVariableWithValue( "JetLooseEle4_Energy"  , loose_jet4.Energy()                     );
               fillVariableWithValue( "JetLooseEle4_Eta"     , loose_jet4.Eta()                        );
               fillVariableWithValue( "JetLooseEle4_Phi"     , loose_jet4.Phi()                        );
-              fillVariableWithValue( "JetLooseEle4_btagCSV" , loose_jet4.CombinedSecondaryVertexBTag());
+              fillVariableWithValue( "JetLooseEle4_btagCISV" , loose_jet4.CombinedInclusiveSecondaryVertexBTag());
+              fillVariableWithValue( "JetLooseEle4_btagCMVA" , loose_jet4.CombinedMVABTag());
 
               if ( n_jet_store >= 5 ){
                 PFJet loose_jet5 = c_pfjet_final -> GetConstituent<PFJet>(4);
@@ -1083,7 +1097,8 @@ void analysisClass::Loop(){
                 fillVariableWithValue( "JetLooseEle5_Energy"  , loose_jet5.Energy()                     );
                 fillVariableWithValue( "JetLooseEle5_Eta"     , loose_jet5.Eta()                        );
                 fillVariableWithValue( "JetLooseEle5_Phi"     , loose_jet5.Phi()                        );
-                fillVariableWithValue( "JetLooseEle5_btagCSV" , loose_jet5.CombinedSecondaryVertexBTag());
+                fillVariableWithValue( "JetLooseEle5_btagCISV" , loose_jet5.CombinedInclusiveSecondaryVertexBTag());
+                fillVariableWithValue( "JetLooseEle5_btagCMVA" , loose_jet5.CombinedMVABTag());
               }
             }
           }
@@ -1321,7 +1336,8 @@ void analysisClass::Loop(){
 	fillVariableWithValue( "Jet1_Energy"  , jet1.Energy()                     );
 	fillVariableWithValue( "Jet1_Eta"     , jet1.Eta()                        );
 	fillVariableWithValue( "Jet1_Phi"     , jet1.Phi()                        );
-        fillVariableWithValue( "Jet1_btagCSV" , jet1.CombinedSecondaryVertexBTag());
+  fillVariableWithValue( "Jet1_btagCISV" , jet1.CombinedInclusiveSecondaryVertexBTag());
+  fillVariableWithValue( "Jet1_btagCMVA" , jet1.CombinedMVABTag());
 	fillVariableWithValue( "Jet1_hltJetPt"	  , hltJet1Pt     );
 	
 	if ( n_jet_store >= 2 ){
@@ -1332,7 +1348,8 @@ void analysisClass::Loop(){
 	  fillVariableWithValue( "Jet2_Energy"  , jet2.Energy()                     );
 	  fillVariableWithValue( "Jet2_Eta"     , jet2.Eta()                        );
 	  fillVariableWithValue( "Jet2_Phi"     , jet2.Phi()                        );
-	  fillVariableWithValue( "Jet2_btagCSV" , jet2.CombinedSecondaryVertexBTag());
+	  fillVariableWithValue( "Jet2_btagCISV" , jet2.CombinedInclusiveSecondaryVertexBTag());
+    fillVariableWithValue( "Jet2_btagCMVA" , jet2.CombinedMVABTag());
 	  fillVariableWithValue( "Jet2_hltJetPt"    , hltJet2Pt     );
 
 	  if ( n_jet_store >= 3 ){
@@ -1343,7 +1360,8 @@ void analysisClass::Loop(){
 	    fillVariableWithValue( "Jet3_Energy"  , jet3.Energy()                     );
 	    fillVariableWithValue( "Jet3_Eta"     , jet3.Eta()                        );
 	    fillVariableWithValue( "Jet3_Phi"     , jet3.Phi()                        );
-	    fillVariableWithValue( "Jet3_btagCSV" , jet3.CombinedSecondaryVertexBTag());
+	    fillVariableWithValue( "Jet3_btagCISV" , jet3.CombinedInclusiveSecondaryVertexBTag());
+      fillVariableWithValue( "Jet3_btagCMVA" , jet3.CombinedMVABTag());
 	    fillVariableWithValue( "Jet3_hltJetPt"    , hltJet3Pt     );
 
 	    if ( n_jet_store >= 4 ){
@@ -1354,7 +1372,8 @@ void analysisClass::Loop(){
 	      fillVariableWithValue( "Jet4_Energy"  , jet4.Energy()                     );
 	      fillVariableWithValue( "Jet4_Eta"     , jet4.Eta()                        );
 	      fillVariableWithValue( "Jet4_Phi"     , jet4.Phi()                        );
-	      fillVariableWithValue( "Jet4_btagCSV" , jet4.CombinedSecondaryVertexBTag());
+	      fillVariableWithValue( "Jet4_btagCISV" , jet4.CombinedInclusiveSecondaryVertexBTag());
+        fillVariableWithValue( "Jet4_btagCMVA" , jet4.CombinedMVABTag());
 	      fillVariableWithValue( "Jet4_hltJetPt"    , hltJet4Pt     );
 
 	      if ( n_jet_store >= 5 ){
@@ -1365,7 +1384,8 @@ void analysisClass::Loop(){
 		fillVariableWithValue( "Jet5_Energy"  , jet5.Energy()                     );
 		fillVariableWithValue( "Jet5_Eta"     , jet5.Eta()                        );
 		fillVariableWithValue( "Jet5_Phi"     , jet5.Phi()                        );
-		fillVariableWithValue( "Jet5_btagCSV" , jet5.CombinedSecondaryVertexBTag());
+		fillVariableWithValue( "Jet5_btagCISV" , jet5.CombinedInclusiveSecondaryVertexBTag());
+		fillVariableWithValue( "Jet5_btagCMVA" , jet5.CombinedMVABTag());
 		fillVariableWithValue( "Jet5_hltJetPt"    , hltJet5Pt     );
 	      }
 	    }
