@@ -33,6 +33,81 @@ gStyle.SetPadBottomMargin(0.12);
 #--- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
 
 
+def GetBackgroundSyst(allBkg, zjets, ttbar, qcd, isEEJJ=True):
+    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/eejj_Preselection_sys.dat
+    #  100*(deltaX/X) [rel. change in %]
+    systDictEEJJ = {
+      'EER'     : 10.6582,
+      'JER'     : 0.785142,
+      'JEC'     : 3.57184,
+      'HEEP'    : 1.32785,
+      'E_RECO'  : 2.13808,
+      'EES'     : 1.31244,
+      'PileUp'  : 7.24591,
+      'PDF'     : 1.10962,
+      'DY_Shape': 9.92748,
+      'Lumi'    : 2.6,
+      'Trigger' : 1.033228,
+    }
+    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/enujj_Preselection_sys.dat
+    systDictENuJJ = {
+      'EER'     : 4.668,
+      'JER'     : 0.98,
+      'JEC'     : 4.13745,
+      'HEEP'    : 0.652002,
+      'RECO'    : 1.01663,
+      'EES'     : 1.69524,
+      'PileUp'  : 9.99836,
+      'PDF'     : 1.61953,
+      'TTShape' : 6.4724,
+      'WShape'  : 9.7182,
+      'MET'     : 6.14723,
+      'Lumi'    : 2.6,
+      'Trigger' : 2.56837,
+    }
+    if isEEJJ:
+      systDictList = systDictEEJJ.values()
+    else:
+      systDictList = systDictENuJJ.values()
+    systDictList = [value/100.0 for value in systDictList]
+    preselSyst = 0.0
+    for item in systDictList:
+      preselSyst+=pow(float(item)*allBkg,2)
+    # that is on all background
+    ## mine
+    if isEEJJ:
+      #'qcdNorm' : 40,
+      qcdTerm = pow(qcd*0.4,2)
+      #'ttbarNorm' : 1,
+      ttbarNormTerm = pow(ttbar*0.01,2)
+      #'zjetsNorm' : 0.75,
+      zjetsNormTerm = pow(zjets*0.0075,2)
+      ##special
+      # 'ttshape' : 7.31,
+      #ttShapeTerm = pow(ttbar*0.0731,2)
+      ttShapeTerm = 0
+      # 'zshape' : 8.28,
+      zShapeTerm = pow(zjets*0.08,2)
+      #
+      preselSyst += qcdTerm+ttbarNormTerm+zjetsNormTerm+ttShapeTerm+zShapeTerm
+    else:
+      #'qcdNorm' : 20,
+      qcdTerm = pow(qcd*0.2,2)
+      #'ttbarNorm' : 1,
+      ttbarNormTerm = pow(ttbar*0.01,2)
+      #'wjetsNorm' : 1,
+      wjetsNormTerm = pow(zjets*0.01,2)
+      ##special
+      # 'ttshape' : 7.31,
+      #ttShapeTerm = pow(ttbar*0.0731,2)
+      #ttShapeTerm = 0
+      # 'wshape' : 8.28,
+      #wShapeTerm = pow(zjets*0.08,2)
+      #
+      preselSyst += qcdTerm+ttbarNormTerm+wjetsNormTerm
+    preselSyst = math.sqrt(preselSyst)
+    return preselSyst
+
     
 def makePalette( nPaletteBins, d_color_axisValueRange ):
 
@@ -372,6 +447,10 @@ class Plot:
     stackColorIndexes = []
     stackFillStyleIds = []
     is_integral = False
+    histodataBlindAbove = -1.0
+    addBkgUncBand = True
+    bkgUncKey = "Bkg. syst."
+    bkgSyst = 0
 
     def Draw(self, fileps, page_number=-1 ):
 
@@ -497,6 +576,7 @@ class Plot:
         bkgTotalHist = TH1D()
 
         for index,sampleHisto in enumerate(self.histosStack):
+            #print 'add histo to stack:',sampleHisto.GetName()
             #make this stack
             plot_maximum = -999.
             histo = copy.deepcopy(sampleHisto)
@@ -532,6 +612,8 @@ class Plot:
             if (self.ymin!="" and self.ymax!=""):
                 #stackedHistos[iter].GetYaxis().SetLimits(self.ymin,self.ymax)
                 stackedHistos[-1].GetYaxis().SetRangeUser(self.ymin,self.ymax)
+                my_ymin = self.ymin
+                my_ymax = self.ymax
             elif self.ylog != "yes":
                 my_ymin = 0.
                 my_ymax = ( plot_maximum + math.sqrt ( plot_maximum ) )
@@ -568,6 +650,8 @@ class Plot:
             legend.AddEntry(stkcp[index], self.keysStack[index],"lf")
 
         if (self.ymin!="" and self.ymax!=""):
+            my_ymin = self.ymin
+            my_ymax = self.ymax
             thStack.SetMinimum(self.ymin)
             thStack.SetMaximum(self.ymax)
         elif self.ylog != "yes":
@@ -616,6 +700,21 @@ class Plot:
             zUncHisto.Draw("E2same")
             legend.AddEntry(zUncHisto, self.ZUncKey,"f")
 
+        if self.addBkgUncBand:
+            #histoAll = copy.deepcopy(bkgTotalHist)
+            histoAll = thStack.GetStack().Last()
+            bkgUncHisto = copy.deepcopy(histoAll)
+            for bin in range(0,histoAll.GetNbinsX()):
+                bkgUncHisto.SetBinError(bin+1,self.bkgSyst*histoAll.GetBinContent(bin+1))
+            bkgUncHisto.SetMarkerStyle(0)
+            bkgUncHisto.SetLineColor(0)
+            bkgUncHisto.SetFillColor(kGray+2)
+            bkgUncHisto.SetLineColor(kGray+2)
+            bkgUncHisto.SetFillStyle(3001)
+            bkgUncHisto.SetMarkerSize(0)
+            bkgUncHisto.Draw("E2same")
+            legend.AddEntry(bkgUncHisto, self.bkgUncKey,"f")
+
         #-- loop over histograms (overlaid)
         ih=0 # index of histo within a plot
         #dataColorIndexes = [1,4,1,1,4,1]
@@ -645,6 +744,21 @@ class Plot:
             self.histodata.SetLineColor(kBlack)
             #legend.AddEntry(self.histodata, "Data","lp")
             self.histodata.Draw("psame")
+            if self.histodataBlindAbove > 0:
+                #print 'drawing TLine:',self.histodataBlindAbove,',',self.histodata.GetYaxis().GetXmin(),',',self.histodataBlindAbove,',',self.histodata.GetYaxis().GetXmax()
+                #blindLine = TLine(self.histodataBlindAbove,self.histodata.GetYaxis().GetXmin(),self.histodataBlindAbove,self.histodata.GetYaxis().GetXmax())
+                #print 'drawing TLine:',self.histodataBlindAbove,',',my_ymin,',',self.histodataBlindAbove,',',my_ymax
+                # if bin low edge is below the blindAbove limit, go to the next bin; otherwise just take the low edge of the matching bin
+                if self.histodata.GetBinLowEdge(self.histodata.GetXaxis().FindBin(self.histodataBlindAbove)) < self.histodataBlindAbove:
+                  xborder = self.histodata.GetBinLowEdge(self.histodata.GetXaxis().FindBin(self.histodataBlindAbove))+self.histodata.GetBinWidth(self.histodata.GetXaxis().FindBin(self.histodataBlindAbove))
+                else:
+                  xborder = self.histodata.GetBinLowEdge(self.histodata.GetXaxis().FindBin(self.histodataBlindAbove))
+                blindLine = TLine(xborder,my_ymin,xborder,my_ymax)
+                #blindLine = TLine(self.histodataBlindAbove,my_ymin,self.histodataBlindAbove,my_ymax)
+                blindLine.SetLineStyle(2)
+                blindLine.SetLineWidth(2)
+                #blindLine.SetLineColor(0)
+                blindLine.Draw("same")
 
         #-- draw label
         l = TLatex()
@@ -727,6 +841,33 @@ class Plot:
                 h_ratio1.SetMarkerStyle ( 1 )
                 
                 h_ratio1.Draw("p")
+                if self.bkgSyst > 0:
+                    histoAll = thStack.GetStack().Last()
+                    bgRatioErrs = h_ratio1.Clone()
+                    bgRatioErrs.Reset()
+                    bgRatioErrs.SetName('bgRatioErrs')
+                    for binn in range(0,bgRatioErrs.GetNbinsX()):
+                        #bgRatioErrs.SetBinContent(binn, histoAll.GetBinContent(binn))
+                        bgRatioErrs.SetBinContent(binn,1.0)
+                    for binn in range(0,bgRatioErrs.GetNbinsX()):
+                        bgRatioErrs.SetBinError(binn, bgRatioErrs.GetBinContent(binn)*self.bkgSyst)
+                    #print 'ratioErrors'
+                    #for binn in range(0,bgRatioErrs.GetNbinsX()):
+                    #    print 'bin=',bgRatioErrs.GetBinContent(binn),'+/-',bgRatioErrs.GetBinError(binn)
+                    #bgRatioErrs.SetFillColor(kOrange-6)
+                    bgRatioErrs.SetFillColor(kGray+2)
+                    bgRatioErrs.SetLineColor(kGray+2)
+                    bgRatioErrs.SetFillStyle(3001)
+                    #bgRatioErrs.SetFillStyle(3018)
+                    #bgRatioErrs.SetFillStyle(3013)
+                    #bgRatioErrs.SetMarkerSize(1.1)
+                    bgRatioErrs.SetMarkerSize(0)
+                    #bgRatioErrs.SetLineColor(kOrange)
+                    #bgRatioErrs.SetLineWidth(3)
+                    #bgRatioErrs.Draw('aE2 aE0 same')
+                    #bgRatioErrs.SetDrawOption('hist')
+                    #bgRatioErrs.Draw('aE2 E0 same')
+                    bgRatioErrs.Draw('E2 same')
 
                 lineAtOne = TLine(h_ratio.GetXaxis().GetXmin(),1,h_ratio.GetXaxis().GetXmax(),1)
                 lineAtOne.SetLineColor(2)
@@ -749,7 +890,11 @@ class Plot:
                     x = h_ratio1.GetBinCenter ( ibin )
 
                     diff   = data - bkgd
-                    sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ))
+                    if self.bkgSyst > 0:
+                        sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ) + ( self.bkgSyst*self.bkgSyst*bkgd*bkgd ) )
+                    else:
+                        sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ))
+                    #print 'Data:',data,'eData:',eData,'bkgd:',bkgd,'eBkgd:',eBkgd,'sysBkgd',self.bkgSyst*bkgd
 
                     if ( sigma != 0.0 and data != 0.0 ):
                         nsigma_x.append ( float (x ) )
