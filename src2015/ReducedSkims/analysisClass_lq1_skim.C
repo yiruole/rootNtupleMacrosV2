@@ -452,11 +452,14 @@ void analysisClass::Loop(){
     // All skims need muons
     //-----------------------------------------------------------------
 
-    CollectionPtr c_muon_eta2p1            = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
-    //CollectionPtr c_muon_eta2p1_ID         = c_muon_eta2p1    -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04 );
-    CollectionPtr c_muon_eta2p1_ID         = c_muon_eta2p1    -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03 );
-    CollectionPtr c_muon_final             = c_muon_eta2p1_ID;
+    CollectionPtr c_muon_eta               = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
+    CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
+    CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03 );
+    CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE_PFISO04LOOSE );
+    //CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
+    CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
+    //c_muon_final->examine<Muon>("c_muon_final");
     
     //-----------------------------------------------------------------
     // All skims need PFJets
@@ -559,9 +562,24 @@ void analysisClass::Loop(){
     }
 
     //-----------------------------------------------------------------
+    // Gain switch items
+    //-----------------------------------------------------------------
+    // see: https://twiki.cern.ch/twiki/bin/view/CMSPublic/ReMiniAOD03Feb2017Notes#EGM
+    fillVariableWithValue( "nEBHitsNotReplaced", ElectronEcalMultiAndGSGlobalRecHitEBHitsNotReplaced->size());
+    for(int iHit=0; iHit<ElectronEcalMultiAndGSGlobalRecHitEBHitsNotReplaced->size(); ++iHit) {
+      char varName[50];
+      sprintf(varName,"EBDetIdNotReplaced%d",iHit+1);
+      fillVariableWithValue( varName, ElectronEcalMultiAndGSGlobalRecHitEBHitsNotReplaced->at(iHit));
+      if(iHit>9) break; // only keep up to 10 hits not replaced
+    }
+    fillVariableWithValue( "fixedDupECALClusters", ElectronEGammaGSFixedDupECALClusters ? 1 : 0);
+        
+    //-----------------------------------------------------------------
     // How many ID'd objects are there?
     //-----------------------------------------------------------------
 
+    int n_muonLoose          = c_muon_eta_IDLoose            -> GetSize();
+    int n_muonHighPt         = c_muon_eta_IDHighPt           -> GetSize();
     int n_muon_store         = c_muon_final                  -> GetSize();
     int n_ele_store          = c_ele_final                   -> GetSize();
     int n_jet_store          = c_pfjet_final                 -> GetSize();
@@ -772,7 +790,9 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
 
     fillVariableWithValue ("nMuon_ptCut", n_muon_ptCut);
-    fillVariableWithValue ("nMuon_store", min(n_muon_store,2));
+    fillVariableWithValue ("nMuon_LooseId", n_muonLoose);
+    fillVariableWithValue ("nMuon_HighPtId", n_muonHighPt);
+    fillVariableWithValue ("nMuon_store", min(n_muon_store,3));
 
     if ( n_muon_store >= 1 ){ 
 
@@ -798,6 +818,18 @@ void analysisClass::Loop(){
         //fillVariableWithValue ("Muon2_hltTTMuonPt"    , hltMuon2Pt      );
         fillVariableWithValue ("Muon2_hltSingleMuonPt", hltSingleMuon2Pt);
 
+        if ( n_muon_store >= 3 ){ 
+
+          Muon muon3 = c_muon_final -> GetConstituent<Muon>(2);
+          //double hltMuon3Pt       = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon3, muon_hltMatch_DeltaRCut);
+          double hltSingleMuon3Pt = triggerMatchPt<HLTriggerObject, Muon>(c_hltMuon_SingleMu_all, muon3, muon_hltMatch_DeltaRCut);
+          fillVariableWithValue ("Muon3_Pt"             , muon3.Pt      ());
+          fillVariableWithValue ("Muon3_Eta"            , muon3.Eta     ());
+          fillVariableWithValue ("Muon3_Phi"            , muon3.Phi     ());
+          fillVariableWithValue ("Muon3_Charge"         , muon3.Charge  ());
+          //fillVariableWithValue ("Muon3_hltTTMuonPt"    , hltMuon3Pt      );
+          fillVariableWithValue ("Muon3_hltSingleMuonPt", hltSingleMuon3Pt);
+        }
       }
     }
 
@@ -808,7 +840,9 @@ void analysisClass::Loop(){
     if ( reducedSkimType == 0 ) { 
 
       fillVariableWithValue ("nLooseEle_store"   , min(n_ele_store,3));
+      fillVariableWithValue ("nLooseEle_ID"      , n_ele_store);
       fillVariableWithValue ("nJetLooseEle_store", min(n_jet_store,5));
+      fillVariableWithValue ("nJetLooseEle_etaIdLepCleaned", n_jet_store);
       fillVariableWithValue ("nLooseEle_ptCut"   , n_ele_ptCut );
       fillVariableWithValue ("nJetLooseEle_ptCut", n_jet_ptCut );
 
@@ -1115,7 +1149,9 @@ void analysisClass::Loop(){
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4) { 
       
       fillVariableWithValue ("nEle_store"       , min(n_ele_store,2) );
+      fillVariableWithValue ("nEle_ID"          , n_ele_store);
       fillVariableWithValue ("nJet_store"       , min(n_jet_store,5) );
+      fillVariableWithValue ("nJet_etaIdLepCleaned"       , n_jet_store);
       fillVariableWithValue ("nHighEtaJet_store", min(n_jet_highEta_store, 1));
       fillVariableWithValue ("nEle_ptCut"       , n_ele_ptCut );
       fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
@@ -1648,9 +1684,9 @@ void analysisClass::Loop(){
     
     else if ( reducedSkimType == 3 ) { 
       if( passedCut("nEle_ptCut"       ) && 
-	  passedCut("Ele1_Pt"          ) ){
-	fillSkimTree();
-	fillReducedSkimTree();
+          passedCut("Ele1_Pt"          ) ){
+        fillSkimTree();
+        fillReducedSkimTree();
       }
     }
 
