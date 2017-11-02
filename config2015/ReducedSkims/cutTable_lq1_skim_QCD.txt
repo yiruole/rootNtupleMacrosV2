@@ -36,22 +36,22 @@ pfjet_energy_scale_sign	   0		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Jet selection
 #------------------------------------------------------------------------------------------------------
-jet_PtCut		               45	         	-               -               -               -1
+jet_PtCut		               50	         	-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
 jet_HighEtaCut		   5.0		-               -               -               -1
-jet_ele_DeltaRCut     	   0.7        	-               -               -               -1
+jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
 jet_muon_DeltaRCut    	   0.3        	-               -               -               -1
 jet_hltMatch_DeltaRCut     0.5		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Muon ID and selection
 #------------------------------------------------------------------------------------------------------
-muon_PtCut		   45           -               -               -               -1
-muon_EtaCut	      	   2.1		-               -               -               -1
+muon_PtCut		   20           -               -               -               -1
+muon_EtaCut	      	   2.4		-               -               -               -1
 muon_hltMatch_DeltaRCut    0.5		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
 # Electron ID and selection 
 #------------------------------------------------------------------------------------------------------
-ele_PtCut		    10          -               -               -               -1
+ele_PtCut		    35          -               -               -               -1
 ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -74,7 +74,7 @@ ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nLooseEle_ptCut			0	     +inf  		-		-		0	16 -0.5 15.5	      SAVE
-LooseEle1_Pt			35.0	     +inf		-		-		0	100 0 2000	      SAVE
+LooseEle1_SCEt			35.0	     +inf		-		-		0	100 0 2000	      SAVE
 PassTrigger			0	     1			-		-		0	2 -0.5 1.5	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
@@ -113,8 +113,10 @@ nPileUpInt_BXplus1              -inf         +inf               -               
 # QCD Fake Electron info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nLooseEle_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nLooseEle_ID		  	-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 # 
 LooseEle1_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle1_Pt                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_PtHeep                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_EcalDriven            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_DeltaEtaSeed          -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -123,10 +125,10 @@ LooseEle1_Full5x5E1x5OverE5x5   -inf	     +inf               -               -  
 LooseEle1_Full5x5E2x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_Energy                -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle1_Eta                   -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle1_Phi                   -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle1_SCEta                 -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle1_SCPhi                 -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_Eta                   -inf	     +inf               -               -               1       100 -5 5            SAVE
+LooseEle1_Phi                   -inf	     +inf               -               -               1       100 0 3.1416            SAVE
+LooseEle1_SCEta                 -inf	     +inf               -               -               1       100 -5 5            SAVE
+LooseEle1_SCPhi                 -inf	     +inf               -               -               1       100 0 3.1416            SAVE
 LooseEle1_Charge                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_Dist                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_DCotTheta             -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -170,14 +172,15 @@ LooseEle2_PtHeep                -inf	     +inf               -               -  
 LooseEle2_EcalDriven            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_DeltaEtaSeed          -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_SCEnergy              -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_SCEt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Full5x5E1x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Full5x5E2x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Energy                -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle2_Eta                   -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle2_Phi                   -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle2_SCEta                 -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle2_SCPhi                 -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_Eta                   -inf	     +inf               -               -               1       100 -5 5            SAVE
+LooseEle2_Phi                   -inf	     +inf               -               -               1       100 0 3.1416            SAVE
+LooseEle2_SCEta                 -inf	     +inf               -               -               1       100 -5 5            SAVE
+LooseEle2_SCPhi                 -inf	     +inf               -               -               1       100 0 3.1416            SAVE
 LooseEle2_Charge                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_Dist                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_DCotTheta             -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -221,14 +224,15 @@ LooseEle3_PtHeep                -inf	     +inf               -               -  
 LooseEle3_EcalDriven            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_DeltaEtaSeed          -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_SCEnergy              -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_SCEt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Full5x5E1x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Full5x5E2x5OverE5x5   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Energy                -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle3_Eta                   -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle3_Phi                   -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle3_SCEta                 -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle3_SCPhi                 -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_Eta                   -inf	     +inf               -               -               1       100 -5 5            SAVE
+LooseEle3_Phi                   -inf	     +inf               -               -               1       100 0 3.1416            SAVE
+LooseEle3_SCEta                 -inf	     +inf               -               -               1       100 -5 5            SAVE
+LooseEle3_SCPhi                 -inf	     +inf               -               -               1       100 0 3.1416            SAVE
 LooseEle3_Charge                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_Dist                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_DCotTheta             -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -272,57 +276,66 @@ PFMET_Raw_Pt                        -inf	     +inf               -              
 PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+#PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
+#PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+#PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
+#PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Loose jets info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nJetLooseEle_store    		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 nJetLooseEle_ptCut    		-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
+nJetLooseEle_etaIdLepCleaned    	-inf         +inf               -               -               1       16 -0.5 15.5	      SAVE
 # 
 JetLooseEle1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle1_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle1_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle1_btagCSV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle2_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle2_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle2_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle2_btagCSV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle3_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle3_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle3_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle3_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle3_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle3_btagCSV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle4_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle4_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle4_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle4_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle4_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle4_btagCSV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle5_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle5_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle5_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle5_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle5_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle5_btagCSV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Muon info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nMuon_store   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 nMuon_ptCut   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
+nMuon_HighPtId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
+nMuon_LooseId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
+nMuon_etaId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 #
 Muon1_Pt    			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 Muon1_Eta   			-inf         +inf               -               -               1       100 -5 5	      SAVE
@@ -337,6 +350,13 @@ Muon2_Phi			-inf         +inf               -               -               1   
 Muon2_Charge			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Muon2_hltTTMuonPt		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 Muon2_hltSingleMuonPt		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+#
+Muon3_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+Muon3_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
+Muon3_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+Muon3_Charge			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+Muon3_hltTTMuonPt		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+Muon3_hltSingleMuonPt		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Object spacing info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -378,3 +398,19 @@ H_Photon75       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Photon90       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Photon120     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Photon175     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+#-----------------------------------------------------------------------------------------------------------------------------------------
+# GainSwitch info
+#-----------------------------------------------------------------------------------------------------------------------------------------
+fixedDupECALClusters			-inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+nEBHitsNotReplaced				-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
+EBDetIdNotReplaced1				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced2				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced3				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced4				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced5				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced6				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced7				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced8				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced9				-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+EBDetIdNotReplaced10			-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+# histograms aren't going work well anyway for the DetIds...

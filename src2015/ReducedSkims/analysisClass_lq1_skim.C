@@ -883,6 +883,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "LooseEle1_EcalDriven"           , loose_ele1.EcalSeed()           );
         fillVariableWithValue( "LooseEle1_DeltaEtaSeed"         , loose_ele1.DeltaEtaSeed()       );
         fillVariableWithValue( "LooseEle1_SCEnergy"             , loose_ele1.SCEnergy()           );
+        fillVariableWithValue( "LooseEle1_SCEt"                 , loose_ele1.SCEnergy()/cosh(loose_ele1.SCEta()) );
         fillVariableWithValue( "LooseEle1_Full5x5E1x5OverE5x5"  , loose_ele1.Full5x5E1x5OverE5x5());
         fillVariableWithValue( "LooseEle1_Full5x5E2x5OverE5x5"  , loose_ele1.Full5x5E2x5OverE5x5());
         fillVariableWithValue( "LooseEle1_RhoForHeep"           , loose_ele1.RhoForHEEP());
@@ -958,6 +959,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_EcalDriven"    , loose_ele2.EcalSeed()           );
           fillVariableWithValue( "LooseEle2_DeltaEtaSeed"  , loose_ele2.DeltaEtaSeed()       );
           fillVariableWithValue( "LooseEle2_SCEnergy"      , loose_ele2.SCEnergy()           );
+          fillVariableWithValue( "LooseEle2_SCEt"                 , loose_ele2.SCEnergy()/cosh(loose_ele2.SCEta()) );
           fillVariableWithValue( "LooseEle2_Full5x5E1x5OverE5x5"  , loose_ele2.Full5x5E1x5OverE5x5());
           fillVariableWithValue( "LooseEle2_Full5x5E2x5OverE5x5"  , loose_ele2.Full5x5E2x5OverE5x5());
           fillVariableWithValue( "LooseEle2_RhoForHeep"  , loose_ele2.RhoForHEEP());
@@ -1032,6 +1034,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_EcalDriven"           , loose_ele3.EcalSeed()           );
             fillVariableWithValue( "LooseEle3_DeltaEtaSeed"         , loose_ele3.DeltaEtaSeed()       );
             fillVariableWithValue( "LooseEle3_SCEnergy"             , loose_ele3.SCEnergy()           );
+            fillVariableWithValue( "LooseEle3_SCEt"                 , loose_ele3.SCEnergy()/cosh(loose_ele3.SCEta()) );
             fillVariableWithValue( "LooseEle3_Full5x5E1x5OverE5x5"  , loose_ele3.Full5x5E1x5OverE5x5());
             fillVariableWithValue( "LooseEle3_Full5x5E2x5OverE5x5"  , loose_ele3.Full5x5E2x5OverE5x5());
             fillVariableWithValue( "LooseEle3_RhoForHeep"           , loose_ele3.RhoForHEEP());
@@ -1169,6 +1172,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
         fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
         fillVariableWithValue( "Ele1_PtHeep"        , ele1.PtHeep()             );
+        fillVariableWithValue( "Ele1_SCEt"          , ele1.SCEnergy()/cosh(ele1.SCEta()) );
         fillVariableWithValue( "Ele1_SCEta"         , ele1.SCEta()              );
         fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
         fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
@@ -1233,6 +1237,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
           fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
           fillVariableWithValue( "Ele2_PtHeep"        , ele2.PtHeep()             );
+          fillVariableWithValue( "Ele2_SCEt"          , ele2.SCEnergy()/cosh(ele2.SCEta()) );
           fillVariableWithValue( "Ele2_SCEta"         , ele2.SCEta()              );
           fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
           fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
@@ -1297,6 +1302,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "Ele3_Eta"           , ele3.Eta()                );
             fillVariableWithValue( "Ele3_Phi"           , ele3.Phi()                );
             fillVariableWithValue( "Ele3_PtHeep"        , ele3.PtHeep()             );
+            fillVariableWithValue( "Ele3_SCEt"          , ele3.SCEnergy()/cosh(ele3.SCEta()) );
             fillVariableWithValue( "Ele3_SCEta"         , ele3.SCEta()              );
             fillVariableWithValue( "Ele3_SCPhi"         , ele3.SCPhi()              );
             fillVariableWithValue( "Ele3_Charge"        , ele3.Charge()             );
@@ -1475,10 +1481,12 @@ void analysisClass::Loop(){
     
     if ( n_ele_store >= 1 ) { 
       Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
-      t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
+      //t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
+      t_ele1.SetPtEtaPhiM ( ele1.SCEnergy()/cosh(ele1.SCEta()), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( n_ele_store >= 2 ) {
         Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
-        t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
+        //t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
+        t_ele2.SetPtEtaPhiM ( ele2.SCEnergy()/cosh(ele2.SCEta()), ele2.Eta(), ele2.Phi(), 0.0 );
 
         TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
         fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
@@ -1640,63 +1648,63 @@ void analysisClass::Loop(){
     // Fill the trees
     //-----------------------------------------------------------------    
     // QCD fake rate calculation skim
-    
     if ( reducedSkimType == 0 ) { 
       if(passedCut("PassTrigger"      ) &&  
           passedCut("nLooseEle_ptCut"  ) && 
-          passedCut("LooseEle1_Pt"     ) ){
-        fillSkimTree();
-        fillReducedSkimTree();
+          //passedCut("LooseEle1_Pt"     ) ){
+        passedCut("LooseEle1_SCEt"     ) ){
+          fillSkimTree();
+          fillReducedSkimTree();
       }
-    }    
- 
-    // enujj analysis skim
+    }
 
+    // enujj analysis skim
     else if ( reducedSkimType == 1 ) { 
       if( passedCut("nEle_ptCut"       ) && 
-	  passedCut("Ele1_Pt"          ) && 
-	  passedCut("PFMET_Type1XY_Pt") && 
-	  passedCut("Jet1_Pt"          ) && 
-	  passedCut("Jet2_Pt"          ) && 
-	  passedCut("sT_enujj"         ) && 
-	  passedCut("MT_Ele1MET"       )) {
-	fillSkimTree();
-	fillReducedSkimTree();
-      }
-    }
-
-    // eejj analysis skim
-
-    else if ( reducedSkimType == 2 ) { 
-      if( passedCut("nEle_ptCut"       ) && 
-	  passedCut("Ele1_Pt"          ) &&
-	  passedCut("Ele2_Pt"          ) && 
-	  passedCut("Jet1_Pt"          ) &&
-	  passedCut("Jet2_Pt"          ) &&
-	  passedCut("sT_eejj"          ) && 
-	  passedCut("M_e1e2"           )) {
-	fillSkimTree();
-	fillReducedSkimTree();
-      }
-    }
-
-    // Single electron skim
-    
-    else if ( reducedSkimType == 3 ) { 
-      if( passedCut("nEle_ptCut"       ) && 
-          passedCut("Ele1_Pt"          ) ){
+          //passedCut("Ele1_Pt"          ) && 
+          passedCut("Ele1_SCEt"          ) && 
+          passedCut("PFMET_Type1XY_Pt") && 
+          passedCut("Jet1_Pt"          ) && 
+          passedCut("Jet2_Pt"          ) && 
+          passedCut("sT_enujj"         ) && 
+          passedCut("MT_Ele1MET"       )) {
         fillSkimTree();
         fillReducedSkimTree();
       }
     }
-
+    
+    // eejj analysis skim
+    else if ( reducedSkimType == 2 ) { 
+      if( passedCut("nEle_ptCut"       ) && 
+          //passedCut("Ele1_Pt"          ) &&
+          //passedCut("Ele2_Pt"          ) && 
+          passedCut("Ele1_SCEt"          ) && 
+          passedCut("Ele2_SCEt"          ) && 
+          passedCut("Jet1_Pt"          ) &&
+          passedCut("Jet2_Pt"          ) &&
+          passedCut("sT_eejj"          ) && 
+          passedCut("M_e1e2"           )) {
+        fillSkimTree();
+        fillReducedSkimTree();
+      }
+    }
+    
+    // Single electron skim
+    else if ( reducedSkimType == 3 ) { 
+      if( passedCut("nEle_ptCut"       ) && 
+          //passedCut("Ele1_Pt"          ) ){
+          passedCut("Ele1_SCEt"          ) ){
+        fillSkimTree();
+        fillReducedSkimTree();
+      }
+    }
+    
     // Single muon skim
-
     else if ( reducedSkimType == 4 ) { 
       if( passedCut("nMuon_ptCut"       ) && 
-	  passedCut("Muon1_Pt"          ) ){
-	fillSkimTree();
-	fillReducedSkimTree();
+          passedCut("Muon1_Pt"          ) ){
+        fillSkimTree();
+        fillReducedSkimTree();
       }
     }
 
