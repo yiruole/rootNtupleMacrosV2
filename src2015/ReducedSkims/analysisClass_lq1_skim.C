@@ -1661,38 +1661,6 @@ void analysisClass::Loop(){
         passedCut("LooseEle1_SCEt"     ) ){
           fillSkimTree();
           fillReducedSkimTree();
-    //XXX SIC TEST
-    //      int minDRJet = 0;
-    //   double min_DR_EleJet = 999.0;
-    //   double DR_Ele1Jet1 = 999.0;
-    //   double DR_Ele1Jet2 = 999.0;
-    //   double DR_Ele1Jet3 = 999.0;
-    //   if ( n_jet_store >= 3 ){ 
-    //     DR_Ele1Jet3 = t_ele1.DeltaR ( t_jet3 ) ;
-    //   }
-    //   if ( n_jet_store >= 2 ){ 
-    //     DR_Ele1Jet2 = t_ele1.DeltaR ( t_jet2 ) ;
-    //   }
-    //   if ( n_jet_store >= 1 ){ 
-    //     DR_Ele1Jet1 = t_ele1.DeltaR ( t_jet1 ) ;
-    //   }
-    //   if ( DR_Ele1Jet1 < min_DR_EleJet ) { min_DR_EleJet = DR_Ele1Jet1; minDRJet = 1; }
-    //   if ( DR_Ele1Jet2 < min_DR_EleJet ) { min_DR_EleJet = DR_Ele1Jet2; minDRJet = 2; }
-    //   if ( DR_Ele1Jet3 < min_DR_EleJet ) { min_DR_EleJet = DR_Ele1Jet3; minDRJet = 3; }
-    //   //
-    //   if(min_DR_EleJet < 0.3) {
-    //     cout << "WARNING: FOUND LEAD ELECTRON CLOSER THAN 0.3 TO A JET! deltaR is " << min_DR_EleJet << " jet closest to ele was jet: " << minDRJet << endl;
-    //     //double deltaEta = fabs(t_ele1.Eta()-t_jet2.Eta());
-    //     //double deltaPhi = fabs(t_ele1.DeltaPhi(t_jet2));
-    //     Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
-    //     PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
-    //     double deltaEta = fabs(ele1.Eta()-jet2.Eta());
-    //     double deltaPhi = fabs(ele1.Phi()-jet2.Phi());
-    //     cout << "deltaPhi elejet2: " << deltaPhi << " deltaEta: " << deltaEta << " deltaR: " << sqrt(deltaEta*deltaEta+deltaPhi*deltaPhi) << endl;
-    //     cout << "electron info SCEt: " << ele1.SCEnergy()/cosh(ele1.SCEta()) << ", Pt: " << t_ele1.Pt() << ", eta: " << t_ele1.Eta() << ", phi: " << t_ele1.Phi() << endl;
-    //     cout << "jet2 info Pt: " << t_jet2.Pt() << ", eta: " << t_jet2.Eta() << ", phi: " << t_jet2.Phi() << endl;
-    //   }
-    //XXX SIC TEST
       }
     }
 
