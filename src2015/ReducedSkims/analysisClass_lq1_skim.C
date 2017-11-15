@@ -1488,11 +1488,13 @@ void analysisClass::Loop(){
     if ( n_ele_store >= 1 ) { 
       Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
       t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
-      //t_ele1.SetPtEtaPhiM ( ele1.SCEnergy()/cosh(ele1.SCEta()), ele1.Eta(), ele1.Phi(), 0.0 );
+      if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
+        t_ele1.SetPtEtaPhiM ( ele1.SCEnergy()/cosh(ele1.SCEta()), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( n_ele_store >= 2 ) {
         Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
         t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
-        //t_ele2.SetPtEtaPhiM ( ele2.SCEnergy()/cosh(ele2.SCEta()), ele2.Eta(), ele2.Phi(), 0.0 );
+        if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
+          t_ele2.SetPtEtaPhiM ( ele2.SCEnergy()/cosh(ele2.SCEta()), ele2.Eta(), ele2.Phi(), 0.0 );
 
         TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
         fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
