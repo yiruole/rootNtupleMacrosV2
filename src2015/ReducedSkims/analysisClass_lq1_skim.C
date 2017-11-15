@@ -11,6 +11,7 @@
 #include "Collection.h"
 #include "GenParticle.h"
 #include "Electron.h"
+#include "LooseElectron.h"
 #include "Muon.h"
 #include "PFJet.h"
 #include "GenJet.h"
@@ -225,6 +226,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
+    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     //if(event!=1764962 || ls!=3911 || run!=1) {
     //  if(event!=5844049 || ls!=12949 || run!=1) {
     //    if(event!=6858631 || ls!=15197 || run!=1) {
@@ -235,8 +237,11 @@ void analysisClass::Loop(){
     //  }
     //} 
     //if(event!=93773619 || ls!=184739) continue;
+    //if(event!=2314536914 || ls!=1283 || run!=274388) continue;
+    //if(run!=274388 || ls!=1283 || event!=2314536914) continue;
+    //std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+    //cout << "Found the event! in file:" << current_file_name << endl;
 
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     
     //-----------------------------------------------------------------
     // Get access to HLT decisions
@@ -431,9 +436,9 @@ void analysisClass::Loop(){
     CollectionPtr c_ele_final_ptCut;
     
     if ( reducedSkimType == 0 ){ 
-      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <Electron> ( FAKE_RATE_HEEP_LOOSE);
+      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <LooseElectron> ( FAKE_RATE_HEEP_LOOSE);
       c_ele_final               = c_ele_loose;
-      c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
+      c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<LooseElectron>( ele_PtCut  );
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
@@ -456,8 +461,8 @@ void analysisClass::Loop(){
     CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
     CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03 );
     CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE_PFISO04LOOSE );
-    //CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
-    CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
+    CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
+    //CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
     //c_muon_final->examine<Muon>("c_muon_final");
     
@@ -471,6 +476,7 @@ void analysisClass::Loop(){
     CollectionPtr c_pfjet_central_ID_noLeptonOverlap  = c_pfjet_central_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
     CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
+    //c_pfjet_final->examine<PFJet>("c_pfjet_final");
     
     //-----------------------------------------------------------------
     // We need high-eta jets in order to look at boson recoil
@@ -1481,12 +1487,12 @@ void analysisClass::Loop(){
     
     if ( n_ele_store >= 1 ) { 
       Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
-      //t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
-      t_ele1.SetPtEtaPhiM ( ele1.SCEnergy()/cosh(ele1.SCEta()), ele1.Eta(), ele1.Phi(), 0.0 );
+      t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
+      //t_ele1.SetPtEtaPhiM ( ele1.SCEnergy()/cosh(ele1.SCEta()), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( n_ele_store >= 2 ) {
         Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
-        //t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
-        t_ele2.SetPtEtaPhiM ( ele2.SCEnergy()/cosh(ele2.SCEta()), ele2.Eta(), ele2.Phi(), 0.0 );
+        t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
+        //t_ele2.SetPtEtaPhiM ( ele2.SCEnergy()/cosh(ele2.SCEta()), ele2.Eta(), ele2.Phi(), 0.0 );
 
         TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
         fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
@@ -1539,7 +1545,6 @@ void analysisClass::Loop(){
 	}
       }
     }
-    
     //-----------------------------------------------------------------
     // QCD triggers
     // - H_Photon22
@@ -1643,6 +1648,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------    
 
     evaluateCuts();
+    
 
     //-----------------------------------------------------------------    
     // Fill the trees
@@ -1655,6 +1661,38 @@ void analysisClass::Loop(){
         passedCut("LooseEle1_SCEt"     ) ){
           fillSkimTree();
           fillReducedSkimTree();
+    //XXX SIC TEST
+    //      int minDRJet = 0;
+    //   double min_DR_EleJet = 999.0;
+    //   double DR_Ele1Jet1 = 999.0;
+    //   double DR_Ele1Jet2 = 999.0;
+    //   double DR_Ele1Jet3 = 999.0;
+    //   if ( n_jet_store >= 3 ){ 
+    //     DR_Ele1Jet3 = t_ele1.DeltaR ( t_jet3 ) ;
+    //   }
+    //   if ( n_jet_store >= 2 ){ 
+    //     DR_Ele1Jet2 = t_ele1.DeltaR ( t_jet2 ) ;
+    //   }
+    //   if ( n_jet_store >= 1 ){ 
+    //     DR_Ele1Jet1 = t_ele1.DeltaR ( t_jet1 ) ;
+    //   }
+    //   if ( DR_Ele1Jet1 < min_DR_EleJet ) { min_DR_EleJet = DR_Ele1Jet1; minDRJet = 1; }
+    //   if ( DR_Ele1Jet2 < min_DR_EleJet ) { min_DR_EleJet = DR_Ele1Jet2; minDRJet = 2; }
+    //   if ( DR_Ele1Jet3 < min_DR_EleJet ) { min_DR_EleJet = DR_Ele1Jet3; minDRJet = 3; }
+    //   //
+    //   if(min_DR_EleJet < 0.3) {
+    //     cout << "WARNING: FOUND LEAD ELECTRON CLOSER THAN 0.3 TO A JET! deltaR is " << min_DR_EleJet << " jet closest to ele was jet: " << minDRJet << endl;
+    //     //double deltaEta = fabs(t_ele1.Eta()-t_jet2.Eta());
+    //     //double deltaPhi = fabs(t_ele1.DeltaPhi(t_jet2));
+    //     Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
+    //     PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+    //     double deltaEta = fabs(ele1.Eta()-jet2.Eta());
+    //     double deltaPhi = fabs(ele1.Phi()-jet2.Phi());
+    //     cout << "deltaPhi elejet2: " << deltaPhi << " deltaEta: " << deltaEta << " deltaR: " << sqrt(deltaEta*deltaEta+deltaPhi*deltaPhi) << endl;
+    //     cout << "electron info SCEt: " << ele1.SCEnergy()/cosh(ele1.SCEta()) << ", Pt: " << t_ele1.Pt() << ", eta: " << t_ele1.Eta() << ", phi: " << t_ele1.Phi() << endl;
+    //     cout << "jet2 info Pt: " << t_jet2.Pt() << ", eta: " << t_jet2.Eta() << ", phi: " << t_jet2.Phi() << endl;
+    //   }
+    //XXX SIC TEST
       }
     }
 
