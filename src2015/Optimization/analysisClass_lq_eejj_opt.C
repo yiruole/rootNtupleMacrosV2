@@ -1,6 +1,7 @@
 #define analysisClass_cxx
 #define USE_SINGLE_ELE_REDUCED_NTUPLE
 #include "analysisClass.h"
+#include <assert.h>
 #include <TH2.h>
 #include <TH1F.h>
 #include <TStyle.h>
@@ -9,68 +10,12 @@
 #include <TVector2.h>
 #include <TVector3.h>
 #include <TProfile.h>
-
-int run_max[38] = { 191718, 193621, 194223, 194533, 194912, 195304, 195552, 195930, 196239, 196453, 
-                    196531, 198941, 199319, 199571, 199812, 200042, 200369, 200991, 201278, 201705, 
-                    202045, 202209, 202477, 203002, 204250, 204601, 205339, 205694, 206187, 206389, 
-                    206512, 206745, 207214, 207372, 207515, 208307, 208487, 208686 };
-
-
-
-int run_min[38] = { 190645, 191720, 193834, 194224, 194619, 194914, 195378, 195633, 195937, 196249, 
-                    196495, 198049, 198954, 199336, 199572, 199833, 200049, 200381, 200992, 201554, 
-                    201706, 202054, 202237, 202478, 203894, 204511, 205086, 205344, 205718, 206188, 
-                    206391, 206513, 206859, 207217, 207397, 207517, 208339, 208509 };
-
-
-int run_max_1fb[20] = { 193621, 194533, 195304, 195915, 196452, 196531, 199319, 199804, 200244, 201196, 
-			202014, 202305, 203002, 204577, 205666, 206246, 206598, 207273, 207905, 208686 };
-
-
-
-int run_min_1fb[20] = { 190645, 193834, 194619, 195378, 195916, 196453, 198049, 199336, 199812, 200245, 
-			201197, 202016, 202314, 203894, 204599, 205667, 206257, 206605, 207279, 207920 };
-
-
-int get_split ( int run ) { 
-  
-  int n_split = 38;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min [i_split];
-    int tmp_run_max = run_max [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split for run = " << run << std::endl;
-  
-  return split;
-}
-
-
-
-int get_split_1fb ( int run ) { 
-  
-  int n_split = 20;
-  int split = -999;
-  
-  for (int i_split = 0; i_split < n_split; ++i_split ){ 
-    int tmp_run_min = run_min_1fb [i_split];
-    int tmp_run_max = run_max_1fb [i_split];
-    if ( run >= tmp_run_min &&
-	 run <= tmp_run_max ) {
-      split = i_split;
-    }
-  }
-
-  if ( split < 0 ) std::cout << "ERROR: could not find a split (1 fb-1) for run = " << run << std::endl;
-  
-  return split;
-}
+// for trigger turn-on
+#include "Ele27WPLooseTrigTurnOn.C"
+// for fake rate
+#include "include/QCDFakeRate.h"
+// for scale factors
+#include "ElectronScaleFactors.C"
 
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
@@ -88,7 +33,7 @@ void analysisClass::Loop()
    
    fillSkim                         ( !true  ) ;
    fillAllPreviousCuts              ( !true  ) ;
-   fillAllOtherCuts                 ( !true  ) ;
+   fillAllOtherCuts                 ( true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
    fillAllCuts                      ( !true  ) ;
 
@@ -118,15 +63,10 @@ void analysisClass::Loop()
    double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
    double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
-
    //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
    
-   CreateUserTH1D( "split_PAS"                       ,    38    , -0.5    , 37.5     );
-   CreateUserTH1D( "split_1fb_PAS"                   ,    38    , -0.5    , 37.5     );
-   CreateUserTH1D( "split_ROI"                       ,    38    , -0.5    , 37.5     );
-   CreateUserTH1D( "split_PASandMee100"              ,    38    , -0.5    , 37.5     );
    CreateUserTH1D( "sTfrac_Jet1_PAS"                 ,   100    ,  0.0    , 1.0      );
    CreateUserTH1D( "sTfrac_Jet2_PAS"                 ,   100    ,  0.0    , 1.0      );
    CreateUserTH1D( "sTfrac_Ele1_PAS"                 ,   100    ,  0.0    , 1.0      );
@@ -236,8 +176,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "Meejj_ROI"                       ,    400   , 0       , 4000   );
    CreateUserTH1D( "Mejj_ROI"                        ,    400   , 0       , 4000   );
    CreateUserTH1D( "Meej_ROI"                        ,    400   , 0       , 4000   );
-   CreateUserTH1D( "run_PAS"                         ,    15000 , 246000  , 261000 );
-   CreateUserTH1D( "run_HLT"                         ,    15000 , 246000  , 261000 );
+   CreateUserTH1D( "run_PAS"                         ,    20000 , 270000  , 290000 );
+   CreateUserTH1D( "run_HLT"                         ,    20000 , 270000  , 290000 );
 						     
    CreateUserTH1D( "Ptj1j2j3_PAS"                    ,    200 , 0       , 2000     );
    CreateUserTH1D( "Ptj1j2_PAS"                      ,    200 , 0       , 2000     );
@@ -530,7 +470,7 @@ void analysisClass::Loop()
      // Check good run list
      //--------------------------------------------------------------------------
      
-     int    passedJSON = passJSON ( run, ls , isData ) ;
+     int passedJSON = passJSON ( run, ls , isData ) ;
 
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
@@ -544,20 +484,62 @@ void analysisClass::Loop()
 
      double gen_weight = Weight;
      if ( isData ) gen_weight = 1.0;
-     if ( isData && Ele2_ValidFrac > 998. ){
-       gen_weight = 0.0;
-       if      (  60.0 < M_e1e2 < 120. ) gen_weight = 0.61;
-       else if ( 120.0 < M_e1e2 < 200. ) gen_weight = 0.42;
-       else if ( 200.0 < M_e1e2        ) gen_weight = 0.42;
-     }
+     //if ( isData && Ele2_ValidFrac > 998. ){
+     //  gen_weight = 0.0;
+     //  if      (  60.0 < M_e1e2 < 120. ) gen_weight = 0.61;
+     //  else if ( 120.0 < M_e1e2 < 200. ) gen_weight = 0.42;
+     //  else if ( 200.0 < M_e1e2        ) gen_weight = 0.42;
+     //}
 
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
+     //std::cout << "Gen weight = " << gen_weight << std::endl;
+    
+     if(!isData)
+     {
+       // scale factors for MC only
+       float recoSFEle1 = ElectronScaleFactors2016::LookupRecoSF(Ele1_SCEta);
+       float recoSFEle2 = ElectronScaleFactors2016::LookupRecoSF(Ele2_SCEta);
+       float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(Ele1_SCEta);
+       float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(Ele2_SCEta);
+       float totalScaleFactor = recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+       gen_weight*=totalScaleFactor;
+     }
 
      //--------------------------------------------------------------------------
      // First variable to fill just shows the "reweighting".  Always passes.
      //--------------------------------------------------------------------------
 
      fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
+
+     //--------------------------------------------------------------------------
+     // Special treatment of inclusive W/Z
+     //--------------------------------------------------------------------------
+     bool passGenWZPt = true;
+     std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+     // inclusive
+     if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+         || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+       if(GenW1_Pt > 120) passGenWZPt = false; // if W Pt > 120 GeV, cut it out
+     }
+     if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+       if(GenZGamma1_Pt > 70) passGenWZPt = false; // if Z/gamma Pt > 70 GeV, cut it out
+     }
+     // first pt bin
+     if(current_file_name.find("WJetsToLNu_Pt-100") != std::string::npos) {
+       if(GenW1_Pt <= 120) passGenWZPt = false;
+     }
+     if(current_file_name.find("DYJetsToLL_Pt-50") != std::string::npos) {
+       if(GenZGamma1_Pt <= 70) passGenWZPt = false;
+     }
+     //// testing
+     //if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
+     //    || current_file_name.find("WJetsToLNu_amcatnloFXFX") != std::string::npos) {
+     //  if(GenW1_Pt <= 100) passGenWZPt = false; // if W Pt > 100 GeV, cut it out
+     //}
+     //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos) {
+     //  if(GenZGamma1_Pt <= 100) passGenWZPt = false; // if Z/gamma Pt > 100 GeV, cut it out
+     //}
+     fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
 
      //--------------------------------------------------------------------------
      // Fill JSON variable
@@ -569,40 +551,18 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Fill noise filters
      //--------------------------------------------------------------------------
-
-     // Noise/MET filters
      // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
-     // XXX Right now, we have to read the bad events from event lists
-     // Later this will be included in a re-reco
-     fillVariableWithValue(   "PassHBHENoiseFilter"	          , PassHBHENoiseFilter                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter             , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassCSCBeamHaloFilterTight"    , PassCSCBeamHaloFilterTight         , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter        , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassMuonTrackFilter"           , PassMuonTrackFilter                , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassBadResolutionTrackFilter"  , PassBadResolutionTrackFilter       , gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPhysDecl"		      , ( isData == 1 ) ? PassPhysDecl		      : 1, gen_weight * pileup_weight );
-     fillVariableWithValue(   "PassPrimaryVertex"	    , PassPrimaryVertex                          , gen_weight * pileup_weight );
-     // old filters
-     //fillVariableWithValue(   "PassBeamScraping"	      , ( isData == 1 ) ? PassBeamScraping	      : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellBoundEnergy"   , PassEcalDeadCellBoundEnergy                      , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim                         , gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassEcalLaserCorrFilter"       , ( isData == 1 ) ? PassEcalLaserCorrFilter     : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassHcalLaserEventFilter"      , ( isData == 1 ) ? PassHcalLaserEventFilter    : 1, gen_weight * pileup_weight );
-     //fillVariableWithValue(   "PassTrackingFailure"	      , ( isData == 1 ) ? PassTrackingFailure	      : 1, gen_weight * pileup_weight );
+     // we filled these at skim time
+     fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter  , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassGoodVertices"	            , PassGoodVertices               , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseFilter"	          , PassHBHENoiseFilter            , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassHBHENoiseIsoFilter"	      , PassHBHENoiseIsoFilter         , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter    , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim       , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter     , gen_weight * pileup_weight );
+     fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter            , gen_weight * pileup_weight );
      //
 
-     //--------------------------------------------------------------------------
-     // Exclude runs with bad beam spot ?
-     //--------------------------------------------------------------------------
-     if(run==259626 ||
-         run==259636 ||
-         run==259637 ||
-         run==259681 ||
-         run==259682 ||
-         run==259683 ||
-         run==259685)
-       continue;
-     
      //--------------------------------------------------------------------------
      // Fill HLT
      //--------------------------------------------------------------------------
@@ -611,18 +571,58 @@ void analysisClass::Loop()
      //if ( isData ) { 
      //  passHLT = 0;
      //  if ( H_Ele30_PFJet100_25 == 1 || H_Ele30_PFNoPUJet100_25  == 1 ){
-     ////if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
+	 ////if ( H_DoubleEle33_CIdL_GsfIdVL == 1 ) { 
      //  	 passHLT = 1;
      //  }
      //}
+     // no longer in 2016
+     //// ignore Run2015C stuff
+     //if(isData)
+     //{
+     //  if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
+     //    continue;
+     //}
+
      int passHLT = 1;
      if ( isData ) { 
        passHLT = 0;
-       if ( H_Ele45_PFJet200_PFJet50 == 1)
-         // later //if ( H_Ele27_WPLoose == 1)
-         //if ( H_Ele27_WP85 == 1)
+       //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+       //  passHLT = 1;
+       if (H_Ele27_WPTight_eta2p1 == 1)
          passHLT = 1;
+       ////XXX SIC FIXME TEST
+       //if(run < 275676) // L1 EGM efficiency going to zero
+       //  passHLT = 0;
      }
+     // FIXME: Update to new 2016 curve
+     else // using the turn-on in the MC
+     {
+       // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+       //   we get two chances to pass since we may have two electrons in the event
+       passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+       //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
+       if(!passHLT) // if the first one doesn't pass, try the second one
+         passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+         //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
+     }
+     ////XXX SIC FIXME TEST
+     //if (isData) {
+     //  passHLT = 0;
+     //  //if ( H_Ele27_WPLoose == 1)
+     //  //if ( H_Ele27_WPTight == 1)
+     //  //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
+     //  if ( H_Ele27_WPLoose_eta2p1 == 1)
+     //    passHLT = 1;
+     //  if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
+     //    passHLT = 0;
+     //  if(run < 275676) // L1 EGM efficiency going to zero
+     //    passHLT = 0;
+     //}
+     //else {
+     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+     //  if(!passHLT) // if the first one doesn't pass, try the second one
+     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+     //}
 
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
 
@@ -651,6 +651,7 @@ void analysisClass::Loop()
      if ( Ele2_ValidFrac > 998. ) is_ttbar_from_data = true;
 
      int PassNEle = 0;
+     // nEle_ptCut are HEEP ID'ed electrons passing the Pt cut in the skim
      if ( !is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
      if (  is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
 
@@ -685,10 +686,10 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Fill electron variables 
      //--------------------------------------------------------------------------
-
-     if ( nEle_store >= 1 ) fillVariableWithValue( "Ele1_Pt", Ele1_Pt, gen_weight * pileup_weight  ) ;
-     if ( nEle_store >= 2 ) fillVariableWithValue( "Ele2_Pt", Ele2_Pt, gen_weight * pileup_weight  ) ;
-
+     
+     if ( nEle_store >= 1 ) fillVariableWithValue( "Ele1_PtHeep", Ele1_PtHeep, gen_weight * pileup_weight  ) ;
+     if ( nEle_store >= 2 ) fillVariableWithValue( "Ele2_PtHeep", Ele2_PtHeep, gen_weight * pileup_weight  ) ;
+			
      //--------------------------------------------------------------------------
      // Fill jet variables 
      //--------------------------------------------------------------------------
@@ -728,6 +729,8 @@ void analysisClass::Loop()
        fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
 
        if ( nJet_store >= 2 ) { 
+         // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
+         //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
          fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
@@ -741,11 +744,11 @@ void analysisClass::Loop()
      evaluateCuts();
 
      //--------------------------------------------------------------------------
-     // Did we at least pass the noise filters?
+     // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
-
-     bool passed_minimum = ( passedAllPreviousCuts("PassPrimaryVertex") && passedCut ("PassPrimaryVertex"));
-
+     
+     bool passed_minimum = ( passedAllPreviousCuts("PassBadPFMuonFilter") && passedCut ("PassBadPFMuonFilter"));
+     
      //--------------------------------------------------------------------------
      // Did we pass preselection?
      //--------------------------------------------------------------------------
@@ -780,19 +783,19 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
 
      /*
-        if ( isData ) {
-        std::cout.precision(0);
-        std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
-        std::cout.precision(3);
-        std::cout << fixed <<  "  Mej      = " << M_ej_avg << std::endl;
-        std::cout << fixed <<  "  Mee      = " << M_e1e2 << std::endl;
-        std::cout << fixed <<  "  sT       = " << sT_enujj << std::endl;
-        std::cout << fixed <<  "  Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
-        std::cout << fixed <<  "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
-        std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
-        std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
-        }
-      */
+     if ( isData ) {
+       std::cout.precision(0);
+       std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
+       std::cout.precision(3);
+       std::cout << fixed <<  "  Mej      = " << M_ej_avg << std::endl;
+       std::cout << fixed <<  "  Mee      = " << M_e1e2 << std::endl;
+       std::cout << fixed <<  "  sT       = " << sT_enujj << std::endl;
+       std::cout << fixed <<  "  Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+       std::cout << fixed <<  "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
+       std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+       std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
+     }
+     */
 
      //--------------------------------------------------------------------------
      // Fill preselection plots
@@ -1114,8 +1117,6 @@ void analysisClass::Loop()
        //--------------------------------------------------------------------------
 
        if ( isData == 1 ) { 
-         //FillUserTH1D("split_PAS"    , get_split     ( run ), pileup_weight * gen_weight ) ;
-         //FillUserTH1D("split_1fb_PAS", get_split_1fb ( run ), pileup_weight * gen_weight ) ;
          FillUserTH1D("run_PAS"  , run );
          profile_run_vs_nvtx_PAS -> Fill ( run, nVertex, 1 );
        }
@@ -1236,7 +1237,6 @@ void analysisClass::Loop()
            FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", Ele2_SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
          }
 
-         //if ( isData == 1 ) FillUserTH1D("split_PASandMee100", get_split ( run ), pileup_weight * gen_weight ) ;
          FillUserTH1D("Ptee_PASandMee100"              , Pt_e1e2                        , pileup_weight * gen_weight );
          FillUserTH2D("MeeVsST_PASandMee100" , M_e1e2, sT_eejj, pileup_weight * gen_weight );	   
          FillUserTH1D("sT_zjj_PASandMee100"            , sT_zjj                         , pileup_weight * gen_weight );
@@ -1311,7 +1311,6 @@ void analysisClass::Loop()
 
        if ( passed_region_of_interest ) { 
 
-         //if ( isData == 1 ) FillUserTH1D( "split_ROI" , get_split_1fb ( run ) , pileup_weight * gen_weight );
 
          FillUserTH1D("BeamSpotDXY_1stEle_ROI"           , Ele1_BeamSpotDXY                    , pileup_weight * gen_weight    ); 
          FillUserTH1D("Classif_1stEle_ROI"               , Ele1_Classif                        , pileup_weight * gen_weight    ); 
