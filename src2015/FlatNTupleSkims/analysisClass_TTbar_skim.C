@@ -56,8 +56,17 @@ void analysisClass::Loop() {
     //------------------------------------------------------------------
 
     Long64_t ientry = LoadTree(jentry);
-    if (ientry < 0) break;
+    if (ientry < 0)
+    {
+      std::cout << "ERROR: Could not read from TTree; exiting." << std::endl;
+      exit(-1);
+    }
     nb = fChain->GetEntry(jentry);   nbytes += nb;
+    if (nb < 0)
+    {
+      std::cout << "ERROR: Could not read entry from TTree: read " << nb << "bytes; exiting." << std::endl;
+      exit(-2);
+    }
 
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
@@ -75,28 +84,29 @@ void analysisClass::Loop() {
     // If this is data, it has to pass the trigger
     //------------------------------------------------------------------
 
-    float trigEff = 0.0;
-    int pass_trigger = 0;
-    if ( isData ) { 
-      pass_trigger = 0;
-      //if ( H_Ele27_WPLoose == 1)
-      //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1) // for 2016
-      if ( H_Ele27_WPLoose_eta2p1 == 1)
-        pass_trigger = 1;
-    }
-    else // using the turn-on in the MC
-    {
-      // lead electron only
-      if(Ele1_PtHeep > Ele2_PtHeep)
-      {
-        pass_trigger = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-        trigEff = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-      }
-      else {
-        pass_trigger = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-        trigEff = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-      }
-    }
+    //// NB: trigger now is done later in the analysis class, so this information is ignored
+    //float trigEff = 0.0;
+    //int pass_trigger = 0;
+    //if ( isData ) { 
+    //  pass_trigger = 0;
+    //  //if ( H_Ele27_WPLoose == 1)
+    //  //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1) // for 2016
+    //  if ( H_Ele27_WPLoose_eta2p1 == 1)
+    //    pass_trigger = 1;
+    //}
+    //else // using the turn-on in the MC
+    //{
+    //  // lead electron only
+    //  if(Ele1_PtHeep > Ele2_PtHeep)
+    //  {
+    //    pass_trigger = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+    //    trigEff = trigEle27::turnOn(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
+    //  }
+    //  else {
+    //    pass_trigger = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+    //    trigEff = trigEle27::turnOn(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
+    //  }
+    //}
 
     //------------------------------------------------------------------
     // Is the muon going to be Ele1 or Ele2?
@@ -122,7 +132,7 @@ void analysisClass::Loop() {
       electron.SetPtEtaPhiM ( Ele1_Pt , Ele1_Eta , Ele1_Phi , 0.0 );
       jet1    .SetPtEtaPhiM ( Jet1_Pt , Jet1_Eta , Jet1_Phi , 0.0 );
       jet2    .SetPtEtaPhiM ( Jet2_Pt , Jet2_Eta , Jet2_Phi , 0.0 );
-      met     .SetPtEtaPhiM ( PFMET_Type01XY_Pt, 0.0, PFMET_Type01XY_Phi, 0.0 );
+      met     .SetPtEtaPhiM ( PFMET_Type1XY_Pt, 0.0, PFMET_Type1XY_Phi, 0.0 );
       e1e2    = muon + electron;
       e2j1    = muon + jet1;
       e2j2    = muon + jet2;
@@ -132,6 +142,8 @@ void analysisClass::Loop() {
       Ele2_Pt       = muon.Pt();
       Ele2_PtHeep   = muon.Pt();
       Ele2_Eta      = muon.Eta();
+      Ele2_SCEta    = muon.Eta();
+      Ele2_SCEt     = muon.Pt();
       Ele2_Phi      = muon.Phi();
       Ele2_Charge   = Muon1_Charge;
 
@@ -155,9 +167,12 @@ void analysisClass::Loop() {
       Ele2_DCotTheta      = -999.;
       Ele2_Dist           = -999.;
       Ele2_Energy         = -999.;
+      Ele2_SCEnergy       = -999.;
+      Ele2_TrkEta         = -999.;
+      Ele2_ValidFrac      = -999.;
       Ele2_hltDoubleElePt = -999.;
       Ele2_hltEleSignalPt = -999.;
-      Ele1_hltEleTTbarPt  = trigEff;
+      //Ele1_hltEleTTbarPt  = trigEff;
       
     }
 
@@ -170,7 +185,7 @@ void analysisClass::Loop() {
       electron.SetPtEtaPhiM ( Ele1_Pt , Ele1_Eta , Ele1_Phi , 0.0 );
       jet1    .SetPtEtaPhiM ( Jet1_Pt , Jet1_Eta , Jet1_Phi , 0.0 );
       jet2    .SetPtEtaPhiM ( Jet2_Pt , Jet2_Eta , Jet2_Phi , 0.0 );
-      met     .SetPtEtaPhiM ( PFMET_Type01XY_Pt, 0.0, PFMET_Type01XY_Phi, 0.0 );
+      met     .SetPtEtaPhiM ( PFMET_Type1XY_Pt, 0.0, PFMET_Type1XY_Phi, 0.0 );
       e1e2    = muon + electron;
       e1j1    = muon + jet1;
       e1j2    = muon + jet2;
@@ -184,13 +199,17 @@ void analysisClass::Loop() {
       Ele2_Dist  	   = Ele1_Dist;	   
       Ele2_Energy	   = Ele1_Energy;	   
       Ele2_Eta		   = Ele1_Eta;		   
+      Ele2_TrkEta    = Ele1_TrkEta;
       Ele2_MissingHits	   = Ele1_MissingHits;	   
       Ele2_Phi		   = Ele1_Phi;		   
       Ele2_Pt		   = Ele1_Pt;		   
       Ele2_PtHeep		   = Ele1_PtHeep;		   
+      Ele2_SCEt    = Ele1_SCEt;
+      Ele2_SCEta    = Ele1_SCEta;
+      Ele2_SCPhi    = Ele1_SCPhi;
       Ele2_hltDoubleElePt  = Ele1_hltDoubleElePt; 
       Ele2_hltEleSignalPt  = Ele1_hltEleSignalPt; 
-      Ele2_hltEleTTbarPt   = Ele1_hltEleTTbarPt;  
+      //Ele2_hltEleTTbarPt   = Ele1_hltEleTTbarPt;  
       mDPhi_METEle1	   = mDPhi_METEle1;	
       M_e2j1               = M_e1j1;
       M_e2j2               = M_e1j2;
@@ -200,6 +219,8 @@ void analysisClass::Loop() {
       Ele1_Pt       = muon.Pt();
       Ele1_PtHeep   = muon.Pt();
       Ele1_Eta      = muon.Eta();
+      Ele1_SCEta    = muon.Eta();
+      Ele1_SCEt     = muon.Pt();
       Ele1_Phi      = muon.Phi();
       Ele1_Charge   = Muon1_Charge;
       MT_Ele1MET    = sqrt ( 2.0 * muon.Pt() * met.Pt() * ( 1.0 - cos ( met.DeltaPhi(muon))));
@@ -224,10 +245,12 @@ void analysisClass::Loop() {
       Ele1_DCotTheta      = -999.;
       Ele1_Dist           = -999.;
       Ele1_Energy         = -999.;
+      Ele1_SCEnergy       = -999.;
+      Ele1_TrkEta         = -999.;
       Ele1_ValidFrac      = -999.;
       Ele1_hltDoubleElePt = -999.;
       Ele1_hltEleSignalPt = -999.;
-      Ele2_hltEleTTbarPt  = trigEff;
+      //Ele2_hltEleTTbarPt  = trigEff;
       
     }
 
