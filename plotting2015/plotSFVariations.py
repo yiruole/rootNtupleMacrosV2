@@ -5,19 +5,38 @@ import numpy as numpy
 import math
 import os
 
-#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/oct27_tupleV211/zjet_ht/log.log'
-txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb28/dyRescale.log'
-bkgName = 'zjet'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/nov24_muonVeto35GeV/unscaled/rescale.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb1/unscaled/rescale.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb6/unscaled/test/rescale.log'
+txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/feb5_SF_finalSels/unscaled/rescale.log'
+
+#bkgName = 'zjet'
 #varList = ['sT','MejMin']
 #txtFilename = 'ttbar/logAllVariations.log'
 #bkgName = 'ttbar'
-varList = ['sT']
+# use sT and MejMin, one at a time
+#varList = ['sT']
+#varList = ['MejMin']
+# for enujj
+bkgName = 'wjet'
+#bkgName = 'ttbar'
+varList = ['LQ']
+
+eejjMode = True
+if 'enujj' in txtFilename:
+  eejjMode=False
+  # in enujj mode, default x/y is ttbar
 
 for var in varList:
   xPoints = []
   xPointErrs = []
   yPoints = []
   yPointErrs = []
+  if not eejjMode:
+    xPointsWJ = []
+    xPointErrsWJ = []
+    yPointsWJ = []
+    yPointErrsWJ = []
   with open(txtFilename,'r') as thisFile:
     isVarPoint = False
     for line in thisFile:
@@ -32,34 +51,54 @@ for var in varList:
         if not var in name:
           continue
         isVarPoint = True
-        #print 'name=',name
-        varBin = name[name.find(var)+len(var):name.rfind('_')]
-        #print 'varBin=',varBin
-        lowerVarBound = float(varBin[0:varBin.find('To')])
-        upperVarBound = float(varBin[varBin.find('To')+2:])
-        # above is for bins; below is for threshold plots
-        #lowerVarBound = float(varBin)-5
-        #upperVarBound = float(varBin)+5
-        if upperVarBound > 2000:
-          upperVarBound = 2000
-        #print 'lowerVarBound=',lowerVarBound,'upperVarBound=',upperVarBound
-        middle = float((lowerVarBound+upperVarBound)/2.0)
-        delta = upperVarBound-middle
-        xPoints.append(middle)
-        xPointErrs.append(delta)
-      if 'rescale' in line and isVarPoint:
+        if not 'LQ' in name:
+          #print 'name=',name
+          varBin = name[name.find(var)+len(var):name.rfind('_')]
+          #print 'varBin=',varBin
+          lowerVarBound = float(varBin[0:varBin.find('To')])
+          upperVarBound = float(varBin[varBin.find('To')+2:])
+          # above is for bins; below is for threshold plots
+          #lowerVarBound = float(varBin)-5
+          #upperVarBound = float(varBin)+5
+          if upperVarBound > 2000:
+            upperVarBound = 2000
+          #print 'lowerVarBound=',lowerVarBound,'upperVarBound=',upperVarBound
+          middle = float((lowerVarBound+upperVarBound)/2.0)
+          delta = upperVarBound-middle
+        else: # for LQ 'final selection' plots
+          print 'name=',name
+          varBin = name[name.find('LQ')+2:name.rfind('_')]
+          if len(varBin)<=0:
+            varBin = name[name.find('LQ')+2:]
+          print 'varBin=',varBin
+          middle = float(varBin)
+          delta = 0
+          if eejjMode or not 'WJet' in name:
+            xPoints.append(middle)
+            xPointErrs.append(delta)
+          elif not eejjMode and 'WJet' in name:
+            xPointsWJ.append(middle)
+            xPointErrsWJ.append(delta)
+      if 'rescale factor' in line and isVarPoint:
         line = line.split(':')
         numbers = line[1]
         #print 'numbers="'+numbers+'"'
         rescale = float(numbers[0:numbers.find('+\-')])
         rescaleErr = float(numbers[numbers.find('+\-')+4:])
         print 'rescale =',rescale,'rescaleErr=',rescaleErr
-        yPoints.append(rescale)
-        if rescaleErr < 0:
-          rescaleErr = math.fabs(rescaleErr)
-        yPointErrs.append(rescaleErr)
+        if eejjMode or not 'WJet' in name:
+          yPoints.append(rescale)
+          if rescaleErr < 0:
+            rescaleErr = math.fabs(rescaleErr)
+          yPointErrs.append(rescaleErr)
+        elif not eejjMode and 'WJet' in name:
+          yPointsWJ.append(rescale)
+          if rescaleErr < 0:
+            rescaleErr = math.fabs(rescaleErr)
+          yPointErrsWJ.append(rescaleErr)
         isVarPoint = False
  
+
   if len(xPoints) <= 0:
     print 'No data in logfile found for var:',var
     continue
@@ -68,6 +107,11 @@ for var in varList:
   #print numpy.array(xPointErrs)
   #print numpy.array(yPoints)
   #print numpy.array(yPointErrs)
+  if bkgName=='wjet' and not eejjMode:
+    xPoints = xPointsWJ
+    xPointErrs = xPointErrsWJ
+    yPoints = yPointsWJ
+    yPointErrs = yPointErrsWJ
   canvas = TCanvas()
   canvas.cd()
   graph = TGraphErrors(len(xPoints),numpy.array(xPoints),numpy.array(yPoints),numpy.array(xPointErrs),numpy.array(yPointErrs))
@@ -79,17 +123,34 @@ for var in varList:
     graph.GetXaxis().SetTitle('S_{T} [GeV]')
   elif var=='MejMin':
     graph.GetXaxis().SetTitle('M_{ej}^{min} [GeV]')
+  elif 'LQ' in var:
+    graph.GetXaxis().SetTitle('M_{LQ} [GeV]')
   graph.GetXaxis().SetNdivisions(516)
-  if bkgName=='ttbar':
-    graph.GetYaxis().SetTitle('t#bar{t} scale factor')
-    sfNom = 0.81479
-    sfNomErr = 0.036965
-  elif bkgName=='zjet':
-    graph.GetYaxis().SetTitle('Z+jets scale factor')
-    #sfNom = 0.94 # MGHT
-    #sfNomErr = 0.01
-    sfNom = 1.03 # amc@NLO PtBinned
-    sfNomErr = 0.02
+  if eejjMode:
+    if bkgName=='ttbar':
+      graph.GetYaxis().SetTitle('t#bar{t} scale factor')
+      sfNom = 0.81479
+      sfNomErr = 0.036965
+    elif bkgName=='zjet':
+      graph.GetYaxis().SetTitle('Z+jets scale factor')
+      #sfNom = 0.94 # MGHT
+      #sfNomErr = 0.01
+      #sfNom = 1.03 # amc@NLO PtBinned
+      #sfNomErr = 0.02
+      #sfNom = 1.05 # amc@NLO PtBinned
+      #sfNomErr = 0.01
+      #sfNom = 0.98 # amc@NLO PtBinned, Sep. 29 PtEE
+      sfNom = 0.97 # amc@NLO PtBinned, Nov. 19, amcAtNLO diboson
+      sfNomErr = 0.01
+  else:
+    if bkgName=='ttbar':
+      graph.GetYaxis().SetTitle('t#bar{t} scale factor')
+      sfNom = 0.97
+      sfNomErr = 0.01
+    elif bkgName=='wjet':
+      graph.GetYaxis().SetTitle('W+jets scale factor')
+      sfNom = 0.88
+      sfNomErr = 0.01
   uncertaintyXpoints = [xPoints[0]-xPointErrs[0],xPoints[-1]+xPointErrs[-1]]
   uncertaintyYpoints = [sfNom,sfNom]
   uncertaintyXpointsErrs = [0,0]
@@ -115,18 +176,42 @@ for var in varList:
   #lineDown = TLine(graph.GetXaxis().GetXmin(),sfNom*0.9,graph.GetXaxis().GetXmax(),sfNom*0.9)
   #lineDown.SetLineStyle(2)
   #lineDown.Draw()
-  if bkgName=='ttbar':
-    if var=='sT':
-      leg = TLegend(0.19,0.68,0.51,0.89)
-    elif var=='MejMin':
-      leg = TLegend(0.19,0.19,0.51,0.40)
-    leg.AddEntry(graph,'t#bar{t} scale factor variations','lp')
-  elif bkgName=='zjet':
-    if var=='sT':
-      leg = TLegend(0.19,0.19,0.51,0.40)
-    elif var=='MejMin':
-      leg = TLegend(0.19,0.79,0.51,0.89)
-    leg.AddEntry(graph,'Z+jets scale factor variations','lp')
+  if eejjMode:
+    if bkgName=='ttbar':
+      if var=='sT':
+        leg = TLegend(0.19,0.68,0.51,0.89)
+      elif var=='MejMin':
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      leg.AddEntry(graph,'t#bar{t} scale factor variations','lp')
+    elif bkgName=='zjet':
+      if var=='sT':
+        #leg = TLegend(0.19,0.79,0.51,0.89)
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      elif var=='MejMin':
+        #leg = TLegend(0.19,0.79,0.51,0.89)
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      else:
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      leg.AddEntry(graph,'Z+jets scale factor variations','lp')
+  else:
+    if bkgName=='ttbar':
+      if var=='sT':
+        leg = TLegend(0.19,0.68,0.51,0.89)
+      elif var=='MejMin':
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      else:
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      leg.AddEntry(graph,'t#bar{t} scale factor variations','lp')
+    elif bkgName=='wjet':
+      if var=='sT':
+        #leg = TLegend(0.19,0.79,0.51,0.89)
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      elif var=='MejMin':
+        #leg = TLegend(0.19,0.79,0.51,0.89)
+        leg = TLegend(0.19,0.19,0.51,0.40)
+      else:
+        leg = TLegend(0.19,0.68,0.51,0.89)
+      leg.AddEntry(graph,'W+jets scale factor variations','lp')
   leg.AddEntry(uncertaintyRegionGraph,'Nominal scale factor = '+str(round(sfNom,3))+' #pm '+str(round(sfNomErr,3)),'fl')
   #leg.AddEntry(lineUp,'Nominal scale factor #pm 10%','l')
   leg.SetBorderSize(0)
@@ -134,9 +219,14 @@ for var in varList:
   canvas.Modified()
 
   # print
-  baseName = bkgName+'_scaleFactorVariation_sTBins' if var=='sT' else bkgName+'_scaleFactorVariation_mejMinBins'
+  if var=='sT':
+    baseName = bkgName+'_scaleFactorVariation_sTBins' 
+  elif var=='MejMin':
+    baseName = bkgName+'_scaleFactorVariation_mejMinBins'
+  elif 'LQ' in var:
+    baseName = bkgName+'_scaleFactorVariation_LQBins'
   canvas.Print(baseName+'.png')
-  #canvas.Print(baseName+'.pdf')
+  canvas.Print(baseName+'.pdf')
 
   ## wait for input to keep the GUI (which lives on a ROOT event dispatcher) alive
   if __name__ == '__main__':
