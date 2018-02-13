@@ -33,7 +33,8 @@ gStyle.SetPadBottomMargin(0.12);
 #--- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
 
 
-def GetBackgroundSyst(allBkg, zjets, ttbar, qcd, isEEJJ=True):
+def GetBackgroundSyst(systType, isEEJJ=True):
+    verbose = False
     # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/eejj_Preselection_sys.dat
     #  100*(deltaX/X) [rel. change in %]
     systDictEEJJ = {
@@ -45,7 +46,7 @@ def GetBackgroundSyst(allBkg, zjets, ttbar, qcd, isEEJJ=True):
       'EES'     : 1.31244,
       'PileUp'  : 7.24591,
       'PDF'     : 1.10962,
-      'DY_Shape': 9.92748,
+      'DYShape' : 9.92748,
       'Lumi'    : 2.6,
       'Trigger' : 1.033228,
     }
@@ -66,46 +67,54 @@ def GetBackgroundSyst(allBkg, zjets, ttbar, qcd, isEEJJ=True):
       'Trigger' : 2.56837,
     }
     if isEEJJ:
-      systDictList = systDictEEJJ.values()
+      systDict = systDictEEJJ
     else:
-      systDictList = systDictENuJJ.values()
-    systDictList = [value/100.0 for value in systDictList]
+      systDict = systDictENuJJ
     preselSyst = 0.0
-    for item in systDictList:
-      preselSyst+=pow(float(item)*allBkg,2)
-    # that is on all background
+    for key in systDict.iterkeys():
+      # for QCD, take only QCD uncert
+      if 'qcd' in systType.lower():
+        break
+      # for data-driven ttbar, take only its uncert
+      if 'data' in systType.lower():
+        break
+      if not 'tt' in systType.lower() and 'ttshape' in key.lower():
+        continue
+      if not 'wjets' in systType.lower() and 'wshape' in key.lower():
+        continue
+      if not 'zjets' in systType.lower() and not 'dyjets' in systType.lower() and 'dyshape' in key.lower():
+        continue
+      item = float(systDict[key])/100.0
+      preselSyst+=pow(item,2)
+    if verbose:
+      print 'MC background systematic for systType=',systType,'(relative):',math.sqrt(preselSyst)
+    # that is on all MC background
     ## mine
+    term = 0
     if isEEJJ:
-      #'qcdNorm' : 40,
-      qcdTerm = pow(qcd*0.4,2)
+      #'qcdNorm' : 50,
+      if 'qcd' in systType.lower():
+        term = pow(0.5,2)
       #'ttbarNorm' : 1,
-      ttbarNormTerm = pow(ttbar*0.01,2)
+      elif 'tt' in systType.lower():
+        term = pow(0.01,2)
       #'zjetsNorm' : 0.75,
-      zjetsNormTerm = pow(zjets*0.0075,2)
-      ##special
-      # 'ttshape' : 7.31,
-      #ttShapeTerm = pow(ttbar*0.0731,2)
-      ttShapeTerm = 0
-      # 'zshape' : 8.28,
-      zShapeTerm = pow(zjets*0.08,2)
-      #
-      preselSyst += qcdTerm+ttbarNormTerm+zjetsNormTerm+ttShapeTerm+zShapeTerm
+      elif 'zjets' in systType.lower() or 'dyjets' in systType.lower():
+        term = pow(0.0075,2)
     else:
-      #'qcdNorm' : 20,
-      qcdTerm = pow(qcd*0.2,2)
+      #'qcdNorm' : 25,
+      if 'qcd' in systType.lower():
+        term = pow(0.25,2)
       #'ttbarNorm' : 1,
-      ttbarNormTerm = pow(ttbar*0.01,2)
+      elif 'tt' in systType.lower():
+        term = pow(0.01,2)
       #'wjetsNorm' : 1,
-      wjetsNormTerm = pow(zjets*0.01,2)
-      ##special
-      # 'ttshape' : 7.31,
-      #ttShapeTerm = pow(ttbar*0.0731,2)
-      #ttShapeTerm = 0
-      # 'wshape' : 8.28,
-      #wShapeTerm = pow(zjets*0.08,2)
-      #
-      preselSyst += qcdTerm+ttbarNormTerm+wjetsNormTerm
+      elif 'wjets' in systType.lower():
+        term = pow(0.01,2)
+    preselSyst += term
     preselSyst = math.sqrt(preselSyst)
+    if verbose:
+      print 'final background systematic for systType=',systType,'(relative):',preselSyst
     return preselSyst
 
     
@@ -325,7 +334,11 @@ def rebinHisto2D( histo, xmin, xmax, ymin, ymax, xrebin, yrebin, xbins, ybins, a
 def rebinHisto( histo, xmin, xmax, rebin, xbins, addOvfl ):
     new_histo = TH1F()
     minBinWidth = 0
-    if( xmin!="" and xmax!="" and rebin!="var" ):
+    if (xbins=="" and rebin=="var") or (xbins!="" and rebin!="var"):
+        print 'ERROR: Did not understand rebinning; xbins must be set to a list and rebin="var" must be set to activate variable rebinning. Quit here.'
+        print 'Got xbins="'+str(xbins)+'" and rebin="'+str(rebin)+'"'
+        exit(-1)
+    elif( xmin!="" and xmax!="" and rebin!="var" ):
         if(rebin!=""):
             histo.Rebin(rebin)
         minBinWidth = histo.GetBinWidth(1)
@@ -450,7 +463,7 @@ class Plot:
     histodataBlindAbove = -1.0
     addBkgUncBand = True
     bkgUncKey = "Bkg. syst."
-    bkgSyst = 0
+    systs = [] # relative systematic uncertainty on each stack histo (for background)
 
     def Draw(self, fileps, page_number=-1 ):
 
@@ -571,6 +584,7 @@ class Plot:
         #stackColorIndexes = [20,38,12,14,20,38,12,14]
         
         stkcp = []
+        stkSystErrHistos = []
         stackedHistos = []
         thStack = THStack()
         bkgTotalHist = TH1D()
@@ -630,6 +644,7 @@ class Plot:
             #draw first histo
             #stackedHistos[-1].Draw("HIST")
             stkcp.append(copy.deepcopy(stackedHistos[-1]))
+            stkSystErrHistos.append(copy.deepcopy(stackedHistos[-1]))
             #legend.AddEntry(stackedHistos[-1], self.keysStack[index],"lf")
             thStack.Add(histo)
             if index==0:
@@ -701,11 +716,19 @@ class Plot:
             legend.AddEntry(zUncHisto, self.ZUncKey,"f")
 
         if self.addBkgUncBand:
-            #histoAll = copy.deepcopy(bkgTotalHist)
-            histoAll = thStack.GetStack().Last()
-            bkgUncHisto = copy.deepcopy(histoAll)
-            for bin in range(0,histoAll.GetNbinsX()):
-                bkgUncHisto.SetBinError(bin+1,self.bkgSyst*histoAll.GetBinContent(bin+1))
+            bkgUncHisto = copy.deepcopy(thStack.GetStack().Last())
+            bkgUncHisto.Reset()
+            for idx,hist in enumerate(stkSystErrHistos):
+                syst = self.systs[idx]
+                for ibin in xrange(0,hist.GetNbinsX()+2):
+                    hist.SetBinError(ibin,syst*hist.GetBinContent(ibin))
+                bkgUncHisto.Add(hist)
+                    
+            ##histoAll = copy.deepcopy(bkgTotalHist)
+            #histoAll = thStack.GetStack().Last()
+            #bkgUncHisto = copy.deepcopy(histoAll)
+            #for bin in range(0,histoAll.GetNbinsX()):
+            #    bkgUncHisto.SetBinError(bin+1,self.bkgSyst*histoAll.GetBinContent(bin+1))
             bkgUncHisto.SetMarkerStyle(0)
             bkgUncHisto.SetLineColor(0)
             bkgUncHisto.SetFillColor(kGray+2)
@@ -743,8 +766,8 @@ class Plot:
             self.histodata.SetLineWidth(2)
             self.histodata.SetLineColor(kBlack)
             #legend.AddEntry(self.histodata, "Data","lp")
-            self.histodata.Draw("psame")
-            if self.histodataBlindAbove > 0:
+            self.histodata.Draw("e0psame")
+            if self.histodataBlindAbove >= 0:
                 #print 'drawing TLine:',self.histodataBlindAbove,',',self.histodata.GetYaxis().GetXmin(),',',self.histodataBlindAbove,',',self.histodata.GetYaxis().GetXmax()
                 #blindLine = TLine(self.histodataBlindAbove,self.histodata.GetYaxis().GetXmin(),self.histodataBlindAbove,self.histodata.GetYaxis().GetXmax())
                 #print 'drawing TLine:',self.histodataBlindAbove,',',my_ymin,',',self.histodataBlindAbove,',',my_ymax
@@ -802,9 +825,13 @@ class Plot:
         if(self.makeRatio==1 or self.makeNSigma==1) and self.histodata:
 
             h_bkgTot = copy.deepcopy(bkgTotalHist)
+            if self.addBkgUncBand:
+                  h_bkgUnc = copy.deepcopy(bkgUncHisto)
             h_ratio = copy.deepcopy(self.histodata)
+            h_ratioSyst = copy.deepcopy(self.histodata)
             h_nsigma = copy.deepcopy(self.histodata)
             h_bkgTot1 = TH1F()
+            h_bkgUnc1 = TH1F()
             h_ratio1 = TH1F()
             h_nsigma1 = TH1F()
 
@@ -812,19 +839,26 @@ class Plot:
                 xbinsFinal = array( 'd', self.xbins )
                 length = len(xbinsFinal)-1
                 h_bkgTot1 = h_bkgTot.Rebin( length , "h_bkgTot1", xbinsFinal)
+                if self.addBkgUncBand:
+                    h_bkgUnc1 = h_bkgUnc.Rebin( length , "h_bkgUnc1", xbinsFinal)
                 h_ratio1 = h_ratio.Rebin( length , "h_ratio1" , xbinsFinal)
                 h_nsigma1 = h_nsigma.Rebin( length, "h_nsigma1", xbinsFinal)
             else:
                 h_bkgTot1 = h_bkgTot
+                if self.addBkgUncBand:
+                    h_bkgUnc1 = h_bkgUnc
                 h_ratio1 = h_ratio
                 h_nsigma1 = h_nsigma
 
             h_ratio1.SetStats(0)
             if( self.xmin!="" and self.xmax!="" and self.rebin!="var" ):
                 h_bkgTot1.GetXaxis().SetRangeUser(self.xmin,self.xmax-0.000001)
+                if self.addBkgUncBand:
+                    h_bkgUnc1.GetXaxis().SetRangeUser(self.xmin,self.xmax-0.000001)
                 h_ratio1.GetXaxis().SetRangeUser(self.xmin,self.xmax-0.000001)
                 h_nsigma1.GetXaxis().SetRangeUser(self.xmin,self.xmax-0.000001)
 
+            h_ratioSyst = copy.deepcopy(h_ratio1)
             if ( self.makeRatio == 1 ):
                 fPads2.cd()
                 # fPads2.SetLogy()
@@ -840,24 +874,31 @@ class Plot:
                 h_ratio1.GetYaxis().SetTitleOffset(0.3)
                 h_ratio1.SetMarkerStyle ( 1 )
                 
-                h_ratio1.Draw("p")
-                if self.bkgSyst > 0:
-                    histoAll = thStack.GetStack().Last()
-                    bgRatioErrs = h_ratio1.Clone()
-                    bgRatioErrs.Reset()
-                    bgRatioErrs.SetName('bgRatioErrs')
-                    for binn in range(0,bgRatioErrs.GetNbinsX()):
-                        #bgRatioErrs.SetBinContent(binn, histoAll.GetBinContent(binn))
-                        bgRatioErrs.SetBinContent(binn,1.0)
-                    for binn in range(0,bgRatioErrs.GetNbinsX()):
-                        bgRatioErrs.SetBinError(binn, bgRatioErrs.GetBinContent(binn)*self.bkgSyst)
-                    #print 'ratioErrors'
+                h_ratio1.Draw("e0p")
+
+                if self.addBkgUncBand:
+                    #histoAll = thStack.GetStack().Last()
+                    #bgRatioErrs = h_ratio1.Clone()
+                    #bgRatioErrs.Reset()
+                    #bgRatioErrs.SetName('bgRatioErrs')
                     #for binn in range(0,bgRatioErrs.GetNbinsX()):
-                    #    print 'bin=',bgRatioErrs.GetBinContent(binn),'+/-',bgRatioErrs.GetBinError(binn)
-                    #bgRatioErrs.SetFillColor(kOrange-6)
-                    bgRatioErrs.SetFillColor(kGray+2)
-                    bgRatioErrs.SetLineColor(kGray+2)
-                    bgRatioErrs.SetFillStyle(3001)
+                    #    #bgRatioErrs.SetBinContent(binn, histoAll.GetBinContent(binn))
+                    #    bgRatioErrs.SetBinContent(binn,1.0)
+                    #for binn in range(0,bgRatioErrs.GetNbinsX()):
+                    #    bgRatioErrs.SetBinError(binn, bgRatioErrs.GetBinContent(binn)*self.bkgSyst)
+                    ##print 'ratioErrors'
+                    ##for binn in range(0,bgRatioErrs.GetNbinsX()):
+                    ##    print 'bin=',bgRatioErrs.GetBinContent(binn),'+/-',bgRatioErrs.GetBinError(binn)
+                    ##bgRatioErrs.SetFillColor(kOrange-6)
+                    #
+                    h_ratioSyst.Divide(h_bkgUnc1) # just divide by the bkgTotal hist with the systs as errors
+                    bgRatioErrs = h_ratioSyst
+                    # set bin contents to 1
+                    for binn in range(0,bgRatioErrs.GetNbinsX()):
+                        bgRatioErrs.SetBinContent(binn,1.0)
+                    bgRatioErrs.SetFillColor(kGray+1)
+                    bgRatioErrs.SetLineColor(kGray+1)
+                    #bgRatioErrs.SetFillStyle(3001)
                     #bgRatioErrs.SetFillStyle(3018)
                     #bgRatioErrs.SetFillStyle(3013)
                     #bgRatioErrs.SetMarkerSize(1.1)
@@ -867,7 +908,18 @@ class Plot:
                     #bgRatioErrs.Draw('aE2 aE0 same')
                     #bgRatioErrs.SetDrawOption('hist')
                     #bgRatioErrs.Draw('aE2 E0 same')
-                    bgRatioErrs.Draw('E2 same')
+                    bgRatioErrs.GetXaxis().SetTitle("")
+                    bgRatioErrs.GetXaxis().SetTitleSize(0.06)
+                    bgRatioErrs.GetXaxis().SetLabelSize(0.1)
+                    bgRatioErrs.GetYaxis().SetRangeUser(0.,2)
+                    bgRatioErrs.GetYaxis().SetTitle("Data/MC")
+                    bgRatioErrs.GetYaxis().SetLabelSize(0.1)
+                    bgRatioErrs.GetYaxis().SetTitleSize(0.13)
+                    bgRatioErrs.GetYaxis().SetTitleOffset(0.3)
+                    bgRatioErrs.SetMarkerStyle ( 1 )
+                    bgRatioErrs.Draw('E2')
+                    h_ratio1.Draw("e0psame")
+
 
                 lineAtOne = TLine(h_ratio.GetXaxis().GetXmin(),1,h_ratio.GetXaxis().GetXmax(),1)
                 lineAtOne.SetLineColor(2)
@@ -886,12 +938,14 @@ class Plot:
                     bkgd  = h_bkgTot1.GetBinContent (ibin)
                     eData = h_nsigma1.GetBinError   (ibin)
                     eBkgd = h_bkgTot1.GetBinError   (ibin)
+                    if self.addBkgUncBand:
+                        eBkgSyst = h_bkgUnc1.GetBinError(ibin)
 
                     x = h_ratio1.GetBinCenter ( ibin )
 
                     diff   = data - bkgd
-                    if self.bkgSyst > 0:
-                        sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ) + ( self.bkgSyst*self.bkgSyst*bkgd*bkgd ) )
+                    if self.addBkgUncBand:
+                        sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ) + ( eBkgSyst*eBkgSyst ) )
                     else:
                         sigma  = math.sqrt ( ( eData * eData ) + ( eBkgd * eBkgd ))
                     #print 'Data:',data,'eData:',eData,'bkgd:',bkgd,'eBkgd:',eBkgd,'sysBkgd',self.bkgSyst*bkgd
@@ -921,7 +975,7 @@ class Plot:
                         g_nsigma.GetHistogram().GetXaxis().SetTitle("")
                         g_nsigma.GetHistogram().GetXaxis().SetTitleSize(0.06)
                         g_nsigma.GetHistogram().GetXaxis().SetLabelSize(0.1)
-                        g_nsigma.GetHistogram().GetYaxis().SetRangeUser(-8.,8)
+                        g_nsigma.GetHistogram().GetYaxis().SetRangeUser(-5.,5)
                         g_nsigma.GetHistogram().GetXaxis().SetLimits ( self.histodata.GetXaxis().GetXmin(), self.histodata.GetXaxis().GetXmax() )
 
                         g_nsigma.GetHistogram().GetYaxis().SetTitle("N(#sigma) Diff")
