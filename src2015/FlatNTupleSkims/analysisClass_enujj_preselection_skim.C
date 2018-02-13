@@ -7,11 +7,6 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
-// for trigger turn-on
-#include "Ele27WPLooseTrigTurnOn.C"
-// for fake rate
-#include "include/QCDFakeRate.h"
-
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
 {
@@ -55,8 +50,17 @@ void analysisClass::Loop() {
     //------------------------------------------------------------------
 
     Long64_t ientry = LoadTree(jentry);
-    if (ientry < 0) break;
+    if (ientry < 0)
+    {
+      std::cout << "ERROR: Could not read from TTree; exiting." << std::endl;
+      exit(-1);
+    }
     nb = fChain->GetEntry(jentry);   nbytes += nb;
+    if (nb < 0)
+    {
+      std::cout << "ERROR: Could not read entry from TTree: read " << nb << "bytes; exiting." << std::endl;
+      exit(-2);
+    }
 
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
@@ -123,9 +127,9 @@ void analysisClass::Loop() {
     //------------------------------------------------------------------
     // Fill variables 
     //------------------------------------------------------------------
-    fillVariableWithValue("nMuon_ptCut"       , nMuon_ptCut             , gen_weight * pileup_weight );
-    fillVariableWithValue("nEle_ptCut"	      , nEle_ptCut	  , gen_weight * pileup_weight  );
-    fillVariableWithValue("Ele1_PtHeep"  	    , Ele1_PtHeep   , gen_weight * pileup_weight  );	  
+    //fillVariableWithValue("nMuon_ptCut"       , nMuon_ptCut             , gen_weight * pileup_weight );
+    //fillVariableWithValue("nEle_ptCut"	      , nEle_ptCut	  , gen_weight * pileup_weight  );
+    //fillVariableWithValue("Ele1_PtHeep"  	    , Ele1_PtHeep   , gen_weight * pileup_weight  );	  
     fillVariableWithValue("Ele1_Eta"          , Ele1_Eta                , gen_weight * pileup_weight );
     fillVariableWithValue("Ele1_IsBarrel"     , Ele1_IsBarrel           , gen_weight * pileup_weight );
     fillVariableWithValue("PFMET_Type1XY_Pt" , PFMET_Type1XY_Pt, gen_weight * pileup_weight   );	  	  

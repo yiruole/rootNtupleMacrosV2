@@ -55,8 +55,17 @@ void analysisClass::Loop() {
     //------------------------------------------------------------------
 
     Long64_t ientry = LoadTree(jentry);
-    if (ientry < 0) break;
+    if (ientry < 0)
+    {
+      std::cout << "ERROR: Could not read from TTree; exiting." << std::endl;
+      exit(-1);
+    }
     nb = fChain->GetEntry(jentry);   nbytes += nb;
+    if (nb < 0)
+    {
+      std::cout << "ERROR: Could not read entry from TTree: read " << nb << "bytes; exiting." << std::endl;
+      exit(-2);
+    }
 
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
@@ -84,12 +93,12 @@ void analysisClass::Loop() {
 
     double gen_weight = Weight;
     if ( isData ) gen_weight = 1.0;
-    // Ele2_ValidFrac==999 --> ttbar-type sample
-    if ( isData && Ele2_ValidFrac > 998. && getPreCutString1("TrigCorrForSingleLeptonFinalState")=="true"){
-      // efficiency of electron firing the trigger is stored in hltEleTTbarPt of the muon
-      // weight the event by 2-eff.
-      gen_weight *= Ele1_Energy < -998 ? 2-Ele1_hltEleTTbarPt : 2-Ele2_hltEleTTbarPt;
-    }
+    //// Ele2_ValidFrac==999 --> ttbar-type sample
+    //if ( isData && Ele2_ValidFrac > 998. && getPreCutString1("TrigCorrForSingleLeptonFinalState")=="true"){
+    //  // efficiency of electron firing the trigger is stored in hltEleTTbarPt of the muon
+    //  // weight the event by 2-eff.
+    //  gen_weight *= Ele1_Energy < -998 ? 2-Ele1_hltEleTTbarPt : 2-Ele2_hltEleTTbarPt;
+    //}
 
     // For TopPt reweighting
     if (TopPtWeight != -999)
@@ -168,14 +177,14 @@ void analysisClass::Loop() {
     //if (  is_ttbar_from_data && nMuon_ptCut >  0 ) PassNMuon = 1;
     if (  nMuon_ptCut == 0 ) PassNMuon = 1;
 
-    fillVariableWithValue("PassNEle" , PassNEle , gen_weight * pileup_weight);
-    fillVariableWithValue("PassNMuon", PassNMuon, gen_weight * pileup_weight);
-
-    if(is_ttbar_from_data)
-    {
-      fillVariableWithValue("nEle_ptCut" , nEle_ptCut , gen_weight * pileup_weight);
-      fillVariableWithValue("nMuon_ptCut", nMuon_ptCut, gen_weight * pileup_weight);
-    }
+    //fillVariableWithValue("PassNEle" , PassNEle , gen_weight * pileup_weight);
+    //fillVariableWithValue("PassNMuon", PassNMuon, gen_weight * pileup_weight);
+    //
+    //if(is_ttbar_from_data)
+    //{
+    //  fillVariableWithValue("nEle_ptCut" , nEle_ptCut , gen_weight * pileup_weight);
+    //  fillVariableWithValue("nMuon_ptCut", nMuon_ptCut, gen_weight * pileup_weight);
+    //}
 
     //--------------------------------------------------------------------------
     // Calculate electron-jet pair mass values
@@ -200,8 +209,8 @@ void analysisClass::Loop() {
     // Fill electron variables 
     //--------------------------------------------------------------------------
     
-    if ( nEle_store >= 1 ) fillVariableWithValue( "Ele1_PtHeep", Ele1_PtHeep, gen_weight * pileup_weight  ) ;
-    if ( nEle_store >= 2 ) fillVariableWithValue( "Ele2_PtHeep", Ele2_PtHeep, gen_weight * pileup_weight  ) ;
+    //if ( nEle_store >= 1 ) fillVariableWithValue( "Ele1_PtHeep", Ele1_PtHeep, gen_weight * pileup_weight  ) ;
+    //if ( nEle_store >= 2 ) fillVariableWithValue( "Ele2_PtHeep", Ele2_PtHeep, gen_weight * pileup_weight  ) ;
 		 
     //--------------------------------------------------------------------------
     // Fill jet variables 
