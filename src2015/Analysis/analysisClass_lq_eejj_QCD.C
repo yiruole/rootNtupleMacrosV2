@@ -47,12 +47,13 @@ void analysisClass::Loop()
 
   std::vector<bool> passed_vector;
 
+  char cut_name[100];
   //--------------------------------------------------------------------------
   // Decide which plots to save (default is to save everything)
   //--------------------------------------------------------------------------
 
   fillSkim                         ( !true  ) ;
-  fillAllPreviousCuts              ( !true  ) ;
+  fillAllPreviousCuts              ( true  ) ;
   fillAllOtherCuts                 ( true  ) ;
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
   fillAllCuts                      ( !true  ) ;
@@ -123,14 +124,20 @@ void analysisClass::Loop()
   CreateUserTH1D( "nJet_PASandMee100"        ,    10  , -0.5    , 9.5      );
   //CreateUserTH1D( "nJet_ROI"              ,    10  , -0.5    , 9.5      );
   CreateUserTH1D( "Pt1stEle_PAS"	   , 	100 , 0       , 1000     ); 
+  CreateUserTH1D( "PtHeep1stEle_PAS"	   , 	100 , 0       , 1000     ); 
   CreateUserTH1D( "Pt1stEle_PASandMee100" , 	100 , 0       , 1000     ); 
   //CreateUserTH1D( "Pt1stEle_ROI"	   , 	100 , 0       , 1000     ); 
   CreateUserTH1D( "Eta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
+  CreateUserTH1D( "SCEta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
+  CreateUserTH1D( "DeltaEtaEleTrk1stEle_Presel", 400, -0.5,   0.5 );
   CreateUserTH1D( "Phi1stEle_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
   CreateUserTH1D( "Pt2ndEle_PAS"	   , 	300 , 0       , 3000     ); 
+  CreateUserTH1D( "PtHeep2ndEle_PAS"	   , 	300 , 0       , 3000     ); 
   CreateUserTH1D( "Pt2ndEle_PASandMee100" , 	300 , 0       , 3000     ); 
   //CreateUserTH1D( "Pt2ndEle_ROI"	   , 	300 , 0       , 3000     ); 
   CreateUserTH1D( "Eta2ndEle_PAS"	   , 	100 , -5      , 5	 ); 
+  CreateUserTH1D( "SCEta2ndEle_PAS"	   , 	100 , -5      , 5	 ); 
+  CreateUserTH1D( "DeltaEtaEleTrk2ndEle_Presel", 400, -0.5,   0.5 );
   CreateUserTH1D( "Phi2ndEle_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
   CreateUserTH1D( "Charge1stEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
   CreateUserTH1D( "Charge2ndEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
@@ -156,9 +163,9 @@ void analysisClass::Loop()
   CreateUserTH1D( "sTjet_PASandMee100"    ,    200 , 0       , 2000	 ); 
   //CreateUserTH1D( "sTlep_ROI"             ,    200 , 0       , 2000	 ); 
   //CreateUserTH1D( "sTjet_ROI"             ,    200 , 0       , 2000	 ); 
-  CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
-  CreateUserTH1D( "sT_zjj_PAS"                      ,    200   , 0       , 2000	  ); 
-  CreateUserTH1D( "sT_zjj_PASandMee100"             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "sT_PAS"                ,    300   , 0       , 3000	 ); 
+  CreateUserTH1D( "sT_zjj_PAS"            ,    300   , 0       , 3000	  ); 
+  CreateUserTH1D( "sT_zjj_PASandMee100"   ,    300   , 0       , 3000	  ); 
   //CreateUserTH1D( "sT_zjj_ROI"                      ,    200   , 0       , 2000	  ); 
   CreateUserTH1D( "sT_PASandMee100"       ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sT_PASandMee110"       ,    200 , 0       , 2000	 ); 
@@ -309,8 +316,8 @@ void analysisClass::Loop()
   CreateUserTH1D("CorrIsolation_1stEle_PAS"                 , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_PAS"                 , 200,-25.0 ,  25.0  );
   CreateUserTH1D("DeltaEtaTrkSC_1stEle_PAS"                 , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_PAS"                 , 200, -0.01,   0.01 );
   CreateUserTH1D("DeltaPhiTrkSC_1stEle_PAS"                 , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_PAS"                 , 200, -0.1 ,   0.1  );
-  CreateUserTH1D("E1x5OverE5x5_1stEle_PAS"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_PAS"                  , 200,  0.0 ,   2.0  );
-  CreateUserTH1D("E2x5OverE5x5_1stEle_PAS"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_PAS"                  , 200,  0.0 ,   2.0  );
+  CreateUserTH1D("Full5x5E1x5OverE5x5_1stEle_PAS"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("Full5x5E1x5OverE5x5_2ndEle_PAS"                  , 200,  0.0 ,   2.0  );
+  CreateUserTH1D("Full5x5E2x5OverE5x5_1stEle_PAS"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("Full5x5E2x5OverE5x5_2ndEle_PAS"                  , 200,  0.0 ,   2.0  );
   CreateUserTH1D("EcalIsolation_1stEle_PAS"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_PAS"                 , 200,  0.0 ,  20.0  );
   CreateUserTH1D("HcalIsolation_1stEle_PAS"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_PAS"                 , 200,  0.0 ,  20.0  );
   CreateUserTH1D("TrkIsolation_1stEle_PAS"                  , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_PAS"                  , 200,  0.0,    5.0  );
@@ -328,8 +335,8 @@ void analysisClass::Loop()
   CreateUserTH1D("EnergyORawEnergy_1stEle_PAS"              , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_PAS"              , 200,  0.9,    1.4  );
   CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_PAS"            , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_PAS"            , 200,  0.0,    0.02 );
   CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_PAS"            , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_PAS"            , 200,  0.0,    0.1  );
-  CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS"          , 200,  0.0,    0.04 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS"          , 200,  0.0,    0.04 );
-  CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS"          , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS"          , 200,  0.0,    0.1  );
+  CreateUserTH1D("Full5x5SigmaIEtaIEta_Barrel_1stEle_PAS"   , 200,  0.0,    0.04 ); CreateUserTH1D("Full5x5SigmaIEtaIEta_Barrel_2ndEle_PAS"   , 200,  0.0,    0.04 );
+  CreateUserTH1D("Full5x5SigmaIEtaIEta_Endcap_1stEle_PAS"   , 200,  0.0,    0.1  ); CreateUserTH1D("Full5x5SigmaIEtaIEta_Endcap_2ndEle_PAS"   , 200,  0.0,    0.1  );
   CreateUserTH1D("TrkPtOPt_1stEle_PAS"                      , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_PAS"                      , 200,  0.0,  100.0  );
   CreateUserTH1D("ValidFrac_1stEle_PAS"                     , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_PAS"                     , 200,  0.0 ,   2.0  );
 
@@ -338,8 +345,8 @@ void analysisClass::Loop()
   CreateUserTH1D("CorrIsolation_1stEle_PASandMee100"        , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_PASandMee100"        , 200,-25.0 ,  25.0  );
   CreateUserTH1D("DeltaEtaTrkSC_1stEle_PASandMee100"        , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_PASandMee100"        , 200, -0.01,   0.01 );
   CreateUserTH1D("DeltaPhiTrkSC_1stEle_PASandMee100"        , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_PASandMee100"        , 200, -0.1 ,   0.1  );
-  CreateUserTH1D("E1x5OverE5x5_1stEle_PASandMee100"         , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_PASandMee100"         , 200,  0.0 ,   2.0  );
-  CreateUserTH1D("E2x5OverE5x5_1stEle_PASandMee100"         , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_PASandMee100"         , 200,  0.0 ,   2.0  );
+  CreateUserTH1D("Full5x5E1x5OverE5x5_1stEle_PASandMee100"         , 200,  0.0 ,   2.0  ); CreateUserTH1D("Full5x5E1x5OverE5x5_2ndEle_PASandMee100"         , 200,  0.0 ,   2.0  );
+  CreateUserTH1D("Full5x5E2x5OverE5x5_1stEle_PASandMee100"         , 200,  0.0 ,   2.0  ); CreateUserTH1D("Full5x5E2x5OverE5x5_2ndEle_PASandMee100"         , 200,  0.0 ,   2.0  );
   CreateUserTH1D("EcalIsolation_1stEle_PASandMee100"        , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_PASandMee100"        , 200,  0.0 ,  20.0  );
   CreateUserTH1D("HcalIsolation_1stEle_PASandMee100"        , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_PASandMee100"        , 200,  0.0 ,  20.0  );
   CreateUserTH1D("TrkIsolation_1stEle_PASandMee100"         , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_PASandMee100"         , 200,  0.0,    5.0  );
@@ -357,8 +364,8 @@ void analysisClass::Loop()
   CreateUserTH1D("EnergyORawEnergy_1stEle_PASandMee100"     , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_PASandMee100"     , 200,  0.9,    1.4  );
   CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_PASandMee100"   , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_PASandMee100"   , 200,  0.0,    0.02 );
   CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_PASandMee100"   , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_PASandMee100"   , 200,  0.0,    0.1  );
-  CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PASandMee100" , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PASandMee100" , 200,  0.0,    0.02 );
-  CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PASandMee100" , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100" , 200,  0.0,    0.1  );
+  CreateUserTH1D("Full5x5SigmaIEtaIEta_Barrel_1stEle_PASandMee100" , 200,  0.0,    0.02 ); CreateUserTH1D("Full5x5SigmaIEtaIEta_Barrel_2ndEle_PASandMee100" , 200,  0.0,    0.02 );
+  CreateUserTH1D("Full5x5SigmaIEtaIEta_Endcap_1stEle_PASandMee100" , 200,  0.0,    0.1  ); CreateUserTH1D("Full5x5SigmaIEtaIEta_Endcap_2ndEle_PASandMee100" , 200,  0.0,    0.1  );
   CreateUserTH1D("TrkPtOPt_1stEle_PASandMee100"             , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_PASandMee100"             , 200,  0.0,  100.0  );
   CreateUserTH1D("ValidFrac_1stEle_PASandMee100"            , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_PASandMee100"            , 200,  0.0 ,   2.0  );
 
@@ -417,18 +424,28 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   // Final selection plots
   //--------------------------------------------------------------------------
+  bool doFinalSelections = false;
+  // check if there is a final Mej specific in cutfile for any LQ mass
+  for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+    int lq_mass = LQ_MASS[i_lq_mass];
+    sprintf(cut_name, "min_M_ej_LQ%d"   , lq_mass );
+    if(hasCut(cut_name)) {
+      doFinalSelections = true;
+      break;
+    }
+  }
 
   char plot_name[100];
 
   for (int i_lq_mass = 0; i_lq_mass < n_lq_mass ; ++i_lq_mass ) { 
     int lq_mass = LQ_MASS[i_lq_mass];
-    sprintf(plot_name, "Mej_selected_avg_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 50  , 0 , 2500 );
-    sprintf(plot_name, "Mej_selected_min_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 50  , 0 , 2500 );
-    sprintf(plot_name, "Mej_selected_max_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 50  , 0 , 2500 );
-    sprintf(plot_name, "Mej_minmax_LQ%d"             , lq_mass ); CreateUserTH1D ( plot_name, 50  , 0 , 2500 );
-    sprintf(plot_name, "sT_eejj_LQ%d"                , lq_mass ); CreateUserTH1D ( plot_name, 25  , 0 , 2500 );
+    sprintf(plot_name, "Mej_selected_avg_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
+    sprintf(plot_name, "Mej_selected_min_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
+    sprintf(plot_name, "Mej_selected_max_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
+    sprintf(plot_name, "Mej_minmax_LQ%d"             , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
+    sprintf(plot_name, "sT_eejj_LQ%d"                , lq_mass ); CreateUserTH1D ( plot_name, 30  , 0 , 3000 );
     sprintf(plot_name, "Mee_LQ%d"                    , lq_mass ); CreateUserTH1D ( plot_name, 40  , 0 , 2000 );
-    sprintf(plot_name, "Mej_selected_min_vs_max_LQ%d", lq_mass ); CreateUserTH2D ( plot_name, 50  , 0 , 1000, 50  , 0 , 1000 );
+    sprintf(plot_name, "Mej_selected_min_vs_max_LQ%d", lq_mass ); CreateUserTH2D ( plot_name, 150  , 0 , 3000, 150  , 0 , 3000 );
     sprintf(plot_name, "DR_Ele1Jet1_LQ%d"            , lq_mass ); CreateUserTH1D ( plot_name, 
         getHistoNBins("DR_Ele1Jet1"), 
         getHistoMin  ("DR_Ele1Jet1"), 
@@ -439,8 +456,8 @@ void analysisClass::Loop()
     sprintf(plot_name, "CorrIsolation_1stEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200,-25.0 ,  25.0  );
     sprintf(plot_name, "DeltaEtaTrkSC_1stEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200, -0.01,   0.01 );
     sprintf(plot_name, "DeltaPhiTrkSC_1stEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200, -0.1 ,   0.1  );
-    sprintf(plot_name, "E1x5OverE5x5_1stEle_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
-    sprintf(plot_name, "E2x5OverE5x5_1stEle_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
+    sprintf(plot_name, "Full5x5E1x5OverE5x5_1stEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
+    sprintf(plot_name, "Full5x5E2x5OverE5x5_1stEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
     sprintf(plot_name, "EcalIsolation_1stEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,  20.0  );
     sprintf(plot_name, "HcalIsolation_1stEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,  20.0  );
     sprintf(plot_name, "TrkIsolation_1stEle_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    5.0  );
@@ -458,8 +475,8 @@ void analysisClass::Loop()
     sprintf(plot_name, "EnergyORawEnergy_1stEle_LQ%d"     , lq_mass ); CreateUserTH1D( plot_name , 200,  0.9,    1.4  );
     sprintf(plot_name, "SigmaEtaEta_Barrel_1stEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
     sprintf(plot_name, "SigmaEtaEta_Endcap_1stEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
-    sprintf(plot_name, "SigmaIEtaIEta_Barrel_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
-    sprintf(plot_name, "SigmaIEtaIEta_Endcap_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
+    sprintf(plot_name, "Full5x5SigmaIEtaIEta_Barrel_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
+    sprintf(plot_name, "Full5x5SigmaIEtaIEta_Endcap_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
     sprintf(plot_name, "TrkPtOPt_1stEle_LQ%d"             , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,  100.0  );
     sprintf(plot_name, "ValidFrac_1stEle_LQ%d"            , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
 
@@ -468,8 +485,8 @@ void analysisClass::Loop()
     sprintf(plot_name, "CorrIsolation_2ndEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200,-25.0 ,  25.0  );
     sprintf(plot_name, "DeltaEtaTrkSC_2ndEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200, -0.01,   0.01 );
     sprintf(plot_name, "DeltaPhiTrkSC_2ndEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200, -0.1 ,   0.1  );
-    sprintf(plot_name, "E1x5OverE5x5_2ndEle_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
-    sprintf(plot_name, "E2x5OverE5x5_2ndEle_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
+    sprintf(plot_name, "Full5x5E1x5OverE5x5_2ndEle_LQ%d"  , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
+    sprintf(plot_name, "Full5x5E2x5OverE5x5_2ndEle_LQ%d"  , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
     sprintf(plot_name, "EcalIsolation_2ndEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,  20.0  );
     sprintf(plot_name, "HcalIsolation_2ndEle_LQ%d"        , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,  20.0  );
     sprintf(plot_name, "TrkIsolation_2ndEle_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    5.0  );
@@ -487,8 +504,8 @@ void analysisClass::Loop()
     sprintf(plot_name, "EnergyORawEnergy_2ndEle_LQ%d"     , lq_mass ); CreateUserTH1D( plot_name , 200,  0.9,    1.4  );
     sprintf(plot_name, "SigmaEtaEta_Barrel_2ndEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
     sprintf(plot_name, "SigmaEtaEta_Endcap_2ndEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
-    sprintf(plot_name, "SigmaIEtaIEta_Barrel_2ndEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
-    sprintf(plot_name, "SigmaIEtaIEta_Endcap_2ndEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
+    sprintf(plot_name, "Full5x5SigmaIEtaIEta_Barrel_2ndEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
+    sprintf(plot_name, "Full5x5SigmaIEtaIEta_Endcap_2ndEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
     sprintf(plot_name, "TrkPtOPt_2ndEle_LQ%d"             , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,  100.0  );
     sprintf(plot_name, "ValidFrac_2ndEle_LQ%d"            , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
 
@@ -550,6 +567,12 @@ void analysisClass::Loop()
     sprintf(plot_name, "Phi2ndMuon_LQ%d"           , lq_mass ); CreateUserTH1D( plot_name ,     60 , -3.1416 , 3.1416   ); 
 
   }
+  // for SF at final selections
+  CreateUserTH1D( "Mee_70_110_LQ300", 200, 60, 120 );
+  CreateUserTH1D( "Mee_70_110_LQ600", 200, 60, 120 );
+  CreateUserTH1D( "Mee_70_110_LQ800", 200, 60, 120 );
+  CreateUserTH1D( "Mee_70_110_LQ900", 200, 60, 120 );
+  CreateUserTH1D( "Mee_70_110_LQ1000", 200, 60, 120 );
 
   //--------------------------------------------------------------------------
   // Loop over the chain
@@ -667,16 +690,27 @@ void analysisClass::Loop()
     //--------------------------------------------------------------------------
     // Make this a QCD fake rate calculation
     //--------------------------------------------------------------------------
-    //FIXME: Replace with SCEta and PtHeep, which seem broken
-    float fakeRate1 = qcdFakeRate.GetFakeRate(LooseEle1_SCEta,LooseEle1_PtHeep);
-    float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_SCEta,LooseEle2_PtHeep);
+    //float fakeRate1 = qcdFakeRate.GetFakeRate(LooseEle1_SCEta,LooseEle1_PtHeep);
+    //float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_SCEta,LooseEle2_PtHeep);
+    float fakeRate1 = qcdFakeRate.GetFakeRate(LooseEle1_SCEta,LooseEle1_SCEnergy/cosh(LooseEle1_SCEta));
+    float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_SCEta,LooseEle2_SCEnergy/cosh(LooseEle2_SCEta));
 
     //--------------------------------------------------------------------------
     // Finally have the effective fake rate
     //--------------------------------------------------------------------------
 
     //FIXME: add error on fake rate as well
-    double fakeRateEffective  = fakeRate1 * fakeRate2;
+    //double fakeRateEffective  = fakeRate1 * fakeRate2;
+    double fakeRateEffective  = fakeRate1/(1-fakeRate1); // require loose electron to fail HEEP ID
+    //if(1-fakeRate1 <= 0)
+    //{
+    //  cout << "ERROR: Found fakeRate1: " << fakeRate1 << " for SCEta=" << LooseEle1_SCEta << " SCEt="
+    //    << LooseEle1_SCEnergy/cosh(LooseEle1_SCEta) << "=" << LooseEle1_SCEnergy << "/" << 
+    //    cosh(LooseEle1_SCEta) << endl;
+    //}
+    if ( nLooseEle_store >= 2 ) { 							        
+      fakeRateEffective *= fakeRate2/(1-fakeRate2);
+    }
     // double eFakeRateEffective = fakeRateEffective * sqrt (  ( eFakeRate1 / fakeRate1 ) * ( eFakeRate1 / fakeRate1 ) +
     //					     ( eFakeRate2 / fakeRate2 ) * ( eFakeRate2 / fakeRate2 ) );
     double eFakeRateEffective = 0.0;
@@ -712,7 +746,8 @@ void analysisClass::Loop()
 
     // Electrons
     int PassNEle = 0;
-    if ( nLooseEle_ptCut == 2 ) PassNEle = 1;
+    //if ( nLooseEle_ptCut == 2 ) PassNEle = 1;
+    if ( nLooseEle_ptCut >= 2 ) PassNEle = 1;
     // we only look at events that have exactly two loose electrons (passing Pt>10)
 
     //FIXME fix the counting to avoid the below
@@ -736,9 +771,9 @@ void analysisClass::Loop()
 
     // Muons
     int PassNMuon = 0;
-    //if ( nMuon_ptCut == 0 ) PassNMuon = 1;
+    if ( nMuon_ptCut == 0 ) PassNMuon = 1;
     //FIXME SIC TEST
-    PassNMuon = 1;
+    //PassNMuon = 1;
 
     fillVariableWithValue ( "PassHLT"                        , passTrigger             , fakeRateEffective * min_prescale ) ;
     fillVariableWithValue("nEle_hltMatched",-1, fakeRateEffective * min_prescale ) ;
@@ -748,11 +783,17 @@ void analysisClass::Loop()
     // Electrons								        
     fillVariableWithValue(   "PassNEle"                      , PassNEle                , fakeRateEffective * min_prescale ) ;
     if ( nLooseEle_store >= 1 ) { 							        
-      fillVariableWithValue( "Ele1_PtHeep"                       , LooseEle1_PtHeep            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_Eta"                        , LooseEle1_Eta            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_SCEt"                       , LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_PassHEEPID"                 , LooseEle1_PassHEEPID                , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_AbsDeltaEtaEleTrk"          , fabs(LooseEle1_Eta-LooseEle1_TrkEta), fakeRateEffective * min_prescale );
     }										        
     if ( nLooseEle_store >= 2 ) { 							        
-      fillVariableWithValue( "Ele2_PtHeep"                       , LooseEle2_PtHeep            , fakeRateEffective * min_prescale ) ;
-      fillVariableWithValue( "Pt_e1e2"                       , Pt_e1e2                  , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_Eta"                        , LooseEle2_Eta            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_SCEt"                       , LooseEle2_SCEnergy/cosh(LooseEle2_SCEta)            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_PassHEEPID"                 , LooseEle2_PassHEEPID                , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_AbsDeltaEtaEleTrk"          , fabs(LooseEle2_Eta-LooseEle2_TrkEta), fakeRateEffective * min_prescale );
+      fillVariableWithValue( "Pt_e1e2"                       , Pt_e1e2             , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2_opt"                    , M_e1e2                  , fakeRateEffective * min_prescale ) ;
     }
@@ -814,8 +855,7 @@ void analysisClass::Loop()
     // Fill final selection cuts
     //--------------------------------------------------------------------------
 
-    char cut_name[100];
-    if(!isOptimizationEnabled())
+    if(doFinalSelections)
     {
       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
         int lq_mass = LQ_MASS[i_lq_mass];
@@ -854,7 +894,7 @@ void analysisClass::Loop()
     //--------------------------------------------------------------------------
 
     passed_vector.clear();
-    if(!isOptimizationEnabled()) 
+    if(doFinalSelections) 
     {
       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
         int lq_mass = LQ_MASS[i_lq_mass];
@@ -902,7 +942,7 @@ void analysisClass::Loop()
       j1.SetPtEtaPhiM ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, 0.0 );
       j2.SetPtEtaPhiM ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, 0.0 );
       mu.SetPtEtaPhiM ( Muon1_Pt, Muon1_Eta, Muon1_Phi, 0.0 );
-      met.SetPtEtaPhiM ( PFMET_Type01XY_Pt, 0.0, PFMET_Type01XY_Phi, 0.0 );
+      //met.SetPtEtaPhiM ( PFMET_Type01XY_Pt, 0.0, PFMET_Type01XY_Phi, 0.0 );
 
       eejj = e1 + e2 + j1 + j2 ; 
       eej  = e1 + e2 + j1;
@@ -975,8 +1015,8 @@ void analysisClass::Loop()
       FillUserTH1D("CorrIsolation_1stEle_PAS"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("DeltaEtaTrkSC_1stEle_PAS"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("DeltaPhiTrkSC_1stEle_PAS"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E1x5OverE5x5_1stEle_PAS"          , LooseEle1_E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E2x5OverE5x5_1stEle_PAS"          , LooseEle1_E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("Full5x5E1x5OverE5x5_1stEle_PAS"   , LooseEle1_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("Full5x5E2x5OverE5x5_1stEle_PAS"   , LooseEle1_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("EcalIsolation_1stEle_PAS"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("HcalIsolation_1stEle_PAS"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("TrkIsolation_1stEle_PAS"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
@@ -996,11 +1036,11 @@ void analysisClass::Loop()
       FillUserTH1D("TrkPtOPt_1stEle_PAS"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
       if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
         FillUserTH1D("SigmaEtaEta_Barrel_1stEle_PAS"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS", LooseEle1_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5SigmaIEtaIEta_Barrel_1stEle_PAS", LooseEle1_Full5x5SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
       }
       else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
         FillUserTH1D("SigmaEtaEta_Endcap_1stEle_PAS"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS", LooseEle1_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5SigmaIEtaIEta_Endcap_1stEle_PAS", LooseEle1_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
       }
 
       FillUserTH1D("BeamSpotDXY_2ndEle_PAS"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
@@ -1008,8 +1048,8 @@ void analysisClass::Loop()
       FillUserTH1D("CorrIsolation_2ndEle_PAS"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("DeltaEtaTrkSC_2ndEle_PAS"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("DeltaPhiTrkSC_2ndEle_PAS"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E1x5OverE5x5_2ndEle_PAS"          , LooseEle2_E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E2x5OverE5x5_2ndEle_PAS"          , LooseEle2_E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("Full5x5E1x5OverE5x5_2ndEle_PAS"   , LooseEle2_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("Full5x5E2x5OverE5x5_2ndEle_PAS"   , LooseEle2_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("EcalIsolation_2ndEle_PAS"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("HcalIsolation_2ndEle_PAS"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("TrkIsolation_2ndEle_PAS"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
@@ -1029,11 +1069,11 @@ void analysisClass::Loop()
       FillUserTH1D("TrkPtOPt_2ndEle_PAS"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
       if ( fabs(LooseEle2_SCEta) < eleEta_bar ) { 
         FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_PAS"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS", LooseEle2_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5SigmaIEtaIEta_Barrel_2ndEle_PAS", LooseEle2_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
       }
       else if ( fabs(LooseEle2_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
         FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_PAS"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS", LooseEle2_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5SigmaIEtaIEta_Endcap_2ndEle_PAS", LooseEle2_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
       }
 
       //--------------------------------------------------------------------------
@@ -1051,15 +1091,21 @@ void analysisClass::Loop()
       FillUserTH1D("nMuon_PAS"            , nMuon_ptCut                        , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("nJet_PAS"             , nJetLooseEle_ptCut                 , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Pt1stEle_PAS"	   , LooseEle1_Pt                       , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("PtHeep1stEle_PAS"	   , LooseEle1_PtHeep                       , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Eta1stEle_PAS"	   , LooseEle1_Eta                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("SCEta1stEle_PAS"	   , LooseEle1_SCEta                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("DeltaEtaEleTrk1stEle_Presel"       , fabs(LooseEle1_Eta-LooseEle1_TrkEta)                   , min_prescale * fakeRateEffective);
       FillUserTH1D("Phi1stEle_PAS"	   , LooseEle1_Phi                      , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Pt2ndEle_PAS"	   , LooseEle2_Pt                       , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("PtHeep2ndEle_PAS"	   , LooseEle2_PtHeep                       , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Eta2ndEle_PAS"	   , LooseEle2_Eta                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("SCEta2ndEle_PAS"	   , LooseEle2_SCEta                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("DeltaEtaEleTrk2ndEle_Presel"       , fabs(LooseEle2_Eta-LooseEle2_TrkEta)                   , min_prescale * fakeRateEffective);
       FillUserTH1D("Phi2ndEle_PAS"	   , LooseEle2_Phi                      , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Charge1stEle_PAS"	   , LooseEle1_Charge                   , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Charge2ndEle_PAS"	   , LooseEle2_Charge                   , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("MET_PAS"              , PFMET_Type01XY_Pt                  , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("METPhi_PAS"	   , PFMET_Type01XY_Phi                 , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("MET_PAS"              , PFMET_Type1XY_Pt                  , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("METPhi_PAS"	   , PFMET_Type1XY_Phi                 , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Pt1stJet_PAS"         , JetLooseEle1_Pt                    , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Pt2ndJet_PAS"         , JetLooseEle2_Pt                    , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Eta1stJet_PAS"        , JetLooseEle1_Eta                   , min_prescale * fakeRateEffective ) ;
@@ -1224,8 +1270,8 @@ void analysisClass::Loop()
         FillUserTH1D("CorrIsolation_1stEle_PASandMee100"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("DeltaEtaTrkSC_1stEle_PASandMee100"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("DeltaPhiTrkSC_1stEle_PASandMee100"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E1x5OverE5x5_1stEle_PASandMee100"          , LooseEle1_E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E2x5OverE5x5_1stEle_PASandMee100"          , LooseEle1_E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5E1x5OverE5x5_1stEle_PASandMee100"   , LooseEle1_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5E2x5OverE5x5_1stEle_PASandMee100"   , LooseEle1_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("EcalIsolation_1stEle_PASandMee100"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("HcalIsolation_1stEle_PASandMee100"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("TrkIsolation_1stEle_PASandMee100"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
@@ -1245,11 +1291,11 @@ void analysisClass::Loop()
         FillUserTH1D("TrkPtOPt_1stEle_PASandMee100"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
         if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
           FillUserTH1D("SigmaEtaEta_Barrel_1stEle_PASandMee100"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PASandMee100", LooseEle1_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("Full5x5SigmaIEtaIEta_Barrel_1stEle_PASandMee100", LooseEle1_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
         }
         else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
           FillUserTH1D("SigmaEtaEta_Endcap_1stEle_PASandMee100"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PASandMee100", LooseEle1_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("Full5x5SigmaIEtaIEta_Endcap_1stEle_PASandMee100", LooseEle1_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
         }
 
         FillUserTH1D("BeamSpotDXY_2ndEle_PASandMee100"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
@@ -1257,8 +1303,8 @@ void analysisClass::Loop()
         FillUserTH1D("CorrIsolation_2ndEle_PASandMee100"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("DeltaEtaTrkSC_2ndEle_PASandMee100"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("DeltaPhiTrkSC_2ndEle_PASandMee100"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E1x5OverE5x5_2ndEle_PASandMee100"          , LooseEle2_E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E2x5OverE5x5_2ndEle_PASandMee100"          , LooseEle2_E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5E1x5OverE5x5_2ndEle_PASandMee100"   , LooseEle2_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Full5x5E2x5OverE5x5_2ndEle_PASandMee100"   , LooseEle2_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("EcalIsolation_2ndEle_PASandMee100"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("HcalIsolation_2ndEle_PASandMee100"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
         FillUserTH1D("TrkIsolation_2ndEle_PASandMee100"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
@@ -1278,11 +1324,11 @@ void analysisClass::Loop()
         FillUserTH1D("TrkPtOPt_2ndEle_PASandMee100"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
         if ( fabs(LooseEle2_SCEta) < eleEta_bar ) { 
           FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_PASandMee100"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PASandMee100", LooseEle2_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("Full5x5SigmaIEtaIEta_Barrel_2ndEle_PASandMee100", LooseEle2_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
         }
         else if ( fabs(LooseEle2_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
           FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_PASandMee100"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", LooseEle2_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("Full5x5SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", LooseEle2_Full5x5SigmaIEtaIEta    , min_prescale * fakeRateEffective   ); 
         }
 
         FillUserTH1D("Me1j1_PASandMee100"           , M_e1j1                              , min_prescale * fakeRateEffective ) ;
@@ -1476,8 +1522,10 @@ void analysisClass::Loop()
       //-------------------------------------------------------------------------- 
       // Final selection plots
       //-------------------------------------------------------------------------- 
+      // now, we must have an Mej cut and optimization must be off to have final selections enabled
+      doFinalSelections = doFinalSelections && !isOptimizationEnabled();
 
-      if(!isOptimizationEnabled())
+      if(doFinalSelections)
       {
         for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
           int lq_mass = LQ_MASS[i_lq_mass];
@@ -1499,8 +1547,8 @@ void analysisClass::Loop()
           sprintf(plot_name, "CorrIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_CorrIsolation             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "DeltaEtaTrkSC_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_DeltaEtaTrkSC             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "DeltaPhiTrkSC_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_DeltaPhiTrkSC             , min_prescale * fakeRateEffective ); 
-          sprintf(plot_name, "E1x5OverE5x5_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_E1x5OverE5x5              , min_prescale * fakeRateEffective ); 
-          sprintf(plot_name, "E2x5OverE5x5_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_E2x5OverE5x5              , min_prescale * fakeRateEffective ); 
+          sprintf(plot_name, "Full5x5E1x5OverE5x5_1stEle_LQ%d", lq_mass );   FillUserTH1D(plot_name,  LooseEle1_Full5x5E1x5OverE5x5       , min_prescale * fakeRateEffective ); 
+          sprintf(plot_name, "Full5x5E2x5OverE5x5_1stEle_LQ%d", lq_mass );   FillUserTH1D(plot_name,  LooseEle1_Full5x5E2x5OverE5x5       , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "EcalIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_EcalIsolation             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "HcalIsolation_1stEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_HcalIsolation             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "TrkIsolation_1stEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  LooseEle1_TrkIsolation              , min_prescale * fakeRateEffective ); 
@@ -1521,11 +1569,11 @@ void analysisClass::Loop()
 
           if ( fabs(LooseEle1_Eta) < eleEta_bar ) { 
             sprintf(plot_name, "SigmaEtaEta_Barrel_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , LooseEle1_SigmaEtaEta   , min_prescale * fakeRateEffective    ); 
-            sprintf(plot_name, "SigmaIEtaIEta_Barrel_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle1_SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
+            sprintf(plot_name, "Full5x5SigmaIEtaIEta_Barrel_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle1_Full5x5SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
           }
           else if ( fabs(LooseEle1_Eta) > eleEta_end1_min && fabs(LooseEle2_Eta) < eleEta_end2_max ){
             sprintf(plot_name, "SigmaEtaEta_Endcap_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , LooseEle1_SigmaEtaEta   , min_prescale * fakeRateEffective    ); 
-            sprintf(plot_name, "SigmaIEtaIEta_Endcap_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle1_SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
+            sprintf(plot_name, "Full5x5SigmaIEtaIEta_Endcap_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle1_Full5x5SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
           }
 
           sprintf(plot_name, "BeamSpotDXY_2ndEle_LQ%d"        , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_BeamSpotDXY               , min_prescale * fakeRateEffective ); 
@@ -1533,8 +1581,8 @@ void analysisClass::Loop()
           sprintf(plot_name, "CorrIsolation_2ndEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_CorrIsolation             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "DeltaEtaTrkSC_2ndEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_DeltaEtaTrkSC             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "DeltaPhiTrkSC_2ndEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_DeltaPhiTrkSC             , min_prescale * fakeRateEffective ); 
-          sprintf(plot_name, "E1x5OverE5x5_2ndEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_E1x5OverE5x5              , min_prescale * fakeRateEffective ); 
-          sprintf(plot_name, "E2x5OverE5x5_2ndEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_E2x5OverE5x5              , min_prescale * fakeRateEffective ); 
+          sprintf(plot_name, "Full5x5E1x5OverE5x5_2ndEle_LQ%d", lq_mass );   FillUserTH1D(plot_name,  LooseEle2_Full5x5E1x5OverE5x5       , min_prescale * fakeRateEffective ); 
+          sprintf(plot_name, "Full5x5E2x5OverE5x5_2ndEle_LQ%d", lq_mass );   FillUserTH1D(plot_name,  LooseEle2_Full5x5E2x5OverE5x5       , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "EcalIsolation_2ndEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_EcalIsolation             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "HcalIsolation_2ndEle_LQ%d"      , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_HcalIsolation             , min_prescale * fakeRateEffective ); 
           sprintf(plot_name, "TrkIsolation_2ndEle_LQ%d"       , lq_mass );   FillUserTH1D(plot_name,  LooseEle2_TrkIsolation              , min_prescale * fakeRateEffective ); 
@@ -1555,11 +1603,11 @@ void analysisClass::Loop()
 
           if ( fabs(LooseEle2_Eta) < eleEta_bar ) { 
             sprintf(plot_name, "SigmaEtaEta_Barrel_2ndEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , LooseEle2_SigmaEtaEta   , min_prescale * fakeRateEffective    ); 
-            sprintf(plot_name, "SigmaIEtaIEta_Barrel_2ndEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle2_SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
+            sprintf(plot_name, "Full5x5SigmaIEtaIEta_Barrel_2ndEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle2_Full5x5SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
           }
           else if ( fabs(LooseEle2_Eta) > eleEta_end2_min && fabs(LooseEle2_Eta) < eleEta_end2_max ){
             sprintf(plot_name, "SigmaEtaEta_Endcap_2ndEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , LooseEle2_SigmaEtaEta   , min_prescale * fakeRateEffective    ); 
-            sprintf(plot_name, "SigmaIEtaIEta_Endcap_2ndEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle2_SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
+            sprintf(plot_name, "Full5x5SigmaIEtaIEta_Endcap_2ndEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , LooseEle2_Full5x5SigmaIEtaIEta , min_prescale * fakeRateEffective    ); 
           }
 
           sprintf(plot_name, "Me1j1_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j1                                         , min_prescale * fakeRateEffective );
@@ -1587,7 +1635,7 @@ void analysisClass::Loop()
           sprintf(plot_name, "minDR_ZJet_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , min_DeltaR_Zj                                  , min_prescale * fakeRateEffective );
           sprintf(plot_name, "DR_ZJet1_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , DR_ZJ1                                         , min_prescale * fakeRateEffective );
           sprintf(plot_name, "DR_ZJet2_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , DR_ZJ2                                         , min_prescale * fakeRateEffective );
-          sprintf(plot_name, "MET_LQ%d"               , lq_mass ); FillUserTH1D( plot_name , PFMET_Type01XY_Pt                              , min_prescale * fakeRateEffective );
+          sprintf(plot_name, "MET_LQ%d"               , lq_mass ); FillUserTH1D( plot_name , PFMET_Type1XY_Pt                              , min_prescale * fakeRateEffective );
           sprintf(plot_name, "sTlep_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Pt + LooseEle2_Pt                    , min_prescale * fakeRateEffective );
           sprintf(plot_name, "sTjet_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , JetLooseEle1_Pt + JetLooseEle2_Pt              , min_prescale * fakeRateEffective );
           sprintf(plot_name, "Pt1stEle_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Pt                                   , min_prescale * fakeRateEffective );
@@ -1611,7 +1659,19 @@ void analysisClass::Loop()
           sprintf(plot_name, "Phi2ndMuon_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , Muon2_Phi                                  , min_prescale * fakeRateEffective );
 
         } // End final selection
-      }
+
+        if(passedCut("sT_eejj_LQ300") && passedCut("min_M_ej_LQ300"))
+          FillUserTH1D("Mee_70_110_LQ300", M_e1e2 , min_prescale * fakeRateEffective );
+        if(passedCut("sT_eejj_LQ600") && passedCut("min_M_ej_LQ600"))
+          FillUserTH1D("Mee_70_110_LQ600", M_e1e2 , min_prescale * fakeRateEffective );
+        if(passedCut("sT_eejj_LQ800") && passedCut("min_M_ej_LQ800"))
+          FillUserTH1D("Mee_70_110_LQ800", M_e1e2 , min_prescale * fakeRateEffective );
+        if(passedCut("sT_eejj_LQ900") && passedCut("min_M_ej_LQ900"))
+          FillUserTH1D("Mee_70_110_LQ900", M_e1e2 , min_prescale * fakeRateEffective );
+        if(passedCut("sT_eejj_LQ1000") && passedCut("min_M_ej_LQ1000"))
+          FillUserTH1D("Mee_70_110_LQ1000", M_e1e2 , min_prescale * fakeRateEffective );
+
+      } // End do final selections
 
     } // End preselection 
   } // End loop over events
