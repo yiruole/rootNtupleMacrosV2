@@ -78,15 +78,15 @@ Ele1_SCEt				35	     +inf		-		-		0	100 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------
-PassJSON			-inf         +inf               -               -               1       2 -0.5 1.5	      SAVE
-PassGlobalTightHalo2016Filter   -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassGoodVertices                -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassHBHENoiseFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassHBHENoiseIsoFilter          -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassBadEESupercrystalFilter     -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassEcalDeadCellTrigPrim        -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassChargedCandidateFilter      -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
-PassBadPFMuonFilter             -inf         +inf               -               -               1       2 -0.5 1.5	      SAVE      
+PassJSON                  			0      1               -               -               1       2 -0.5 1.5	      SAVE
+PassGlobalTightHalo2016Filter   0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassGoodVertices                0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassHBHENoiseFilter             0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassHBHENoiseIsoFilter          0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassBadEESupercrystalFilter     0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassEcalDeadCellTrigPrim        0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassChargedCandidateFilter      0      1               -               -               1       2 -0.5 1.5	      SAVE      
+PassBadPFMuonFilter             0      1               -               -               1       2 -0.5 1.5	      SAVE      
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -255,6 +255,7 @@ Ele1_Dist                       -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_DCotTheta                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_MissingHits                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_TrkPt                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele1_TrkEta                     -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele1_SigmaIEtaIEta              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_SigmaEtaEta                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_EcalDriven                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -269,8 +270,6 @@ Ele1_DeltaEtaTrkSC              -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_RawEnergy                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_NBrems                     -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_HoE                        -inf	     +inf		-		-		1	200 0 2000	      SAVE  
-Ele1_E1x5OverE5x5               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
-Ele1_E2x5OverE5x5               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_HasMatchedPhot             -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_FBrem                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_LeadVtxDistXY              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -293,7 +292,6 @@ Ele1_GsfScPixCharge             -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_GsfCtfCharge               -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele1_hltEleTTbarPt              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 Ele1_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 # 
@@ -310,6 +308,7 @@ Ele2_Dist                       -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_DCotTheta                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_MissingHits                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_TrkPt                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele2_TrkEta                     -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele2_SigmaIEtaIEta              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_SigmaEtaEta                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_EcalDriven                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -324,8 +323,6 @@ Ele2_DeltaEtaTrkSC              -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_RawEnergy                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_NBrems                     -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_HoE                        -inf	     +inf		-		-		1	200 0 2000	      SAVE  
-Ele2_E1x5OverE5x5               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
-Ele2_E2x5OverE5x5               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_HasMatchedPhot             -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_FBrem                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_LeadVtxDistXY              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -348,7 +345,6 @@ Ele2_GsfScPixCharge             -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_GsfCtfCharge               -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele2_hltEleTTbarPt              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 Ele2_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 # 
@@ -365,6 +361,7 @@ Ele3_Dist                       -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_DCotTheta                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_MissingHits                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_TrkPt                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele3_TrkEta                     -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele3_SigmaIEtaIEta              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_SigmaEtaEta                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_EcalDriven                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -379,8 +376,6 @@ Ele3_DeltaEtaTrkSC              -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_RawEnergy                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_NBrems                     -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_HoE                        -inf	     +inf		-		-		1	200 0 2000	      SAVE  
-Ele3_E1x5OverE5x5               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
-Ele3_E2x5OverE5x5               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_HasMatchedPhot             -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_FBrem                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_LeadVtxDistXY              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -403,7 +398,6 @@ Ele3_GsfScPixCharge             -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_GsfCtfCharge               -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele3_hltEleTTbarPt              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 Ele3_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 #-----------------------------------------------------------------------------------------------------------------------------------------

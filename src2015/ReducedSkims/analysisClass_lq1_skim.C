@@ -209,6 +209,9 @@ void analysisClass::Loop(){
   
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+  //for (Long64_t jentry=951000; jentry<nentries;jentry++) {
+  //for (Long64_t jentry=1159000; jentry<nentries;jentry++) {
+  //for (Long64_t jentry=0; jentry<952000;jentry++) {
     Long64_t ientry = LoadTree(jentry);
     //if (ientry < 0) break;
     if (ientry < 0)
@@ -226,7 +229,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     //if(event!=1764962 || ls!=3911 || run!=1) {
     //  if(event!=5844049 || ls!=12949 || run!=1) {
     //    if(event!=6858631 || ls!=15197 || run!=1) {
@@ -236,11 +239,19 @@ void analysisClass::Loop(){
     //    }
     //  }
     //} 
-    //if(event!=93773619 || ls!=184739) continue;
-    //if(event!=2314536914 || ls!=1283 || run!=274388) continue;
-    //if(run!=274388 || ls!=1283 || event!=2314536914) continue;
-    //std::string current_file_name ( fChain->GetCurrentFile()->GetName());
-    //cout << "Found the event! in file:" << current_file_name << endl;
+
+    ////if(event!=93773619 || ls!=184739) continue;
+    ////if(event!=2314536914 || ls!=1283 || run!=274388) continue;
+    ////if(run!=274388 || ls!=1283 || event!=2314536914) continue;
+    ////if(run!=275376) continue;
+    ////if(event!=327546602) continue;
+    if(run!=276794 && run!=276501 && run!=276525) continue;
+    if(event!=524963125 && event!=863128569 && event!=810376169) continue;
+    std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+    cout << "Found the run! in file:" << current_file_name << endl;
+    // run ls event
+    std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+
 
     
     //-----------------------------------------------------------------
@@ -331,6 +342,7 @@ void analysisClass::Loop(){
       
     }
 
+
     //-----------------------------------------------------------------
     // Define initial, inclusive collections for physics objects
     //-----------------------------------------------------------------
@@ -346,9 +358,6 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
-
-    // run ls event
-    //std::cout << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << static_cast<int>(event) << std::endl;
 
     //c_gen_all->examine<GenParticle>("c_gen_all");
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
@@ -449,6 +458,7 @@ void analysisClass::Loop(){
     }
     // look at final electrons
     //c_ele_final->examine<Electron>("c_ele_final");
+    //c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
     FillUserTH1D("nEleNTuple",c_ele_all->GetSize());
     FillUserTH1D("nEleNrsk",c_ele_final->GetSize());
     FillUserTH2D("nEleNTupleVsNeleRsk",c_ele_final->GetSize(),c_ele_all->GetSize());
@@ -458,13 +468,13 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
 
     CollectionPtr c_muon_eta               = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
-    CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
+    //CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
     CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03 );
-    CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE_PFISO04LOOSE );
+    //CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE_PFISO04LOOSE );
     CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
     //CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
-    //c_muon_final->examine<Muon>("c_muon_final");
+    c_muon_final->examine<Muon>("c_muon_final");
     
     //-----------------------------------------------------------------
     // All skims need PFJets
@@ -523,7 +533,7 @@ void analysisClass::Loop(){
     fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(passGlobalTightHalo2016Filter)         == 1);
     fillVariableWithValue("PassGoodVertices"              , int(passGoodVertices)                      == 1);
     fillVariableWithValue("PassHBHENoiseFilter"           , int(passHBHENoiseFilter                    == 1));
-    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(passHBHENoiseFilter                    == 1));
+    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(passHBHENoiseIsoFilter                 == 1));
     fillVariableWithValue("PassBadEESupercrystalFilter"   , int(passEEBadScFilter                      == 1));
     fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(passEcalDeadCellTriggerPrimitiveFilter == 1));
     fillVariableWithValue("PassChargedCandidateFilter"    , int(passBadChargedCandidateFilter)         == 1);
@@ -584,7 +594,7 @@ void analysisClass::Loop(){
     // How many ID'd objects are there?
     //-----------------------------------------------------------------
 
-    int n_muonLoose          = c_muon_eta_IDLoose            -> GetSize();
+    //int n_muonLoose          = c_muon_eta_IDLoose            -> GetSize();
     int n_muonHighPt         = c_muon_eta_IDHighPt           -> GetSize();
     int n_muon_store         = c_muon_final                  -> GetSize();
     int n_ele_store          = c_ele_final                   -> GetSize();
@@ -796,7 +806,7 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
 
     fillVariableWithValue ("nMuon_ptCut", n_muon_ptCut);
-    fillVariableWithValue ("nMuon_LooseId", n_muonLoose);
+    //fillVariableWithValue ("nMuon_LooseId", n_muonLoose);
     fillVariableWithValue ("nMuon_HighPtId", n_muonHighPt);
     fillVariableWithValue ("nMuon_store", min(n_muon_store,3));
 
@@ -903,7 +913,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "LooseEle1_DCotTheta"            , loose_ele1.DCotTheta()          );
         fillVariableWithValue( "LooseEle1_MissingHits"          , loose_ele1.MissingHits()        );
         fillVariableWithValue( "LooseEle1_TrkPt"                , loose_ele1.TrackPt()            );
-        fillVariableWithValue( "LooseEle1_SigmaIEtaIEta"        , loose_ele1.SigmaIEtaIEta()      );
+        fillVariableWithValue( "LooseEle1_TrkEta"               , loose_ele1.TrackEta()           );
         fillVariableWithValue( "LooseEle1_Full5x5SigmaIEtaIEta" , loose_ele1.Full5x5SigmaIEtaIEta());
         fillVariableWithValue( "LooseEle1_SigmaEtaEta"          , loose_ele1.SigmaEtaEta()        );
 
@@ -912,8 +922,6 @@ void analysisClass::Loop(){
         fillVariableWithValue( "LooseEle1_RawEnergy"     , loose_ele1.RawEnergy()          );
         fillVariableWithValue( "LooseEle1_NBrems"        , loose_ele1.NBrems()             );
         fillVariableWithValue( "LooseEle1_HoE"           , loose_ele1.HoE()                );
-        fillVariableWithValue( "LooseEle1_E1x5OverE5x5"  , loose_ele1.E1x5OverE5x5()       );
-        fillVariableWithValue( "LooseEle1_E2x5OverE5x5"  , loose_ele1.E2x5OverE5x5()       );
         fillVariableWithValue( "LooseEle1_HasMatchedPhot", loose_ele1.HasMatchedConvPhot() );
         fillVariableWithValue( "LooseEle1_FBrem"         , loose_ele1.FBrem()              );
         fillVariableWithValue( "LooseEle1_LeadVtxDistXY" , loose_ele1.LeadVtxDistXY()      );
@@ -979,7 +987,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_DCotTheta"     , loose_ele2.DCotTheta()          );
           fillVariableWithValue( "LooseEle2_MissingHits"   , loose_ele2.MissingHits()        );
           fillVariableWithValue( "LooseEle2_TrkPt"         , loose_ele2.TrackPt()            );
-          fillVariableWithValue( "LooseEle2_SigmaIEtaIEta" , loose_ele2.SigmaIEtaIEta()      );
+          fillVariableWithValue( "LooseEle2_TrkEta"        , loose_ele2.TrackEta()           );
           fillVariableWithValue( "LooseEle2_Full5x5SigmaIEtaIEta" , loose_ele2.Full5x5SigmaIEtaIEta());
           fillVariableWithValue( "LooseEle2_SigmaEtaEta"   , loose_ele2.SigmaEtaEta()        );
 
@@ -988,8 +996,6 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_RawEnergy"     , loose_ele2.RawEnergy()          );
           fillVariableWithValue( "LooseEle2_NBrems"        , loose_ele2.NBrems()             );
           fillVariableWithValue( "LooseEle2_HoE"           , loose_ele2.HoE()                );
-          fillVariableWithValue( "LooseEle2_E1x5OverE5x5"  , loose_ele2.E1x5OverE5x5()       );
-          fillVariableWithValue( "LooseEle2_E2x5OverE5x5"  , loose_ele2.E2x5OverE5x5()       );
           fillVariableWithValue( "LooseEle2_HasMatchedPhot", loose_ele2.HasMatchedConvPhot() );
           fillVariableWithValue( "LooseEle2_FBrem"         , loose_ele2.FBrem()              );
           fillVariableWithValue( "LooseEle2_LeadVtxDistXY" , loose_ele2.LeadVtxDistXY()      );
@@ -1054,7 +1060,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_DCotTheta"     , loose_ele3.DCotTheta()          );
             fillVariableWithValue( "LooseEle3_MissingHits"   , loose_ele3.MissingHits()        );
             fillVariableWithValue( "LooseEle3_TrkPt"         , loose_ele3.TrackPt()            );
-            fillVariableWithValue( "LooseEle3_SigmaIEtaIEta" , loose_ele3.SigmaIEtaIEta()      );
+            fillVariableWithValue( "LooseEle3_TrkEta"        , loose_ele3.TrackEta()           );
             fillVariableWithValue( "LooseEle3_Full5x5SigmaIEtaIEta" , loose_ele3.Full5x5SigmaIEtaIEta());
             fillVariableWithValue( "LooseEle3_SigmaEtaEta"   , loose_ele3.SigmaEtaEta()        );
 
@@ -1063,8 +1069,6 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_RawEnergy"     , loose_ele3.RawEnergy()          );
             fillVariableWithValue( "LooseEle3_NBrems"        , loose_ele3.NBrems()             );
             fillVariableWithValue( "LooseEle3_HoE"           , loose_ele3.HoE()                );
-            fillVariableWithValue( "LooseEle3_E1x5OverE5x5"  , loose_ele3.E1x5OverE5x5()       );
-            fillVariableWithValue( "LooseEle3_E2x5OverE5x5"  , loose_ele3.E2x5OverE5x5()       );
             fillVariableWithValue( "LooseEle3_HasMatchedPhot", loose_ele3.HasMatchedConvPhot() );
             fillVariableWithValue( "LooseEle3_FBrem"         , loose_ele3.FBrem()              );
             fillVariableWithValue( "LooseEle3_LeadVtxDistXY" , loose_ele3.LeadVtxDistXY()      );
@@ -1186,7 +1190,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
         fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
         fillVariableWithValue( "Ele1_TrkPt"         , ele1.TrackPt()            );
-        fillVariableWithValue( "Ele1_SigmaIEtaIEta" , ele1.SigmaIEtaIEta()      );
+        fillVariableWithValue( "Ele1_TrkEta"        , ele1.TrackEta()            );
         fillVariableWithValue( "Ele1_SigmaEtaEta"   , ele1.SigmaEtaEta()        );
         fillVariableWithValue( "Ele1_EcalDriven"    , ele1.EcalDriven()         );
         fillVariableWithValue( "Ele1_DeltaEtaSeed"  , ele1.DeltaEtaSeed()       );
@@ -1201,8 +1205,6 @@ void analysisClass::Loop(){
         fillVariableWithValue( "Ele1_RawEnergy"     , ele1.RawEnergy()          );
         fillVariableWithValue( "Ele1_NBrems"        , ele1.NBrems()             );
         fillVariableWithValue( "Ele1_HoE"           , ele1.HoE()                );
-        fillVariableWithValue( "Ele1_E1x5OverE5x5"  , ele1.E1x5OverE5x5()       );
-        fillVariableWithValue( "Ele1_E2x5OverE5x5"  , ele1.E2x5OverE5x5()       );
         fillVariableWithValue( "Ele1_HasMatchedPhot", ele1.HasMatchedConvPhot() );
         fillVariableWithValue( "Ele1_FBrem"         , ele1.FBrem()              );
         fillVariableWithValue( "Ele1_LeadVtxDistXY" , ele1.LeadVtxDistXY()      );
@@ -1251,7 +1253,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
           fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
           fillVariableWithValue( "Ele2_TrkPt"         , ele2.TrackPt()            );
-          fillVariableWithValue( "Ele2_SigmaIEtaIEta" , ele2.SigmaIEtaIEta()      );
+          fillVariableWithValue( "Ele2_TrkEta"        , ele2.TrackEta()           );
           fillVariableWithValue( "Ele2_SigmaEtaEta"   , ele2.SigmaEtaEta()        );
           fillVariableWithValue( "Ele2_EcalDriven"    , ele2.EcalDriven()         );
           fillVariableWithValue( "Ele2_DeltaEtaSeed"  , ele2.DeltaEtaSeed()       );
@@ -1266,8 +1268,6 @@ void analysisClass::Loop(){
           fillVariableWithValue( "Ele2_RawEnergy"     , ele2.RawEnergy()          );
           fillVariableWithValue( "Ele2_NBrems"        , ele2.NBrems()             );
           fillVariableWithValue( "Ele2_HoE"           , ele2.HoE()                );
-          fillVariableWithValue( "Ele2_E1x5OverE5x5"  , ele2.E1x5OverE5x5()       );
-          fillVariableWithValue( "Ele2_E2x5OverE5x5"  , ele2.E2x5OverE5x5()       );
           fillVariableWithValue( "Ele2_HasMatchedPhot", ele2.HasMatchedConvPhot() );
           fillVariableWithValue( "Ele2_FBrem"         , ele2.FBrem()              );
           fillVariableWithValue( "Ele2_LeadVtxDistXY" , ele2.LeadVtxDistXY()      );
@@ -1316,7 +1316,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "Ele3_DCotTheta"     , ele3.DCotTheta()          );
             fillVariableWithValue( "Ele3_MissingHits"   , ele3.MissingHits()        );
             fillVariableWithValue( "Ele3_TrkPt"         , ele3.TrackPt()            );
-            fillVariableWithValue( "Ele3_SigmaIEtaIEta" , ele3.SigmaIEtaIEta()      );
+            fillVariableWithValue( "Ele3_TrkEta"        , ele3.TrackEta()           );
             fillVariableWithValue( "Ele3_SigmaEtaEta"   , ele3.SigmaEtaEta()        );
             fillVariableWithValue( "Ele3_EcalDriven"    , ele3.EcalDriven()         );
             fillVariableWithValue( "Ele3_DeltaEtaSeed"  , ele3.DeltaEtaSeed()       );
@@ -1331,8 +1331,6 @@ void analysisClass::Loop(){
             fillVariableWithValue( "Ele3_RawEnergy"     , ele3.RawEnergy()          );
             fillVariableWithValue( "Ele3_NBrems"        , ele3.NBrems()             );
             fillVariableWithValue( "Ele3_HoE"           , ele3.HoE()                );
-            fillVariableWithValue( "Ele3_E1x5OverE5x5"  , ele3.E1x5OverE5x5()       );
-            fillVariableWithValue( "Ele3_E2x5OverE5x5"  , ele3.E2x5OverE5x5()       );
             fillVariableWithValue( "Ele3_HasMatchedPhot", ele3.HasMatchedConvPhot() );
             fillVariableWithValue( "Ele3_FBrem"         , ele3.FBrem()              );
             fillVariableWithValue( "Ele3_LeadVtxDistXY" , ele3.LeadVtxDistXY()      );
@@ -1574,7 +1572,6 @@ void analysisClass::Loop(){
         // same as MC
         // for 2016, need to feed in extra L1 prescales
         int l1prescale = egPrescales2016.LookupPrescale("SingleEG18", run, L1PrescaleColumn);
-        //std::cout << "For seed: SingleEG18, run="<<run<<", prescaleCol="<<L1PrescaleColumn<<", prescale is: " << l1prescale << std::endl;
         fillTriggerVariable ( "HLT_Photon22_v"  , "H_Photon22"  , l1prescale);
         l1prescale = egPrescales2016.LookupPrescale("SingleEG26", run, L1PrescaleColumn);
         fillTriggerVariable ( "HLT_Photon30_v"  , "H_Photon30"  , l1prescale);
@@ -1661,6 +1658,8 @@ void analysisClass::Loop(){
           passedCut("nLooseEle_ptCut"  ) && 
           //passedCut("LooseEle1_Pt"     ) ){
         passedCut("LooseEle1_SCEt"     ) ){
+        //c_ele_final->examine<Electron>("final electrons");
+        //c_ele_final_ptCut->examine<Electron>("final electrons with Pt cut");
           fillSkimTree();
           fillReducedSkimTree();
       }
