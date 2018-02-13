@@ -39,6 +39,11 @@ QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fak
 #QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Trigger efficiency
+#-----------------------------------------------------------------------------------------------------------------------------
+TriggerEfficiencyFileName		/afs/cern.ch/user/m/mbhat/work/public/TRigger_Files_2016data/TriggerEff.root	- - - -1
+#TriggerEfficiencyGraphName  hEff_Ele27OR115	- - - -1
 # 
 TrigCorrForSingleLeptonFinalState true   -   -   -   -1
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -67,7 +72,7 @@ TrigCorrForSingleLeptonFinalState true   -   -   -   -1
 #|_|                    
 #-----------------------------------------------------------------------------------------------------------------------------
 Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
-PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
+#PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
 PassJSON		  	0      1			-               -               0       2 -0.5 1.5	     
 PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
 PassGlobalTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
@@ -84,6 +89,7 @@ nEle_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5
 nJet_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
 Ele1_PtHeep				50	     +inf		-		-		1	200 0 2000	      
 Ele2_PtHeep				50	     +inf		-		-		1	200 0 2000	      
+Ele_AbsDeltaEtaEleTrk    0    0.03	  -		-		1	400 -0.5 0.5
 nJet				-inf	     +inf		-               -               1       16 -0.5 15.5	      
 Jet1_Pt				50	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
@@ -96,6 +102,7 @@ DR_Ele2Jet2			-inf	     +inf		-		-		1	100 0 10
 DR_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10	  
 sT_eejj				300	     +inf		-		-		1	200 0 2000
 M_e1e2				50	     +inf               -               -               1       200 0 2000
+Pt_e1e2				70	     +inf               -               -               1       200 0 2000
 #-----------------------------------------------------------------------------------------------------------------------------
 # Variables for optimization
 #-----------------------------------------------------------------------------------------------------------------------------

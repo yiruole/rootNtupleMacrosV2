@@ -2,8 +2,6 @@
 # 2016 Sep23 ReReco JSON file
 #------------------------------------------------------------------------------------------------------
 JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
-#ICHEP JSON
-#JSON  /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt
 #-----------------------------------------------------------------------------------------------------------------------------
 # Pileup files for applying pileup re-weighting
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -19,16 +17,12 @@ PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup
 # Preselection cuts
 #-----------------------------------------------------------------------------------------------------------------------------
 eleEta_bar            	1.4442        -                    -               -               -1
-eleEta_end1            	1.560        2.0                  -               -               -1
+eleEta_end1            	1.566        2.0                  -               -               -1
 eleEta_end2            	2.000        2.5                  -               -               -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
-QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FRHistogram2D2Jet.root	- - - -1
-#QCD_fit_func_version	1				-	  -		  -		  -1
-#QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-#QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-#QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
+QCDFakeRateFileName		/afs/cern.ch/user/m/mbhat/work/public/Fakerate_files_2016/FR2D2JetScEt.root	- - - -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -68,9 +62,11 @@ PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
 PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
 nEle		     		0	     1			-		-		1	16 -0.5 15.5
 nMuon		     		-1	     0			-		-		1	11 -0.5 10.5
-Ele1_PtHeep		   50	     +inf		-		-		1	100 0.0	1000.0
-Ele1_Eta			-2.2	     2.2		-		-		1	100 -5.0 5.0
+Ele1_SCEt		   50	     +inf		-		-		1	100 0.0	1000.0
+Ele1_SCEta			-2.2	     2.2		-		-		1	100 -5.0 5.0
 Ele1_IsBarrel			-inf	     +inf		-		-		1	2 -0.5 1.5
+Ele1_PassHEEPID     -inf	     0			-		-		0	2 -0.5 1.5
+Ele1_PassHoE     0	     1			-		-		0	2 -0.5 1.5
 MET               55	     +inf		-		-		1	200 0.0 1000.0
 nJet		         	1	     +inf		-		-		1	16 -0.5 15.5
 Jet1_Pt		     	     	50	     +inf		-		-		1	100 0.0	1000.0

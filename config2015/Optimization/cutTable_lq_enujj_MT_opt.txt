@@ -39,7 +39,12 @@ QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fak
 #QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-# 
+#-----------------------------------------------------------------------------------------------------------------------------
+# Trigger efficiency
+#-----------------------------------------------------------------------------------------------------------------------------
+TriggerEfficiencyFileName		/afs/cern.ch/user/m/mbhat/work/public/TRigger_Files_2016data/TriggerEff.root	- - - -1
+#TriggerEfficiencyGraphName  hEff_Ele27OR115	- - - -1
+#
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
 # In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
@@ -66,7 +71,7 @@ QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fak
 #|_|                    
 #-----------------------------------------------------------------------------------------------------------------------------
 Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
-PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
+#PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
 PassJSON		  	0      1			-               -               0       2 -0.5 1.5	     
 PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
 PassGlobalTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
@@ -100,12 +105,12 @@ preselection                    -inf	     +inf		-		-		1	2 -0.5 1.5
 #-----------------------------------------------------------------------------------------------------------------------------
 ST_opt                   	-inf	     +inf		-		-		1	100 0.0 1000.0
 MET_opt                      	-inf	     +inf		-		-		1	100 0.0 1000.0
-Mej_opt                        	-inf	     +inf		-		-		1	100 0.0 1000.0
+Mej_min_opt                        	-inf	     +inf		-		-		1	100 0.0 1000.0
 MT_opt                      	-inf	     +inf		-		-		1	100 0.0 1000.0
 #------------                   -----------   ------    ------------    -------------   ------
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
-ST_opt                          OPT           >         300             2000            1
+ST_opt                          OPT           >         300             1800            1
 MET_opt                         OPT           >          55              600            1
 Mej_min_opt                     OPT           >          50             1200            1
 MT_opt                          OPT           >          50              600            1
