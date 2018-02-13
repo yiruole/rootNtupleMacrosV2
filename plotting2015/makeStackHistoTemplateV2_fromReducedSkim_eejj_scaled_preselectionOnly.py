@@ -40,7 +40,15 @@ from ROOT import *
 #File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_QCD_psk_sep29_ptEECut/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_psk_oct6_ptEECut_updateFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_oct6_ptEECut_actualUpdateFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_oct28_newFR_ptEECut_noMuonReq/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_oct28_newFR_ptEECut_noMuonReq/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_nov19_finalSels_noMuonVeto_nEleGte2/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_nov27_finalSels_muonVeto35GeV_nEleGte2/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb10_bugfix/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 
 # unscaled
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar30_topPtWeight_recoHeepSFs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
@@ -68,17 +76,32 @@ File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_oct28_newFR_ptEECut_no
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_sep17_ptEECut_properEle27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 #
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_oct6_ptEECut_updateFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_oct28_ptEECut_noMuonReq/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_oct28_ptEECut_noMuonReq/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov19_updateTrigEff_finalSels_noMuonVeto_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov24_fixTrigEff_finalSels_muonVetoDef35GeV_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov24_fixTrigEff_finalSels_muonVetoDef35GeV_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb10_bugfix/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb10_bugfix/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb2_newSkim_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb11_emujj_correctTrig/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 
 
 LQmasses = [1200]
 
 zUncBand="no"
 bkgUncBand=True
-# FIXME parse these from dat files or hists
-preselAllBkg = 50632.42
-backgroundSyst = GetBackgroundSyst(preselAllBkg,42597.24,6262.92,36.85)
-backgroundSyst /= preselAllBkg
+## FIXME parse these from dat files or hists
+#preselAllBkg = 50632.42
+#backgroundSyst = GetBackgroundSyst(preselAllBkg,42597.24,6262.92,36.85)
+#backgroundSyst /= preselAllBkg
 makeRatio=1
 makeNSigma=1
 
@@ -120,13 +143,16 @@ if useMGHT:
 
 else:
     # amc@NLO Pt ZJets and TTBar
-    samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
+    #samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
+    samplesForStackHistos_other = [ "OTHERBKG_WJetPt_amcAtNLODiboson" ]
     # MC ttbar
-    samplesForStackHistos_ZJets  = [ "TTbar_amcatnlo_Inc", "ZJet_amcatnlo_ptBinned" ]
-    keysStack             = ["QCD multijet (data)", "Other backgrounds", "t#bar{t} (MG5_aMC)"  ,  "Z/#gamma* + jets (MG5_aMC Pt)"  ]
+    #samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
+    #keysStack             = ["QCD multijet (data)", "Other backgrounds", "t#bar{t} (MG5_aMC)"  ,  "Z/#gamma* + jets (MG5_aMC Pt)"  ]
     # data-driven ttbar
-    #samplesForStackHistos_ZJets  = [ "TTBarFromDATA", "ZJet_amcatnlo_ptBinned" ]
-    #keysStack             = ["QCD multijet (data)", "Other backgrounds", "t#bar{t} (data)", "Z/#gamma* + jets (MG5_aMC Pt)" ,   ]
+    samplesForStackHistos_ttbar  = [ "TTBarFromDATA" ]
+    keysStack             = ["QCD multijet (data)", "Other backgrounds", "t#bar{t} (data)", "Z/#gamma* + jets (MG5_aMC Pt)" ,   ]
+    samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_ptBinned" ]
+    systTypes             = ['qcd', 'mc', 'ttbarfromdata', 'zjets']
 
 # QCD
 samplesForStackHistos_QCD = ["QCDFakes_DATA"]
@@ -137,7 +163,7 @@ samplesForStackHistos_QCD = ["QCDFakes_DATA"]
 #samplesForStackHistos_ZJets  = [ "TTbar_FromData", "ZJet_Madgraph" ]
 # older
 #samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_ZJets
-samplesForStackHistos =  samplesForStackHistos_QCD + samplesForStackHistos_other + samplesForStackHistos_ZJets
+samplesForStackHistos =  samplesForStackHistos_QCD + samplesForStackHistos_other + samplesForStackHistos_ttbar + samplesForStackHistos_ZJets
 #print 'samplesForStackHistos',samplesForStackHistos
 #keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
 #keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
@@ -174,6 +200,7 @@ dataBlindAbovePt1 = 800 # GeV; used for ele Pt1, Mee, Mej
 dataBlindAbovePt2 = 400 # for ele pt2
 #dataBlindAboveSt = 1500 # for St plots
 dataBlindAboveSt = -1 # for St plots
+dataBlindAboveAll = 0
 
 
 def makeDefaultPlot ( variableName, histoBaseName, 
@@ -184,8 +211,10 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot                   = Plot() 
     plot.histosStack       =  ( generateHistoList( histoBaseName, samplesForStackHistos_QCD, variableName, File_QCD_preselection ) +
                                 generateHistoList( histoBaseName, samplesForStackHistos_other, variableName, File_preselection ) + 
+                                generateHistoList( histoBaseName, samplesForStackHistos_ttbar, variableName, File_ttbar_preselection ) + 
                                 generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection )  ) 
     plot.keysStack         = keysStack
+    plot.systs             = [GetBackgroundSyst(systType,True) for systType in systTypes]
     plot.histos            = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
     plot.keys              = keys
     plot.addZUncBand       = zUncBand
@@ -207,7 +236,6 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.suffix            = "eejj"
     plot.lumi_fb           = "35.9"
     plot.addBkgUncBand     = bkgUncBand
-    plot.bkgSyst           = backgroundSyst
     
     return plot
 
@@ -332,7 +360,7 @@ plots[-1].xmax  = 10.5
 #plots[-1].xmax  = 1.5
 
 
-plots.append ( makeDefaultPlot ( "Pt1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt1) )
+plots.append ( makeDefaultPlot ( "PtHeep1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt1) )
 plots[-1].rebin = 2
 plots[-1].ymax  = 1e4
 plots[-1].ymin  = 1e-1
@@ -341,7 +369,7 @@ plots[-1].xmax  = 1500
 plots[-1].ylog  = "yes"
 plots[-1].xtit  = "1st Electron p_{T} (GeV) [Preselection]"
 
-plots.append ( makeDefaultPlot ( "Pt2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt2) )
+plots.append ( makeDefaultPlot ( "PtHeep2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt2) )
 plots[-1].rebin = 2
 plots[-1].ymax  = 1e5
 plots[-1].ymin  = 1e-1
@@ -351,7 +379,7 @@ plots[-1].ylog  = "yes"
 plots[-1].xtit  = "2nd Electron p_{T} (GeV) [Preselection]"
 
 plots.append ( makeDefaultPlot ( "Pt1stMuon_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt1) )
-plots[-1].rebin = 2
+#plots[-1].rebin = 2
 plots[-1].ymax  = 1e4
 plots[-1].ymin  = 1e-1
 plots[-1].xmin  = 0
@@ -360,7 +388,7 @@ plots[-1].ylog  = "yes"
 plots[-1].xtit  = "1st Muon p_{T} (GeV) [Preselection]"
 
 plots.append ( makeDefaultPlot ( "Pt2ndMuon_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt2) )
-plots[-1].rebin = 2
+#plots[-1].rebin = 2
 plots[-1].ymax  = 1e5
 plots[-1].ymin  = 1e-1
 plots[-1].xmin  = 0
@@ -440,7 +468,7 @@ plots[-1].xtit = "PFMET #phi [Preselection]"
 plots[-1].rebin = 4
 plots[-1].ymax = 5e7
 plots[-1].ymin = 1e-1
-plots[-1].ylog  = "yes"
+#plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "Pt1stJet_PAS"          ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].xtit = "1st Jet p_{T} (GeV) [Preselection]"
@@ -686,7 +714,9 @@ plots[-1].ylog  = "yes"
 plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection]"
 
 plots.append ( makeDefaultPlot ( "Mee_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 1
+#plots[-1].rebin = 1
+plots[-1].rebin = "var"
+plots[-1].xbins = range(0,410,10)+[420,440,460,480,500,550,600,650,700,800,900,1000,1200,1400,1600,1800,2000]
 plots[-1].ymax = 2e4
 plots[-1].ymin = 1e-1
 plots[-1].xmin = 0.
@@ -807,7 +837,7 @@ plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE and EB-EB) (GeV)"
 
 plots.append ( makeDefaultPlot ( "Mee_70_110_Preselection" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 1
-plots[-1].ymax = 5e5
+plots[-1].ymax = 2e8
 plots[-1].ymin = 1e-1
 plots[-1].rebin = 4
 plots[-1].xmin = 70.
@@ -826,7 +856,7 @@ plots[-1].xtit  = "P_{T}(ee) (GeV) [Preselection]"
 
 plots.append ( makeDefaultPlot ( "Mee_70_110_Preselection" ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 4
-plots[-1].ymax = 1e8
+plots[-1].ymax = 2e8
 plots[-1].ymin = 1e-1
 plots[-1].rebin = 8
 plots[-1].xmin = 70.
@@ -1167,14 +1197,23 @@ plots[-1].ylog  = "yes"
 #  FINAL SELECTION
 ####################################################################################################
 #for mass_point in LQmasses:
-#    plots.append ( makeDefaultPlot ( "Pt1stEle_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-#    plots[-1].xtit  = "1st Electron p_{T} (GeV) [LQ M = " + str ( mass_point ) + " selection]"
-#    plots[-1].rebin = 2
-#
-#    plots.append ( makeDefaultPlot ( "Pt2ndEle_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-#    plots[-1].xtit  = "2nd Electron p_{T} (GeV) [LQ M = " + str ( mass_point ) + " selection]"
-#    plots[-1].rebin = 2
-#
+for mass_point in [200,400,600,800]:
+    plots.append ( makeDefaultPlot ( "Pt1stEle_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAboveAll) )
+    plots[-1].xtit  = "1st Electron p_{T} (GeV) [LQ M = " + str ( mass_point ) + " selection]"
+    plots[-1].rebin = 2
+
+    plots.append ( makeDefaultPlot ( "Pt2ndEle_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAboveAll) )
+    plots[-1].xtit  = "2nd Electron p_{T} (GeV) [LQ M = " + str ( mass_point ) + " selection]"
+    plots[-1].rebin = 2
+
+    plots.append ( makeDefaultPlot ( "Pt1stMuon_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAboveAll) )
+    plots[-1].xtit  = "1st Muon p_{T} (GeV) [LQ M = " + str ( mass_point ) + " selection]"
+    plots[-1].rebin = 2
+
+    plots.append ( makeDefaultPlot ( "Pt1stMuon_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAboveAll) )
+    plots[-1].xtit  = "2nd Muon p_{T} (GeV) [LQ M = " + str ( mass_point ) + " selection]"
+    plots[-1].rebin = 2
+
 #    plots.append ( makeDefaultPlot ( "Eta1stEle_LQ" + str ( mass_point )  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 #    plots[-1].xtit  = "1st Electron #eta [LQ M = " + str ( mass_point ) + " selection]"
 #    plots[-1].rebin = 2

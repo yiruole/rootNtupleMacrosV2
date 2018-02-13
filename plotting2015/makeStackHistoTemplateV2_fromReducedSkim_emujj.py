@@ -3,12 +3,29 @@
 from plot_class import *
 from ROOT import *
 
-File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan22_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+# unscaled
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_mar28_recoHeepSFs_onPSK_reminiAOD_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+# ele27 | ele115
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_apr11_ele27wptightOREle115_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+# unscaled
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_may22_lowWZPt_ele27wptightOREle115_eejjBadOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_may30_properEle27wptightOREle115ORPhoton175_eejjBadOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+# in this file, the TTBar MC has been combined with the one from the TTBar estimation...
+#File_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_jul4_properEle27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_oct6_ptEECut_updateFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
-LQmasses = [650]
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov24_fixTrigEff_finalSels_muonVetoDef35GeV_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+
+File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/jan31_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb2_newSkim_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+
+LQmasses = [1500]
 
 zUncBand="no"
+addBkgUncBand=False
 makeRatio=1
 makeNSigma=1
 
@@ -37,7 +54,8 @@ histoBaseName2D_userDef = "histo2D__SAMPLE__VARIABLE"
 ## MG HT
 #samplesForStackHistos_other = [ "OTHERBKG_MG_HT" ]
 samplesForStackHistos_other = []
-samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
+#samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
+samplesForStackHistos_ttbar = [ "TTbar_powheg" ]
 #samplesForStackHistos_ZJets  = [ "ZJet_Madgraph_HT" ]
 samplesForStackHistos_ZJets = []
 #keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
@@ -61,8 +79,9 @@ keysForStackHistos_QCD = [""]
 
 samplesForStackHistos = samplesForStackHistos_ttbar
 samplesForStackHistos_ZJets = samplesForStackHistos_ttbar
-keysStack             = [ "t#bar{t} (amc@NLO)"]
-stackColorIndexes     = [         600    ]
+#keysStack             = [ "t#bar{t} (MG5_aMC)"]
+keysStack             = [ "t#bar{t} (powheg)"]
+stackColorIndexes     = [         kBlue-4    ]
 stackFillStyleIds     = [  1001          ]
 
 #keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG Inc)"  ]
@@ -103,10 +122,11 @@ def makeDefaultPlot ( variableName, histoBaseName,
     plot.histos            = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
     plot.keys              = keys
     plot.addZUncBand       = zUncBand
+    plot.addBkgUncBand     = addBkgUncBand
     plot.makeRatio         = makeRatio
     plot.makeNSigma        = makeNSigma
     if sampleForDataHisto != '':
-      plot.histodata         = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
+      plot.histodata         = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_ttbar_preselection)
     plot.ytit              = "N(Events)"
     plot.ylog              = "no"
     plot.name              = variableName
@@ -116,8 +136,8 @@ def makeDefaultPlot ( variableName, histoBaseName,
     #plot.eps_folder        = "eps_emujj_scaled_preselectionOnly/"
     plot.pdf_folder        = "pdf_emujj_scaled_preselectionOnly/"
     plot.png_folder        = "png_emujj_scaled_preselectionOnly/"
-    plot.suffix            = "eejj"
-    plot.lumi_fb           = "36.8"
+    plot.suffix            = "emujj"
+    plot.lumi_fb           = "35.9"
     
     return plot
 
@@ -131,9 +151,9 @@ def makeDefaultPlot2D ( variableName,
     plot.name           = variableName
     plot.histosStack    = generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection )
     plot.histodata      =   generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
-    plot.gif_folder     = "gif_eejj_scaled_preselectionOnly/"
-    plot.eps_folder     = "eps_eejj_scaled_preselectionOnly/"
-    plot.suffix         = "eejj"
+    plot.gif_folder     = "gif_emujj_scaled_preselectionOnly/"
+    plot.eps_folder     = "eps_emujj_scaled_preselectionOnly/"
+    plot.suffix         = "emujj"
     
     return plot
 
@@ -148,9 +168,9 @@ def makeDefaultPlot2D_NoData ( variableName,
     plot.name           = variableName 
     plot.histosStack    = generateHistoList ( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection )
     plot.histodata      =   generateHistoBlank( histoBaseName, sampleForDataHisto, variableName, File_preselection)
-    plot.gif_folder     = "gif_eejj_scaled_preselectionOnly/"
-    plot.eps_folder     = "eps_eejj_scaled_preselectionOnly/"
-    plot.suffix         = "eejj"
+    plot.gif_folder     = "gif_emujj_scaled_preselectionOnly/"
+    plot.eps_folder     = "eps_emujj_scaled_preselectionOnly/"
+    plot.suffix         = "emujj"
     
     return plot
 
@@ -162,9 +182,9 @@ def makeDefaultPlot2D_NSigma ( variableName,
     plot = Plot2DNSigma()
     plot.histosStack =  generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection) 
     plot.histodata      = generateHisto( histoBaseName, sampleForDataHisto, variableName, File_preselection)
-    plot.gif_folder     = "gif_eejj_scaled_finalOnly_2012A/"
-    plot.eps_folder     = "eps_eejj_scaled_finalOnly_2012A/"
-    plot.suffix         = "eejj_2DNSigma_finalOnly"
+    plot.gif_folder     = "gif_emujj_scaled_finalOnly_2012A/"
+    plot.eps_folder     = "eps_emujj_scaled_finalOnly_2012A/"
+    plot.suffix         = "emujj_2DNSigma_finalOnly"
 
 
     return plot
@@ -241,13 +261,23 @@ plots[-1].xmax  = 10.5
 
 
 plots.append ( makeDefaultPlot ( "Pt1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].rebin = 2
+#plots[-1].rebin = 2
+plots[-1].rebin = "var"
+plots[-1].xbins = [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,350,400,450,600,800,1000]
 plots[-1].ymax  = 3e3
 plots[-1].ymin  = 1e-1
 plots[-1].xmin  = 0
 plots[-1].xmax  = 1200
 plots[-1].ylog  = "yes"
-plots[-1].xtit  = "1st Electron p_{T} (GeV) [Preselection]"
+plots[-1].xtit  = "1st Lepton p_{T} (GeV) [Preselection]"
+
+#plots.append ( makeDefaultPlot ( "Pt1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
+#plots[-1].rebin = 2
+#plots[-1].ymax  = 5
+#plots[-1].ymin  = -2
+#plots[-1].xmin  = 0
+#plots[-1].xmax  = 1200
+#plots[-1].xtit  = "1st Lepton p_{T} (GeV) [Preselection]"
 
 plots.append ( makeDefaultPlot ( "Pt2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
 plots[-1].rebin = 2
@@ -256,11 +286,11 @@ plots[-1].ymin  = 1e-1
 plots[-1].xmin  = 0
 plots[-1].xmax  = 1200
 plots[-1].ylog  = "yes"
-plots[-1].xtit  = "2nd Electron p_{T} (GeV) [Preselection]"
+plots[-1].xtit  = "2nd Lepton p_{T} (GeV) [Preselection]"
 
 
 plots.append ( makeDefaultPlot ( "Eta1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "1st Electron #eta [Preselection]"   
+plots[-1].xtit = "1st Lepton #eta [Preselection]"   
 plots[-1].rebin = 2
 plots[-1].ymax = 200000000
 plots[-1].ymin = 1e-1
@@ -270,14 +300,14 @@ plots[-1].ylog  = "yes"
 
 
 plots.append ( makeDefaultPlot ( "Phi1stEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots[-1].xtit = "1st Electron #phi [Preselection]"
+plots[-1].xtit = "1st Lepton #phi [Preselection]"
 plots[-1].rebin = 4
 plots[-1].ymax = 20000000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "Eta2ndEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
-plots[-1].xtit = "2nd Electron #eta [Preselection]"   
+plots[-1].xtit = "2nd Lepton #eta [Preselection]"   
 plots[-1].ymax = 200000000
 plots[-1].ymin = 1e-1
 plots[-1].xmin  = -3
@@ -288,19 +318,19 @@ plots[-1].ylog  = "yes"
 
 
 plots.append ( makeDefaultPlot ( "Phi2ndEle_PAS"	 ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )   
-plots[-1].xtit = "2nd Electron #phi [Preselection]"
+plots[-1].xtit = "2nd Lepton #phi [Preselection]"
 plots[-1].rebin = 4
 plots[-1].ymax = 20000000
 plots[-1].ymin = 1e-1
 plots[-1].ylog  = "yes"
 
 plots.append ( makeDefaultPlot ( "Charge1stEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots[-1].xtit = "1st Electron Charge [Preselection]"
+plots[-1].xtit = "1st Lepton Charge [Preselection]"
 plots[-1].ymin = 0.0
 plots[-1].ymax = 700000.
 
 plots.append ( makeDefaultPlot ( "Charge2ndEle_PAS"      ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-plots[-1].xtit = "2nd Electron Charge [Preselection]"
+plots[-1].xtit = "2nd Lepton Charge [Preselection]"
 plots[-1].ymin = 0.0
 plots[-1].ymax = 700000.
 
@@ -395,7 +425,7 @@ plots[-1].ymax = 1e6
 plots[-1].ymin = 1e-1
 plots[-1].rebin = 4
 plots[-1].ylog  = "yes"
-plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron) (GeV) [Preselection]"
+plots[-1].xtit = "S_{T} (1st Lepton, 2nd Lepton) (GeV) [Preselection]"
 
 
 plots.append ( makeDefaultPlot ( "sTjet_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
