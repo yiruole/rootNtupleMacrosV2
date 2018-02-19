@@ -273,6 +273,8 @@ void analysisClass::Loop()
 
    // without btags
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_noBtaggedJets_btagSFUpShift", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_noBtaggedJets_btagSFDownShift", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_50_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
    // for scale factor dependence studies
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_sT300To500_PAS"		             ,    200   , 0       , 2000	  ); 
@@ -314,6 +316,8 @@ void analysisClass::Loop()
 
    // with a btag
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_btagSFUpShift", 240, 40, 160 );
+   CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_btagSFDownShift", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
    // for scale factor dependence studies
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT300To500_PAS"		             ,    200   , 0       , 2000	  ); 
@@ -670,22 +674,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mej_Endcap1_Presel"                  , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej_Endcap2_Presel"                  , 200 , 0       , 2000	 ); 
    //
-   CreateUserTH1D("MejGte1500_Pt1stEle_Barrel_PAS"      ,200,0,2000);
-   CreateUserTH1D("MejGte1500_PtJet_Barrel_PAS"         ,200,0,2000);
-   CreateUserTH1D("MejGte1500_DREleJet_Barrel_PAS"      ,100,0,10);
-   CreateUserTH1D("MejGte1500_DeltaPhiEleMET_Barrel_PAS",100,0,3.14159);
-   CreateUserTH1D("MejGte1500_Pt1stEle_Endcap1_PAS"      ,200,0,2000);
-   CreateUserTH1D("MejGte1500_PtJet_Endcap1_PAS"         ,200,0,2000);
-   CreateUserTH1D("MejGte1500_DREleJet_Endcap1_PAS"      ,100,0,10);
-   CreateUserTH1D("MejGte1500_DeltaPhiEleMET_Endcap1_PAS",100,0,3.14159);
-   CreateUserTH1D("MejGte1500_Pt1stEle_Endcap2_PAS"      ,200,0,2000);
-   CreateUserTH1D("MejGte1500_PtJet_Endcap2_PAS"         ,200,0,2000);
-   CreateUserTH1D("MejGte1500_DREleJet_Endcap2_PAS"      ,100,0,10);
-   CreateUserTH1D("MejGte1500_DeltaPhiEleMET_Endcap2_PAS",100,0,3.14159);
-   CreateUserTH1D("MejGte1500_minDR_EleJet_PAS"         , 100 , 0       , 10       );
-   CreateUserTH1D("MejGte1500_minDR_EleJet_Barrel_PAS"         , 100 , 0       , 10       );
-   CreateUserTH1D("MejGte1500_minDR_EleJet_Endcap1_PAS"         , 100 , 0       , 10       );
-   CreateUserTH1D("MejGte1500_minDR_EleJet_Endcap2_PAS"         , 100 , 0       , 10       );
 
    char plot_name[200];
    
@@ -1306,6 +1294,10 @@ void analysisClass::Loop()
      double weightAtLeastOneBJet = 1.0;
      double weightZeroBJetsBeyondLeadingTwo = 1.0;
      double weightAtLeastOneBJetBeyondLeadingTwo = 1.0;
+     double weightZeroBJetsUpShift = 1.0;
+     double weightAtLeastOneBJetUpShift = 1.0;
+     double weightZeroBJetsDownShift = 1.0;
+     double weightAtLeastOneBJetDownShift = 1.0;
 
      double btagCISV_loose_cut  = 0.5426;
      double btagCISV_medium_cut = 0.8484;
@@ -1318,6 +1310,14 @@ void analysisClass::Loop()
        // where x is jet Pt
        // comb, central, medium WP, jet flavor = 0 (B jets)
        btagScaleFactorFormula.SetParameters(0.561694,0.31439,0.17756);
+       // up shift
+       // we only need to worry about >= 50 GeV Pt, since that's the cut threshold
+       TFormula btagScaleFactorUpFormula("btagScaleFactorUpFormula","[0]*((1+([1]*x))/(1+([2]*x)))+(0.037118)*(x>=50&&x<70)+(0.036822)*(x>=70&&x<100)+(0.034398)*(x>=100&&x<140)+(0.036239)*(x>=140&&x<200)+(0.044986)*(x>=200&&x<300)+(0.064243)*(x>=300&&x<600)+(0.097131)*(x>=600)");
+       btagScaleFactorUpFormula.SetParameters(0.561694,0.31439,0.17756);
+       // down shift
+       // we only need to worry about >= 50 GeV Pt, since that's the cut threshold
+       TFormula btagScaleFactorDownFormula("btagScaleFactorDownFormula","[0]*((1+([1]*x))/(1+([2]*x)))-(0.037118)*(x>=50&&x<70)-(0.036822)*(x>=70&&x<100)-(0.034398)*(x>=100&&x<140)-(0.036239)*(x>=140&&x<200)-(0.044986)*(x>=200&&x<300)-(0.064243)*(x>=300&&x<600)-(0.097131)*(x>=600)");
+       btagScaleFactorDownFormula.SetParameters(0.561694,0.31439,0.17756);
        //
        if ( Jet1_btagCISV > btagCISV_medium_cut ) weightZeroBJets*=(1-btagScaleFactorFormula.Eval(Jet1_Pt));
        if ( Jet2_btagCISV > btagCISV_medium_cut ) weightZeroBJets*=(1-btagScaleFactorFormula.Eval(Jet2_Pt));
@@ -1330,6 +1330,20 @@ void analysisClass::Loop()
        if ( Jet4_btagCISV > btagCISV_medium_cut ) weightZeroBJetsBeyondLeadingTwo*=(1-btagScaleFactorFormula.Eval(Jet4_Pt));
        if ( Jet5_btagCISV > btagCISV_medium_cut ) weightZeroBJetsBeyondLeadingTwo*=(1-btagScaleFactorFormula.Eval(Jet5_Pt));
        weightAtLeastOneBJetBeyondLeadingTwo = 1 - weightZeroBJetsBeyondLeadingTwo;
+       //
+       if ( Jet1_btagCISV > btagCISV_medium_cut ) weightZeroBJetsUpShift*=(1-btagScaleFactorUpFormula.Eval(Jet1_Pt));
+       if ( Jet2_btagCISV > btagCISV_medium_cut ) weightZeroBJetsUpShift*=(1-btagScaleFactorUpFormula.Eval(Jet2_Pt));
+       if ( Jet3_btagCISV > btagCISV_medium_cut ) weightZeroBJetsUpShift*=(1-btagScaleFactorUpFormula.Eval(Jet3_Pt));
+       if ( Jet4_btagCISV > btagCISV_medium_cut ) weightZeroBJetsUpShift*=(1-btagScaleFactorUpFormula.Eval(Jet4_Pt));
+       if ( Jet5_btagCISV > btagCISV_medium_cut ) weightZeroBJetsUpShift*=(1-btagScaleFactorUpFormula.Eval(Jet5_Pt));
+       weightAtLeastOneBJetUpShift = 1 - weightZeroBJetsUpShift;
+       //
+       if ( Jet1_btagCISV > btagCISV_medium_cut ) weightZeroBJetsDownShift*=(1-btagScaleFactorDownFormula.Eval(Jet1_Pt));
+       if ( Jet2_btagCISV > btagCISV_medium_cut ) weightZeroBJetsDownShift*=(1-btagScaleFactorDownFormula.Eval(Jet2_Pt));
+       if ( Jet3_btagCISV > btagCISV_medium_cut ) weightZeroBJetsDownShift*=(1-btagScaleFactorDownFormula.Eval(Jet3_Pt));
+       if ( Jet4_btagCISV > btagCISV_medium_cut ) weightZeroBJetsDownShift*=(1-btagScaleFactorDownFormula.Eval(Jet4_Pt));
+       if ( Jet5_btagCISV > btagCISV_medium_cut ) weightZeroBJetsDownShift*=(1-btagScaleFactorDownFormula.Eval(Jet5_Pt));
+       weightAtLeastOneBJetDownShift = 1 - weightZeroBJetsDownShift;
      }
      int nBJet_loose_ptCut  = 0;
      int nBJet_medium_ptCut = 0;
@@ -1679,49 +1693,6 @@ void analysisClass::Loop()
          FillUserTH1D( "Mej_Endcap2_Presel"                    , Mej                                          , pileup_weight * gen_weight);
          FillUserTH1D( "Pt1stEle_Endcap2_PAS"                  , Ele1_Pt                                      , pileup_weight * gen_weight);
        }
-       // high Mej plots
-       if(Mej >= 1500) {
-         FillUserTH1D( "MejGte1500_minDR_EleJet_PAS"           , min_DR_EleJet                                , pileup_weight * gen_weight);
-         if ( fabs(Ele1_SCEta) <= eleEta_bar ) { 
-           FillUserTH1D( "MejGte1500_minDR_EleJet_Barrel_PAS"           , min_DR_EleJet                                , pileup_weight * gen_weight);
-           sprintf(plot_name,"MejGte1500_Pt1stEle_Barrel_PAS");  FillUserTH1D( plot_name, Ele1_SCEnergy/cosh(Ele1_SCEta), pileup_weight * gen_weight);
-           sprintf(plot_name,"MejGte1500_DeltaPhiEleMET_Barrel_PAS");  FillUserTH1D( plot_name, mDPhi_METEle1, pileup_weight * gen_weight);
-           if(mejSelectedJet1) {
-             sprintf(plot_name,"MejGte1500_PtJet_Barrel_PAS");  FillUserTH1D( plot_name, Jet1_Pt, pileup_weight * gen_weight);
-             sprintf(plot_name,"MejGte1500_DREleJet_Barrel_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet1, pileup_weight * gen_weight);
-           }
-           else {
-             sprintf(plot_name,"MejGte1500_PtJet_Barrel_PAS");  FillUserTH1D( plot_name, Jet2_Pt, pileup_weight * gen_weight);
-             sprintf(plot_name,"MejGte1500_DREleJet_Barrel_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet2, pileup_weight * gen_weight);
-           }
-         }
-         else if ( fabs(Ele1_SCEta) >= eleEta_end1_min && fabs(Ele1_SCEta) < eleEta_end1_max) {
-           FillUserTH1D( "MejGte1500_minDR_EleJet_Endcap1_PAS"           , min_DR_EleJet                                , pileup_weight * gen_weight);
-           sprintf(plot_name,"MejGte1500_Pt1stEle_Endcap1_PAS");  FillUserTH1D( plot_name, Ele1_SCEnergy/cosh(Ele1_SCEta), pileup_weight * gen_weight);
-           sprintf(plot_name,"MejGte1500_DeltaPhiEleMET_Endcap1_PAS");  FillUserTH1D( plot_name, mDPhi_METEle1, pileup_weight * gen_weight);
-           if(mejSelectedJet1) {
-             sprintf(plot_name,"MejGte1500_PtJet_Endcap1_PAS");  FillUserTH1D( plot_name, Jet1_Pt, pileup_weight * gen_weight);
-             sprintf(plot_name,"MejGte1500_DREleJet_Endcap1_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet1, pileup_weight * gen_weight);
-           }
-           else {
-             sprintf(plot_name,"MejGte1500_PtJet_Endcap1_PAS");  FillUserTH1D( plot_name, Jet2_Pt, pileup_weight * gen_weight);
-             sprintf(plot_name,"MejGte1500_DREleJet_Endcap1_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet2, pileup_weight * gen_weight);
-           }
-         }
-         else if ( fabs(Ele1_SCEta) >= eleEta_end2_min && fabs(Ele1_SCEta) < eleEta_end2_max) {
-           FillUserTH1D( "MejGte1500_minDR_EleJet_Endcap2_PAS"           , min_DR_EleJet                                , pileup_weight * gen_weight);
-           sprintf(plot_name,"MejGte1500_Pt1stEle_Endcap2_PAS");  FillUserTH1D( plot_name, Ele1_SCEnergy/cosh(Ele1_SCEta), pileup_weight * gen_weight);
-           sprintf(plot_name,"MejGte1500_DeltaPhiEleMET_Endcap2_PAS");  FillUserTH1D( plot_name, mDPhi_METEle1, pileup_weight * gen_weight);
-           if(mejSelectedJet1) {
-             sprintf(plot_name,"MejGte1500_PtJet_Endcap2_PAS");  FillUserTH1D( plot_name, Jet1_Pt, pileup_weight * gen_weight);
-             sprintf(plot_name,"MejGte1500_DREleJet_Endcap2_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet1, pileup_weight * gen_weight);
-           }
-           else {
-             sprintf(plot_name,"MejGte1500_PtJet_Endcap2_PAS");  FillUserTH1D( plot_name, Jet2_Pt, pileup_weight * gen_weight);
-             sprintf(plot_name,"MejGte1500_DREleJet_Endcap2_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet2, pileup_weight * gen_weight);
-           }
-         }
-       }
 
        //likelihood_values.clear();
        //likelihood_values.push_back ( Mej );  
@@ -1966,6 +1937,8 @@ void analysisClass::Loop()
 
            FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight * weightZeroBJets );
            FillUserTH1D( "MTenu_50_110_noBtaggedJets"      , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ) ;
+           FillUserTH1D( "MTenu_50_110_noBtaggedJets_btagSFUpShift"      , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJetsUpShift ) ;
+           FillUserTH1D( "MTenu_50_110_noBtaggedJets_btagSFDownShift"      , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJetsDownShift ) ;
            FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight * weightZeroBJets ) ;
            // scale factor dependence plots
            if(sT_enujj > 300 && sT_enujj < 500)
@@ -2195,6 +2168,8 @@ void analysisClass::Loop()
 
            FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight * weightAtLeastOneBJet );
            FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet"      , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+           FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_btagSFUpShift"        , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJetUpShift ) ;
+           FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_btagSFDownShift"      , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJetDownShift ) ;
            FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
            // scale factor dependence plots
            if(sT_enujj > 300 && sT_enujj < 500)
