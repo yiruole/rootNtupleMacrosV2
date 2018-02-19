@@ -176,20 +176,13 @@ void analysisClass::Loop()
    CreateUserTH1D( "Pt1stEle_Barrel_PAS"	      , 200 , 0       , 2000     ); 
    CreateUserTH1D( "Pt1stEle_Endcap1_PAS"	      , 200 , 0       , 2000     ); 
    CreateUserTH1D( "Pt1stEle_Endcap2_PAS"	      , 200 , 0       , 2000     ); 
-   // SIC ADD
-   //CreateUserTH1D( "MET_PAS_UnclUp"                  , 200 , 0       , 1000	 ); 
-   //CreateUserTH1D( "MET_PAS_UnclDown"                  , 200 , 0       , 1000	 ); 
-   // END SIC ADD
    CreateUserTH1D( "Mee_allElectrons_Presel"                  , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_allElectrons_3EleEvents_Presel"                  , 200 , 0       , 2000	 ); 
 
    CreateUserTH1D( "METPhi_PAS"		      , 60  , -3.1416 , +3.1416	 ); 
-   //CreateUserTH1D( "MET_Type01_PAS"           , 200 , 0       , 1000	 ); 
-   //CreateUserTH1D( "MET_Type01_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "MET_Type1_PAS"           , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "MET_Type1_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
-   //CreateUserTH1D( "minMET01Pt1stEle_PAS"     , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "minMET1Pt1stEle_PAS"     , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Pt1stJet_PAS"             , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Pt2ndJet_PAS"             , 200 , 0       , 2000	 ); 
@@ -211,16 +204,13 @@ void analysisClass::Loop()
    CreateUserTH1D( "CISV2ndJet_PAS"            , 200 , 0       , 1.0	 ); 
    CreateUserTH1D( "nMuon_PtCut_IDISO_PAS"    , 16  , -0.5    , 15.5	 ); 
    CreateUserTH1D( "MTenu_PAS"                , 400 , 0       , 2000	 ); 
-   //CreateUserTH1D( "MTenu_Type01_PAS"         , 400 , 0       , 2000	 ); 
    CreateUserTH1D( "Ptenu_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
-   //CreateUserTH1D( "sTlep_Type01_PAS"         , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTlep_Type1_PAS"         , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sT_PAS"                   , 300 , 0       , 3000	 ); 
    CreateUserTH1D( "sT_ControlRegion_Njet_gte4", 300 , 0       , 3000	 ); 
    CreateUserTH1D( "sT_ControlRegion_Njet_lte3", 300 , 0       , 3000	 ); 
-   //CreateUserTH1D( "sT_Type01_PAS"            , 300 , 0       , 3000	 ); 
    CreateUserTH1D( "sT_Type1_PAS"            , 300 , 0       , 3000	 ); 
    CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
@@ -239,9 +229,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      , 3.14159  );
    CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      , 3.14159  );
    CreateUserTH1D( "mDPhi2ndJetMET_PAS"       , 100 , 0.      , 3.14159  );
-   //CreateUserTH1D( "mDPhi1stEleMET_Type01_PAS", 100 , 0.      , 3.14159  );
-   //CreateUserTH1D( "mDPhi1stJetMET_Type01_PAS", 100 , 0.      , 3.14159  );
-   //CreateUserTH1D( "mDPhi2ndJetMET_Type01_PAS", 100 , 0.      , 3.14159  );
    CreateUserTH1D( "GeneratorWeight"          , 200 , -2.0    , 2.0      );
    CreateUserTH1D( "PileupWeight"             , 200 , -2.0    , 2.0      );
    CreateUserTH1D( "EOverP_1stEle_PAS"        , 20000 , 0.      , 100.     );
@@ -263,26 +250,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_Njet_lte4", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_gte5", 240, 40, 160 );
 
-   //CreateUserTH1D( "MTenu_Type01_50_110", 240, 40, 160 );
-   //CreateUserTH1D( "nJets_MTenu_Type01_50_110"    , 20 , -0.5, 19.5 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5", 240, 40, 160 );
-
    CreateUserTH1D( "MTenu_70_110", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_110"    , 20 , -0.5, 19.5 );
    CreateUserTH1D( "MTenu_70_110_Njet_gte4", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_lte3", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_lte4", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_gte5", 240, 40, 160 );
-
-   //CreateUserTH1D( "MTenu_Type01_70_110", 240, 40, 160 );
-   //CreateUserTH1D( "nJets_MTenu_Type01_70_110"    , 20 , -0.5, 19.5 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5", 240, 40, 160 );
 
    CreateUserTH1D( "MTenu_70_150", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_150"    , 20 , -0.5, 19.5 );
@@ -318,26 +291,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
 
-   //CreateUserTH1D( "MTenu_Type01_50_110_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "nJets_MTenu_Type01_50_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
-
    CreateUserTH1D( "MTenu_70_110_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
    CreateUserTH1D( "MTenu_70_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
-
-   //CreateUserTH1D( "MTenu_Type01_70_110_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "nJets_MTenu_Type01_70_110_noBtaggedJets"    , 20 , -0.5, 19.5 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 240, 40, 160 );
 
    CreateUserTH1D( "MTenu_70_150_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_150_noBtaggedJets"    , 20 , -0.5, 19.5 );
@@ -373,26 +332,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
 
-   //CreateUserTH1D( "MTenu_Type01_50_110_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "nJets_MTenu_Type01_50_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
-
    CreateUserTH1D( "MTenu_70_110_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
    CreateUserTH1D( "MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
-
-   //CreateUserTH1D( "MTenu_Type01_70_110_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "nJets_MTenu_Type01_70_110_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 240, 40, 160 );
-   //CreateUserTH1D( "MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 240, 40, 160 );
 
    CreateUserTH1D( "MTenu_70_150_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "nJets_MTenu_70_150_gteOneBtaggedJet"    , 20 , -0.5, 19.5 );
@@ -458,92 +403,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_MTenu_50_110_Njet_gte5"      , 300 , 0 , 3000 ); 
    CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte5"     , 200 , 0 , 2000 ); 
    
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte3", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte3", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte3"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte3"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte3"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte4", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte4"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte4"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte4"     , 200 , 0 , 2000 ); 
-   
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte4", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte4"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte4"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte4"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte5", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte5", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte5"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte5"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte5"     , 200 , 0 , 2000 );
-
-//   // 70-110
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte3", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte3", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte3", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte3"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte3"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte3"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte4", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte4", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte4", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte4"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte4"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte4"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte4", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte4", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte4", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte4"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte4"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte4"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte5", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte5", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte5", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte5"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte5"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte5"     , 200 , 0 , 2000 ); 
-   
-   //// 70-110 type01
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte3", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte3", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte3"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte3"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte3"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte4", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte4"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte4"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte4"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte4", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte4"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte4"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte4"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte5", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte5", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte5"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte5"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte5"     , 200 , 0 , 2000 );
-
    // 70-150
    CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte3", 100 , 0 , 1000 ); 
    CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte3", 200 , 0 , 2000 ); 
@@ -631,92 +490,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_MTenu_50_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
    CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 ); 
    
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 );
-
-//   // 70-110
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   
-   //// 70-110 type01
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte3_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte4_noBtaggedJets"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte5_noBtaggedJets"     , 200 , 0 , 2000 );
-
    // 70-150
    CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte3_noBtaggedJets", 100 , 0 , 1000 ); 
    CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte3_noBtaggedJets", 200 , 0 , 2000 ); 
@@ -804,92 +577,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
    CreateUserTH1D( "Mej_MTenu_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
    
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_50_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 );
-
-//   // 70-110
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-//   
-//   CreateUserTH1D( "Pt1stEle_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-//   CreateUserTH1D( "Pt1stJet_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "Pt2ndJet_MTenu_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-//   CreateUserTH1D( "MET_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-//   CreateUserTH1D( "sT_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-//   CreateUserTH1D( "Mej_MTenu_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   
-   //// 70-110 type01
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte3_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_lte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte4_gteOneBtaggedJet"     , 200 , 0 , 2000 ); 
-   //
-   //CreateUserTH1D( "Pt1stEle_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 100 , 0 , 1000 ); 
-   //CreateUserTH1D( "Pt1stJet_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet", 200 , 0 , 2000 ); 
-   //CreateUserTH1D( "MET_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 1000 ); 
-   //CreateUserTH1D( "sT_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"      , 300 , 0 , 3000 ); 
-   //CreateUserTH1D( "Mej_MTenu_Type01_70_110_Njet_gte5_gteOneBtaggedJet"     , 200 , 0 , 2000 );
-
    // 70-150
    CreateUserTH1D( "Pt1stEle_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", 100 , 0 , 1000 ); 
    CreateUserTH1D( "Pt1stJet_MTenu_70_150_Njet_lte3_gteOneBtaggedJet", 200 , 0 , 2000 ); 
@@ -1287,26 +974,6 @@ void analysisClass::Loop()
      double gen_weight = Weight;
      if ( isData ) gen_weight = 1.0;
 
-     //if ( isData && Ele2_ValidFrac > 998. && Ele1_ValidFrac > 998. ){
-     //  double mu_trigger_effi_1 = 0.0;
-     //  if      ( fabs(Muon1_Eta) > 0.0 && fabs(Muon1_Eta) <= 0.9 ) mu_trigger_effi_1 = 0.94;
-     //  else if ( fabs(Muon1_Eta) > 0.9 && fabs(Muon1_Eta) <= 1.2 ) mu_trigger_effi_1 = 0.84;
-     //  else if ( fabs(Muon1_Eta) > 1.2 && fabs(Muon1_Eta) <= 2.1 ) mu_trigger_effi_1 = 0.82;
-
-     //  double ele_trigger_effi_1 = 0.0;
-     //  if      ( fabs(Muon1_Eta) > 0.000 && fabs(Muon1_Eta) <= 1.442 ) ele_trigger_effi_1 = 0.974;
-     //  else if ( fabs(Muon1_Eta) > 1.442 && fabs(Muon1_Eta) <= 2.500 ) ele_trigger_effi_1 = 0.958;
-
-     //  double mt_resolution_weight = mt_weight_func_muon_background -> Eval ( MT_Ele1MET );
-     //  // double mt_resolution_weight = 1.0;
-
-     //  double enujj_over_munujj_reco_weight = 0.972;
-     //  double total_weight = mt_resolution_weight * enujj_over_munujj_reco_weight * ele_trigger_effi_1 / mu_trigger_effi_1;
-
-     //  gen_weight = total_weight;
-     //  
-     //}
-
      // TopPt reweight
      // only valid for powheg
      std::string current_file_name ( fChain->GetCurrentFile()->GetName());
@@ -1394,39 +1061,6 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
 
      int passHLT = 0;
-     ////if ( isData ) { 
-     ////  passHLT = 0;
-     ////  if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-     ////    passHLT = 1;
-     ////}
-     ////// FIXME: Update to new 2016 curve?
-     ////else // using the turn-on in the MC
-     ////{
-     ////  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-     ////  //   we get two chances to pass since we may have two electrons in the event
-     ////  // UPDATE TO SCETA/ptheep
-     ////  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-     ////  if(!passHLT) // if the first one doesn't pass, try the second one
-     ////    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-     ////}
-     //if (isData) {
-     //  passHLT = 0;
-     //  if (H_Ele27_WPTight_eta2p1 == 1)
-     //    passHLT = 1;
-     //  //if ( H_Ele27_WPLoose == 1)
-     //  //if ( H_Ele27_WPTight == 1)
-     //  //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-     //  //if ( H_Ele27_WPLoose_eta2p1 == 1)
-     //  //  passHLT = 1;
-     //  //if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
-     //  //  passHLT = 0;
-     //  //if(run < 275676) // L1 EGM efficiency going to zero
-     //  //  passHLT = 0;
-     //}
-     //else {
-     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-     //  // for enujj, we only get one chance to trigger
-     //}
      bool verboseTrigEff = false;
      if (isData) {
        if(current_file_name.find("SinglePhoton") != std::string::npos) {
@@ -1437,14 +1071,9 @@ void analysisClass::Loop()
          if (H_Photon175 != 1 && (H_Ele27_WPTight == 1 || H_Ele115_CIdVT_GsfIdT == 1) ) // take events triggered only by Ele27 OR Ele115
            passHLT = 1;
        }
-       //if ( H_Ele27_WPTight == 1 )
-       //if ( H_Ele27_WPTight == 1 || H_Ele115_CIdVT_GsfIdT == 1)
-       //  passHLT = 1;
      }
      else {
        passHLT = triggerEfficiency.PassTrigger(Ele1_SCEta,Ele1_SCEnergy/cosh(Ele1_SCEta),verboseTrigEff) ? 1 : 0;
-       //
-       //passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
        // for enujj, we only get one chance to trigger
      }
 
@@ -1482,22 +1111,12 @@ void analysisClass::Loop()
      double MT_Jet1MET_Type01XY_JetEnDown, MT_Jet2MET_Type01XY_JetEnDown, MT_Ele1MET_Type01XY_JetEnDown;
      double MT_Jet1MET_Type01XY_JetResUp, MT_Jet2MET_Type01XY_JetResUp, MT_Ele1MET_Type01XY_JetResUp;
      double MT_Jet1MET_Type01XY_JetResDown, MT_Jet2MET_Type01XY_JetResDown, MT_Ele1MET_Type01XY_JetResDown;
-     //double MT_Jet1MET_Type01XY_UnclEnUp, MT_Jet2MET_Type01XY_UnclEnUp, MT_Ele1MET_Type01XY_UnclEnUp;
-     //double MT_Jet1MET_Type01XY_UnclEnDown, MT_Jet2MET_Type01XY_UnclEnDown, MT_Ele1MET_Type01XY_UnclEnDown;
      double mDPhi_METType01XYEleEnUp_Ele1, mDPhi_METType01XYEleEnDown_Ele1;
      double mDPhi_METType01XYEleEnUp_Jet1, mDPhi_METType01XYEleEnDown_Jet1, mDPhi_METType01XYEleEnUp_Jet2, mDPhi_METType01XYEleEnDown_Jet2;
      double mDPhi_METType01XYJetEnUp_Ele1, mDPhi_METType01XYJetEnDown_Ele1;
      double mDPhi_METType01XYJetEnUp_Jet1, mDPhi_METType01XYJetEnDown_Jet1, mDPhi_METType01XYJetEnUp_Jet2, mDPhi_METType01XYJetEnDown_Jet2;
      double mDPhi_METType01XYJetResUp_Ele1, mDPhi_METType01XYJetResDown_Ele1;
      double mDPhi_METType01XYJetResUp_Jet1, mDPhi_METType01XYJetResDown_Jet1, mDPhi_METType01XYJetResUp_Jet2, mDPhi_METType01XYJetResDown_Jet2;
-     //double mDPhi_METType01XYUnclEnUp_Ele1, mDPhi_METType01XYUnclEnDown_Ele1;
-     //double mDPhi_METType01XYUnclEnUp_Jet1, mDPhi_METType01XYUnclEnDown_Jet1, mDPhi_METType01XYUnclEnUp_Jet2, mDPhi_METType01XYUnclEnDown_Jet2;
-     //// XXX I shall redefine the ST here
-     //if ( nJet_store >= 2 ) 
-     //  sT_enujj = Jet1_Pt+Jet2_Pt+Ele1_Pt+PFMET_Type01XY_Pt;
-     //  //sT_enujj = Jet1_Pt+Jet2_Pt+Ele1_Pt+PFMET_Type01XY_UnclUp_Pt;
-     //  //sT_enujj = Jet1_Pt+Jet2_Pt+Ele1_Pt+PFMET_Type01XY_UnclDown_Pt;
-     //// SIC end add
 
      // alternate METs
 
@@ -1510,67 +1129,9 @@ void analysisClass::Loop()
        v_ele_met_lorentz = v_ele_lorentz + v_met_lorentz;
        
 
-       //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
        v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
        mDPhi_METType01_Ele1 = fabs(v_MET_Type01.DeltaPhi ( v_ele ));
        float deltaphi = v_MET_Type01.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01 = sqrt ( 2 * Ele1_Pt * PFMET_Type01_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// SIC add
-       //// Here I think we can calculate the MT with the shifted METs too and use them later in the final selection
-       //// define them above with the others
-       //// Ele EnUp/Down
-       //TVector2 v_MET_Type01XYEleEnUp;
-       //v_MET_Type01XYEleEnUp.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
-       //mDPhi_METType01XYEleEnUp_Ele1 = fabs(v_MET_Type01XYEleEnUp.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYEleEnUp.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01XY_EleEnUp = sqrt ( 2 * Ele1_Pt * PFMET_Type01XY_EleEnUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //TVector2 v_MET_Type01XYEleEnDown;
-       //v_MET_Type01XYEleEnDown.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
-       //mDPhi_METType01XYEleEnDown_Ele1 = fabs(v_MET_Type01XYEleEnDown.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYEleEnDown.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01XY_EleEnDown = sqrt ( 2 * Ele1_Pt * PFMET_Type01XY_EleEnDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// Jet EnUp/Down
-       //TVector2 v_MET_Type01XYJetEnUp;
-       //v_MET_Type01XYJetEnUp.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Jet1_Pt, Jet1_Phi );
-       //mDPhi_METType01XYJetEnUp_Ele1 = fabs(v_MET_Type01XYJetEnUp.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYJetEnUp.DeltaPhi(v_ele);
-       //MT_Jet1MET_Type01XY_JetEnUp = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_JetEnUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //TVector2 v_MET_Type01XYJetEnDown;
-       //v_MET_Type01XYJetEnDown.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Jet1_Pt, Jet1_Phi );
-       //mDPhi_METType01XYJetEnDown_Ele1 = fabs(v_MET_Type01XYJetEnDown.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYJetEnDown.DeltaPhi(v_ele);
-       //MT_Jet1MET_Type01XY_JetEnDown = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_JetEnDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// Jet ResUp/Down
-       //TVector2 v_MET_Type01XYJetResUp;
-       //v_MET_Type01XYJetResUp.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
-       //mDPhi_METType01XYJetResUp_Ele1 = fabs(v_MET_Type01XYJetResUp.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYJetResUp.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01XY_JetResUp = sqrt ( 2 * Ele1_Pt * PFMET_Type01XY_JetResUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //TVector2 v_MET_Type01XYJetResDown;
-       //v_MET_Type01XYJetResDown.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
-       //mDPhi_METType01XYJetResDown_Ele1 = fabs(v_MET_Type01XYJetResDown.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYJetResDown.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01XY_JetResDown = sqrt ( 2 * Ele1_Pt * PFMET_Type01XY_JetResDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// UnclEnUp/Down
-       //TVector2 v_MET_Type01XYUnclEnUp;
-       //v_MET_Type01XYUnclEnUp.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
-       //mDPhi_METType01XYUnclEnUp_Ele1 = fabs(v_MET_Type01XYUnclEnUp.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYUnclEnUp.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01XY_UnclEnUp = sqrt ( 2 * Ele1_Pt * PFMET_Type01XY_UnclUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //TVector2 v_MET_Type01XYUnclEnDown;
-       //v_MET_Type01XYUnclEnDown.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-       //v_ele.SetMagPhi( Ele1_Pt, Ele1_Phi );
-       //mDPhi_METType01XYUnclEnDown_Ele1 = fabs(v_MET_Type01XYUnclEnDown.DeltaPhi ( v_ele ));
-       //deltaphi = v_MET_Type01XYUnclEnDown.DeltaPhi(v_ele);
-       //MT_Ele1MET_Type01XY_UnclEnDown = sqrt ( 2 * Ele1_Pt * PFMET_Type01XY_UnclDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// SIC end add
      }
      
      // 1st JET variables                                     		           
@@ -1582,52 +1143,11 @@ void analysisClass::Loop()
        TVector2 v_MET;
        TVector2 v_jet;
        TVector2 v_MET_Type01;
-       //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
        v_MET.SetMagPhi( PFMET_Type1XY_Pt , PFMET_Type1XY_Phi  );
        v_jet.SetMagPhi( Jet1_Pt, Jet1_Phi );
        mDPhi_METType01_Jet1 = fabs(v_MET_Type01.DeltaPhi ( v_jet ));
        float deltaphi = v_MET.DeltaPhi(v_jet);
        MT_Jet1MET = sqrt ( 2 * Jet1_Pt * PFMET_Type1XY_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// SIC add
-       //TVector2 v_MET_Type01XYEleEnUp, v_MET_Type01XYEleEnDown, v_MET_Type01XYJetEnUp, v_MET_Type01XYJetEnDown;
-       //TVector2 v_MET_Type01XYJetResUp, v_MET_Type01XYJetResDown, v_MET_Type01XYUnclEnUp, v_MET_Type01XYUnclEnDown;
-       //// EleEnUp/Down
-       //v_MET_Type01XYEleEnUp.SetMagPhi( PFMET_Type01XY_EleEnUp_Pt , PFMET_Type01XY_EleEnUp_Phi  );
-       //mDPhi_METType01XYEleEnUp_Jet1 = fabs(v_MET_Type01XYEleEnUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYEleEnUp.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_EleEnUp = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_EleEnUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYEleEnDown.SetMagPhi( PFMET_Type01XY_EleEnDown_Pt , PFMET_Type01XY_EleEnDown_Phi  );
-       //mDPhi_METType01XYEleEnDown_Jet1 = fabs(v_MET_Type01XYEleEnDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYEleEnDown.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_EleEnDown = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_EleEnDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// JetEnUp/Down
-       //v_MET_Type01XYJetEnUp.SetMagPhi( PFMET_Type01XY_JetEnUp_Pt , PFMET_Type01XY_JetEnUp_Phi  );
-       //mDPhi_METType01XYJetEnUp_Jet1 = fabs(v_MET_Type01XYJetEnUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetEnUp.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_JetEnUp = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_JetEnUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYJetEnDown.SetMagPhi( PFMET_Type01XY_JetEnDown_Pt , PFMET_Type01XY_JetEnDown_Phi  );
-       //mDPhi_METType01XYJetEnDown_Jet1 = fabs(v_MET_Type01XYJetEnDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetEnDown.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_JetEnDown = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_JetEnDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// JetResUp/Down
-       //v_MET_Type01XYJetResUp.SetMagPhi( PFMET_Type01XY_JetResUp_Pt , PFMET_Type01XY_JetResUp_Phi  );
-       //mDPhi_METType01XYJetResUp_Jet1 = fabs(v_MET_Type01XYJetResUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetResUp.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_JetResUp = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_JetResUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYJetResDown.SetMagPhi( PFMET_Type01XY_JetResDown_Pt , PFMET_Type01XY_JetResDown_Phi  );
-       //mDPhi_METType01XYJetResDown_Jet1 = fabs(v_MET_Type01XYJetResDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetResDown.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_JetResDown = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_JetResDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// UnclEnUp/Down
-       //v_MET_Type01XYUnclEnUp.SetMagPhi( PFMET_Type01XY_UnclUp_Pt , PFMET_Type01XY_UnclUp_Phi  );
-       //mDPhi_METType01XYUnclEnUp_Jet1 = fabs(v_MET_Type01XYUnclEnUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYUnclEnUp.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_UnclEnUp = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_UnclUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYUnclEnDown.SetMagPhi( PFMET_Type01XY_UnclDown_Pt , PFMET_Type01XY_UnclDown_Phi  );
-       //mDPhi_METType01XYUnclEnDown_Jet1 = fabs(v_MET_Type01XYUnclEnDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYUnclEnDown.DeltaPhi(v_jet);
-       //MT_Jet1MET_Type01XY_UnclEnDown = sqrt ( 2 * Jet1_Pt * PFMET_Type01XY_UnclDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// SIC end add
      }									           
      
      // 2nd JET variables                                     		           
@@ -1639,52 +1159,11 @@ void analysisClass::Loop()
        TVector2 v_MET;
        TVector2 v_jet;
        TVector2 v_MET_Type01;
-       //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
        v_MET.SetMagPhi( PFMET_Type1XY_Pt , PFMET_Type1XY_Phi );
        v_jet.SetMagPhi( Jet2_Pt, Jet2_Phi );
        mDPhi_METType01_Jet2 = fabs(v_MET_Type01.DeltaPhi ( v_jet ));
        float deltaphi = v_MET.DeltaPhi(v_jet);
        MT_Jet2MET = sqrt ( 2 * Jet2_Pt * PFMET_Type1XY_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// SIC add
-       //TVector2 v_MET_Type01XYEleEnUp, v_MET_Type01XYEleEnDown, v_MET_Type01XYJetEnUp, v_MET_Type01XYJetEnDown;
-       //TVector2 v_MET_Type01XYJetResUp, v_MET_Type01XYJetResDown, v_MET_Type01XYUnclEnUp, v_MET_Type01XYUnclEnDown;
-       //// EleEnUp/Down
-       //v_MET_Type01XYEleEnUp.SetMagPhi( PFMET_Type01XY_EleEnUp_Pt , PFMET_Type01XY_EleEnUp_Phi  );
-       //mDPhi_METType01XYEleEnUp_Jet2 = fabs(v_MET_Type01XYEleEnUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYEleEnUp.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_EleEnUp = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_EleEnUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYEleEnDown.SetMagPhi( PFMET_Type01XY_EleEnDown_Pt , PFMET_Type01XY_EleEnDown_Phi  );
-       //mDPhi_METType01XYEleEnDown_Jet2 = fabs(v_MET_Type01XYEleEnDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYEleEnDown.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_EleEnDown = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_EleEnDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// JetEnUp/Down
-       //v_MET_Type01XYJetEnUp.SetMagPhi( PFMET_Type01XY_JetEnUp_Pt , PFMET_Type01XY_JetEnUp_Phi  );
-       //mDPhi_METType01XYJetEnUp_Jet2 = fabs(v_MET_Type01XYJetEnUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetEnUp.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_JetEnUp = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_JetEnUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYJetEnDown.SetMagPhi( PFMET_Type01XY_JetEnDown_Pt , PFMET_Type01XY_JetEnDown_Phi  );
-       //mDPhi_METType01XYJetEnDown_Jet2 = fabs(v_MET_Type01XYJetEnDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetEnDown.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_JetEnDown = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_JetEnDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// JetResUp/Down
-       //v_MET_Type01XYJetResUp.SetMagPhi( PFMET_Type01XY_JetResUp_Pt , PFMET_Type01XY_JetResUp_Phi  );
-       //mDPhi_METType01XYJetResUp_Jet2 = fabs(v_MET_Type01XYJetResUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetResUp.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_JetResUp = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_JetResUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYJetResDown.SetMagPhi( PFMET_Type01XY_JetResDown_Pt , PFMET_Type01XY_JetResDown_Phi  );
-       //mDPhi_METType01XYJetResDown_Jet2 = fabs(v_MET_Type01XYJetResDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYJetResDown.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_JetResDown = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_JetResDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// UnclEnUp/Down
-       //v_MET_Type01XYUnclEnUp.SetMagPhi( PFMET_Type01XY_UnclUp_Pt , PFMET_Type01XY_UnclUp_Phi  );
-       //mDPhi_METType01XYUnclEnUp_Jet2 = fabs(v_MET_Type01XYUnclEnUp.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYUnclEnUp.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_UnclEnUp = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_UnclUp_Pt * ( 1 - cos ( deltaphi ) ) );
-       //v_MET_Type01XYUnclEnDown.SetMagPhi( PFMET_Type01XY_UnclDown_Pt , PFMET_Type01XY_UnclDown_Phi  );
-       //mDPhi_METType01XYUnclEnDown_Jet2 = fabs(v_MET_Type01XYUnclEnDown.DeltaPhi ( v_jet ));
-       //deltaphi = v_MET_Type01XYUnclEnDown.DeltaPhi(v_jet);
-       //MT_Jet2MET_Type01XY_UnclEnDown = sqrt ( 2 * Jet2_Pt * PFMET_Type01XY_UnclDown_Pt * ( 1 - cos ( deltaphi ) ) );
-       //// SIC end add
      }
 
      // 2nd JET variables  
@@ -1819,6 +1298,8 @@ void analysisClass::Loop()
      // and then apply the b-tag scale factors as a function of Pt (2-SF in the veto case)
      // this is based on JetN_btagCISV in the ntuple
      // see: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+     // --> CSVv2_Moriond17_B_H.csv 
+     // specification of CSV file: https://twiki.cern.ch/twiki/bin/view/CMS/BTagCalibration
      // for event weights, we follow: https://twiki.cern.ch/twiki/bin/view/CMS/BTagSFMethods#1c_Event_reweighting_using_scale
 
      double weightZeroBJets = 1.0;
@@ -1835,6 +1316,7 @@ void analysisClass::Loop()
        // calculate and apply scale factors to MC only
        TFormula btagScaleFactorFormula("btagScaleFactorFormula","[0]*((1+([1]*x))/(1+([2]*x)))");
        // where x is jet Pt
+       // comb, central, medium WP, jet flavor = 0 (B jets)
        btagScaleFactorFormula.SetParameters(0.561694,0.31439,0.17756);
        //
        if ( Jet1_btagCISV > btagCISV_medium_cut ) weightZeroBJets*=(1-btagScaleFactorFormula.Eval(Jet1_Pt));
@@ -2272,108 +1754,6 @@ void analysisClass::Loop()
          FillUserTH1D( "Pt1stEle_Pt40to45_EtaGT2p1", Ele1_Pt, pileup_weight * gen_weight);
        }
 
-
-       //if ( MT_Ele1MET > 70 && MT_Ele1MET < 110 ){
-
-       //  FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
-       //  FillUserTH1D( "MTenu_70_110"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
-       //  FillUserTH1D( "nJets_MTenu_70_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
-
-       //  if ( nJet_ptCut <= 3 ){ 
-       //    FillUserTH1D(   "MTenu_70_110_Njet_lte3"         , MT_Ele1MET       ,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_70_110_Njet_lte3"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_70_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut <= 4 ){ 
-       //    FillUserTH1D(   "MTenu_70_110_Njet_lte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_70_110_Njet_lte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_70_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_70_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut >= 4 ){ 
-       //    FillUserTH1D(   "MTenu_70_110_Njet_gte4", MT_Ele1MET,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_70_110_Njet_gte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_70_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut >= 5 ){ 
-       //    FillUserTH1D(   "MTenu_70_110_Njet_gte5", MT_Ele1MET,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_70_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_70_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_70_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_70_110_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_70_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_70_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-       //}
-
-       //if ( MT_Ele1MET_Type01 > 70 && MT_Ele1MET_Type01 < 110 ){
-
-       //  FillUserTH1D( "MTenu_Type01_70_110"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-       //  FillUserTH1D( "nJets_MTenu_Type01_70_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
-
-       //  if ( nJet_ptCut <= 3 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte3"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut <= 4 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_70_110_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_lte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut >= 4 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut >= 5 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_70_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_70_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_70_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_70_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_70_110_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_70_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_70_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-       //}
-
        if ( MT_Ele1MET > 50 && MT_Ele1MET < 110 ){
 
          FillUserTH1D( "ProcessID_WWindow", ProcessID, pileup_weight * gen_weight );
@@ -2424,56 +1804,6 @@ void analysisClass::Loop()
            FillUserTH1D(   "Mej_MTenu_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
          }
        }
-
-       //if ( MT_Ele1MET_Type01 > 50 && MT_Ele1MET_Type01 < 110 ){
-
-       //  FillUserTH1D( "MTenu_Type01_50_110"      , MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-       //  FillUserTH1D( "nJets_MTenu_Type01_50_110", nJet_ptCut,  pileup_weight * gen_weight ) ;
-
-       //  if ( nJet_ptCut <= 3 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte3", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte3", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte3", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte3", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte3"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte3"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte3"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut <= 4 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_50_110_Njet_lte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_lte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_lte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_lte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_lte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_lte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_lte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut >= 4 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte4", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte4", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte4", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte4", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte4"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte4"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte4"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-
-       //  if ( nJet_ptCut >= 5 ){ 
-       //    FillUserTH1D(   "MTenu_Type01_50_110_Njet_gte5", MT_Ele1MET_Type01,  pileup_weight * gen_weight ) ;
-
-       //    FillUserTH1D(   "Pt1stEle_MTenu_Type01_50_110_Njet_gte5", Ele1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt1stJet_MTenu_Type01_50_110_Njet_gte5", Jet1_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Pt2ndJet_MTenu_Type01_50_110_Njet_gte5", Jet2_Pt          ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "MET_MTenu_Type01_50_110_Njet_gte5"     , PFMET_Type1XY_Pt,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "sT_MTenu_Type01_50_110_Njet_gte5"      , sT_enujj         ,  pileup_weight * gen_weight ) ;
-       //    FillUserTH1D(   "Mej_MTenu_Type01_50_110_Njet_gte5"     , Mej              ,  pileup_weight * gen_weight ) ;
-       //  }
-       //}
 
        if ( MT_Ele1MET > 70 && MT_Ele1MET < 150 ){
 
