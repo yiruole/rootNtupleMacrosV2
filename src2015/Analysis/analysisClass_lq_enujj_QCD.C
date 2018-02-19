@@ -109,8 +109,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "Charge1stEle_PAS"	      , 2   , -1.0001 , 1.0001	 ); 
    CreateUserTH1D( "MET_PAS"                  , 600 , 0       , 3000	 ); 
    CreateUserTH1D( "METPhi_PAS"		      , 60  , -3.1416 , +3.1416	 ); 
-   //CreateUserTH1D( "MET_Type01_PAS"           , 200 , 0       , 1000	 ); 
-   //CreateUserTH1D( "MET_Type01_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Pt1stJet_PAS"             , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Pt2ndJet_PAS"             , 200 , 0       , 2000	 ); 
@@ -124,15 +122,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "CISV2ndJet_PAS"            , 200 , 0       , 1.0	 ); 
    CreateUserTH1D( "nMuon_PtCut_IDISO_PAS"    , 16  , -0.5    , 15.5	 ); 
    CreateUserTH1D( "MTenu_PAS"                , 400 , 0       , 2000	 ); 
-   //CreateUserTH1D( "MTenu_Type01_PAS"         , 400 , 0       , 2000	 ); 
    CreateUserTH1D( "MT_charged_enu_PAS"       , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "MT_type1_enu_PAS"         , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Ptenu_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
-   //CreateUserTH1D( "sTlep_Type01_PAS"         , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sT_PAS"                   , 300 , 0       , 3000	 ); 
-   //CreateUserTH1D( "sT_Type01_PAS"            , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej2_PAS"                 , 200 , 0       , 2000	 );
@@ -147,9 +142,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "mDPhi1stEleMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi1stJetMET_PAS"       , 100 , 0.      ,  3.14159 );
    CreateUserTH1D( "mDPhi2ndJetMET_PAS"       , 100 , 0.      ,  3.14159 );
-   //CreateUserTH1D( "mDPhi1stEleMET_Type01_PAS", 100 , 0.      , 3.14159  );
-   //CreateUserTH1D( "mDPhi1stJetMET_Type01_PAS", 100 , 0.      , 3.14159  );
-   //CreateUserTH1D( "mDPhi2ndJetMET_Type01_PAS", 100 , 0.      , 3.14159  );
    CreateUserTH1D( "Mee_allElectrons_Presel"                  , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_allElectrons_3EleEvents_Presel"                  , 200 , 0       , 2000	 ); 
    //
@@ -999,8 +991,6 @@ void analysisClass::Loop()
        FillUserTH1D( "Charge1stEle_PAS"           , LooseEle1_Charge                                 , min_prescale * fakeRateEffective);   
        FillUserTH1D( "MET_PAS"                    , PFMET_Type1XY_Pt                                , min_prescale * fakeRateEffective);
        FillUserTH1D( "METPhi_PAS"	                , PFMET_Type1XY_Phi                               , min_prescale * fakeRateEffective);   
-       //FillUserTH1D( "MET_Type01_PAS"             , PFMET_Type01_Pt                                  , min_prescale * fakeRateEffective);
-       //FillUserTH1D( "MET_Type01_Phi_PAS"	        , PFMET_Type01_Phi                                 , min_prescale * fakeRateEffective);   
        //FillUserTH1D( "minMETPt1stEle_PAS"         , TMath::Min ( LooseEle1_Pt, PFMET_Type1XY_Pt  )  , min_prescale * fakeRateEffective);
        // need to use uncorrected Pt
        FillUserTH1D( "minMETPt1stEle_PAS"         , TMath::Min ( LooseEle1_SCEnergy/cosh(LooseEle1_SCEta), PFMET_Type1XY_Pt  )  , min_prescale * fakeRateEffective);
@@ -1016,24 +1006,18 @@ void analysisClass::Loop()
        FillUserTH1D( "CISV2ndJet_PAS"              , JetLooseEle2_btagCISV                             , min_prescale * fakeRateEffective);
        FillUserTH1D( "nMuon_PtCut_IDISO_PAS"      , nMuon_ptCut                                      , min_prescale * fakeRateEffective); 
        FillUserTH1D( "MTenu_PAS"                  , MT_Ele1MET                                       , min_prescale * fakeRateEffective);
-       //FillUserTH1D( "MTenu_Type01_PAS"           , MT_Ele1MET_Type01                                , min_prescale * fakeRateEffective);
        FillUserTH1D( "Ptenu_PAS"	          , Pt_Ele1MET                                       , min_prescale * fakeRateEffective);
        // need to use uncorrected Pt
        //FillUserTH1D( "sTlep_PAS"                  , LooseEle1_Pt + PFMET_Type1XY_Pt                 , min_prescale * fakeRateEffective);
        FillUserTH1D( "sTlep_PAS"                  , LooseEle1_SCEnergy/cosh(LooseEle1_SCEta) + PFMET_Type1XY_Pt                 , min_prescale * fakeRateEffective);
-       //FillUserTH1D( "sTlep_Type01_PAS"           , LooseEle1_Pt + PFMET_Type01_Pt                   , min_prescale * fakeRateEffective);
        FillUserTH1D( "sTjet_PAS"                  , JetLooseEle1_Pt + JetLooseEle2_Pt                , min_prescale * fakeRateEffective);
        FillUserTH1D( "sT_PAS"                     , sT_enujj                                         , min_prescale * fakeRateEffective);
-       //FillUserTH1D( "sT_Type01_PAS"              , sT_enujj_Type01                                  , min_prescale * fakeRateEffective);
        FillUserTH1D( "Mjj_PAS"	                  , M_j1j2                                           , min_prescale * fakeRateEffective);   
        FillUserTH1D( "DCotTheta1stEle_PAS"        , LooseEle1_DCotTheta                              , min_prescale * fakeRateEffective);
        FillUserTH1D( "Dist1stEle_PAS"             , LooseEle1_Dist                                   , min_prescale * fakeRateEffective);
        FillUserTH1D( "mDPhi1stEleMET_PAS"         , mDPhi_METEle1                                    , min_prescale * fakeRateEffective);
        FillUserTH1D( "mDPhi1stJetMET_PAS"         , mDPhi_METJet1                                    , min_prescale * fakeRateEffective);
        FillUserTH1D( "mDPhi2ndJetMET_PAS"         , mDPhi_METJet2                                    , min_prescale * fakeRateEffective); 
-       //FillUserTH1D( "mDPhi1stEleMET_Type01_PAS"  , mDPhi_METType01_Ele1                             , min_prescale * fakeRateEffective);
-       //FillUserTH1D( "mDPhi1stJetMET_Type01_PAS"  , mDPhi_METType01_Jet1                             , min_prescale * fakeRateEffective);
-       //FillUserTH1D( "mDPhi2ndJetMET_Type01_PAS"  , mDPhi_METType01_Jet2                             , min_prescale * fakeRateEffective); 
        FillUserTH1D( "Mej1_PAS"                   , M_e1j1                                           , min_prescale * fakeRateEffective);
        FillUserTH1D( "Mej2_PAS"                   , M_e1j2                                           , min_prescale * fakeRateEffective);
        FillUserTH1D( "Mej_PAS"                    , Mej                                              , min_prescale * fakeRateEffective);
@@ -1386,80 +1370,6 @@ void analysisClass::Loop()
        //  std::cout << "\tMET: " << PFMET_Type1XY_Pt << std::endl;
        //  std::cout << "\tMETphi: " << PFMET_Type1XY_Phi << std::endl;
        //}
-       //// high Mej plots
-       //if(Mej >= 1500) {
-       //  ////// run ls event
-       //  //std::cout << "\t[Preselection Mej>1500] passing run/ls/event: " << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
-       //  ////std::cout << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
-       //  //std::cout << "\thltPhotonPt: " << LooseEle1_hltPhotonPt << std::endl;
-       //  //std::cout << "\tmin_prescale: " << min_prescale << std::endl;
-       //  //std::cout << "\tFailHEEP: " << !LooseEle1_PassHEEPID << std::endl;
-       //  //std::cout << "\tEcalDriven: " << LooseEle1_EcalDriven << std::endl;
-       //  //std::cout << "\tSigmaIetaIeta: " << LooseEle1_Full5x5SigmaIEtaIEta << std::endl;
-       //  //std::cout << "\tdxy: " << LooseEle1_LeadVtxDistXY << std::endl;
-       //  //std::cout << "\tHoE: " << hoe << std::endl;
-       //  //std::cout << "\tMissingHits: " << LooseEle1_MissingHits << std::endl;
-       //  //std::cout << "\tMT_Jet1MET: " << MT_Jet1MET << std::endl;
-       //  //std::cout << "\tMT_Jet2MET: " << MT_Jet2MET << std::endl;
-       //  //std::cout << "\tMT_Ele1Jet1: " << MT_Ele1Jet1 << std::endl;
-       //  //std::cout << "\tMT_Ele1Jet2: " << MT_Ele1Jet2 << std::endl;
-       //  //std::cout << "\tM_e1j1: " << M_e1j1 << std::endl;
-       //  //std::cout << "\tM_e1j2: " << M_e1j2 << std::endl;
-       //  //std::cout << "\tfabs(MT_Jet1MET - MT_Ele1Jet2) = " << fabs(MT_Jet1MET - MT_Ele1Jet2) << std::endl;
-       //  //std::cout << "\tfabs(MT_Jet2MET - MT_Ele1Jet1) = " << fabs(MT_Jet2MET - MT_Ele1Jet1) << std::endl;
-       //  //if ( fabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 ))
-       //  //  std::cout << "\t\tfabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 ) --> M_e1j2 selected" << std::endl;
-       //  //else
-       //  //  std::cout << "\t\tfabs ( MT_Jet2MET - MT_Ele1Jet1 ) < fabs( MT_Jet1MET - MT_Ele1Jet2 ) --> M_e1j1 selected" << std::endl;
-       //  //std::cout << "\tSelected M_ej: " << Mej << std::endl;
-       //  //std::cout << "\tE1: pt=" << LooseEle1_SCEt << ", [check Pt]=" << LooseEle1_SCEnergy/cosh(LooseEle1_SCEta) << ", eta=" << LooseEle1_Eta << ", SCEta=" << LooseEle1_SCEta << ", phi=" << LooseEle1_Phi << std::endl;
-       //  //std::cout << "\tJ1: pt=" << JetLooseEle1_Pt << ", eta=" << JetLooseEle1_Eta << ", phi=" << JetLooseEle1_Phi << std::endl;
-       //  //std::cout << "\tJ2: pt=" << JetLooseEle2_Pt << ", eta=" << JetLooseEle2_Eta << ", phi=" << JetLooseEle2_Phi << std::endl;
-       //  //std::cout << "\tMET: " << PFMET_Type1XY_Pt << std::endl;
-       //  //std::cout << "\tMETphi: " << PFMET_Type1XY_Phi << std::endl;
-
-       //  FillUserTH1D( "MejGte1500_minDR_EleJet_PAS"           , min_DR_EleJet                                    , min_prescale * fakeRateEffective);
-       //  if ( fabs(LooseEle1_SCEta) <= eleEta_bar ) { 
-       //    FillUserTH1D( "MejGte1500_minDR_EleJet_Barrel_PAS"           , min_DR_EleJet                                    , min_prescale * fakeRateEffective);
-       //    sprintf(plot_name,"MejGte1500_Pt1stEle_Barrel_PAS");  FillUserTH1D( plot_name, LooseEle1_SCEnergy/cosh(LooseEle1_SCEta), min_prescale * fakeRateEffective);
-       //    sprintf(plot_name,"MejGte1500_DeltaPhiEleMET_Barrel_PAS");  FillUserTH1D( plot_name, mDPhi_METEle1, min_prescale * fakeRateEffective);
-       //    if(mejSelectedJet1) {
-       //      sprintf(plot_name,"MejGte1500_PtJet_Barrel_PAS");  FillUserTH1D( plot_name, JetLooseEle1_Pt, min_prescale * fakeRateEffective);
-       //      sprintf(plot_name,"MejGte1500_DREleJet_Barrel_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet1, min_prescale * fakeRateEffective);
-       //    }
-       //    else {
-       //      sprintf(plot_name,"MejGte1500_PtJet_Barrel_PAS");  FillUserTH1D( plot_name, JetLooseEle2_Pt, min_prescale * fakeRateEffective);
-       //      sprintf(plot_name,"MejGte1500_DREleJet_Barrel_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet2, min_prescale * fakeRateEffective);
-       //    }
-       //  }
-       //  else if ( fabs(LooseEle1_SCEta) >= eleEta_end1_min && fabs(LooseEle1_SCEta) < eleEta_end1_max) {
-       //    FillUserTH1D( "MejGte1500_minDR_EleJet_Endcap1_PAS"           , min_DR_EleJet                                    , min_prescale * fakeRateEffective);
-       //    sprintf(plot_name,"MejGte1500_Pt1stEle_Endcap1_PAS");  FillUserTH1D( plot_name, LooseEle1_SCEnergy/cosh(LooseEle1_SCEta), min_prescale * fakeRateEffective);
-       //    sprintf(plot_name,"MejGte1500_DeltaPhiEleMET_Endcap1_PAS");  FillUserTH1D( plot_name, mDPhi_METEle1, min_prescale * fakeRateEffective);
-       //    if(mejSelectedJet1) {
-       //      sprintf(plot_name,"MejGte1500_PtJet_Endcap1_PAS");  FillUserTH1D( plot_name, JetLooseEle1_Pt, min_prescale * fakeRateEffective);
-       //      sprintf(plot_name,"MejGte1500_DREleJet_Endcap1_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet1, min_prescale * fakeRateEffective);
-       //    }
-       //    else {
-       //      sprintf(plot_name,"MejGte1500_PtJet_Endcap1_PAS");  FillUserTH1D( plot_name, JetLooseEle2_Pt, min_prescale * fakeRateEffective);
-       //      sprintf(plot_name,"MejGte1500_DREleJet_Endcap1_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet2, min_prescale * fakeRateEffective);
-       //    }
-       //  }
-       //  else if ( fabs(LooseEle1_SCEta) >= eleEta_end2_min && fabs(LooseEle1_SCEta) < eleEta_end2_max) {
-       //    FillUserTH1D( "MejGte1500_minDR_EleJet_Endcap2_PAS"           , min_DR_EleJet                                    , min_prescale * fakeRateEffective);
-       //    sprintf(plot_name,"MejGte1500_Pt1stEle_Endcap2_PAS");  FillUserTH1D( plot_name, LooseEle1_SCEnergy/cosh(LooseEle1_SCEta), min_prescale * fakeRateEffective);
-       //    sprintf(plot_name,"MejGte1500_DeltaPhiEleMET_Endcap2_PAS");  FillUserTH1D( plot_name, mDPhi_METEle1, min_prescale * fakeRateEffective);
-       //    if(mejSelectedJet1) {
-       //      sprintf(plot_name,"MejGte1500_PtJet_Endcap2_PAS");  FillUserTH1D( plot_name, JetLooseEle1_Pt, min_prescale * fakeRateEffective);
-       //      sprintf(plot_name,"MejGte1500_DREleJet_Endcap2_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet1, min_prescale * fakeRateEffective);
-       //    }
-       //    else {
-       //      sprintf(plot_name,"MejGte1500_PtJet_Endcap2_PAS");  FillUserTH1D( plot_name, JetLooseEle2_Pt, min_prescale * fakeRateEffective);
-       //      sprintf(plot_name,"MejGte1500_DREleJet_Endcap2_PAS");  FillUserTH1D( plot_name, DR_Ele1Jet2, min_prescale * fakeRateEffective);
-       //    }
-       //  }
-       //}
-
        //-------------------------------------------------------------------------- 
        // dijet mass control regions
        //-------------------------------------------------------------------------- 
