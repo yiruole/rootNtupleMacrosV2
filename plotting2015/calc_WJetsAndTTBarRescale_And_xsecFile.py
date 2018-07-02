@@ -178,7 +178,11 @@ def GetRTTBarWJets(plotObjTTBar, plotObjWJets, randomize=False):
     rTTBar = integralDATA_wjets*integralWJets_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralWJets_ttbar
     rTTBar+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralWJets_wjets
     print integralTTbar_wjets,integralWJets_ttbar,integralTTbar_ttbar,integralWJets_wjets
-    rTTBar/= (integralTTbar_wjets*integralWJets_ttbar - integralTTbar_ttbar*integralWJets_wjets)
+    try:
+      rTTBar/= (integralTTbar_wjets*integralWJets_ttbar - integralTTbar_ttbar*integralWJets_wjets)
+    except ZeroDivisionError:
+      print 'ERROR: ZeroDivisionError: one or more of the integrals above are zero'
+      return -1,-1
     rWJets = integralDATA_wjets*integralTTbar_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralTTbar_ttbar
     rWJets+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralTTbar_wjets
     rWJets/= (integralTTbar_ttbar*integralWJets_wjets-integralTTbar_wjets*integralWJets_ttbar)
@@ -240,6 +244,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     integralMCall_ttbar = GetIntegralTH1(plotObjTTBar.histoMCall,plotObjTTBar.xmin,plotObjTTBar.xmax)
     ERRintegralMCall_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoMCall,plotObjTTBar.xmin,plotObjTTBar.xmax)
     integralTTbar_ttbar = GetIntegralTH1(plotObjTTBar.histoTTbar,plotObjTTBar.xmin,plotObjTTBar.xmax)
+    print 'plotObjTTBar.histoTTbar=',plotObjTTBar.histoTTbar
     ERRintegralTTbar_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoTTbar,plotObjTTBar.xmin,plotObjTTBar.xmax)
     integralWJets_ttbar = GetIntegralTH1(plotObjTTBar.histoWJet,plotObjTTBar.xmin,plotObjTTBar.xmax)
     ERRintegralWJets_ttbar = GetErrorIntegralTH1(plotObjTTBar.histoWJet,plotObjTTBar.xmin,plotObjTTBar.xmax)
@@ -248,7 +253,11 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     #contamination from other backgrounds (except TTbar and WJets) in the integral range [QCD is not in MCall]
     integralMCothers_ttbar = integralMCall_ttbar - integralTTbar_ttbar - integralWJets_ttbar
     ERRintegralMCothers_ttbar = math.sqrt(ERRintegralMCall_ttbar**2 + ERRintegralTTbar_ttbar**2)
-    contamination_ttbar = (integralMCothers_ttbar+integralWJets_ttbar+integralQCD_ttbar) / (integralMCall_ttbar+integralQCD_ttbar)
+    try:
+      contamination_ttbar = (integralMCothers_ttbar+integralWJets_ttbar+integralQCD_ttbar) / (integralMCall_ttbar+integralQCD_ttbar)
+    except ZeroDivisionError:
+      print 'ERROR: ZeroDivisionError: integralMCall_ttbar+integralQCD_ttbar is zero; integralMCall_ttbar=',integralMCall_ttbar,'integralQCD_ttbar=',integralQCD_ttbar
+      contamination_ttbar = -1
 
     # integrals: wjets
     integralDATA_wjets = GetIntegralTH1(plotObjWJets.histoDATA,plotObjWJets.xmin,plotObjWJets.xmax)
@@ -256,6 +265,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     integralMCall_wjets = GetIntegralTH1(plotObjWJets.histoMCall,plotObjWJets.xmin,plotObjWJets.xmax)
     ERRintegralMCall_wjets = GetErrorIntegralTH1(plotObjWJets.histoMCall,plotObjWJets.xmin,plotObjWJets.xmax)
     integralTTbar_wjets = GetIntegralTH1(plotObjWJets.histoTTbar,plotObjWJets.xmin,plotObjWJets.xmax)
+    print 'plotObjWJets.histoTTbar=',plotObjWJets.histoTTbar
     ERRintegralTTbar_wjets = GetErrorIntegralTH1(plotObjWJets.histoTTbar,plotObjWJets.xmin,plotObjWJets.xmax)
     integralWJets_wjets = GetIntegralTH1(plotObjWJets.histoWJet,plotObjWJets.xmin,plotObjWJets.xmax)
     ERRintegralWJets_wjets = GetErrorIntegralTH1(plotObjWJets.histoWJet,plotObjWJets.xmin,plotObjWJets.xmax)
@@ -271,10 +281,18 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
     # (2) --> ttbar
     rTTBar = integralDATA_wjets*integralWJets_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralWJets_ttbar
     rTTBar+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralWJets_wjets
-    rTTBar/= (integralTTbar_wjets*integralWJets_ttbar - integralTTbar_ttbar*integralWJets_wjets)
+    try:
+      rTTBar/= (integralTTbar_wjets*integralWJets_ttbar - integralTTbar_ttbar*integralWJets_wjets)
+    except ZeroDivisionError:
+      print 'ERROR in rTTBar: ZeroDivisionError: one or more of the integrals is zero:'
+      print integralTTbar_wjets,integralWJets_ttbar,'-',integralTTbar_ttbar,integralWJets_wjets
     rWJets = integralDATA_wjets*integralTTbar_ttbar - (integralMCothers_wjets+integralQCD_wjets)*integralTTbar_ttbar
     rWJets+= (integralMCothers_ttbar+integralQCD_ttbar-integralDATA_ttbar)*integralTTbar_wjets
-    rWJets/= (integralTTbar_ttbar*integralWJets_wjets-integralTTbar_wjets*integralWJets_ttbar)
+    try:
+      rWJets/= (integralTTbar_ttbar*integralWJets_wjets-integralTTbar_wjets*integralWJets_ttbar)
+    except ZeroDivisionError:
+      print 'ERROR in rWJets: ZeroDivisionError: one or more of the integrals is zero:'
+      print integralTTbar_ttbar,integralWJets_wjets,'-',integralTTbar_wjets,integralWJets_ttbar
 
 
 # FIXME
@@ -453,7 +471,14 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjWJets, fileps):
 #File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_newRsk237_feb5_gsfEtaCheck_MET100_PtEMET70_prevCutHists/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
 #File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_newRsk237_feb7_gsfEtaCheck_MET100_PtEMET70_addHists/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
 #
-File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_feb10_bugfix/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_feb10_bugfix/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+#
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_feb14_dPhiEleMET0p8/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+#
+#File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_mar16_fixMuons/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+#
+File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_mar26_addMTPlots/output_cutTable_lq_enujj_MT_QCD/analysisClass_lq_enujj_QCD_plots.root")
+
 
 # unscaled
 #File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_may8_ele27wptightOREle115_enujj2012FinSels/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
@@ -480,16 +505,67 @@ File_QCD_preselection = GetFile(os.environ["LQDATA"] + "/2016qcd/enujj_feb10_bug
 #File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb4_v237_MET100_PtEMET70_prevCutHists/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
 #File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb7_v237_MET100_PtEMET70_addHists/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots.root")
 #
-File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb10_v237_bugfix/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb10_v237_bugfix/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb14_dPhiEleMet0p8/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb19_dPhiEleMet0p8_btagSysts/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb20_dPhiEleMet0p8_newSingTop/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_feb23_dPhiEleMet0p8_fixMTPlots/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_mar5_removeTopPtReweight/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+#File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_mar16_fixMuons/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
+#
+File_preselection     = GetFile(os.environ["LQDATA"] + "/2016analysis/enujj_psk_mar26_addMTPlots/output_cutTable_lq_enujj_MT/analysisClass_lq_enujj_MT_plots_unscaled.root")
 
 histBaseNames = []
-histBaseNames.append('MTenu_50_110_BJETBIN')
+mtRanges = []
+histBaseNames.append('MTenu_50_110_BJETBIN') # nominal
+mtRanges.append([50,110])
+#
+#histBaseNames.append('MTenu_50_110_BJETBIN_btagSFDownShift')
+#mtRanges.append([50,110])
+#histBaseNames.append('MTenu_50_110_BJETBIN_btagSFUpShift')
+#mtRanges.append([50,110])
+##
 #histBaseNames.append('MTenu_50_110_BJETBIN_LQ300')
+#mtRanges.append([50,110])
 #histBaseNames.append('MTenu_50_110_BJETBIN_LQ400')
+#mtRanges.append([50,110])
 #histBaseNames.append('MTenu_50_110_BJETBIN_LQ500')
+#mtRanges.append([50,110])
 #histBaseNames.append('MTenu_50_110_BJETBIN_LQ600')
+#mtRanges.append([50,110])
 #histBaseNames.append('MTenu_50_110_BJETBIN_LQ700')
-#histBaseNames.append('MTenu_50_110_BJETBIN_LQ800')
+#mtRanges.append([50,110])
+#histBaseNames.append('MTenu_50_110_BJETBIN_LQ800') # no stats
+#mtRanges.append([50,110])
+#
+#histBaseNames.append('MTenu_50_110_BJETBIN_sT300To500_PAS')
+#mtRanges.append([50,110])
+#histBaseNames.append('MTenu_50_110_BJETBIN_sT500To750_PAS')
+#mtRanges.append([50,110])
+#histBaseNames.append('MTenu_50_110_BJETBIN_sT750To1250_PAS')
+#mtRanges.append([50,110])
+#histBaseNames.append('MTenu_50_110_BJETBIN_sT1250ToInf_PAS')
+#mtRanges.append([50,110])
+#
+# To do the MT variations, need to change the xmin/xmax (i.e., MT) integration ranges
+histBaseNames.append('MTenu_BJETBIN_MT200To400_PAS')
+mtRanges.append([200,400])
+histBaseNames.append('MTenu_BJETBIN_MT400To600_PAS')
+mtRanges.append([400,600])
+histBaseNames.append('MTenu_BJETBIN_MT600To900_PAS')
+mtRanges.append([600,900])
+histBaseNames.append('MTenu_BJETBIN_MT900ToInf_PAS')
+mtRanges.append([900,2000])
+#histBaseNames.append('MTenu_70_150_BJETBIN')
+#mtRanges.append([70,150])
+#histBaseNames.append('MTenu_110_190_BJETBIN')
+#mtRanges.append([110,190])
 
 plotsTTBar = []
 plotsWJets = []
@@ -502,7 +578,7 @@ histNameAllPrevCuts = "histo1D__SAMPLE__cutHisto_allPreviousCuts________"
 
 #--- Rescaling of W + jet and ttbar+jets background
 
-for histBaseName in histBaseNames:
+for idx,histBaseName in enumerate(histBaseNames):
   #-----------------------------------------
   # for ttbar-enriched region
   #plotBaseName = 'MTenu_50_110_Njet_gte4'
@@ -512,6 +588,9 @@ for histBaseName in histBaseNames:
   #plotBaseName= 'MTenu_50_110_gteOneBtaggedJet_LQ800'
   thisHistName = histNameDefault
 
+  mtMin = mtRanges[idx][0]
+  mtMax = mtRanges[idx][1]
+
   plotBaseName = histBaseName.replace('BJETBIN','gteOneBtaggedJet')
   print 'for TTBar, using plotBaseName:',plotBaseName
   
@@ -519,7 +598,7 @@ for histBaseName in histBaseNames:
   #h_ALLBKG_HT_ttbar = GetHisto("histo1D__ALLBKG_MG_HT__"+plotBaseName, File_preselection) # MC all
   # amc@NLO BKG
   #h_ALLBKG_amcatnlo_ttbar = GetHisto("histo1D__ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
-  h_ALLBKG_amcatnlo_ttbar = GetHisto(thisHistName.replace('SAMPLE','ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt')+plotBaseName, File_preselection) # MC all
+  #h_ALLBKG_amcatnlo_ttbar = GetHisto(thisHistName.replace('SAMPLE','ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt')+plotBaseName, File_preselection) # MC all
   # powheg ttbar
   #h_ALLBKG_powheg_ttbar = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
   h_ALLBKG_powheg_ttbar = GetHisto(thisHistName.replace('SAMPLE',"ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson")+plotBaseName, File_preselection) # MC all
@@ -543,7 +622,7 @@ for histBaseName in histBaseNames:
   # DATA
   h_DATA_ttbar = GetHisto(thisHistName.replace('SAMPLE',"DATA")+plotBaseName, File_preselection) #DATA
   # QCD
-  h_QCD_DataDriven = GetHisto(thisHistName.replace('SAMPLE',"QCDFakes_DATA")+plotBaseName,File_QCD_preselection)
+  h_QCD_DataDriven = GetHisto(thisHistName.replace('SAMPLE',"QCDFakes_DATA")+plotBaseName.replace('_btagSFDownShift','').replace('_btagSFUpShift',''),File_QCD_preselection)
   #h_QCD_ttbar = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
   
   plotTTbar = Plot()
@@ -571,9 +650,9 @@ for histBaseName in histBaseNames:
   plotTTbar.histoSingleTop = h_SingleTop_ttbar
   plotTTbar.histoPhotonJets = h_PhotonJets_ttbar
   plotTTbar.histoDiboson = h_Diboson_ttbar
-  plotTTbar.xmin = 50
+  plotTTbar.xmin = mtMin
   #plotTTbar.xmax = h_TTbar_amcatnlo_ttbar.GetXaxis().GetXmax()
-  plotTTbar.xmax = 110
+  plotTTbar.xmax = mtMax
   #plotTTbar.name = "TTbarRescale"
   plotTTbar.name = plotBaseName+'_TTbar'
   plotTTbar.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/cmssw/8011/TestRootNTuplizerRecipe/src/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
@@ -601,7 +680,7 @@ for histBaseName in histBaseNames:
   ## MG HT BKG
   #h_ALLBKG_HT_wjets = GetHisto("histo1D__ALLBKG_MG_HT__"+plotBaseName, File_preselection) # MC all
   # amc@NLO BKG
-  h_ALLBKG_amcatnlo_wjets = GetHisto(thisHistName.replace('SAMPLE',"ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt")+plotBaseName, File_preselection) # MC all
+  #h_ALLBKG_amcatnlo_wjets = GetHisto(thisHistName.replace('SAMPLE',"ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt")+plotBaseName, File_preselection) # MC all
   # powheg
   #h_ALLBKG_powheg_wjets = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt__"+plotBaseName, File_preselection) # MC all
   h_ALLBKG_powheg_wjets = GetHisto(thisHistName.replace('SAMPLE',"ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson")+plotBaseName, File_preselection) # MC all
@@ -622,7 +701,7 @@ for histBaseName in histBaseNames:
   # DATA
   h_DATA_wjets = GetHisto(thisHistName.replace('SAMPLE',"DATA")+plotBaseName, File_preselection) #DATA
   # QCD
-  h_QCD_DataDriven = GetHisto(thisHistName.replace('SAMPLE',"QCDFakes_DATA")+plotBaseName,File_QCD_preselection)
+  h_QCD_DataDriven = GetHisto(thisHistName.replace('SAMPLE',"QCDFakes_DATA")+plotBaseName.replace('_btagSFDownShift','').replace('_btagSFUpShift',''),File_QCD_preselection)
   #h_QCD_wjets = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
   
   plotWJets = Plot()
@@ -650,9 +729,9 @@ for histBaseName in histBaseNames:
   plotWJets.histoSingleTop = h_SingleTop_wjets
   plotWJets.histoPhotonJets = h_PhotonJets_wjets
   plotWJets.histoDiboson = h_Diboson_wjets
-  plotWJets.xmin = 50
+  plotWJets.xmin = mtMin
   #plotWJets.xmax = h_TTbar_amcatnlo_wjets.GetXaxis().GetXmax()
-  plotWJets.xmax = 110
+  plotWJets.xmax = mtMax
   #plotWJets.name = "WJetsRescale"
   plotWJets.name = plotBaseName+'_WJets'
   plotWJets.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/cmssw/8011/TestRootNTuplizerRecipe/src/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
