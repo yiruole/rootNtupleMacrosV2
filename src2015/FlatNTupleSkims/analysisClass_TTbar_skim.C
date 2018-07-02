@@ -170,8 +170,9 @@ void analysisClass::Loop() {
       Ele2_SCEnergy       = -999.;
       Ele2_TrkEta         = -999.;
       Ele2_ValidFrac      = -999.;
-      Ele2_hltDoubleElePt = -999.;
-      Ele2_hltEleSignalPt = -999.;
+      //Ele2_hltDoubleElePt = -999.;
+      //FIXME in reduced skim
+      //Ele2_hltEleSignalPt = -999.;
       //Ele1_hltEleTTbarPt  = trigEff;
       
     }
@@ -207,8 +208,9 @@ void analysisClass::Loop() {
       Ele2_SCEt    = Ele1_SCEt;
       Ele2_SCEta    = Ele1_SCEta;
       Ele2_SCPhi    = Ele1_SCPhi;
-      Ele2_hltDoubleElePt  = Ele1_hltDoubleElePt; 
-      Ele2_hltEleSignalPt  = Ele1_hltEleSignalPt; 
+      //Ele2_hltDoubleElePt  = Ele1_hltDoubleElePt; 
+      //FIXME in reduced skim
+      //Ele2_hltEleSignalPt  = Ele1_hltEleSignalPt; 
       //Ele2_hltEleTTbarPt   = Ele1_hltEleTTbarPt;  
       mDPhi_METEle1	   = mDPhi_METEle1;	
       M_e2j1               = M_e1j1;
@@ -248,8 +250,9 @@ void analysisClass::Loop() {
       Ele1_SCEnergy       = -999.;
       Ele1_TrkEta         = -999.;
       Ele1_ValidFrac      = -999.;
-      Ele1_hltDoubleElePt = -999.;
-      Ele1_hltEleSignalPt = -999.;
+      //Ele1_hltDoubleElePt = -999.;
+      //FIXME in reduced skim
+      //Ele1_hltEleSignalPt = -999.;
       //Ele2_hltEleTTbarPt  = trigEff;
       
     }
