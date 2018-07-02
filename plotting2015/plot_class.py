@@ -36,6 +36,7 @@ gStyle.SetPadBottomMargin(0.12);
 def GetBackgroundSyst(systType, isEEJJ=True):
     verbose = False
     # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/eejj_Preselection_sys.dat
+    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/eejj_Preselection_sys_05_03_2018.dat
     #  100*(deltaX/X) [rel. change in %]
     systDictEEJJ = {
       'EER'     : 10.6582,
@@ -51,6 +52,7 @@ def GetBackgroundSyst(systType, isEEJJ=True):
       'Trigger' : 1.033228,
     }
     # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/enujj_Preselection_sys.dat
+    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/enujj_Preselection_sys_05_03_2018.dat
     systDictENuJJ = {
       'EER'     : 4.668,
       'JER'     : 0.98,
@@ -455,6 +457,8 @@ class Plot:
     eps_folder  = ""
     png_folder  = "/tmp/"
     pdf_folder  = "/tmp/"
+    c_folder    = ""
+    root_folder = "/tmp/"
     lumi_fb = "0.0"
     suffix = ""
     stackColorIndexes = []
@@ -766,7 +770,8 @@ class Plot:
             self.histodata.SetLineWidth(2)
             self.histodata.SetLineColor(kBlack)
             #legend.AddEntry(self.histodata, "Data","lp")
-            self.histodata.Draw("e0psame")
+            #self.histodata.Draw("e0psame")
+            self.histodata.Draw("e0same")
             if self.histodataBlindAbove >= 0:
                 #print 'drawing TLine:',self.histodataBlindAbove,',',self.histodata.GetYaxis().GetXmin(),',',self.histodataBlindAbove,',',self.histodata.GetYaxis().GetXmax()
                 #blindLine = TLine(self.histodataBlindAbove,self.histodata.GetYaxis().GetXmin(),self.histodataBlindAbove,self.histodata.GetYaxis().GetXmax())
@@ -1011,26 +1016,44 @@ class Plot:
         if not os.path.isdir(self.gif_folder) and self.gif_folder != '':
           'Making directory',self.gif_folder
           os.mkdir(self.gif_folder)
-        if not os.path.isdir(self.png_folder):
+        if not os.path.isdir(self.png_folder) and self.png_folder != '':
           'Making directory',self.png_folder
           os.mkdir(self.png_folder)
-        if not os.path.isdir(self.pdf_folder):
+        if not os.path.isdir(self.pdf_folder) and self.pdf_folder != '':
           'Making directory',self.pdf_folder
           os.mkdir(self.pdf_folder)
+        if not os.path.isdir(self.c_folder) and self.c_folder != '':
+          'Making directory',self.c_folder
+          os.mkdir(self.c_folder)
+        if not os.path.isdir(self.root_folder) and self.root_folder != '':
+          'Making directory',self.root_folder
+          os.mkdir(self.root_folder)
         if self.suffix == "" : 
             if self.eps_folder != '':
               canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps","eps")
             if self.gif_folder != '':
               canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif","gif")
-            canvas.SaveAs(self.png_folder + "/" + self.name + ".png","png")
-            canvas.SaveAs(self.pdf_folder + "/" + self.name + ".pdf","pdf")
+            if self.png_folder != '':
+              canvas.SaveAs(self.png_folder + "/" + self.name + ".png","png")
+            if self.pdf_folder != '':
+              canvas.SaveAs(self.pdf_folder + "/" + self.name + ".pdf","pdf")
+            if self.c_folder != '':
+              canvas.SaveAs(self.c_folder + "/" + self.name + ".C","C")
+            if self.root_folder != '':
+              canvas.SaveAs(self.root_folder + "/" + self.name + ".root","root")
         else:
             if self.eps_folder != '':
               canvas.SaveAs(self.eps_folder + "/" + self.name + "_" + self.suffix +  ".eps","eps")
             if self.gif_folder != '':
               canvas.SaveAs(self.gif_folder + "/" + self.name + "_" + self.suffix +  ".gif","gif")
-            canvas.SaveAs(self.png_folder + "/" + self.name + "_" + self.suffix +  ".png","png")
-            canvas.SaveAs(self.pdf_folder + "/" + self.name + "_" + self.suffix +  ".pdf","pdf")
+            if self.png_folder != '':
+              canvas.SaveAs(self.png_folder + "/" + self.name + "_" + self.suffix +  ".png","png")
+            if self.pdf_folder != '':
+              canvas.SaveAs(self.pdf_folder + "/" + self.name + "_" + self.suffix +  ".pdf","pdf")
+            if self.c_folder != '':
+              canvas.SaveAs(self.c_folder + "/" + self.name + "_" + self.suffix +  ".C","C")
+            if self.root_folder != '':
+              canvas.SaveAs(self.root_folder + "/" + self.name + "_" + self.suffix +  ".root","root")
         #canvas.SaveAs(self.name + ".png","png")
         #canvas.SaveAs(self.name + ".root","root")
         #canvas.SaveAs(self.name + ".pdf","pdf") # do not use this line because root creates rotated pdf plot - see end of the file instead
@@ -1465,8 +1488,10 @@ def makeTOC ( tex_file_name, plot_file_name, plot_list ) :
         title = title.replace ("#phi", "$\phi$")
         title = title.replace ("#", "\#" ) 
         title = title.replace ("_", "\_" ) 
+        title = title.replace ("^", "\^" ) 
         title = title.replace (">", "$>$")
         title = title.replace ("<", "$<$")
+        #print 'title is now:',title
         file.write ( title + " & " + str ( i + 1 ) + " \\\\ \n" )
     
     file.write("\end{tabular}\n")
