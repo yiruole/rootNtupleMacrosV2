@@ -8,19 +8,30 @@ import os
 #txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/nov24_muonVeto35GeV/unscaled/rescale.log'
 #txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb1/unscaled/rescale.log'
 #txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb6/unscaled/test/rescale.log'
-txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/feb5_SF_finalSels/unscaled/rescale.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/feb20/unscaled/rescale.log'
+txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_eejj/mar17/unscaled/rescale.log'
 
-#bkgName = 'zjet'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/feb5_SF_finalSels/unscaled/rescale.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/feb20/unscaled/rescaleFinalSels.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/mar6_noTopPtReweight/unscaled/rescale_finalSelections.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/mar17/unscaled/rescale_lqBjetVariation.log'
+#txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/mar17/unscaled/newSingleTop/rescaleVariations.log'
+txtFilename = os.getenv('LQANA')+'/versionsOfAnalysis_enujj/mar17/unscaled/newSingleTop/rescale_stVariation.log'
+
+bkgName = 'zjet'
 #varList = ['sT','MejMin']
 #txtFilename = 'ttbar/logAllVariations.log'
 #bkgName = 'ttbar'
 # use sT and MejMin, one at a time
 #varList = ['sT']
 #varList = ['MejMin']
-# for enujj
-bkgName = 'wjet'
-#bkgName = 'ttbar'
 varList = ['LQ']
+
+# for enujj
+#bkgName = 'wjet'
+bkgName = 'ttbar'
+#varList = ['LQ']
+varList = ['sT']
 
 eejjMode = True
 if 'enujj' in txtFilename:
@@ -52,46 +63,57 @@ for var in varList:
           continue
         isVarPoint = True
         if not 'LQ' in name:
-          #print 'name=',name
-          varBin = name[name.find(var)+len(var):name.rfind('_')]
-          #print 'varBin=',varBin
-          lowerVarBound = float(varBin[0:varBin.find('To')])
-          upperVarBound = float(varBin[varBin.find('To')+2:])
-          # above is for bins; below is for threshold plots
-          #lowerVarBound = float(varBin)-5
-          #upperVarBound = float(varBin)+5
-          if upperVarBound > 2000:
-            upperVarBound = 2000
-          #print 'lowerVarBound=',lowerVarBound,'upperVarBound=',upperVarBound
-          middle = float((lowerVarBound+upperVarBound)/2.0)
-          delta = upperVarBound-middle
-        else: # for LQ 'final selection' plots
           print 'name=',name
+          if not 'To' in name:
+            # doesn't quite work for Menu; use separate script for plotting MT variations
+            split = name.split('_')
+            lowerVarBound = float(split[1])
+            upperVarBound = float(split[2])
+            middle = float((lowerVarBound+upperVarBound)/2.0)
+            delta = upperVarBound-middle
+            varBin = name[name.find(var)+len(var):name.rfind('_')]
+            print 'lowerVarBound=',lowerVarBound,'upperVarBound=',upperVarBound
+          else:
+            #print 'varBin=',varBin
+            varBin = name[name.find(var)+len(var):name.rfind('_')]
+            lowerVarBound = float(varBin[0:varBin.find('To')])
+            upperVarBound = float(varBin[varBin.find('To')+2:varBin.rfind('_')])
+            # above is for bins; below is for threshold plots
+            #lowerVarBound = float(varBin)-5
+            #upperVarBound = float(varBin)+5
+            if upperVarBound > 2000:
+              upperVarBound = 2000
+            print 'lowerVarBound=',lowerVarBound,'upperVarBound=',upperVarBound
+            middle = float((lowerVarBound+upperVarBound)/2.0)
+            delta = upperVarBound-middle
+        else: # for LQ 'final selection' plots
+          #print 'name=',name
           varBin = name[name.find('LQ')+2:name.rfind('_')]
           if len(varBin)<=0:
             varBin = name[name.find('LQ')+2:]
-          print 'varBin=',varBin
+          #print 'varBin=',varBin
           middle = float(varBin)
           delta = 0
-          if eejjMode or not 'WJet' in name:
-            xPoints.append(middle)
-            xPointErrs.append(delta)
-          elif not eejjMode and 'WJet' in name:
-            xPointsWJ.append(middle)
-            xPointErrsWJ.append(delta)
+        if eejjMode or not 'WJet' in name:
+          xPoints.append(middle)
+          xPointErrs.append(delta)
+        elif not eejjMode and 'WJet' in name:
+          xPointsWJ.append(middle)
+          xPointErrsWJ.append(delta)
       if 'rescale factor' in line and isVarPoint:
         line = line.split(':')
         numbers = line[1]
         #print 'numbers="'+numbers+'"'
         rescale = float(numbers[0:numbers.find('+\-')])
         rescaleErr = float(numbers[numbers.find('+\-')+4:])
-        print 'rescale =',rescale,'rescaleErr=',rescaleErr
         if eejjMode or not 'WJet' in name:
+          print 'yPoints append: rescale =',rescale,'rescaleErr=',rescaleErr
           yPoints.append(rescale)
           if rescaleErr < 0:
             rescaleErr = math.fabs(rescaleErr)
           yPointErrs.append(rescaleErr)
         elif not eejjMode and 'WJet' in name:
+          print 'yPointsWJ append: rescale =',rescale,'rescaleErr=',rescaleErr
           yPointsWJ.append(rescale)
           if rescaleErr < 0:
             rescaleErr = math.fabs(rescaleErr)
@@ -145,12 +167,15 @@ for var in varList:
   else:
     if bkgName=='ttbar':
       graph.GetYaxis().SetTitle('t#bar{t} scale factor')
-      sfNom = 0.97
+      graph.GetYaxis().SetRangeUser(0,2)
+      #sfNom = 0.95
+      sfNom = 0.92 # no top pt reweight
       sfNomErr = 0.01
     elif bkgName=='wjet':
       graph.GetYaxis().SetTitle('W+jets scale factor')
-      sfNom = 0.88
-      sfNomErr = 0.01
+      graph.GetYaxis().SetRangeUser(0,2)
+      sfNom = 0.87
+      sfNomErr = 0.012
   uncertaintyXpoints = [xPoints[0]-xPointErrs[0],xPoints[-1]+xPointErrs[-1]]
   uncertaintyYpoints = [sfNom,sfNom]
   uncertaintyXpointsErrs = [0,0]
@@ -225,6 +250,8 @@ for var in varList:
     baseName = bkgName+'_scaleFactorVariation_mejMinBins'
   elif 'LQ' in var:
     baseName = bkgName+'_scaleFactorVariation_LQBins'
+  elif 'MTenu' in var:
+    baseName = bkgName+'_scaleFactorVariation_MTBins'
   canvas.Print(baseName+'.png')
   canvas.Print(baseName+'.pdf')
 
