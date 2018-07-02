@@ -165,6 +165,23 @@ GenNu2_Pt 			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 GenNu2_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE			
 GenNu2_Phi 			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
+# GEN muon info
+#-----------------------------------------------------------------------------------------------------------------------------------------
+nGenMu_ptCut			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+nGenMu_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+#
+GenMu1_Pt 			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenMu1_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE			
+GenMu1_Phi 			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+# 
+GenMu2_Pt 			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenMu2_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE			
+GenMu2_Phi 			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+# 
+GenMu3_Pt 			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenMu3_Eta 			-inf         +inf               -               -               1       100 -5 5	      SAVE			
+GenMu3_Phi 			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+#-----------------------------------------------------------------------------------------------------------------------------------------
 # Gen info for recoil
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nGenW_store	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
@@ -256,7 +273,6 @@ Ele1_DCotTheta                  -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_MissingHits                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_TrkPt                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_TrkEta                     -inf	     +inf		-		-		1	100 -5 5	      SAVE  
-Ele1_SigmaIEtaIEta              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_SigmaEtaEta                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_EcalDriven                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_DeltaEtaSeed               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -291,9 +307,9 @@ Ele1_GsfCtfScPixCharge          -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_GsfScPixCharge             -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_GsfCtfCharge               -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele1_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele1_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
-Ele1_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
+#Ele1_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
+#Ele1_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
+#Ele1_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 # 
 Ele2_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_Energy                     -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -309,7 +325,6 @@ Ele2_DCotTheta                  -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_MissingHits                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_TrkPt                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_TrkEta                     -inf	     +inf		-		-		1	100 -5 5	      SAVE  
-Ele2_SigmaIEtaIEta              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_SigmaEtaEta                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_EcalDriven                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_DeltaEtaSeed               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -344,9 +359,9 @@ Ele2_GsfCtfScPixCharge          -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_GsfScPixCharge             -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_GsfCtfCharge               -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele2_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele2_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
-Ele2_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
+#Ele2_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
+#Ele2_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
+#Ele2_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 # 
 Ele3_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_Energy                     -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -362,7 +377,6 @@ Ele3_DCotTheta                  -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_MissingHits                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_TrkPt                      -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_TrkEta                     -inf	     +inf		-		-		1	100 -5 5	      SAVE  
-Ele3_SigmaIEtaIEta              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_SigmaEtaEta                -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_EcalDriven                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_DeltaEtaSeed               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
@@ -397,16 +411,16 @@ Ele3_GsfCtfScPixCharge          -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_GsfScPixCharge             -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_GsfCtfCharge               -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele3_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Ele3_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
-Ele3_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
+#Ele3_hltEleSignalPt             -inf	     +inf		-		-		1	200 0 2000	      SAVE
+#Ele3_hltDoubleElePt             -inf	     +inf		-		-		1	200 0 2000	      SAVE 
+#Ele3_hltEleWP80Pt               -inf	     +inf		-		-		1	200 0 2000	      SAVE 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # MET info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 PFMET_Raw_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+#PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
+#PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -436,7 +450,6 @@ Jet1_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet1_hltNoPUJetPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #	
 Jet2_Pt   			-inf	     +inf		-		-		1	200 0 2000	      SAVE		        
 Jet2_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -448,7 +461,6 @@ Jet2_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet2_hltNoPUJetPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet3_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet3_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -460,7 +472,6 @@ Jet3_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet3_hltNoPUJetPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet4_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet4_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -472,7 +483,6 @@ Jet4_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet4_hltNoPUJetPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet5_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet5_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -484,7 +494,6 @@ Jet5_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet5_hltNoPUJetPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Muon info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -495,24 +504,33 @@ nMuon_LooseId   			-inf         +inf               -               -            
 nMuon_etaId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 #
 Muon1_Pt    			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon1_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon1_Eta   			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon1_Phi   			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Muon1_Charge			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Muon1_hltTTMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon1_PtError			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon1_EtaError   	-inf         +inf               -               -               1       100 -5 5	      SAVE
+Muon1_PhiError   	-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+Muon1_Charge			-inf         +inf               -               -               1       10 -5 5	      SAVE
 Muon1_hltSingleMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #
 Muon2_Pt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon2_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Muon2_Charge			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Muon2_hltTTMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon2_PtError			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon2_EtaError   	-inf         +inf               -               -               1       100 -5 5	      SAVE
+Muon2_PhiError   	-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+Muon2_Charge			-inf         +inf               -               -               1       10 -5 5	      SAVE
 Muon2_hltSingleMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #
 Muon3_Pt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon3_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon3_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon3_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Muon3_Charge			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-Muon3_hltTTMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon3_PtError			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Muon3_EtaError   	-inf         +inf               -               -               1       100 -5 5	      SAVE
+Muon3_PhiError   	-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+Muon3_Charge			-inf         +inf               -               -               1       10 -5 5	      SAVE
 Muon3_hltSingleMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Object spacing info 
