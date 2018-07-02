@@ -18,9 +18,18 @@ from ROOT import *
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov24_fixTrigEff_finalSels_muonVetoDef35GeV_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 
-File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb20_newSingTop/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
+File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/jan31_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
-File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb2_newSkim_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb2_newSkim_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb28_emujj_RTrigBugFix_correctTrig/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/feb28_emujj_noRTrigReproduceOld_correctTrig/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar1_emujj_noRTrig_twoObjectTrigEval/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar1_emujj_RedoRTrig/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar17_emujj_fixMuons/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 
 LQmasses = [1500]
 
@@ -56,6 +65,7 @@ histoBaseName2D_userDef = "histo2D__SAMPLE__VARIABLE"
 samplesForStackHistos_other = []
 #samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
 samplesForStackHistos_ttbar = [ "TTbar_powheg" ]
+#samplesForStackHistos_ttbar = [ "TTbar_powheg_emujj","NONTTBARBKG_amcatnloPt_amcAtNLODiboson_emujj" ]
 #samplesForStackHistos_ZJets  = [ "ZJet_Madgraph_HT" ]
 samplesForStackHistos_ZJets = []
 #keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
@@ -79,10 +89,12 @@ keysForStackHistos_QCD = [""]
 
 samplesForStackHistos = samplesForStackHistos_ttbar
 samplesForStackHistos_ZJets = samplesForStackHistos_ttbar
-#keysStack             = [ "t#bar{t} (MG5_aMC)"]
-keysStack             = [ "t#bar{t} (powheg)"]
-stackColorIndexes     = [         kBlue-4    ]
-stackFillStyleIds     = [  1001          ]
+#keysStack             = [ "t#bar{t} MC (e#mujj)", "otherMC (e#mujj)" ]
+#stackColorIndexes     = [         kBlue-4     , kRed  ]
+#stackFillStyleIds     = [  1001               , 1001 ]
+keysStack             = [ "t#bar{t} MC (eejj)"]
+stackColorIndexes     = [         kBlue-4     ]
+stackFillStyleIds     = [  1001               ]
 
 #keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG Inc)"  ]
 #stackColorIndexes     = [ 9                  , 600         ,  kRed           ]
@@ -110,6 +122,7 @@ keys_blank             = []
 
 #sampleForDataHisto = "DATA"
 sampleForDataHisto = "TTBarFromDATA"
+#sampleForDataHisto = "TTBarUnscaledRawFromDATA"
 
 def makeDefaultPlot ( variableName, histoBaseName, 
                       samplesForHistos, keys,
@@ -118,8 +131,10 @@ def makeDefaultPlot ( variableName, histoBaseName,
                       zUncBand, makeRatio ) :
     plot                   = Plot() 
     plot.histosStack       =generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection )
+    #plot.histosStack       =generateHistoList( histoBaseName, samplesForStackHistos_ZJets, variableName, File_ttbar_preselection )
     plot.keysStack         = keysStack
     plot.histos            = generateHistoList( histoBaseName, samplesForHistos, variableName, File_preselection)
+    #plot.histos            = generateHistoList( histoBaseName, samplesForHistos, variableName, File_ttbar_preselection)
     plot.keys              = keys
     plot.addZUncBand       = zUncBand
     plot.addBkgUncBand     = addBkgUncBand
@@ -136,6 +151,7 @@ def makeDefaultPlot ( variableName, histoBaseName,
     #plot.eps_folder        = "eps_emujj_scaled_preselectionOnly/"
     plot.pdf_folder        = "pdf_emujj_scaled_preselectionOnly/"
     plot.png_folder        = "png_emujj_scaled_preselectionOnly/"
+    plot.root_folder       = "root_emujj_scaled_preselectionOnly/"
     plot.suffix            = "emujj"
     plot.lumi_fb           = "35.9"
     
