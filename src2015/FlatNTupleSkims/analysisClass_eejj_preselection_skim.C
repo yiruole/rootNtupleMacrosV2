@@ -144,12 +144,13 @@ void analysisClass::Loop() {
     //--------------------------------------------------------------------------
 
     int nEle_hltMatched = 0.0;
-    if ( Ele1_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
-    if ( Ele2_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
+    //FIXME in reduced skim
+    //if ( Ele1_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
+    //if ( Ele2_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
     
     int nJet_hltMatched = 0.0;
-    if ( Jet1_hltNoPUJetPt > 0.0 || Jet1_hltJetPt > 0.0 ) nJet_hltMatched++;
-    if ( Jet2_hltNoPUJetPt > 0.0 || Jet2_hltJetPt > 0.0 ) nJet_hltMatched++;
+    if ( Jet1_hltJetPt > 0.0 ) nJet_hltMatched++;
+    if ( Jet2_hltJetPt > 0.0 ) nJet_hltMatched++;
 
     fillVariableWithValue("nEle_hltMatched",nEle_hltMatched, gen_weight * pileup_weight);
     fillVariableWithValue("nJet_hltMatched",nJet_hltMatched, gen_weight * pileup_weight);

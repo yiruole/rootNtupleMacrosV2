@@ -66,7 +66,7 @@ void analysisClass::Loop() {
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
 
-    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << std::endl;   
+    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
     //-----------------------------------------------------------------
     // Get ready to fill variables 
