@@ -43,7 +43,7 @@ void analysisClass::Loop()
   };
 
   //const int n_lq_mass = 1;
-  //int LQ_MASS[n_lq_mass] = { 6502012 };
+  //int LQ_MASS[n_lq_mass] = { 650 };
 
   std::vector<bool> passed_vector;
 
@@ -57,6 +57,8 @@ void analysisClass::Loop()
   fillAllOtherCuts                 ( true  ) ;
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
   fillAllCuts                      ( !true  ) ;
+
+  bool do_roi_plots = false;
 
   //--------------------------------------------------------------------------
   // Get pre-cut values
@@ -94,11 +96,6 @@ void analysisClass::Loop()
   CreateUserTH1D( "M_e2j3_PASandMee100"   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "M_eejjj_PASandMee100"  ,    500 , 0       , 5000	 ); 
 
-  //CreateUserTH1D( "M_j1j3_ROI"            ,    200 , 0       , 2000	 );    
-  //CreateUserTH1D( "M_j2j3_ROI"            ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "M_e1j3_ROI"            ,    200 , 0       , 2000	 );    
-  //CreateUserTH1D( "M_e2j3_ROI"            ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "M_eejjj_ROI"           ,    500 , 0       , 5000	 ); 
 
   CreateUserTH1D( "sTfrac_Jet1_PAS"       ,   100  ,  0.0    , 1.0      );
   CreateUserTH1D( "sTfrac_Jet2_PAS"       ,   100  ,  0.0    , 1.0      );
@@ -112,21 +109,13 @@ void analysisClass::Loop()
   CreateUserTH1D( "sTfrac_Ele2_PASandMee100"       ,   100  ,  0.0    , 1.0      );
   CreateUserTH1D( "sTfrac_Jet_PASandMee100"        ,   100  ,  0.0    , 1.0      );
   CreateUserTH1D( "sTfrac_Ele_PASandMee100"        ,   100  ,  0.0    , 1.0      );
-  //CreateUserTH1D( "sTfrac_Jet1_ROI"       ,   100  ,  0.0    , 1.0      );
-  //CreateUserTH1D( "sTfrac_Jet2_ROI"       ,   100  ,  0.0    , 1.0      );
-  //CreateUserTH1D( "sTfrac_Ele1_ROI"       ,   100  ,  0.0    , 1.0      );
-  //CreateUserTH1D( "sTfrac_Ele2_ROI"       ,   100  ,  0.0    , 1.0      );
-  //CreateUserTH1D( "sTfrac_Jet_ROI"        ,   100  ,  0.0    , 1.0      );
-  //CreateUserTH1D( "sTfrac_Ele_ROI"        ,   100  ,  0.0    , 1.0      );
   CreateUserTH1D( "nElectron_PAS"         ,    5   , -0.5    , 4.5      );
   CreateUserTH1D( "nMuon_PAS"             ,    5   , -0.5    , 4.5      );
   CreateUserTH1D( "nJet_PAS"              ,    10  , -0.5    , 9.5      );
   CreateUserTH1D( "nJet_PASandMee100"        ,    10  , -0.5    , 9.5      );
-  //CreateUserTH1D( "nJet_ROI"              ,    10  , -0.5    , 9.5      );
   CreateUserTH1D( "Pt1stEle_PAS"	   , 	100 , 0       , 1000     ); 
   CreateUserTH1D( "PtHeep1stEle_PAS"	   , 	100 , 0       , 1000     ); 
   CreateUserTH1D( "Pt1stEle_PASandMee100" , 	100 , 0       , 1000     ); 
-  //CreateUserTH1D( "Pt1stEle_ROI"	   , 	100 , 0       , 1000     ); 
   CreateUserTH1D( "Eta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
   CreateUserTH1D( "SCEta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
   CreateUserTH1D( "DeltaEtaEleTrk1stEle_Presel", 400, -0.5,   0.5 );
@@ -134,7 +123,6 @@ void analysisClass::Loop()
   CreateUserTH1D( "Pt2ndEle_PAS"	   , 	300 , 0       , 3000     ); 
   CreateUserTH1D( "PtHeep2ndEle_PAS"	   , 	300 , 0       , 3000     ); 
   CreateUserTH1D( "Pt2ndEle_PASandMee100" , 	300 , 0       , 3000     ); 
-  //CreateUserTH1D( "Pt2ndEle_ROI"	   , 	300 , 0       , 3000     ); 
   CreateUserTH1D( "Eta2ndEle_PAS"	   , 	100 , -5      , 5	 ); 
   CreateUserTH1D( "SCEta2ndEle_PAS"	   , 	100 , -5      , 5	 ); 
   CreateUserTH1D( "DeltaEtaEleTrk2ndEle_Presel", 400, -0.5,   0.5 );
@@ -143,16 +131,12 @@ void analysisClass::Loop()
   CreateUserTH1D( "Charge2ndEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
   CreateUserTH1D( "EleChargeSum_PAS"         ,    3   , -2.5    , 2.5  );
   CreateUserTH1D( "EleChargeSum_PASandMee100",    3   , -2.5    , 2.5  );
-  //CreateUserTH1D( "EleChargeSum_ROI"         ,    3   , -2.5    , 2.5  );
   CreateUserTH1D( "MET_PAS"               ,    200 , 0       , 1000	 ); 
-  //CreateUserTH1D( "MET_ROI"               ,    200 , 0       , 1000	 ); 
   CreateUserTH1D( "METPhi_PAS"		   , 	60  , -3.1416 , +3.1416	 ); 
-  CreateUserTH1D( "Pt1stJet_PAS"          ,    100 , 0       , 1000	 ); 
-  CreateUserTH1D( "Pt2ndJet_PAS"          ,    100 , 0       , 1000	 ); 
-  CreateUserTH1D( "Pt1stJet_PASandMee100" ,    100 , 0       , 1000	 ); 
-  CreateUserTH1D( "Pt2ndJet_PASandMee100" ,    100 , 0       , 1000	 ); 
-  //CreateUserTH1D( "Pt1stJet_ROI"          ,    100 , 0       , 1000	 ); 
-  //CreateUserTH1D( "Pt2ndJet_ROI"          ,    100 , 0       , 1000	 ); 
+  CreateUserTH1D( "Pt1stJet_PAS"          ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Pt2ndJet_PAS"          ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Pt1stJet_PASandMee100" ,    200 , 0       , 2000	 ); 
+  CreateUserTH1D( "Pt2ndJet_PASandMee100" ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Eta1stJet_PAS"         ,    100 , -5      , 5	 ); 
   CreateUserTH1D( "Eta2ndJet_PAS"         ,    100 , -5      , 5	 ); 
   CreateUserTH1D( "Phi1stJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
@@ -161,12 +145,9 @@ void analysisClass::Loop()
   CreateUserTH1D( "sTjet_PAS"             ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sTlep_PASandMee100"    ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sTjet_PASandMee100"    ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "sTlep_ROI"             ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "sTjet_ROI"             ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sT_PAS"                ,    300   , 0       , 3000	 ); 
   CreateUserTH1D( "sT_zjj_PAS"            ,    300   , 0       , 3000	  ); 
   CreateUserTH1D( "sT_zjj_PASandMee100"   ,    300   , 0       , 3000	  ); 
-  //CreateUserTH1D( "sT_zjj_ROI"                      ,    200   , 0       , 2000	  ); 
   CreateUserTH1D( "sT_PASandMee100"       ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sT_PASandMee110"       ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sT_PASandMee120"       ,    200 , 0       , 2000	 ); 
@@ -178,17 +159,13 @@ void analysisClass::Loop()
   CreateUserTH1D( "sT_PASandMee180"       ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sT_PASandMee190"       ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "sT_PASandMee200"       ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "sT_ROI"                ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mjj_PAS"		   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mjj_PASandMee100"	   ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "Mjj_ROI"		   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "Mee_ROI"		   ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_PASandST445"       ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "MTenu_PAS"             ,    200 , 0       , 1000	 ); 
   CreateUserTH1D( "Me1j1_PAS"             ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Me1j1_PASandMee100"    ,    200 , 0       , 2000	 ); 
-  //CreateUserTH1D( "Me1j1_ROI"             ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Me1j2_PAS"             ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Me2j1_PAS"             ,    200 , 0       , 2000	 ); 
   CreateUserTH1D( "Me2j2_PAS"             ,    200 , 0       , 2000	 ); 
@@ -199,12 +176,8 @@ void analysisClass::Loop()
   CreateUserTH1D( "Mej_minmax_PAS"        ,    200 , 0       , 2000     ); 
   CreateUserTH1D( "Mej_selected_avg_PAS"  ,    200 , 0       , 2000     );
   CreateUserTH1D( "Mej_selected_avg_PASandMee100"  ,    200 , 0       , 2000     );
-  //CreateUserTH1D( "Mej_selected_avg_ROI"  ,    200 , 0       , 2000     );
-  //CreateUserTH1D( "Meejj_ROI"             ,    400 , 0       , 4000     );
   CreateUserTH1D( "Mejj_PAS"              ,    400 , 0       , 4000     );
   CreateUserTH1D( "Meej_PAS"              ,    400 , 0       , 4000     );
-  //CreateUserTH1D( "Mejj_ROI"              ,    400 , 0       , 4000     );
-  //CreateUserTH1D( "Meej_ROI"              ,    400 , 0       , 4000     );
   CreateUserTH1D( "Meejj_PAS"             ,    400 , 0       , 4000     );
   // muon kinematics
   CreateUserTH1D( "Pt1stMuon_PAS"	   , 	100 , 0       , 1000     ); 
@@ -214,15 +187,6 @@ void analysisClass::Loop()
   CreateUserTH1D( "Eta2ndMuon_PAS"	   , 	100 , -5      , 5	 ); 
   CreateUserTH1D( "Phi2ndMuon_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
 
-  //CreateUserTH1D( "Eta1stJet_ROI"                   ,    100   , -5      , 5	  ); 
-  //CreateUserTH1D( "Eta2ndJet_ROI"                   ,    100   , -5      , 5	  ); 
-  //CreateUserTH1D( "Eta1stEle_ROI"	             , 	100    , -5      , 5	  ); 
-  //CreateUserTH1D( "Eta2ndEle_ROI"	             , 	100    , -5      , 5	  ); 
-
-  //CreateUserTH1D( "Phi1stJet_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
-  //CreateUserTH1D( "Phi2ndJet_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
-  //CreateUserTH1D( "Phi1stEle_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
-  //CreateUserTH1D( "Phi2ndEle_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
 
   CreateUserTH1D( "Ptj1j2j3_PAS"                    ,    400 , 0       , 4000     );
   CreateUserTH1D( "Ptj1j2_PAS"                      ,    400 , 0       , 4000     );
@@ -242,18 +206,11 @@ void analysisClass::Loop()
   CreateUserTH1D( "Ptee_Minus_Ptj1j2j3_PASandMee100",    200 , -500    , 500      );
 
 
-  //CreateUserTH1D( "Ptj1j2j3_ROI"                    ,    200 , 0       , 2000     );
-  //CreateUserTH1D( "Ptj1j2_ROI"                      ,    200 , 0       , 2000     );
-  //CreateUserTH1D( "Ptj2j3_ROI"                      ,    200 , 0       , 2000     );
-  //CreateUserTH1D( "Ptj1j3_ROI"                      ,    200 , 0       , 2000     );
 
-  //CreateUserTH1D( "Ptee_Minus_Ptj1j2_ROI"           ,    200 , -500    , 500      );
-  //CreateUserTH1D( "Ptee_Minus_Ptj1j2j3_ROI"         ,    200 , -500    , 500      );
 
 
   CreateUserTH1D( "Ptee_PAS"              ,    200 , 0       , 2000     );
   CreateUserTH1D( "Ptee_PASandMee100"     ,    200 , 0       , 2000     );
-  //CreateUserTH1D( "Ptee_ROI"              ,    200 , 0       , 2000     );
 
   CreateUserTH1D( "DCotTheta1stEle_PAS"   ,    100 , 0.0, 1.0);
   CreateUserTH1D( "Dist1stEle_PAS"        ,    100 , 0.0, 1.0);  
@@ -262,7 +219,6 @@ void analysisClass::Loop()
 
   CreateUserTH1D( "nVertex_PAS"                     ,    101   , -0.5   , 100.5	 ) ; 
   CreateUserTH1D( "nVertex_PASandMee100"            ,    101   , -0.5   , 100.5	 ) ; 
-  //CreateUserTH1D( "nVertex_ROI"                     ,    101   , -0.5   , 100.5	 ) ; 
 
   CreateUserTH1D( "DR_Ele1Jet1_PAS"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
   CreateUserTH1D( "DR_Ele1Jet2_PAS"	   , 	getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     ) ; 
@@ -272,12 +228,9 @@ void analysisClass::Loop()
   CreateUserTH1D( "DR_Ele1Ele2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
   CreateUserTH1D( "minDR_EleJet_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
   CreateUserTH1D( "minDR_ZJet_PAS"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
-  //CreateUserTH1D( "minDR_ZJet_ROI"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
 
   CreateUserTH1D( "DR_ZJet1_PAS"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
-  //CreateUserTH1D( "DR_ZJet1_ROI"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
   CreateUserTH1D( "DR_ZJet2_PAS"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
-  //CreateUserTH1D( "DR_ZJet2_ROI"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
 
 
   CreateUserTH2D( "Me1jVsMe2j_selected",     200, 0, 2000, 200, 0, 2000) ;
@@ -286,7 +239,6 @@ void analysisClass::Loop()
 
   CreateUserTH2D( "MeeVsST_PAS"                 ,     200, 0, 2000, 200, 0, 2000) ;
   CreateUserTH2D( "MeeVsST_PASandMee100"        ,     200, 0, 2000, 200, 0, 2000) ;
-  //CreateUserTH2D( "MeeVsST_ROI"                 ,     200, 0, 2000, 200, 0, 2000) ;
 
 
   CreateUserTH1D( "Mee_80_100_Preselection", 200, 60, 120 );
@@ -369,35 +321,87 @@ void analysisClass::Loop()
   CreateUserTH1D("TrkPtOPt_1stEle_PASandMee100"             , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_PASandMee100"             , 200,  0.0,  100.0  );
   CreateUserTH1D("ValidFrac_1stEle_PASandMee100"            , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_PASandMee100"            , 200,  0.0 ,   2.0  );
 
+  if(do_roi_plots) {
+    CreateUserTH1D( "M_j1j3_ROI"            ,    200 , 0       , 2000	 );    
+    CreateUserTH1D( "M_j2j3_ROI"            ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "M_e1j3_ROI"            ,    200 , 0       , 2000	 );    
+    CreateUserTH1D( "M_e2j3_ROI"            ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "M_eejjj_ROI"           ,    500 , 0       , 5000	 ); 
+    CreateUserTH1D( "sTfrac_Jet1_ROI"       ,   100  ,  0.0    , 1.0      );
+    CreateUserTH1D( "sTfrac_Jet2_ROI"       ,   100  ,  0.0    , 1.0      );
+    CreateUserTH1D( "sTfrac_Ele1_ROI"       ,   100  ,  0.0    , 1.0      );
+    CreateUserTH1D( "sTfrac_Ele2_ROI"       ,   100  ,  0.0    , 1.0      );
+    CreateUserTH1D( "sTfrac_Jet_ROI"        ,   100  ,  0.0    , 1.0      );
+    CreateUserTH1D( "sTfrac_Ele_ROI"        ,   100  ,  0.0    , 1.0      );
+    CreateUserTH1D( "nJet_ROI"              ,    10  , -0.5    , 9.5      );
+    CreateUserTH1D( "Pt1stEle_ROI"	   , 	100 , 0       , 1000     ); 
+    CreateUserTH1D( "Pt2ndEle_ROI"	   , 	300 , 0       , 3000     ); 
+    CreateUserTH1D( "EleChargeSum_ROI"         ,    3   , -2.5    , 2.5  );
+    CreateUserTH1D( "MET_ROI"               ,    200 , 0       , 1000	 ); 
+    CreateUserTH1D( "Pt1stJet_ROI"          ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "Pt2ndJet_ROI"          ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "sTlep_ROI"             ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "sTjet_ROI"             ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "sT_zjj_ROI"                      ,    200   , 0       , 2000	  ); 
+    CreateUserTH1D( "sT_ROI"                ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "Mjj_ROI"		   ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "Mee_ROI"		   ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "Me1j1_ROI"             ,    200 , 0       , 2000	 ); 
+    CreateUserTH1D( "Mej_selected_avg_ROI"  ,    200 , 0       , 2000     );
+    CreateUserTH1D( "Meejj_ROI"             ,    400 , 0       , 4000     );
+    CreateUserTH1D( "Mejj_ROI"              ,    400 , 0       , 4000     );
+    CreateUserTH1D( "Meej_ROI"              ,    400 , 0       , 4000     );
+    CreateUserTH1D( "Eta1stJet_ROI"                   ,    100   , -5      , 5	  ); 
+    CreateUserTH1D( "Eta2ndJet_ROI"                   ,    100   , -5      , 5	  ); 
+    CreateUserTH1D( "Eta1stEle_ROI"	             , 	100    , -5      , 5	  ); 
+    CreateUserTH1D( "Eta2ndEle_ROI"	             , 	100    , -5      , 5	  ); 
 
-  //CreateUserTH1D("BeamSpotDXY_1stEle_ROI"                   , 200,  0.0 ,   0.5  ); CreateUserTH1D("BeamSpotDXY_2ndEle_ROI"                   , 200,  0.0 ,   0.5  );
-  //CreateUserTH1D("Classif_1stEle_ROI"                       , 5  , -0.5 ,   4.5  ); CreateUserTH1D("Classif_2ndEle_ROI"                       , 5  , -0.5 ,   4.5  );
-  //CreateUserTH1D("CorrIsolation_1stEle_ROI"                 , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_ROI"                 , 200,-25.0 ,  25.0  );
-  //CreateUserTH1D("DeltaEtaTrkSC_1stEle_ROI"                 , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"                 , 200, -0.01,   0.01 );
-  //CreateUserTH1D("DeltaPhiTrkSC_1stEle_ROI"                 , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_ROI"                 , 200, -0.1 ,   0.1  );
-  //CreateUserTH1D("E1x5OverE5x5_1stEle_ROI"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_ROI"                  , 200,  0.0 ,   2.0  );
-  //CreateUserTH1D("E2x5OverE5x5_1stEle_ROI"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_ROI"                  , 200,  0.0 ,   2.0  );
-  //CreateUserTH1D("EcalIsolation_1stEle_ROI"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_ROI"                 , 200,  0.0 ,  20.0  );
-  //CreateUserTH1D("HcalIsolation_1stEle_ROI"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_ROI"                 , 200,  0.0 ,  20.0  );
-  //CreateUserTH1D("TrkIsolation_1stEle_ROI"                  , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_ROI"                  , 200,  0.0,    5.0  );
-  //CreateUserTH1D("Energy_1stEle_ROI"                        , 200,  0.0 ,3000.0  ); CreateUserTH1D("Energy_2ndEle_ROI"                        , 200,  0.0 ,3000.0  );
-  //CreateUserTH1D("FBrem_1stEle_ROI"                         , 200,-10.0 ,  10.0  ); CreateUserTH1D("FBrem_2ndEle_ROI"                         , 200,-10.0 ,  10.0  );
-  //CreateUserTH1D("GsfCtfCharge_1stEle_ROI"                  , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfCharge_2ndEle_ROI"                  , 2,   -0.5 ,   1.5  );
-  //CreateUserTH1D("GsfCtfScPixCharge_1stEle_ROI"             , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfScPixCharge_2ndEle_ROI"             , 2,   -0.5 ,   1.5  );
-  //CreateUserTH1D("GsfScPixCharge_1stEle_ROI"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfScPixCharge_2ndEle_ROI"                , 2,   -0.5 ,   1.5  );
-  //CreateUserTH1D("HasMatchedPhot_1stEle_ROI"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("HasMatchedPhot_2ndEle_ROI"                , 2,   -0.5 ,   1.5  );
-  //CreateUserTH1D("HoE_1stEle_ROI"                           , 200,  0.0 ,   0.05 ); CreateUserTH1D("HoE_2ndEle_ROI"                           , 200,  0.0 ,   0.05 );
-  //CreateUserTH1D("LeadVtxDistXY_1stEle_ROI"                 , 200, -0.05,   0.05 ); CreateUserTH1D("LeadVtxDistXY_2ndEle_ROI"                 , 200, -0.05,   0.05 );
-  //CreateUserTH1D("LeadVtxDistZ_1stEle_ROI"                  , 200, -0.2 ,   0.2  ); CreateUserTH1D("LeadVtxDistZ_2ndEle_ROI"                  , 200, -0.2 ,   0.2  );
-  //CreateUserTH1D("MissingHits_1stEle_ROI"                   , 2  , -0.5,    1.5  ); CreateUserTH1D("MissingHits_2ndEle_ROI"                   , 2  , -0.5,    1.5  );
-  //CreateUserTH1D("NBrems_1stEle_ROI"                        , 11 , -0.5,   10.5  ); CreateUserTH1D("NBrems_2ndEle_ROI"                        , 11 , -0.5,   20.5  );
-  //CreateUserTH1D("EnergyORawEnergy_1stEle_ROI"              , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_ROI"              , 200,  0.9,    1.4  );
-  //CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_ROI"            , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_ROI"            , 200,  0.0,    0.02 );
-  //CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_ROI"            , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_ROI"            , 200,  0.0,    0.1  );
-  //CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI"          , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI"          , 200,  0.0,    0.02 );
-  //CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI"          , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI"          , 200,  0.0,    0.1  );
-  //CreateUserTH1D("TrkPtOPt_1stEle_ROI"                      , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_ROI"                      , 200,  0.0,  100.0  );
-  //CreateUserTH1D("ValidFrac_1stEle_ROI"                     , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_ROI"                     , 200,  0.0 ,   2.0  );
+    CreateUserTH1D( "Phi1stJet_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
+    CreateUserTH1D( "Phi2ndJet_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
+    CreateUserTH1D( "Phi1stEle_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
+    CreateUserTH1D( "Phi2ndEle_ROI"	             , 	 60    , -3.1416 , +3.1416  ); 
+    CreateUserTH1D( "Ptj1j2j3_ROI"                    ,    200 , 0       , 2000     );
+    CreateUserTH1D( "Ptj1j2_ROI"                      ,    200 , 0       , 2000     );
+    CreateUserTH1D( "Ptj2j3_ROI"                      ,    200 , 0       , 2000     );
+    CreateUserTH1D( "Ptj1j3_ROI"                      ,    200 , 0       , 2000     );
+    CreateUserTH1D( "Ptee_Minus_Ptj1j2_ROI"           ,    200 , -500    , 500      );
+    CreateUserTH1D( "Ptee_Minus_Ptj1j2j3_ROI"         ,    200 , -500    , 500      );
+    CreateUserTH1D( "Ptee_ROI"              ,    200 , 0       , 2000     );
+    CreateUserTH1D( "nVertex_ROI"                     ,    101   , -0.5   , 100.5	 ) ; 
+    CreateUserTH1D( "minDR_ZJet_ROI"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+    CreateUserTH1D( "DR_ZJet1_ROI"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+    CreateUserTH2D( "MeeVsST_ROI"                 ,     200, 0, 2000, 200, 0, 2000) ;
+    CreateUserTH1D( "DR_ZJet2_ROI"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+    CreateUserTH1D("BeamSpotDXY_1stEle_ROI"                   , 200,  0.0 ,   0.5  ); CreateUserTH1D("BeamSpotDXY_2ndEle_ROI"                   , 200,  0.0 ,   0.5  );
+    CreateUserTH1D("Classif_1stEle_ROI"                       , 5  , -0.5 ,   4.5  ); CreateUserTH1D("Classif_2ndEle_ROI"                       , 5  , -0.5 ,   4.5  );
+    CreateUserTH1D("CorrIsolation_1stEle_ROI"                 , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_ROI"                 , 200,-25.0 ,  25.0  );
+    CreateUserTH1D("DeltaEtaTrkSC_1stEle_ROI"                 , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"                 , 200, -0.01,   0.01 );
+    CreateUserTH1D("DeltaPhiTrkSC_1stEle_ROI"                 , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_ROI"                 , 200, -0.1 ,   0.1  );
+    CreateUserTH1D("E1x5OverE5x5_1stEle_ROI"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_ROI"                  , 200,  0.0 ,   2.0  );
+    CreateUserTH1D("E2x5OverE5x5_1stEle_ROI"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_ROI"                  , 200,  0.0 ,   2.0  );
+    CreateUserTH1D("EcalIsolation_1stEle_ROI"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_ROI"                 , 200,  0.0 ,  20.0  );
+    CreateUserTH1D("HcalIsolation_1stEle_ROI"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_ROI"                 , 200,  0.0 ,  20.0  );
+    CreateUserTH1D("TrkIsolation_1stEle_ROI"                  , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_ROI"                  , 200,  0.0,    5.0  );
+    CreateUserTH1D("Energy_1stEle_ROI"                        , 200,  0.0 ,3000.0  ); CreateUserTH1D("Energy_2ndEle_ROI"                        , 200,  0.0 ,3000.0  );
+    CreateUserTH1D("FBrem_1stEle_ROI"                         , 200,-10.0 ,  10.0  ); CreateUserTH1D("FBrem_2ndEle_ROI"                         , 200,-10.0 ,  10.0  );
+    CreateUserTH1D("GsfCtfCharge_1stEle_ROI"                  , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfCharge_2ndEle_ROI"                  , 2,   -0.5 ,   1.5  );
+    CreateUserTH1D("GsfCtfScPixCharge_1stEle_ROI"             , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfScPixCharge_2ndEle_ROI"             , 2,   -0.5 ,   1.5  );
+    CreateUserTH1D("GsfScPixCharge_1stEle_ROI"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfScPixCharge_2ndEle_ROI"                , 2,   -0.5 ,   1.5  );
+    CreateUserTH1D("HasMatchedPhot_1stEle_ROI"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("HasMatchedPhot_2ndEle_ROI"                , 2,   -0.5 ,   1.5  );
+    CreateUserTH1D("HoE_1stEle_ROI"                           , 200,  0.0 ,   0.05 ); CreateUserTH1D("HoE_2ndEle_ROI"                           , 200,  0.0 ,   0.05 );
+    CreateUserTH1D("LeadVtxDistXY_1stEle_ROI"                 , 200, -0.05,   0.05 ); CreateUserTH1D("LeadVtxDistXY_2ndEle_ROI"                 , 200, -0.05,   0.05 );
+    CreateUserTH1D("LeadVtxDistZ_1stEle_ROI"                  , 200, -0.2 ,   0.2  ); CreateUserTH1D("LeadVtxDistZ_2ndEle_ROI"                  , 200, -0.2 ,   0.2  );
+    CreateUserTH1D("MissingHits_1stEle_ROI"                   , 2  , -0.5,    1.5  ); CreateUserTH1D("MissingHits_2ndEle_ROI"                   , 2  , -0.5,    1.5  );
+    CreateUserTH1D("NBrems_1stEle_ROI"                        , 11 , -0.5,   10.5  ); CreateUserTH1D("NBrems_2ndEle_ROI"                        , 11 , -0.5,   20.5  );
+    CreateUserTH1D("EnergyORawEnergy_1stEle_ROI"              , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_ROI"              , 200,  0.9,    1.4  );
+    CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_ROI"            , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_ROI"            , 200,  0.0,    0.02 );
+    CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_ROI"            , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_ROI"            , 200,  0.0,    0.1  );
+    CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI"          , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI"          , 200,  0.0,    0.02 );
+    CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI"          , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI"          , 200,  0.0,    0.1  );
+    CreateUserTH1D("TrkPtOPt_1stEle_ROI"                      , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_ROI"                      , 200,  0.0,  100.0  );
+    CreateUserTH1D("ValidFrac_1stEle_ROI"                     , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_ROI"                     , 200,  0.0 ,   2.0  );
+  }
+
   // for scale factor dependence studies
   CreateUserTH1D( "Mee_NJetEq2_PAS"		             ,    200   , 0       , 2000	  ); 
   CreateUserTH1D( "Mee_NJetEq3_PAS"		             ,    200   , 0       , 2000	  ); 
@@ -1397,127 +1401,127 @@ void analysisClass::Loop()
       // Region of interest plots
       //-------------------------------------------------------------------------- 
 
-      //if ( passed_region_of_interest ) { 
+      if ( do_roi_plots && passed_region_of_interest ) { 
 
-      //  FillUserTH1D("BeamSpotDXY_1stEle_ROI"           , LooseEle1_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("Classif_1stEle_ROI"               , LooseEle1_Classif                        , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("CorrIsolation_1stEle_ROI"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("DeltaEtaTrkSC_1stEle_ROI"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("DeltaPhiTrkSC_1stEle_ROI"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("E1x5OverE5x5_1stEle_ROI"          , LooseEle1_E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("E2x5OverE5x5_1stEle_ROI"          , LooseEle1_E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("EcalIsolation_1stEle_ROI"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("HcalIsolation_1stEle_ROI"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("TrkIsolation_1stEle_ROI"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("Energy_1stEle_ROI"                , LooseEle1_Energy                         , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("FBrem_1stEle_ROI"                 , LooseEle1_FBrem                          , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("GsfCtfCharge_1stEle_ROI"          , LooseEle1_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("GsfCtfScPixCharge_1stEle_ROI"     , LooseEle1_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("GsfScPixCharge_1stEle_ROI"        , LooseEle1_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("HasMatchedPhot_1stEle_ROI"        , LooseEle1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("HoE_1stEle_ROI"                   , LooseEle1_HoE                            , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("LeadVtxDistXY_1stEle_ROI"         , LooseEle1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("LeadVtxDistZ_1stEle_ROI"          , LooseEle1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("MissingHits_1stEle_ROI"           , LooseEle1_MissingHits                    , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("NBrems_1stEle_ROI"                , LooseEle1_NBrems                         , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("ValidFrac_1stEle_ROI"             , LooseEle1_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("EnergyORawEnergy_1stEle_ROI"      , LooseEle1_Energy / LooseEle1_RawEnergy   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("TrkPtOPt_1stEle_ROI"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
-      //  if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
-      //    FillUserTH1D("SigmaEtaEta_Barrel_1stEle_ROI"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-      //    FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI", LooseEle1_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
-      //  }
-      //  else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) > eleEta_end2_max ){
-      //    FillUserTH1D("SigmaEtaEta_Endcap_1stEle_ROI"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-      //    FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI", LooseEle1_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
-      //  }
+        FillUserTH1D("BeamSpotDXY_1stEle_ROI"           , LooseEle1_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Classif_1stEle_ROI"               , LooseEle1_Classif                        , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("CorrIsolation_1stEle_ROI"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaEtaTrkSC_1stEle_ROI"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaPhiTrkSC_1stEle_ROI"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("E1x5OverE5x5_1stEle_ROI"          , LooseEle1_Full5x5E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("E2x5OverE5x5_1stEle_ROI"          , LooseEle1_Full5x5E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EcalIsolation_1stEle_ROI"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HcalIsolation_1stEle_ROI"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkIsolation_1stEle_ROI"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Energy_1stEle_ROI"                , LooseEle1_Energy                         , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("FBrem_1stEle_ROI"                 , LooseEle1_FBrem                          , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("GsfCtfCharge_1stEle_ROI"          , LooseEle1_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("GsfCtfScPixCharge_1stEle_ROI"     , LooseEle1_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("GsfScPixCharge_1stEle_ROI"        , LooseEle1_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HasMatchedPhot_1stEle_ROI"        , LooseEle1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HoE_1stEle_ROI"                   , LooseEle1_HoE                            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistXY_1stEle_ROI"         , LooseEle1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistZ_1stEle_ROI"          , LooseEle1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("MissingHits_1stEle_ROI"           , LooseEle1_MissingHits                    , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("NBrems_1stEle_ROI"                , LooseEle1_NBrems                         , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("ValidFrac_1stEle_ROI"             , LooseEle1_ValidFrac                      , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EnergyORawEnergy_1stEle_ROI"      , LooseEle1_Energy / LooseEle1_RawEnergy   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkPtOPt_1stEle_ROI"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
+        if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
+          FillUserTH1D("SigmaEtaEta_Barrel_1stEle_ROI"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI", LooseEle1_Full5x5SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        }
+        else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) > eleEta_end2_max ){
+          FillUserTH1D("SigmaEtaEta_Endcap_1stEle_ROI"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI", LooseEle1_Full5x5SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        }
 
-      //  FillUserTH1D("BeamSpotDXY_2ndEle_ROI"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("Classif_2ndEle_ROI"               , LooseEle2_Classif                        , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("CorrIsolation_2ndEle_ROI"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("DeltaPhiTrkSC_2ndEle_ROI"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("E1x5OverE5x5_2ndEle_ROI"          , LooseEle2_E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("E2x5OverE5x5_2ndEle_ROI"          , LooseEle2_E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("EcalIsolation_2ndEle_ROI"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("HcalIsolation_2ndEle_ROI"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("TrkIsolation_2ndEle_ROI"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("Energy_2ndEle_ROI"                , LooseEle2_Energy                         , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("FBrem_2ndEle_ROI"                 , LooseEle2_FBrem                          , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("GsfCtfCharge_2ndEle_ROI"          , LooseEle2_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("GsfCtfScPixCharge_2ndEle_ROI"     , LooseEle2_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("GsfScPixCharge_2ndEle_ROI"        , LooseEle2_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("HasMatchedPhot_2ndEle_ROI"        , LooseEle2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("HoE_2ndEle_ROI"                   , LooseEle2_HoE                            , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("LeadVtxDistXY_2ndEle_ROI"         , LooseEle2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("LeadVtxDistZ_2ndEle_ROI"          , LooseEle2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("MissingHits_2ndEle_ROI"           , LooseEle2_MissingHits                    , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("NBrems_2ndEle_ROI"                , LooseEle2_NBrems                         , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("ValidFrac_2ndEle_ROI"             , LooseEle2_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("EnergyORawEnergy_2ndEle_ROI"      , LooseEle2_Energy / LooseEle2_RawEnergy   , min_prescale * fakeRateEffective   ); 
-      //  FillUserTH1D("TrkPtOPt_2ndEle_ROI"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
-      //  if ( fabs(LooseEle2_Eta) < eleEta_bar ) { 
-      //    FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_ROI"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-      //    FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI", LooseEle2_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
-      //  }
-      //  else if ( fabs(LooseEle2_Eta) > eleEta_end1_min && fabs(LooseEle2_Eta) < eleEta_end2_max ){
-      //    FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_ROI"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-      //    FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI", LooseEle2_SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
-      //  }
+        FillUserTH1D("BeamSpotDXY_2ndEle_ROI"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Classif_2ndEle_ROI"               , LooseEle2_Classif                        , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("CorrIsolation_2ndEle_ROI"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaPhiTrkSC_2ndEle_ROI"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("E1x5OverE5x5_2ndEle_ROI"          , LooseEle2_Full5x5E1x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("E2x5OverE5x5_2ndEle_ROI"          , LooseEle2_Full5x5E2x5OverE5x5                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EcalIsolation_2ndEle_ROI"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HcalIsolation_2ndEle_ROI"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkIsolation_2ndEle_ROI"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("Energy_2ndEle_ROI"                , LooseEle2_Energy                         , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("FBrem_2ndEle_ROI"                 , LooseEle2_FBrem                          , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("GsfCtfCharge_2ndEle_ROI"          , LooseEle2_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("GsfCtfScPixCharge_2ndEle_ROI"     , LooseEle2_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("GsfScPixCharge_2ndEle_ROI"        , LooseEle2_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HasMatchedPhot_2ndEle_ROI"        , LooseEle2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HoE_2ndEle_ROI"                   , LooseEle2_HoE                            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistXY_2ndEle_ROI"         , LooseEle2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistZ_2ndEle_ROI"          , LooseEle2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("MissingHits_2ndEle_ROI"           , LooseEle2_MissingHits                    , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("NBrems_2ndEle_ROI"                , LooseEle2_NBrems                         , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("ValidFrac_2ndEle_ROI"             , LooseEle2_ValidFrac                      , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EnergyORawEnergy_2ndEle_ROI"      , LooseEle2_Energy / LooseEle2_RawEnergy   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkPtOPt_2ndEle_ROI"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
+        if ( fabs(LooseEle2_Eta) < eleEta_bar ) { 
+          FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_ROI"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI", LooseEle2_Full5x5SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        }
+        else if ( fabs(LooseEle2_Eta) > eleEta_end1_min && fabs(LooseEle2_Eta) < eleEta_end2_max ){
+          FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_ROI"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
+          FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI", LooseEle2_Full5x5SigmaIEtaIEta                  , min_prescale * fakeRateEffective   ); 
+        }
 
-      //  FillUserTH1D("Me1j1_ROI"           , M_e1j1                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Ptee_ROI"            , Pt_e1e2                                        , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Eta1stJet_ROI"       , JetLooseEle1_Eta                               , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Eta2ndJet_ROI"       , JetLooseEle2_Eta                               , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Eta1stEle_ROI"	    , LooseEle1_SCEta                                  , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Eta2ndEle_ROI"	    , LooseEle2_SCEta                                  , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Phi1stJet_ROI"       , JetLooseEle1_Phi                               , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Phi2ndJet_ROI"       , JetLooseEle2_Phi                               , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Phi1stEle_ROI"	    , LooseEle1_Phi                                  , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Phi2ndEle_ROI"	    , LooseEle2_Phi                                  , min_prescale * fakeRateEffective );
-      //  FillUserTH2D("MeeVsST_ROI"         , M_e1e2                                , sT_eejj, min_prescale * fakeRateEffective );	   
-      //  FillUserTH1D("Mee_ROI"		    , M_e1e2                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sT_zjj_ROI"          , sT_zjj                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("nVertex_ROI"         , nVertex                                        , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("EleChargeSum_ROI"    , LooseEle1_Charge + LooseEle2_Charge            , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("nJet_ROI"            , nJetLooseEle_ptCut                             , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Mej_selected_avg_ROI", M_ej_avg                                       , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Meejj_ROI"           , M_eejj                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Meej_ROI"            , M_eej                                          , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Mejj_ROI"            , M_ejj                                          , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("minDR_ZJet_ROI"      , min_DeltaR_Zj                                  , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("DR_ZJet1_ROI"        , DR_ZJ1                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("DR_ZJet2_ROI"        , DR_ZJ2                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("MET_ROI"             , PFMET_Type01XY_Pt                              , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Mjj_ROI"             , M_j1j2                                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sT_ROI"              , sT_eejj                                        , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTlep_ROI"           , LooseEle1_Pt    + LooseEle2_Pt                 , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTjet_ROI"           , JetLooseEle1_Pt + JetLooseEle2_Pt              , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Pt1stEle_ROI"        , LooseEle1_Pt                                   , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Pt2ndEle_ROI"        , LooseEle2_Pt                                   , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Pt1stJet_ROI"        , JetLooseEle1_Pt                                , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Pt2ndJet_ROI"        , JetLooseEle2_Pt                                , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTfrac_Jet1_ROI"     , JetLooseEle1_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTfrac_Jet2_ROI"     , JetLooseEle2_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTfrac_Ele1_ROI"     , LooseEle1_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTfrac_Ele2_ROI"     , LooseEle2_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTfrac_Jet_ROI"      , ( JetLooseEle1_Pt + JetLooseEle2_Pt ) / sT_eejj, min_prescale * fakeRateEffective );
-      //  FillUserTH1D("sTfrac_Ele_ROI"      , ( LooseEle1_Pt + LooseEle2_Pt )       / sT_eejj, min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Ptj1j2_ROI"            , Pt_j1j2                                      , min_prescale * fakeRateEffective );
-      //  FillUserTH1D("Ptee_Minus_Ptj1j2_ROI" , Pt_e1e2 - Pt_j1j2                            , min_prescale * fakeRateEffective );
+        FillUserTH1D("Me1j1_ROI"           , M_e1j1                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("Ptee_ROI"            , Pt_e1e2                                        , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta1stJet_ROI"       , JetLooseEle1_Eta                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta2ndJet_ROI"       , JetLooseEle2_Eta                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta1stEle_ROI"	    , LooseEle1_SCEta                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta2ndEle_ROI"	    , LooseEle2_SCEta                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi1stJet_ROI"       , JetLooseEle1_Phi                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi2ndJet_ROI"       , JetLooseEle2_Phi                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi1stEle_ROI"	    , LooseEle1_Phi                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi2ndEle_ROI"	    , LooseEle2_Phi                                  , min_prescale * fakeRateEffective );
+        FillUserTH2D("MeeVsST_ROI"         , M_e1e2                                , sT_eejj, min_prescale * fakeRateEffective );	   
+        FillUserTH1D("Mee_ROI"		    , M_e1e2                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("sT_zjj_ROI"          , sT_zjj                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("nVertex_ROI"         , nVertex                                        , min_prescale * fakeRateEffective );
+        FillUserTH1D("EleChargeSum_ROI"    , LooseEle1_Charge + LooseEle2_Charge            , min_prescale * fakeRateEffective );
+        FillUserTH1D("nJet_ROI"            , nJetLooseEle_ptCut                             , min_prescale * fakeRateEffective );
+        FillUserTH1D("Mej_selected_avg_ROI", M_ej_avg                                       , min_prescale * fakeRateEffective );
+        FillUserTH1D("Meejj_ROI"           , M_eejj                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("Meej_ROI"            , M_eej                                          , min_prescale * fakeRateEffective );
+        FillUserTH1D("Mejj_ROI"            , M_ejj                                          , min_prescale * fakeRateEffective );
+        FillUserTH1D("minDR_ZJet_ROI"      , min_DeltaR_Zj                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("DR_ZJet1_ROI"        , DR_ZJ1                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("DR_ZJet2_ROI"        , DR_ZJ2                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("MET_ROI"             , PFMET_Type1XY_Pt                              , min_prescale * fakeRateEffective );
+        FillUserTH1D("Mjj_ROI"             , M_j1j2                                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("sT_ROI"              , sT_eejj                                        , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTlep_ROI"           , LooseEle1_Pt    + LooseEle2_Pt                 , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTjet_ROI"           , JetLooseEle1_Pt + JetLooseEle2_Pt              , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt1stEle_ROI"        , LooseEle1_Pt                                   , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt2ndEle_ROI"        , LooseEle2_Pt                                   , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt1stJet_ROI"        , JetLooseEle1_Pt                                , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt2ndJet_ROI"        , JetLooseEle2_Pt                                , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Jet1_ROI"     , JetLooseEle1_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Jet2_ROI"     , JetLooseEle2_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Ele1_ROI"     , LooseEle1_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Ele2_ROI"     , LooseEle2_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Jet_ROI"      , ( JetLooseEle1_Pt + JetLooseEle2_Pt ) / sT_eejj, min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Ele_ROI"      , ( LooseEle1_Pt + LooseEle2_Pt )       / sT_eejj, min_prescale * fakeRateEffective );
+        FillUserTH1D("Ptj1j2_ROI"            , Pt_j1j2                                      , min_prescale * fakeRateEffective );
+        FillUserTH1D("Ptee_Minus_Ptj1j2_ROI" , Pt_e1e2 - Pt_j1j2                            , min_prescale * fakeRateEffective );
 
-      //  if ( nJetLooseEle_ptCut > 2 ) { 	 
-      //    FillUserTH1D( "M_e1j3_ROI" , M_e1j3, min_prescale * fakeRateEffective ) ;
-      //    FillUserTH1D( "M_e2j3_ROI" , M_e2j3, min_prescale * fakeRateEffective ) ;
-      //    FillUserTH1D( "M_j1j3_ROI" , M_j1j3, min_prescale * fakeRateEffective ) ;
-      //    FillUserTH1D( "M_j2j3_ROI" , M_j2j3, min_prescale * fakeRateEffective ) ;
-      //    FillUserTH1D( "M_eejjj_ROI", M_eejjj,min_prescale * fakeRateEffective ) ;
-      //    FillUserTH1D( "Ptj1j2j3_ROI"            , Pt_j1j2j3           , min_prescale * fakeRateEffective );
-      //    FillUserTH1D( "Ptj2j3_ROI"              , Pt_j2j3             , min_prescale * fakeRateEffective );
-      //    FillUserTH1D( "Ptj1j3_ROI"              , Pt_j1j3             , min_prescale * fakeRateEffective );
-      //    FillUserTH1D( "Ptee_Minus_Ptj1j2j3_ROI" , Pt_e1e2 - Pt_j1j2j3 , min_prescale * fakeRateEffective );
-      //  }
-      //}
+        if ( nJetLooseEle_ptCut > 2 ) { 	 
+          FillUserTH1D( "M_e1j3_ROI" , M_e1j3, min_prescale * fakeRateEffective ) ;
+          FillUserTH1D( "M_e2j3_ROI" , M_e2j3, min_prescale * fakeRateEffective ) ;
+          FillUserTH1D( "M_j1j3_ROI" , M_j1j3, min_prescale * fakeRateEffective ) ;
+          FillUserTH1D( "M_j2j3_ROI" , M_j2j3, min_prescale * fakeRateEffective ) ;
+          FillUserTH1D( "M_eejjj_ROI", M_eejjj,min_prescale * fakeRateEffective ) ;
+          FillUserTH1D( "Ptj1j2j3_ROI"            , Pt_j1j2j3           , min_prescale * fakeRateEffective );
+          FillUserTH1D( "Ptj2j3_ROI"              , Pt_j2j3             , min_prescale * fakeRateEffective );
+          FillUserTH1D( "Ptj1j3_ROI"              , Pt_j1j3             , min_prescale * fakeRateEffective );
+          FillUserTH1D( "Ptee_Minus_Ptj1j2j3_ROI" , Pt_e1e2 - Pt_j1j2j3 , min_prescale * fakeRateEffective );
+        }
+      }
 
       //-------------------------------------------------------------------------- 
       // Final selection plots
@@ -1660,15 +1664,15 @@ void analysisClass::Loop()
 
         } // End final selection
 
-        if(passedCut("sT_eejj_LQ300") && passedCut("min_M_ej_LQ300"))
+        if( hasCut("sT_eejj_LQ300") && passedCut("sT_eejj_LQ300") && passedCut("min_M_ej_LQ300"))
           FillUserTH1D("Mee_70_110_LQ300", M_e1e2 , min_prescale * fakeRateEffective );
-        if(passedCut("sT_eejj_LQ600") && passedCut("min_M_ej_LQ600"))
+        if( hasCut("sT_eejj_LQ600") && passedCut("sT_eejj_LQ600") && passedCut("min_M_ej_LQ600"))
           FillUserTH1D("Mee_70_110_LQ600", M_e1e2 , min_prescale * fakeRateEffective );
-        if(passedCut("sT_eejj_LQ800") && passedCut("min_M_ej_LQ800"))
+        if( hasCut("sT_eejj_LQ800") && passedCut("sT_eejj_LQ800") && passedCut("min_M_ej_LQ800"))
           FillUserTH1D("Mee_70_110_LQ800", M_e1e2 , min_prescale * fakeRateEffective );
-        if(passedCut("sT_eejj_LQ900") && passedCut("min_M_ej_LQ900"))
+        if( hasCut("sT_eejj_LQ900") && passedCut("sT_eejj_LQ900") && passedCut("min_M_ej_LQ900"))
           FillUserTH1D("Mee_70_110_LQ900", M_e1e2 , min_prescale * fakeRateEffective );
-        if(passedCut("sT_eejj_LQ1000") && passedCut("min_M_ej_LQ1000"))
+        if( hasCut("sT_eejj_LQ1000") && passedCut("sT_eejj_LQ1000") && passedCut("min_M_ej_LQ1000"))
           FillUserTH1D("Mee_70_110_LQ1000", M_e1e2 , min_prescale * fakeRateEffective );
 
       } // End do final selections
