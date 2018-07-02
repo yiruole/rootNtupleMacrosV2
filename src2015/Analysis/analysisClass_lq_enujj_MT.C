@@ -11,6 +11,7 @@
 #include <TVector3.h>
 // for scale factors
 #include "ElectronScaleFactors.C"
+#include "MuonScaleFactors.C"
 // 2016 trigger efficiency
 #include "TriggerEfficiency2016.h"
 
@@ -46,11 +47,11 @@ void analysisClass::Loop()
      1900, 1950, 2000
    };
 
-   //// SIC only look at LQ650 selection for now
-   //// LQ650 only 2012
+   // SIC only look at LQ650 selection for now
+   // LQ650 only 2012
    //const int n_lq_mass = 1;
    //int LQ_MASS[n_lq_mass] = { 
-   //   6502012
+   //   650
    //};
 
    // turn off totally for optimization
@@ -180,10 +181,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_allElectrons_3EleEvents_Presel"                  , 200 , 0       , 2000	 ); 
 
    CreateUserTH1D( "METPhi_PAS"		      , 60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "MET_Type1_PAS"           , 200 , 0       , 1000	 ); 
-   CreateUserTH1D( "MET_Type1_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
+   //CreateUserTH1D( "MET_Type1_PAS"           , 200 , 0       , 1000	 ); 
+   //CreateUserTH1D( "MET_Type1_Phi_PAS"	      , 60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "minMETPt1stEle_PAS"       , 200 , 0       , 1000	 ); 
-   CreateUserTH1D( "minMET1Pt1stEle_PAS"     , 200 , 0       , 1000	 ); 
+   //CreateUserTH1D( "minMET1Pt1stEle_PAS"     , 200 , 0       , 1000	 ); 
    CreateUserTH1D( "Pt1stJet_PAS"             , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Pt2ndJet_PAS"             , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Eta1stJet_PAS"            , 100 , -5      , 5	 ); 
@@ -206,12 +207,12 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_PAS"                , 400 , 0       , 2000	 ); 
    CreateUserTH1D( "Ptenu_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTlep_PAS"                , 200 , 0       , 2000	 ); 
-   CreateUserTH1D( "sTlep_Type1_PAS"         , 200 , 0       , 2000	 ); 
+   //CreateUserTH1D( "sTlep_Type1_PAS"         , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sTjet_PAS"                , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "sT_PAS"                   , 300 , 0       , 3000	 ); 
    CreateUserTH1D( "sT_ControlRegion_Njet_gte4", 300 , 0       , 3000	 ); 
    CreateUserTH1D( "sT_ControlRegion_Njet_lte3", 300 , 0       , 3000	 ); 
-   CreateUserTH1D( "sT_Type1_PAS"            , 300 , 0       , 3000	 ); 
+   //CreateUserTH1D( "sT_Type1_PAS"            , 300 , 0       , 3000	 ); 
    CreateUserTH1D( "Mjj_PAS"		      , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej1_PAS"                 , 200 , 0       , 2000	 ); 
    CreateUserTH1D( "Mej2_PAS"                 , 200 , 0       , 2000	 ); 
@@ -287,6 +288,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_Mej400To500_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_Mej500To650_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_Mej650ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT200To400_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT400To600_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT600To900_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT900ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
    //
    CreateUserTH1D( "MTenu_50_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
@@ -330,6 +335,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej400To500_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej500To650_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej650ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT200To400_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT400To600_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT600To900_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT900ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
    //
    CreateUserTH1D( "MTenu_50_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
@@ -702,7 +711,7 @@ void analysisClass::Loop()
      for (int i_lq_mass = 0; i_lq_mass < n_lq_mass ; ++i_lq_mass ) { 
        int lq_mass = LQ_MASS[i_lq_mass];
        //sprintf(plot_name, "split_1fb_LQ%d", lq_mass ); CreateUserTH1D ( plot_name, 21  , -0.5, 20.5);
-       sprintf(plot_name, "MET_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 1000 ); 
+       sprintf(plot_name, "MET_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 600 , 0 , 3000 ); 
        //sprintf(plot_name, "MET_UnclUp_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 1000 ); 
        //sprintf(plot_name, "MET_UnclDown_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 1000 ); 
        sprintf(plot_name, "Mej_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 2000 );
@@ -861,8 +870,8 @@ void analysisClass::Loop()
          sprintf(plot_name, "EnergyORawEnergy_1stEle_LQ%d"     , lq_mass ); CreateUserTH1D( plot_name , 200,  0.9,    1.4  );
          sprintf(plot_name, "SigmaEtaEta_Barrel_1stEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
          sprintf(plot_name, "SigmaEtaEta_Endcap_1stEle_LQ%d"   , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
-         sprintf(plot_name, "SigmaIEtaIEta_Barrel_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
-         sprintf(plot_name, "SigmaIEtaIEta_Endcap_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
+         sprintf(plot_name, "Full5x5SigmaIEtaIEta_Barrel_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.02 );
+         sprintf(plot_name, "Full5x5SigmaIEtaIEta_Endcap_1stEle_LQ%d" , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,    0.1  );
          sprintf(plot_name, "TrkPtOPt_1stEle_LQ%d"             , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0,  100.0  );
          sprintf(plot_name, "ValidFrac_1stEle_LQ%d"            , lq_mass ); CreateUserTH1D( plot_name , 200,  0.0 ,   2.0  );
          sprintf(plot_name, "EOverP_1stEle_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name , 20000,  0.0 , 100.0  );
@@ -962,12 +971,14 @@ void analysisClass::Loop()
      double gen_weight = Weight;
      if ( isData ) gen_weight = 1.0;
 
-     // TopPt reweight
-     // only valid for powheg
      std::string current_file_name ( fChain->GetCurrentFile()->GetName());
-     if(current_file_name.find("TT_") != std::string::npos) {
-       gen_weight*=TopPtWeight;
-     }
+
+     //// TopPt reweight
+     //// only valid for powheg
+     //if(current_file_name.find("TT_") != std::string::npos) {
+     //  gen_weight*=TopPtWeight;
+     //}
+     // removed 2018 Mar. 2
 
      // Electron scale factors for MC only
      if(!isData)
@@ -1072,6 +1083,19 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Muon variables ( for veto ) 					      
      fillVariableWithValue(   "nMuon"                    , nMuon_ptCut             , gen_weight * pileup_weight );
+     // now check if there are no muons but gen muons passing pt/eta which should have passed ID but did not
+     // correct by a factor of (1-effData)/(1-effMC) to evaluate uncertainty
+     if(nMuon_ptCut==0) // no ID'ed muons in event
+     {
+       // check for gen muons which should have passed ID but did not
+       // pt threshold is defined in highPt muon ID in MuonIDs
+       if(GenMu1_Pt > 35.0 && fabs(GenMu1_Eta) <= 2.4)
+         gen_weight*=MuonScaleFactors::GetVetoMCDataEffRatio(GenMu1_Eta);
+       if(GenMu2_Pt > 35.0 && fabs(GenMu2_Eta) <= 2.4)
+         gen_weight*=MuonScaleFactors::GetVetoMCDataEffRatio(GenMu2_Eta);
+       if(GenMu3_Pt > 35.0 && fabs(GenMu3_Eta) <= 2.4)
+         gen_weight*=MuonScaleFactors::GetVetoMCDataEffRatio(GenMu3_Eta);
+     }
 			                                      		                
      // 1st Electron variables
      fillVariableWithValue(   "nEle"                     , nEle_ptCut              , gen_weight * pileup_weight ); 
@@ -1260,6 +1284,32 @@ void analysisClass::Loop()
        Mej = M_e1j1;
      }	 
      
+
+       double Jet1_Mass, Jet2_Mass;
+
+       TLorentzVector jet1, jet2;
+       jet1.SetPtEtaPhiE ( Jet1_Pt, Jet1_Eta, Jet1_Phi, Jet1_Energy );
+       jet2.SetPtEtaPhiE ( Jet2_Pt, Jet2_Eta, Jet2_Phi, Jet2_Energy );
+       Jet1_Mass = jet1.M();
+       Jet2_Mass = jet2.M();
+
+       double mDPhi_Jet1Jet2 = fabs(jet1.DeltaPhi ( jet2 ));
+
+       double min_DR_EleJet = 999.0;
+       double DR_Ele1Jet3 = 999.0;
+       if ( nJet_store > 2 ) {
+         TLorentzVector ele1,  jet3;
+         ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+         jet3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );	 
+         DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
+       }
+
+       if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
+       if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
+       if ( nJet_store > 2 ) {
+         if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
+       }
+
      // Optimization variables
      fillVariableWithValue( "ST_opt"   , sT_enujj   , gen_weight * pileup_weight );
      fillVariableWithValue( "Mej_min_opt"  , Mej        , gen_weight * pileup_weight );
@@ -1507,12 +1557,34 @@ void analysisClass::Loop()
 
      if ( passed_preselection ) { 
 
-       //// run ls event
-       //if(current_file_name.find("SingleElectron") != std::string::npos) {
-       //  std::cout << "[Preselection SingleElectron] passing run/ls/event: " << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
-       //}
-       //else if(current_file_name.find("SinglePhoton") != std::string::npos) {
-       //  std::cout << "[Preselection SinglePhoton] passing run/ls/event: " << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
+       //std::cout.precision(0);
+       //if(MT_Ele1MET > 1000 || PFMET_Type1XY_Pt > 1000) {
+       //  // run ls event
+       //  if(current_file_name.find("SingleElectron") != std::string::npos) {
+       //    std::cout << fixed << "[Preselection SingleElectron] passing run/ls/event: " << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
+       //  }
+       //  else if(current_file_name.find("SinglePhoton") != std::string::npos) {
+       //    std::cout << fixed << "[Preselection SinglePhoton] passing run/ls/event: " << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
+       //  }
+       //  std::cout << "in filename: " << current_file_name << std::endl;
+       //  // kinematics
+       //  std::cout.precision(3);
+       //  std::cout << fixed << "Mej      = " << Mej << std::endl;
+       //  std::cout << fixed << "sT       = " << sT_enujj << std::endl;
+       //  std::cout << fixed << "MTenu = " << MT_Ele1MET << std::endl;
+       //  std::cout << fixed << "MET Pt  = " << PFMET_Type1XY_Pt << "\t, Phi = " << PFMET_Type1XY_Phi << std::endl;
+       //  //std::cout << fixed << "Mee      = " << M_e1e2 << std::endl;
+       //  std::cout << fixed << "Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+       //  std::cout << fixed << "Ele1 dPhi  = " << Ele1_DeltaPhiTrkSC << "\t, HoE = " << Ele1_HoE << "\t, sIetaIeta = " << Ele1_Full5x5SigmaIEtaIEta << std::endl;
+       //  //std::cout << fixed << "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
+       //  //std::cout << fixed << "  Ele2 dPhi  = " << Ele2_DeltaPhiTrkSC << "\t, HoE = " << Ele2_HoE << "\t, sIetaIeta = " << Ele2_SigmaIEtaIEta << std::endl;
+       //  std::cout << fixed << "Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+       //  std::cout << fixed << "Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
+       //  std::cout << fixed << "deltaPhi(jet1,MET) = " << mDPhi_METJet1 << "\t, deltaPhi(jet2,MET) = " << mDPhi_METJet2 << std::endl;
+       //  std::cout << fixed << "deltaPhi(ele,MET) = " << mDPhi_METEle1 << std::endl;
+       //  std::cout << fixed << "MT(j,MET) = " << MT_JetMET << std::endl;
+       //  std::cout << fixed << "min[dR(ele,jets)] = " << min_DR_EleJet << std::endl;
+       //  std::cout << std::endl;
        //}
 
 
@@ -1537,31 +1609,6 @@ void analysisClass::Loop()
        //--------------------------------------------------------------------------
        // Fill skim tree, if necessary
        //--------------------------------------------------------------------------
-
-       double Jet1_Mass, Jet2_Mass;
-
-       TLorentzVector jet1, jet2;
-       jet1.SetPtEtaPhiE ( Jet1_Pt, Jet1_Eta, Jet1_Phi, Jet1_Energy );
-       jet2.SetPtEtaPhiE ( Jet2_Pt, Jet2_Eta, Jet2_Phi, Jet2_Energy );
-       Jet1_Mass = jet1.M();
-       Jet2_Mass = jet2.M();
-
-       double mDPhi_Jet1Jet2 = fabs(jet1.DeltaPhi ( jet2 ));
-
-       double min_DR_EleJet = 999.0;
-       double DR_Ele1Jet3 = 999.0;
-       if ( nJet_store > 2 ) {
-         TLorentzVector ele1,  jet3;
-         ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
-         jet3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );	 
-         DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
-       }
-
-       if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
-       if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
-       if ( nJet_store > 2 ) {
-         if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
-       }
 
        if ( isData ) {
          FillUserTH1D("run_PAS", run ) ;
@@ -1593,11 +1640,11 @@ void analysisClass::Loop()
        FillUserTH1D( "METPhi_PAS"	          , PFMET_Type1XY_Phi                           , pileup_weight * gen_weight);   
        //FillUserTH1D( "MET_Type01_PAS"             , PFMET_Type01_Pt                              , pileup_weight * gen_weight);
        //FillUserTH1D( "MET_Type01_Phi_PAS"	  , PFMET_Type01_Phi                             , pileup_weight * gen_weight);   
-       FillUserTH1D( "MET_Type1_PAS"             , PFMET_Type1_Pt                              , pileup_weight * gen_weight);
-       FillUserTH1D( "MET_Type1_Phi_PAS"	  , PFMET_Type1_Phi                             , pileup_weight * gen_weight);   
+       //FillUserTH1D( "MET_Type1_PAS"             , PFMET_Type1_Pt                              , pileup_weight * gen_weight);
+       //FillUserTH1D( "MET_Type1_Phi_PAS"	  , PFMET_Type1_Phi                             , pileup_weight * gen_weight);   
        FillUserTH1D( "minMETPt1stEle_PAS"         , TMath::Min ( Ele1_Pt, PFMET_Type1XY_Pt  )   , pileup_weight * gen_weight);
        //FillUserTH1D( "minMET01Pt1stEle_PAS"       , TMath::Min ( Ele1_Pt, PFMET_Type01_Pt    )   , pileup_weight * gen_weight);
-       FillUserTH1D( "minMET1Pt1stEle_PAS"       , TMath::Min ( Ele1_Pt, PFMET_Type1_Pt    )   , pileup_weight * gen_weight);
+       //FillUserTH1D( "minMET1Pt1stEle_PAS"       , TMath::Min ( Ele1_Pt, PFMET_Type1_Pt    )   , pileup_weight * gen_weight);
        FillUserTH1D( "Pt1stJet_PAS"               , Jet1_Pt                                      , pileup_weight * gen_weight);
        FillUserTH1D( "Pt2ndJet_PAS"               , Jet2_Pt                                      , pileup_weight * gen_weight);
        FillUserTH1D( "Eta1stJet_PAS"              , Jet1_Eta                                     , pileup_weight * gen_weight);
@@ -1615,11 +1662,11 @@ void analysisClass::Loop()
        FillUserTH1D( "Ptenu_PAS"	          , Pt_Ele1MET                                   , pileup_weight * gen_weight);
        FillUserTH1D( "sTlep_PAS"                  , Ele1_Pt + PFMET_Type1XY_Pt                  , pileup_weight * gen_weight);
        //FillUserTH1D( "sTlep_Type01_PAS"           , Ele1_Pt + PFMET_Type01_Pt                    , pileup_weight * gen_weight);
-       FillUserTH1D( "sTlep_Type1_PAS"           , Ele1_Pt + PFMET_Type1_Pt                    , pileup_weight * gen_weight);
+       //FillUserTH1D( "sTlep_Type1_PAS"           , Ele1_Pt + PFMET_Type1_Pt                    , pileup_weight * gen_weight);
        FillUserTH1D( "sT_PAS"                     , sT_enujj                                     , pileup_weight * gen_weight);
        FillUserTH1D( "sT_PDF"                     , sT_enujj                                     , pileup_weight * gen_weight);
        //FillUserTH1D( "sT_Type01_PAS"              , Ele1_Pt + PFMET_Type01_Pt + Jet1_Pt + Jet2_Pt, pileup_weight * gen_weight);
-       FillUserTH1D( "sT_Type1_PAS"              , Ele1_Pt + PFMET_Type1_Pt + Jet1_Pt + Jet2_Pt, pileup_weight * gen_weight);
+       //FillUserTH1D( "sT_Type1_PAS"              , Ele1_Pt + PFMET_Type1_Pt + Jet1_Pt + Jet2_Pt, pileup_weight * gen_weight);
        FillUserTH1D( "sTjet_PAS"                  , Jet1_Pt + Jet2_Pt                            , pileup_weight * gen_weight);
        FillUserTH1D( "Mjj_PAS"	                  , M_j1j2                                       , pileup_weight * gen_weight);   
        FillUserTH1D( "DCotTheta1stEle_PAS"        , Ele1_DCotTheta                               , pileup_weight * gen_weight);
@@ -1827,7 +1874,7 @@ void analysisClass::Loop()
          }
        }
 
-       if ( MT_Ele1MET > 150 && MT_Ele1MET < 190 ){
+       if ( MT_Ele1MET > 110 && MT_Ele1MET < 190 ){
 
          FillUserTH1D( "MTenu_110_190"      , MT_Ele1MET,  pileup_weight * gen_weight ) ;
          FillUserTH1D( "nJets_MTenu_110_190", nJet_ptCut,  pileup_weight * gen_weight ) ;
@@ -2058,7 +2105,7 @@ void analysisClass::Loop()
            }
          }
 
-         if ( MT_Ele1MET > 150 && MT_Ele1MET < 190 ){
+         if ( MT_Ele1MET > 110 && MT_Ele1MET < 190 ){
 
            FillUserTH1D( "MTenu_110_190_noBtaggedJets"      , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ) ;
            FillUserTH1D( "nJets_MTenu_110_190_noBtaggedJets", nJet_ptCut,  pileup_weight * gen_weight * weightZeroBJets ) ;
@@ -2107,6 +2154,15 @@ void analysisClass::Loop()
              FillUserTH1D(   "Mej_MTenu_110_190_Njet_gte5_noBtaggedJets"     , Mej              ,  pileup_weight * gen_weight * weightZeroBJets ) ;
            }
          }
+
+         if(MT_Ele1MET >= 200 && MT_Ele1MET < 400)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT200To400_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets ) ;
+         else if(MT_Ele1MET >= 400 && MT_Ele1MET < 600)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT400To600_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets ) ;
+         else if(MT_Ele1MET >= 600 && MT_Ele1MET < 900)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT600To900_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets ) ;
+         else if(MT_Ele1MET >= 900)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT900ToInf_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets ) ;
        }
 
        //-------------------------------------------------------------------------- 
@@ -2289,7 +2345,7 @@ void analysisClass::Loop()
            }
          }
 
-         if ( MT_Ele1MET > 150 && MT_Ele1MET < 190 ){
+         if ( MT_Ele1MET > 110 && MT_Ele1MET < 190 ){
 
            FillUserTH1D( "MTenu_110_190_gteOneBtaggedJet"      , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
            FillUserTH1D( "nJets_MTenu_110_190_gteOneBtaggedJet", nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
@@ -2338,6 +2394,15 @@ void analysisClass::Loop()
              FillUserTH1D(   "Mej_MTenu_110_190_Njet_gte5_gteOneBtaggedJet"     , Mej              ,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
            }
          }
+
+         if(MT_Ele1MET >= 200 && MT_Ele1MET < 400)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT200To400_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+         else if(MT_Ele1MET >= 400 && MT_Ele1MET < 600)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT400To600_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+         else if(MT_Ele1MET >= 600 && MT_Ele1MET < 900)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT600To900_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+         else if(MT_Ele1MET >= 900)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT900ToInf_PAS" , MT_Ele1MET, pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
        }
 
        //-------------------------------------------------------------------------- 
@@ -2629,11 +2694,11 @@ void analysisClass::Loop()
 
              if ( fabs(Ele1_Eta) < eleEta_bar ) { 
                sprintf(plot_name, "SigmaEtaEta_Barrel_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaEtaEta   , pileup_weight * gen_weight    ); 
-               sprintf(plot_name, "SigmaIEtaIEta_Barrel_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaIEtaIEta , pileup_weight * gen_weight    ); 
+               sprintf(plot_name, "Full5x5SigmaIEtaIEta_Barrel_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_Full5x5SigmaIEtaIEta , pileup_weight * gen_weight    ); 
              }
              else if ( fabs(Ele1_Eta) > eleEta_end1_min && fabs(Ele1_Eta) < eleEta_end2_max ){
                sprintf(plot_name, "SigmaEtaEta_Endcap_1stEle_LQ%d"  , lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaEtaEta   , pileup_weight * gen_weight    ); 
-               sprintf(plot_name, "SigmaIEtaIEta_Endcap_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_SigmaIEtaIEta , pileup_weight * gen_weight    ); 
+               sprintf(plot_name, "Full5x5SigmaIEtaIEta_Endcap_1stEle_LQ%d", lq_mass ); FillUserTH1D( plot_name , Ele1_Full5x5SigmaIEtaIEta , pileup_weight * gen_weight    ); 
              }
 
              if ( fabs(Ele1_Eta) <= eleEta_bar ) { 
@@ -2665,69 +2730,69 @@ void analysisClass::Loop()
          //}
          // for scale factor at "final selection" studies
          if((isData && nBJet_medium_ptCut==0) || !isData) {
-           if ( passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
+           if ( hasCut("ST_LQ300") && passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ300"       , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ300" , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
+           if ( hasCut("ST_LQ400") && passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ400"       , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ400" , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
+           if ( hasCut("ST_LQ500") && passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ500"       , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ500" , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
+           if ( hasCut("ST_LQ600") && passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ600"       , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ600" , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
+           if ( hasCut("ST_LQ700") && passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ700"       , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ700" , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
+           if ( hasCut("ST_LQ800") && passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ800"          , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ800"    , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
+           if ( hasCut("ST_LQ900") && passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ900"          , MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ900"    , nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
            }
-           if ( passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
+           if ( hasCut("ST_LQ1000") && passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
            }
            FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ1000"       ,MT_Ele1MET, pileup_weight * gen_weight * weightZeroBJets); 
            FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ1000" ,nJet_ptCut, pileup_weight * gen_weight * weightZeroBJets);
          }
          if((isData && nBJet_medium_ptCut>=1) || !isData) {
-           if ( passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
+           if ( hasCut("ST_LQ300") && passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ300"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ300" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
+           if ( hasCut("ST_LQ400") && passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ400"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ400" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
+           if ( hasCut("ST_LQ500") && passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ500"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ500" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
+           if ( hasCut("ST_LQ600") && passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ600"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ600" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
+           if ( hasCut("ST_LQ700") && passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ700"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ700" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
+           if ( hasCut("ST_LQ800") && passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ800"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ800" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
+           if ( hasCut("ST_LQ900") && passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ900"       , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ900" , nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
-           if ( passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
+           if ( hasCut("ST_LQ1000") && passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ1000"       ,MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ1000" ,nJet_ptCut,  pileup_weight * gen_weight * weightAtLeastOneBJet );
            }
