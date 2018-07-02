@@ -245,12 +245,12 @@ void analysisClass::Loop(){
     ////if(run!=274388 || ls!=1283 || event!=2314536914) continue;
     ////if(run!=275376) continue;
     ////if(event!=327546602) continue;
-    if(run!=276794 && run!=276501 && run!=276525) continue;
-    if(event!=524963125 && event!=863128569 && event!=810376169) continue;
-    std::string current_file_name ( fChain->GetCurrentFile()->GetName());
-    cout << "Found the run! in file:" << current_file_name << endl;
-    // run ls event
-    std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+    //if(run!=276794 && run!=276501 && run!=276525) continue;
+    //if(event!=524963125 && event!=863128569 && event!=810376169) continue;
+    //std::string current_file_name ( fChain->GetCurrentFile()->GetName());
+    //cout << "Found the run! in file:" << current_file_name << endl;
+    //// run ls event
+    //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
 
     
@@ -362,6 +362,9 @@ void analysisClass::Loop(){
     //c_gen_all->examine<GenParticle>("c_gen_all");
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
     //c_genEle_final->examine<GenParticle>("c_genEle_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER)");
+
+    CollectionPtr c_genMu_final = c_gen_all    -> SkimByID<GenParticle>(GEN_MU_HARD_SCATTER);
+
     CollectionPtr c_genNu_final = c_gen_all    -> SkimByID<GenParticle>(GEN_NU_HARD_SCATTER);
     //c_genNu_final->examine<GenParticle>("c_genNu_final = c_gen_all after SkimByID<GenParticle>(GEN_NU_HARD_SCATTER)");
     CollectionPtr c_genJet_final = c_genJet_all;
@@ -470,11 +473,11 @@ void analysisClass::Loop(){
     CollectionPtr c_muon_eta               = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
     //CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
     CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03 );
-    //CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE_PFISO04LOOSE );
+    //CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE );
     CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
     //CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
-    c_muon_final->examine<Muon>("c_muon_final");
+    //c_muon_final->examine<Muon>("c_muon_final");
     
     //-----------------------------------------------------------------
     // All skims need PFJets
@@ -545,8 +548,8 @@ void analysisClass::Loop(){
     
     fillVariableWithValue("PFMET_Raw_Pt"       , PFMETRaw            -> at (0));      
     fillVariableWithValue("PFMET_Raw_Phi"	     , PFMETPhiRaw	       -> at (0));
-    fillVariableWithValue("PFMET_Type1_Pt"     , PFMETType1Cor       -> at (0));      
-    fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
+    //fillVariableWithValue("PFMET_Type1_Pt"     , PFMETType1Cor       -> at (0));      
+    //fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
     fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
     fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
     
@@ -602,6 +605,7 @@ void analysisClass::Loop(){
     int n_jet_highEta_store  = c_pfjet_highEta_final         -> GetSize();
     int n_genEle_store       = c_genEle_final                -> GetSize();
     int n_genNu_store        = c_genNu_final                 -> GetSize();
+    int n_genMu_store        = c_genMu_final                 -> GetSize();
     int n_genJet_store       = c_genJet_final                -> GetSize();
 						             
     int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
@@ -624,10 +628,12 @@ void analysisClass::Loop(){
       fillVariableWithValue("nGenJet_ptCut", n_genJet_store);
       fillVariableWithValue("nGenEle_ptCut", n_genEle_store);
       fillVariableWithValue("nGenNu_ptCut",  n_genNu_store);
+      fillVariableWithValue("nGenMu_ptCut",  n_genMu_store);
 
       fillVariableWithValue("nGenJet_store", min(n_genJet_store,5));
       fillVariableWithValue("nGenEle_store", min(n_genEle_store,2));
       fillVariableWithValue("nGenNu_store" , min(n_genNu_store,2));
+      fillVariableWithValue("nGenMu_store" , min(n_genMu_store,3));
 
       fillVariableWithValue("nGenW_ptCut"	 , n_genW_store         );
       fillVariableWithValue("nGenDY_ptCut"	 , n_genZgamma_store    );  	     
@@ -690,6 +696,7 @@ void analysisClass::Loop(){
         }
       }
 
+      // neutrinos
       if ( n_genNu_store >= 1 ){ 
         GenParticle genNu1 = c_genNu_final -> GetConstituent<GenParticle>(0);
         fillVariableWithValue ( "GenNu1_Pt" , genNu1.Pt () );
@@ -701,6 +708,28 @@ void analysisClass::Loop(){
           fillVariableWithValue ( "GenNu2_Pt" , genNu2.Pt () );
           fillVariableWithValue ( "GenNu2_Eta", genNu2.Eta() );
           fillVariableWithValue ( "GenNu2_Phi", genNu2.Phi() );
+        }
+      }
+
+      // muons
+      if ( n_genMu_store >= 1 ){ 
+        GenParticle genMu1 = c_genMu_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenMu1_Pt" , genMu1.Pt () );
+        fillVariableWithValue ( "GenMu1_Eta", genMu1.Eta() );
+        fillVariableWithValue ( "GenMu1_Phi", genMu1.Phi() );
+
+        if ( n_genMu_store >= 2 ){ 
+          GenParticle genMu2 = c_genMu_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenMu2_Pt" , genMu2.Pt () );
+          fillVariableWithValue ( "GenMu2_Eta", genMu2.Eta() );
+          fillVariableWithValue ( "GenMu2_Phi", genMu2.Phi() );
+        }
+
+        if ( n_genMu_store >= 3 ){ 
+          GenParticle genMu3 = c_genMu_final -> GetConstituent<GenParticle>(2);
+          fillVariableWithValue ( "GenMu3_Pt" , genMu3.Pt () );
+          fillVariableWithValue ( "GenMu3_Eta", genMu3.Eta() );
+          fillVariableWithValue ( "GenMu3_Phi", genMu3.Phi() );
         }
       }
 
@@ -818,8 +847,10 @@ void analysisClass::Loop(){
       fillVariableWithValue ("Muon1_Pt"             , muon1.Pt      ());
       fillVariableWithValue ("Muon1_Eta"            , muon1.Eta     ());
       fillVariableWithValue ("Muon1_Phi"            , muon1.Phi     ());
+      fillVariableWithValue ("Muon1_PtError"        , muon1.PtError ());
+      fillVariableWithValue ("Muon1_EtaError"       , muon1.EtaError());
+      fillVariableWithValue ("Muon1_PhiError"       , muon1.PhiError());
       fillVariableWithValue ("Muon1_Charge"         , muon1.Charge  ());
-      //fillVariableWithValue ("Muon1_hltTTMuonPt"    , hltTTMuon1Pt    );
       fillVariableWithValue ("Muon1_hltSingleMuonPt", hltSingleMuon1Pt);
       
       if ( n_muon_store >= 2 ){ 
@@ -830,8 +861,10 @@ void analysisClass::Loop(){
         fillVariableWithValue ("Muon2_Pt"             , muon2.Pt      ());
         fillVariableWithValue ("Muon2_Eta"            , muon2.Eta     ());
         fillVariableWithValue ("Muon2_Phi"            , muon2.Phi     ());
+        fillVariableWithValue ("Muon2_PtError"        , muon2.PtError ());
+        fillVariableWithValue ("Muon2_EtaError"       , muon2.EtaError());
+        fillVariableWithValue ("Muon2_PhiError"       , muon2.PhiError());
         fillVariableWithValue ("Muon2_Charge"         , muon2.Charge  ());
-        //fillVariableWithValue ("Muon2_hltTTMuonPt"    , hltMuon2Pt      );
         fillVariableWithValue ("Muon2_hltSingleMuonPt", hltSingleMuon2Pt);
 
         if ( n_muon_store >= 3 ){ 
@@ -842,8 +875,10 @@ void analysisClass::Loop(){
           fillVariableWithValue ("Muon3_Pt"             , muon3.Pt      ());
           fillVariableWithValue ("Muon3_Eta"            , muon3.Eta     ());
           fillVariableWithValue ("Muon3_Phi"            , muon3.Phi     ());
+          fillVariableWithValue ("Muon3_PtError"        , muon3.PtError ());
+          fillVariableWithValue ("Muon3_EtaError"       , muon3.EtaError());
+          fillVariableWithValue ("Muon3_PhiError"       , muon3.PhiError());
           fillVariableWithValue ("Muon3_Charge"         , muon3.Charge  ());
-          //fillVariableWithValue ("Muon3_hltTTMuonPt"    , hltMuon3Pt      );
           fillVariableWithValue ("Muon3_hltSingleMuonPt", hltSingleMuon3Pt);
         }
       }
@@ -1228,10 +1263,10 @@ void analysisClass::Loop(){
         fillVariableWithValue("Ele1_GsfScPixCharge"   , ele1.GsfScPixCharge()     );
         fillVariableWithValue("Ele1_GsfCtfCharge"     , ele1.GsfCtfCharge()       );
 
-        fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
-        //fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
-        fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
-        fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
+        //fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
+        ////fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
+        //fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
+        //fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
 
         if ( n_ele_store >= 2 ){
           Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
@@ -1291,10 +1326,10 @@ void analysisClass::Loop(){
           fillVariableWithValue("Ele2_GsfScPixCharge"   , ele2.GsfScPixCharge()     );
           fillVariableWithValue("Ele2_GsfCtfCharge"     , ele2.GsfCtfCharge()       );
 
-          fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
-          //fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
-          fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
-          fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
+          //fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
+          ////fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
+          //fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
+          //fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
 
           if ( n_ele_store >= 3 ){
             Electron ele3 = c_ele_final -> GetConstituent<Electron>(2);
@@ -1354,10 +1389,10 @@ void analysisClass::Loop(){
             fillVariableWithValue("Ele3_GsfScPixCharge"   , ele3.GsfScPixCharge()     );
             fillVariableWithValue("Ele3_GsfCtfCharge"     , ele3.GsfCtfCharge()       );
 
-            fillVariableWithValue( "Ele3_hltEleSignalPt", hltEle3Pt_signal          );
-            //fillVariableWithValue( "Ele3_hltEleTTbarPt" , hltEle3Pt_ttbar           );
-            fillVariableWithValue( "Ele3_hltDoubleElePt", hltEle3Pt_doubleEleSignal ); 
-            fillVariableWithValue( "Ele3_hltEleWP80Pt"  , hltEle3Pt_WP80            );
+            //fillVariableWithValue( "Ele3_hltEleSignalPt", hltEle3Pt_signal          );
+            ////fillVariableWithValue( "Ele3_hltEleTTbarPt" , hltEle3Pt_ttbar           );
+            //fillVariableWithValue( "Ele3_hltDoubleElePt", hltEle3Pt_doubleEleSignal ); 
+            //fillVariableWithValue( "Ele3_hltEleWP80Pt"  , hltEle3Pt_WP80            );
 
           }
         }
