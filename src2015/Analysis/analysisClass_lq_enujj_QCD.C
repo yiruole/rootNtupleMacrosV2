@@ -36,11 +36,11 @@ void analysisClass::Loop()
      1900, 1950, 2000
    };
 
-   //// SIC only look at LQ650 selection for now
-   //// LQ650 only 2012
+   // SIC only look at LQ650 selection for now
+   // LQ650 only 2012
    //const int n_lq_mass = 1;
    //int LQ_MASS[n_lq_mass] = {
-   //   6502012
+   //   650
    //};
 
    // turn off totally for optimization
@@ -234,6 +234,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_Mej400To500_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_Mej500To650_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_noBtaggedJets_Mej650ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT200To400_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT400To600_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT600To900_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_noBtaggedJets_MT900ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
    //
    CreateUserTH1D( "MTenu_50_110_Njet_gte4_noBtaggedJets", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_lte3_noBtaggedJets", 240, 40, 160 );
@@ -267,6 +271,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej400To500_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej500To650_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej650ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT200To400_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT400To600_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT600To900_PAS"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "MTenu_gteOneBtaggedJet_MT900ToInf_PAS"		             ,    200   , 0       , 2000	  ); 
    //
    CreateUserTH1D( "MTenu_50_110_Njet_gte4_gteOneBtaggedJet", 240, 40, 160 );
    CreateUserTH1D( "MTenu_50_110_Njet_lte3_gteOneBtaggedJet", 240, 40, 160 );
@@ -347,6 +355,7 @@ void analysisClass::Loop()
    if (doFinalSelections ) { 
      for (int i_lq_mass = 0; i_lq_mass < n_lq_mass ; ++i_lq_mass ) { 
        int lq_mass = LQ_MASS[i_lq_mass];
+       sprintf(plot_name, "MET_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 600 , 0 , 3000 ); 
        sprintf(plot_name, "MTenu_LQ%d" , lq_mass ); CreateUserTH1D ( plot_name, 400 , 0 , 2000 ); 
        sprintf(plot_name, "Mej_LQ%d"   , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 2000 );
        sprintf(plot_name, "ST_LQ%d"    , lq_mass ); CreateUserTH1D ( plot_name, 300 , 0 , 3000 );
@@ -354,14 +363,15 @@ void analysisClass::Loop()
        sprintf(plot_name, "Mej_Endcap1_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 2000	); 
        sprintf(plot_name, "Mej_Endcap2_LQ%d"      , lq_mass ); CreateUserTH1D ( plot_name, 200 , 0 , 2000	); 
        if ( do_extra_finalSelection_plots ) { 
-         //sprintf(plot_name, "sTfrac_Jet1_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
-         //sprintf(plot_name, "sTfrac_Jet2_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
-         //sprintf(plot_name, "sTfrac_Ele1_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
-         //sprintf(plot_name, "sTfrac_MET_LQ%d"          , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
-         //sprintf(plot_name, "sTfrac_Jet_LQ%d"          , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
-         //sprintf(plot_name, "sTfrac_Lep_LQ%d"          , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
-         //sprintf(plot_name, "Charge1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,      3 ,  -1.5   , 1.5      );
-         //sprintf(plot_name, "Energy1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     ); 
+         //FIXME some of these need filling
+         sprintf(plot_name, "sTfrac_Jet1_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
+         sprintf(plot_name, "sTfrac_Jet2_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
+         sprintf(plot_name, "sTfrac_Ele1_LQ%d"         , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
+         sprintf(plot_name, "sTfrac_MET_LQ%d"          , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
+         sprintf(plot_name, "sTfrac_Jet_LQ%d"          , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
+         sprintf(plot_name, "sTfrac_Lep_LQ%d"          , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1.0      );
+         sprintf(plot_name, "Charge1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,      3 ,  -1.5   , 1.5      );
+         sprintf(plot_name, "Energy1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     ); 
          sprintf(plot_name, "Pt1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1000     ); 
          sprintf(plot_name, "PtHeep1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1000     ); 
          sprintf(plot_name, "SCEt1stEle_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1000     ); 
@@ -374,12 +384,12 @@ void analysisClass::Loop()
          sprintf(plot_name, "Eta2ndJet_LQ%d"           , lq_mass ); CreateUserTH1D( plot_name ,    100 , -5.0    , 5.0      ); 
          sprintf(plot_name, "Phi1stJet_LQ%d"           , lq_mass ); CreateUserTH1D( plot_name ,     60 , -3.1416 , 3.1416   ); 
          sprintf(plot_name, "Phi2ndJet_LQ%d"           , lq_mass ); CreateUserTH1D( plot_name ,     60 , -3.1416 , 3.1416   ); 
-         //sprintf(plot_name, "sTlep_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     ); 
-         //sprintf(plot_name, "sTjet_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     ); 
-         //sprintf(plot_name, "Me1j1_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     );
-         //sprintf(plot_name, "Me1j2_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     );
-         //sprintf(plot_name, "nVertex_LQ%d"             , lq_mass ); CreateUserTH1D( plot_name ,    101 , -0.5    ,  100.5   ); 
-         //sprintf(plot_name, "MeeVsST_LQ%d"             , lq_mass ); CreateUserTH2D( plot_name ,    200 ,  0.0, 2000, 200, 0, 2000);
+         sprintf(plot_name, "sTlep_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     ); 
+         sprintf(plot_name, "sTjet_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     ); 
+         sprintf(plot_name, "Me1j1_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     );
+         sprintf(plot_name, "Me1j2_LQ%d"               , lq_mass ); CreateUserTH1D( plot_name ,    200 ,  0.0    , 2000     );
+         sprintf(plot_name, "nVertex_LQ%d"             , lq_mass ); CreateUserTH1D( plot_name ,    101 , -0.5    ,  100.5   ); 
+         sprintf(plot_name, "MeeVsST_LQ%d"             , lq_mass ); CreateUserTH2D( plot_name ,    200 ,  0.0, 2000, 200, 0, 2000);
          // muon kinematics
          sprintf(plot_name, "Pt1stMuon_LQ%d"	       , lq_mass ); CreateUserTH1D( plot_name ,    100 ,  0.0    , 1000     ); 
          sprintf(plot_name, "Eta1stMuon_LQ%d"           , lq_mass ); CreateUserTH1D( plot_name ,    100 , -5.0    , 5.0      ); 
@@ -533,6 +543,7 @@ void analysisClass::Loop()
      if(!isData) {
        min_prescale = gen_weight*pileup_weight;
      }
+     // NB: right now this is not used anywhere!
 
      //--------------------------------------------------------------------------
      // What kind of event is this?
@@ -1152,25 +1163,25 @@ void analysisClass::Loop()
            FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets", nJetLooseEle_ptCut, min_prescale * fakeRateEffective );
            // scale factor dependence plots
            if(sT_enujj > 300 && sT_enujj < 500)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT300To500_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT300To500_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(sT_enujj > 500 && sT_enujj < 750)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT500To750_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT500To750_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(sT_enujj > 750 && sT_enujj < 1250)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT750To1250_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT750To1250_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(sT_enujj > 1250)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT1250ToInf_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_sT1250ToInf_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            if(Mej > 100 && Mej < 200)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej100To200_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej100To200_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 200 && Mej < 300)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej200To300_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej200To300_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 300 && Mej < 400)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej300To400_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej300To400_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 400 && Mej < 500)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej400To500_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej400To500_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 500 && Mej < 650)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej500To650_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej500To650_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 650)
-             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej650ToInf_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightZeroBJets ); 
+             FillUserTH1D( "MTenu_50_110_noBtaggedJets_Mej650ToInf_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
 
            if ( nJetLooseEle_ptCut <= 3 ){
              FillUserTH1D(   "MTenu_50_110_Njet_lte3_noBtaggedJets", MT_Ele1MET,  min_prescale * fakeRateEffective ) ;
@@ -1233,6 +1244,15 @@ void analysisClass::Loop()
              FillUserTH1D(   "MTenu_110_190_Njet_gte5_noBtaggedJets", MT_Ele1MET,  min_prescale * fakeRateEffective ) ;
            }
          }
+
+         if(MT_Ele1MET >= 200 && MT_Ele1MET < 400)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT200To400_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
+         else if(MT_Ele1MET >= 400 && MT_Ele1MET < 600)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT400To600_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
+         else if(MT_Ele1MET >= 600 && MT_Ele1MET < 900)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT600To900_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
+         else if(MT_Ele1MET >= 900)
+           FillUserTH1D( "MTenu_noBtaggedJets_MT900ToInf_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
        }
 
        // at least one b-tagged jet
@@ -1244,25 +1264,25 @@ void analysisClass::Loop()
            FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet", nJetLooseEle_ptCut, min_prescale * fakeRateEffective );
            // scale factor dependence plots
            if(sT_enujj > 300 && sT_enujj < 500)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT300To500_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT300To500_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective  ); 
            else if(sT_enujj > 500 && sT_enujj < 750)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT500To750_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT500To750_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective  ); 
            else if(sT_enujj > 750 && sT_enujj < 1250)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT750To1250_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT750To1250_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(sT_enujj > 1250)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT1250ToInf_PAS"		         , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_sT1250ToInf_PAS"		         , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            if(Mej > 100 && Mej < 200)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej100To200_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej100To200_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 200 && Mej < 300)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej200To300_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej200To300_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 300 && Mej < 400)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej300To400_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej300To400_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 400 && Mej < 500)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej400To500_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej400To500_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 500 && Mej < 650)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej500To650_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej500To650_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
            else if(Mej > 650)
-             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej650ToInf_PAS"		     , MT_Ele1MET,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+             FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_Mej650ToInf_PAS"		     , MT_Ele1MET, min_prescale * fakeRateEffective ); 
 
            if ( nJetLooseEle_ptCut <= 3 ){
              FillUserTH1D(   "MTenu_50_110_Njet_lte3_gteOneBtaggedJet", MT_Ele1MET,  min_prescale * fakeRateEffective ) ;
@@ -1324,6 +1344,15 @@ void analysisClass::Loop()
              FillUserTH1D(   "MTenu_110_190_Njet_gte5_gteOneBtaggedJet", MT_Ele1MET,  min_prescale * fakeRateEffective ) ;
            }
          }
+
+         if(MT_Ele1MET >= 200 && MT_Ele1MET < 400)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT200To400_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
+         else if(MT_Ele1MET >= 400 && MT_Ele1MET < 600)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT400To600_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
+         else if(MT_Ele1MET >= 600 && MT_Ele1MET < 900)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT600To900_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
+         else if(MT_Ele1MET >= 900)
+           FillUserTH1D( "MTenu_gteOneBtaggedJet_MT900ToInf_PAS" , MT_Ele1MET, min_prescale * fakeRateEffective ) ;
        }
 
        if ( fabs(LooseEle1_SCEta) <= eleEta_bar ) { 
@@ -1404,6 +1433,7 @@ void analysisClass::Loop()
            sprintf(plot_name, "ST_LQ%d"    , lq_mass ); FillUserTH1D( plot_name , sT_enujj   , min_prescale * fakeRateEffective ) ;
            sprintf(plot_name, "MTenu_LQ%d" , lq_mass ); FillUserTH1D( plot_name , MT_Ele1MET , min_prescale * fakeRateEffective ) ;
            sprintf(plot_name, "Mej_LQ%d"   , lq_mass ); FillUserTH1D( plot_name , Mej        , min_prescale * fakeRateEffective ) ;
+           sprintf(plot_name, "MET_LQ%d"   , lq_mass ); FillUserTH1D( plot_name , PFMET_Type1XY_Pt        , min_prescale * fakeRateEffective ) ;
            if ( fabs(LooseEle1_SCEta) <= eleEta_bar ) { 
              sprintf(plot_name,"Mej_Barrel_LQ%d", lq_mass);  FillUserTH1D( plot_name, Mej, min_prescale * fakeRateEffective);
            }
@@ -1414,93 +1444,106 @@ void analysisClass::Loop()
              sprintf(plot_name,"Mej_Endcap2_LQ%d", lq_mass);  FillUserTH1D( plot_name, Mej, min_prescale * fakeRateEffective);
            }
            if ( do_extra_finalSelection_plots ) {
-             sprintf(plot_name, "Pt1stEle_LQ%d"	           , lq_mass ); FillUserTH1D( plot_name ,LooseEle1_Pt,          min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "PtHeep1stEle_LQ%d"	       , lq_mass ); FillUserTH1D( plot_name ,LooseEle1_PtHeep,      min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Eta1stEle_LQ%d"           , lq_mass ); FillUserTH1D( plot_name ,LooseEle1_Eta,         min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "SCEta1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name ,LooseEle1_SCEta,       min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "SCEt1stEle_LQ%d"          , lq_mass ); FillUserTH1D( plot_name ,LooseEle1_SCEnergy/cosh(LooseEle1_SCEta),min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Phi1stEle_LQ%d"           , lq_mass ); FillUserTH1D( plot_name ,LooseEle1_Phi,         min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Pt1stJet_LQ%d"            , lq_mass ); FillUserTH1D( plot_name ,JetLooseEle1_Pt,       min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Pt2ndJet_LQ%d"            , lq_mass ); FillUserTH1D( plot_name ,JetLooseEle2_Pt,       min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Eta1stJet_LQ%d"           , lq_mass ); FillUserTH1D( plot_name ,JetLooseEle1_Eta,      min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Eta2ndJet_LQ%d"           , lq_mass ); FillUserTH1D( plot_name ,JetLooseEle2_Eta,      min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Phi1stJet_LQ%d"           , lq_mass ); FillUserTH1D( plot_name ,JetLooseEle1_Phi,      min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Phi2ndJet_LQ%d"           , lq_mass ); FillUserTH1D( plot_name ,JetLooseEle2_Phi,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "sTfrac_Jet1_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , JetLooseEle1_Pt / sT_enujj           ,min_prescale * fakeRateEffective );
+             sprintf(plot_name, "sTfrac_Jet2_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , JetLooseEle2_Pt / sT_enujj           ,min_prescale * fakeRateEffective );
+             sprintf(plot_name, "sTfrac_Ele1_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Pt / sT_enujj              ,min_prescale * fakeRateEffective );
+             sprintf(plot_name, "sTfrac_MET_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , PFMET_Type1XY_Pt / sT_enujj          ,min_prescale * fakeRateEffective );
+             sprintf(plot_name, "sTfrac_Jet_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , ( JetLooseEle1_Pt + JetLooseEle2_Pt ) / sT_enujj,min_prescale * fakeRateEffective );
+             sprintf(plot_name, "sTfrac_Lep_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , ( LooseEle1_Pt + PFMET_Type1XY_Pt ) / sT_enujj  ,min_prescale * fakeRateEffective );
+             sprintf(plot_name, "Charge1stEle_LQ%d"	     , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Charge,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Energy1stEle_LQ%d"	     , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Energy,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Pt1stEle_LQ%d"	         , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Pt,          min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "PtHeep1stEle_LQ%d"	     , lq_mass ); FillUserTH1D( plot_name , LooseEle1_PtHeep,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Eta1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Eta,         min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "SCEta1stEle_LQ%d"       , lq_mass ); FillUserTH1D( plot_name , LooseEle1_SCEta,       min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "SCEt1stEle_LQ%d"        , lq_mass ); FillUserTH1D( plot_name , LooseEle1_SCEnergy/cosh(LooseEle1_SCEta),min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Phi1stEle_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Phi,         min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Pt1stJet_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , JetLooseEle1_Pt,       min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Pt2ndJet_LQ%d"          , lq_mass ); FillUserTH1D( plot_name , JetLooseEle2_Pt,       min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Eta1stJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , JetLooseEle1_Eta,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Eta2ndJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , JetLooseEle2_Eta,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Phi1stJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , JetLooseEle1_Phi,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Phi2ndJet_LQ%d"         , lq_mass ); FillUserTH1D( plot_name , JetLooseEle2_Phi,      min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "sTlep_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , LooseEle1_Pt + PFMET_Type1XY_Pt     , min_prescale * fakeRateEffective );
+             sprintf(plot_name, "sTjet_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , JetLooseEle1_Pt + JetLooseEle2_Pt   , min_prescale * fakeRateEffective );
+             sprintf(plot_name, "Me1j1_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j1                              , min_prescale * fakeRateEffective );
+             sprintf(plot_name, "Me1j2_LQ%d"             , lq_mass ); FillUserTH1D( plot_name , M_e1j2                              , min_prescale * fakeRateEffective );
+             sprintf(plot_name, "nVertex_LQ%d"           , lq_mass ); FillUserTH1D( plot_name , nVertex                             , min_prescale * fakeRateEffective );
              // muon kinematics
-             sprintf(plot_name, "Pt1stMuon_LQ%d"	         , lq_mass ); FillUserTH1D( plot_name ,Muon1_Pt,  min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Eta1stMuon_LQ%d"          , lq_mass ); FillUserTH1D( plot_name ,Muon1_Eta, min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Phi1stMuon_LQ%d"          , lq_mass ); FillUserTH1D( plot_name ,Muon1_Phi, min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Pt2ndMuon_LQ%d"	         , lq_mass ); FillUserTH1D( plot_name ,Muon2_Pt,  min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Eta2ndMuon_LQ%d"         , lq_mass );  FillUserTH1D( plot_name ,Muon2_Eta, min_prescale * fakeRateEffective ); 
-             sprintf(plot_name, "Phi2ndMuon_LQ%d"         , lq_mass );  FillUserTH1D( plot_name ,Muon2_Phi, min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Pt1stMuon_LQ%d"	       , lq_mass ); FillUserTH1D( plot_name ,Muon1_Pt,  min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Eta1stMuon_LQ%d"        , lq_mass ); FillUserTH1D( plot_name ,Muon1_Eta, min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Phi1stMuon_LQ%d"        , lq_mass ); FillUserTH1D( plot_name ,Muon1_Phi, min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Pt2ndMuon_LQ%d"	       , lq_mass ); FillUserTH1D( plot_name ,Muon2_Pt,  min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Eta2ndMuon_LQ%d"        , lq_mass );  FillUserTH1D( plot_name ,Muon2_Eta, min_prescale * fakeRateEffective ); 
+             sprintf(plot_name, "Phi2ndMuon_LQ%d"        , lq_mass );  FillUserTH1D( plot_name ,Muon2_Phi, min_prescale * fakeRateEffective ); 
            }
          }
 
          // for scale factor at "final selection" studies
          if(nBJet_medium_ptCut==0) {
-           if ( passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
+           if ( hasCut("ST_LQ300") &&  passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ300"       , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ300" , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
+           if ( hasCut("ST_LQ400") &&  passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ400"       , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ400" , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
+           if ( hasCut("ST_LQ500") &&  passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ500"       , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ500" , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
+           if ( hasCut("ST_LQ600") &&  passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ600"       , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ600" , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
+           if ( hasCut("ST_LQ700") &&  passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ700"       , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ700" , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
+           if ( hasCut("ST_LQ800") &&  passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ800"          , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ800"    , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
+           if ( hasCut("ST_LQ900") &&  passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
              FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ900"          , MT_Ele1MET, min_prescale * fakeRateEffective);
              FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ900"    , nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
            }
-           if ( passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
+           if ( hasCut("ST_LQ1000") &&  passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
            }
            FillUserTH1D( "MTenu_50_110_noBtaggedJets_LQ1000"       ,MT_Ele1MET, min_prescale * fakeRateEffective); 
            FillUserTH1D( "nJets_MTenu_50_110_noBtaggedJets_LQ1000" ,nJetLooseEle_ptCut, min_prescale * fakeRateEffective);
          }
          if(nBJet_medium_ptCut>=1) {
-           if ( passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
+           if ( hasCut("ST_LQ300") &&  passedCut("ST_LQ300") && passedCut("Mej_LQ300") && passedCut("MET_LQ300") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ300"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ300" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
+           if ( hasCut("ST_LQ400") &&  passedCut("ST_LQ400") && passedCut("Mej_LQ400") && passedCut("MET_LQ400") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ400"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ400" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
+           if ( hasCut("ST_LQ500") &&  passedCut("ST_LQ500") && passedCut("Mej_LQ500") && passedCut("MET_LQ500") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ500"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ500" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
+           if ( hasCut("ST_LQ600") &&  passedCut("ST_LQ600") && passedCut("Mej_LQ600") && passedCut("MET_LQ600") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ600"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ600" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
+           if ( hasCut("ST_LQ700") &&  passedCut("ST_LQ700") && passedCut("Mej_LQ700") && passedCut("MET_LQ700") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ700"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ700" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
+           if ( hasCut("ST_LQ800") &&  passedCut("ST_LQ800") && passedCut("Mej_LQ800") && passedCut("MET_LQ800") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ800"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ800" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
+           if ( hasCut("ST_LQ900") &&  passedCut("ST_LQ900") && passedCut("Mej_LQ900") && passedCut("MET_LQ900") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ900"       , MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ900" , nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
-           if ( passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
+           if ( hasCut("ST_LQ1000") && passedCut("ST_LQ1000") && passedCut("Mej_LQ1000") && passedCut("MET_LQ1000") ){
              FillUserTH1D( "MTenu_50_110_gteOneBtaggedJet_LQ1000"       ,MT_Ele1MET,  min_prescale * fakeRateEffective );
              FillUserTH1D( "nJets_MTenu_50_110_gteOneBtaggedJet_LQ1000" ,nJetLooseEle_ptCut,  min_prescale * fakeRateEffective );
            }
