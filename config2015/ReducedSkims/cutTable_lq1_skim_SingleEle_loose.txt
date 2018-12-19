@@ -91,20 +91,18 @@ PassBadPFMuonFilter             0      1               -               -        
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 isData				-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
-bunch				-inf	     +inf		-		-		1	4000 0 4000	      SAVE
 event				-inf	     +inf		-		-		1	100 0 100	      SAVE
 ls 				-inf	     +inf		-		-		1	100 0 100	      SAVE
-orbit 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 run 				-inf	     +inf		-		-		1	100 0 100	      SAVE      
-ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
-PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
+#ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
+#PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
-TopPtWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
+#TopPtWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Vertex and pileup info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nVertex 			-inf	     +inf		-		-		1	101 -0.5 100.5	      SAVE
-nPileUpInt_True			-inf         +inf               -               -               1       101 -0.5 100.5        SAVE
+#nPileUpInt_True			-inf         +inf               -               -               1       101 -0.5 100.5        SAVE
 nPileUpInt_BXminus1             -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
 nPileUpInt_BX0                  -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
 nPileUpInt_BXplus1              -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
@@ -419,12 +417,12 @@ Ele3_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 PFMET_Raw_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-#PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
-#PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+#PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
+#PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
