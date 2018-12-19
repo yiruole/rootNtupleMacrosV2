@@ -191,7 +191,7 @@ void analysisClass::Loop(){
 
   TLorentzVector v_PFMETRaw;
   TLorentzVector v_PFMETType1Cor;
-  TLorentzVector v_PFMETType1XYCor;
+  //TLorentzVector v_PFMETType1XYCor;
   
 
   // prepare 2016 EG prescales
@@ -209,9 +209,6 @@ void analysisClass::Loop(){
   
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
-  //for (Long64_t jentry=951000; jentry<nentries;jentry++) {
-  //for (Long64_t jentry=1159000; jentry<nentries;jentry++) {
-  //for (Long64_t jentry=0; jentry<952000;jentry++) {
     Long64_t ientry = LoadTree(jentry);
     //if (ientry < 0) break;
     if (ientry < 0)
@@ -424,19 +421,19 @@ void analysisClass::Loop(){
 
       v_PFMETRaw        .SetPtEtaPhiM( (*PFMETRaw        )[0] , 0., (*PFMETPhiRaw        )[0] , 0. );
       v_PFMETType1Cor   .SetPtEtaPhiM( (*PFMETType1Cor   )[0] , 0., (*PFMETPhiType1Cor   )[0] , 0. );
-      v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
+      //v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
       
       v_PFMETRaw         = v_PFMETRaw         + v_delta_met;
       v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
-      v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
+      //v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
       
       (*PFMETRaw           )[0] = v_PFMETRaw        .Pt();
       (*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
-      (*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
+      //(*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
       
       (*PFMETPhiRaw        )[0] = v_PFMETRaw        .Phi();
       (*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
-      (*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
+      //(*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
     }
 
     //-----------------------------------------------------------------
@@ -548,10 +545,10 @@ void analysisClass::Loop(){
     
     fillVariableWithValue("PFMET_Raw_Pt"       , PFMETRaw            -> at (0));      
     fillVariableWithValue("PFMET_Raw_Phi"	     , PFMETPhiRaw	       -> at (0));
-    //fillVariableWithValue("PFMET_Type1_Pt"     , PFMETType1Cor       -> at (0));      
-    //fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
-    fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
-    fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
+    fillVariableWithValue("PFMET_Type1_Pt"     , PFMETType1Cor       -> at (0));      
+    fillVariableWithValue("PFMET_Type1_Phi"    , PFMETPhiType1Cor    -> at (0));
+    //fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
+    //fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
     
     if ( isData == 0 ) { 
       if ( reducedSkimType != 0 ){ 
@@ -619,6 +616,11 @@ void analysisClass::Loop(){
     int n_genEleFromW_store  = c_genEleFromW_final           -> GetSize();
     int n_genEleFromDY_store = c_genEleFromDY_final          -> GetSize();
     
+    //if(n_ele_ptCut < 1) {
+    //  std::cout << "NO GOOD ELECTRON FOUND! " << 
+    //    static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+    //  c_ele_all->examine<Electron>("c_ele_all");
+    //}
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
     //-----------------------------------------------------------------
@@ -1483,7 +1485,8 @@ void analysisClass::Loop(){
     TLorentzVector t_ele1, t_ele2, t_jet1, t_jet2, t_jet3;
     TLorentzVector t_MET;
     
-    t_MET.SetPtEtaPhiM( PFMETType1XYCor -> at (0), 0.0, PFMETPhiType1XYCor -> at (0), 0.0 );
+    //t_MET.SetPtEtaPhiM( PFMETType1XYCor -> at (0), 0.0, PFMETPhiType1XYCor -> at (0), 0.0 );
+    t_MET.SetPtEtaPhiM( PFMETType1Cor -> at (0), 0.0, PFMETPhiType1Cor -> at (0), 0.0 );
 
     if ( n_jet_store >= 1 ){
 

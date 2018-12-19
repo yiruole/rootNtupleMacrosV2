@@ -419,12 +419,12 @@ Ele3_R9				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 PFMET_Raw_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-#PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
-#PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+#PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
+#PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
