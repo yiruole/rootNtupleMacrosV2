@@ -7,6 +7,7 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
+#include <TLeaf.h>
 
 #include "Collection.h"
 #include "GenParticle.h"
@@ -157,11 +158,6 @@ void analysisClass::Loop(){
   CollectionPtr c_hltPhoton120_QCD_all;	      
   CollectionPtr c_hltPhoton175_QCD_all;	      
 
-  // TTbar muon filter
-  //XXX SIC remove this for now
-  //CollectionPtr c_hltMuon22_TTbar_all;
-  //CollectionPtr c_hltPhoton22_TTbar_all;
-
   // muon filter
   CollectionPtr c_hltMuon_SingleMu_all;
 
@@ -242,9 +238,8 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     // Get access to HLT filter objects
     //-----------------------------------------------------------------
+    HLTriggerObjectCollectionHelper helper(*this);
     
-    HLTriggerObjectCollectionHelper helper (*this,"");
-
     if ( reducedSkimType == 0 ){ 
       
       // QCD photon triggers
@@ -264,10 +259,6 @@ void analysisClass::Loop(){
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4){
-      
-      // TTbar trigger: path was HLT_Mu22_Photon22_CaloIdL_v3+
-      // saveTags is false for this path? how did that work?
-      // also this is not selecting muons either...
       
       // SingleMu trigger: path was HLT_Mu40_eta2p1_v9+
       c_hltMuon_SingleMu_all       = helper.GetL3FilterObjectsByPath("HLT_Mu45_eta2p1_v"); // will do prefix matching
@@ -317,17 +308,27 @@ void analysisClass::Loop(){
     // Define initial, inclusive collections for physics objects
     //-----------------------------------------------------------------
 
-    CollectionPtr c_gen_all   ( new Collection(*this, nGenPart));
-    CollectionPtr c_ele_all   ( new Collection(*this, nElectron));
+    CollectionPtr c_gen_all(new Collection(*this, jentry, 0));
+    if(!isData()) {
+      TLeaf* leaf = fChain->GetLeaf("nGenPart");
+      leaf->GetBranch()->GetEntry(jentry);
+      c_gen_all.reset(new Collection(*this, jentry, leaf->GetValue()));
+    }
+    CollectionPtr c_ele_all   ( new Collection(*this, jentry, nElectron));
     //c_ele_all->examine<Electron>("c_ele_all = All reco electrons");
     //Electron ele1 = c_ele_all -> GetConstituent<Electron>(0);
     //for(unsigned int i=0; i<10; ++i) { 
     //  std::cout << "cut = " << i << " idLevel = " << ele1.GetNbitFromBitMap(i, 3) << std::endl;
     //}
 
-    CollectionPtr c_muon_all  ( new Collection(*this, nMuon));
-    CollectionPtr c_genJet_all( new Collection(*this, nGenJet));
-    CollectionPtr c_pfjet_all ( new Collection(*this, nJet));
+    CollectionPtr c_muon_all  ( new Collection(*this, jentry, nMuon));
+    CollectionPtr c_genJet_all(new Collection(*this, jentry, 0));
+    if(!isData()) {
+      TLeaf* leaf = fChain->GetLeaf("nGenJet");
+      leaf->GetBranch()->GetEntry(jentry);
+      c_genJet_all.reset(new Collection(*this, jentry, leaf->GetValue()));
+    }
+    CollectionPtr c_pfjet_all ( new Collection(*this, jentry, nJet));
 
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
@@ -431,13 +432,33 @@ void analysisClass::Loop(){
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
       CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70 );
-      //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
+      //c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
     // look at final electrons
-    //c_ele_final->examine<Electron>("c_ele_final");
-    //c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
+    //if(event==13378 || event==11126 || event ==11383 || event==12527 || event==49199 || event==45348 || event==1951 ||
+    //    event==6999 || event==45575 || event==44028 || event==822 || event==18153 || event==21114 || event==23045 ||
+    //    event==23738 || event==30677 || event==39025 || event==39097 || event==39160 || event==40122 || event==47280 ||
+    //    event==47601 || event==49326 || event==30390 || event==19205 || event==19241 || event==29574 || event==1766 ||
+    //    event==19537 || event==36861 || event==40627 || event==5291 || event==18684 || event==26851 || event==27910 ||
+    //    event==35324 || event==5709 || event==15032 || event==40865 || event==33682 || event==33201 || event==14858 ||
+    //    event==14998 || event==26254 || event==31484 || event==39858 || event==35642 || event==46092) {
+    //
+    //Electron ele1_tmp;
+    //if(c_ele_final->GetSize() > 0)
+    //{
+    //  ele1_tmp = c_ele_final -> GetConstituent<Electron>(0);
+    //  if(ele1_tmp.Pt() > 2300)
+    //  {
+    //    std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(luminosityBlock) << " " << static_cast<ULong64_t>(event) << std::endl;
+    //    c_ele_all->examine<Electron>("c_ele_all");
+    //    CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
+    //    c_ele_HEEP->examine<Electron>("c_ele_HEEP_manual");
+    //    c_ele_final->examine<Electron>("c_ele_final");
+    //  }
+    //}
+    ////c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
     FillUserTH1D("nEleNTuple",c_ele_all->GetSize());
     FillUserTH1D("nEleNrsk",c_ele_final->GetSize());
     FillUserTH2D("nEleNTupleVsNeleRsk",c_ele_final->GetSize(),c_ele_all->GetSize());
@@ -453,16 +474,20 @@ void analysisClass::Loop(){
     CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
     //CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
-    //c_muon_final->examine<Muon>("c_muon_final");
+    //c_muon_final_ptCut->examine<Muon>("c_muon_final_ptCut");
     
     //-----------------------------------------------------------------
     // All skims need PFJets
     //-----------------------------------------------------------------
 
     CollectionPtr c_pfjet_central                     = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_EtaCut, jet_EtaCut   );
+    //c_pfjet_central->examine<PFJet>("c_pfjet_central");
     CollectionPtr c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
+    //c_pfjet_central_ID->examine<PFJet>("c_pfjet_central_ID");
     CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
+    //c_pfjet_central_ID_noMuonOverlap->examine<PFJet>("c_pfjet_central_ID_noMuonOverlap");
     CollectionPtr c_pfjet_central_ID_noLeptonOverlap  = c_pfjet_central_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
+    //c_pfjet_central_ID_noLeptonOverlap->examine<PFJet>("c_pfjet_central_ID_noLeptonOverlap");
     CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
     //c_pfjet_final->examine<PFJet>("c_pfjet_final");
@@ -497,10 +522,16 @@ void analysisClass::Loop(){
     //fillVariableWithValue( "ProcessID", ProcessID  );
     //fillVariableWithValue( "PtHat"    , PtHat      );
     // if amcNLOWeight filled, use it _instead_ of the nominal weight
-    //FIXME
+    //FIXME -- amcNLOWeights
     //fillVariableWithValue( "Weight"   , fabs(amcNLOWeight)==1 ? amcNLOWeight : Weight   );
+    float genWeight = -1.0;
+    if(!isData()) {
+      TLeaf* leaf = fChain->GetLeaf("genWeight");
+      leaf->GetBranch()->GetEntry(jentry);
+      genWeight = leaf->GetValue();
+    }
     fillVariableWithValue( "Weight"   , genWeight   );
-    //FIXME
+    //FIXME -- topPtWeights -- perhaps not needed since unused for 2016 analysis
     //fillVariableWithValue( "TopPtWeight",GenParticleTopPtWeight);
 
     //-----------------------------------------------------------------
@@ -534,8 +565,12 @@ void analysisClass::Loop(){
     
     if ( !isData() ) { 
       if ( reducedSkimType != 0 ){ 
-        fillVariableWithValue("GenMET_Pt"		, GenMET_pt);
-        fillVariableWithValue("GenMET_Phi"       	, GenMET_phi);
+        TLeaf* leaf = fChain->GetLeaf("GenMET_pt");
+        leaf->GetBranch()->GetEntry(jentry);
+        fillVariableWithValue("GenMET_Pt"		, leaf->GetValue());
+        TLeaf* leaf2 = fChain->GetLeaf("GenMET_phi");
+        leaf2->GetBranch()->GetEntry(jentry);
+        fillVariableWithValue("GenMET_Phi"		, leaf2->GetValue());
       }
     }
 
@@ -543,11 +578,18 @@ void analysisClass::Loop(){
     // Fill pileup variables
     //-----------------------------------------------------------------
         
-    fillVariableWithValue( "nPileUpInt_BXminus1", -1 );
-    fillVariableWithValue( "nPileUpInt_BX0"     , -1 );
-    fillVariableWithValue( "nPileUpInt_BXplus1" , -1 );
     fillVariableWithValue( "nVertex", PV_npvs ) ;
+    float puNTrueInt = -1.0;
+    if(!isData()) {
+      TLeaf* leaf = fChain->GetLeaf("Pileup_nTrueInt");
+      leaf->GetBranch()->GetEntry(jentry);
+      puNTrueInt = leaf->GetValue();
+    }
+    fillVariableWithValue( "nPileUpInt_True", puNTrueInt);
     
+    //fillVariableWithValue( "nPileUpInt_BXminus1", -1 );
+    //fillVariableWithValue( "nPileUpInt_BX0"     , -1 );
+    //fillVariableWithValue( "nPileUpInt_BXplus1" , -1 );
     //FIXME
     //if ( !isData() ){
     //  for(int pu=0; pu<PileUpInteractions->size(); pu++) {
@@ -649,12 +691,12 @@ void analysisClass::Loop(){
                 fillVariableWithValue ( "GenJet5_Eta", genJet5.Eta() );
                 fillVariableWithValue ( "GenJet5_Phi", genJet5.Phi() );
               }
-              else {
-                std::cout << "This event: " <<
-                  static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(luminosityBlock) << " " << static_cast<unsigned int>(event) <<
-                  " had no 5th gen Jet; examine other GenJets." << std::endl;
-                c_genJet_final->examine<GenJet>("finalGenJets");
-              }
+              //else {
+              //  std::cout << "This event: " <<
+              //    static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(luminosityBlock) << " " << static_cast<unsigned int>(event) <<
+              //    " had no 5th gen Jet; examine other GenJets." << std::endl;
+              //  c_genJet_final->examine<GenJet>("finalGenJets");
+              //}
             }
           }
         }
@@ -820,7 +862,6 @@ void analysisClass::Loop(){
     if ( n_muon_store >= 1 ){ 
 
       Muon muon1 = c_muon_final -> GetConstituent<Muon>(0);
-      //double hltTTMuon1Pt     = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon1, muon_hltMatch_DeltaRCut);
       double hltSingleMuon1Pt = triggerMatchPt<HLTriggerObject, Muon>(c_hltMuon_SingleMu_all, muon1, muon_hltMatch_DeltaRCut);
       fillVariableWithValue ("Muon1_Pt"             , muon1.Pt      ());
       fillVariableWithValue ("Muon1_Eta"            , muon1.Eta     ());
@@ -832,7 +873,6 @@ void analysisClass::Loop(){
       if ( n_muon_store >= 2 ){ 
 
         Muon muon2 = c_muon_final -> GetConstituent<Muon>(1);
-        //double hltMuon2Pt       = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon2, muon_hltMatch_DeltaRCut);
         double hltSingleMuon2Pt = triggerMatchPt<HLTriggerObject, Muon>(c_hltMuon_SingleMu_all, muon2, muon_hltMatch_DeltaRCut);
         fillVariableWithValue ("Muon2_Pt"             , muon2.Pt      ());
         fillVariableWithValue ("Muon2_Eta"            , muon2.Eta     ());
@@ -844,7 +884,6 @@ void analysisClass::Loop(){
         if ( n_muon_store >= 3 ){ 
 
           Muon muon3 = c_muon_final -> GetConstituent<Muon>(2);
-          //double hltMuon3Pt       = triggerMatchPt<HLTFilterObject, Muon>(c_hltMuon22_TTbar_all , muon3, muon_hltMatch_DeltaRCut);
           double hltSingleMuon3Pt = triggerMatchPt<HLTriggerObject, Muon>(c_hltMuon_SingleMu_all, muon3, muon_hltMatch_DeltaRCut);
           fillVariableWithValue ("Muon3_Pt"             , muon3.Pt      ());
           fillVariableWithValue ("Muon3_Eta"            , muon3.Eta     ());
@@ -916,6 +955,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "LooseEle1_SCEta"                , loose_ele1.SCEta()              );
         fillVariableWithValue( "LooseEle1_SCPhi"                , loose_ele1.SCPhi()              );
         fillVariableWithValue( "LooseEle1_Charge"               , loose_ele1.Charge()             );
+        fillVariableWithValue( "LooseEle1_R9"                   , loose_ele1.R9()                 );
         fillVariableWithValue( "LooseEle1_Dist"                 , loose_ele1.Dist()               );
         fillVariableWithValue( "LooseEle1_DCotTheta"            , loose_ele1.DCotTheta()          );
         fillVariableWithValue( "LooseEle1_MissingHits"          , loose_ele1.MissingHits()        );
@@ -990,6 +1030,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "LooseEle2_SCEta"         , loose_ele2.SCEta()              );
           fillVariableWithValue( "LooseEle2_SCPhi"         , loose_ele2.SCPhi()              );
           fillVariableWithValue( "LooseEle2_Charge"        , loose_ele2.Charge()             );
+          fillVariableWithValue( "LooseEle2_R9"            , loose_ele2.R9()                 );
           fillVariableWithValue( "LooseEle2_Dist"          , loose_ele2.Dist()               );
           fillVariableWithValue( "LooseEle2_DCotTheta"     , loose_ele2.DCotTheta()          );
           fillVariableWithValue( "LooseEle2_MissingHits"   , loose_ele2.MissingHits()        );
@@ -1063,6 +1104,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "LooseEle3_SCEta"         , loose_ele3.SCEta()              );
             fillVariableWithValue( "LooseEle3_SCPhi"         , loose_ele3.SCPhi()              );
             fillVariableWithValue( "LooseEle3_Charge"        , loose_ele3.Charge()             );
+            fillVariableWithValue( "LooseEle3_R9"            , loose_ele3.R9()                 );
             fillVariableWithValue( "LooseEle3_Dist"          , loose_ele3.Dist()               );
             fillVariableWithValue( "LooseEle3_DCotTheta"     , loose_ele3.DCotTheta()          );
             fillVariableWithValue( "LooseEle3_MissingHits"   , loose_ele3.MissingHits()        );
@@ -1179,8 +1221,9 @@ void analysisClass::Loop(){
 
       if ( n_ele_store >= 1 ){
         Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
+        //if(fabs(ele1.Eta()) >= 1.4442 && fabs(ele1.Eta()) <= 1.566)
+        //  c_ele_final->examine<Electron>("c_ele_final");
         double hltEle1Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
-        //double hltEle1Pt_ttbar           = triggerMatchPt<HLTFilterObject, Electron>(c_hltPhoton22_TTbar_all  , ele1, ele_hltMatch_DeltaRCut);
         double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
         double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
 
@@ -1193,6 +1236,7 @@ void analysisClass::Loop(){
         fillVariableWithValue( "Ele1_SCEta"         , ele1.SCEta()              );
         fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
         fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
+        fillVariableWithValue( "Ele1_R9"            , ele1.R9()                 );
         fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
         fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
         fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
@@ -1236,14 +1280,12 @@ void analysisClass::Loop(){
         fillVariableWithValue("Ele1_GsfCtfCharge"     , ele1.GsfCtfCharge()       );
 
         //fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
-        ////fillVariableWithValue( "Ele1_hltEleTTbarPt" , hltEle1Pt_ttbar           );
         //fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
         //fillVariableWithValue( "Ele1_hltEleWP80Pt"  , hltEle1Pt_WP80            );
 
         if ( n_ele_store >= 2 ){
           Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
           double hltEle2Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all     , ele2, ele_hltMatch_DeltaRCut);
-          //double hltEle2Pt_ttbar           = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_TTbar_all   , ele2, ele_hltMatch_DeltaRCut);
           double hltEle2Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all , ele2, ele_hltMatch_DeltaRCut);
           double hltEle2Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele2, ele_hltMatch_DeltaRCut);
 
@@ -1256,6 +1298,7 @@ void analysisClass::Loop(){
           fillVariableWithValue( "Ele2_SCEta"         , ele2.SCEta()              );
           fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
           fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
+          fillVariableWithValue( "Ele2_R9"            , ele2.R9()                 );
           fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
           fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
           fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
@@ -1299,14 +1342,12 @@ void analysisClass::Loop(){
           fillVariableWithValue("Ele2_GsfCtfCharge"     , ele2.GsfCtfCharge()       );
 
           //fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
-          ////fillVariableWithValue( "Ele2_hltEleTTbarPt" , hltEle2Pt_ttbar           );
           //fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
           //fillVariableWithValue( "Ele2_hltEleWP80Pt"  , hltEle2Pt_WP80            );
 
           if ( n_ele_store >= 3 ){
             Electron ele3 = c_ele_final -> GetConstituent<Electron>(2);
             double hltEle3Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all     , ele3, ele_hltMatch_DeltaRCut);
-            //double hltEle3Pt_ttbar           = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_TTbar_all   , ele3, ele_hltMatch_DeltaRCut);
             double hltEle3Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all , ele3, ele_hltMatch_DeltaRCut);
             double hltEle3Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele3, ele_hltMatch_DeltaRCut);
 
@@ -1319,6 +1360,7 @@ void analysisClass::Loop(){
             fillVariableWithValue( "Ele3_SCEta"         , ele3.SCEta()              );
             fillVariableWithValue( "Ele3_SCPhi"         , ele3.SCPhi()              );
             fillVariableWithValue( "Ele3_Charge"        , ele3.Charge()             );
+            fillVariableWithValue( "Ele3_R9"            , ele3.R9()                 );
             fillVariableWithValue( "Ele3_Dist"          , ele3.Dist()               );
             fillVariableWithValue( "Ele3_DCotTheta"     , ele3.DCotTheta()          );
             fillVariableWithValue( "Ele3_MissingHits"   , ele3.MissingHits()        );
@@ -1362,7 +1404,6 @@ void analysisClass::Loop(){
             fillVariableWithValue("Ele3_GsfCtfCharge"     , ele3.GsfCtfCharge()       );
 
             //fillVariableWithValue( "Ele3_hltEleSignalPt", hltEle3Pt_signal          );
-            ////fillVariableWithValue( "Ele3_hltEleTTbarPt" , hltEle3Pt_ttbar           );
             //fillVariableWithValue( "Ele3_hltDoubleElePt", hltEle3Pt_doubleEleSignal ); 
             //fillVariableWithValue( "Ele3_hltEleWP80Pt"  , hltEle3Pt_WP80            );
 
