@@ -24,7 +24,7 @@ analysisClass::~analysisClass()
   std::cout << "analysisClass::~analysisClass(): ends " << std::endl;
 }
 
-void analysisClass::Loop() {
+Bool_t analysisClass::Loop() {
   
   //--------------------------------------------------------------------------
   // Decide which plots to save (default is to save everything)
@@ -39,39 +39,19 @@ void analysisClass::Loop() {
   //------------------------------------------------------------------
   // How many events to skim over?
   //------------------------------------------------------------------
+  Long64_t nentries = GetTreeEntries();
+  std::cout << "analysisClass::analysisClass(): nentries = " << nentries << std::endl;
   
-  Long64_t nentries = fChain->GetEntries();
-  std::cout << "analysisClass::Loop(): nentries = " << nentries << std::endl;   
-
-  //------------------------------------------------------------------
-  // Loop over events
-  //------------------------------------------------------------------
-
-  Long64_t nbytes = 0, nb = 0;
-  for (Long64_t jentry=0; jentry<nentries;jentry++) {
-
-    //------------------------------------------------------------------
-    // ROOT loop preamble
-    //------------------------------------------------------------------
-
-    Long64_t ientry = LoadTree(jentry);
-    if (ientry < 0)
-    {
-      std::cout << "ERROR: Could not read from TTree; exiting." << std::endl;
-      exit(-1);
-    }
-    nb = fChain->GetEntry(jentry);   nbytes += nb;
-    if (nb < 0)
-    {
-      std::cout << "ERROR: Could not read entry from TTree: read " << nb << "bytes; exiting." << std::endl;
-      exit(-2);
-    }
+  bool processedAnEntry = false; 
+  while (fReader.Next()) {
+    checkEntryStatus(fReader.GetEntryStatus());
+    processedAnEntry = true;
 
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
-
-    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
+    Long64_t entry = fReader.GetCurrentEntry();
+    if(entry < 10 || entry%5000 == 0) std::cout << "analysisClass::Loop(): entry = " << entry << "/" << nentries << std::endl;   
     
     //-----------------------------------------------------------------
     // Get ready to fill variables 
@@ -83,16 +63,16 @@ void analysisClass::Loop() {
     // Check good run list
     //--------------------------------------------------------------------------
     
-    int    passedJSON = passJSON ( run, ls , isData ) ;
+    int    passedJSON = passJSON ( *run, *ls , isData() ) ;
 
     //--------------------------------------------------------------------------
     // Do pileup re-weighting
     //--------------------------------------------------------------------------
     
-    double pileup_weight = getPileupWeight ( nPileUpInt_True, isData ) ;
+    double pileup_weight = *puWeight;
 
-    double gen_weight = Weight;
-    if ( isData ) gen_weight = 1.0;
+    double gen_weight = *Weight;
+    if ( isData() ) gen_weight = 1.0;
     //// Ele2_ValidFrac==999 --> ttbar-type sample
     //if ( isData && Ele2_ValidFrac > 998. && getPreCutString1("TrigCorrForSingleLeptonFinalState")=="true"){
     //  // efficiency of electron firing the trigger is stored in hltEleTTbarPt of the muon
@@ -100,9 +80,9 @@ void analysisClass::Loop() {
     //  gen_weight *= Ele1_Energy < -998 ? 2-Ele1_hltEleTTbarPt : 2-Ele2_hltEleTTbarPt;
     //}
 
-    // For TopPt reweighting
-    if (TopPtWeight != -999)
-      gen_weight *= TopPtWeight;
+    //// For TopPt reweighting
+    //if (TopPtWeight != -999)
+    //  gen_weight *= TopPtWeight;
 
     //------------------------------------------------------------------
     // Fill variables 
@@ -149,8 +129,8 @@ void analysisClass::Loop() {
     //if ( Ele2_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
     
     int nJet_hltMatched = 0.0;
-    if ( Jet1_hltJetPt > 0.0 ) nJet_hltMatched++;
-    if ( Jet2_hltJetPt > 0.0 ) nJet_hltMatched++;
+    if ( *Jet1_hltJetPt > 0.0 ) nJet_hltMatched++;
+    if ( *Jet2_hltJetPt > 0.0 ) nJet_hltMatched++;
 
     fillVariableWithValue("nEle_hltMatched",nEle_hltMatched, gen_weight * pileup_weight);
     fillVariableWithValue("nJet_hltMatched",nJet_hltMatched, gen_weight * pileup_weight);
@@ -162,13 +142,13 @@ void analysisClass::Loop() {
 
     //// Muons and electrons
     bool is_ttbar_from_data = false;
-    if ( Ele2_ValidFrac > 998. ) is_ttbar_from_data = true;
+    if ( *Ele2_ValidFrac > 998. ) is_ttbar_from_data = true;
     //
     int PassNEle = 0;
     //// nEle_ptCut are HEEP ID'ed electrons passing the Pt cut in the skim (which has been 10 GeV)
     //if ( !is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
     //if (  is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
-    if ( nEle_ptCut == 2 ) PassNEle = 1;
+    if ( *nEle_ptCut == 2 ) PassNEle = 1;
     // SIC test
     //int PassNEle = 1;
 
@@ -176,11 +156,11 @@ void analysisClass::Loop() {
     int PassNMuon = 0;
     //if ( !is_ttbar_from_data && nMuon_ptCut == 0 ) PassNMuon = 1;
     //if (  is_ttbar_from_data && nMuon_ptCut >  0 ) PassNMuon = 1;
-    if (  nMuon_ptCut == 0 ) PassNMuon = 1;
+    if (  *nMuon_ptCut == 0 ) PassNMuon = 1;
 
     //fillVariableWithValue("PassNEle" , PassNEle , gen_weight * pileup_weight);
     //fillVariableWithValue("PassNMuon", PassNMuon, gen_weight * pileup_weight);
-    //
+    
     //if(is_ttbar_from_data)
     //{
     //  fillVariableWithValue("nEle_ptCut" , nEle_ptCut , gen_weight * pileup_weight);
@@ -193,16 +173,16 @@ void analysisClass::Loop() {
 
     double M_ej_avg, M_ej_min, M_ej_max;
 
-    if ( nEle_store >= 2 && nJet_store >= 2) {
-      if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
-        M_ej_avg = (M_e1j1 + M_e2j2) / 2.0;
-        if    ( M_e1j1 < M_e2j2 ) { M_ej_min = M_e1j1; M_ej_max = M_e2j2; }
-        else                      { M_ej_min = M_e2j2; M_ej_max = M_e1j1; }
+    if ( *nEle_store >= 2 && *nJet_store >= 2) {
+      if ( fabs(*M_e1j1-*M_e2j2) < fabs(*M_e1j2-*M_e2j1) )  {
+        M_ej_avg = (*M_e1j1 + *M_e2j2) / 2.0;
+        if    ( *M_e1j1 < *M_e2j2 ) { M_ej_min = *M_e1j1; M_ej_max = *M_e2j2; }
+        else                      { M_ej_min = *M_e2j2; M_ej_max = *M_e1j1; }
       }
       else { 
-        M_ej_avg = (M_e1j2 + M_e2j1) / 2.0;
-        if    ( M_e1j2 < M_e2j1 ) { M_ej_min = M_e1j2; M_ej_max = M_e2j1; }
-        else                      { M_ej_min = M_e2j1; M_ej_max = M_e1j2; }
+        M_ej_avg = (*M_e1j2 + *M_e2j1) / 2.0;
+        if    ( *M_e1j2 < *M_e2j1 ) { M_ej_min = *M_e1j2; M_ej_max = *M_e2j1; }
+        else                      { M_ej_min = *M_e2j1; M_ej_max = *M_e1j2; }
       }
     }
 
@@ -219,11 +199,11 @@ void analysisClass::Loop() {
 		 		    
     // Jets								    
     fillVariableWithValue("nJet", nJet_ptCut, gen_weight * pileup_weight );
-    if ( nJet_store >= 1 ) { 						    
+    if ( *nJet_store >= 1 ) { 						    
       fillVariableWithValue( "Jet1_Pt"    , Jet1_Pt     , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "Jet1_Eta"   , Jet1_Eta    , gen_weight * pileup_weight  ) ;
     }
-    if ( nJet_store >= 2 ) { 
+    if ( *nJet_store >= 2 ) { 
       fillVariableWithValue( "Jet2_Pt"    , Jet2_Pt     , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "Jet2_Eta"   , Jet2_Eta    , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "DR_Jet1Jet2", DR_Jet1Jet2 , gen_weight * pileup_weight  ) ;
@@ -233,10 +213,10 @@ void analysisClass::Loop() {
     // Fill DeltaR variables
     //--------------------------------------------------------------------------
 
-    if ( nEle_store >= 2 && nJet_store >= 1) {
+    if ( *nEle_store >= 2 && *nJet_store >= 1) {
       fillVariableWithValue( "DR_Ele1Jet1"  , DR_Ele1Jet1 , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "DR_Ele2Jet1"  , DR_Ele2Jet1 , gen_weight * pileup_weight  ) ;
-      if(nJet_store >= 2) {
+      if(*nJet_store >= 2) {
         fillVariableWithValue( "DR_Ele1Jet2", DR_Ele1Jet2 , gen_weight * pileup_weight  ) ;
         fillVariableWithValue( "DR_Ele2Jet2", DR_Ele2Jet2 , gen_weight * pileup_weight  ) ;
        }
@@ -247,11 +227,11 @@ void analysisClass::Loop() {
     // Multi-object variables
     //--------------------------------------------------------------------------
 
-    if ( nEle_store >= 2 ) { 						    
+    if ( *nEle_store >= 2 ) { 						    
       fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
 
-      if ( nJet_store >= 2 ) { 
+      if ( *nJet_store >= 2 ) { 
         fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
         fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
         fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
@@ -280,4 +260,5 @@ void analysisClass::Loop() {
    } // End loop over events
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
+   return true;
 }
