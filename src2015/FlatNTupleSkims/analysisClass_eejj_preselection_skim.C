@@ -24,7 +24,7 @@ analysisClass::~analysisClass()
   std::cout << "analysisClass::~analysisClass(): ends " << std::endl;
 }
 
-Bool_t analysisClass::Loop() {
+void analysisClass::Loop() {
   
   //--------------------------------------------------------------------------
   // Decide which plots to save (default is to save everything)
@@ -42,16 +42,13 @@ Bool_t analysisClass::Loop() {
   Long64_t nentries = GetTreeEntries();
   std::cout << "analysisClass::analysisClass(): nentries = " << nentries << std::endl;
   
-  bool processedAnEntry = false; 
-  while (fReader.Next()) {
-    checkEntryStatus(fReader.GetEntryStatus());
-    processedAnEntry = true;
 
+  for (Long64_t jentry=0; jentry<nentries;jentry++) {
+    readerTools_->LoadEntry(jentry);
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
-    Long64_t entry = fReader.GetCurrentEntry();
-    if(entry < 10 || entry%5000 == 0) std::cout << "analysisClass::Loop(): entry = " << entry << "/" << nentries << std::endl;   
+    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
     //-----------------------------------------------------------------
     // Get ready to fill variables 
@@ -63,16 +60,22 @@ Bool_t analysisClass::Loop() {
     // Check good run list
     //--------------------------------------------------------------------------
     
-    int    passedJSON = passJSON ( *run, *ls , isData() ) ;
+    int passedJSON = passJSON ( readerTools_->ReadValueBranch<Double_t>("run"),
+        readerTools_->ReadValueBranch<Double_t>("ls"),
+        isData() ) ;
 
     //--------------------------------------------------------------------------
     // Do pileup re-weighting
     //--------------------------------------------------------------------------
     
-    double pileup_weight = *puWeight;
+    //double pileup_weight = readerTools_->ReadValueBranch<Double_t>("puWeight");
 
-    double gen_weight = *Weight;
-    if ( isData() ) gen_weight = 1.0;
+    //double gen_weight = readerTools_->ReadValueBranch<Double_t>("Weight");
+    //if ( isData() ) gen_weight = 1.0;
+    // don't do pileup/genWeighting here
+    float pileup_weight = 1.0;
+    float gen_weight = 1.0;
+
     //// Ele2_ValidFrac==999 --> ttbar-type sample
     //if ( isData && Ele2_ValidFrac > 998. && getPreCutString1("TrigCorrForSingleLeptonFinalState")=="true"){
     //  // efficiency of electron firing the trigger is stored in hltEleTTbarPt of the muon
@@ -109,14 +112,14 @@ Bool_t analysisClass::Loop() {
     // Noise/MET filters
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , PassGlobalTightHalo2016Filter , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassGoodVertices"              , PassGoodVertices              , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassHBHENoiseFilter"	         , PassHBHENoiseFilter           , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , PassHBHENoiseIsoFilter        , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassBadEESupercrystalFilter"   , PassBadEESupercrystalFilter   , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , PassEcalDeadCellTrigPrim      , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassChargedCandidateFilter"    , PassChargedCandidateFilter    , gen_weight * pileup_weight );
-    fillVariableWithValue( "PassBadPFMuonFilter"           , PassBadPFMuonFilter           , gen_weight * pileup_weight );
+    fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Double_t>("PassGlobalTightHalo2016Filter")          == 1));
+    fillVariableWithValue("PassGoodVertices"              , int(readerTools_->ReadValueBranch<Double_t>("PassGoodVertices")                       == 1));
+    fillVariableWithValue("PassHBHENoiseFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseFilter")                    == 1));
+    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseIsoFilter")                 == 1));
+    fillVariableWithValue("PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Double_t>("PassBadEESupercrystalFilter")            == 1));
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")               == 1));
+    fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")             == 1));
+    fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")                    == 1));
 
 
     //--------------------------------------------------------------------------
@@ -129,8 +132,8 @@ Bool_t analysisClass::Loop() {
     //if ( Ele2_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
     
     int nJet_hltMatched = 0.0;
-    if ( *Jet1_hltJetPt > 0.0 ) nJet_hltMatched++;
-    if ( *Jet2_hltJetPt > 0.0 ) nJet_hltMatched++;
+    if ( readerTools_->ReadValueBranch<Double_t>("Jet1_hltJetPt") > 0.0 ) nJet_hltMatched++;
+    if ( readerTools_->ReadValueBranch<Double_t>("Jet2_hltJetPt") > 0.0 ) nJet_hltMatched++;
 
     fillVariableWithValue("nEle_hltMatched",nEle_hltMatched, gen_weight * pileup_weight);
     fillVariableWithValue("nJet_hltMatched",nJet_hltMatched, gen_weight * pileup_weight);
@@ -142,13 +145,13 @@ Bool_t analysisClass::Loop() {
 
     //// Muons and electrons
     bool is_ttbar_from_data = false;
-    if ( *Ele2_ValidFrac > 998. ) is_ttbar_from_data = true;
+    if ( readerTools_->ReadValueBranch<Double_t>("Ele2_ValidFrac") > 998. ) is_ttbar_from_data = true;
     //
     int PassNEle = 0;
     //// nEle_ptCut are HEEP ID'ed electrons passing the Pt cut in the skim (which has been 10 GeV)
     //if ( !is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
     //if (  is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
-    if ( *nEle_ptCut == 2 ) PassNEle = 1;
+    if ( readerTools_->ReadValueBranch<Double_t>("nEle_ptCut") == 2 ) PassNEle = 1;
     // SIC test
     //int PassNEle = 1;
 
@@ -156,7 +159,7 @@ Bool_t analysisClass::Loop() {
     int PassNMuon = 0;
     //if ( !is_ttbar_from_data && nMuon_ptCut == 0 ) PassNMuon = 1;
     //if (  is_ttbar_from_data && nMuon_ptCut >  0 ) PassNMuon = 1;
-    if (  *nMuon_ptCut == 0 ) PassNMuon = 1;
+    if (  readerTools_->ReadValueBranch<Double_t>("nMuon_ptCut") == 0 ) PassNMuon = 1;
 
     //fillVariableWithValue("PassNEle" , PassNEle , gen_weight * pileup_weight);
     //fillVariableWithValue("PassNMuon", PassNMuon, gen_weight * pileup_weight);
@@ -173,16 +176,21 @@ Bool_t analysisClass::Loop() {
 
     double M_ej_avg, M_ej_min, M_ej_max;
 
-    if ( *nEle_store >= 2 && *nJet_store >= 2) {
-      if ( fabs(*M_e1j1-*M_e2j2) < fabs(*M_e1j2-*M_e2j1) )  {
-        M_ej_avg = (*M_e1j1 + *M_e2j2) / 2.0;
-        if    ( *M_e1j1 < *M_e2j2 ) { M_ej_min = *M_e1j1; M_ej_max = *M_e2j2; }
-        else                      { M_ej_min = *M_e2j2; M_ej_max = *M_e1j1; }
+    if ( readerTools_->ReadValueBranch<Double_t>("nEle_store") >= 2 &&
+        readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 2) {
+      double M_e1j1 = readerTools_->ReadValueBranch<Double_t>("M_e1j1");
+      double M_e1j2 = readerTools_->ReadValueBranch<Double_t>("M_e1j2");
+      double M_e2j1 = readerTools_->ReadValueBranch<Double_t>("M_e2j1");
+      double M_e2j2 = readerTools_->ReadValueBranch<Double_t>("M_e2j2");
+      if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
+        M_ej_avg = (M_e1j1 + M_e2j2) / 2.0;
+        if    ( M_e1j1 < M_e2j2 ) { M_ej_min = M_e1j1; M_ej_max = M_e2j2; }
+        else                      { M_ej_min = M_e2j2; M_ej_max = M_e1j1; }
       }
       else { 
-        M_ej_avg = (*M_e1j2 + *M_e2j1) / 2.0;
-        if    ( *M_e1j2 < *M_e2j1 ) { M_ej_min = *M_e1j2; M_ej_max = *M_e2j1; }
-        else                      { M_ej_min = *M_e2j1; M_ej_max = *M_e1j2; }
+        M_ej_avg = (M_e1j2 + M_e2j1) / 2.0;
+        if    ( M_e1j2 < M_e2j1 ) { M_ej_min = M_e1j2; M_ej_max = M_e2j1; }
+        else                      { M_ej_min = M_e2j1; M_ej_max = M_e1j2; }
       }
     }
 
@@ -198,27 +206,28 @@ Bool_t analysisClass::Loop() {
     //--------------------------------------------------------------------------
 		 		    
     // Jets								    
-    fillVariableWithValue("nJet", nJet_ptCut, gen_weight * pileup_weight );
-    if ( *nJet_store >= 1 ) { 						    
-      fillVariableWithValue( "Jet1_Pt"    , Jet1_Pt     , gen_weight * pileup_weight  ) ;
-      fillVariableWithValue( "Jet1_Eta"   , Jet1_Eta    , gen_weight * pileup_weight  ) ;
+    fillVariableWithValue("nJet", readerTools_->ReadValueBranch<Double_t>("nJet_ptCut"), gen_weight * pileup_weight );
+    if ( readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 1 ) { 						    
+      fillVariableWithValue( "Jet1_Pt"    , readerTools_->ReadValueBranch<Double_t>("Jet1_Pt")     , gen_weight * pileup_weight  ) ;
+      fillVariableWithValue( "Jet1_Eta"   , readerTools_->ReadValueBranch<Double_t>("Jet1_Eta")    , gen_weight * pileup_weight  ) ;
     }
-    if ( *nJet_store >= 2 ) { 
-      fillVariableWithValue( "Jet2_Pt"    , Jet2_Pt     , gen_weight * pileup_weight  ) ;
-      fillVariableWithValue( "Jet2_Eta"   , Jet2_Eta    , gen_weight * pileup_weight  ) ;
-      fillVariableWithValue( "DR_Jet1Jet2", DR_Jet1Jet2 , gen_weight * pileup_weight  ) ;
+    if ( readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 2 ) { 
+      fillVariableWithValue( "Jet2_Pt"    , readerTools_->ReadValueBranch<Double_t>("Jet2_Pt")     , gen_weight * pileup_weight  ) ;
+      fillVariableWithValue( "Jet2_Eta"   , readerTools_->ReadValueBranch<Double_t>("Jet2_Eta")    , gen_weight * pileup_weight  ) ;
+      fillVariableWithValue( "DR_Jet1Jet2", readerTools_->ReadValueBranch<Double_t>("DR_Jet1Jet2") , gen_weight * pileup_weight  ) ;
     }
 
     //--------------------------------------------------------------------------
     // Fill DeltaR variables
     //--------------------------------------------------------------------------
 
-    if ( *nEle_store >= 2 && *nJet_store >= 1) {
-      fillVariableWithValue( "DR_Ele1Jet1"  , DR_Ele1Jet1 , gen_weight * pileup_weight  ) ;
-      fillVariableWithValue( "DR_Ele2Jet1"  , DR_Ele2Jet1 , gen_weight * pileup_weight  ) ;
-      if(*nJet_store >= 2) {
-        fillVariableWithValue( "DR_Ele1Jet2", DR_Ele1Jet2 , gen_weight * pileup_weight  ) ;
-        fillVariableWithValue( "DR_Ele2Jet2", DR_Ele2Jet2 , gen_weight * pileup_weight  ) ;
+    if ( readerTools_->ReadValueBranch<Double_t>("nEle_store") >= 2 &&
+        readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 1) {
+      fillVariableWithValue( "DR_Ele1Jet1"  , readerTools_->ReadValueBranch<Double_t>("DR_Ele1Jet1") , gen_weight * pileup_weight  ) ;
+      fillVariableWithValue( "DR_Ele2Jet1"  , readerTools_->ReadValueBranch<Double_t>("DR_Ele2Jet1") , gen_weight * pileup_weight  ) ;
+      if(readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 2) {
+        fillVariableWithValue( "DR_Ele1Jet2", readerTools_->ReadValueBranch<Double_t>("DR_Ele1Jet2") , gen_weight * pileup_weight  ) ;
+        fillVariableWithValue( "DR_Ele2Jet2", readerTools_->ReadValueBranch<Double_t>("DR_Ele2Jet2") , gen_weight * pileup_weight  ) ;
        }
      }
 
@@ -227,13 +236,13 @@ Bool_t analysisClass::Loop() {
     // Multi-object variables
     //--------------------------------------------------------------------------
 
-    if ( *nEle_store >= 2 ) { 						    
-      fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
-      fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
+    if ( readerTools_->ReadValueBranch<Double_t>("nEle_store") >= 2 ) { 						    
+      fillVariableWithValue( "M_e1e2"     , readerTools_->ReadValueBranch<Double_t>("M_e1e2") , gen_weight * pileup_weight  ) ;
+      fillVariableWithValue( "M_e1e2_opt" , readerTools_->ReadValueBranch<Double_t>("M_e1e2") , gen_weight * pileup_weight  ) ;
 
-      if ( *nJet_store >= 2 ) { 
-        fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
-        fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
+      if ( readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 2 ) { 
+        fillVariableWithValue( "sT_eejj"    , readerTools_->ReadValueBranch<Double_t>("sT_eejj") , gen_weight * pileup_weight  ) ;
+        fillVariableWithValue( "sT_eejj_opt", readerTools_->ReadValueBranch<Double_t>("sT_eejj") , gen_weight * pileup_weight  ) ;
         fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
       }      
     }
@@ -260,5 +269,4 @@ Bool_t analysisClass::Loop() {
    } // End loop over events
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
-   return true;
 }

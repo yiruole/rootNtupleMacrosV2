@@ -1,5 +1,6 @@
 #define analysisClass_cxx
 #include "analysisClass.h"
+#include <typeinfo>
 #include <TH2.h>
 #include <TH1F.h>
 #include <TStyle.h>
@@ -202,15 +203,12 @@ void analysisClass::Loop()
    *
    *///-----------------------------------------------------------------
 
-  bool processedAnEntry = false; 
-  while (fReader.Next()) {
-    checkEntryStatus(fReader.GetEntryStatus());
-    processedAnEntry = true;
+  for (Long64_t jentry=0; jentry<nentries;jentry++) {
+    readerTools_->LoadEntry(jentry);
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
-    Long64_t entry = fReader.GetCurrentEntry();
-    if(entry < 10 || entry%1000 == 0) std::cout << "analysisClass:Loop(): entry = " << entry << "/" << nentries << std::endl;
+    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     //// run ls event
     //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
@@ -218,7 +216,7 @@ void analysisClass::Loop()
     // Get access to HLT decisions
     //-----------------------------------------------------------------
 
-    getTriggers(entry); 
+    getTriggers(jentry); 
     //printTriggers();
     //printFiredTriggers();
 
@@ -295,27 +293,23 @@ void analysisClass::Loop()
     // Define initial, inclusive collections for physics objects
     //-----------------------------------------------------------------
 
-    CollectionPtr c_gen_all(new Collection(*this, entry, 0));
+    CollectionPtr c_gen_all(new Collection(readerTools_, jentry, 0));
     if(!isData()) {
-      TLeaf* leaf = fReader.GetTree()->GetLeaf("nGenPart");
-      leaf->GetBranch()->GetEntry(entry);
-      c_gen_all.reset(new Collection(*this, entry, leaf->GetValue()));
+      c_gen_all.reset(new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nGenPart")));
     }
-    CollectionPtr c_ele_all   ( new Collection(*this, entry, *nElectron));
+    CollectionPtr c_ele_all   ( new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nElectron")));
     //c_ele_all->examine<Electron>("c_ele_all = All reco electrons");
     //Electron ele1 = c_ele_all -> GetConstituent<Electron>(0);
     //for(unsigned int i=0; i<10; ++i) { 
     //  std::cout << "cut = " << i << " idLevel = " << ele1.GetNbitFromBitMap(i, 3) << std::endl;
     //}
 
-    CollectionPtr c_muon_all  ( new Collection(*this, entry, *nMuon));
-    CollectionPtr c_genJet_all(new Collection(*this, entry, 0));
+    CollectionPtr c_muon_all  ( new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nMuon")));
+    CollectionPtr c_genJet_all(new Collection(readerTools_, jentry, 0));
     if(!isData()) {
-      TLeaf* leaf = fReader.GetTree()->GetLeaf("nGenJet");
-      leaf->GetBranch()->GetEntry(entry);
-      c_genJet_all.reset(new Collection(*this, entry, leaf->GetValue()));
+      c_genJet_all.reset(new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nGenJet")));
     }
-    CollectionPtr c_pfjet_all ( new Collection(*this, entry, *nJet));
+    CollectionPtr c_pfjet_all ( new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nJet")));
 
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
@@ -384,7 +378,7 @@ void analysisClass::Loop()
 
       // Propagate the results to the PFMET
 
-      v_PFMETType1Cor   .SetPtEtaPhiM( *MET_pt, 0., *MET_phi , 0. );
+      v_PFMETType1Cor   .SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0., readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0. );
       //v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
 
       v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
@@ -498,10 +492,10 @@ void analysisClass::Loop()
 
     fillVariableWithValue( "isData"   , isData()   );
     //fillVariableWithValue( "bunch"    , bunch      );
-    fillVariableWithValue( "event"    , *event      );
-    fillVariableWithValue( "ls"       , *luminosityBlock         );
+    fillVariableWithValue( "event"    , readerTools_->ReadValueBranch<ULong64_t>("event")      );
+    fillVariableWithValue( "ls"       , readerTools_->ReadValueBranch<UInt_t>("luminosityBlock")         );
     //fillVariableWithValue( "orbit"    , orbit      );
-    fillVariableWithValue( "run"      , *run        );
+    fillVariableWithValue( "run"      , readerTools_->ReadValueBranch<UInt_t>("run")        );
     //fillVariableWithValue( "ProcessID", ProcessID  );
     //fillVariableWithValue( "PtHat"    , PtHat      );
     // if amcNLOWeight filled, use it _instead_ of the nominal weight
@@ -509,9 +503,7 @@ void analysisClass::Loop()
     //fillVariableWithValue( "Weight"   , fabs(amcNLOWeight)==1 ? amcNLOWeight : Weight   );
     float genWeight = -1.0;
     if(!isData()) {
-      TLeaf* leaf = fReader.GetTree()->GetLeaf("genWeight");
-      leaf->GetBranch()->GetEntry(entry);
-      genWeight = leaf->GetValue();
+      genWeight = readerTools_->ReadValueBranch<Float_t>("genWeight");
     }
     fillVariableWithValue( "Weight"   , genWeight   );
     //FIXME -- topPtWeights -- perhaps not needed since unused for 2016 analysis
@@ -519,51 +511,52 @@ void analysisClass::Loop()
     // pileup
     float puWeight = -1.0;
     if(!isData()) {
-      //TLeaf* leaf = fReader.GetTree()->GetLeaf("puWeight");
-      ////leaf->GetBranch()->GetEntry(entry);
-      //leaf->GetBranch()->GetEntry(fReader.GetTree()->GetReadEntry());
-      //puWeight = leaf->GetValue();
-      puWeight = fReader.GetTree()->GetBranch("puWeight")->GetLeaf("puWeight")->GetTypedValue<Float_t>();
+      puWeight = readerTools_->ReadValueBranch<Float_t>("puWeight");
       if(puWeight==0)
-        std::cout << "Got puWeight = " << puWeight << "; run: " << *run << " ls: " << *luminosityBlock << " event: " << *event << std::endl;
+        std::cout << "Got puWeight = " << puWeight << "; run: " << getVariableValue("run") << " ls: " << getVariableValue("ls") << " event: " << getVariableValue("event") << std::endl;
     }
     fillVariableWithValue( "puWeight"   , puWeight   );
 
     //-----------------------------------------------------------------
     // Pass JSON
     //-----------------------------------------------------------------
-    fillVariableWithValue("PassJSON"                   , passJSON(*run, *luminosityBlock, isData())                       );    
+    fillVariableWithValue("PassJSON"                   , passJSON(getVariableValue("run"), getVariableValue("ls"), isData())                       );    
 
     //-----------------------------------------------------------------
     // Fill MET filter values
     // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     //-----------------------------------------------------------------
-    fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(*Flag_globalTightHalo2016Filter)         == 1);
-    fillVariableWithValue("PassGoodVertices"              , int(*Flag_goodVertices)                      == 1);
-    fillVariableWithValue("PassHBHENoiseFilter"           , int(*Flag_HBHENoiseFilter                    == 1));
-    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(*Flag_HBHENoiseIsoFilter                 == 1));
-    fillVariableWithValue("PassBadEESupercrystalFilter"   , int(*Flag_eeBadScFilter                      == 1));
-    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(*Flag_EcalDeadCellTriggerPrimitiveFilter == 1));
-    fillVariableWithValue("PassChargedCandidateFilter"    , int(*Flag_BadChargedCandidateFilter)         == 1);
-    fillVariableWithValue("PassBadPFMuonFilter"           , int(*Flag_BadPFMuonFilter)                   == 1);
+    fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Bool_t>("Flag_globalTightHalo2016Filter")          == 1));
+    fillVariableWithValue("PassGoodVertices"              , int(readerTools_->ReadValueBranch<Bool_t>("Flag_goodVertices")                       == 1));
+    fillVariableWithValue("PassHBHENoiseFilter"           , int(readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseFilter")                    == 1));
+    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseIsoFilter")                 == 1));
+    fillVariableWithValue("PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter")                      == 1));
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Bool_t>("Flag_EcalDeadCellTriggerPrimitiveFilter") == 1));
+    std::string branchName = "Flag_BadChargedCandidateFilter";
+    std::string branchType = std::string(readerTools_->GetTree()->GetBranch(branchName.c_str())->GetLeaf(branchName.c_str())->GetTypeName());
+    //std::cout << "Found branchType=" << branchType << std::endl;
+    if(branchType=="Bool_t") {
+      fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
+      fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter")                    == 1));
+    }
+    else {
+      fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<UChar_t>(branchName)          == 1));
+      fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<UChar_t>("Flag_BadPFMuonFilter")                    == 1));
+    }
 
     //-----------------------------------------------------------------
     // Fill MET values
     //-----------------------------------------------------------------
 
-    fillVariableWithValue("PFMET_Type1_Pt"     , *MET_pt);      
-    fillVariableWithValue("PFMET_Type1_Phi"    , *MET_phi);
+    fillVariableWithValue("PFMET_Type1_Pt"     , readerTools_->ReadValueBranch<Float_t>("MET_pt"));      
+    fillVariableWithValue("PFMET_Type1_Phi"    , readerTools_->ReadValueBranch<Float_t>("MET_phi"));
     //fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
     //fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
 
     if ( !isData() ) { 
       if ( reducedSkimType != 0 ){ 
-        TLeaf* leaf = fReader.GetTree()->GetLeaf("GenMET_pt");
-        leaf->GetBranch()->GetEntry(entry);
-        fillVariableWithValue("GenMET_Pt"		, leaf->GetValue());
-        TLeaf* leaf2 = fReader.GetTree()->GetLeaf("GenMET_phi");
-        leaf2->GetBranch()->GetEntry(entry);
-        fillVariableWithValue("GenMET_Phi"		, leaf2->GetValue());
+        fillVariableWithValue("GenMET_Pt"		, readerTools_->ReadValueBranch<Float_t>("GenMET_pt"));
+        fillVariableWithValue("GenMET_Phi"	, readerTools_->ReadValueBranch<Float_t>("GenMET_phi"));
       }
     }
 
@@ -571,12 +564,10 @@ void analysisClass::Loop()
     // Fill pileup variables
     //-----------------------------------------------------------------
 
-    fillVariableWithValue( "nVertex", *PV_npvs ) ;
+    fillVariableWithValue( "nVertex", readerTools_->ReadValueBranch<Int_t>("PV_npvs"));
     float puNTrueInt = -1.0;
     if(!isData()) {
-      TLeaf* leaf = fReader.GetTree()->GetLeaf("Pileup_nTrueInt");
-      leaf->GetBranch()->GetEntry(entry);
-      puNTrueInt = leaf->GetValue();
+      puNTrueInt = readerTools_->ReadValueBranch<Float_t>("Pileup_nTrueInt");
     }
     fillVariableWithValue( "nPileUpInt_True", puNTrueInt);
 
@@ -1489,7 +1480,7 @@ void analysisClass::Loop()
     TLorentzVector t_ele1, t_ele2, t_jet1, t_jet2, t_jet3;
     TLorentzVector t_MET;
 
-    t_MET.SetPtEtaPhiM( *MET_pt, 0.0, *MET_phi, 0.0 );
+    t_MET.SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0.0, readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0.0 );
 
     if ( n_jet_store >= 1 ){
 
