@@ -27,15 +27,25 @@
 //--------------------------------------------------------------------------
 
 template < class Object1, class Object2 > 
-double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_object, double delta_r_cut ){
+double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_object, double delta_r_cut, bool verbose=false ){
   double matched_pt = -999.0;
   if ( collection ) { 
     int size = collection -> GetSize();
     if ( size > 0 ){ 
+      if(verbose) {
+        std::cout << "triggerMatchPt(): try to find closest object in DR to object: " << target_object << "from collection: " << std::endl;
+        collection->examine<HLTriggerObject>("trigObjs");
+      }
       Object1 matched_object = collection -> GetClosestInDR <Object1, Object2> ( target_object );
       double dr = matched_object.DeltaR ( & target_object );
+      if(verbose) {
+        std::cout << "found matched_object: " << matched_object << " with dR=" << dr << std::endl;
+      }
       if ( dr < delta_r_cut ) { 
         matched_pt = matched_object.Pt();
+        if(verbose) {
+          std::cout << "dr=" << dr << " < delta_r_cut=" << delta_r_cut << ", so matched_pt set to matched_object pt: " << matched_object << std::endl;
+        }
       }
     }
   }
@@ -148,14 +158,7 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   
   // QCD photon filters
-  CollectionPtr c_hltPhoton22_QCD_all;
-  CollectionPtr c_hltPhoton30_QCD_all;
-  CollectionPtr c_hltPhoton36_QCD_all;
-  CollectionPtr c_hltPhoton50_QCD_all;
-  CollectionPtr c_hltPhoton75_QCD_all;
-  CollectionPtr c_hltPhoton90_QCD_all;
-  CollectionPtr c_hltPhoton120_QCD_all;	      
-  CollectionPtr c_hltPhoton175_QCD_all;	      
+  CollectionPtr c_hltPhoton_QCD_all;
 
   // muon filter
   CollectionPtr c_hltMuon_SingleMu_all;
@@ -205,12 +208,29 @@ void analysisClass::Loop()
 
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
+    ////// test
+    //double event = readerTools_->ReadValueBranch<ULong64_t>("event");
+    //double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
+    //double run = readerTools_->ReadValueBranch<UInt_t>("run");
+    ////if(event!=8127635) continue;
+    //if(run!=278822) continue;
+    //if(ls!=10) continue;
+    //event = static_cast<unsigned int>(event);
+    ////if(event != 13917913 && event != 13759998 && event != 13786478 && event != 13789605 && event != 13834253 &&
+    ////    event!=13935358 && event!=13925078 && event!=13864448 && event!=13871459 && event!=13832770) continue;
+    ////if(event!=13660964) continue;
+    ////if(event!=15118853) continue;
+    //////// run ls event
+    ////std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+    ////continue;
+    ////std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
+    ////cout << "Found the event! in file:" << current_file_name << endl;
+    //////test
+
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
-    if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
-    //// run ls event
-    //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
 
     //-----------------------------------------------------------------
     // Get access to HLT decisions
@@ -228,18 +248,9 @@ void analysisClass::Loop()
     if ( reducedSkimType == 0 ){ 
 
       // QCD photon triggers
-      // taken from singlePhoton triggers from menu here:
-      //    https://cmsweb-testbed.cern.ch/confdb/#config=/cdaq/physics/Run2015/25ns14e33/v4.4.5/HLT/V1
-      // was menu used in run 260627 (last of 2015 pp run, taken Nov. 3)
-
-      c_hltPhoton22_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon22_v");
-      c_hltPhoton30_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon30_v");
-      c_hltPhoton36_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon36_v");
-      c_hltPhoton50_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon50_v");
-      c_hltPhoton75_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon75_v");
-      c_hltPhoton90_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon90_v");
-      c_hltPhoton120_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon120_v");
-      c_hltPhoton175_QCD_all = helper.GetLastFilterObjectsByPath("HLT_Photon175_v");
+      std::vector<int> typeIds {11, 22};
+      c_hltPhoton_QCD_all = helper.GetFilterObjectsByType(typeIds);
+      //c_hltPhoton_QCD_all->examine<HLTriggerObject>("c_hltPhoton_QCD_all");
 
     }
 
@@ -268,23 +279,23 @@ void analysisClass::Loop()
       // XXX no, keep all L3 jets
       //c_hltPFJet50_Signal_all      =  c_trigger_l3jets_all -> SkimByVetoDRMatch<HLTriggerObject,HLTriggerObject>( c_hltPFJet200_Signal_all, 0.3 );
 
-      // DoubleEle signal trigger
-      CollectionPtr double_ele_l3objects_all    = helper.GetL3FilterObjectsByPath("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
-      c_hltDoubleEle_Signal_all    = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
-      // if not, try TRIGGER_ELECTRON
-      if(c_hltDoubleEle_Signal_all->GetSize() == 0)
-        c_hltDoubleEle_Signal_all = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
+      //// DoubleEle signal trigger
+      //CollectionPtr double_ele_l3objects_all    = helper.GetL3FilterObjectsByPath("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
+      //c_hltDoubleEle_Signal_all    = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
+      //// if not, try TRIGGER_ELECTRON
+      //if(c_hltDoubleEle_Signal_all->GetSize() == 0)
+      //  c_hltDoubleEle_Signal_all = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
 
-      // Tag and probe trigger
-      CollectionPtr tagProbe_l3objects_all;
-      if(!isData())
-        tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
-      else
-        tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
-      c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
-      // if not, try TRIGGER_ELECTRON
-      if(c_hltEle27WP85Gsf_all->GetSize() == 0)
-        c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
+      //// Tag and probe trigger
+      //CollectionPtr tagProbe_l3objects_all;
+      //if(!isData())
+      //  tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
+      //else
+      //  tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
+      //c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
+      //// if not, try TRIGGER_ELECTRON
+      //if(c_hltEle27WP85Gsf_all->GetSize() == 0)
+      //  c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
 
     }
 
@@ -293,23 +304,26 @@ void analysisClass::Loop()
     // Define initial, inclusive collections for physics objects
     //-----------------------------------------------------------------
 
-    CollectionPtr c_gen_all(new Collection(readerTools_, jentry, 0));
+    CollectionPtr c_gen_all(new Collection(readerTools_));
     if(!isData()) {
-      c_gen_all.reset(new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nGenPart")));
+      c_gen_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nGenPart")));
     }
-    CollectionPtr c_ele_all   ( new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nElectron")));
+    CollectionPtr c_ele_all   ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nElectron")));
     //c_ele_all->examine<Electron>("c_ele_all = All reco electrons");
     //Electron ele1 = c_ele_all -> GetConstituent<Electron>(0);
     //for(unsigned int i=0; i<10; ++i) { 
     //  std::cout << "cut = " << i << " idLevel = " << ele1.GetNbitFromBitMap(i, 3) << std::endl;
     //}
 
-    CollectionPtr c_muon_all  ( new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nMuon")));
-    CollectionPtr c_genJet_all(new Collection(readerTools_, jentry, 0));
+    CollectionPtr c_muon_all  ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nMuon")));
+    CollectionPtr c_genJet_all(new Collection(readerTools_));
     if(!isData()) {
-      c_genJet_all.reset(new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nGenJet")));
+      c_genJet_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nGenJet")));
     }
-    CollectionPtr c_pfjet_all ( new Collection(readerTools_, jentry, readerTools_->ReadValueBranch<UInt_t>("nJet")));
+    CollectionPtr c_pfjet_all ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nJet")));
+    //  New: Cut all jet collections at 17 GeV as per 2016 custom skim
+    c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 17.0 );
+    //c_pfjet_all->examine<PFJet>("c_pfjet_all with Pt>17");
 
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
@@ -358,9 +372,7 @@ void analysisClass::Loop()
     if ( do_eer || do_jer || do_ees || do_jes ) { 
 
       // If  you're scaling/smearing PFJets, recall that only jets with pt > 10 GeV affect the PFMET
-      //  New: This is now 15 GeV
       // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
-      c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 15.0 );
       c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
 
       // Set the PFMET difference to zero
@@ -411,7 +423,7 @@ void analysisClass::Loop()
       CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70 );
       //c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
       c_ele_final               = c_ele_HEEP;
-      c_ele_final_ptCut         = c_ele_final -> SkimByMinPtHeep<Electron>( ele_PtCut  );
+      c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
     // look at final electrons
     //if(event==13378 || event==11126 || event ==11383 || event==12527 || event==49199 || event==45348 || event==1951 ||
@@ -436,6 +448,7 @@ void analysisClass::Loop()
     //  }
     //}
     ////c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
+    //c_ele_final->examine<Electron>("c_ele_final");
     FillUserTH1D("nEleNTuple",c_ele_all->GetSize());
     FillUserTH1D("nEleNrsk",c_ele_final->GetSize());
     FillUserTH2D("nEleNTupleVsNeleRsk",c_ele_final->GetSize(),c_ele_all->GetSize());
@@ -446,12 +459,14 @@ void analysisClass::Loop()
 
     CollectionPtr c_muon_eta               = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
     //CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
-    CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03 );
-    //CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE );
+    CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03);
+    CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE);
     CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
     //CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
-    //c_muon_final_ptCut->examine<Muon>("c_muon_final_ptCut");
+    //c_muon_all->examine<Muon>("c_muon_all");
+    //c_muon_final->examine<Muon>("c_muon_final");
+    //c_muon_eta_IDLoose->examine<Muon>("c_muon_eta_IDLoose");
 
     //-----------------------------------------------------------------
     // All skims need PFJets
@@ -467,7 +482,19 @@ void analysisClass::Loop()
     //c_pfjet_central_ID_noLeptonOverlap->examine<PFJet>("c_pfjet_central_ID_noLeptonOverlap");
     CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
-    //c_pfjet_final->examine<PFJet>("c_pfjet_final");
+    //if(c_pfjet_final->GetSize() > 4) {
+    //  // run ls event
+    //  double run = readerTools_->ReadValueBranch<UInt_t>("run");
+    //  double event = readerTools_->ReadValueBranch<ULong64_t>("event");
+    //  double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
+    //  std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+    //  c_pfjet_all->examine<PFJet>("c_pfjet_all");
+    //  c_pfjet_final->examine<PFJet>("c_pfjet_final");
+    //  c_ele_all->examine<Electron>("c_ele_all");
+    //  c_ele_final->examine<Electron>("c_ele_final");
+    //  c_muon_all->examine<Muon>("c_muon_all");
+    //  c_muon_final->examine<Muon>("c_muon_final");
+    //}
 
     //-----------------------------------------------------------------
     // We need high-eta jets in order to look at boson recoil
@@ -590,7 +617,7 @@ void analysisClass::Loop()
     // How many ID'd objects are there?
     //-----------------------------------------------------------------
 
-    //int n_muonLoose          = c_muon_eta_IDLoose            -> GetSize();
+    int n_muonLoose          = c_muon_eta_IDLoose            -> GetSize();
     int n_muonHighPt         = c_muon_eta_IDHighPt           -> GetSize();
     int n_muon_store         = c_muon_final                  -> GetSize();
     int n_ele_store          = c_ele_final                   -> GetSize();
@@ -839,7 +866,7 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
 
     fillVariableWithValue ("nMuon_ptCut", n_muon_ptCut);
-    //fillVariableWithValue ("nMuon_LooseId", n_muonLoose);
+    fillVariableWithValue ("nMuon_LooseId", n_muonLoose);
     fillVariableWithValue ("nMuon_HighPtId", n_muonHighPt);
     fillVariableWithValue ("nMuon_store", min(n_muon_store,3));
 
@@ -892,35 +919,15 @@ void analysisClass::Loop()
       fillVariableWithValue ("nLooseEle_ptCut"   , n_ele_ptCut );
       fillVariableWithValue ("nJetLooseEle_ptCut", n_jet_ptCut );
 
-      int n_filters = (
-          c_hltPhoton22_QCD_all -> GetSize() + 
-          c_hltPhoton30_QCD_all -> GetSize() + 
-          c_hltPhoton36_QCD_all -> GetSize() + 
-          c_hltPhoton50_QCD_all -> GetSize() + 
-          c_hltPhoton75_QCD_all -> GetSize() + 
-          c_hltPhoton90_QCD_all -> GetSize() + 
-          c_hltPhoton120_QCD_all         -> GetSize() + 
-          c_hltPhoton175_QCD_all         -> GetSize()
-          );
+      int n_filters = c_hltPhoton_QCD_all -> GetSize();
 
       if ( n_ele_store >= 1 ){
         Electron loose_ele1 = c_ele_final -> GetConstituent<Electron>(0);
 
         double hltPhotonPt = -999.;
         if ( n_filters != 0 ) {
-          double hltPhotonPt_array [8] =  {
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut),
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton30_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut),
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton36_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut),
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton50_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut), 
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton75_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut), 
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton90_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut), 
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton120_QCD_all        , loose_ele1, ele_hltMatch_DeltaRCut), 
-            triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton175_QCD_all        , loose_ele1, ele_hltMatch_DeltaRCut)
-          };
-          for (int iFilter = 0; iFilter < 8; ++iFilter){
-            if ( hltPhotonPt_array[iFilter] > 0.0 ) hltPhotonPt = hltPhotonPt_array[iFilter];
-          }
+          //std::cout << "we have at least one photon trigger object. try to triggerMatchPt" << std::endl;
+          hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut);
         }
 
         fillVariableWithValue( "LooseEle1_PassHEEPID"           , loose_ele1.PassUserID ( HEEP70 )  );
@@ -983,19 +990,7 @@ void analysisClass::Loop()
           Electron loose_ele2 = c_ele_final -> GetConstituent<Electron>(1);
           hltPhotonPt = -999.;
           if ( n_filters != 0 ) {
-            double hltPhotonPt_array [8] =  {
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton30_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton36_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton50_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton75_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton90_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton120_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut), 
-              triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton175_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut)
-            };
-            for (int iFilter = 0; iFilter < 8; ++iFilter){
-              if ( hltPhotonPt_array[iFilter] > 0.0 ) hltPhotonPt = hltPhotonPt_array[iFilter];
-            }
+            hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut);
           }
 
           fillVariableWithValue( "LooseEle2_PassHEEPID"    , loose_ele2.PassUserID ( HEEP70 ));
@@ -1057,19 +1052,7 @@ void analysisClass::Loop()
             Electron loose_ele3 = c_ele_final -> GetConstituent<Electron>(2);
             hltPhotonPt = -999.;
             if ( n_filters != 0 ) {
-              double hltPhotonPt_array [8] =  {
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton22_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton30_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton36_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut),
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton50_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton75_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton90_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut), 
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton120_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut), 
-                triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton175_QCD_all        , loose_ele2, ele_hltMatch_DeltaRCut)
-              };
-              for (int iFilter = 0; iFilter < 8; ++iFilter){
-                if ( hltPhotonPt_array[iFilter] > 0.0 ) hltPhotonPt = hltPhotonPt_array[iFilter];
-              }
+              hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele3, ele_hltMatch_DeltaRCut);
             }
 
             fillVariableWithValue( "LooseEle3_PassHEEPID"    , loose_ele3.PassUserID ( HEEP70 )  );
@@ -1733,7 +1716,7 @@ void analysisClass::Loop()
     // Single electron skim
     else if ( reducedSkimType == 3 ) { 
       if( passedCut("nEle_ptCut"       ) && 
-          passedCut("Ele1_PtHeep"          ) ){
+          passedCut("Ele1_SCEt"          ) ){
         fillSkimTree();
         fillReducedSkimTree();
       }

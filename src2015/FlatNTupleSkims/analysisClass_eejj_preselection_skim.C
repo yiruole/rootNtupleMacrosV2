@@ -42,7 +42,6 @@ void analysisClass::Loop() {
   Long64_t nentries = GetTreeEntries();
   std::cout << "analysisClass::analysisClass(): nentries = " << nentries << std::endl;
   
-
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
     //------------------------------------------------------------------
@@ -261,10 +260,13 @@ void analysisClass::Loop() {
     //    passedAllPreviousCuts("PassFilter") ){
     //  fillSkimTree();
     //}
+    // XXX TEST
+    //fillSkimTree();
     if ( passedCut            ("M_e1e2") &&
         passedAllPreviousCuts("M_e1e2") ){
       fillSkimTree();
     }
+    // XXX TEST
 
    } // End loop over events
 

@@ -703,7 +703,7 @@ void analysisClass::Loop()
      //-----------------------------------------------------------------
      // Print progress
      //-----------------------------------------------------------------
-     if(jentry < 10 || jentry%1000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+     if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
      //// run ls event
      //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
@@ -728,6 +728,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      
      double pileup_weight = readerTools_->ReadValueBranch<Double_t>("puWeight");
+     if ( isData() ) pileup_weight = 1.0;
      
      //--------------------------------------------------------------------------
      // Get information about gen-level reweighting (should be for Sherpa only)
@@ -743,7 +744,7 @@ void analysisClass::Loop()
      //}
 
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
-     //std::cout << "Gen weight = " << gen_weight << std::endl;
+     //std::cout << "Gen weight = " << gen_weight << "; isData? " << isData() << std::endl;
 
      std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
 
@@ -875,7 +876,7 @@ void analysisClass::Loop()
        }
        else if(current_file_name.find("SingleElectron") != std::string::npos) {
          if (readerTools_->ReadValueBranch<Double_t>("H_Photon175") != 1 && 
-             (readerTools_->ReadValueBranch<Double_t>("H_Ele27_WPTight == 1") || readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
+             (readerTools_->ReadValueBranch<Double_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
            passHLT = 1;
        }
        //if (H_Ele27_WPTight == 1 || H_Ele115_CIdVT_GsfIdT == 1)
@@ -1320,7 +1321,7 @@ void analysisClass::Loop()
        double Ele1_NBrems               = readerTools_->ReadValueBranch<Double_t>("Ele1_NBrems")             ; 
        double Ele1_ValidFrac            = readerTools_->ReadValueBranch<Double_t>("Ele1_ValidFrac")          ; 
        double Ele1_RawEnergy            = readerTools_->ReadValueBranch<Double_t>("Ele1_RawEnergy");
-       double Ele1_SCEta            = readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta");
+       double Ele1_SCEta                = readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta");
        double Ele1_TrkPt                = readerTools_->ReadValueBranch<Double_t>("Ele1_TrkPt"); 
        double Ele1_SigmaEtaEta          = readerTools_->ReadValueBranch<Double_t>("Ele1_SigmaEtaEta");
        double Ele1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Double_t>("Ele1_Full5x5SigmaIEtaIEta");
@@ -1383,7 +1384,7 @@ void analysisClass::Loop()
       double Ele2_NBrems               = readerTools_->ReadValueBranch<Double_t>("Ele2_NBrems")             ; 
       double Ele2_ValidFrac            = readerTools_->ReadValueBranch<Double_t>("Ele2_ValidFrac")          ; 
       double Ele2_RawEnergy            = readerTools_->ReadValueBranch<Double_t>("Ele2_RawEnergy");
-      double Ele2_SCEta            = readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta");
+      double Ele2_SCEta                = readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta");
       double Ele2_TrkPt                = readerTools_->ReadValueBranch<Double_t>("Ele2_TrkPt"); 
       double Ele2_SigmaEtaEta          = readerTools_->ReadValueBranch<Double_t>("Ele2_SigmaEtaEta");
       double Ele2_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Double_t>("Ele2_Full5x5SigmaIEtaIEta");
