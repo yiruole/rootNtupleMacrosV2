@@ -4,11 +4,6 @@
 JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 #ICHEP JSON
 #JSON  /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt
-#-----------------------------------------------------------------------------------------------------------------------------
-# Pileup files for applying pileup re-weighting
-#-----------------------------------------------------------------------------------------------------------------------------
-PILEUP_MC_TXT_FILE /afs/cern.ch/work/s/scooper/public/Leptoquarks/Pileup2016/Moriond17MC_PoissonOOTPU.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016dec13.root
 #
 #############################     Example of file with list of cuts
 #
@@ -34,7 +29,8 @@ eleEta_end2            	2.000        2.5                  -               -     
 #-----------------------------------------------------------------------------------------------------------------------------
 # Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
-QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FRHistogram2D2Jet.root	- - - -1
+#QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FRHistogram2D2Jet.root	- - - -1
+QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FR2D2JetScEt.root	- - - -1
 #QCD_fit_func_version	1				-	  -		  -		  -1
 #QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1

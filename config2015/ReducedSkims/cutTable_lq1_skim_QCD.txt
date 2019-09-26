@@ -92,23 +92,24 @@ PassBadPFMuonFilter             0      1               -               -        
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 isData				-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
-bunch				-inf	     +inf		-		-		1	4000 0 4000	      SAVE
+#bunch				-inf	     +inf		-		-		1	4000 0 4000	      SAVE
 event				-inf	     +inf		-		-		1	100 0 100	      SAVE
 ls 				-inf	     +inf		-		-		1	100 0 100	      SAVE
-orbit 				-inf	     +inf		-		-		1	100 0 100	      SAVE
+#orbit 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 run 				-inf	     +inf		-		-		1	100 0 100	      SAVE      
-ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
-PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
+#ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
+#PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
-TopPtWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
+puWeight			-inf	     +inf		-		-		1	100 0 100	      SAVE
+#TopPtWeight		-inf	     +inf		-		-		1	100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Vertex and pileup info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 nVertex 			-inf	     +inf		-		-		1	101 -0.5 100.5	      SAVE
 nPileUpInt_True			-inf         +inf               -               -               1       101 -0.5 100.5        SAVE
-nPileUpInt_BXminus1             -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
-nPileUpInt_BX0                  -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
-nPileUpInt_BXplus1              -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
+#nPileUpInt_BXminus1             -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
+#nPileUpInt_BX0                  -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
+#nPileUpInt_BXplus1              -inf         +inf               -               -               1       101 -0.5 100.5        SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # QCD Fake Electron info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -140,6 +141,7 @@ LooseEle1_SigmaEtaEta           -inf	     +inf               -               -  
 LooseEle1_DeltaPhiTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_DeltaEtaTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_RawEnergy             -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_R9                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_NBrems                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_HoE                   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_HasMatchedPhot        -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -190,6 +192,7 @@ LooseEle2_SigmaEtaEta           -inf	     +inf               -               -  
 LooseEle2_DeltaPhiTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_DeltaEtaTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_RawEnergy             -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_R9                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_NBrems                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_HoE                   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_HasMatchedPhot        -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -240,6 +243,7 @@ LooseEle3_SigmaEtaEta           -inf	     +inf               -               -  
 LooseEle3_DeltaPhiTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_DeltaEtaTrkSC         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_RawEnergy             -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_R9                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_NBrems                -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_HoE                   -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_HasMatchedPhot        -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -266,14 +270,12 @@ LooseEle3_hltPhotonPt           -inf	     +inf               -               -  
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # MET info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
-PFMET_Raw_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-#PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
-#PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01_Pt                 -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
-PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
-PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
+#PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
+#PFMET_Type1XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type01XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
 #PFMET_Type01XY_Phi		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -329,7 +331,7 @@ nMuon_store   			-inf         +inf               -               -              
 nMuon_ptCut   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 nMuon_HighPtId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 nMuon_LooseId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
-nMuon_etaId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
+#nMuon_etaId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 #
 Muon1_Pt    			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 Muon1_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE

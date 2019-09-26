@@ -53,7 +53,9 @@ from ROOT import *
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb13_addPlot/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 #
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar16_fixMuons/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016data/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_aug29/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 
 # unscaled
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar30_topPtWeight_recoHeepSFs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
@@ -99,7 +101,10 @@ File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar20_fixPlots/output_
 #
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar20_fixPlots/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+# nominal
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar20_fixPlots/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_aug28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_sep20/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
 
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
@@ -110,7 +115,9 @@ File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar20_fixPlots/o
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar1_emujj_RedoRTrig/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 #
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar17_emujj_fixMuons/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
-File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+# moved to pcua01
+File_ttbar_preselection = GetFile("/data3/scooper/LQData/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 
 
 LQmasses = [650,1500]

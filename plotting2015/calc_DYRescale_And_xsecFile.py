@@ -268,7 +268,9 @@ class Plot:
 #
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb10_bugfix/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 #
-File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar16_fixMuons/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar16_fixMuons/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_aug29/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 
 # unscaled
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_mar28_recoHeepSFs_onPSK_reminiAOD_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
@@ -298,7 +300,10 @@ File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar16_fixMuons/output_
 # new single top
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb20_newSingTop/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
 
-File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+
+#File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_aug28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
+File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_sep20/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
 
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/jan25_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
@@ -390,7 +395,7 @@ for histBaseName in histBaseNames:
   #else:
   #  thisHistName=histNameReleaseMee
   thisHistName=histNameDefault
-  print 'consider hist:',thisHistName
+  #print 'consider hist:',thisHistName
   if usePowhegTTBar:
     #h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt__"+histBaseName, File_preselection) # MC all
     h_ALLBKG_Mee = GetHisto(thisHistName.replace('SAMPLE','ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson')+histBaseName, File_preselection) # MC all
@@ -446,7 +451,7 @@ for histBaseName in histBaseNames:
   #plot0.xmin = 100
   #plot0.xmax = 120
   plot0.name = histBaseName
-  plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/cmssw/8011/TestRootNTuplizerRecipe/src/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
+  plot0.fileXsectionNoRescale = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
   plot0.xminplot = 0
   plot0.xmaxplot = 2000
   plot0.yminplot = 0
