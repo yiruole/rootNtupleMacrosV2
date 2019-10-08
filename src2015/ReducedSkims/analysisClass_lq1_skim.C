@@ -962,7 +962,7 @@ void analysisClass::Loop()
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",loose_ele1.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele1.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele1.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
-        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleValueMapIsoRhoCut"             ,loose_ele1.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleTrkPtIsoCut"                   ,loose_ele1.PassHEEPGsfEleTrkPtIsoCut                   () ); 
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele1.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleDxyCut"                        ,loose_ele1.PassHEEPGsfEleDxyCut                        () ); 
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleMissingHitsCut"                ,loose_ele1.PassHEEPGsfEleMissingHitsCut                () ); 
@@ -1010,7 +1010,7 @@ void analysisClass::Loop()
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",loose_ele2.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele2.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele2.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
-          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleValueMapIsoRhoCut"             ,loose_ele2.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleTrkPtIsoCut"                   ,loose_ele2.PassHEEPGsfEleTrkPtIsoCut                   () ); 
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele2.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleDxyCut"                        ,loose_ele2.PassHEEPGsfEleDxyCut                        () ); 
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleMissingHitsCut"                ,loose_ele2.PassHEEPGsfEleMissingHitsCut                () ); 
@@ -1057,7 +1057,7 @@ void analysisClass::Loop()
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",loose_ele3.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele3.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele3.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
-            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleValueMapIsoRhoCut"             ,loose_ele3.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleTrkPtIsoCut"                   ,loose_ele3.PassHEEPGsfEleTrkPtIsoCut                   () ); 
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele3.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleDxyCut"                        ,loose_ele3.PassHEEPGsfEleDxyCut                        () ); 
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleMissingHitsCut"                ,loose_ele3.PassHEEPGsfEleMissingHitsCut                () ); 
@@ -1180,7 +1180,7 @@ void analysisClass::Loop()
         fillVariableWithValue( "Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele1.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
         fillVariableWithValue( "Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele1.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
         fillVariableWithValue( "Ele1_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele1.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
-        fillVariableWithValue( "Ele1_PassHEEPGsfEleValueMapIsoRhoCut"             ,ele1.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleTrkPtIsoCut"                   ,ele1.PassHEEPGsfEleTrkPtIsoCut                   () ); 
         fillVariableWithValue( "Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele1.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
         fillVariableWithValue( "Ele1_PassHEEPGsfEleDxyCut"                        ,ele1.PassHEEPGsfEleDxyCut                        () ); 
         fillVariableWithValue( "Ele1_PassHEEPGsfEleMissingHitsCut"                ,ele1.PassHEEPGsfEleMissingHitsCut                () ); 
@@ -1227,7 +1227,7 @@ void analysisClass::Loop()
           fillVariableWithValue( "Ele2_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele2.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
           fillVariableWithValue( "Ele2_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele2.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
           fillVariableWithValue( "Ele2_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele2.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
-          fillVariableWithValue( "Ele2_PassHEEPGsfEleValueMapIsoRhoCut"             ,ele2.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleTrkPtIsoCut"                   ,ele2.PassHEEPGsfEleTrkPtIsoCut                   () ); 
           fillVariableWithValue( "Ele2_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele2.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
           fillVariableWithValue( "Ele2_PassHEEPGsfEleDxyCut"                        ,ele2.PassHEEPGsfEleDxyCut                        () ); 
           fillVariableWithValue( "Ele2_PassHEEPGsfEleMissingHitsCut"                ,ele2.PassHEEPGsfEleMissingHitsCut                () ); 
@@ -1274,7 +1274,7 @@ void analysisClass::Loop()
             fillVariableWithValue( "Ele3_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele3.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
             fillVariableWithValue( "Ele3_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele3.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
             fillVariableWithValue( "Ele3_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele3.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
-            fillVariableWithValue( "Ele3_PassHEEPGsfEleValueMapIsoRhoCut"             ,ele3.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleTrkPtIsoCut"                      ,ele3.PassHEEPGsfEleTrkPtIsoCut                   () ); 
             fillVariableWithValue( "Ele3_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele3.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
             fillVariableWithValue( "Ele3_PassHEEPGsfEleDxyCut"                        ,ele3.PassHEEPGsfEleDxyCut                        () ); 
             fillVariableWithValue( "Ele3_PassHEEPGsfEleMissingHitsCut"                ,ele3.PassHEEPGsfEleMissingHitsCut                () ); 

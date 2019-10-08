@@ -150,7 +150,7 @@ LooseEle1_PassHEEPGsfEleDPhiInCut                         -inf      +inf        
 LooseEle1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut     -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
-LooseEle1_PassHEEPGsfEleValueMapIsoRhoCut                 -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassHEEPGsfEleTrkPtIsoCut                       -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut                  -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleDxyCut                            -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleMissingHitsCut                    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -191,7 +191,7 @@ LooseEle2_PassHEEPGsfEleDPhiInCut                         -inf      +inf        
 LooseEle2_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut     -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleHadronicOverEMLinearCut           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
-LooseEle2_PassHEEPGsfEleValueMapIsoRhoCut                 -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassHEEPGsfEleTrkPtIsoCut                       -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleEmHadD1IsoRhoCut                  -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleDxyCut                            -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleMissingHitsCut                    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -232,7 +232,7 @@ LooseEle3_PassHEEPGsfEleDPhiInCut                         -inf      +inf        
 LooseEle3_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut     -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleHadronicOverEMLinearCut           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
-LooseEle3_PassHEEPGsfEleValueMapIsoRhoCut                 -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassHEEPGsfEleTrkPtIsoCut                       -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleEmHadD1IsoRhoCut                  -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleDxyCut                            -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleMissingHitsCut                    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
