@@ -421,7 +421,7 @@ void analysisClass::Loop()
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
       CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70 );
-      //c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
+      //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
@@ -932,43 +932,21 @@ void analysisClass::Loop()
 
         fillVariableWithValue( "LooseEle1_PassHEEPID"           , loose_ele1.PassUserID ( HEEP70 )  );
         fillVariableWithValue( "LooseEle1_Pt"                   , loose_ele1.Pt()                 );
-        fillVariableWithValue( "LooseEle1_PtHeep"               , loose_ele1.PtHeep()                 );
-        fillVariableWithValue( "LooseEle1_EcalDriven"           , loose_ele1.EcalSeed()           );
-        fillVariableWithValue( "LooseEle1_DeltaEtaSeed"         , loose_ele1.DeltaEtaSeed()       );
-        fillVariableWithValue( "LooseEle1_SCEnergy"             , loose_ele1.SCEnergy()           );
-        fillVariableWithValue( "LooseEle1_SCEt"                 , loose_ele1.SCEnergy()/cosh(loose_ele1.SCEta()) );
-        fillVariableWithValue( "LooseEle1_Full5x5E1x5OverE5x5"  , loose_ele1.Full5x5E1x5OverE5x5());
-        fillVariableWithValue( "LooseEle1_Full5x5E2x5OverE5x5"  , loose_ele1.Full5x5E2x5OverE5x5());
+        fillVariableWithValue( "LooseEle1_ECorr"                , loose_ele1.ECorr()              );
         fillVariableWithValue( "LooseEle1_RhoForHeep"           , loose_ele1.RhoForHEEP());
-        fillVariableWithValue( "LooseEle1_Energy"               , loose_ele1.CaloEnergy()         );
         fillVariableWithValue( "LooseEle1_Eta"                  , loose_ele1.Eta()                );
         fillVariableWithValue( "LooseEle1_Phi"                  , loose_ele1.Phi()                );
         fillVariableWithValue( "LooseEle1_SCEta"                , loose_ele1.SCEta()              );
-        fillVariableWithValue( "LooseEle1_SCPhi"                , loose_ele1.SCPhi()              );
         fillVariableWithValue( "LooseEle1_Charge"               , loose_ele1.Charge()             );
         fillVariableWithValue( "LooseEle1_R9"                   , loose_ele1.R9()                 );
-        fillVariableWithValue( "LooseEle1_Dist"                 , loose_ele1.Dist()               );
-        fillVariableWithValue( "LooseEle1_DCotTheta"            , loose_ele1.DCotTheta()          );
         fillVariableWithValue( "LooseEle1_MissingHits"          , loose_ele1.MissingHits()        );
-        fillVariableWithValue( "LooseEle1_TrkPt"                , loose_ele1.TrackPt()            );
-        fillVariableWithValue( "LooseEle1_TrkEta"               , loose_ele1.TrackEta()           );
         fillVariableWithValue( "LooseEle1_Full5x5SigmaIEtaIEta" , loose_ele1.Full5x5SigmaIEtaIEta());
-        fillVariableWithValue( "LooseEle1_SigmaEtaEta"          , loose_ele1.SigmaEtaEta()        );
 
-        fillVariableWithValue( "LooseEle1_DeltaPhiTrkSC" , loose_ele1.DeltaPhi()           );
         fillVariableWithValue( "LooseEle1_DeltaEtaTrkSC" , loose_ele1.DeltaEta()           );
-        fillVariableWithValue( "LooseEle1_RawEnergy"     , loose_ele1.RawEnergy()          );
-        fillVariableWithValue( "LooseEle1_NBrems"        , loose_ele1.NBrems()             );
         fillVariableWithValue( "LooseEle1_HoE"           , loose_ele1.HoE()                );
         fillVariableWithValue( "LooseEle1_HasMatchedPhot", loose_ele1.HasMatchedConvPhot() );
-        fillVariableWithValue( "LooseEle1_FBrem"         , loose_ele1.FBrem()              );
         fillVariableWithValue( "LooseEle1_LeadVtxDistXY" , loose_ele1.LeadVtxDistXY()      );
         fillVariableWithValue( "LooseEle1_LeadVtxDistZ"  , loose_ele1.LeadVtxDistZ ()      );
-        fillVariableWithValue( "LooseEle1_BeamSpotDXY"   , loose_ele1.BeamSpotDXY()        );
-        fillVariableWithValue( "LooseEle1_BeamSpotDXYErr", loose_ele1.BeamSpotDXYErr()     );
-        fillVariableWithValue( "LooseEle1_ValidFrac"     , loose_ele1.ValidFrac()          );
-        fillVariableWithValue( "LooseEle1_Classif"       , loose_ele1.Classif()            );
-        fillVariableWithValue( "LooseEle1_EOverP"        , loose_ele1.ESuperClusterOverP() );
 
         fillVariableWithValue( "LooseEle1_TrkIsolation"  , loose_ele1.TrkIsoDR03()          );
         fillVariableWithValue( "LooseEle1_TrkIsoHEEP7"   , loose_ele1.HEEP70TrackIsolation());
@@ -976,12 +954,19 @@ void analysisClass::Loop()
         fillVariableWithValue( "LooseEle1_HcalIsolation" , loose_ele1.HcalIsoD1DR03()       );
         fillVariableWithValue( "LooseEle1_CorrIsolation" , loose_ele1.HEEPCorrIsolation()   );
         fillVariableWithValue( "LooseEle1_PFCHIso03"     , loose_ele1.PFChargedHadronIso03());
-        fillVariableWithValue( "LooseEle1_PFPhoIso03"    , loose_ele1.PFPhotonIso03       ());
-        fillVariableWithValue( "LooseEle1_PFNHIso03"     , loose_ele1.PFNeutralHadronIso03());
 
-        fillVariableWithValue("LooseEle1_GsfCtfScPixCharge", loose_ele1.GsfCtfScPixCharge()  );
-        fillVariableWithValue("LooseEle1_GsfScPixCharge"   , loose_ele1.GsfScPixCharge()     );
-        fillVariableWithValue("LooseEle1_GsfCtfCharge"     , loose_ele1.GsfCtfCharge()       );
+        fillVariableWithValue( "LooseEle1_PassHEEPMinPtCut"                            ,loose_ele1.PassHEEPMinPtCut                            () );
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut"            ,loose_ele1.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleDEtaInSeedCut"                 ,loose_ele1.PassHEEPGsfEleDEtaInSeedCut                 () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleDPhiInCut"                     ,loose_ele1.PassHEEPGsfEleDPhiInCut                     () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",loose_ele1.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele1.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele1.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleValueMapIsoRhoCut"             ,loose_ele1.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele1.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleDxyCut"                        ,loose_ele1.PassHEEPGsfEleDxyCut                        () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleMissingHitsCut"                ,loose_ele1.PassHEEPGsfEleMissingHitsCut                () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPEcalDrivenCut"                       ,loose_ele1.PassHEEPEcalDrivenCut                       () );
 
         fillVariableWithValue( "LooseEle1_hltPhotonPt"  , hltPhotonPt );
 
@@ -995,43 +980,21 @@ void analysisClass::Loop()
 
           fillVariableWithValue( "LooseEle2_PassHEEPID"    , loose_ele2.PassUserID ( HEEP70 ));
           fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
-          fillVariableWithValue( "LooseEle2_PtHeep"        , loose_ele2.PtHeep()             );
-          fillVariableWithValue( "LooseEle2_EcalDriven"    , loose_ele2.EcalSeed()           );
-          fillVariableWithValue( "LooseEle2_DeltaEtaSeed"  , loose_ele2.DeltaEtaSeed()       );
-          fillVariableWithValue( "LooseEle2_SCEnergy"      , loose_ele2.SCEnergy()           );
-          fillVariableWithValue( "LooseEle2_SCEt"                 , loose_ele2.SCEnergy()/cosh(loose_ele2.SCEta()) );
-          fillVariableWithValue( "LooseEle2_Full5x5E1x5OverE5x5"  , loose_ele2.Full5x5E1x5OverE5x5());
-          fillVariableWithValue( "LooseEle2_Full5x5E2x5OverE5x5"  , loose_ele2.Full5x5E2x5OverE5x5());
+          fillVariableWithValue( "LooseEle2_ECorr"         , loose_ele2.ECorr()              );
           fillVariableWithValue( "LooseEle2_RhoForHeep"  , loose_ele2.RhoForHEEP());
-          fillVariableWithValue( "LooseEle2_Energy"        , loose_ele2.CaloEnergy()         );
           fillVariableWithValue( "LooseEle2_Eta"           , loose_ele2.Eta()                );
           fillVariableWithValue( "LooseEle2_Phi"           , loose_ele2.Phi()                );
           fillVariableWithValue( "LooseEle2_SCEta"         , loose_ele2.SCEta()              );
-          fillVariableWithValue( "LooseEle2_SCPhi"         , loose_ele2.SCPhi()              );
           fillVariableWithValue( "LooseEle2_Charge"        , loose_ele2.Charge()             );
           fillVariableWithValue( "LooseEle2_R9"            , loose_ele2.R9()                 );
-          fillVariableWithValue( "LooseEle2_Dist"          , loose_ele2.Dist()               );
-          fillVariableWithValue( "LooseEle2_DCotTheta"     , loose_ele2.DCotTheta()          );
           fillVariableWithValue( "LooseEle2_MissingHits"   , loose_ele2.MissingHits()        );
-          fillVariableWithValue( "LooseEle2_TrkPt"         , loose_ele2.TrackPt()            );
-          fillVariableWithValue( "LooseEle2_TrkEta"        , loose_ele2.TrackEta()           );
           fillVariableWithValue( "LooseEle2_Full5x5SigmaIEtaIEta" , loose_ele2.Full5x5SigmaIEtaIEta());
-          fillVariableWithValue( "LooseEle2_SigmaEtaEta"   , loose_ele2.SigmaEtaEta()        );
 
-          fillVariableWithValue( "LooseEle2_DeltaPhiTrkSC" , loose_ele2.DeltaPhi()           );
           fillVariableWithValue( "LooseEle2_DeltaEtaTrkSC" , loose_ele2.DeltaEta()           );
-          fillVariableWithValue( "LooseEle2_RawEnergy"     , loose_ele2.RawEnergy()          );
-          fillVariableWithValue( "LooseEle2_NBrems"        , loose_ele2.NBrems()             );
           fillVariableWithValue( "LooseEle2_HoE"           , loose_ele2.HoE()                );
           fillVariableWithValue( "LooseEle2_HasMatchedPhot", loose_ele2.HasMatchedConvPhot() );
-          fillVariableWithValue( "LooseEle2_FBrem"         , loose_ele2.FBrem()              );
           fillVariableWithValue( "LooseEle2_LeadVtxDistXY" , loose_ele2.LeadVtxDistXY()      );
           fillVariableWithValue( "LooseEle2_LeadVtxDistZ"  , loose_ele2.LeadVtxDistZ ()      );
-          fillVariableWithValue( "LooseEle2_BeamSpotDXY"   , loose_ele2.BeamSpotDXY()        );
-          fillVariableWithValue( "LooseEle2_BeamSpotDXYErr", loose_ele2.BeamSpotDXYErr()     );
-          fillVariableWithValue( "LooseEle2_ValidFrac"     , loose_ele2.ValidFrac()          );
-          fillVariableWithValue( "LooseEle2_Classif"       , loose_ele2.Classif()            );
-          fillVariableWithValue( "LooseEle2_EOverP"        , loose_ele2.ESuperClusterOverP() );
 
           fillVariableWithValue( "LooseEle2_TrkIsolation"  , loose_ele2.TrkIsoDR03()          );
           fillVariableWithValue( "LooseEle2_TrkIsoHEEP7"   , loose_ele2.HEEP70TrackIsolation());
@@ -1039,12 +1002,19 @@ void analysisClass::Loop()
           fillVariableWithValue( "LooseEle2_HcalIsolation" , loose_ele2.HcalIsoD1DR03()       );
           fillVariableWithValue( "LooseEle2_CorrIsolation" , loose_ele2.HEEPCorrIsolation()   );
           fillVariableWithValue( "LooseEle2_PFCHIso03"     , loose_ele2.PFChargedHadronIso03());
-          fillVariableWithValue( "LooseEle2_PFPhoIso03"    , loose_ele2.PFPhotonIso03       ());
-          fillVariableWithValue( "LooseEle2_PFNHIso03"     , loose_ele2.PFNeutralHadronIso03());
 
-          fillVariableWithValue("LooseEle2_GsfCtfScPixCharge", loose_ele2.GsfCtfScPixCharge()  );
-          fillVariableWithValue("LooseEle2_GsfScPixCharge"   , loose_ele2.GsfScPixCharge()     );
-          fillVariableWithValue("LooseEle2_GsfCtfCharge"     , loose_ele2.GsfCtfCharge()       );
+          fillVariableWithValue( "LooseEle2_PassHEEPMinPtCut"                            ,loose_ele2.PassHEEPMinPtCut                            () );
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleSCEtaMultiRangeCut"            ,loose_ele2.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleDEtaInSeedCut"                 ,loose_ele2.PassHEEPGsfEleDEtaInSeedCut                 () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleDPhiInCut"                     ,loose_ele2.PassHEEPGsfEleDPhiInCut                     () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",loose_ele2.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele2.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele2.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleValueMapIsoRhoCut"             ,loose_ele2.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele2.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleDxyCut"                        ,loose_ele2.PassHEEPGsfEleDxyCut                        () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPGsfEleMissingHitsCut"                ,loose_ele2.PassHEEPGsfEleMissingHitsCut                () ); 
+          fillVariableWithValue( "LooseEle2_PassHEEPEcalDrivenCut"                       ,loose_ele2.PassHEEPEcalDrivenCut                       () );
 
           fillVariableWithValue( "LooseEle2_hltPhotonPt"  , hltPhotonPt );
 
@@ -1057,43 +1027,21 @@ void analysisClass::Loop()
 
             fillVariableWithValue( "LooseEle3_PassHEEPID"    , loose_ele3.PassUserID ( HEEP70 )  );
             fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
-            fillVariableWithValue( "LooseEle3_PtHeep"        , loose_ele3.PtHeep()                 );
-            fillVariableWithValue( "LooseEle3_EcalDriven"           , loose_ele3.EcalSeed()           );
-            fillVariableWithValue( "LooseEle3_DeltaEtaSeed"         , loose_ele3.DeltaEtaSeed()       );
-            fillVariableWithValue( "LooseEle3_SCEnergy"             , loose_ele3.SCEnergy()           );
-            fillVariableWithValue( "LooseEle3_SCEt"                 , loose_ele3.SCEnergy()/cosh(loose_ele3.SCEta()) );
-            fillVariableWithValue( "LooseEle3_Full5x5E1x5OverE5x5"  , loose_ele3.Full5x5E1x5OverE5x5());
-            fillVariableWithValue( "LooseEle3_Full5x5E2x5OverE5x5"  , loose_ele3.Full5x5E2x5OverE5x5());
+            fillVariableWithValue( "LooseEle3_ECorr"         , loose_ele3.ECorr()               );
             fillVariableWithValue( "LooseEle3_RhoForHeep"           , loose_ele3.RhoForHEEP());
-            fillVariableWithValue( "LooseEle3_Energy"        , loose_ele3.CaloEnergy()         );
             fillVariableWithValue( "LooseEle3_Eta"           , loose_ele3.Eta()                );
             fillVariableWithValue( "LooseEle3_Phi"           , loose_ele3.Phi()                );
             fillVariableWithValue( "LooseEle3_SCEta"         , loose_ele3.SCEta()              );
-            fillVariableWithValue( "LooseEle3_SCPhi"         , loose_ele3.SCPhi()              );
             fillVariableWithValue( "LooseEle3_Charge"        , loose_ele3.Charge()             );
             fillVariableWithValue( "LooseEle3_R9"            , loose_ele3.R9()                 );
-            fillVariableWithValue( "LooseEle3_Dist"          , loose_ele3.Dist()               );
-            fillVariableWithValue( "LooseEle3_DCotTheta"     , loose_ele3.DCotTheta()          );
             fillVariableWithValue( "LooseEle3_MissingHits"   , loose_ele3.MissingHits()        );
-            fillVariableWithValue( "LooseEle3_TrkPt"         , loose_ele3.TrackPt()            );
-            fillVariableWithValue( "LooseEle3_TrkEta"        , loose_ele3.TrackEta()           );
             fillVariableWithValue( "LooseEle3_Full5x5SigmaIEtaIEta" , loose_ele3.Full5x5SigmaIEtaIEta());
-            fillVariableWithValue( "LooseEle3_SigmaEtaEta"   , loose_ele3.SigmaEtaEta()        );
 
-            fillVariableWithValue( "LooseEle3_DeltaPhiTrkSC" , loose_ele3.DeltaPhi()           );
             fillVariableWithValue( "LooseEle3_DeltaEtaTrkSC" , loose_ele3.DeltaEta()           );
-            fillVariableWithValue( "LooseEle3_RawEnergy"     , loose_ele3.RawEnergy()          );
-            fillVariableWithValue( "LooseEle3_NBrems"        , loose_ele3.NBrems()             );
             fillVariableWithValue( "LooseEle3_HoE"           , loose_ele3.HoE()                );
             fillVariableWithValue( "LooseEle3_HasMatchedPhot", loose_ele3.HasMatchedConvPhot() );
-            fillVariableWithValue( "LooseEle3_FBrem"         , loose_ele3.FBrem()              );
             fillVariableWithValue( "LooseEle3_LeadVtxDistXY" , loose_ele3.LeadVtxDistXY()      );
             fillVariableWithValue( "LooseEle3_LeadVtxDistZ"  , loose_ele3.LeadVtxDistZ ()      );
-            fillVariableWithValue( "LooseEle3_BeamSpotDXY"   , loose_ele3.BeamSpotDXY()        );
-            fillVariableWithValue( "LooseEle3_BeamSpotDXYErr", loose_ele3.BeamSpotDXYErr()     );
-            fillVariableWithValue( "LooseEle3_ValidFrac"     , loose_ele3.ValidFrac()          );
-            fillVariableWithValue( "LooseEle3_Classif"       , loose_ele3.Classif()            );
-            fillVariableWithValue( "LooseEle3_EOverP"        , loose_ele3.ESuperClusterOverP() );
 
             fillVariableWithValue( "LooseEle3_TrkIsolation"  , loose_ele3.TrkIsoDR03()          );
             fillVariableWithValue( "LooseEle3_TrkIsoHEEP7"   , loose_ele3.HEEP70TrackIsolation());
@@ -1101,12 +1049,19 @@ void analysisClass::Loop()
             fillVariableWithValue( "LooseEle3_HcalIsolation" , loose_ele3.HcalIsoD1DR03()       );
             fillVariableWithValue( "LooseEle3_CorrIsolation" , loose_ele3.HEEPCorrIsolation()   );
             fillVariableWithValue( "LooseEle3_PFCHIso03"     , loose_ele3.PFChargedHadronIso03());
-            fillVariableWithValue( "LooseEle3_PFPhoIso03"    , loose_ele3.PFPhotonIso03       ());
-            fillVariableWithValue( "LooseEle3_PFNHIso03"     , loose_ele3.PFNeutralHadronIso03());
 
-            fillVariableWithValue("LooseEle3_GsfCtfScPixCharge", loose_ele3.GsfCtfScPixCharge()  );
-            fillVariableWithValue("LooseEle3_GsfScPixCharge"   , loose_ele3.GsfScPixCharge()     );
-            fillVariableWithValue("LooseEle3_GsfCtfCharge"     , loose_ele3.GsfCtfCharge()       );
+            fillVariableWithValue( "LooseEle3_PassHEEPMinPtCut"                            ,loose_ele3.PassHEEPMinPtCut                            () );
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleSCEtaMultiRangeCut"            ,loose_ele3.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleDEtaInSeedCut"                 ,loose_ele3.PassHEEPGsfEleDEtaInSeedCut                 () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleDPhiInCut"                     ,loose_ele3.PassHEEPGsfEleDPhiInCut                     () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",loose_ele3.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele3.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele3.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleValueMapIsoRhoCut"             ,loose_ele3.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele3.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleDxyCut"                        ,loose_ele3.PassHEEPGsfEleDxyCut                        () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPGsfEleMissingHitsCut"                ,loose_ele3.PassHEEPGsfEleMissingHitsCut                () ); 
+            fillVariableWithValue( "LooseEle3_PassHEEPEcalDrivenCut"                       ,loose_ele3.PassHEEPEcalDrivenCut                       () );
 
             fillVariableWithValue( "LooseEle3_hltPhotonPt"  , hltPhotonPt );
           }
@@ -1195,43 +1150,21 @@ void analysisClass::Loop()
         double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
 
         fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
-        fillVariableWithValue( "Ele1_Energy"        , ele1.CaloEnergy()         );
+        fillVariableWithValue( "Ele1_ECorr"         , ele1.ECorr()              );
         fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
         fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
-        fillVariableWithValue( "Ele1_PtHeep"        , ele1.PtHeep()             );
-        fillVariableWithValue( "Ele1_SCEt"          , ele1.SCEnergy()/cosh(ele1.SCEta()) );
         fillVariableWithValue( "Ele1_SCEta"         , ele1.SCEta()              );
-        fillVariableWithValue( "Ele1_SCPhi"         , ele1.SCPhi()              );
         fillVariableWithValue( "Ele1_Charge"        , ele1.Charge()             );
         fillVariableWithValue( "Ele1_R9"            , ele1.R9()                 );
-        fillVariableWithValue( "Ele1_Dist"          , ele1.Dist()               );
-        fillVariableWithValue( "Ele1_DCotTheta"     , ele1.DCotTheta()          );
         fillVariableWithValue( "Ele1_MissingHits"   , ele1.MissingHits()        );
-        fillVariableWithValue( "Ele1_TrkPt"         , ele1.TrackPt()            );
-        fillVariableWithValue( "Ele1_TrkEta"        , ele1.TrackEta()            );
-        fillVariableWithValue( "Ele1_SigmaEtaEta"   , ele1.SigmaEtaEta()        );
-        fillVariableWithValue( "Ele1_EcalDriven"    , ele1.EcalDriven()         );
-        fillVariableWithValue( "Ele1_DeltaEtaSeed"  , ele1.DeltaEtaSeed()       );
-        fillVariableWithValue( "Ele1_SCEnergy"      , ele1.SCEnergy()           );
         fillVariableWithValue( "Ele1_Full5x5SigmaIEtaIEta" , ele1.Full5x5SigmaIEtaIEta() );
-        fillVariableWithValue( "Ele1_Full5x5E1x5OverE5x5"  , ele1.Full5x5E1x5OverE5x5()  );
-        fillVariableWithValue( "Ele1_Full5x5E2x5OverE5x5"  , ele1.Full5x5E2x5OverE5x5()  );
         fillVariableWithValue( "Ele1_RhoForHEEP"    , ele1.RhoForHEEP()         );
 
-        fillVariableWithValue( "Ele1_DeltaPhiTrkSC" , ele1.DeltaPhi()           );
         fillVariableWithValue( "Ele1_DeltaEtaTrkSC" , ele1.DeltaEta()           );
-        fillVariableWithValue( "Ele1_RawEnergy"     , ele1.RawEnergy()          );
-        fillVariableWithValue( "Ele1_NBrems"        , ele1.NBrems()             );
         fillVariableWithValue( "Ele1_HoE"           , ele1.HoE()                );
         fillVariableWithValue( "Ele1_HasMatchedPhot", ele1.HasMatchedConvPhot() );
-        fillVariableWithValue( "Ele1_FBrem"         , ele1.FBrem()              );
         fillVariableWithValue( "Ele1_LeadVtxDistXY" , ele1.LeadVtxDistXY()      );
         fillVariableWithValue( "Ele1_LeadVtxDistZ"  , ele1.LeadVtxDistZ ()      );
-        fillVariableWithValue( "Ele1_BeamSpotDXY"   , ele1.BeamSpotDXY()        );
-        fillVariableWithValue( "Ele1_BeamSpotDXYErr", ele1.BeamSpotDXYErr()     );
-        fillVariableWithValue( "Ele1_ValidFrac"     , ele1.ValidFrac()          );
-        fillVariableWithValue( "Ele1_Classif"       , ele1.Classif()            );
-        fillVariableWithValue( "Ele1_EOverP"        , ele1.ESuperClusterOverP() );
 
         fillVariableWithValue( "Ele1_TrkIsolation"  , ele1.TrkIsoDR03()         );
         fillVariableWithValue( "Ele1_TrkIsoHEEP7"   , ele1.HEEP70TrackIsolation());
@@ -1239,12 +1172,19 @@ void analysisClass::Loop()
         fillVariableWithValue( "Ele1_HcalIsolation" , ele1.HcalIsoD1DR03()      );
         fillVariableWithValue( "Ele1_CorrIsolation" , ele1.HEEPCorrIsolation()  );
         fillVariableWithValue( "Ele1_PFCHIso03"     , ele1.PFChargedHadronIso03());
-        fillVariableWithValue( "Ele1_PFPhoIso03"    , ele1.PFPhotonIso03       ());
-        fillVariableWithValue( "Ele1_PFNHIso03"     , ele1.PFNeutralHadronIso03());
 
-        fillVariableWithValue("Ele1_GsfCtfScPixCharge", ele1.GsfCtfScPixCharge()  );
-        fillVariableWithValue("Ele1_GsfScPixCharge"   , ele1.GsfScPixCharge()     );
-        fillVariableWithValue("Ele1_GsfCtfCharge"     , ele1.GsfCtfCharge()       );
+        fillVariableWithValue( "Ele1_PassHEEPMinPtCut"                            ,ele1.PassHEEPMinPtCut                            () );
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleSCEtaMultiRangeCut"            ,ele1.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleDEtaInSeedCut"                 ,ele1.PassHEEPGsfEleDEtaInSeedCut                 () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleDPhiInCut"                     ,ele1.PassHEEPGsfEleDPhiInCut                     () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele1.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele1.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele1.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleValueMapIsoRhoCut"             ,ele1.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele1.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleDxyCut"                        ,ele1.PassHEEPGsfEleDxyCut                        () ); 
+        fillVariableWithValue( "Ele1_PassHEEPGsfEleMissingHitsCut"                ,ele1.PassHEEPGsfEleMissingHitsCut                () ); 
+        fillVariableWithValue( "Ele1_PassHEEPEcalDrivenCut"                       ,ele1.PassHEEPEcalDrivenCut                       () );
 
         //fillVariableWithValue( "Ele1_hltEleSignalPt", hltEle1Pt_signal          );
         //fillVariableWithValue( "Ele1_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
@@ -1257,43 +1197,21 @@ void analysisClass::Loop()
           double hltEle2Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele2, ele_hltMatch_DeltaRCut);
 
           fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
-          fillVariableWithValue( "Ele2_Energy"        , ele2.CaloEnergy()         );
+          fillVariableWithValue( "Ele2_ECorr"         , ele2.ECorr()              );
           fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
           fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
-          fillVariableWithValue( "Ele2_PtHeep"        , ele2.PtHeep()             );
-          fillVariableWithValue( "Ele2_SCEt"          , ele2.SCEnergy()/cosh(ele2.SCEta()) );
           fillVariableWithValue( "Ele2_SCEta"         , ele2.SCEta()              );
-          fillVariableWithValue( "Ele2_SCPhi"         , ele2.SCPhi()              );
           fillVariableWithValue( "Ele2_Charge"        , ele2.Charge()             );
           fillVariableWithValue( "Ele2_R9"            , ele2.R9()                 );
-          fillVariableWithValue( "Ele2_Dist"          , ele2.Dist()               );
-          fillVariableWithValue( "Ele2_DCotTheta"     , ele2.DCotTheta()          );
           fillVariableWithValue( "Ele2_MissingHits"   , ele2.MissingHits()        );
-          fillVariableWithValue( "Ele2_TrkPt"         , ele2.TrackPt()            );
-          fillVariableWithValue( "Ele2_TrkEta"        , ele2.TrackEta()           );
-          fillVariableWithValue( "Ele2_SigmaEtaEta"   , ele2.SigmaEtaEta()        );
-          fillVariableWithValue( "Ele2_EcalDriven"    , ele2.EcalDriven()         );
-          fillVariableWithValue( "Ele2_DeltaEtaSeed"  , ele2.DeltaEtaSeed()       );
-          fillVariableWithValue( "Ele2_SCEnergy"      , ele2.SCEnergy()           );
           fillVariableWithValue( "Ele2_Full5x5SigmaIEtaIEta" , ele2.Full5x5SigmaIEtaIEta() );
-          fillVariableWithValue( "Ele2_Full5x5E1x5OverE5x5"  , ele2.Full5x5E1x5OverE5x5()  );
-          fillVariableWithValue( "Ele2_Full5x5E2x5OverE5x5"  , ele2.Full5x5E2x5OverE5x5()  );
           fillVariableWithValue( "Ele2_RhoForHEEP"    , ele2.RhoForHEEP()         );
 
-          fillVariableWithValue( "Ele2_DeltaPhiTrkSC" , ele2.DeltaPhi()           );
           fillVariableWithValue( "Ele2_DeltaEtaTrkSC" , ele2.DeltaEta()           );
-          fillVariableWithValue( "Ele2_RawEnergy"     , ele2.RawEnergy()          );
-          fillVariableWithValue( "Ele2_NBrems"        , ele2.NBrems()             );
           fillVariableWithValue( "Ele2_HoE"           , ele2.HoE()                );
           fillVariableWithValue( "Ele2_HasMatchedPhot", ele2.HasMatchedConvPhot() );
-          fillVariableWithValue( "Ele2_FBrem"         , ele2.FBrem()              );
           fillVariableWithValue( "Ele2_LeadVtxDistXY" , ele2.LeadVtxDistXY()      );
           fillVariableWithValue( "Ele2_LeadVtxDistZ"  , ele2.LeadVtxDistZ ()      );
-          fillVariableWithValue( "Ele2_BeamSpotDXY"   , ele2.BeamSpotDXY()        );
-          fillVariableWithValue( "Ele2_BeamSpotDXYErr", ele2.BeamSpotDXYErr()     );
-          fillVariableWithValue( "Ele2_ValidFrac"     , ele2.ValidFrac()          );
-          fillVariableWithValue( "Ele2_Classif"       , ele2.Classif()            );
-          fillVariableWithValue( "Ele2_EOverP"        , ele2.ESuperClusterOverP() );
 
           fillVariableWithValue( "Ele2_TrkIsolation"  , ele2.TrkIsoDR03()         );
           fillVariableWithValue( "Ele2_TrkIsoHEEP7"   , ele2.HEEP70TrackIsolation());
@@ -1301,12 +1219,19 @@ void analysisClass::Loop()
           fillVariableWithValue( "Ele2_HcalIsolation" , ele2.HcalIsoD1DR03()      );
           fillVariableWithValue( "Ele2_CorrIsolation" , ele2.HEEPCorrIsolation()  );
           fillVariableWithValue( "Ele2_PFCHIso03"     , ele2.PFChargedHadronIso03());
-          fillVariableWithValue( "Ele2_PFPhoIso03"    , ele2.PFPhotonIso03       ());
-          fillVariableWithValue( "Ele2_PFNHIso03"     , ele2.PFNeutralHadronIso03());
 
-          fillVariableWithValue("Ele2_GsfCtfScPixCharge", ele2.GsfCtfScPixCharge()  );
-          fillVariableWithValue("Ele2_GsfScPixCharge"   , ele2.GsfScPixCharge()     );
-          fillVariableWithValue("Ele2_GsfCtfCharge"     , ele2.GsfCtfCharge()       );
+          fillVariableWithValue( "Ele2_PassHEEPMinPtCut"                            ,ele2.PassHEEPMinPtCut                            () );
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleSCEtaMultiRangeCut"            ,ele2.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleDEtaInSeedCut"                 ,ele2.PassHEEPGsfEleDEtaInSeedCut                 () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleDPhiInCut"                     ,ele2.PassHEEPGsfEleDPhiInCut                     () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele2.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele2.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele2.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleValueMapIsoRhoCut"             ,ele2.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele2.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleDxyCut"                        ,ele2.PassHEEPGsfEleDxyCut                        () ); 
+          fillVariableWithValue( "Ele2_PassHEEPGsfEleMissingHitsCut"                ,ele2.PassHEEPGsfEleMissingHitsCut                () ); 
+          fillVariableWithValue( "Ele2_PassHEEPEcalDrivenCut"                       ,ele2.PassHEEPEcalDrivenCut                       () );
 
           //fillVariableWithValue( "Ele2_hltEleSignalPt", hltEle2Pt_signal          );
           //fillVariableWithValue( "Ele2_hltDoubleElePt", hltEle2Pt_doubleEleSignal ); 
@@ -1319,43 +1244,21 @@ void analysisClass::Loop()
             double hltEle3Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele3, ele_hltMatch_DeltaRCut);
 
             fillVariableWithValue( "Ele3_Pt"            , ele3.Pt()                 );
-            fillVariableWithValue( "Ele3_Energy"        , ele3.CaloEnergy()         );
+            fillVariableWithValue( "Ele3_ECorr"         , ele3.ECorr()              );
             fillVariableWithValue( "Ele3_Eta"           , ele3.Eta()                );
             fillVariableWithValue( "Ele3_Phi"           , ele3.Phi()                );
-            fillVariableWithValue( "Ele3_PtHeep"        , ele3.PtHeep()             );
-            fillVariableWithValue( "Ele3_SCEt"          , ele3.SCEnergy()/cosh(ele3.SCEta()) );
             fillVariableWithValue( "Ele3_SCEta"         , ele3.SCEta()              );
-            fillVariableWithValue( "Ele3_SCPhi"         , ele3.SCPhi()              );
             fillVariableWithValue( "Ele3_Charge"        , ele3.Charge()             );
             fillVariableWithValue( "Ele3_R9"            , ele3.R9()                 );
-            fillVariableWithValue( "Ele3_Dist"          , ele3.Dist()               );
-            fillVariableWithValue( "Ele3_DCotTheta"     , ele3.DCotTheta()          );
             fillVariableWithValue( "Ele3_MissingHits"   , ele3.MissingHits()        );
-            fillVariableWithValue( "Ele3_TrkPt"         , ele3.TrackPt()            );
-            fillVariableWithValue( "Ele3_TrkEta"        , ele3.TrackEta()           );
-            fillVariableWithValue( "Ele3_SigmaEtaEta"   , ele3.SigmaEtaEta()        );
-            fillVariableWithValue( "Ele3_EcalDriven"    , ele3.EcalDriven()         );
-            fillVariableWithValue( "Ele3_DeltaEtaSeed"  , ele3.DeltaEtaSeed()       );
-            fillVariableWithValue( "Ele3_SCEnergy"      , ele3.SCEnergy()           );
             fillVariableWithValue( "Ele3_Full5x5SigmaIEtaIEta" , ele3.Full5x5SigmaIEtaIEta() );
-            fillVariableWithValue( "Ele3_Full5x5E1x5OverE5x5"  , ele3.Full5x5E1x5OverE5x5()  );
-            fillVariableWithValue( "Ele3_Full5x5E2x5OverE5x5"  , ele3.Full5x5E2x5OverE5x5()  );
             fillVariableWithValue( "Ele3_RhoForHEEP"    , ele3.RhoForHEEP()         );
 
-            fillVariableWithValue( "Ele3_DeltaPhiTrkSC" , ele3.DeltaPhi()           );
             fillVariableWithValue( "Ele3_DeltaEtaTrkSC" , ele3.DeltaEta()           );
-            fillVariableWithValue( "Ele3_RawEnergy"     , ele3.RawEnergy()          );
-            fillVariableWithValue( "Ele3_NBrems"        , ele3.NBrems()             );
             fillVariableWithValue( "Ele3_HoE"           , ele3.HoE()                );
             fillVariableWithValue( "Ele3_HasMatchedPhot", ele3.HasMatchedConvPhot() );
-            fillVariableWithValue( "Ele3_FBrem"         , ele3.FBrem()              );
             fillVariableWithValue( "Ele3_LeadVtxDistXY" , ele3.LeadVtxDistXY()      );
             fillVariableWithValue( "Ele3_LeadVtxDistZ"  , ele3.LeadVtxDistZ ()      );
-            fillVariableWithValue( "Ele3_BeamSpotDXY"   , ele3.BeamSpotDXY()        );
-            fillVariableWithValue( "Ele3_BeamSpotDXYErr", ele3.BeamSpotDXYErr()     );
-            fillVariableWithValue( "Ele3_ValidFrac"     , ele3.ValidFrac()          );
-            fillVariableWithValue( "Ele3_Classif"       , ele3.Classif()            );
-            fillVariableWithValue( "Ele3_EOverP"        , ele3.ESuperClusterOverP() );
 
             fillVariableWithValue( "Ele3_TrkIsolation"  , ele3.TrkIsoDR03()         );
             fillVariableWithValue( "Ele3_TrkIsoHEEP7"   , ele3.HEEP70TrackIsolation());
@@ -1363,12 +1266,19 @@ void analysisClass::Loop()
             fillVariableWithValue( "Ele3_HcalIsolation" , ele3.HcalIsoD1DR03()      );
             fillVariableWithValue( "Ele3_CorrIsolation" , ele3.HEEPCorrIsolation()  );
             fillVariableWithValue( "Ele3_PFCHIso03"     , ele3.PFChargedHadronIso03());
-            fillVariableWithValue( "Ele3_PFPhoIso03"    , ele3.PFPhotonIso03       ());
-            fillVariableWithValue( "Ele3_PFNHIso03"     , ele3.PFNeutralHadronIso03());
 
-            fillVariableWithValue("Ele3_GsfCtfScPixCharge", ele3.GsfCtfScPixCharge()  );
-            fillVariableWithValue("Ele3_GsfScPixCharge"   , ele3.GsfScPixCharge()     );
-            fillVariableWithValue("Ele3_GsfCtfCharge"     , ele3.GsfCtfCharge()       );
+            fillVariableWithValue( "Ele3_PassHEEPMinPtCut"                            ,ele3.PassHEEPMinPtCut                            () );
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleSCEtaMultiRangeCut"            ,ele3.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleDEtaInSeedCut"                 ,ele3.PassHEEPGsfEleDEtaInSeedCut                 () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleDPhiInCut"                     ,ele3.PassHEEPGsfEleDPhiInCut                     () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele3.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele3.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele3.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleValueMapIsoRhoCut"             ,ele3.PassHEEPGsfEleValueMapIsoRhoCut             () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele3.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleDxyCut"                        ,ele3.PassHEEPGsfEleDxyCut                        () ); 
+            fillVariableWithValue( "Ele3_PassHEEPGsfEleMissingHitsCut"                ,ele3.PassHEEPGsfEleMissingHitsCut                () ); 
+            fillVariableWithValue( "Ele3_PassHEEPEcalDrivenCut"                       ,ele3.PassHEEPEcalDrivenCut                       () );
 
             //fillVariableWithValue( "Ele3_hltEleSignalPt", hltEle3Pt_signal          );
             //fillVariableWithValue( "Ele3_hltDoubleElePt", hltEle3Pt_doubleEleSignal ); 
@@ -1502,12 +1412,12 @@ void analysisClass::Loop()
       Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
       t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
-        t_ele1.SetPtEtaPhiM ( ele1.SCEnergy()/cosh(ele1.SCEta()), ele1.Eta(), ele1.Phi(), 0.0 );
+        t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( n_ele_store >= 2 ) {
         Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
         t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
         if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
-          t_ele2.SetPtEtaPhiM ( ele2.SCEnergy()/cosh(ele2.SCEta()), ele2.Eta(), ele2.Phi(), 0.0 );
+          t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
 
         TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
         fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
@@ -1674,7 +1584,7 @@ void analysisClass::Loop()
       if(passedCut("PassTrigger"      ) &&  
           passedCut("nLooseEle_ptCut"  ) && 
           //passedCut("LooseEle1_Pt"     ) ){
-        passedCut("LooseEle1_SCEt"     ) ){
+        passedCut("LooseEle1_Pt"     ) ){
           //c_ele_final->examine<Electron>("final electrons");
           //c_ele_final_ptCut->examine<Electron>("final electrons with Pt cut");
           fillSkimTree();
@@ -1686,7 +1596,7 @@ void analysisClass::Loop()
     else if ( reducedSkimType == 1 ) { 
       if( passedCut("nEle_ptCut"       ) && 
           //passedCut("Ele1_Pt"          ) && 
-          passedCut("Ele1_SCEt"          ) && 
+          passedCut("Ele1_Pt"          ) && 
           passedCut("PFMET_Type1XY_Pt") && 
           passedCut("Jet1_Pt"          ) && 
           passedCut("Jet2_Pt"          ) && 
@@ -1702,8 +1612,8 @@ void analysisClass::Loop()
       if( passedCut("nEle_ptCut"       ) && 
           //passedCut("Ele1_Pt"          ) &&
           //passedCut("Ele2_Pt"          ) && 
-          passedCut("Ele1_SCEt"          ) && 
-          passedCut("Ele2_SCEt"          ) && 
+          passedCut("Ele1_Pt"          ) && 
+          passedCut("Ele2_Pt"          ) && 
           passedCut("Jet1_Pt"          ) &&
           passedCut("Jet2_Pt"          ) &&
           passedCut("sT_eejj"          ) && 
@@ -1716,7 +1626,7 @@ void analysisClass::Loop()
     // Single electron skim
     else if ( reducedSkimType == 3 ) { 
       if( passedCut("nEle_ptCut"       ) && 
-          passedCut("Ele1_SCEt"          ) ){
+          passedCut("Ele1_Pt"          ) ){
         fillSkimTree();
         fillReducedSkimTree();
       }
