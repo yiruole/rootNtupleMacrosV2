@@ -8,8 +8,8 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
-// for fake rate
-#include "include/QCDFakeRate.h"
+
+#include "include/HistoReader.h"
 // for prescales
 #include "include/Run2PhotonTriggerPrescales.h"
 
@@ -77,8 +77,7 @@ void analysisClass::Loop()
   // QCD Fake Rate loading part
   //--------------------------------------------------------------------------
   std::string qcdFileName = getPreCutString1("QCDFakeRateFileName");
-  //FIXME TODO eventually remove hardcoding of graph name
-  QCDFakeRate qcdFakeRate(qcdFileName);
+  HistoReader qcdFakeRateReader(qcdFileName,"Barrel_Fake_Rate","Endcap_Fake_Rate",true,true);
 
   // prescales
   Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
@@ -641,13 +640,12 @@ void analysisClass::Loop()
     //--------------------------------------------------------------------------
     // Make this a QCD fake rate calculation
     //--------------------------------------------------------------------------
+    // LooseEle Pt is the uncorrected SCEt
     double LooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt");
     double LooseEle2_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Pt");
-    //float fakeRate1 = qcdFakeRate.GetFakeRate(LooseEle1_SCEta,LooseEle1_SCEnergy/cosh(LooseEle1_SCEta));
-    //float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_SCEta,LooseEle2_SCEnergy/cosh(LooseEle2_SCEta));
     bool verboseFakeRateCalc = false;
-    float fakeRate1 = qcdFakeRate.GetFakeRate(LooseEle1_SCEta,LooseEle1_Pt,verboseFakeRateCalc);
-    float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_SCEta,LooseEle2_Pt,verboseFakeRateCalc);
+    float fakeRate1 = qcdFakeRateReader.LookupValue(LooseEle1_SCEta,LooseEle1_Pt,verboseFakeRateCalc);
+    float fakeRate2 = qcdFakeRateReader.LookupValue(LooseEle2_SCEta,LooseEle2_Pt,verboseFakeRateCalc);
 
     //--------------------------------------------------------------------------
     // Finally have the effective fake rate
