@@ -223,8 +223,10 @@ void analysisClass::Loop()
     //////// run ls event
     ////std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
     ////continue;
-    ////std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
-    ////cout << "Found the event! in file:" << current_file_name << endl;
+    //if(run!=276318) continue;
+    //if(ls!=10) continue;
+    //std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
+    //cout << "Found the event! in file:" << current_file_name << endl;
     //////test
 
     //-----------------------------------------------------------------
@@ -417,6 +419,9 @@ void analysisClass::Loop()
       CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <LooseElectron> ( FAKE_RATE_HEEP_LOOSE);
       c_ele_final               = c_ele_loose;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<LooseElectron>( ele_PtCut  );
+      //c_ele_all->examine<Electron>("c_ele_all");
+      //c_ele_loose->examine<Electron>("c_ele_loose");
+      //c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
@@ -484,9 +489,9 @@ void analysisClass::Loop()
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
     //if(c_pfjet_final->GetSize() > 4) {
     //  // run ls event
-    //  double run = readerTools_->ReadValueBranch<UInt_t>("run");
+    //  //double run = readerTools_->ReadValueBranch<UInt_t>("run");
     //  double event = readerTools_->ReadValueBranch<ULong64_t>("event");
-    //  double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
+    //  //double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
     //  std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
     //  c_pfjet_all->examine<PFJet>("c_pfjet_all");
     //  c_pfjet_final->examine<PFJet>("c_pfjet_final");
@@ -922,7 +927,7 @@ void analysisClass::Loop()
       int n_filters = c_hltPhoton_QCD_all -> GetSize();
 
       if ( n_ele_store >= 1 ){
-        Electron loose_ele1 = c_ele_final -> GetConstituent<Electron>(0);
+        LooseElectron loose_ele1 = c_ele_final -> GetConstituent<LooseElectron>(0);
 
         double hltPhotonPt = -999.;
         if ( n_filters != 0 ) {
@@ -972,7 +977,7 @@ void analysisClass::Loop()
 
         if ( n_ele_store >= 2 ){
 
-          Electron loose_ele2 = c_ele_final -> GetConstituent<Electron>(1);
+          LooseElectron loose_ele2 = c_ele_final -> GetConstituent<LooseElectron>(1);
           hltPhotonPt = -999.;
           if ( n_filters != 0 ) {
             hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut);
@@ -1019,7 +1024,7 @@ void analysisClass::Loop()
           fillVariableWithValue( "LooseEle2_hltPhotonPt"  , hltPhotonPt );
 
           if ( n_ele_store >= 3 ){
-            Electron loose_ele3 = c_ele_final -> GetConstituent<Electron>(2);
+            LooseElectron loose_ele3 = c_ele_final -> GetConstituent<LooseElectron>(2);
             hltPhotonPt = -999.;
             if ( n_filters != 0 ) {
               hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele3, ele_hltMatch_DeltaRCut);
@@ -1495,9 +1500,9 @@ void analysisClass::Loop()
       }
       else {
         // same as MC
-        // for 2016, need to feed in extra L1 prescales
-        //FIXME
         int l1prescale = 1;
+        // NB: all prescales applied as averages in downstream analysis code
+        // for 2016, need to feed in extra L1 prescales
         //int l1prescale = egPrescales2016.LookupPrescale("SingleEG18", run, L1PrescaleColumn);
         fillTriggerVariable ( "HLT_Photon22"  , "H_Photon22"  , l1prescale);
         //l1prescale = egPrescales2016.LookupPrescale("SingleEG26", run, L1PrescaleColumn);
