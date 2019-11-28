@@ -39,10 +39,9 @@ QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fak
 #QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 #-----------------------------------------------------------------------------------------------------------------------------
-# Trigger efficiency
+# Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerEfficiencyFileName   /afs/cern.ch/user/m/mbhat/work/public/TRigger_Files_2016data/TriggerEff.root  - - - -1
-#TriggerEfficiencyGraphName  hEff_Ele27OR115	- - - -1
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.

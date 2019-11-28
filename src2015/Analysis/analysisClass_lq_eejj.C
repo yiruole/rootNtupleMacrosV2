@@ -13,9 +13,7 @@
 // for scale factors
 #include "ElectronScaleFactors.C"
 #include "MuonScaleFactors.C"
-// 2016 trigger efficiency
-#include "TriggerEfficiency2016.h"
-
+#include "include/HistoReader.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -93,13 +91,12 @@ void analysisClass::Loop()
    double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
    //--------------------------------------------------------------------------
-   // 2016 trigger efficiency
+   // Trigger scale factors
    //--------------------------------------------------------------------------
-   std::string trigEffFileName = getPreCutString1("TriggerEfficiencyFileName");
+   std::string trigSF2016FileName = getPreCutString1("TriggerSFFileName");
    //std::string graphName = getPreCutString1("TriggerEfficiencyGraphName");
-   // this needs to match the path we use for data below
-   //TriggerEfficiency triggerEfficiency(trigEffFileName, "hEff_Ele27OR115");
-   TriggerEfficiency triggerEfficiency(trigEffFileName, "hEff_Ele27OR115OR175");
+   //FIXME path to trig sf file for different years
+   HistoReader triggerScaleFactor2016Reader(trigSF2016FileName,"SF_TH2F_Barrel","SF_TH2F_EndCap",false,false);
 
    //--------------------------------------------------------------------------
    // Create TH1D's
@@ -750,7 +747,11 @@ void analysisClass::Loop()
        float recoSFEle2 = ElectronScaleFactors2016::LookupRecoSF(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"));
        float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"));
        float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"));
-       float totalScaleFactor = recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+       // add trigger scale factor
+       bool verbose = false;
+       float trigSFEle1 = triggerScaleFactor2016Reader.LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"),readerTools_->ReadValueBranch<Double_t>("Ele1_SCEt"),verbose);
+       float trigSFEle2 = triggerScaleFactor2016Reader.LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"),readerTools_->ReadValueBranch<Double_t>("Ele2_SCEt"),verbose);
+       float totalScaleFactor = recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2*trigSFEle1*trigSFEle2;
        gen_weight*=totalScaleFactor;
      }
 
@@ -801,59 +802,18 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
      // we filled these at skim time
-     fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Double_t>("PassGlobalTightHalo2016Filter")          == 1));
-     fillVariableWithValue("PassGoodVertices"              , int(readerTools_->ReadValueBranch<Double_t>("PassGoodVertices")                       == 1));
-     fillVariableWithValue("PassHBHENoiseFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseFilter")                    == 1));
-     fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseIsoFilter")                 == 1));
-     fillVariableWithValue("PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Double_t>("PassBadEESupercrystalFilter")            == 1));
-     fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")               == 1));
-     fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")             == 1));
-     fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")                    == 1));
+     fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Double_t>("PassGlobalTightHalo2016Filter")          == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassGoodVertices"              , int(readerTools_->ReadValueBranch<Double_t>("PassGoodVertices")                       == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassHBHENoiseFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseFilter")                    == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseIsoFilter")                 == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Double_t>("PassBadEESupercrystalFilter")            == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")               == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")             == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")                    == 1), gen_weight * pileup_weight);
 
      //--------------------------------------------------------------------------
      // Fill HLT
      //--------------------------------------------------------------------------
-
-     //int passHLT = 1;
-     //if ( isData ) { 
-     //  passHLT = 0;
-     //  //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-     //  //  passHLT = 1;
-     //  if (H_Ele27_WPTight_eta2p1 == 1)
-     //    passHLT = 1;
-     //  ////XXX SIC FIXME TEST
-     //  //if(run < 275676) // L1 EGM efficiency going to zero
-     //  //  passHLT = 0;
-     //}
-     //// FIXME: Update to new 2016 curve
-     //else // using the turn-on in the MC
-     //{
-     //  // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-     //  //   we get two chances to pass since we may have two electrons in the event
-     //  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-     //  //passHLT = trigEle27::passTrig(Ele1_Pt,Ele1_Eta) ? 1 : 0;
-     //  if(!passHLT) // if the first one doesn't pass, try the second one
-     //    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-     //    //passHLT = trigEle27::passTrig(Ele2_Pt,Ele2_Eta) ? 1 : 0;
-     //}
-     //////XXX SIC FIXME TEST
-     ////if (isData) {
-     ////  passHLT = 0;
-     ////  //if ( H_Ele27_WPLoose == 1)
-     ////  //if ( H_Ele27_WPTight == 1)
-     ////  //if ( H_Ele27_WPTight == 1 || H_Photon175 == 1)
-     ////  if ( H_Ele27_WPLoose_eta2p1 == 1)
-     ////    passHLT = 1;
-     ////  if(run < 273726) // bad endcap alignment affecting deltaEtaIn cut
-     ////    passHLT = 0;
-     ////  if(run < 275676) // L1 EGM efficiency going to zero
-     ////    passHLT = 0;
-     ////}
-     ////else {
-     ////  passHLT = trigEle27::passTrig(Ele1_PtHeep,Ele1_SCEta) ? 1 : 0;
-     ////  if(!passHLT) // if the first one doesn't pass, try the second one
-     ////    passHLT = trigEle27::passTrig(Ele2_PtHeep,Ele2_SCEta) ? 1 : 0;
-     ////}
 
      int passHLT = 0;
      bool verboseTrigEff = false;
@@ -870,14 +830,13 @@ void analysisClass::Loop()
        //if (H_Ele27_WPTight == 1 || H_Ele115_CIdVT_GsfIdT == 1)
        //  passHLT = 1;
      }
-     else // using the turn-on in the MC
+     else
      {
-       // a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-       //   we get two chances to pass since we may have two electrons in the event
-       // trigger efficiency is binned in SCEta and SCEt (uncorrected)
-       passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"),readerTools_->ReadValueBranch<Double_t>("Ele1_Pt"),verboseTrigEff) ? 1 : 0;
-       if(!passHLT) // if the first one doesn't pass, try the second one
-         passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"),readerTools_->ReadValueBranch<Double_t>("Ele2_Pt"),verboseTrigEff) ? 1 : 0;
+       // using trigger scale factors
+       if (readerTools_->ReadValueBranch<Double_t>("H_Photon175") == 1 ||
+           readerTools_->ReadValueBranch<Double_t>("H_Ele27_WPTight") == 1 ||
+           readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1 )
+         passHLT = 1;
      }
      fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
 
