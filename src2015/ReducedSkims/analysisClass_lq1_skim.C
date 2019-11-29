@@ -19,8 +19,6 @@
 #include "GenJet.h"
 #include "HLTriggerObject.h"
 #include "HLTriggerObjectCollectionHelper.h"
-// for 2016 L1 prescales
-#include "src/EGPrescales2016.C"
 
 //--------------------------------------------------------------------------
 // Function for trigger matching 
@@ -192,9 +190,6 @@ void analysisClass::Loop()
   TLorentzVector v_PFMETType1Cor;
   TLorentzVector v_PFMETType1XYCor;
   
-
-  // prepare 2016 EG prescales
-  EGPrescales2016 egPrescales2016;
 
   /*//------------------------------------------------------------------
    *
