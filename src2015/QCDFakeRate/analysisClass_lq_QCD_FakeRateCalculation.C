@@ -9,6 +9,8 @@
 #include <TVector3.h>
 // for scale factors
 #include "ElectronScaleFactors.C"
+// for prescales
+#include "include/Run2PhotonTriggerPrescales.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -46,6 +48,11 @@ void analysisClass::Loop()
   double eleEta_end2_max    = getPreCutValue2("eleEta_end2");
 
   //--------------------------------------------------------------------------
+  // Photon trigger average prescales
+  //--------------------------------------------------------------------------
+  Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
+
+  //--------------------------------------------------------------------------
   // Create TH1D's
   //--------------------------------------------------------------------------
 
@@ -54,11 +61,26 @@ void analysisClass::Loop()
   CreateUserTH1D("Total_minPrescale"                     ,   200 , 0.0      , 2000.0   ); CreateUserTH1D("Electrons_minPrescale"                       ,   200 , 0.0      , 2000.0   ); CreateUserTH1D("Jets_minPrescale"                       ,   200 , 0.0      , 2000.0   );
   CreateUserTH1D("Total_pileupWeight"                    ,   100 , 0.0      , 2.0      ); CreateUserTH1D("Electrons_pileupWeight"                      ,   100 , 0.0      , 2.0      ); CreateUserTH1D("Jets_pileupWeight"                      ,   100 , 0.0      , 2.0      );
                                                                                                                                                                                                                                                                                      
+  CreateUserTH1D("Total_nVertex_PAS"                 ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Electrons_nVertex_PAS"                   ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Jets_nVertex_PAS"                   ,   100 , 0.0      , 100.0    ); 
   CreateUserTH1D("Total_Bar_nVertex_PAS"                 ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Electrons_Bar_nVertex_PAS"                   ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Jets_Bar_nVertex_PAS"                   ,   100 , 0.0      , 100.0    ); 
   CreateUserTH1D("Total_End1_nVertex_PAS"                ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Electrons_End1_nVertex_PAS"                  ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Jets_End1_nVertex_PAS"                  ,   100 , 0.0      , 100.0    ); 
   CreateUserTH1D("Total_End2_nVertex_PAS"                ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Electrons_End2_nVertex_PAS"                  ,   100 , 0.0      , 100.0    ); CreateUserTH1D("Jets_End2_nVertex_PAS"                  ,   100 , 0.0      , 100.0    ); 
                                                                                                                                                                                                                                                                                      
   // inclusive                                                                                                                                                                                                                                                                       
+
+  CreateUserTH1D( "Total_nElectron_PAS"              ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Electrons_nElectron_PAS"               ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Jets_nElectron_PAS"               ,    5   , -0.5    , 4.5      );
+  CreateUserTH1D( "Total_Pt1stEle_PAS"               ,    1000, 0       , 1000     );  CreateUserTH1D( "Electrons_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "Jets_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
+  CreateUserTH1D( "Total_hltPt1stEle_PAS"            ,    1000, 0       , 1000     );  CreateUserTH1D( "Electrons_hltPt1stEle_PAS"	           ,    1000, 0       , 1000     );  CreateUserTH1D( "Jets_hltPt1stEle_PAS"	           ,    1000, 0       , 1000     );
+  CreateUserTH1D( "Total_Eta1stEle_PAS"	          ,    100 , -5      , 5	         );  CreateUserTH1D( "Electrons_Eta1stEle_PAS"	           ,    100 , -5      , 5          );  CreateUserTH1D( "Jets_Eta1stEle_PAS"	           ,    100 , -5      , 5          );
+  CreateUserTH1D( "Total_Phi1stEle_PAS"	          ,    60  , -3.1416 , +3.1416     );  CreateUserTH1D( "Electrons_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );  CreateUserTH1D( "Jets_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );
+  CreateUserTH1D( "Total_Charge1stEle_PAS"	          ,    2   , -1.0001 , 1.0001  );  CreateUserTH1D( "Electrons_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );
+  CreateUserTH1D( "Total_MET_PAS"                    ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_MET_PAS"                     ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_MET_PAS"                     ,    100 , 0.0     , 1000.    );
+  CreateUserTH1D( "Total_TrkIsoHEEP7_PAS"            ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"        ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_MTenu_PAS"     , 400, 0, 2000); 
+  CreateUserTH1D( "ElectronsHEEP_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
   CreateUserTH1D( "Total_Bar_nElectron_PAS"              ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Electrons_Bar_nElectron_PAS"               ,    5   , -0.5    , 4.5      );  CreateUserTH1D( "Jets_Bar_nElectron_PAS"               ,    5   , -0.5    , 4.5      );
   CreateUserTH1D( "Total_Bar_Pt1stEle_PAS"               ,    1000, 0       , 1000     );  CreateUserTH1D( "Electrons_Bar_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "Jets_Bar_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
@@ -328,10 +350,9 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
-    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+    if(jentry < 10 || jentry%10000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     //// run ls event
     //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
-
 
     //--------------------------------------------------------------------------
     // Reset the cuts
@@ -347,6 +368,51 @@ void analysisClass::Loop()
     int passedJSON = passJSON ( run,
         readerTools_->ReadValueBranch<Double_t>("ls"),
         isData() ) ;
+
+    //--------------------------------------------------------------------------
+    // Find the right prescale for this event
+    //--------------------------------------------------------------------------
+    double min_prescale = 1;
+    int passTrigger = 0;
+
+    double LooseEle1_hltPhotonPt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_hltPhotonPt");
+
+    std::string triggerName = "";
+    int year = -1;
+    if ( isData() ) {
+      std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
+      if(current_file_name.find("Run2016") != std::string::npos)
+        year = 2016;
+      else if(current_file_name.find("Run2017") != std::string::npos)
+        year = 2017;
+      else if(current_file_name.find("Run2018") != std::string::npos)
+        year = 2018;
+      else {
+        std::cout << "ERROR: could not get trigger prescales because year cannot be obtained from the filename; " <<
+          "was expecting a filename that contains Run2016/2017/2018 and this filename:'" <<
+          current_file_name << "' does not!" << std::endl;
+        exit(-1);
+      }
+      if ( LooseEle1_hltPhotonPt > 0.0 ) { 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon22")   > 0.1 && LooseEle1_hltPhotonPt >= 22.  && LooseEle1_hltPhotonPt < 30. ) { passTrigger = 1; triggerName = "Photon22"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon30")   > 0.1 && LooseEle1_hltPhotonPt >= 30.  && LooseEle1_hltPhotonPt < 36. ) { passTrigger = 1; triggerName = "Photon30"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon36")   > 0.1 && LooseEle1_hltPhotonPt >= 36.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon36"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon50")   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon75")   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon90")   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon120")  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Double_t>("H_Photon175")  > 0.1 && LooseEle1_hltPhotonPt >= 175.) { passTrigger = 1; triggerName = "Photon175"; } 
+      }
+      if(passTrigger) {
+        //std::cout << "INFO: lookup trigger name " << triggerName << " for year: " << year << std::endl;
+        min_prescale = run2PhotonTriggerPrescales.LookupPrescale(year,triggerName);
+      }
+    }  // end if (isData) 
+
+    else { 
+      min_prescale = 1;
+      passTrigger = 1 ; //FIXME TODO: would need proper trigger handling for MC
+    }
 
     //--------------------------------------------------------------------------
     // Do pileup re-weighting
@@ -378,33 +444,6 @@ void analysisClass::Loop()
     }
     // add these to pileup weight
     pileup_weight*=gen_weight;
-
-    //--------------------------------------------------------------------------
-    // Fill variables
-    //--------------------------------------------------------------------------
-
-    short min_prescale = 0;
-    int passTrigger = 0;
-
-    double LooseEle1_hltPhotonPt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_hltPhotonPt");
-
-    if ( isData() ) {
-    if ( LooseEle1_hltPhotonPt > 0.0 ) { 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon22")   > 0.1 && LooseEle1_hltPhotonPt >= 22.  && LooseEle1_hltPhotonPt < 30. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon22")  ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon30")   > 0.1 && LooseEle1_hltPhotonPt >= 30.  && LooseEle1_hltPhotonPt < 36. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon30")  ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon36")   > 0.1 && LooseEle1_hltPhotonPt >= 36.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon36")  ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon50")   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon50")  ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon75")   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon75")  ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon90")   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon90")  ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon120")  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 175.) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon120") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon175")  > 0.1 && LooseEle1_hltPhotonPt >= 175.) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon175") ; } 
-      }
-    }  // end if (isData) 
-
-    else { 
-      min_prescale = 1;
-      passTrigger = 1 ; //FIXME TODO: would need proper trigger handling for MC
-    }
 
     //--------------------------------------------------------------------------
     // Fill cut values
@@ -440,9 +479,9 @@ void analysisClass::Loop()
     fillVariableWithValue(   "nEle"                    , nLooseEle_ptCut , min_prescale * pileup_weight );
 
     // use uncorrected energy
-    double LooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt")/readerTools_->ReadValueBranch<Double_t>("LooseEle1_ECorr");
-    double LooseEle2_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Pt")/readerTools_->ReadValueBranch<Double_t>("LooseEle2_ECorr");
-    double LooseEle3_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle3_Pt")/readerTools_->ReadValueBranch<Double_t>("LooseEle3_ECorr");
+    double LooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle1_ECorr");
+    double LooseEle2_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle2_ECorr");
+    double LooseEle3_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle3_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle3_ECorr");
     //fillVariableWithValue(   "Pt1stEle"               , LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)Heep            , min_prescale * pileup_weight );
     fillVariableWithValue(   "Pt1stEle"                , LooseEle1_Pt                , min_prescale * pileup_weight );
     fillVariableWithValue(   "SCEta1stEle"             , readerTools_->ReadValueBranch<Double_t>("LooseEle1_SCEta")             , min_prescale * pileup_weight );
@@ -726,6 +765,20 @@ void analysisClass::Loop()
       FillUserTH1D("Total_minPrescale"                     ,   min_prescale );
       FillUserTH1D("Total_pileupWeight"                    ,   pileup_weight);
 
+      FillUserTH1D( "Total_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Pt1stEle_PAS"	         , LooseEle1_Pt                 , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_hltPt1stEle_PAS"       , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Eta1stEle_PAS"	 , LooseEle1_Eta                , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Phi1stEle_PAS"	 , LooseEle1_Phi                , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+      FillUserTH1D( "Total_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
+
       if ( isBarrel ) {
 
         FillUserTH1D( "Total_Bar_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
@@ -917,8 +970,6 @@ void analysisClass::Loop()
         FillUserTH1D( "Total_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
 
         if ( nJetLooseEle_ptCut <= 1 ) {
           FillUserTH1D( "Total_End2_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
@@ -928,8 +979,6 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
@@ -944,8 +993,6 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
 
         if ( nJetLooseEle_ptCut >= 2 ) {
@@ -958,8 +1005,6 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
 
         if ( nJetLooseEle_ptCut >= 3 ) {
@@ -970,8 +1015,6 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
@@ -1065,6 +1108,22 @@ void analysisClass::Loop()
       ////XXX SIC TEST
 
       if ( passHEEPprime ) { 
+
+        FillUserTH1D( "Electrons_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        if(passHEEP) {
+          FillUserTH1D( "ElectronsHEEP_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
+          FillUserTH1D( "ElectronsHEEP_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+        }
 
         if ( isBarrel ) { 
           FillUserTH1D( "Electrons_Bar_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
@@ -1417,6 +1476,29 @@ void analysisClass::Loop()
 
       }
       else if (passJet) {
+
+        FillUserTH1D( "Jets_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        // for SR/SR division
+        if(LooseEle1_TrkIsoHEEP7 < 5) {
+          FillUserTH1D( "JetsSR_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
+          FillUserTH1D( "JetsSR_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+        }
+        else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+        {
+          FillUserTH1D( "JetsSB_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
+          FillUserTH1D( "JetsSB_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+        }
 
         if ( isBarrel ) { 
           FillUserTH1D( "Jets_Bar_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
