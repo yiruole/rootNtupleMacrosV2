@@ -53,7 +53,13 @@ from ROOT import *
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb13_addPlot/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 #
 #File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar16_fixMuons/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/2016data/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_QCD_preselection = GetFile("/data3/scooper/LQData/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+#File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_aug29/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#
+File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
 
 # unscaled
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar30_topPtWeight_recoHeepSFs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
@@ -99,7 +105,13 @@ File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar20_fixPlots/output_
 #
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
 #File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar20_fixPlots/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+# nominal
+#File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar20_fixPlots/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_aug28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_sep20/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection       = GetFile("$LQDATA/nano/2016/analysis/eejj_oldTrigEffUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+File_preselection       = GetFile("$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_preselection       = GetFile("$LQDATA/nano/2016/analysis/eejj_trigSFSCEt_dec5/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
 
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
@@ -110,7 +122,9 @@ File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar20_fixPlots/o
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar1_emujj_RedoRTrig/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 #
 #File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar17_emujj_fixMuons/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
-File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+#File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
+# moved to pcua01
+File_ttbar_preselection = GetFile("/data3/scooper/LQData/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 
 
 LQmasses = [650,1500]
@@ -174,7 +188,9 @@ else:
     # data-driven ttbar
     samplesForStackHistos_ttbar  = [ "TTBarFromDATA" ]
     keysStack             = ["QCD multijet (data)", "Other backgrounds", "t#bar{t} (data)", "Z/#gamma* + jets (MG5_aMC Pt)" ,   ]
+    # nominal
     samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_ptBinned" ]
+    #samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_Inc" ]
     systTypes             = ['qcd', 'mc', 'ttbarfromdata', 'zjets']
 
 # QCD
@@ -387,7 +403,8 @@ if doPreselPlots:
     #plots[-1].xmax  = 1.5
     
     
-    plots.append ( makeDefaultPlot ( "PtHeep1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt1) )
+    #plots.append ( makeDefaultPlot ( "PtHeep1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt1) )
+    plots.append ( makeDefaultPlot ( "Pt1stEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt1) )
     plots[-1].rebin = 2
     plots[-1].ymax  = 1e4
     plots[-1].ymin  = 1e-1
@@ -396,7 +413,8 @@ if doPreselPlots:
     plots[-1].ylog  = "yes"
     plots[-1].xtit  = "1st Electron p_{T} (GeV) [Preselection]"
     
-    plots.append ( makeDefaultPlot ( "PtHeep2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt2) )
+    #plots.append ( makeDefaultPlot ( "PtHeep2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt2) )
+    plots.append ( makeDefaultPlot ( "Pt2ndEle_PAS"  , histoBaseName_userDef , samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio, dataBlindAbovePt2) )
     plots[-1].rebin = 2
     plots[-1].ymax  = 1e5
     plots[-1].ymin  = 1e-1
@@ -1444,12 +1462,12 @@ if doFinalSelectionPlots:
         plots[-1].ytit = "M(ej)^{max} (GeV), (LQ M = " + str ( mass_point ) + " selection)"
     
         
-        plots.append ( makeDefaultPlot ("Classif_1stEle_LQ" + str ( int ( mass_point )  )               , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron classification, (LQ M = " + str ( mass_point ) + " selection)"
-        
-        
-        plots.append ( makeDefaultPlot ("Classif_2ndEle_LQ" + str ( int ( mass_point )  )               , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron classification, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots.append ( makeDefaultPlot ("Classif_1stEle_LQ" + str ( int ( mass_point )  )               , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron classification, (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #
+        #plots.append ( makeDefaultPlot ("Classif_2ndEle_LQ" + str ( int ( mass_point )  )               , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron classification, (LQ M = " + str ( mass_point ) + " selection)"
         
         plots.append ( makeDefaultPlot ("CorrIsolation_1stEle_LQ" + str ( int ( mass_point )  )         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
         plots[-1].xtit  = "1st Electron corrected HEEP isolation, (LQ M = " + str ( mass_point ) + " selection)"
@@ -1475,41 +1493,41 @@ if doFinalSelectionPlots:
         plots[-1].xmax  =  0.007
         plots[-1].rebin = 4
         
-        plots.append ( makeDefaultPlot ("DeltaPhiTrkSC_1stEle_LQ" + str ( int ( mass_point )  )         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
-        plots[-1].xtit  = "1st Electron #Delta#phi(track, SC), (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  = -0.06
-        plots[-1].xmax  =  0.06
-        plots[-1].rebin = 4
+        #plots.append ( makeDefaultPlot ("DeltaPhiTrkSC_1stEle_LQ" + str ( int ( mass_point )  )         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
+        #plots[-1].xtit  = "1st Electron #Delta#phi(track, SC), (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  = -0.06
+        #plots[-1].xmax  =  0.06
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("DeltaPhiTrkSC_2ndEle_LQ" + str ( int ( mass_point )  )         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
+        #plots[-1].xtit  = "2nd Electron #Delta#phi(track, SC), (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  = -0.06
+        #plots[-1].xmax  =  0.06
+        #plots[-1].rebin = 4
         
-        plots.append ( makeDefaultPlot ("DeltaPhiTrkSC_2ndEle_LQ" + str ( int ( mass_point )  )         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
-        plots[-1].xtit  = "2nd Electron #Delta#phi(track, SC), (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  = -0.06
-        plots[-1].xmax  =  0.06
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("Full5x5E1x5OverE5x5_1stEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
-        plots[-1].xtit  = "1st Electron E_{1x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  =  0.20
-        plots[-1].xmax  =  1.40
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("Full5x5E1x5OverE5x5_2ndEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
-        plots[-1].xtit  = "2nd Electron E_{1x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  =  0.20
-        plots[-1].xmax  =  1.40
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("Full5x5E2x5OverE5x5_1stEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
-        plots[-1].xtit  = "1st Electron E_{2x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  =  0.20
-        plots[-1].xmax  =  1.40
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("Full5x5E2x5OverE5x5_2ndEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
-        plots[-1].xtit  = "2nd Electron E_{2x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  =  0.20
-        plots[-1].xmax  =  1.40
-        plots[-1].rebin = 4
+        #plots.append ( makeDefaultPlot ("Full5x5E1x5OverE5x5_1stEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
+        #plots[-1].xtit  = "1st Electron E_{1x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  =  0.20
+        #plots[-1].xmax  =  1.40
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("Full5x5E1x5OverE5x5_2ndEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
+        #plots[-1].xtit  = "2nd Electron E_{1x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  =  0.20
+        #plots[-1].xmax  =  1.40
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("Full5x5E2x5OverE5x5_1stEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
+        #plots[-1].xtit  = "1st Electron E_{2x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  =  0.20
+        #plots[-1].xmax  =  1.40
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("Full5x5E2x5OverE5x5_2ndEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
+        #plots[-1].xtit  = "2nd Electron E_{2x5} / E_{5x5}, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  =  0.20
+        #plots[-1].xmax  =  1.40
+        #plots[-1].rebin = 4
         
         plots.append ( makeDefaultPlot ("EcalIsolation_1stEle_LQ" + str ( int ( mass_point )  )         , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )  
         plots[-1].xtit  = "1st Electron HEEP ECAL isolation, (LQ M = " + str ( mass_point ) + " selection)"
@@ -1543,33 +1561,33 @@ if doFinalSelectionPlots:
         plots[-1].xtit  = "2nd Electron HEEP tracker isolation, (LQ M = " + str ( mass_point ) + " selection)"
         plots[-1].rebin = 4
         
-        plots.append ( makeDefaultPlot ("FBrem_1stEle_LQ" + str ( int ( mass_point )  )                 , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron brem fraction, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  =   -5.0
-        plots[-1].xmax  =    4.0
-        
-        plots.append ( makeDefaultPlot ("FBrem_2ndEle_LQ" + str ( int ( mass_point )  )                 , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron brem fraction, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  =   -5.0
-        plots[-1].xmax  =    4.0
-        
-        plots.append ( makeDefaultPlot ("GsfCtfCharge_1stEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron GSF CTF charge, (LQ M = " + str ( mass_point ) + " selection)"
-        
-        plots.append ( makeDefaultPlot ("GsfCtfCharge_2ndEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron GSF CTF charge, (LQ M = " + str ( mass_point ) + " selection)"
-        
-        plots.append ( makeDefaultPlot ("GsfCtfScPixCharge_1stEle_LQ" + str ( int ( mass_point )  )     , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron GSF CTF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
-        
-        plots.append ( makeDefaultPlot ("GsfCtfScPixCharge_2ndEle_LQ" + str ( int ( mass_point )  )     , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron GSF CTF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
-        
-        plots.append ( makeDefaultPlot ("GsfScPixCharge_1stEle_LQ" + str ( int ( mass_point )  )        , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron GSF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
-        
-        plots.append ( makeDefaultPlot ("GsfScPixCharge_2ndEle_LQ" + str ( int ( mass_point )  )        , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron GSF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots.append ( makeDefaultPlot ("FBrem_1stEle_LQ" + str ( int ( mass_point )  )                 , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron brem fraction, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  =   -5.0
+        #plots[-1].xmax  =    4.0
+        #
+        #plots.append ( makeDefaultPlot ("FBrem_2ndEle_LQ" + str ( int ( mass_point )  )                 , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron brem fraction, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  =   -5.0
+        #plots[-1].xmax  =    4.0
+        #
+        #plots.append ( makeDefaultPlot ("GsfCtfCharge_1stEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron GSF CTF charge, (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #plots.append ( makeDefaultPlot ("GsfCtfCharge_2ndEle_LQ" + str ( int ( mass_point )  )          , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron GSF CTF charge, (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #plots.append ( makeDefaultPlot ("GsfCtfScPixCharge_1stEle_LQ" + str ( int ( mass_point )  )     , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron GSF CTF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #plots.append ( makeDefaultPlot ("GsfCtfScPixCharge_2ndEle_LQ" + str ( int ( mass_point )  )     , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron GSF CTF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #plots.append ( makeDefaultPlot ("GsfScPixCharge_1stEle_LQ" + str ( int ( mass_point )  )        , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron GSF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #plots.append ( makeDefaultPlot ("GsfScPixCharge_2ndEle_LQ" + str ( int ( mass_point )  )        , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron GSF SC Pixel charge, (LQ M = " + str ( mass_point ) + " selection)"
     
         plots.append ( makeDefaultPlot ("HasMatchedPhot_1stEle_LQ" + str ( int ( mass_point )  )        , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
         plots[-1].xtit  = "1st Electron has matched photon, (LQ M = " + str ( mass_point ) + " selection)"
@@ -1607,47 +1625,47 @@ if doFinalSelectionPlots:
         plots.append ( makeDefaultPlot ("MissingHits_2ndEle_LQ" + str ( int ( mass_point )  )           , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
         plots[-1].xtit  = "2nd Electron N(missing hits), (LQ M = " + str ( mass_point ) + " selection)"
     
-        plots.append ( makeDefaultPlot ("NBrems_1stEle_LQ" + str ( int ( mass_point )  )                , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron N(brems), (LQ M = " + str ( mass_point ) + " selection)"
+        #plots.append ( makeDefaultPlot ("NBrems_1stEle_LQ" + str ( int ( mass_point )  )                , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron N(brems), (LQ M = " + str ( mass_point ) + " selection)"
+        #
+        #plots.append ( makeDefaultPlot ("NBrems_2ndEle_LQ" + str ( int ( mass_point )  )                , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron N(brems), (LQ M = " + str ( mass_point ) + " selection)"
         
-        plots.append ( makeDefaultPlot ("NBrems_2ndEle_LQ" + str ( int ( mass_point )  )                , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron N(brems), (LQ M = " + str ( mass_point ) + " selection)"
-        
-        plots.append ( makeDefaultPlot ("EnergyORawEnergy_1stEle_LQ" + str ( int ( mass_point )  )      , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron energy correction factor, (LQ M = " + str ( mass_point ) + " selection)" 
-        plots[-1].xmin  = 0.95
-        plots[-1].xmax  = 1.3
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("EnergyORawEnergy_2ndEle_LQ" + str ( int ( mass_point )  )      , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron energy correction factor, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  = 0.95
-        plots[-1].xmax  = 1.3
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("SigmaEtaEta_Barrel_1stEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron #sigma_{#eta#eta} [Preselection, Barrel]"
-        plots[-1].xmin  = 0.005
-        plots[-1].xmax  = 0.015
-        plots[-1].rebin = 2
-        
-        plots.append ( makeDefaultPlot ("SigmaEtaEta_Barrel_2ndEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron #sigma_{#eta#eta} [Preselection, Barrel]"
-        plots[-1].xmin  = 0.005
-        plots[-1].xmax  = 0.015
-        plots[-1].rebin = 2
-        
-        plots.append ( makeDefaultPlot ("SigmaEtaEta_Endcap_1stEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron #sigma_{#eta#eta} [Preselection, Endcap]"
-        plots[-1].xmin  = 0.005
-        plots[-1].xmax  = 0.04
-        plots[-1].rebin = 2
-        
-        plots.append ( makeDefaultPlot ("SigmaEtaEta_Endcap_2ndEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron #sigma_{#eta#eta} [Preselection, Endcap]"
-        plots[-1].xmin  = 0.005
-        plots[-1].xmax  = 0.04
-        plots[-1].rebin = 2
+        #plots.append ( makeDefaultPlot ("EnergyORawEnergy_1stEle_LQ" + str ( int ( mass_point )  )      , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron energy correction factor, (LQ M = " + str ( mass_point ) + " selection)" 
+        #plots[-1].xmin  = 0.95
+        #plots[-1].xmax  = 1.3
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("EnergyORawEnergy_2ndEle_LQ" + str ( int ( mass_point )  )      , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron energy correction factor, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  = 0.95
+        #plots[-1].xmax  = 1.3
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("SigmaEtaEta_Barrel_1stEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron #sigma_{#eta#eta} [Preselection, Barrel]"
+        #plots[-1].xmin  = 0.005
+        #plots[-1].xmax  = 0.015
+        #plots[-1].rebin = 2
+        #
+        #plots.append ( makeDefaultPlot ("SigmaEtaEta_Barrel_2ndEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron #sigma_{#eta#eta} [Preselection, Barrel]"
+        #plots[-1].xmin  = 0.005
+        #plots[-1].xmax  = 0.015
+        #plots[-1].rebin = 2
+        #
+        #plots.append ( makeDefaultPlot ("SigmaEtaEta_Endcap_1stEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron #sigma_{#eta#eta} [Preselection, Endcap]"
+        #plots[-1].xmin  = 0.005
+        #plots[-1].xmax  = 0.04
+        #plots[-1].rebin = 2
+        #
+        #plots.append ( makeDefaultPlot ("SigmaEtaEta_Endcap_2ndEle_LQ" + str ( int ( mass_point )  )    , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron #sigma_{#eta#eta} [Preselection, Endcap]"
+        #plots[-1].xmin  = 0.005
+        #plots[-1].xmax  = 0.04
+        #plots[-1].rebin = 2
         
         #plots.append ( makeDefaultPlot ("Full5x5SigmaIEtaIEta_Barrel_1stEle_LQ" + str ( int ( mass_point )  )  , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
         #plots[-1].xtit  = "1st Electron #sigma_{i#etai#eta} [Preselection, Barrel]"
@@ -1673,25 +1691,25 @@ if doFinalSelectionPlots:
         #plots[-1].xmax  = 0.035
         #plots[-1].rebin = 2
         
-        plots.append ( makeDefaultPlot ("TrkPtOPt_1stEle_LQ" + str ( int ( mass_point )  )              , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron track pt / SC pt, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("TrkPtOPt_2ndEle_LQ" + str ( int ( mass_point )  )              , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron track pt / SC pt, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("ValidFrac_1stEle_LQ" + str ( int ( mass_point )  )             , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "1st Electron valid fraction of hits, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  = 0.00
-        plots[-1].xmax  = 1.50
-        plots[-1].rebin = 4
-        
-        plots.append ( makeDefaultPlot ("ValidFrac_2ndEle_LQ" + str ( int ( mass_point )  )              , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
-        plots[-1].xtit  = "2nd Electron valid fraction of hits, (LQ M = " + str ( mass_point ) + " selection)"
-        plots[-1].xmin  = 0.00
-        plots[-1].xmax  = 1.50
-        plots[-1].rebin = 4
+        #plots.append ( makeDefaultPlot ("TrkPtOPt_1stEle_LQ" + str ( int ( mass_point )  )              , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron track pt / SC pt, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("TrkPtOPt_2ndEle_LQ" + str ( int ( mass_point )  )              , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron track pt / SC pt, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("ValidFrac_1stEle_LQ" + str ( int ( mass_point )  )             , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "1st Electron valid fraction of hits, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  = 0.00
+        #plots[-1].xmax  = 1.50
+        #plots[-1].rebin = 4
+        #
+        #plots.append ( makeDefaultPlot ("ValidFrac_2ndEle_LQ" + str ( int ( mass_point )  )              , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) ) 
+        #plots[-1].xtit  = "2nd Electron valid fraction of hits, (LQ M = " + str ( mass_point ) + " selection)"
+        #plots[-1].xmin  = 0.00
+        #plots[-1].xmax  = 1.50
+        #plots[-1].rebin = 4
     
         plots.append ( makeDefaultPlot ( "EleChargeSum_LQ" + str( int (mass_point))        , histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
         plots[-1].xtit  = "Electron 1 charge + Electron 2 charge, (LQ M = " + str ( mass_point ) + " selection)"
