@@ -77,7 +77,7 @@ void analysisClass::Loop()
   // QCD Fake Rate loading part
   //--------------------------------------------------------------------------
   std::string qcdFileName = getPreCutString1("QCDFakeRateFileName");
-  HistoReader qcdFakeRateReader(qcdFileName,"Barrel_Fake_Rate","Endcap_Fake_Rate",true,true);
+  HistoReader qcdFakeRateReader(qcdFileName,"fr2D_Bar_2Jet","fr2D_End_2Jet",true,false);
 
   // prescales
   Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
