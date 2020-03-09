@@ -26,7 +26,8 @@ eleEta_end2            	2.000        2.5                  -               -     
 #-----------------------------------------------------------------------------------------------------------------------------
 # Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
-QCDFakeRateFileName		/afs/cern.ch/user/m/mbhat/work/public/Fakerate_files_2016/FR2D2JetScEt.root	- - - -1
+#QCDFakeRateFileName		/afs/cern.ch/user/m/mbhat/work/public/Fakerate_files_2016/FR2D2JetScEt.root	- - - -1
+QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/QCDFakeRate/qcdFakeRate2016.root	- - - -1
 # 
 TrigCorrForSingleLeptonFinalState false   -   -   -   -1
 #
