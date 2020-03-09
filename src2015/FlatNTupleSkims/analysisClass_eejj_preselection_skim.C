@@ -7,7 +7,6 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
-#include "src/Ele27WPLooseTrigTurnOn.C"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
@@ -144,7 +143,8 @@ void analysisClass::Loop() {
 
     //// Muons and electrons
     bool is_ttbar_from_data = false;
-    if ( readerTools_->ReadValueBranch<Double_t>("Ele2_ValidFrac") > 998. ) is_ttbar_from_data = true;
+    //FIXME
+    //if ( readerTools_->ReadValueBranch<Double_t>("Ele2_ValidFrac") > 998. ) is_ttbar_from_data = true;
     //
     int PassNEle = 0;
     //// nEle_ptCut are HEEP ID'ed electrons passing the Pt cut in the skim (which has been 10 GeV)
