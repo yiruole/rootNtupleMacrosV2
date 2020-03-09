@@ -259,6 +259,7 @@ nEle_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 nEle_ID			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 # 
 #Ele1_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+#Ele1_SCEt                       -inf      +inf   -   -   1 200 0 2000        SAVE  
 Ele1_ECorr                      -inf	     +inf		-		-		1	100 0 1000	      SAVE  
 Ele1_Eta                        -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele1_Phi                        -inf	     +inf		-		-		1	100 0 3.1416	      SAVE  
@@ -293,6 +294,7 @@ Ele1_PassHEEPGsfEleMissingHitsCut                    -inf      +inf             
 Ele1_PassHEEPEcalDrivenCut                           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 # 
 Ele2_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+#Ele2_SCEt                       -inf      +inf   -   -   1 200 0 2000        SAVE  
 Ele2_ECorr                      -inf	     +inf		-		-		1	100 0 1000	      SAVE  
 Ele2_Eta                        -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele2_Phi                        -inf	     +inf		-		-		1	100 0 3.1416	      SAVE  
@@ -327,6 +329,7 @@ Ele2_PassHEEPGsfEleMissingHitsCut                    -inf      +inf             
 Ele2_PassHEEPEcalDrivenCut                           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 # 
 Ele3_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+#Ele3_SCEt                       -inf      +inf   -   -   1 200 0 2000        SAVE  
 Ele3_ECorr                      -inf	     +inf		-		-		1	100 0 1000	      SAVE  
 Ele3_Eta                        -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele3_Phi                        -inf	     +inf		-		-		1	100 0 3.1416	      SAVE  
