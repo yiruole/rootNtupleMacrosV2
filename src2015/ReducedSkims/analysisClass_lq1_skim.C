@@ -1150,6 +1150,7 @@ void analysisClass::Loop()
         double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
 
         fillVariableWithValue( "Ele1_Pt"            , ele1.Pt()                 );
+        //fillVariableWithValue( "Ele1_SCEt"          , ele1.SCEnergy()/cosh(ele1.SCEta())               );
         fillVariableWithValue( "Ele1_ECorr"         , ele1.ECorr()              );
         fillVariableWithValue( "Ele1_Eta"           , ele1.Eta()                );
         fillVariableWithValue( "Ele1_Phi"           , ele1.Phi()                );
@@ -1197,6 +1198,7 @@ void analysisClass::Loop()
           double hltEle2Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele2, ele_hltMatch_DeltaRCut);
 
           fillVariableWithValue( "Ele2_Pt"            , ele2.Pt()                 );
+          //fillVariableWithValue( "Ele2_SCEt"          , ele2.SCEnergy()/cosh(ele2.SCEta())               );
           fillVariableWithValue( "Ele2_ECorr"         , ele2.ECorr()              );
           fillVariableWithValue( "Ele2_Eta"           , ele2.Eta()                );
           fillVariableWithValue( "Ele2_Phi"           , ele2.Phi()                );
@@ -1244,6 +1246,7 @@ void analysisClass::Loop()
             double hltEle3Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all        , ele3, ele_hltMatch_DeltaRCut);
 
             fillVariableWithValue( "Ele3_Pt"            , ele3.Pt()                 );
+            //fillVariableWithValue( "Ele3_SCEt"          , ele3.SCEnergy()/cosh(ele3.SCEta())               );
             fillVariableWithValue( "Ele3_ECorr"         , ele3.ECorr()              );
             fillVariableWithValue( "Ele3_Eta"           , ele3.Eta()                );
             fillVariableWithValue( "Ele3_Phi"           , ele3.Phi()                );
