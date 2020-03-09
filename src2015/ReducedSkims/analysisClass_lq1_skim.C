@@ -188,7 +188,7 @@ void analysisClass::Loop()
 
   TLorentzVector v_PFMETRaw;
   TLorentzVector v_PFMETType1Cor;
-  TLorentzVector v_PFMETType1XYCor;
+  //TLorentzVector v_PFMETType1XYCor;
   
 
   /*//------------------------------------------------------------------
