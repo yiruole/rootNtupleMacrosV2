@@ -1,20 +1,18 @@
 #!/usr/bin/env python
 
 ##############################################################################
-## USER CODE IS TOWARD THE END OF THE FILE
+# USER CODE IS TOWARD THE END OF THE FILE
 ##############################################################################
 
 ##############################################################################
-############# DON'T NEED TO MODIFY ANYTHING HERE - BEGIN #####################
+# ############ DON'T NEED TO MODIFY ANYTHING HERE - BEGIN #####################
 
 # ---Import
 import sys
 import string
-from optparse import OptionParser
 import os.path
 from ROOT import *
 import re
-from array import array
 import copy
 import math
 
@@ -104,7 +102,7 @@ def GetErrorIntegralTH1(histo, xmin, xmax):
     return error
 
 
-## The Plot class: add members if needed
+# The Plot class: add members if needed
 class Plot:
     histoDATA = ""  # DATA
     histoMCTTbar = ""  # MCTTbar
@@ -281,90 +279,15 @@ class Plot:
 # --- Input files
 # preselection
 
-# File_preselection     = GetFile("$LQDATA/2016analysis/dec1_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/dec1_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-# File_preselection     = GetFile("$LQDATA/2016analysis/dec13_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_rereco_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/dec13_onPSK_addStSFplots_ICHEPDataExcludeEarlyRuns_rereco_ele27wplooseEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-
-# File_preselection     = GetFile("$LQDATA/2016analysis/jan18_onPSK_rereco_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan18_onPSK_rereco_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-# File_preselection     = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_excludeBadL1runs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_excludeBadL1runs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-# File_preselection     = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_DYWStitch100GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan19_onPSK_rereco_DYWStitch100GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-# File_preselection     = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-##File_QCD_preselection = GetFile("$LQDATA/2016analysis/jan20_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_psk_QCD_jan22_rereco_eejj2015FinSels//output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-
-# File_preselection     = GetFile("$LQDATA/2016analysis/feb22_onPSK_rereco_DYWStitch120GeV_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_preselection     = GetFile("$LQDATA/2016analysis/eejj_feb28_recoHeepSFs_onPSK_rereco_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/feb22_onPsk_QCD_jan24_rereco/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-
-# mar28, reMiniAOD data, Summer16 MC
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_mar26_recoHeepSFs_reMiniAOD_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_QCD_psk_may22_ele27wptightOREle115_eejjOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_QCD_psk_may29_ele27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_QCD_psk_jul2_ele27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016analysis/eejj_QCD_psk_sep29_ptEECut/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_psk_oct6_ptEECut_updateFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_nov19_finalSels_noMuonVeto_nEleGte2/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_psk_nov27_finalSels_muonVeto35GeV_nEleGte2/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_jan24_gsfEtaCheck_preselOnly/output_cutTable_lq_eejj_QCD_preselOnly/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb5_gsfEtaCheck_finalSels_preCutHists/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb7_gsfEtaCheck_finalSels_addHists/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-#
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_feb10_bugfix/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-#
-# File_QCD_preselection = GetFile("$LQDATA/2016qcd/eejj_QCD_mar16_fixMuons/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-#
-# File_QCD_preselection = GetFile("/data3/scooper/LQData/2016qcd/eejj_QCD_mar20_fixPlots/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-#
-# File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_aug29/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
-#
-File_QCD_preselection = GetFile(
-    "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-)
+# File_QCD_preselection = GetFile(
+#     "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+# )
 
 # unscaled
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_mar28_recoHeepSFs_onPSK_reminiAOD_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-#
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar30_topPtWeight_recoHeepSFs_ele27wptightEta2p1Data2016CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_apr11_ele27wptightOREle115_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_may8_lowWZPt_ele27wptightOREle115_eejjBadOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_may22_lowWZPt_ele27wptightOREle115_eejjBadOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_may30_properEle27wptightOREle115ORPhoton175_eejjBadOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jul4_properEle27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jul4_properEle27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_sep17_ptEECut_properEle27wptightOREle115ORPhoton175_eejjOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov19_updateTrigEff_finalSels_noMuonVeto_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov24_fixTrigEff_finalSels_muonVetoDef35GeV_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_nov24_fixTrigEff_finalSels_muonVetoDef35GeV_nEleGte2/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan24_gsfEtaCheck_preselOnly/output_cutTable_lq_eejj_preselOnly/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_jan26_gsfEtaCheck_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb5_addPrevCutPlots_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb7_addHists_finalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb10_bugfix/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# new single top
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_feb20_newSingTop/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# File_preselection      = GetFile("$LQDATA/2016analysis/eejj_psk_mar16_fixMuons/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-
-# File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_aug28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection      = GetFile("$LQDATA/nano/2016/analysis/eejj_psk_sep20/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root")
-# File_preselection       = GetFile("$LQDATA/nano/2016/analysis/eejj_trigSF_nov28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 File_preselection = GetFile(
-    "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
 )
-# File_preselection       = GetFile("$LQDATA/nano/2016/analysis/eejj_oldTrigEffUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-# File_preselection       = GetFile("$LQDATA/nano/2016/analysis/eejj_trigSFSCEt_dec5/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 
 # File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
 # File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/jan25_emujj_correctTrig_finalSelections/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
@@ -462,13 +385,15 @@ for histBaseName in histBaseNames:
         # nominal below
         h_ALLBKG_Mee = GetHisto(
             thisHistName.replace(
-                "SAMPLE", "ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson"
+                # "SAMPLE", "ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson"
+                "SAMPLE", "ALLBKG_powhegTTBar_ZJetAMCIncWJetMGInc_DibosonPyth"
             )
             + histBaseName,
             File_preselection,
         )  # MC all
         h_ZJets_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "ZJet_amcatnlo_ptBinned") + histBaseName,
+            # thisHistName.replace("SAMPLE", "ZJet_amcatnlo_ptBinned") + histBaseName,
+            thisHistName.replace("SAMPLE", "ZJet_amcatnlo_Inc") + histBaseName,
             File_preselection,
         )
         # check DYJInc
@@ -507,7 +432,8 @@ for histBaseName in histBaseNames:
         )
     else:
         h_WJets_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "WJet_amcatnlo_ptBinned") + histBaseName,
+            # thisHistName.replace("SAMPLE", "WJet_amcatnlo_ptBinned") + histBaseName,
+            thisHistName.replace("SAMPLE", "WJet_Madgraph_Inc") + histBaseName,
             File_preselection,
         )
 
@@ -534,9 +460,9 @@ for histBaseName in histBaseNames:
         thisHistName.replace("SAMPLE", "PhotonJets_Madgraph") + histBaseName,
         File_preselection,
     )
-    # h_Diboson_Mee = GetHisto("histo1D__DIBOSON__"+histBaseName, File_preselection)
     h_Diboson_Mee = GetHisto(
-        thisHistName.replace("SAMPLE", "DIBOSON_amcatnlo") + histBaseName,
+        # thisHistName.replace("SAMPLE", "DIBOSON_amcatnlo") + histBaseName,
+        thisHistName.replace("SAMPLE", "DIBOSON") + histBaseName,
         File_preselection,
     )
 
@@ -546,10 +472,11 @@ for histBaseName in histBaseNames:
     )  # DATA
     # QCD
     h_QCD_DataDriven = GetHisto(
-        thisHistName.replace("SAMPLE", "QCDFakes_DATA") + histBaseName,
-        File_QCD_preselection,
+        # thisHistName.replace("SAMPLE", "QCDFakes_DATA") + histBaseName,
+        thisHistName.replace("SAMPLE", "QCD_EMEnriched") + histBaseName,
+        # File_QCD_preselection,
+        File_preselection,
     )
-    # h_QCD_DataDriven = GetHisto("histo1D__QCD_EMEnriched__"+histBaseName,File_QCD_preselection)
 
     plot0 = Plot()
     plot0.histoDATA = h_DATA_Mee
@@ -572,9 +499,9 @@ for histBaseName in histBaseNames:
     plot0.yminplot = 0
     plot0.ymaxplot = 2000
     # ZJet amc@NLO Pt
-    plot0.datasetName = "DYJetsToLL_Pt.+Tune"
+    # plot0.datasetName = "DYJetsToLL_Pt.+Tune"
     # ZJet amc@NLO Inc
-    # plot0.datasetName = "DYJetsToLL_M-50.+Tune"
+    plot0.datasetName = "DYJetsToLL_M-50.+Tune"
     # ZJet HT
     # plot0.datasetName = "DYJetsToLL_M-50_HT.+Tune"
     # plot0.datasetName = "Z.+Jets_Pt.+alpgen"
@@ -585,7 +512,7 @@ for histBaseName in histBaseNames:
 # -----------------------------------------------------------------------------------
 
 
-############# USER CODE - END ################################################
+# ############ USER CODE - END ################################################
 ##############################################################################
 
 
