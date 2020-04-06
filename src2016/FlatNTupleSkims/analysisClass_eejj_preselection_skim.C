@@ -46,7 +46,7 @@ void analysisClass::Loop() {
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
-    if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
+    if(jentry < 10 || jentry%10000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;   
     
     //-----------------------------------------------------------------
     // Get ready to fill variables 
@@ -110,14 +110,15 @@ void analysisClass::Loop() {
     // Noise/MET filters
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue("PassGlobalTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Double_t>("PassGlobalTightHalo2016Filter")          == 1));
-    fillVariableWithValue("PassGoodVertices"              , int(readerTools_->ReadValueBranch<Double_t>("PassGoodVertices")                       == 1));
-    fillVariableWithValue("PassHBHENoiseFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseFilter")                    == 1));
-    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseIsoFilter")                 == 1));
-    fillVariableWithValue("PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Double_t>("PassBadEESupercrystalFilter")            == 1));
-    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")               == 1));
-    fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")             == 1));
-    fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")                    == 1));
+    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Double_t>("PassGlobalSuperTightHalo2016Filter")     == 1));
+    fillVariableWithValue("PassGoodVertices"                   , int(readerTools_->ReadValueBranch<Double_t>("PassGoodVertices")                       == 1));
+    fillVariableWithValue("PassHBHENoiseFilter"                , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseFilter")                    == 1));
+    fillVariableWithValue("PassHBHENoiseIsoFilter"             , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseIsoFilter")                 == 1));
+    fillVariableWithValue("PassBadEESupercrystalFilter"        , int(readerTools_->ReadValueBranch<Double_t>("PassBadEESupercrystalFilter")            == 1));
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")               == 1));
+    fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")             == 1));
+    fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")                    == 1));
+    fillVariableWithValue("PassEcalBadCalibV2Filter"           , int(readerTools_->ReadValueBranch<Double_t>("PassEcalBadCalibV2Filter")               == 1));
 
 
     //--------------------------------------------------------------------------
@@ -220,8 +221,10 @@ void analysisClass::Loop() {
     // Fill DeltaR variables
     //--------------------------------------------------------------------------
 
+    //std::cout << "SethLog: nEle_store = " << readerTools_->ReadValueBranch<Double_t>("nEle_store") << "; nJet_store = " << readerTools_->ReadValueBranch<Double_t>("nJet_store") << std::endl;
     if ( readerTools_->ReadValueBranch<Double_t>("nEle_store") >= 2 &&
         readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 1) {
+      //std::cout << "SethLog: Fill DR_Ele1Jet1 = " << readerTools_->ReadValueBranch<Double_t>("DR_Ele1Jet1") << std::endl;
       fillVariableWithValue( "DR_Ele1Jet1"  , readerTools_->ReadValueBranch<Double_t>("DR_Ele1Jet1") , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "DR_Ele2Jet1"  , readerTools_->ReadValueBranch<Double_t>("DR_Ele2Jet1") , gen_weight * pileup_weight  ) ;
       if(readerTools_->ReadValueBranch<Double_t>("nJet_store") >= 2) {
