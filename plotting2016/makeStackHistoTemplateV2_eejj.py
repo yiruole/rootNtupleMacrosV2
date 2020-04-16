@@ -1,24 +1,31 @@
 #!/usr/bin/env python
 
 from plot_class import GetFile, Plot, Plot2D, generateHistoList, generateHisto, GetBackgroundSyst, makeTOC
-from ROOT import *
+from ROOT import gROOT, kCyan, kRed, TCanvas
 
 # gROOT.SetBatch(True)
-gROOT.ProcessLine( "gErrorIgnoreLevel = kWarning;")
+gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
 # gErrorIgnoreLevel = kWarning  # doesn't work
 
+inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_attempt_14apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 File_QCD_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    inputFile
 )
 
 File_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-    "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    inputFile
 )
 File_ttbar_preselection = GetFile(
     # "/data3/scooper/LQData/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root"
-    "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    inputFile
 )
 
 
@@ -239,9 +246,9 @@ def makeDefaultPlot(
     plot.stackFillStyleIds = stackFillStyleIds
     # plot.gif_folder        = "gif_eejj_scaled_preselectionOnly/"
     # plot.eps_folder        = "eps_eejj_scaled_preselectionOnly/"
-    plot.pdf_folder = "pdf_eejj_scaled_preselectionOnly/"
-    plot.png_folder = "png_eejj_scaled_preselectionOnly/"
-    plot.root_folder = "root_eejj_scaled_preselectionOnly/"
+    plot.pdf_folder = "pdf_eejj/"
+    plot.png_folder = "png_eejj/"
+    plot.root_folder = "root_eejj/"
     plot.suffix = "eejj"
     plot.lumi_fb = ilumi
     plot.addBkgUncBand = bkgUncBand
@@ -498,10 +505,10 @@ if doPreselPlots:
         )
     )
     # plots[-1].rebin = 2
-    plots[-1].ymax = 1e4
+    plots[-1].ymax = 1e5
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
-    plots[-1].xmax = 500
+    plots[-1].xmax = 200
     plots[-1].ylog = "yes"
     plots[-1].xtit = "1st Muon p_{T} (GeV) [Preselection]"
 
@@ -699,7 +706,7 @@ if doPreselPlots:
     )
     plots[-1].xtit = "PFMET #phi [Preselection]"
     plots[-1].rebin = 4
-    plots[-1].ymax = 5e7
+    plots[-1].ymax = 1.2e4
     plots[-1].ymin = 1e-1
     # plots[-1].ylog  = "yes"
 
@@ -1036,7 +1043,7 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e5
+    plots[-1].ymax = 5e4
     plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
@@ -1056,7 +1063,7 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e5
+    plots[-1].ymax = 9.5e3
     plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection]"
@@ -1260,7 +1267,7 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e3
+    plots[-1].ymax = 1500
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
@@ -1635,7 +1642,7 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e5
+    plots[-1].ymax = 1.8e4
     plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xtit = "M(ej) average (GeV) [Preselection]"
@@ -1657,7 +1664,7 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e5
+    plots[-1].ymax = 1.8e4
     plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xtit = "M(ej) minimum (GeV) [Preselection]"
@@ -1679,7 +1686,7 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e5
+    plots[-1].ymax = 1.8e4
     plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xtit = "M(ej) maximum (GeV) [Preselection]"
@@ -1781,7 +1788,7 @@ if doPreselPlots:
     plots[-1].xmin = -0.5
     plots[-1].xmax = 60.5
     plots[-1].ymin = 1e-1
-    plots[-1].ymax = 5e5
+    plots[-1].ymax = 5e7
     plots[-1].ylog = "yes"
     plots[-1].xtit = "n(vertices) [Preselection]"
 
