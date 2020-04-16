@@ -13,19 +13,24 @@ eleEta_bar            	1.4442        -                    -               -     
 eleEta_end1            	1.566        2.0                  -               -               -1
 eleEta_end2            	2.000        2.5                  -               -               -1
 #-----------------------------------------------------------------------------------------------------------------------------
+# Analysis year
+#-----------------------------------------------------------------------------------------------------------------------------
+AnalysisYear   2016  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
 #VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax
 #-----------------------------------------------------------------------------------------------------------------------------
 Weighting			-inf	     +inf		-		-		0	2 -0.5 1.5
 PassTrigger			0	     1			-		-		1	2 -0.5 1.5
 PassJSON			0	     1			-		-		2	2 -0.5 1.5
-PassGlobalTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
+PassGlobalSuperTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
 PassGoodVertices	        0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseIsoFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassBadEESupercrystalFilter     0	     1			-		-		0	2 -0.5 1.5
 PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
-PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
+#PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
 PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
+PassEcalBadCalibV2Filter              0	     1			-		-		0	2 -0.5 1.5
 # remove muon veto
 nMuon				-1	     0			-		-		3	11 -0.5 10.5
 nEle			      	0	     1			-		-		3	16 -0.5 15.5	SAVE
