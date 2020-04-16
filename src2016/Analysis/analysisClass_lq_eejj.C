@@ -808,7 +808,7 @@ void analysisClass::Loop()
            if (readerTools_->ReadValueBranch<Double_t>("H_Photon175") == 1) // take events triggered by Photon175 only plus those triggered by Photon175 AND Ele27/Ele115
              passHLT = 1;
          }
-         else if(analysisYear > 2016) {
+         else {
            if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") == 1) // take events triggered by Photon200 only plus those triggered by Photon200 AND Ele35
              passHLT = 1;
          }
@@ -819,19 +819,18 @@ void analysisClass::Loop()
                (readerTools_->ReadValueBranch<Double_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
              passHLT = 1;
          }
-         else if(analysisYear==2017) {
+         else {
            if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") != 1 && 
                readerTools_->ReadValueBranch<Double_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
              passHLT = 1;
          }
-         else if(analysisYear==2018) {
-           if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") != 1 && 
-               (readerTools_->ReadValueBranch<Double_t>("H_Ele32_WPTight") == 1 || readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele32 OR Ele115
-             passHLT = 1;
-         }
        }
-       //if (H_Ele27_WPTight == 1 || H_Ele115_CIdVT_GsfIdT == 1)
-       //  passHLT = 1;
+       else if(analysisYear==2018) {
+         if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") == 1 ||
+             readerTools_->ReadValueBranch<Double_t>("H_Ele32_WPTight") == 1 ||
+             readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1) // take events triggered by Photon200 OR Ele32 OR Ele115
+           passHLT = 1;
+       }
      }
      else
      {
