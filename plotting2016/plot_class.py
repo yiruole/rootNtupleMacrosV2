@@ -532,8 +532,11 @@ class Plot:
     addBkgUncBand = True
     bkgUncKey = "Bkg. syst."
     systs = []  # relative systematic uncertainty on each stack histo (for background)
+    isInteractive = False # draw the plot to the screen; use when running with python -i
 
     def Draw(self, fileps, page_number=-1):
+        if self.isInteractive:
+            gROOT.SetBatch(False)
 
         self.histos = rebinHistos(
             self.histos, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl
@@ -1121,13 +1124,13 @@ class Plot:
                         lineAtPlusTwo.Draw("SAME")
                         lineAtMinusTwo.Draw("SAME")
 
-        ## XXX SIC TEST
-        ### wait for input to keep the GUI (which lives on a ROOT event dispatcher) alive
-        # rep = ''
-        # while not rep in [ 'c', 'C' ]:
-        #   rep = raw_input( 'enter "c" to continue: ' )
-        #   if 1 < len(rep):
-        #      rep = rep[0]
+        # wait for input to keep the GUI (which lives on a ROOT event dispatcher) alive
+        if self.isInteractive:
+            rep = ''
+            while rep not in ['c', 'C']:
+                rep = raw_input('enter "c" to continue: ')
+                if 1 < len(rep):
+                    rep = rep[0]
 
         # -- end
         if not os.path.isdir(self.eps_folder) and self.eps_folder != "":
@@ -1203,6 +1206,8 @@ class Plot:
             page_text.DrawTextNDC(0.97, 0.985, "%i" % page_number)
 
         canvas.Print(fileps)
+        if self.isInteractive:
+            gROOT.SetBatch(True)
 
 
 class Plot2D:
