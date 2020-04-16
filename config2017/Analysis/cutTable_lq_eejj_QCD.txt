@@ -2,7 +2,6 @@
 # 2016-2018 JSON file
 #------------------------------------------------------------------------------------------------------
 JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/certifiedGolden_11mar2020_2016_2017_2018.json
-#
 #############################     Example of file with list of cuts
 #
 #
@@ -27,16 +26,9 @@ eleEta_end2            	2.000        2.5                  -               -     
 #-----------------------------------------------------------------------------------------------------------------------------
 # Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
-#QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FRHistogram2D2Jet.root	- - - -1
-QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FR2D2JetReminiAOD23_10.root	- - - -1
-#-----------------------------------------------------------------------------------------------------------------------------
-# Trigger scale factors
-#-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2017_WithoutEle115/egammaEffi.txt_EGM2D.root  - - - -1
-#-----------------------------------------------------------------------------------------------------------------------------
-# Reco scale factors
-#-----------------------------------------------------------------------------------------------------------------------------
-RecoSFFileName  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root  - - - -1
+QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/QCDFakeRate/2017/apr15/qcdFakeRatePlots.root	- - - -1
+# 
+TrigCorrForSingleLeptonFinalState false   -   -   -   -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -68,24 +60,27 @@ AnalysisYear   2017  - - - -1
 #|_|                    
 #-----------------------------------------------------------------------------------------------------------------------------
 Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
-#PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
-PassJSON		  	0      1			-               -               0       2 -0.5 1.5	     
+PassJSON		  	0            1			-               -               0       2 -0.5 1.5	     
 PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
 PassGlobalSuperTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
-PassGoodVertices	                    0	     1			-		-		0	2 -0.5 1.5
-PassHBHENoiseFilter    		            0	     1			-		-		0	2 -0.5 1.5
-PassHBHENoiseIsoFilter             		0	     1			-		-		0	2 -0.5 1.5
-PassBadEESupercrystalFilter           0	     1			-		-		0	2 -0.5 1.5
-PassEcalDeadCellTrigPrim              0	     1			-		-		0	2 -0.5 1.5
-#PassChargedCandidateFilter            0	     1			-		-		0	2 -0.5 1.5
-PassBadPFMuonFilter                   0	     1			-		-		0	2 -0.5 1.5
+PassGoodVertices	        0	     1			-		-		0	2 -0.5 1.5
+PassHBHENoiseFilter    		0	     1			-		-		0	2 -0.5 1.5
+PassHBHENoiseIsoFilter    		0	     1			-		-		0	2 -0.5 1.5
+PassBadEESupercrystalFilter     0	     1			-		-		0	2 -0.5 1.5
+PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
+#PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
+PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
 PassEcalBadCalibV2Filter              0	     1			-		-		0	2 -0.5 1.5
 PassNEle 			0            1			-               -               1       11 -0.5 10.5	      
 PassNMuon			0            1			-               -               1       16 -0.5 15.5          
 nEle_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
 nJet_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
+Ele1_Eta			-2.5         2.5		-               -               1       100 -5 5	      
+Ele2_Eta			-2.5         2.5		-               -               1       100 -5 5	      
 Ele1_Pt				50	     +inf		-		-		1	200 0 2000	      
 Ele2_Pt				50	     +inf		-		-		1	200 0 2000	      
+Ele1_PassHEEPID     -inf	     0			-		-		0	2 -0.5 1.5
+Ele2_PassHEEPID     -inf	     0			-		-		0	2 -0.5 1.5
 #Ele1_AbsDeltaEtaEleTrk    0    0.03	  -		-		1	400 -0.5 0.5
 #Ele2_AbsDeltaEtaEleTrk    0    0.03	  -		-		1	400 -0.5 0.5
 nJet				-inf	     +inf		-               -               1       16 -0.5 15.5	      
@@ -114,15 +109,14 @@ Mej_min_opt                     -inf         +inf               -               
 #|  _| | | | | (_| | | \__ \  __/ |  __/ (__| |_| | (_) | | | |                                                           
 #|_| |_|_| |_|\__,_|_| |___/\___|_|\___|\___|\__|_|\___/|_| |_|                                                           
 #-----------------------------------------------------------------------------------------------------------------------------
-# CUTS GET PROGRESSIVELY TIGHTER
-##------------------------------------------------------------------------------------------------
+# CUTS GET PROGRESSIVELY TIGHTER, SO DON'T NORMALLY PUT THIS HERE
 #------------------------------------------------------------------------------------------------
 # LQ M 650 optimization  - 2012
 #------------------------------------------------------------------------------------------------
-#sT_eejj_LQ650      850   +inf    -   - 2 200 0 2000
-#M_e1e2_LQ650     155   +inf    -   - 2 200 0 2000
-#min_M_ej_LQ650 360 +inf - - 2 200 0 2000
-#
+#sT_eejj_LQ650			850		+inf		-		-	2	200 0 2000
+#M_e1e2_LQ650			155		+inf		-		-	2	200 0 2000
+#min_M_ej_LQ650			360		+inf		-		-	2	200 0 2000
+#------------------------------------------------------------------------------------------------
 # Nov24, nEle>=2, muon>35+ele<2.4 with amc@NLO diboson
 #---------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------
@@ -347,3 +341,5 @@ min_M_ej_LQ1950     755   +inf    -   - 2 200 0 2000
 sT_eejj_LQ2000      1565    +inf    -   - 2 200 0 2000
 M_e1e2_LQ2000     300   +inf    -   - 2 200 0 2000
 min_M_ej_LQ2000     755   +inf    -   - 2 200 0 2000
+
+
