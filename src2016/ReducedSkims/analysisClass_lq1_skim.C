@@ -124,6 +124,11 @@ void analysisClass::Loop()
   bool do_jes = bool ( pfjet_energy_scale_sign    != 0 );
   
   //--------------------------------------------------------------------------
+  // Analysis year
+  //--------------------------------------------------------------------------
+  int analysisYear = getPreCutValue1("AnalysisYear");
+
+  //--------------------------------------------------------------------------
   // Cuts for physics objects selection
   //--------------------------------------------------------------------------
 
@@ -409,8 +414,12 @@ void analysisClass::Loop()
     // Signal skims (reducedSkimType = 1 - 4 ) have HEEP  electrons
     //-----------------------------------------------------------------
 
+    CollectionPtr c_ele_HEEP;
     CollectionPtr c_ele_final;
     CollectionPtr c_ele_final_ptCut;
+    ID heepIdType = HEEP70;
+    if(analysisYear == 2018)
+      heepIdType = HEEP70_2018;
 
     if ( reducedSkimType == 0 ){ 
       CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <LooseElectron> ( FAKE_RATE_HEEP_LOOSE);
@@ -422,20 +431,12 @@ void analysisClass::Loop()
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
-      CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70 );
+      c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( heepIdType );
       //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
       c_ele_final               = c_ele_HEEP;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
     }
     // look at final electrons
-    //if(event==13378 || event==11126 || event ==11383 || event==12527 || event==49199 || event==45348 || event==1951 ||
-    //    event==6999 || event==45575 || event==44028 || event==822 || event==18153 || event==21114 || event==23045 ||
-    //    event==23738 || event==30677 || event==39025 || event==39097 || event==39160 || event==40122 || event==47280 ||
-    //    event==47601 || event==49326 || event==30390 || event==19205 || event==19241 || event==29574 || event==1766 ||
-    //    event==19537 || event==36861 || event==40627 || event==5291 || event==18684 || event==26851 || event==27910 ||
-    //    event==35324 || event==5709 || event==15032 || event==40865 || event==33682 || event==33201 || event==14858 ||
-    //    event==14998 || event==26254 || event==31484 || event==39858 || event==35642 || event==46092) {
-    //
     //Electron ele1_tmp;
     //if(c_ele_final->GetSize() > 0)
     //{
@@ -940,7 +941,7 @@ void analysisClass::Loop()
           hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele1, ele_hltMatch_DeltaRCut);
         }
 
-        fillVariableWithValue( "LooseEle1_PassHEEPID"           , loose_ele1.PassUserID ( HEEP70 )  );
+        fillVariableWithValue( "LooseEle1_PassHEEPID"           , loose_ele1.PassUserID ( heepIdType )  );
         fillVariableWithValue( "LooseEle1_Pt"                   , loose_ele1.Pt()                 );
         fillVariableWithValue( "LooseEle1_ECorr"                , loose_ele1.ECorr()              );
         fillVariableWithValue( "LooseEle1_RhoForHeep"           , loose_ele1.RhoForHEEP());
@@ -988,7 +989,7 @@ void analysisClass::Loop()
             hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele2, ele_hltMatch_DeltaRCut);
           }
 
-          fillVariableWithValue( "LooseEle2_PassHEEPID"    , loose_ele2.PassUserID ( HEEP70 ));
+          fillVariableWithValue( "LooseEle2_PassHEEPID"    , loose_ele2.PassUserID ( heepIdType ));
           fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
           fillVariableWithValue( "LooseEle2_ECorr"         , loose_ele2.ECorr()              );
           fillVariableWithValue( "LooseEle2_RhoForHeep"  , loose_ele2.RhoForHEEP());
@@ -1035,7 +1036,7 @@ void analysisClass::Loop()
               hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, loose_ele3, ele_hltMatch_DeltaRCut);
             }
 
-            fillVariableWithValue( "LooseEle3_PassHEEPID"    , loose_ele3.PassUserID ( HEEP70 )  );
+            fillVariableWithValue( "LooseEle3_PassHEEPID"    , loose_ele3.PassUserID ( heepIdType )  );
             fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
             fillVariableWithValue( "LooseEle3_ECorr"         , loose_ele3.ECorr()               );
             fillVariableWithValue( "LooseEle3_RhoForHeep"           , loose_ele3.RhoForHEEP());
