@@ -16,8 +16,6 @@
 #include "ElectronScaleFactors.C"
 #include "MuonScaleFactors.C"
 #include "include/HistoReader.h"
-// 2016 trigger efficiency
-//#include "TriggerEfficiency2016.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -112,10 +110,7 @@ void analysisClass::Loop()
    // reco scale factors
    //--------------------------------------------------------------------------
    std::string recoSFFileName = getPreCutString1("RecoSFFileName");
-   std::unique_ptr<HistoReader> recoScaleFactorReader;
-   if(analysisYear==2017)
-     //recoScaleFactorReader = std::make_unique<HistoReader>(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false);
-     recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
+   std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
 
    //--------------------------------------------------------------------------
    // Create TH1D's
@@ -171,7 +166,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Phi2ndJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
    CreateUserTH1D( "sTlep_PAS"                       ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sTlep_PASandMee100"              ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "sTjet_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "sTjet_PAS"                       ,    200   , 0       , 3000	  ); 
    CreateUserTH1D( "sTjet_PASandMee100"              ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sT_PAS"                          ,    300   , 0       , 3000	  ); 
    CreateUserTH1D( "sT_zjj_PAS"                      ,    300   , 0       , 3000	  ); 
@@ -704,24 +699,30 @@ void analysisClass::Loop()
        //std::cout << "Ele1_Pt = " << readerTools_->ReadValueBranch<Double_t>("Ele1_Pt") << "; Ele1_ECorr = " << ele1ECorr << "; Ele1_SCEta = " << readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta") << std::endl;
        //std::cout << "Ele2_Pt = " << readerTools_->ReadValueBranch<Double_t>("Ele2_Pt") << "; Ele2_ECorr = " << ele2ECorr << "; Ele2_SCEta = " << readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta") << std::endl;
        float recoHeepSF = 1.0;
+       bool verbose = false;
        if(analysisYear==2016) {
-         float recoSFEle1 = ElectronScaleFactors2016::LookupRecoSF(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"));
-         float recoSFEle2 = ElectronScaleFactors2016::LookupRecoSF(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"));
+         float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
+         float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
          float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"));
          float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"));
          recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
        }
        else if(analysisYear==2017) {
          float zVtxSF = ElectronScaleFactors2017::zVtxSF;
-         bool verbose = false;
          float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
          float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
          float heepSFEle1 = ElectronScaleFactors2017::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"));
          float heepSFEle2 = ElectronScaleFactors2017::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"));
          recoHeepSF *= zVtxSF*recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
        }
+       else if(analysisYear==2018) {
+         float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
+         float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
+         float heepSFEle1 = ElectronScaleFactors2018::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"));
+         float heepSFEle2 = ElectronScaleFactors2018::LookupHeepSF(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"));
+         recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+       }
        // add trigger scale factor
-       bool verbose = false;
        // FIXME TODO: should be using the electron matched to the trigger object only
        float trigSFEle1 = triggerScaleFactorReader.LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
        float trigSFEle2 = triggerScaleFactorReader.LookupValue(readerTools_->ReadValueBranch<Double_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
@@ -807,7 +808,7 @@ void analysisClass::Loop()
            if (readerTools_->ReadValueBranch<Double_t>("H_Photon175") == 1) // take events triggered by Photon175 only plus those triggered by Photon175 AND Ele27/Ele115
              passHLT = 1;
          }
-         else if(analysisYear==2017) {
+         else if(analysisYear > 2016) {
            if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") == 1) // take events triggered by Photon200 only plus those triggered by Photon200 AND Ele35
              passHLT = 1;
          }
@@ -821,6 +822,11 @@ void analysisClass::Loop()
          else if(analysisYear==2017) {
            if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") != 1 && 
                readerTools_->ReadValueBranch<Double_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
+             passHLT = 1;
+         }
+         else if(analysisYear==2018) {
+           if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") != 1 && 
+               (readerTools_->ReadValueBranch<Double_t>("H_Ele32_WPTight") == 1 || readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele32 OR Ele115
              passHLT = 1;
          }
        }
@@ -854,6 +860,12 @@ void analysisClass::Loop()
        else if(analysisYear==2017) {
          if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") == 1 ||
              readerTools_->ReadValueBranch<Double_t>("H_Ele35_WPTight") == 1 )
+           passHLT = 1;
+       }
+       else if(analysisYear==2018) {
+         if (readerTools_->ReadValueBranch<Double_t>("H_Photon200") == 1 ||
+             readerTools_->ReadValueBranch<Double_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
+             readerTools_->ReadValueBranch<Double_t>("H_Ele32_WPTight") == 1 )
            passHLT = 1;
        }
      }
