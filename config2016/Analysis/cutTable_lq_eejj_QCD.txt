@@ -30,6 +30,10 @@ eleEta_end2            	2.000        2.5                  -               -     
 QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/QCDFakeRate/qcdFakeRate2016.root	- - - -1
 # 
 TrigCorrForSingleLeptonFinalState false   -   -   -   -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Analysis year
+#-----------------------------------------------------------------------------------------------------------------------------
+AnalysisYear   2016  - - - -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -65,7 +69,7 @@ PassHBHENoiseFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassHBHENoiseIsoFilter    		0	     1			-		-		0	2 -0.5 1.5
 PassBadEESupercrystalFilter     0	     1			-		-		0	2 -0.5 1.5
 PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
-PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
+#PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
 PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
 PassNEle 			0            1			-               -               1       11 -0.5 10.5	      
 PassNMuon			0            1			-               -               1       16 -0.5 15.5          
