@@ -286,7 +286,13 @@ class Plot:
 # unscaled
 File_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-    "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/noJets_30apr2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_noJets_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/noJets_pt35_7may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    "$LQDATA/nanoV6/2017/analysis/noJets_pt35_prefire_8may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_22apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/condor/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 )
 
 # File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
@@ -294,17 +300,81 @@ File_preselection = GetFile(
 
 
 # --- Rescaling of Z/gamma + jet background
+# TODO: could figure out the composition from the sampleListForMerging file? would need to enforce naming convention to map sampleName-->process
+inclusiveDY = False
+inclusiveW =  False # only used with inclusive DY
+jetBinnedDY = True
+if inclusiveDY:
+    if inclusiveW:
+        allBkg = "ALLBKG_powhegTTBar_ZJetAMCIncWJetMGInc_DibosonPyth"
+        wjet = "WJet_Madgraph_Inc"
+    else:
+        allBkg = "ALLBKG_powhegTTBar_ZJetAMCIncWJetAMCJetBinned_DibosonPyth"
+        wjet = "WJet_amcatnlo_jetBinned"
+    zjet = "ZJet_amcatnlo_Inc"
+    zjetDatasetName = "DYJetsToLL_M-50.+Tune"
+elif jetBinnedDY:
+    allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetBinnedWJetAMCJetBinned_DibosonPyth"
+    wjet = "WJet_amcatnlo_jetBinned"
+    zjet = "ZJet_amcatnlo_jetBinned"
+    zjetDatasetName = "DYJetsToLL_.+J_Tune"
+else:
+    allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_DibosonPyth"
+    wjet = "WJet_amcatnlo_jetBinned"
+    zjet = "ZJet_jetAndPtBinned"
+    zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
+#allBkg = "ALLBKG_powhegTTBar_ZToEEWJetAMCJetBinned_DibosonPyth"
+#wjet = "WJet_amcatnlo_jetBinned"
+#zjet = "ZToEE"
+#zjetDatasetName = "ZToEE_NNPDF31_13TeV-powheg_M.+"
 
+
+# allBkg = "ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson"
+# zjet = "ZJet_amcatnlo_ptBinned"
+# ttbar = "TTbar_amcatnlo_Inc"
+ttbar = "TTbar_powheg"
+# diboson = "DIBOSON_amcatnlo"
+diboson = "DIBOSON"
+# qcd = "QCDFakes_DATA"
+# qcdFile = File_QCD_preselection
+qcd = "QCD_EMEnriched"
+qcdFile = File_preselection
+singletop = "SingleTop"
+photonjets = "PhotonJets_Madgraph"
+# ZJet amc@NLO Pt
+# zjetDatasetName = "DYJetsToLL_Pt.+Tune"
+# ZJet amc@NLO Inc
+# zjetDatasetName = "DYJetsToLL_M-50.+Tune"
+# ZToEE
+# zjetDatasetName = "ZToEE"
+# ZJet HT
+# zjetDatasetName = "DYJetsToLL_M-50_HT.+Tune"
+# ZJet jet-binned
+# zjetDatasetName = "DYJetsToLL_.+J_Tune"
+# ZJet jet- and pt-binned
+# zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
+# example: this match with /Z3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
+# zjetDatasetName = "Z.+Jets_Pt.+alpgen"
+
+print "INFO: using samples:"
+print "\t allBkg ------>", allBkg
+print "\t DY ---------->", zjet, "; datasetname =", zjetDatasetName
+print "\t W ----------->", wjet
+print "\t ttbar ------->", ttbar
+print "\t diboson ----->", diboson
+print "\t QCD --------->", qcd
+print "\t SingleTop --->", singletop
+print "\t PhotonJets -->", photonjets
 # -----------------------------------------
 # FIXME these aren't right, correct if going to use
 # h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__cutHisto_allPreviousCuts________Mee", File_preselection) # MC all
 # because M_e1e2 is the last cut applied, all passing all previous cuts is the same as passing all other cuts
 # h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG__Mee_80_100_Preselection", File_preselection) # MC all
 # h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_Madgraph_HT__Mee_80_100_Preselection", File_preselection) # MC Z
-## amcatnlo
+# amcatnlo
 # h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_amcAtNLOInc_TTBar__Mee_80_100_Preselection", File_preselection) # MC all
 # h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_amcatnlo_Inc__Mee_80_100_Preselection", File_preselection) # MC Z
-## MG Inc
+# MG Inc
 # h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MGInc__Mee_80_100_Preselection", File_preselection) # MC all
 # h_ZJetMadgraph_Mee = GetHisto("histo1D__ZJet_Madgraph_Inc__Mee_80_100_Preselection", File_preselection) # MC Z
 
@@ -366,8 +436,6 @@ histBaseNames.append("Mee_70_110_LQ800")
 histBaseNames.append("Mee_70_110_LQ900")
 
 plots = []
-useMGHT = False
-usePowhegTTBar = True
 
 histNameDefault = "histo1D__SAMPLE__"
 # histNameReleaseMee = "histo1D__SAMPLE__cutHisto_allOtherCuts___________"
@@ -380,102 +448,44 @@ for histBaseName in histBaseNames:
     #  thisHistName=histNameReleaseMee
     thisHistName = histNameDefault
     # print 'consider hist:',thisHistName
-    if usePowhegTTBar:
-        # h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt__"+histBaseName, File_preselection) # MC all
-        # nominal below
-        h_ALLBKG_Mee = GetHisto(
-            thisHistName.replace(
-                # "SAMPLE", "ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson"
-                "SAMPLE", "ALLBKG_powhegTTBar_ZJetAMCIncWJetMGInc_DibosonPyth"
-            )
-            + histBaseName,
-            File_preselection,
-        )  # MC all
-        h_ZJets_Mee = GetHisto(
-            # thisHistName.replace("SAMPLE", "ZJet_amcatnlo_ptBinned") + histBaseName,
-            thisHistName.replace("SAMPLE", "ZJet_amcatnlo_Inc") + histBaseName,
-            File_preselection,
-        )
-        # check DYJInc
-        # h_ALLBKG_Mee = GetHisto(thisHistName.replace('SAMPLE','ALLBKG_powhegTTBar_ZJetIncWJetPt_amcAtNLODiboson')+histBaseName, File_preselection) # MC all
-        # h_ZJets_Mee = GetHisto(thisHistName.replace('SAMPLE','ZJet_amcatnlo_Inc')+histBaseName, File_preselection)
-    # MG HT BKG
-    elif useMGHT:
-        h_ALLBKG_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "ALLBKG_MG_HT") + histBaseName,
-            File_preselection,
-        )  # MC all
-        h_ZJets_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "ZJet_Madgraph_HT") + histBaseName,
-            File_preselection,
-        )
-    else:
-        # amc@NLO Pt
-        # why? h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MG_ZJetPt__"+histBaseName, File_preselection) # MC all
-        h_ALLBKG_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt")
-            + histBaseName,
-            File_preselection,
-        )  # MC all
-        h_ZJets_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "ZJet_amcatnlo_ptBinned") + histBaseName,
-            File_preselection,
-        )
-    # amc@NLO no inc Z
-    # h_ALLBKG_Mee = GetHisto("histo1D__ALLBKG_MG_ZJetNoIncZPt__"+histBaseName, File_preselection) # MC all
-    # h_ZJets_Mee = GetHisto("histo1D__ZJet_amcatnlo_ptBinned_noIncZ__"+histBaseName, File_preselection)
-
-    if useMGHT:
-        h_WJets_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "WJet_Madgraph_HT") + histBaseName,
-            File_preselection,
-        )
-    else:
-        h_WJets_Mee = GetHisto(
-            # thisHistName.replace("SAMPLE", "WJet_amcatnlo_ptBinned") + histBaseName,
-            thisHistName.replace("SAMPLE", "WJet_Madgraph_Inc") + histBaseName,
-            File_preselection,
-        )
-
-    if usePowhegTTBar:
-        h_TTbar_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "TTbar_powheg") + histBaseName,
-            File_preselection,
-        )  # MC TTbar
-    elif useMGHT:
-        h_TTbar_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "TTbar_Madgraph") + histBaseName,
-            File_preselection,
-        )  # MC TTbar
-    else:
-        h_TTbar_Mee = GetHisto(
-            thisHistName.replace("SAMPLE", "TTbar_amcatnlo_Inc") + histBaseName,
-            File_preselection,
-        )  # MC TTbar
-
+    h_ALLBKG_Mee = GetHisto(
+        thisHistName.replace("SAMPLE", allBkg) + histBaseName,
+        File_preselection,
+    )  # MC all
+    h_ZJets_Mee = GetHisto(
+        thisHistName.replace("SAMPLE", zjet) + histBaseName,
+        File_preselection,
+    )
+    h_WJets_Mee = GetHisto(
+        thisHistName.replace("SAMPLE", wjet) + histBaseName,
+        File_preselection,
+    )
+    h_TTbar_Mee = GetHisto(
+        thisHistName.replace("SAMPLE", ttbar) + histBaseName,
+        File_preselection,
+    )
     h_SingleTop_Mee = GetHisto(
-        thisHistName.replace("SAMPLE", "SingleTop") + histBaseName, File_preselection
+        thisHistName.replace("SAMPLE", singletop) + histBaseName,
+        File_preselection,
     )
     h_PhotonJets_Mee = GetHisto(
-        thisHistName.replace("SAMPLE", "PhotonJets_Madgraph") + histBaseName,
+        thisHistName.replace("SAMPLE", photonjets) + histBaseName,
         File_preselection,
     )
     h_Diboson_Mee = GetHisto(
-        # thisHistName.replace("SAMPLE", "DIBOSON_amcatnlo") + histBaseName,
-        thisHistName.replace("SAMPLE", "DIBOSON") + histBaseName,
+        thisHistName.replace("SAMPLE", diboson) + histBaseName,
         File_preselection,
     )
 
     # DATA
     h_DATA_Mee = GetHisto(
-        thisHistName.replace("SAMPLE", "DATA") + histBaseName, File_preselection
-    )  # DATA
+        thisHistName.replace("SAMPLE", "DATA") + histBaseName,
+        File_preselection,
+    )
     # QCD
     h_QCD_DataDriven = GetHisto(
-        # thisHistName.replace("SAMPLE", "QCDFakes_DATA") + histBaseName,
-        thisHistName.replace("SAMPLE", "QCD_EMEnriched") + histBaseName,
-        # File_QCD_preselection,
-        File_preselection,
+        thisHistName.replace("SAMPLE", qcd) + histBaseName,
+        qcdFile,
     )
 
     plot0 = Plot()
@@ -498,14 +508,7 @@ for histBaseName in histBaseNames:
     plot0.xmaxplot = 2000
     plot0.yminplot = 0
     plot0.ymaxplot = 2000
-    # ZJet amc@NLO Pt
-    # plot0.datasetName = "DYJetsToLL_Pt.+Tune"
-    # ZJet amc@NLO Inc
-    plot0.datasetName = "DYJetsToLL_M-50.+Tune"
-    # ZJet HT
-    # plot0.datasetName = "DYJetsToLL_M-50_HT.+Tune"
-    # plot0.datasetName = "Z.+Jets_Pt.+alpgen"
-    # example: this match with /Z3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
+    plot0.datasetName = zjetDatasetName
     plots.append(plot0)
 
 
