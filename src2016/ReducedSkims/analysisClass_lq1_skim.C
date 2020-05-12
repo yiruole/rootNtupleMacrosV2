@@ -235,7 +235,7 @@ void analysisClass::Loop()
     // Print progress
     //-----------------------------------------------------------------
     if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
-
+    
     //-----------------------------------------------------------------
     // Get access to HLT decisions
     //-----------------------------------------------------------------
@@ -548,6 +548,21 @@ void analysisClass::Loop()
         std::cout << "Got puWeight = " << puWeight << "; run: " << getVariableValue("run") << " ls: " << getVariableValue("ls") << " event: " << getVariableValue("event") << std::endl;
     }
     fillVariableWithValue( "puWeight"   , puWeight   );
+    // L1 prefiring
+    float prefireDefault = -1.0;
+    if(hasBranch("L1PreFiringWeight_Nom"))
+      fillVariableWithValue("L1PreFiringWeight_Nom",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
+    else
+      fillVariableWithValue("L1PreFiringWeight_Nom", prefireDefault);
+    if(hasBranch("L1PreFiringWeight_Dn"))
+      fillVariableWithValue("L1PreFiringWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
+    else
+      fillVariableWithValue("L1PreFiringWeight_Dn", prefireDefault);
+    if(hasBranch("L1PreFiringWeight_Up"))
+      fillVariableWithValue("L1PreFiringWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
+    else
+      fillVariableWithValue("L1PreFiringWeight_Up", prefireDefault);
+
 
     //-----------------------------------------------------------------
     // Pass JSON
@@ -578,8 +593,7 @@ void analysisClass::Loop()
     fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
     fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter")                    == 1));
     // for 2017 and 2018 only
-    branchName = "Flag_ecalBadCalibFilterV2";
-    if( readerTools_->GetTree()->GetBranch(branchName.c_str()))
+    if(hasBranch("Flag_ecalBadCalibFilterV2"))
       fillVariableWithValue("PassEcalBadCalibV2Filter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
 
     //-----------------------------------------------------------------
@@ -595,6 +609,14 @@ void analysisClass::Loop()
       if ( reducedSkimType != 0 ){ 
         fillVariableWithValue("GenMET_Pt"		, readerTools_->ReadValueBranch<Float_t>("GenMET_pt"));
         fillVariableWithValue("GenMET_Phi"	, readerTools_->ReadValueBranch<Float_t>("GenMET_phi"));
+        // add LHE variables if needed
+        if(hasBranch("LHE_Vpt")) {
+          fillVariableWithValue("LHE_Vpt"	  , readerTools_->ReadValueBranch<Float_t>("LHE_Vpt"));
+          fillVariableWithValue("LHE_NpLO"	, readerTools_->ReadValueBranch<UChar_t>("LHE_NpLO"));
+          fillVariableWithValue("LHE_NpNLO"	, readerTools_->ReadValueBranch<UChar_t>("LHE_NpNLO"));
+          fillVariableWithValue("LHE_Njets"	, readerTools_->ReadValueBranch<UChar_t>("LHE_Njets"));
+          fillVariableWithValue("LHE_Nglu"	, readerTools_->ReadValueBranch<UChar_t>("LHE_Nglu"));
+        }
       }
     }
 
