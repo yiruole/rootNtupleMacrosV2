@@ -644,7 +644,8 @@ class Plot:
         else:
             # xstart=0.68
             xstart = 0.65
-            ystart = 0.52
+            # ystart = 0.52
+            ystart = 0.55
             if self.makeRatio == 0 and self.makeNSigma == 0:
                 ystart = 0.65
                 vsize = 0.25
@@ -754,12 +755,17 @@ class Plot:
             my_ymin = 0.0
             my_ymax = plot_maximum + math.sqrt(plot_maximum)
             my_ymax = my_ymax * 1.3
+            if 'eta' in self.xtit.lower() or 'phi' in self.xtit.lower() or 'charge' in self.xtit.lower():
+                my_ymax = my_ymax * 2
             thStack.SetMinimum(my_ymin)
             thStack.SetMaximum(my_ymax)
         else:
             my_ymin = 1e-1
             my_ymax = plot_maximum + 100 * math.sqrt(plot_maximum)
-            my_ymax = my_ymax * 1.3
+            my_ymax = my_ymax * 10
+            xtitLow = self.xtit.lower()
+            if 'eta' in xtitLow or 'phi' in xtitLow or 'charge' in xtitLow or 'm(ee) [80, 100]' in xtitLow or 'm(ee) [70, 110]' in xtitLow:
+                my_ymax = my_ymax * 1e4
             thStack.SetMinimum(my_ymin)
             thStack.SetMaximum(my_ymax)
         # set stack style
@@ -880,6 +886,8 @@ class Plot:
                 blindLine.Draw("same")
 
         # -- draw label
+        labelOffset = 0.03
+        ystart-=labelOffset
         l = TLatex()
         l.SetTextAlign(12)
         l.SetTextFont(132)
@@ -888,8 +896,6 @@ class Plot:
         if self.makeRatio == 0 and self.makeNSigma == 0:
             l.SetTextSize(0.041)
         l.SetNDC()
-        #        l.DrawLatex(xstart,ystart-0.05,"CMS Preliminary 2010")
-        #        l.DrawLatex(xstart,ystart-0.10,"L_{int} = " + self.lint)
         if self.lpos == "bottom-center":
             l.DrawLatex(0.35, 0.20, "CMS")
             #            l.DrawLatex(0.35,0.20,"CMS Preliminary 2010")
