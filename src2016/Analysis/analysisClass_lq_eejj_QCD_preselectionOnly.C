@@ -21,7 +21,7 @@ void analysisClass::Loop()
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
    
-   fillSkim                         ( true  ) ;
+   fillSkim                         ( !true  ) ;
    fillAllPreviousCuts              ( !true  ) ;
    fillAllOtherCuts                 ( !true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
