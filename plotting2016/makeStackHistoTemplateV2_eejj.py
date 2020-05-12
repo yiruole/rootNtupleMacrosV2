@@ -7,23 +7,27 @@ from ROOT import gROOT, kCyan, kRed, TCanvas
 gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
 # gErrorIgnoreLevel = kWarning  # doesn't work
 
-inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_attempt_14apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_attempt_14apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "$LQDATA/nanoV6/2017/analysis/eejj_22apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "$LQDATA/nanoV6/2017/analysis/noJets_30apr2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_noJets_plots.root"
+inputFile = "$LQDATA/nanoV6/2017/analysis/noJets_pt35_7may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/condor/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+
 File_QCD_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
     inputFile
+    # "$LQDATA/nanoV6/2017/analysis/eejj_qcd_rsk_apr15/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
 )
 
 File_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
     inputFile
 )
 File_ttbar_preselection = GetFile(
     # "/data3/scooper/LQData/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj_2017/analysisClass_lq_eejj_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
     inputFile
 )
@@ -32,7 +36,17 @@ File_ttbar_preselection = GetFile(
 doPreselPlots = True
 doFinalSelectionPlots = False  # was True
 do2016 = False
-do2017 = True
+do2017 = False
+do2018 = False
+if '2016' in inputFile:
+    do2016 = True
+elif '2017' in inputFile:
+    do2017 = True
+elif '2018' in inputFile:
+    do2018 = True
+else:
+    print "ERROR: could not find one of 2017/2017/2018 in inputfile path. cannot do year-specific customizations. quitting."
+    exit(-1)
 
 if do2016:
     LQmasses = [650, 1500]
@@ -94,7 +108,9 @@ histoBaseName2D_userDef = "histo2D__SAMPLE__VARIABLE"
 
 if do2016:
     ilumi = "35.9"
-    # amc@NLO Pt ZJets and TTBar
+    # nominal
+    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned"]
+    # samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_Inc" ]
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
     samplesForStackHistos_other = ["OTHERBKG_WJetPt_amcAtNLODiboson"]
     # MC ttbar
@@ -108,24 +124,46 @@ if do2016:
         "t#bar{t} (data)",
         "Z/#gamma* + jets (MG5_aMC Pt)",
     ]
-    # nominal
-    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned"]
-    # samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_Inc" ]
     systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
 elif do2017:
     ilumi = "41.5"
-    # amc@NLO Pt ZJets and TTBar
+    # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
+    # samplesForStackHistos_ZJets = ["ZToEE"]
+    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_jetBinned"]
+    # samplesForStackHistos_ZJets = ["ZJet_jetAndPtBinned"]
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
-    samplesForStackHistos_other = ["OTHERBKG_WJetMGInc_DibosonPyth"]
+    # samplesForStackHistos_other = ["OTHERBKG_WJetMGInc_DibosonPyth"]
+    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_DibosonPyth"]
+    # MC ttbar
+    samplesForStackHistos_ttbar = ["TTbar_powheg"]
+    keysStack = [
+        # "QCD multijet (MC)",
+        "QCD multijet (data)",
+        "Other backgrounds",
+        "t#bar{t} (powheg)",
+        # "Z/#gamma* + jets (MG5_aMC Inc.)",
+        # "Z/#gamma* + jets (ZToEE)",
+        "Z/#gamma* + jets (MG5_aMC jet-binned)",
+        # "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
+    ]
+    systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
+elif do2018:
+    ilumi = "59.7"
+    # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
+    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_jetBinned"]
+    # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
+    # samplesForStackHistos_other = ["OTHERBKG_WJetMGInc_DibosonPyth"]
+    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_DibosonPyth"]
     # MC ttbar
     samplesForStackHistos_ttbar = ["TTbar_powheg"]
     keysStack = [
         "QCD multijet (MC)",
+        # "QCD multijet (data)",
         "Other backgrounds",
         "t#bar{t} (powheg)",
-        "Z/#gamma* + jets (MG5_aMC Inc.)",
+        # "Z/#gamma* + jets (MG5_aMC Inc.)",
+        "Z/#gamma* + jets (MG5_aMC jet-binned)",
     ]
-    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
     systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
 
 # QCD
@@ -133,6 +171,7 @@ if do2016:
     samplesForStackHistos_QCD = ["QCDFakes_DATA"]
 else:
     samplesForStackHistos_QCD = ["QCD_EMEnriched"]
+    # samplesForStackHistos_QCD = ["QCDFakes_DATA"]
 # keysForStackHistos_QCD = ["QCD multijet (data)"]
 
 
@@ -360,8 +399,8 @@ if doPreselPlots:
             makeRatio,
         )
     )
-    plots[-1].ymax = 10000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 10000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = -0.5
     plots[-1].xmax = 6.5
     plots[-1].ylog = "yes"
@@ -380,8 +419,8 @@ if doPreselPlots:
             makeRatio,
         )
     )
-    plots[-1].ymax = 10000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 10000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = -0.5
     plots[-1].xmax = 6.5
     plots[-1].ylog = "yes"
@@ -401,8 +440,8 @@ if doPreselPlots:
         )
     )
     plots[-1].xtit = "Number of jets [Preselection]"
-    plots[-1].ymax = 200000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 200000000
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xmin = -0.5
     plots[-1].xmax = 10.5
@@ -421,8 +460,8 @@ if doPreselPlots:
         )
     )
     plots[-1].xtit = "Number of jets [Preselection]"
-    plots[-1].ymax = 5e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 5e4
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xmin = -0.5
     plots[-1].xmax = 10.5
@@ -460,8 +499,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 2
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 1500
     plots[-1].ylog = "yes"
@@ -483,8 +522,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 2
-    plots[-1].ymax = 1e5
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e5
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 1000
     plots[-1].ylog = "yes"
@@ -505,8 +544,8 @@ if doPreselPlots:
         )
     )
     # plots[-1].rebin = 2
-    plots[-1].ymax = 1e5
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e5
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 200
     plots[-1].ylog = "yes"
@@ -527,8 +566,8 @@ if doPreselPlots:
         )
     )
     # plots[-1].rebin = 2
-    plots[-1].ymax = 1e5
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e5
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 200
     plots[-1].ylog = "yes"
@@ -549,8 +588,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "1st Electron #eta [Preselection]"
     plots[-1].rebin = 2
-    plots[-1].ymax = 200000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 200000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = -3
     plots[-1].xmax = 3
     plots[-1].ylog = "yes"
@@ -570,8 +609,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "1st Electron #phi [Preselection]"
     plots[-1].rebin = 4
-    plots[-1].ymax = 5e7
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 5e7
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
 
     plots.append(
@@ -588,8 +627,8 @@ if doPreselPlots:
         )
     )
     plots[-1].xtit = "2nd Electron #eta [Preselection]"
-    plots[-1].ymax = 200000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 200000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = -3
     plots[-1].xmax = 3
     plots[-1].rebin = 2
@@ -610,8 +649,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "2nd Electron #phi [Preselection]"
     plots[-1].rebin = 4
-    plots[-1].ymax = 5e7
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 5e7
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
 
     plots.append(
@@ -628,8 +667,8 @@ if doPreselPlots:
         )
     )
     plots[-1].xtit = "1st Electron Charge [Preselection]"
-    plots[-1].ymin = 0.0
-    plots[-1].ymax = 8e4
+    # plots[-1].ymin = 0.0
+    # plots[-1].ymax = 8e4
 
     plots.append(
         makeDefaultPlot(
@@ -645,8 +684,8 @@ if doPreselPlots:
         )
     )
     plots[-1].xtit = "2nd Electron Charge [Preselection]"
-    plots[-1].ymin = 0.0
-    plots[-1].ymax = 8e4
+    # plots[-1].ymin = 0.0
+    # plots[-1].ymax = 8e4
 
     plots.append(
         makeDefaultPlot(
@@ -663,8 +702,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "M_{T}(e_{1}m PFMET [Preselection]) (GeV)"
     plots[-1].rebin = 1
-    plots[-1].ymax = 300000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 300000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmax = 500
     plots[-1].xmin = 0
     plots[-1].rebin = 2
@@ -685,8 +724,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "PFMET (GeV) [Preselection]"
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmax = 800
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
@@ -706,8 +745,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "PFMET #phi [Preselection]"
     plots[-1].rebin = 4
-    plots[-1].ymax = 1.2e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1.2e4
+    # plots[-1].ymin = 1e-1
     # plots[-1].ylog  = "yes"
 
     plots.append(
@@ -725,8 +764,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "1st Jet p_{T} (GeV) [Preselection]"
     plots[-1].rebin = pt_rebin
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmax = 2000
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
@@ -745,8 +784,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = pt_rebin
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmax = 2000
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
@@ -766,8 +805,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 2
-    plots[-1].ymax = 200000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 200000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = -3
     plots[-1].xmax = 3
     plots[-1].ylog = "yes"
@@ -787,8 +826,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 2
-    plots[-1].ymax = 200000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 200000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = -3
     plots[-1].xmax = 3
     plots[-1].ylog = "yes"
@@ -808,8 +847,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 4e7
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 4e7
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "1st Jet #phi [Preselection]"
 
@@ -827,8 +866,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 4e7
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 4e7
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "2nd Jet #phi [Preselection]"
 
@@ -846,8 +885,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e6
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e6
+    # plots[-1].ymin = 1e-1
     plots[-1].xmax = 3000
     plots[-1].xmin = 200
     plots[-1].rebin = 4
@@ -868,8 +907,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e6
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e6
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 200
     plots[-1].xmax = 3000
     plots[-1].rebin = 4
@@ -891,8 +930,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 100000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 100000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 200.0
     plots[-1].xmax = 3000.0
     plots[-1].rebin = 20
@@ -914,8 +953,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 200.0
     plots[-1].xmax = 3000.0
     plots[-1].rebin = 5
@@ -1007,8 +1046,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e6
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e6
+    # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
     plots[-1].xtit = "Dijet Mass (GeV) [Preselection]"
@@ -1043,8 +1082,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 5e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 5e4
+    # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection]"
@@ -1063,8 +1102,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 9.5e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 9.5e3
+    # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection]"
 
@@ -1107,8 +1146,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 5
-    plots[-1].ymax = 6e5
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 6e5
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection]"
 
@@ -1146,8 +1185,8 @@ if doPreselPlots:
         1800,
         2000,
     ]
-    plots[-1].ymax = 2e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 2000.0
     plots[-1].ylog = "yes"
@@ -1167,8 +1206,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) (preselection, EB-EB) (GeV)"
@@ -1187,8 +1226,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) (preselection, EB-EE) (GeV)"
@@ -1207,8 +1246,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e3
-    plots[-1].ymin = 1e-1
+    #plots[-1].ymax = 1e3
+    #plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) (preselection, EE-EE) (GeV)"
@@ -1227,8 +1266,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 8e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 8e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) (preselection, EB-EE and EB-EB) (GeV)"
@@ -1247,8 +1286,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 8e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 8e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EB) (GeV)"
@@ -1267,8 +1306,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1500
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1500
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EE) (GeV)"
@@ -1287,8 +1326,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [80, 100] (preselection, EE-EE) (GeV)"
@@ -1307,8 +1346,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 6e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 6e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EE and EB-EB) (GeV)"
@@ -1327,8 +1366,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e8
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e8
+    # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].xmin = 70.0
     plots[-1].xmax = 110.0
@@ -1349,8 +1388,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e4
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EB) (GeV)"
@@ -1369,8 +1408,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE) (GeV)"
@@ -1389,8 +1428,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [70, 110] (preselection, EE-EE) (GeV)"
@@ -1409,8 +1448,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 6e3
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 6e3
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0.0
     plots[-1].xmax = 1000.0
     plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE and EB-EB) (GeV)"
@@ -1429,8 +1468,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2e8
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2e8
+    # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].xmin = 70.0
     plots[-1].xmax = 110.0
@@ -1451,8 +1490,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 2
-    plots[-1].ymax = 4e6
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 4e6
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 1000
     plots[-1].ylog = "yes"
@@ -1472,8 +1511,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 4
-    plots[-1].ymax = 2e8
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2e8
+    # plots[-1].ymin = 1e-1
     plots[-1].rebin = 8
     plots[-1].xmin = 70.0
     plots[-1].xmax = 110.0
@@ -1552,8 +1591,8 @@ if doPreselPlots:
             makeRatio,
         )
     )
-    plots[-1].ymax = 2000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
@@ -1574,8 +1613,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
@@ -1597,8 +1636,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2000000
+    # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
@@ -1620,8 +1659,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 2000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2000000
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(e_{2}j_{2}) (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1642,8 +1681,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1.8e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1.8e4
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xtit = "M(ej) average (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1664,8 +1703,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1.8e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1.8e4
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xtit = "M(ej) minimum (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1686,8 +1725,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1.8e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1.8e4
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
     plots[-1].xtit = "M(ej) maximum (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1709,8 +1748,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 4e4
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 4e4
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(ej) average (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1731,8 +1770,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1e6
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e6
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(ej) minimum (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1753,8 +1792,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 1
-    plots[-1].ymax = 1000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1000000
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(ej) maximum (GeV) [Preselection]"
     plots[-1].xmin = 0
@@ -1788,8 +1827,8 @@ if doPreselPlots:
     plots[-1].xmin = -0.5
     plots[-1].xmax = 60.5
     plots[-1].ymin = 1e-1
-    plots[-1].ymax = 5e7
-    plots[-1].ylog = "yes"
+    # plots[-1].ymax = 5e7
+    # plots[-1].ylog = "yes"
     plots[-1].xtit = "n(vertices) [Preselection]"
 
     # plots.append ( makeDefaultPlot ( "nVertex_PAS"                ,  histoBaseName_userDef, samplesForHistos, keys, samplesForStackHistos, keysStack, sampleForDataHisto, zUncBand, makeRatio) )
@@ -1896,8 +1935,8 @@ if doPreselPlots:
         )
     )
     plots[-1].rebin = 10
-    plots[-1].ymax = 2000000
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 2000000
+    # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection]"
 
@@ -1930,8 +1969,8 @@ if doPreselPlots:
     )
     plots[-1].xtit = "PFMET (GeV) [Preselection]"
     plots[-1].rebin = 4
-    plots[-1].ymax = 1e6
-    plots[-1].ymin = 1e-1
+    # plots[-1].ymax = 1e6
+    # plots[-1].ymin = 1e-1
     plots[-1].xmax = 500
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
