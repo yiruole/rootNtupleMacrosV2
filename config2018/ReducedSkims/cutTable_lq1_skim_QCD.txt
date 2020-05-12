@@ -107,6 +107,9 @@ run 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
 puWeight			-inf	     +inf		-		-		1	100 0 100	      SAVE
 #TopPtWeight		-inf	     +inf		-		-		1	100 0 100	      SAVE
+L1PreFiringWeight_Nom				-inf	     +inf		-		-		1	100 0 100	      SAVE
+L1PreFiringWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
+L1PreFiringWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Vertex and pileup info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
