@@ -59,7 +59,7 @@ void analysisClass::Loop()
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
    
-   fillSkim                         ( true  ) ;
+   fillSkim                         ( !true  ) ;
    fillAllPreviousCuts              ( true  ) ;
    fillAllOtherCuts                 ( true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -166,7 +166,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Phi2ndJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
    CreateUserTH1D( "sTlep_PAS"                       ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sTlep_PASandMee100"              ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "sTjet_PAS"                       ,    200   , 0       , 3000	  ); 
+   CreateUserTH1D( "sTjet_PAS"                       ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sTjet_PASandMee100"              ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sT_PAS"                          ,    300   , 0       , 3000	  ); 
    CreateUserTH1D( "sT_zjj_PAS"                      ,    300   , 0       , 3000	  ); 
@@ -632,7 +632,7 @@ void analysisClass::Loop()
      //-----------------------------------------------------------------
      // Print progress
      //-----------------------------------------------------------------
-     if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+     if(jentry < 10 || jentry%10000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
      // run ls event
      double run = readerTools_->ReadValueBranch<Double_t>("run");
      double ls = readerTools_->ReadValueBranch<Double_t>("ls");
@@ -734,11 +734,15 @@ void analysisClass::Loop()
      // First variable to fill just shows the "reweighting".  Always passes.
      //--------------------------------------------------------------------------
 
+     // TEST
+     //gen_weight = gen_weight > 0 ? 1.0 : -1.0;
+     //gen_weight = 1.0;
+     //pileup_weight = 1.0;
      fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
 
-     ////--------------------------------------------------------------------------
-     //// Special treatment of inclusive W/Z
-     ////--------------------------------------------------------------------------
+     //--------------------------------------------------------------------------
+     // Special treatment of inclusive W/Z
+     //--------------------------------------------------------------------------
      //bool passGenWZPt = true;
      //// inclusive
      ////if(current_file_name.find("WJetsToLNu_ext1_amcatnloFXFX") != std::string::npos 
@@ -765,6 +769,19 @@ void analysisClass::Loop()
      ////}
      //fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
 
+     bool passLHECuts = true;
+     // only do this for 2017, the year with jet/pt binned samples
+     if(analysisYear==2017) {
+       if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos) {
+         passLHECuts = false;
+         if(readerTools_->ReadValueBranch<Double_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
+         else if(readerTools_->ReadValueBranch<Double_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
+       }
+     }
+     fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
      //--------------------------------------------------------------------------
      // Fill JSON variable
      //--------------------------------------------------------------------------
