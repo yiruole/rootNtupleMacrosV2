@@ -231,8 +231,12 @@ class Plot:
 #File_QCD_preselection = GetFile("$LQDATA/RunII/eejj_analysis_MeePlotsWithStCuts_13jul2016/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
 #File_preselection = GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
 #File_QCD_preselection = GetFile("$LQDATA/2016analysis/oct27_addStSFplots_allDataAndMC_ele27wptightOrPhoton175Data2015CurveMC_eejj2015FinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_QCD_plots.root")
-File_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_trigSF_nov28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
-File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+#File_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_trigSF_nov28/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root")
+#File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root")
+File_preselection = GetFile(
+    "$LQDATA/nanoV6/2016/analysis/19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+)
+File_QCD_preselection = File_preselection
 
 #--- Rescaling of Z/gamma + jet background
 
@@ -252,14 +256,14 @@ File_QCD_preselection = GetFile("$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/o
 histBaseNames = []
 # nominal
 histBaseNames.append('Mee_PAS')
-##histBaseNames.append('Mee_NJetEq2_PAS')
-##histBaseNames.append('Mee_NJetEq3_PAS')
-##histBaseNames.append('Mee_NJetEq4_PAS')
-##histBaseNames.append('Mee_NJetEq5_PAS')
-##histBaseNames.append('Mee_NJetEq6_PAS')
-##histBaseNames.append('Mee_NJetEq7_PAS')
-##histBaseNames.append('Mee_NJetGeq3_PAS')
-##histBaseNames.append('Mee_NJetGeq4_PAS')
+histBaseNames.append('Mee_NJetEq2_PAS')
+histBaseNames.append('Mee_NJetEq3_PAS')
+histBaseNames.append('Mee_NJetEq4_PAS')
+histBaseNames.append('Mee_NJetEq5_PAS')
+histBaseNames.append('Mee_NJetEq6_PAS')
+histBaseNames.append('Mee_NJetEq7_PAS')
+histBaseNames.append('Mee_NJetGeq3_PAS')
+histBaseNames.append('Mee_NJetGeq4_PAS')
 ##histBaseNames.append('Mee_sT300To500_PAS')
 ##histBaseNames.append('Mee_sT500To750_PAS')
 ##histBaseNames.append('Mee_sT750To1250_PAS')
@@ -306,7 +310,8 @@ for histBaseName in histBaseNames:
   #h_ALLBKG_HT_Mee = GetHisto("histo1D__ALLBKG_MG_HT__"+histBaseName, File_preselection) # MC all
   # amc@NLO BG
   #h_ALLBKG_amcatnlo_Mee = GetHisto("histo1D__ALLBKG_amcAtNLOIncTTBar_ZJetWJetPt__"+histBaseName, File_preselection) # MC all
-  h_ALLBKG_amcatnlo_Mee = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson__"+histBaseName, File_preselection) # MC all
+  #h_ALLBKG_amcatnlo_Mee = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetWJetPt_amcAtNLODiboson__"+histBaseName, File_preselection) # MC all
+  h_ALLBKG_amcatnlo_Mee = GetHisto("histo1D__ALLBKG_powhegTTBar_ZJetPtWJetInc_amcAtNLODiboson__"+histBaseName, File_preselection)
   
   #h_TTbarMadgraph_Mee = GetHisto("histo1D__TTbar_Madgraph__"+histBaseName, File_preselection) # MC TTbar
   #h_ZJets_Mee = GetHisto("histo1D__ZJet_Madgraph_HT__"+histBaseName, File_preselection)
@@ -314,7 +319,8 @@ for histBaseName in histBaseNames:
   #h_TTbar_amcatnlo_Mee = GetHisto("histo1D__TTbar_amcatnlo_Inc__"+histBaseName, File_preselection) # MC TTbar
   h_TTbar_powheg_Mee = GetHisto("histo1D__TTbar_powheg__"+histBaseName, File_preselection) # MC TTbar
   h_ZJets_amcatnlo_Mee = GetHisto("histo1D__ZJet_amcatnlo_ptBinned__"+histBaseName, File_preselection)
-  h_WJets_amcatnlo_Mee = GetHisto("histo1D__WJet_amcatnlo_ptBinned__"+histBaseName, File_preselection)
+  #h_WJets_amcatnlo_Mee = GetHisto("histo1D__WJet_amcatnlo_ptBinned__"+histBaseName, File_preselection)
+  h_WJets_amcatnlo_Mee = GetHisto("histo1D__WJet_amcatnlo_Inc__"+histBaseName, File_preselection)
   h_SingleTop_Mee = GetHisto("histo1D__SingleTop__"+histBaseName, File_preselection)
   h_PhotonJets_Mee = GetHisto("histo1D__PhotonJets_Madgraph__"+histBaseName, File_preselection)
   h_Diboson_Mee = GetHisto("histo1D__DIBOSON_amcatnlo__"+histBaseName, File_preselection)
@@ -322,14 +328,14 @@ for histBaseName in histBaseNames:
   # DATA
   h_DATA_Mee = GetHisto("histo1D__DATA__"+histBaseName, File_preselection) #DATA
   # QCD
-  h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+histBaseName,File_QCD_preselection)
-  #h_QCD = GetHisto("histo1D__QCD_EMEnriched__"+histBaseName,File_QCD_preselection)
+  #h_QCD_DataDriven = GetHisto("histo1D__QCDFakes_DATA__"+histBaseName,File_QCD_preselection)
+  h_QCD = GetHisto("histo1D__QCD_EMEnriched__"+histBaseName,File_QCD_preselection)
   
   plot0 = Plot()
   plot0.histoDATA = h_DATA_Mee
   plot0.histoMCall = h_ALLBKG_amcatnlo_Mee
   plot0.histoMCTTbar = h_TTbar_powheg_Mee
-  plot0.histoQCD = h_QCD_DataDriven
+  plot0.histoQCD = h_QCD
   plot0.histoZJet = h_ZJets_amcatnlo_Mee
   plot0.histoWJet = h_WJets_amcatnlo_Mee
   plot0.histoSingleTop = h_SingleTop_Mee

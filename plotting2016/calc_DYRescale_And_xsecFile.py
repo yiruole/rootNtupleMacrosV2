@@ -11,7 +11,7 @@
 import sys
 import string
 import os.path
-from ROOT import *
+from ROOT import gROOT, gStyle, gPad, TFile, TCanvas, kTRUE, kWhite, kBlue
 import re
 import copy
 import math
@@ -30,7 +30,7 @@ gStyle.SetPadTickY(1)
 
 def GetFile(filename):
     file = TFile(filename)
-    if not file:
+    if not file or file.IsZombie():
         print "ERROR: file " + filename + " not found"
         print "exiting..."
         sys.exit()
@@ -233,7 +233,7 @@ class Plot:
         print "integral DATA (corrected for contribution from other bkgs): " + str(
             integralDATAcorr
         ) + " +/- " + str(ERRintegralDATAcorr)
-        print "rescale factor for ZJet background: " + str(rescale) + " +\- " + str(
+        print "rescale factor for ZJet background: " + str(rescale) + " +/- " + str(
             relERRrescale * rescale
         )
         print "systematical uncertainty of ZJet background modeling: " + str(
@@ -286,13 +286,21 @@ class Plot:
 # unscaled
 File_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2016/analysis/19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/noJets_30apr2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_noJets_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/noJets_pt35_7may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
-    "$LQDATA/nanoV6/2017/analysis/noJets_pt35_prefire_8may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/noJets_pt35_prefire_8may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/eejj_22apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/noJets_prefire_13may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/prefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV6/2017/analysis/noPrefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/condor/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/condor/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_noJets_plots.root"
+    "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 )
 
 # File_ttbar_preselection = GetFile("$LQDATA/2016ttbar/nov19_emujj/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root")
@@ -302,8 +310,9 @@ File_preselection = GetFile(
 # --- Rescaling of Z/gamma + jet background
 # TODO: could figure out the composition from the sampleListForMerging file? would need to enforce naming convention to map sampleName-->process
 inclusiveDY = False
-inclusiveW =  False # only used with inclusive DY
-jetBinnedDY = True
+inclusiveW = False  # only used with inclusive DY
+jetBinnedDY = False
+ptBinnedDY = False
 if inclusiveDY:
     if inclusiveW:
         allBkg = "ALLBKG_powhegTTBar_ZJetAMCIncWJetMGInc_DibosonPyth"
@@ -313,16 +322,25 @@ if inclusiveDY:
         wjet = "WJet_amcatnlo_jetBinned"
     zjet = "ZJet_amcatnlo_Inc"
     zjetDatasetName = "DYJetsToLL_M-50.+Tune"
+    diboson = "DIBOSON"
 elif jetBinnedDY:
     allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetBinnedWJetAMCJetBinned_DibosonPyth"
     wjet = "WJet_amcatnlo_jetBinned"
     zjet = "ZJet_amcatnlo_jetBinned"
     zjetDatasetName = "DYJetsToLL_.+J_Tune"
+    diboson = "DIBOSON"
+elif ptBinnedDY:
+    allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetInc_amcAtNLODiboson"
+    wjet = "WJet_amcatnlo_Inc"
+    zjet = "ZJet_amcatnlo_ptBinned"
+    zjetDatasetName = "DYJetsToLL_Pt.+Tune"
+    diboson = "DIBOSON_amcatnlo"
 else:
     allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_DibosonPyth"
     wjet = "WJet_amcatnlo_jetBinned"
     zjet = "ZJet_jetAndPtBinned"
     zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
+    diboson = "DIBOSON"
 #allBkg = "ALLBKG_powhegTTBar_ZToEEWJetAMCJetBinned_DibosonPyth"
 #wjet = "WJet_amcatnlo_jetBinned"
 #zjet = "ZToEE"
@@ -334,7 +352,6 @@ else:
 # ttbar = "TTbar_amcatnlo_Inc"
 ttbar = "TTbar_powheg"
 # diboson = "DIBOSON_amcatnlo"
-diboson = "DIBOSON"
 # qcd = "QCDFakes_DATA"
 # qcdFile = File_QCD_preselection
 qcd = "QCD_EMEnriched"
@@ -356,6 +373,7 @@ photonjets = "PhotonJets_Madgraph"
 # example: this match with /Z3Jets_Pt300to800-alpgen/Spring10-START3X_V26_S09-v1/GEN-SIM-RECO
 # zjetDatasetName = "Z.+Jets_Pt.+alpgen"
 
+print "INFO: using file: " + File_preselection.GetName()
 print "INFO: using samples:"
 print "\t allBkg ------>", allBkg
 print "\t DY ---------->", zjet, "; datasetname =", zjetDatasetName
