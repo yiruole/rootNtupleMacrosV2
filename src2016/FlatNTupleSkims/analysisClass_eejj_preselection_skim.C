@@ -35,6 +35,11 @@ void analysisClass::Loop() {
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
   fillAllCuts                      ( !true  ) ;
   
+  //--------------------------------------------------------------------------
+  // Analysis year
+  //--------------------------------------------------------------------------
+  int analysisYear = getPreCutValue1("AnalysisYear");
+
   //------------------------------------------------------------------
   // How many events to skim over?
   //------------------------------------------------------------------
@@ -118,7 +123,8 @@ void analysisClass::Loop() {
     fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")               == 1));
     fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")             == 1));
     fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")                    == 1));
-    fillVariableWithValue("PassEcalBadCalibV2Filter"           , int(readerTools_->ReadValueBranch<Double_t>("PassEcalBadCalibV2Filter")               == 1));
+    if(analysisYear > 2016)
+      fillVariableWithValue("PassEcalBadCalibV2Filter"           , int(readerTools_->ReadValueBranch<Double_t>("PassEcalBadCalibV2Filter")               == 1));
 
 
     //--------------------------------------------------------------------------
