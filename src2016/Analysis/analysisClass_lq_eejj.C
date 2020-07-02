@@ -678,6 +678,14 @@ void analysisClass::Loop()
      // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
      //std::cout << "Gen weight = " << gen_weight << "; isData? " << isData() << std::endl;
 
+     //--------------------------------------------------------------------------
+     // Get information about prefire reweighting
+     //--------------------------------------------------------------------------
+     double prefire_weight = 1.0;
+     if(hasBranch("L1PreFiringWeight_Nom") && !isData())
+       prefire_weight = readerTools_->ReadValueBranch<Double_t>("L1PreFiringWeight_Nom");
+     gen_weight*=prefire_weight;
+
      std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
 
      // SIC remove March 2018
@@ -770,8 +778,8 @@ void analysisClass::Loop()
      //fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
 
      bool passLHECuts = true;
-     // only do this for 2017, the year with jet/pt binned samples
-     if(analysisYear==2017) {
+     // only do this for 2017 and 2018, the years with jet/pt binned samples
+     if(analysisYear > 2016) {
        if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
