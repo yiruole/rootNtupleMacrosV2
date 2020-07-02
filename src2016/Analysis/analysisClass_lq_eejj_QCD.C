@@ -9,9 +9,37 @@
 #include <TVector2.h>
 #include <TVector3.h>
 
-#include "include/HistoReader.h"
+#include "include/QCDFakeRate.h"
 // for prescales
 #include "include/Run2PhotonTriggerPrescales.h"
+
+bool isHEMElectron(float eta, float phi) {
+  if(eta <= -1.3 && eta >= -3.0)
+    if(phi <= -0.87 && phi >= -1.57)
+      return true;
+  return false;
+}
+
+std::string GetFakeRateRegion(bool isBarrel, bool isEndcap1, bool isEndcap2, float eta=-999, float phi=-999, int run=-1) {
+  std::string region = "";
+  if(isBarrel)
+    region = "Bar_";
+  else if(isEndcap1)
+    region = "End1_";
+  else if(isEndcap2)
+    region = "End2_";
+  
+  if(run < 0)
+    return region+"2Jet";
+  else { // 2018
+    if(run < 319077)
+      return region+"pre319077_2Jet";
+    else if(isHEMElectron(eta, phi))
+      return region+"HEMonly_post319077_2Jet";
+    else
+      return region+"noHEM_post319077_2Jet";
+  }
+}
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -73,11 +101,6 @@ void analysisClass::Loop()
   double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
   double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
-  //--------------------------------------------------------------------------
-  // QCD Fake Rate loading part
-  //--------------------------------------------------------------------------
-  std::string qcdFileName = getPreCutString1("QCDFakeRateFileName");
-  HistoReader qcdFakeRateReader(qcdFileName,"fr2D_Bar_2Jet","fr2D_End_2Jet",true,false);
 
   // prescales
   Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
@@ -86,6 +109,27 @@ void analysisClass::Loop()
   // Analysis year
   //--------------------------------------------------------------------------
   int analysisYear = getPreCutValue1("AnalysisYear");
+
+  //--------------------------------------------------------------------------
+  // QCD Fake Rate loading part
+  //--------------------------------------------------------------------------
+  std::string qcdFileName = getPreCutString1("QCDFakeRateFilename");
+  //HistoReader qcdFakeRateReader(qcdFileName,"fr2D_Bar_2Jet","fr2D_End_2Jet",true,false);
+  std::vector<std::string> regionVec;
+  if(analysisYear < 2018)
+    regionVec = {"Bar_2Jet", "End1_2Jet", "End2_2Jet"};
+  else
+    regionVec = {
+      "Bar_pre319077_2Jet",
+      "End1_pre319077_2Jet",
+      "End2_pre319077_2Jet",
+      "Bar_noHEM_post319077_2Jet",
+      "End1_noHEM_post319077_2Jet",
+      "End2_noHEM_post319077_2Jet",
+      "Bar_HEMonly_post319077_2Jet",
+      "End1_HEMonly_post319077_2Jet",
+      "End2_HEMonly_post319077_2Jet"};
+  QCDFakeRate qcdFR(qcdFileName, regionVec, analysisYear);
 
   //--------------------------------------------------------------------------
   // Create TH1D's
@@ -672,9 +716,23 @@ void analysisClass::Loop()
     // LooseEle Pt is the uncorrected SCEt
     double LooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt");
     double LooseEle2_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Pt");
+    double LooseEle1_Phi = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Phi");
+    double LooseEle2_Phi = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Phi");
     bool verboseFakeRateCalc = false;
-    float fakeRate1 = qcdFakeRateReader.LookupValue(LooseEle1_SCEta,LooseEle1_Pt,verboseFakeRateCalc);
-    float fakeRate2 = qcdFakeRateReader.LookupValue(LooseEle2_SCEta,LooseEle2_Pt,verboseFakeRateCalc);
+    //float fakeRate1 = qcdFakeRateReader.LookupValue(LooseEle1_SCEta,LooseEle1_Pt,verboseFakeRateCalc);
+    //float fakeRate2 = qcdFakeRateReader.LookupValue(LooseEle2_SCEta,LooseEle2_Pt,verboseFakeRateCalc);
+    float fakeRate1 = -1;
+    float fakeRate2 = -1;
+    if(analysisYear < 2018) {
+      fakeRate1 = qcdFR.GetFakeRate(LooseEle1_Pt, GetFakeRateRegion(ele1_isBarrel, ele1_isEndcap1, ele1_isEndcap2));
+      fakeRate2 = qcdFR.GetFakeRate(LooseEle2_Pt, GetFakeRateRegion(ele2_isBarrel, ele2_isEndcap1, ele2_isEndcap2));
+    }
+    else {
+      fakeRate1 = qcdFR.GetFakeRate(LooseEle1_Pt, GetFakeRateRegion(ele1_isBarrel, ele1_isEndcap1, ele1_isEndcap2,
+            LooseEle1_SCEta, LooseEle1_Phi, run));
+      fakeRate2 = qcdFR.GetFakeRate(LooseEle2_Pt, GetFakeRateRegion(ele2_isBarrel, ele2_isEndcap1, ele2_isEndcap2,
+            LooseEle2_SCEta, LooseEle2_Phi, run ));
+    }
 
     //--------------------------------------------------------------------------
     // Finally have the effective fake rate
@@ -809,10 +867,8 @@ void analysisClass::Loop()
     // Electrons								        
     fillVariableWithValue(   "PassNEle"                      , PassNEle                , fakeRateEffective * min_prescale ) ;
     double LooseEle1_Eta = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Eta");
-    double LooseEle1_Phi = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Phi");
     double LooseEle1_PassHEEPID = readerTools_->ReadValueBranch<Double_t>("LooseEle1_PassHEEPID");
     double LooseEle2_Eta = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Eta");
-    double LooseEle2_Phi = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Phi");
     double LooseEle2_PassHEEPID = readerTools_->ReadValueBranch<Double_t>("LooseEle2_PassHEEPID");
     double Pt_e1e2 = readerTools_->ReadValueBranch<Double_t>("Pt_e1e2");
     double M_e1e2 = readerTools_->ReadValueBranch<Double_t>("M_e1e2");
