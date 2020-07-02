@@ -29,7 +29,8 @@ eleEta_end2            	2.000        2.5                  -               -     
 # Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
 #QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FRHistogram2D2Jet.root	- - - -1
-QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FR2D2JetReminiAOD23_10.root	- - - -1
+#QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FR2D2JetReminiAOD23_10.root	- - - -1
+QCDFakeRateFilename		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/QCDFakeRate/fits/2016/may25/fitResults.root	- - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
