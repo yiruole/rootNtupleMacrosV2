@@ -682,7 +682,7 @@ void analysisClass::Loop()
      // Get information about prefire reweighting
      //--------------------------------------------------------------------------
      double prefire_weight = 1.0;
-     if(hasBranch("L1PreFiringWeight_Nom") && !isData())
+     if(analysisYear < 2018 && hasBranch("L1PreFiringWeight_Nom") && !isData())
        prefire_weight = readerTools_->ReadValueBranch<Double_t>("L1PreFiringWeight_Nom");
      gen_weight*=prefire_weight;
 
