@@ -1,12 +1,7 @@
 #------------------------------------------------------------------------------------------------------
 # 2016 Sep23 ReReco JSON file
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
-#-----------------------------------------------------------------------------------------------------------------------------
-# Pileup files for applying pileup re-weighting
-#-----------------------------------------------------------------------------------------------------------------------------
-PILEUP_MC_TXT_FILE /afs/cern.ch/work/s/scooper/public/Leptoquarks/Pileup2016/Moriond17MC_PoissonOOTPU.txt
-PILEUP_DATA_ROOT_FILE /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/Pileup2016/DataPileupHistogram_2016dec13.root
+JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/certifiedGolden_11mar2020_2016_2017_2018.json
 #
 #############################     Example of file with list of cuts
 #
@@ -27,22 +22,25 @@ produceSkim          1                 -               -               -        
 # Preselection cuts
 #-----------------------------------------------------------------------------------------------------------------------------
 eleEta_bar            	1.4442        -                    -               -               -1
-eleEta_end1            	1.560        2.0                  -               -               -1
+eleEta_end1            	1.566        2.0                  -               -               -1
 eleEta_end2            	2.000        2.5                  -               -               -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Fake rates
 #-----------------------------------------------------------------------------------------------------------------------------
-QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/FRHistogram2D2Jet.root	- - - -1
-#QCD_fit_func_version	1				-	  -		  -		  -1
-#QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-#QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-#QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
+QCDFakeRateFilename		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/QCDFakeRate/fits/2016/may25/fitResults.root	- - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
-# Trigger efficiency
+# Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerEfficiencyFileName		/afs/cern.ch/user/m/mbhat/work/public/TRigger_Files_2016data/TriggerEff.root	- - - -1
-#TriggerEfficiencyGraphName  hEff_Ele27OR115	- - - -1
-# 
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Reco scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+RecoSFFileName  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Analysis year
+#-----------------------------------------------------------------------------------------------------------------------------
+AnalysisYear   2016  - - - -1
+#
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
 # In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
@@ -69,23 +67,26 @@ TriggerEfficiencyFileName		/afs/cern.ch/user/m/mbhat/work/public/TRigger_Files_2
 #|_|                    
 #-----------------------------------------------------------------------------------------------------------------------------
 Reweighting			0	     1			-		-		0	2 -0.5 1.5	     
-#PassGenWZPt     0      1      -   -   0 2 -0.5 1.5
+PassLHECuts     0      1      -   -   0 2 -0.5 1.5
 PassJSON		  	0      1			-               -               0       2 -0.5 1.5	     
 PassHLT			  	0	     1			-		-		0	2 -0.5 1.5	     
-PassGlobalTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
-PassGoodVertices	        0	     1			-		-		0	2 -0.5 1.5
-PassHBHENoiseFilter    		0	     1			-		-		0	2 -0.5 1.5
-PassHBHENoiseIsoFilter    		0	     1			-		-		0	2 -0.5 1.5
-PassBadEESupercrystalFilter     0	     1			-		-		0	2 -0.5 1.5
-PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
-PassChargedCandidateFilter     0	     1			-		-		0	2 -0.5 1.5
-PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
+PassGlobalSuperTightHalo2016Filter		0	     1			-		-		0	2 -0.5 1.5
+PassGoodVertices	                    0	     1			-		-		0	2 -0.5 1.5
+PassHBHENoiseFilter    		            0	     1			-		-		0	2 -0.5 1.5
+PassHBHENoiseIsoFilter             		0	     1			-		-		0	2 -0.5 1.5
+PassBadEESupercrystalFilter           0	     1			-		-		0	2 -0.5 1.5
+PassEcalDeadCellTrigPrim              0	     1			-		-		0	2 -0.5 1.5
+#PassChargedCandidateFilter            0	     1			-		-		0	2 -0.5 1.5
+PassBadPFMuonFilter                   0	     1			-		-		0	2 -0.5 1.5
+PassEcalBadCalibV2Filter              0	     1			-		-		0	2 -0.5 1.5
 PassNEle 			0            1			-               -               1       11 -0.5 10.5	      
 PassNMuon			0            1			-               -               1       16 -0.5 15.5          
 nEle_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
 nJet_hltMatched			-inf	     +inf		-		-		1	3 -0.5 2.5 
-Ele1_PtHeep				50	     +inf		-		-		1	200 0 2000	      
-Ele2_PtHeep				50	     +inf		-		-		1	200 0 2000	      
+Ele1_Pt				50	     +inf		-		-		1	200 0 2000	      
+Ele2_Pt				50	     +inf		-		-		1	200 0 2000	      
+#Ele1_AbsDeltaEtaEleTrk    0    0.03	  -		-		1	400 -0.5 0.5
+#Ele2_AbsDeltaEtaEleTrk    0    0.03	  -		-		1	400 -0.5 0.5
 nJet				-inf	     +inf		-               -               1       16 -0.5 15.5	      
 Jet1_Pt				50	     +inf		-		-		1	200 0 2000	      
 Jet1_Eta			-2.4         2.4		-               -               1       100 -5 5	      
@@ -97,8 +98,8 @@ DR_Ele2Jet1			-inf	     +inf		-		-		1	100 0 10
 DR_Ele2Jet2			-inf	     +inf		-		-		1	100 0 10	      
 DR_Jet1Jet2			-inf	     +inf		-		-		1	100 0 10	  
 sT_eejj				300	     +inf		-		-		1	200 0 2000
-M_e1e2				50	     +inf               -               -               1       200 0 2000
 Pt_e1e2				70	     +inf               -               -               1       200 0 2000
+M_e1e2				50	     +inf               -               -               1       200 0 2000
 #-----------------------------------------------------------------------------------------------------------------------------
 # Variables for optimization
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -108,7 +109,7 @@ Mej_min_opt                     -inf         +inf               -               
 #VariableName                   must be OPT   > or <    RangeMin        RangeMax        unused
 #------------                   -----------   ------    ------------    -------------   ------
 sT_eejj_opt                     OPT           >         300             2000            1
-M_e1e2_opt                      OPT           >         50              500             1
+M_e1e2_opt                      OPT           >         220              650            1
 Mej_min_opt                     OPT           >         50              1200            1
 #-----------------------------------------------------------------------------------------------------------------------------
 # End of the line
