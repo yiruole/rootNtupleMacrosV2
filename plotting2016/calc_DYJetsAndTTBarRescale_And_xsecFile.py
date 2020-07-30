@@ -527,16 +527,13 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     )
     print "contribution from other bkgs (except TTbar): " + str(
         contamination_ttbar * 100
-    ) + "%"
+    ) + "% [purity " + str(100-contamination_ttbar*100) + "%]"
     # print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr_ttbar ) + " +/- " + str( ERRintegralDATAcorr_ttbar )
     print "rescale factor for TTbar background: " + str(rTTBar) + " +/- " + str(
         rTTBarSigma
     )
     # print "systematical uncertainty of TTbar background modeling: " + str(relERRrescale*100) + "%"
     print "######################################## "
-    print
-
-    print
     print " DYJets "
     print "######################################## "
     print "name:                         " + plotObjDYJets.name
@@ -569,7 +566,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     )
     print "contribution from other bkgs (except wjets): " + str(
         contamination_dyjets * 100
-    ) + "%"
+    ) + "% [purity " + str(100-contamination_dyjets*100) + "%]"
     # print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr_wjets ) + " +/- " + str( ERRintegralDATAcorr_wjets )
     print "rescale factor for DYJets background: " + str(rDYJets) + " +/- " + str(
         rDYJetsSigma
@@ -657,7 +654,7 @@ File_preselection = GetFile(
     # "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2017/analysis/noPrefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2017/analysis/prefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
-    "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    "$LQDATA/nanoV6/2018/analysis/eejj_6jul2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 )
 
 xsectionFile = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
@@ -673,16 +670,17 @@ if "2016" in File_preselection.GetName():
     wjet = "WJet_amcatnlo_jetBinned"
     zjet = "ZJet_amcatnlo_ptBinned"
     zjetDatasetName = "DYJetsToLL_Pt.+Tune"
-    diboson = "DIBOSON_nlo"
     allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson_triboson"
 else:
     wjet = "WJet_amcatnlo_jetBinned"
-    zjet = "ZJet_jetAndPtBinned"
+    #zjet = "ZJet_jetAndPtBinned"
+    zjet = "ZJet_amcatnlo_jetBinned"
     zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
-    diboson = "DIBOSON_nlo"
-    allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    #allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetBinnedWJetAMCJetBinned_DibosonPyth"
 # wjet = "WJet_amcatnlo_ptBinned"
-# diboson = "DIBOSON"
+diboson = "DIBOSON"
+# diboson = "DIBOSON_nlo"
 ttbar = "TTbar_powheg"
 ttbarDatasetName = "TT"
 singletop = "SingleTop"
@@ -707,8 +705,8 @@ print "\t PhotonJets -->", photonjets
 histBaseNames = []
 # nominal
 histBaseNames.append("Mee_PAS")
-histBaseNames.append("Mee_80_100_Preselection")
-histBaseNames.append("Mee_70_110_Preselection")
+# histBaseNames.append("Mee_80_100_Preselection")
+# histBaseNames.append("Mee_70_110_Preselection")
 histBaseNames.append("Mee_EBEB_PAS")
 histBaseNames.append("Mee_EEEE_PAS")
 ##histBaseNames.append('Mee_NJetEq2_PAS')
@@ -761,8 +759,8 @@ histBaseNames.append("Mee_70_110_LQ600")
 histBaseNames.append("Mee_70_110_LQ800")
 histBaseNames.append("Mee_70_110_LQ900")
 
-meeMinTTBar = 100
-meeMaxTTBar = 200 # TODO check range
+meeMinTTBar = 140
+meeMaxTTBar = 220 # TODO check range
 meeMinDYJets = 80
 meeMaxDYJets = 100
 
