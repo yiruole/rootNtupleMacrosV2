@@ -94,14 +94,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_Phi1stEle_PAS"	          ,    60  , -3.1416 , +3.1416     );  CreateUserTH1D( "Electrons_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );  CreateUserTH1D( "Jets_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );
   CreateUserTH1D( "Total_Charge1stEle_PAS"	          ,    2   , -1.0001 , 1.0001  );  CreateUserTH1D( "Electrons_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_MET_PAS"                    ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_MET_PAS"                     ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_MET_PAS"                     ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_TrkIsoHEEP7_PAS"            ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"        ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_TrkIsoHEEP7_PAS"            ,    200 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Jets_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"        ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -112,14 +112,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_Bar_Phi1stEle_PAS"	          ,    60  , -3.1416 , +3.1416     );  CreateUserTH1D( "Electrons_Bar_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );  CreateUserTH1D( "Jets_Bar_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );
   CreateUserTH1D( "Total_Bar_Charge1stEle_PAS"	          ,    2   , -1.0001 , 1.0001  );  CreateUserTH1D( "Electrons_Bar_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Bar_Charge1stEle_PAS"            ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_Bar_MET_PAS"                    ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_Bar_MET_PAS"                     ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_Bar_MET_PAS"                     ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_Bar_TrkIsoHEEP7_PAS"            ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsPt_PAS"        ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_PAS"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_Bar_TrkIsoHEEP7_PAS"            ,    200 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsPt_PAS"        ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_PAS"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_Bar_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_Bar_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_Bar_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_Bar_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_Bar_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Bar_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Bar_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -130,14 +130,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End1_Phi1stEle_PAS"	          ,    60  , -3.1416 , +3.1416   );  CreateUserTH1D( "Electrons_End1_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );  CreateUserTH1D( "Jets_End1_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );
   CreateUserTH1D( "Total_End1_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End1_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End1_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End1_MET_PAS"                   ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End1_MET_PAS"                    ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End1_MET_PAS"                    ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End1_TrkIsoHEEP7_PAS"            ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End1_TrkIsoHEEP7_PAS"            ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End1_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End1_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End1_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End1_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End1_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End1_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End1_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End1_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -148,14 +148,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End2_Phi1stEle_PAS"	          ,    60  , -3.1416 , +3.1416   );  CreateUserTH1D( "Electrons_End2_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );  CreateUserTH1D( "Jets_End2_Phi1stEle_PAS"	           ,    60  , -3.1416 , +3.1416    );
   CreateUserTH1D( "Total_End2_Charge1stEle_PAS"          ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End2_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End2_Charge1stEle_PAS"           ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End2_MET_PAS"                   ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End2_MET_PAS"                    ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End2_MET_PAS"                    ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End2_TrkIsoHEEP7_PAS"            ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_TrkIsoHEEP7_PAS"              ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End2_TrkIsoHEEP7_PAS"            ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_TrkIsoHEEP7_PAS"              ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End2_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End2_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End2_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End2_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End2_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End2_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End2_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End2_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -167,14 +167,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_Bar_lte1Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_Bar_lte1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );  CreateUserTH1D( "Jets_Bar_lte1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );
   CreateUserTH1D( "Total_Bar_lte1Jet_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001      );  CreateUserTH1D( "Electrons_Bar_lte1Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Bar_lte1Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_Bar_lte1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_Bar_lte1Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_Bar_lte1Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_Bar_lte1Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_lte1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_Bar_lte1Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_lte1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_Bar_lte1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_Bar_lte1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_Bar_lte1Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_Bar_lte1Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_Bar_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Bar_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Bar_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -184,14 +184,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End1_lte1Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End1_lte1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End1_lte1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End1_lte1Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End1_lte1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End1_lte1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End1_lte1Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End1_lte1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End1_lte1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End1_lte1Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_lte1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_lte1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End1_lte1Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_lte1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_lte1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End1_lte1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End1_lte1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End1_lte1Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End1_lte1Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End1_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End1_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End1_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -201,14 +201,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End2_lte1Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End2_lte1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End2_lte1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End2_lte1Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End2_lte1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End2_lte1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End2_lte1Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End2_lte1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End2_lte1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End2_lte1Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_lte1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_lte1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End2_lte1Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_lte1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_lte1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End2_lte1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End2_lte1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End2_lte1Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End2_lte1Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End2_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End2_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End2_lte1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -220,14 +220,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_Bar_1Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_Bar_1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );  CreateUserTH1D( "Jets_Bar_1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );
   CreateUserTH1D( "Total_Bar_1Jet_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001      );  CreateUserTH1D( "Electrons_Bar_1Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Bar_1Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_Bar_1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_Bar_1Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_Bar_1Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_Bar_1Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_Bar_1Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_Bar_1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_Bar_1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_Bar_1Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_Bar_1Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_Bar_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Bar_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Bar_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -237,14 +237,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End1_1Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End1_1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End1_1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End1_1Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End1_1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End1_1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End1_1Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End1_1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End1_1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End1_1Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End1_1Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End1_1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End1_1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End1_1Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End1_1Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End1_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End1_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End1_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -254,14 +254,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End2_1Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End2_1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End2_1Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End2_1Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End2_1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End2_1Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End2_1Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End2_1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End2_1Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End2_1Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_1Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End2_1Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_1Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End2_1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End2_1Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End2_1Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End2_1Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End2_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End2_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End2_1Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -273,14 +273,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_Bar_2Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_Bar_2Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );  CreateUserTH1D( "Jets_Bar_2Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );
   CreateUserTH1D( "Total_Bar_2Jet_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001      );  CreateUserTH1D( "Electrons_Bar_2Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Bar_2Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_Bar_2Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_Bar_2Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_Bar_2Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_Bar_2Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_2Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_2Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_Bar_2Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_2Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_2Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_Bar_2Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_Bar_2Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_Bar_2Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_Bar_2Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_Bar_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Bar_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Bar_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -290,14 +290,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End1_2Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End1_2Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End1_2Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End1_2Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End1_2Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End1_2Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End1_2Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End1_2Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End1_2Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End1_2Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_2Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_2Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End1_2Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_2Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_2Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End1_2Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End1_2Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End1_2Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End1_2Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End1_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End1_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End1_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -307,14 +307,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End2_2Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End2_2Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End2_2Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End2_2Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End2_2Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End2_2Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End2_2Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End2_2Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End2_2Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End2_2Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_2Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_2Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End2_2Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_2Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_2Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End2_2Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End2_2Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End2_2Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End2_2Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End2_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End2_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End2_2Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -326,14 +326,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_Bar_3Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_Bar_3Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );  CreateUserTH1D( "Jets_Bar_3Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416        );
   CreateUserTH1D( "Total_Bar_3Jet_Charge1stEle_PAS"	  ,    2   , -1.0001 , 1.0001      );  CreateUserTH1D( "Electrons_Bar_3Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_Bar_3Jet_Charge1stEle_PAS"       ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_Bar_3Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_Bar_3Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_Bar_3Jet_MET_PAS"                ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_Bar_3Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_3Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_3Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_Bar_3Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.     );  CreateUserTH1D( "Electrons_Bar_3Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Jets_Bar_3Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_Bar_3Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_Bar_3Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_Bar_3Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_Bar_3Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_Bar_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_Bar_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_Bar_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -343,14 +343,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End1_3Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End1_3Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End1_3Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End1_3Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End1_3Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End1_3Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End1_3Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End1_3Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End1_3Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End1_3Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_3Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_3Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End1_3Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End1_3Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End1_3Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End1_3Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End1_3Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End1_3Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End1_3Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End1_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End1_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End1_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -360,14 +360,14 @@ void analysisClass::Loop()
   CreateUserTH1D( "Total_End2_3Jet_Phi1stEle_PAS"	  ,    60  , -3.1416 , +3.1416       );  CreateUserTH1D( "Electrons_End2_3Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );  CreateUserTH1D( "Jets_End2_3Jet_Phi1stEle_PAS"	   ,    60  , -3.1416 , +3.1416      );
   CreateUserTH1D( "Total_End2_3Jet_Charge1stEle_PAS"     ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Electrons_End2_3Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );  CreateUserTH1D( "Jets_End2_3Jet_Charge1stEle_PAS"      ,    2   , -1.0001 , 1.0001   );
   CreateUserTH1D( "Total_End2_3Jet_MET_PAS"              ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Electrons_End2_3Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );  CreateUserTH1D( "Jets_End2_3Jet_MET_PAS"               ,    100 , 0.0     , 1000.    );
-  CreateUserTH1D( "Total_End2_3Jet_TrkIsoHEEP7_PAS"       ,    100 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_3Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_3Jet_TrkIsoHEEP7_PAS"         ,    100 , 0.0     , 100.   );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 100 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     100 , 0.0     , 100.    );
-  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.);   CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 100, 0.0, 100.); 
+  CreateUserTH1D( "Total_End2_3Jet_TrkIsoHEEP7_PAS"       ,    200 , 0.0     , 100.    );  CreateUserTH1D( "Electrons_End2_3Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );  CreateUserTH1D( "Jets_End2_3Jet_TrkIsoHEEP7_PAS"         ,    200 , 0.0     , 100.   );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"            ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"     ,    1000,0,1000, 200 , 0.0     , 100.     );  CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );  CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"              ,1000,0,1000,     200 , 0.0     , 100.    );
+  CreateUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.);   CreateUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsMTenu_PAS"     , 400, 0, 2000, 200, 0.0, 100.); 
   CreateUserTH1D( "Total_End2_3Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "ElectronsHEEP_End2_3Jet_MTenu_PAS"     , 400, 0, 2000);   CreateUserTH1D( "JetsSR_End2_3Jet_MTenu_PAS"     , 400, 0, 2000); CreateUserTH1D( "JetsSB_End2_3Jet_MTenu_PAS"     , 400, 0, 2000); 
   CreateUserTH1D( "ElectronsHEEP_End2_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );  CreateUserTH1D( "JetsSR_End2_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );CreateUserTH1D( "JetsSB_End2_3Jet_Pt1stEle_PAS"	           ,    1000, 0       , 1000         );
                                                                                                                                                                                                                                                                                      
@@ -570,11 +570,12 @@ void analysisClass::Loop()
 
     // Muon variables ( for veto ) 					      	       
     // remove muon veto
-    fillVariableWithValue(   "nMuon"                   , readerTools_->ReadValueBranch<Double_t>("nMuon_ptCut")     , min_prescale * pileup_weight );
+    //fillVariableWithValue(   "nMuon"                   , readerTools_->ReadValueBranch<Double_t>("nMuon_ptCut")     , min_prescale * pileup_weight );
     double nLooseEle_ptCut = readerTools_->ReadValueBranch<Double_t>("nLooseEle_ptCut");
+    double nVLooseEle_ptCut = readerTools_->ReadValueBranch<Double_t>("nVLooseEle_ptCut");
     double nJetLooseEle_ptCut = readerTools_->ReadValueBranch<Double_t>("nJetLooseEle_ptCut");
     // 1st Electron variables				      		              
-    fillVariableWithValue(   "nEle"                    , nLooseEle_ptCut , min_prescale * pileup_weight );
+    fillVariableWithValue(   "nEle"                    , nVLooseEle_ptCut , min_prescale * pileup_weight );
 
     // use uncorrected energy
     double LooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle1_ECorr");
@@ -885,8 +886,8 @@ void analysisClass::Loop()
       FillUserTH1D( "Total_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
       FillUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
       FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-      if(isData() && analysisYear==2018) {
-        if(run >= 319077) {
+      if(analysisYear==2018) {
+        if(run >= 319077 || !isData()) {
           FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
             FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -912,8 +913,8 @@ void analysisClass::Loop()
         FillUserTH1D( "Total_Bar_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        if(isData() && analysisYear==2018) {
-          if(run >= 319077) {
+        if(analysisYear==2018) {
+          if(run >= 319077 || !isData()) {
             FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
               FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -936,8 +937,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -961,8 +962,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_Bar_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -986,8 +987,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_Bar_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1011,8 +1012,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_Bar_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1056,8 +1057,8 @@ void analysisClass::Loop()
         FillUserTH1D( "Total_End1_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         FillUserTH1D( "Total_End1_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Total_End1_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        if(isData() && analysisYear==2018) {
-          if(run >= 319077) {
+        if(analysisYear==2018) {
+          if(run >= 319077 || !isData()) {
             FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
               FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1079,8 +1080,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End1_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1104,8 +1105,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End1_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1129,8 +1130,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End1_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1154,8 +1155,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End1_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1199,8 +1200,8 @@ void analysisClass::Loop()
         FillUserTH1D( "Total_End2_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         FillUserTH1D( "Total_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        if(isData() && analysisYear==2018) {
-          if(run >= 319077) {
+        if(analysisYear==2018) {
+          if(run >= 319077 || !isData()) {
             FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
               FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1221,8 +1222,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1244,8 +1245,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1267,8 +1268,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1290,8 +1291,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Total_End2_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1405,8 +1406,8 @@ void analysisClass::Loop()
         FillUserTH1D( "Electrons_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        if(isData() && analysisYear==2018) {
-          if(run >= 319077) {
+        if(analysisYear==2018) {
+          if(run >= 319077 || !isData()) {
             FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
               FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1433,8 +1434,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Electrons_Bar_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1459,8 +1460,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1486,8 +1487,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_Bar_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1513,8 +1514,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_Bar_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1540,8 +1541,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_Bar_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1588,8 +1589,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Electrons_End1_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1614,8 +1615,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End1_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1642,8 +1643,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End1_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1670,8 +1671,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End1_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1697,8 +1698,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End1_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1745,8 +1746,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Electrons_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1771,8 +1772,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1798,8 +1799,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1825,8 +1826,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1852,8 +1853,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Electrons_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1949,8 +1950,8 @@ void analysisClass::Loop()
         FillUserTH1D( "Jets_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        if(isData() && analysisYear==2018) {
-          if(run >= 319077) {
+        if(analysisYear==2018) {
+          if(run >= 319077 || !isData()) {
             FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
               FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -1984,8 +1985,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Jets_Bar_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2016,8 +2017,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_Bar_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2050,8 +2051,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_Bar_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2083,8 +2084,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_Bar_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2116,8 +2117,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_Bar_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2170,8 +2171,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Jets_End1_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2202,8 +2203,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End1_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2235,8 +2236,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End1_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2268,8 +2269,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End1_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2301,8 +2302,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End1_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2355,8 +2356,8 @@ void analysisClass::Loop()
           FillUserTH1D( "Jets_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isData() && analysisYear==2018) {
-            if(run >= 319077) {
+          if(analysisYear==2018) {
+            if(run >= 319077 || !isData()) {
               FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                 FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2387,8 +2388,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2420,8 +2421,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2453,8 +2454,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
@@ -2486,8 +2487,8 @@ void analysisClass::Loop()
             FillUserTH1D( "Jets_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isData() && analysisYear==2018) {
-              if(run >= 319077) {
+            if(analysisYear==2018) {
+              if(run >= 319077 || !isData()) {
                 FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
                   FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
