@@ -417,14 +417,17 @@ void analysisClass::Loop()
     CollectionPtr c_ele_HEEP;
     CollectionPtr c_ele_final;
     CollectionPtr c_ele_final_ptCut;
+    CollectionPtr c_ele_vLoose_ptCut;
     ID heepIdType = HEEP70;
     if(analysisYear == 2018)
       heepIdType = HEEP70_2018;
 
     if ( reducedSkimType == 0 ){ 
-      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID  <LooseElectron> ( FAKE_RATE_HEEP_LOOSE);
+      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID<LooseElectron>( FAKE_RATE_HEEP_LOOSE);
       c_ele_final               = c_ele_loose;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<LooseElectron>( ele_PtCut  );
+      CollectionPtr c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
+      c_ele_vLoose_ptCut         = c_ele_vLoose -> SkimByMinPt<LooseElectron>( 10.0 );
       //c_ele_all->examine<Electron>("c_ele_all");
       //c_ele_loose->examine<Electron>("c_ele_loose");
       //c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
@@ -506,7 +509,7 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
 
     CollectionPtr c_pfjet_highEta                    = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_HighEtaCut, jet_HighEtaCut   );
-    CollectionPtr c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_LOOSE );    
+    CollectionPtr c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_TIGHT );    
     CollectionPtr c_pfjet_highEta_ID_noMuonOverlap   = c_pfjet_highEta_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
     CollectionPtr c_pfjet_highEta_ID_noLeptonOverlap = c_pfjet_highEta_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
     CollectionPtr c_pfjet_highEta_final              = c_pfjet_highEta_ID_noLeptonOverlap;
@@ -663,6 +666,7 @@ void analysisClass::Loop()
 
     int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
     int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
+    int n_ele_vloose_ptCut   = c_ele_vLoose_ptCut            -> GetSize();
     int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
     int n_jet_highEta_ptCut  = c_pfjet_highEta_final_ptCut   -> GetSize();
 
@@ -950,6 +954,7 @@ void analysisClass::Loop()
       fillVariableWithValue ("nJetLooseEle_store", min(n_jet_store,5));
       fillVariableWithValue ("nJetLooseEle_etaIdLepCleaned", n_jet_store);
       fillVariableWithValue ("nLooseEle_ptCut"   , n_ele_ptCut );
+      fillVariableWithValue ("nVLooseEle_ptCut"  , n_ele_vloose_ptCut );
       fillVariableWithValue ("nJetLooseEle_ptCut", n_jet_ptCut );
 
       int n_filters = c_hltPhoton_QCD_all -> GetSize();
@@ -1674,7 +1679,7 @@ void analysisClass::Loop()
     // QCD fake rate calculation skim
     if ( reducedSkimType == 0 ) { 
       if(passedCut("PassTrigger"      ) &&  
-          passedCut("nLooseEle_ptCut"  ) && 
+          passedCut("nVLooseEle_ptCut"  ) && 
           //passedCut("LooseEle1_Pt"     ) ){
         passedCut("LooseEle1_Pt"     ) ){
           //c_ele_final->examine<Electron>("final electrons");
