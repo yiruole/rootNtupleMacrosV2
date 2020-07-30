@@ -36,7 +36,7 @@ PassEcalDeadCellTrigPrim     0	     1			-		-		0	2 -0.5 1.5
 PassBadPFMuonFilter     0	     1			-		-		0	2 -0.5 1.5
 PassEcalBadCalibV2Filter              0	     1			-		-		0	2 -0.5 1.5
 # remove muon veto
-nMuon				-1	     0			-		-		3	11 -0.5 10.5
+#nMuon				-1	     0			-		-		3	11 -0.5 10.5
 nEle			      	0	     1			-		-		3	16 -0.5 15.5	SAVE
 Pt1stEle		  	35	     +inf		-		-		3	100 0.0	1000.0	SAVE
 SCEta1stEle		  	-2.5    2.5		-		-		3	100 0.0	1000.0	SAVE
