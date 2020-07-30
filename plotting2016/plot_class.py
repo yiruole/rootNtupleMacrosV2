@@ -9,11 +9,9 @@
 import sys
 import math
 import os
-import string
-from optparse import OptionParser
 import os.path
-from ROOT import *
-import re
+from ROOT import gROOT, gStyle, gPad, kTRUE, kWhite, kRed, kOrange, kYellow, kSpring, kGreen, kTeal, kCyan, kAzure, kBlack, kBlue, kViolet, kMagenta, kGray
+from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH1F, TH2F, TH1D, TGraph, TLine, TText, Double
 from array import array
 import copy
 import numpy
@@ -29,6 +27,8 @@ gStyle.SetPadTickX(1)
 gStyle.SetPadTickY(1)
 gStyle.SetPadTopMargin(0.08)
 gStyle.SetPadBottomMargin(0.12)
+gStyle.SetPadRightMargin(0.02)
+gStyle.SetPadLeftMargin(0.1)
 # gStyle.SetTitleSize(0.05, "XYZ");
 # --- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
 
@@ -85,8 +85,8 @@ def GetBackgroundSyst(systType, isEEJJ=True):
         if "wjets" not in systType.lower() and "wshape" in key.lower():
             continue
         if (
-            not "zjets" in systType.lower()
-            and not "dyjets" in systType.lower()
+            "zjets" not in systType.lower()
+            and "dyjets" not in systType.lower()
             and "dyshape" in key.lower()
         ):
             continue
