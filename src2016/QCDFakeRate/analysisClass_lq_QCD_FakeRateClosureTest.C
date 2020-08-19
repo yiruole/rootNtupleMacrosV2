@@ -106,7 +106,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Eta1stJet_PAS"         ,    100 , -5      , 5	 ); 
    CreateUserTH1D( "Phi1stJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
    CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_PAS"		   ,    2000 , 0       , 2000	 ); 
    CreateUserTH1D( "Me1j1_PAS"		   ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Me2j1_PAS"		   ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "Meejj_PAS"             ,    200 , 0       , 2000     );
