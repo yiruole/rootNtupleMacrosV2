@@ -93,8 +93,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "sTjet_PAS"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "sT_PASandMee100"       ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mjj_PAS"		   ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mee_PAS"		   ,    200 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mjj_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_PAS"		   ,    2000 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_PASandST445"       ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "MTenu_PAS"             ,    200 , 0       , 1000	 ); 
    CreateUserTH1D( "Me1j1_PAS"             ,    200 , 0       , 2000	 ); 
@@ -130,9 +130,9 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_80_100_Preselection", 200, 60, 120 );
    CreateUserTH1D( "Mee_70_110_Preselection", 200, 60, 120 );
    
-   CreateUserTH1D( "Mee_EBEB_PAS"		   ,    60 , 60       , 120	 ); 
-   CreateUserTH1D( "Mee_EBEE_PAS"		   ,    60 , 60       , 120	 ); 
-   CreateUserTH1D( "Mee_EEEE_PAS"		   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EBEB_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEE_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EEEE_PAS"		   ,    2000 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_EB_PAS" 		   ,    60 , 60       , 120	 ); 
 
    CreateUserTH1D( "Mee_EBEB_80_100_PAS"	   ,    60 , 60       , 120	 ); 

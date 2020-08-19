@@ -184,8 +184,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_PASandMee200"                 ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mjj_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mjj_PASandMee100"	             ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Mee_PAS"		             ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Mee_PASandST445"                 ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_PAS"		             ,    2000   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_PASandST445"                 ,    2000   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_PAS"                       ,    200   , 0       , 1000	  ); 
    CreateUserTH1D( "Me1j1_PAS"                       ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Me1j2_PAS"                       ,    200   , 0       , 2000	  ); 
@@ -270,9 +270,9 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_70_110_Preselection_Process3", 200, 60, 120 );
    CreateUserTH1D( "Mee_70_110_Preselection_Process4", 200, 60, 120 );
 
-   CreateUserTH1D( "Mee_EBEB_PAS"		   ,    60 , 60       , 120	 ); 
-   CreateUserTH1D( "Mee_EBEE_PAS"		   ,    60 , 60       , 120	 ); 
-   CreateUserTH1D( "Mee_EEEE_PAS"		   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EBEB_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEE_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EEEE_PAS"		   ,    2000 , 0       , 2000	 ); 
    CreateUserTH1D( "Mee_EB_PAS" 		   ,    60 , 60       , 120	 ); 
 
    CreateUserTH1D( "Mee_EBEB_80_100_PAS"	   ,    60 , 60       , 120	 ); 
@@ -780,13 +780,23 @@ void analysisClass::Loop()
      bool passLHECuts = true;
      // only do this for 2017 and 2018, the years with jet/pt binned samples
      if(analysisYear > 2016) {
+       // for jet-pt bin stitching
+       //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos) {
+       //  passLHECuts = false;
+       //  if(readerTools_->ReadValueBranch<Double_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
+       //  else if(readerTools_->ReadValueBranch<Double_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
+       //}
        if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos) {
-         passLHECuts = false;
-         if(readerTools_->ReadValueBranch<Double_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
-         else if(readerTools_->ReadValueBranch<Double_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
+         if(readerTools_->ReadValueBranch<Double_t>("GenZGamma1_Pt") > 70) passLHECuts = false; // if Z/gamma Pt > 70 GeV, cut it out
+       }
+       if(current_file_name.find("DYJetsToLL_Pt-50") != std::string::npos) {
+         if(readerTools_->ReadValueBranch<Double_t>("GenZGamma1_Pt") <= 70) passLHECuts = false;
        }
      }
      fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
