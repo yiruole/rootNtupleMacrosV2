@@ -11,14 +11,24 @@ import os
 filename = "plots.root"
 makeRatioPlot = True
 plotsDir = "trkIsoPlots"
+doFracFit = True
+do2016 = False
 
 # start running
 npBins = np.linspace(0, 100, 40)
 bins = [round(x * 2) / 2 for x in npBins]
 
-regList = ["Bar_Pt120To140", "Bar_Pt140To175", "Bar_Pt175To200", "Bar_Pt350To400"]
-regList.extend(["End1_Pt120To140", "End1_Pt140To175", "End1_Pt175To200", "End1_Pt350To400"])
-regList.extend(["End2_Pt120To140", "End2_Pt140To175", "End2_Pt175To200", "End2_Pt350To400"])
+if do2016:
+    ptBins = ["Pt120To140", "Pt140To175", "Pt175To200", "Pt350To400"]
+else:
+    ptBins = ["Pt120To150", "Pt150To175", "Pt175To200", "Pt350To400"]
+
+# regList = ["Bar_Pt120To140", "Bar_Pt140To175", "Bar_Pt175To200", "Bar_Pt350To400"]
+# regList.extend(["End1_Pt120To140", "End1_Pt140To175", "End1_Pt175To200", "End1_Pt350To400"])
+# regList.extend(["End2_Pt120To140", "End2_Pt140To175", "End2_Pt175To200", "End2_Pt350To400"])
+regList = ["Bar_"+x for x in ptBins]
+regList.extend(["End1_"+x for x in ptBins])
+regList.extend(["End2_"+x for x in ptBins])
 
 gROOT.SetBatch(True)
 
@@ -96,33 +106,37 @@ for region in regList:
     dyElesHist.SetLineStyle(3)
     dyElesHist.SetLineWidth(2)
 
+    if dyElesHist.GetEntries() < 10:
+        doFracFit = False
+        print "WARN: DY electrons hist had", dyElesHist.GetEntries(), "entries; skipping TFractionFitter part."
     # fraction fitting part
-    myObjArr = TObjArray(2)
-    myObjArr.Add(dyElesHist)
-    myObjArr.Add(jetsHist)
-    fracFit = TFractionFitter(heepPrimeHist, myObjArr)
-    fracFit.Constrain(0, 0.0, 1.0)
-    fracFit.Constrain(1, 0.0, 1.0)
-    fracFit.GetFitter().Config().ParSettings(0).Set("DYElectrons", 0.6, 0.01, 0, 1.0)
-    fracFit.GetFitter().Config().ParSettings(1).Set("Jets", 0.4, 0.01, 0, 1.0)
-    fracFit.SetRangeX(1, 20)
-    status = fracFit.Fit()
-    print "fit status=", status
-    fitPlot = fracFit.GetPlot()
-    fitPlot.SetLineColor(kBlack)
-    fitPlot.SetMarkerColor(kBlack)
-    fitPlot.SetLineStyle(3)
-    fitPlot.SetLineWidth(2)
-    fitPlot.Draw("esamehist")
-    ROOT.SetOwnership(fracFit, False)
-    eleFrac = ctypes.c_double()
-    eleFracErr = ctypes.c_double()
-    fracFit.GetResult(0, eleFrac, eleFracErr)
-    dyElesHist.Scale(eleFrac.value*heepPrimeHist.Integral()/dyElesHist.Integral())
-    jetsFrac = ctypes.c_double()
-    jetsFracErr = ctypes.c_double()
-    fracFit.GetResult(1, jetsFrac, jetsFracErr)
-    jetsHist.Scale(jetsFrac.value*heepPrimeHist.Integral()/jetsHist.Integral())
+    if doFracFit:
+        myObjArr = TObjArray(2)
+        myObjArr.Add(dyElesHist)
+        myObjArr.Add(jetsHist)
+        fracFit = TFractionFitter(heepPrimeHist, myObjArr)
+        fracFit.Constrain(0, 0.0, 1.0)
+        fracFit.Constrain(1, 0.0, 1.0)
+        fracFit.GetFitter().Config().ParSettings(0).Set("DYElectrons", 0.6, 0.01, 0, 1.0)
+        fracFit.GetFitter().Config().ParSettings(1).Set("Jets", 0.4, 0.01, 0, 1.0)
+        fracFit.SetRangeX(1, 20)
+        status = fracFit.Fit()
+        print "fit status=", status
+        fitPlot = fracFit.GetPlot()
+        fitPlot.SetLineColor(kBlack)
+        fitPlot.SetMarkerColor(kBlack)
+        fitPlot.SetLineStyle(3)
+        fitPlot.SetLineWidth(2)
+        fitPlot.Draw("esamehist")
+        ROOT.SetOwnership(fracFit, False)
+        eleFrac = ctypes.c_double()
+        eleFracErr = ctypes.c_double()
+        fracFit.GetResult(0, eleFrac, eleFracErr)
+        dyElesHist.Scale(eleFrac.value*heepPrimeHist.Integral()/dyElesHist.Integral())
+        jetsFrac = ctypes.c_double()
+        jetsFracErr = ctypes.c_double()
+        fracFit.GetResult(1, jetsFrac, jetsFracErr)
+        jetsHist.Scale(jetsFrac.value*heepPrimeHist.Integral()/jetsHist.Integral())
 
     dyElesHist.Draw("esamehist")
     jetsHist.Draw("esamehist")
@@ -138,7 +152,8 @@ for region in regList:
     leg.AddEntry(heepPrimeHist, "HEEP' electrons", "lp")
     leg.AddEntry(jetsHist, "jet template", "l")
     leg.AddEntry(dyElesHist, "ele template (DY MC)", "l")
-    leg.AddEntry(fitPlot, "ele+jets template", "l")
+    if doFracFit:
+        leg.AddEntry(fitPlot, "ele+jets template", "l")
     leg.Draw("same")
 
     text = TPaveText(0.57, 0.78, 0.67, 0.87, "NDC")
@@ -163,7 +178,7 @@ for region in regList:
     # ratio plot
     h_ratio1 = copy.deepcopy(heepPrimeHist)
     h_ratio1.SetStats(0)
-    if makeRatioPlot == 1:
+    if makeRatioPlot == 1 and doFracFit:
         denomHist.GetXaxis().SetTitle()
         fPads2.cd()
         fPads2.SetGridy()
