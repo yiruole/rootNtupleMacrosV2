@@ -102,7 +102,7 @@ run 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
 #PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
-puWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
+puWeight			-inf	     +inf		-		-		1	100 0 100	      SAVE
 L1PreFiringWeight_Nom				-inf	     +inf		-		-		1	100 0 100	      SAVE
 L1PreFiringWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
 L1PreFiringWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
@@ -261,6 +261,20 @@ GenEleFromDY4_Eta		-inf         +inf               -               -            
 GenEleFromDY4_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 GenEleFromDY4_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
+# Gen LQ info
+#-----------------------------------------------------------------------------------------------------------------------------------------
+GenLQ1_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenLQ1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenLQ1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenLQ1_Mass		-inf         +inf               -               -               1       500 0 5000	      SAVE
+GenLQ1_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
+#
+GenLQ2_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+GenLQ2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
+GenLQ2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
+GenLQ2_Mass		-inf         +inf               -               -               1       500 0 5000	      SAVE
+GenLQ2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
+#-----------------------------------------------------------------------------------------------------------------------------------------
 # LHE info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 LHE_Vpt	     		-inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -407,8 +421,12 @@ Jet1_Eta		        -inf         +inf               -               -             
 Jet1_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet1_Beta			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet1_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet1_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #	
 Jet2_Pt   			-inf	     +inf		-		-		1	200 0 2000	      SAVE		        
@@ -418,8 +436,12 @@ Jet2_Eta		        -inf         +inf               -               -             
 Jet2_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet2_Beta			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet2_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet2_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet3_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -429,8 +451,12 @@ Jet3_Eta		        -inf         +inf               -               -             
 Jet3_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet3_Beta			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet3_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet3_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet4_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -440,8 +466,12 @@ Jet4_Eta		        -inf         +inf               -               -             
 Jet4_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet4_Beta			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet4_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet4_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet5_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -451,8 +481,12 @@ Jet5_Eta		        -inf         +inf               -               -             
 Jet5_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Jet5_Beta			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_BetaStar			-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet5_btagCISV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
-Jet5_btagCMVA		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Muon info 

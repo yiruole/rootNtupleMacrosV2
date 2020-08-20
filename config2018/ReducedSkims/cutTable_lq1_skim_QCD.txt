@@ -97,16 +97,13 @@ PassEcalBadCalibV2Filter             0      1               -               -   
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 isData				-inf	     +inf		-		-		1	2 -0.5 1.5	      SAVE
-#bunch				-inf	     +inf		-		-		1	4000 0 4000	      SAVE
 event				-inf	     +inf		-		-		1	100 0 100	      SAVE
 ls 				-inf	     +inf		-		-		1	100 0 100	      SAVE
-#orbit 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 run 				-inf	     +inf		-		-		1	100 0 100	      SAVE      
 #ProcessID 			-inf	     +inf		-		-		1	100 0 100	      SAVE
 #PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
 puWeight			-inf	     +inf		-		-		1	100 0 100	      SAVE
-#TopPtWeight		-inf	     +inf		-		-		1	100 0 100	      SAVE
 L1PreFiringWeight_Nom				-inf	     +inf		-		-		1	100 0 100	      SAVE
 L1PreFiringWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
 L1PreFiringWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
@@ -253,40 +250,60 @@ JetLooseEle1_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle1_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle1_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-JetLooseEle1_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle1_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle2_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle2_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle2_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle2_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-JetLooseEle2_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle2_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle3_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle3_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle3_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle3_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle3_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle3_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-JetLooseEle3_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle3_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle4_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle4_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle4_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle4_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle4_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle4_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-JetLooseEle4_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle4_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #
 JetLooseEle5_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle5_JECUnc		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle5_Energy		-inf	     +inf		-		-		1	100 0 2000	      SAVE
 JetLooseEle5_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
 JetLooseEle5_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-JetLooseEle5_btagCISV		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
-JetLooseEle5_btagCMVA		-inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagDeepCSV		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagSFLooseDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+JetLooseEle5_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Muon info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -294,9 +311,9 @@ nMuon_store   			-inf         +inf               -               -              
 nMuon_ptCut   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 nMuon_HighPtId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 nMuon_LooseId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
-#nMuon_etaId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
+nMuon_etaId   			-inf         +inf               -               -               1       16 -0.5 15.5          SAVE
 #
-Muon1_Pt    			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+Muon1_Pt    			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon1_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon1_Eta   			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon1_Phi   			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -304,9 +321,9 @@ Muon1_PtError			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon1_EtaError   	-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon1_PhiError   	-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Muon1_Charge			-inf         +inf               -               -               1       10 -5 5	      SAVE
-Muon1_hltSingleMuonPt		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+Muon1_hltSingleMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #
-Muon2_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
+Muon2_Pt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon2_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -314,7 +331,7 @@ Muon2_PtError			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon2_EtaError   	-inf         +inf               -               -               1       100 -5 5	      SAVE
 Muon2_PhiError   	-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 Muon2_Charge			-inf         +inf               -               -               1       10 -5 5	      SAVE
-Muon2_hltSingleMuonPt		-inf	     +inf		-		-		1	100 0 2000	      SAVE
+Muon2_hltSingleMuonPt		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #
 Muon3_Pt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Muon3_PFPt    		-inf	     +inf		-		-		1	200 0 2000	      SAVE
