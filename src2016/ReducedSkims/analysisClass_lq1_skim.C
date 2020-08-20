@@ -360,6 +360,9 @@ void analysisClass::Loop()
     CollectionPtr c_genTop             = c_gen_all -> SkimByID<GenParticle>(GEN_TOP);
     CollectionPtr c_genTop_final       = c_genTop  -> SkimByID<GenParticle>(GEN_STATUS62);
 
+    CollectionPtr c_genLQ              = c_gen_all ->SkimByID<GenParticle>(GEN_LQ);
+    CollectionPtr c_genLQ_final        = c_genLQ  -> SkimByID<GenParticle>(GEN_STATUS62);
+    //c_genLQ_final->examine<GenParticle>("c_genLQ = c_gen_all after SkimByID GEN_LQ and GEN_STATUS62");
     //-----------------------------------------------------------------
     // If this is MC, we're always going to smear the jets (do_jer = true)
     // Don't do it for data
@@ -678,6 +681,8 @@ void analysisClass::Loop()
     int n_genEleFromW_store  = c_genEleFromW_final           -> GetSize();
     int n_genEleFromDY_store = c_genEleFromDY_final          -> GetSize();
 
+    int n_genLQ_store = c_genLQ_final ->GetSize();
+
     //if(n_ele_ptCut < 1) {
     //  std::cout << "NO GOOD ELECTRON FOUND! " << 
     //    static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(luminosityBlock) << " " << static_cast<unsigned int>(event) << std::endl;
@@ -898,6 +903,25 @@ void analysisClass::Loop()
           }
         }
       }
+
+      if ( n_genLQ_store >= 1 ){ 
+        GenParticle genLQ1 = c_genLQ_final -> GetConstituent<GenParticle>(0);
+        fillVariableWithValue ( "GenLQ1_Pt" , genLQ1.Pt () );
+        fillVariableWithValue ( "GenLQ1_Eta", genLQ1.Eta() );
+        fillVariableWithValue ( "GenLQ1_Phi", genLQ1.Phi() );
+        fillVariableWithValue ( "GenLQ1_Mass", genLQ1.Mass() );
+        fillVariableWithValue ( "GenLQ1_ID" , genLQ1.PdgId());
+
+        if ( n_genLQ_store >= 2 ){ 
+          GenParticle genLQ2 = c_genLQ_final -> GetConstituent<GenParticle>(1);
+          fillVariableWithValue ( "GenLQ2_Pt" , genLQ2.Pt () );
+          fillVariableWithValue ( "GenLQ2_Eta", genLQ2.Eta() );
+          fillVariableWithValue ( "GenLQ2_Phi", genLQ2.Phi() );
+          fillVariableWithValue ( "GenLQ2_Mass", genLQ2.Mass() );
+          fillVariableWithValue ( "GenLQ2_ID" , genLQ2.PdgId());
+        }
+      }
+
     }
 
     //-----------------------------------------------------------------
@@ -1133,8 +1157,12 @@ void analysisClass::Loop()
         fillVariableWithValue( "JetLooseEle1_Energy"  , loose_jet1.Energy()                     );
         fillVariableWithValue( "JetLooseEle1_Eta"     , loose_jet1.Eta()                        );
         fillVariableWithValue( "JetLooseEle1_Phi"     , loose_jet1.Phi()                        );
-        fillVariableWithValue( "JetLooseEle1_btagCISV" , loose_jet1.CombinedInclusiveSecondaryVertexBTag());
-        fillVariableWithValue( "JetLooseEle1_btagCMVA" , loose_jet1.CombinedMVABTag());
+        fillVariableWithValue( "JetLooseEle1_btagDeepCSV" , loose_jet1.DeepCSVBTag()            );
+        fillVariableWithValue( "JetLooseEle1_btagSFLooseDeepCSV"  , loose_jet1.DeepCSVBTagSFLoose()   );
+        fillVariableWithValue( "JetLooseEle1_btagSFMediumDeepCSV" , loose_jet1.DeepCSVBTagSFMedium()  );
+        fillVariableWithValue( "JetLooseEle1_btagDeepJet" , loose_jet1.DeepJetBTag()            );
+        fillVariableWithValue( "JetLooseEle1_btagSFLooseDeepJet"  , loose_jet1.DeepJetBTagSFLoose()   );
+        fillVariableWithValue( "JetLooseEle1_btagSFMediumDeepJet" , loose_jet1.DeepJetBTagSFMedium()  );
 
         if ( n_jet_store >= 2 ){
           PFJet loose_jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
@@ -1143,8 +1171,12 @@ void analysisClass::Loop()
           fillVariableWithValue( "JetLooseEle2_Energy"  , loose_jet2.Energy()                     );
           fillVariableWithValue( "JetLooseEle2_Eta"     , loose_jet2.Eta()                        );
           fillVariableWithValue( "JetLooseEle2_Phi"     , loose_jet2.Phi()                        );
-          fillVariableWithValue( "JetLooseEle2_btagCISV" , loose_jet2.CombinedInclusiveSecondaryVertexBTag());
-          fillVariableWithValue( "JetLooseEle2_btagCMVA" , loose_jet2.CombinedMVABTag());
+          fillVariableWithValue( "JetLooseEle2_btagDeepCSV" , loose_jet2.DeepCSVBTag()            );
+          fillVariableWithValue( "JetLooseEle2_btagSFLooseDeepCSV"  , loose_jet2.DeepCSVBTagSFLoose()   );
+          fillVariableWithValue( "JetLooseEle2_btagSFMediumDeepCSV" , loose_jet2.DeepCSVBTagSFMedium()  );
+          fillVariableWithValue( "JetLooseEle2_btagDeepJet" , loose_jet2.DeepJetBTag()            );
+          fillVariableWithValue( "JetLooseEle2_btagSFLooseDeepJet"  , loose_jet2.DeepJetBTagSFLoose()   );
+          fillVariableWithValue( "JetLooseEle2_btagSFMediumDeepJet" , loose_jet2.DeepJetBTagSFMedium()  );
 
           if ( n_jet_store >= 3 ){
             PFJet loose_jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
@@ -1153,8 +1185,12 @@ void analysisClass::Loop()
             fillVariableWithValue( "JetLooseEle3_Energy"  , loose_jet3.Energy()                     );
             fillVariableWithValue( "JetLooseEle3_Eta"     , loose_jet3.Eta()                        );
             fillVariableWithValue( "JetLooseEle3_Phi"     , loose_jet3.Phi()                        );
-            fillVariableWithValue( "JetLooseEle3_btagCISV" , loose_jet3.CombinedInclusiveSecondaryVertexBTag());
-            fillVariableWithValue( "JetLooseEle3_btagCMVA" , loose_jet3.CombinedMVABTag());
+            fillVariableWithValue( "JetLooseEle3_btagDeepCSV" , loose_jet3.DeepCSVBTag()            );
+            fillVariableWithValue( "JetLooseEle3_btagSFLooseDeepCSV"  , loose_jet3.DeepCSVBTagSFLoose()   );
+            fillVariableWithValue( "JetLooseEle3_btagSFMediumDeepCSV" , loose_jet3.DeepCSVBTagSFMedium()  );
+            fillVariableWithValue( "JetLooseEle3_btagDeepJet" , loose_jet3.DeepJetBTag()            );
+            fillVariableWithValue( "JetLooseEle3_btagSFLooseDeepJet"  , loose_jet3.DeepJetBTagSFLoose()   );
+            fillVariableWithValue( "JetLooseEle3_btagSFMediumDeepJet" , loose_jet3.DeepJetBTagSFMedium()  );
 
             if ( n_jet_store >= 4 ){
               PFJet loose_jet4 = c_pfjet_final -> GetConstituent<PFJet>(3);
@@ -1163,8 +1199,12 @@ void analysisClass::Loop()
               fillVariableWithValue( "JetLooseEle4_Energy"  , loose_jet4.Energy()                     );
               fillVariableWithValue( "JetLooseEle4_Eta"     , loose_jet4.Eta()                        );
               fillVariableWithValue( "JetLooseEle4_Phi"     , loose_jet4.Phi()                        );
-              fillVariableWithValue( "JetLooseEle4_btagCISV" , loose_jet4.CombinedInclusiveSecondaryVertexBTag());
-              fillVariableWithValue( "JetLooseEle4_btagCMVA" , loose_jet4.CombinedMVABTag());
+              fillVariableWithValue( "JetLooseEle4_btagDeepCSV" , loose_jet4.DeepCSVBTag());
+              fillVariableWithValue( "JetLooseEle4_btagSFLooseDeepCSV"  , loose_jet4.DeepCSVBTagSFLoose()   );
+              fillVariableWithValue( "JetLooseEle4_btagSFMediumDeepCSV" , loose_jet4.DeepCSVBTagSFMedium()  );
+              fillVariableWithValue( "JetLooseEle4_btagDeepJet" , loose_jet4.DeepJetBTag());
+              fillVariableWithValue( "JetLooseEle4_btagSFLooseDeepJet"  , loose_jet4.DeepJetBTagSFLoose()   );
+              fillVariableWithValue( "JetLooseEle4_btagSFMediumDeepJet" , loose_jet4.DeepJetBTagSFMedium()  );
 
               if ( n_jet_store >= 5 ){
                 PFJet loose_jet5 = c_pfjet_final -> GetConstituent<PFJet>(4);
@@ -1173,8 +1213,12 @@ void analysisClass::Loop()
                 fillVariableWithValue( "JetLooseEle5_Energy"  , loose_jet5.Energy()                     );
                 fillVariableWithValue( "JetLooseEle5_Eta"     , loose_jet5.Eta()                        );
                 fillVariableWithValue( "JetLooseEle5_Phi"     , loose_jet5.Phi()                        );
-                fillVariableWithValue( "JetLooseEle5_btagCISV" , loose_jet5.CombinedInclusiveSecondaryVertexBTag());
-                fillVariableWithValue( "JetLooseEle5_btagCMVA" , loose_jet5.CombinedMVABTag());
+                fillVariableWithValue( "JetLooseEle5_btagDeepCSV" , loose_jet5.DeepCSVBTag()            );
+                fillVariableWithValue( "JetLooseEle5_btagSFLooseDeepCSV"  , loose_jet5.DeepCSVBTagSFLoose()   );
+                fillVariableWithValue( "JetLooseEle5_btagSFMediumDeepCSV" , loose_jet5.DeepCSVBTagSFMedium()  );
+                fillVariableWithValue( "JetLooseEle5_btagDeepJet" , loose_jet5.DeepJetBTag()            );
+                fillVariableWithValue( "JetLooseEle5_btagSFLooseDeepJet"  , loose_jet5.DeepJetBTagSFLoose()   );
+                fillVariableWithValue( "JetLooseEle5_btagSFMediumDeepJet" , loose_jet5.DeepJetBTagSFMedium()  );
               }
             }
           }
@@ -1386,8 +1430,12 @@ void analysisClass::Loop()
         fillVariableWithValue( "Jet1_Energy"  , jet1.Energy()                     );
         fillVariableWithValue( "Jet1_Eta"     , jet1.Eta()                        );
         fillVariableWithValue( "Jet1_Phi"     , jet1.Phi()                        );
-        fillVariableWithValue( "Jet1_btagCISV" , jet1.CombinedInclusiveSecondaryVertexBTag());
-        fillVariableWithValue( "Jet1_btagCMVA" , jet1.CombinedMVABTag());
+        fillVariableWithValue( "Jet1_btagDeepCSV" , jet1.DeepCSVBTag()            );
+        fillVariableWithValue( "Jet1_btagSFLooseDeepCSV"  , jet1.DeepCSVBTagSFLoose()   );
+        fillVariableWithValue( "Jet1_btagSFMediumDeepCSV"  , jet1.DeepCSVBTagSFMedium()   );
+        fillVariableWithValue( "Jet1_btagDeepJet" , jet1.DeepJetBTag()            );
+        fillVariableWithValue( "Jet1_btagSFLooseDeepJet"  , jet1.DeepJetBTagSFLoose()   );
+        fillVariableWithValue( "Jet1_btagSFMediumDeepJet"  , jet1.DeepJetBTagSFMedium()   );
         fillVariableWithValue( "Jet1_hltJetPt"	  , hltJet1Pt     );
 
         if ( n_jet_store >= 2 ){
@@ -1398,8 +1446,12 @@ void analysisClass::Loop()
           fillVariableWithValue( "Jet2_Energy"  , jet2.Energy()                     );
           fillVariableWithValue( "Jet2_Eta"     , jet2.Eta()                        );
           fillVariableWithValue( "Jet2_Phi"     , jet2.Phi()                        );
-          fillVariableWithValue( "Jet2_btagCISV" , jet2.CombinedInclusiveSecondaryVertexBTag());
-          fillVariableWithValue( "Jet2_btagCMVA" , jet2.CombinedMVABTag());
+          fillVariableWithValue( "Jet2_btagDeepCSV" , jet2.DeepCSVBTag()            );
+          fillVariableWithValue( "Jet2_btagSFLooseDeepCSV"  , jet2.DeepCSVBTagSFLoose()   );
+          fillVariableWithValue( "Jet2_btagSFMediumDeepCSV"  , jet2.DeepCSVBTagSFMedium()   );
+          fillVariableWithValue( "Jet2_btagDeepJet" , jet2.DeepJetBTag()            );
+          fillVariableWithValue( "Jet2_btagSFLooseDeepJet"  , jet2.DeepJetBTagSFLoose()   );
+          fillVariableWithValue( "Jet2_btagSFMediumDeepJet"  , jet2.DeepJetBTagSFMedium()   );
           fillVariableWithValue( "Jet2_hltJetPt"    , hltJet2Pt     );
 
           if ( n_jet_store >= 3 ){
@@ -1410,8 +1462,12 @@ void analysisClass::Loop()
             fillVariableWithValue( "Jet3_Energy"  , jet3.Energy()                     );
             fillVariableWithValue( "Jet3_Eta"     , jet3.Eta()                        );
             fillVariableWithValue( "Jet3_Phi"     , jet3.Phi()                        );
-            fillVariableWithValue( "Jet3_btagCISV" , jet3.CombinedInclusiveSecondaryVertexBTag());
-            fillVariableWithValue( "Jet3_btagCMVA" , jet3.CombinedMVABTag());
+            fillVariableWithValue( "Jet3_btagDeepCSV" , jet3.DeepCSVBTag()            );
+            fillVariableWithValue( "Jet3_btagSFLooseDeepCSV"  , jet3.DeepCSVBTagSFLoose()   );
+            fillVariableWithValue( "Jet3_btagSFMediumDeepCSV"  , jet3.DeepCSVBTagSFMedium()   );
+            fillVariableWithValue( "Jet3_btagDeepJet" , jet3.DeepJetBTag()            );
+            fillVariableWithValue( "Jet3_btagSFLooseDeepJet"  , jet3.DeepJetBTagSFLoose()   );
+            fillVariableWithValue( "Jet3_btagSFMediumDeepJet"  , jet3.DeepJetBTagSFMedium()   );
             fillVariableWithValue( "Jet3_hltJetPt"    , hltJet3Pt     );
 
             if ( n_jet_store >= 4 ){
@@ -1422,8 +1478,12 @@ void analysisClass::Loop()
               fillVariableWithValue( "Jet4_Energy"  , jet4.Energy()                     );
               fillVariableWithValue( "Jet4_Eta"     , jet4.Eta()                        );
               fillVariableWithValue( "Jet4_Phi"     , jet4.Phi()                        );
-              fillVariableWithValue( "Jet4_btagCISV" , jet4.CombinedInclusiveSecondaryVertexBTag());
-              fillVariableWithValue( "Jet4_btagCMVA" , jet4.CombinedMVABTag());
+              fillVariableWithValue( "Jet4_btagDeepCSV" , jet4.DeepCSVBTag()            );
+              fillVariableWithValue( "Jet4_btagSFLooseDeepCSV"  , jet4.DeepCSVBTagSFLoose()   );
+              fillVariableWithValue( "Jet4_btagSFMediumDeepCSV"  , jet4.DeepCSVBTagSFMedium()   );
+              fillVariableWithValue( "Jet4_btagDeepJet" , jet4.DeepJetBTag()            );
+              fillVariableWithValue( "Jet4_btagSFLooseDeepJet"  , jet4.DeepJetBTagSFLoose()   );
+              fillVariableWithValue( "Jet4_btagSFMediumDeepJet"  , jet4.DeepJetBTagSFMedium()   );
               fillVariableWithValue( "Jet4_hltJetPt"    , hltJet4Pt     );
 
               if ( n_jet_store >= 5 ){
@@ -1434,8 +1494,12 @@ void analysisClass::Loop()
                 fillVariableWithValue( "Jet5_Energy"  , jet5.Energy()                     );
                 fillVariableWithValue( "Jet5_Eta"     , jet5.Eta()                        );
                 fillVariableWithValue( "Jet5_Phi"     , jet5.Phi()                        );
-                fillVariableWithValue( "Jet5_btagCISV" , jet5.CombinedInclusiveSecondaryVertexBTag());
-                fillVariableWithValue( "Jet5_btagCMVA" , jet5.CombinedMVABTag());
+                fillVariableWithValue( "Jet5_btagDeepCSV" , jet5.DeepCSVBTag()            );
+                fillVariableWithValue( "Jet5_btagSFLooseDeepCSV"  , jet5.DeepCSVBTagSFLoose()   );
+                fillVariableWithValue( "Jet5_btagSFMediumDeepCSV"  , jet5.DeepCSVBTagSFMedium()   );
+                fillVariableWithValue( "Jet5_btagDeepJet" , jet5.DeepJetBTag()            );
+                fillVariableWithValue( "Jet5_btagSFLooseDeepJet"  , jet5.DeepJetBTagSFLoose()   );
+                fillVariableWithValue( "Jet5_btagSFMediumDeepJet"  , jet5.DeepJetBTagSFMedium()   );
                 fillVariableWithValue( "Jet5_hltJetPt"    , hltJet5Pt     );
               }
             }
