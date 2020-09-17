@@ -7,24 +7,34 @@ from ROOT import gROOT, kCyan, kRed, TCanvas
 gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
 # gErrorIgnoreLevel = kWarning  # doesn't work
 
+# inputFile = "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 # inputFile = "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2016/analysis/19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_attempt_14apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/eejj_attempt_1apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/eejj_22apr/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/noJets_30apr2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_noJets_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/noJets_pt35_7may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/noJets_pt35_prefire_8may2020/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/noPrefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "$LQDATA/nanoV6/2017/analysis/prefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 # inputFile = "$LQDATA/nanoV6/2017/analysis/prefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/condor/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_noJets_plots.root"
-# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/dyJRescaleOnly/analysisClass_lq_eejj_plots.root"
-#
-# inputFile = "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-# inputFile = "$LQDATA/nanoV6/2017/analysis/prefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_5may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "$LQDATA/nanoV6/2018/analysis/eejj_6jul2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# nanoV7 [jet/pt-binned]
+# inputFile = "$LQDATA/nanoV7/2016/analysis/26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# inputFile = "nanoV7/analysis/2017/prefire_26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# inputFile = "nanoV7/2018/analysis/eejj_26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# jet/pt-binned scaled
+# inputFile = "nanoV7/analysis/2017/prefire_26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+inputFile = "nanoV7/2018/analysis/eejj_26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# jet-binned, scaled
+# inputFile = "nanoV7/analysis/2017/prefire_26aug2020/output_cutTable_lq_eejj/jetBinnedDY/analysisClass_lq_eejj_plots.root"
+# inputFile = "nanoV7/2018/analysis/eejj_26aug2020/output_cutTable_lq_eejj/jetBinnedDY/analysisClass_lq_eejj_plots.root"
+# pt-binned/inc stitch
+# inputFile = "nanoV7/2017/analysis/prefire_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# inputFile = "nanoV7/2018/analysis/eejj_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# scaled
+# inputFile = "nanoV7/2017/analysis/prefire_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "nanoV7/2018/analysis/eejj_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inc DYJ only
+# inputFile = "nanoV7/2017/analysis/prefire_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# inputFile = "$LQDATA/nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+# scaled
+# inputFile = "nanoV7/2017/analysis/prefire_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+inputFile = "$LQDATA/"+inputFile
 
 File_QCD_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
@@ -32,8 +42,12 @@ File_QCD_preselection = GetFile(
     # inputFile
     # "$LQDATA/nanoV6/2016/analysis/qcdYield_24jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
     # "$LQDATA/nanoV6/2017/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_qcd_rsk_apr15/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    # "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    # nanoV7
+    # "$LQDATA/nanoV7/2016/analysis/qcdYield_optFinalSels_25aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
 )
 
 File_preselection = GetFile(
@@ -151,6 +165,7 @@ elif do2017:
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
     samplesForStackHistos_QCD = ["QCDFakes_DATA"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
+    # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
     # samplesForStackHistos_ZJets = ["ZToEE"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_jetBinned"]
     samplesForStackHistos_ZJets = ["ZJet_jetAndPtBinned"]
@@ -166,9 +181,10 @@ elif do2017:
         "Other backgrounds",
         "t#bar{t} (powheg)",
         # "Z/#gamma* + jets (MG5_aMC Inc.)",
+        # "Z/#gamma* + jets (MG5_aMC pt-binned stitch)",
         # "Z/#gamma* + jets (ZToEE)",
-        "Z/#gamma* + jets (MG5_aMC jet-binned)",
-        # "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
+        # "Z/#gamma* + jets (MG5_aMC jet-binned)",
+        "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
     ]
     systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
 elif do2018:
@@ -176,6 +192,7 @@ elif do2018:
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
     samplesForStackHistos_QCD = ["QCDFakes_DATA"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
+    # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_jetBinned"]
     samplesForStackHistos_ZJets = ["ZJet_jetAndPtBinned"]
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
@@ -190,6 +207,7 @@ elif do2018:
         "Other backgrounds",
         "t#bar{t} (powheg)",
         # "Z/#gamma* + jets (MG5_aMC Inc.)",
+        # "Z/#gamma* + jets (MG5_aMC pt-binned stitch)",
         # "Z/#gamma* + jets (MG5_aMC jet-binned)",
         "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
     ]
@@ -244,6 +262,7 @@ dataBlindAboveAll = -1
 dataBlindAbovePt1 = -1  # GeV; used for ele Pt1, Mee, Mej
 dataBlindAbovePt2 = -1  # for ele pt2
 
+print "INFO: Using DYJets sample:", samplesForStackHistos_ZJets, " ("+keysStack[3]+")"
 
 def makeDefaultPlot(
     variableName,
@@ -1214,6 +1233,132 @@ if doPreselPlots:
 
     plots.append(
         makeDefaultPlot(
+            "Mee_PAS",
+            histoBaseName_userDef,
+            samplesForHistos,
+            keys,
+            samplesForStackHistos,
+            keysStack,
+            sampleForDataHisto,
+            zUncBand,
+            makeRatio,
+        )
+    )
+    # plots[-1].rebin = 1
+    #plots[-1].rebin = "var"
+    #plots[-1].xbins = range(0, 410, 10) + [
+    #    420,
+    #    440,
+    #    460,
+    #    480,
+    #    500,
+    #    550,
+    #    600,
+    #    650,
+    #    700,
+    #    800,
+    #    900,
+    #    1000,
+    #    1200,
+    #    1400,
+    #    1600,
+    #    1800,
+    #    2000,
+    #]
+    plots[-1].ymax = 5e5
+    plots[-1].ymin = 1e-1
+    plots[-1].xmin = 100.0
+    plots[-1].xmax = 250.0
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, 100-250 GeV]"
+    plots[-1].name = "Mee_100_250_PAS"
+
+    plots.append(
+        makeDefaultPlot(
+            "Mee_PAS",
+            histoBaseName_userDef,
+            samplesForHistos,
+            keys,
+            samplesForStackHistos,
+            keysStack,
+            sampleForDataHisto,
+            zUncBand,
+            makeRatio,
+        )
+    )
+    plots[-1].ymax = 5e5
+    plots[-1].ymin = 1e-1
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 250.0
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, 60-250 GeV]"
+    plots[-1].name = "Mee_60_250_PAS"
+
+    plots.append(
+        makeDefaultPlot(
+            "Mee_PAS_gteTwoBtaggedJets",
+            histoBaseName_userDef,
+            samplesForHistos,
+            keys,
+            samplesForStackHistos,
+            keysStack,
+            sampleForDataHisto,
+            zUncBand,
+            makeRatio,
+        )
+    )
+    plots[-1].ymax = 5e5
+    plots[-1].ymin = 1e-1
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 250.0
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, >= 2 b-tags, GeV]"
+    plots[-1].name = "Mee_PAS_gteTwoBtaggedJets"
+
+    plots.append(
+        makeDefaultPlot(
+            "Mee_PAS_gteOneBtaggedJet",
+            histoBaseName_userDef,
+            samplesForHistos,
+            keys,
+            samplesForStackHistos,
+            keysStack,
+            sampleForDataHisto,
+            zUncBand,
+            makeRatio,
+        )
+    )
+    plots[-1].ymax = 5e5
+    plots[-1].ymin = 1e-1
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 250.0
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, >= 1 b-tag, GeV]"
+    plots[-1].name = "Mee_PAS_gteOneBtaggedJet"
+
+    plots.append(
+        makeDefaultPlot(
+            "Mee_PAS_noBtaggedJets",
+            histoBaseName_userDef,
+            samplesForHistos,
+            keys,
+            samplesForStackHistos,
+            keysStack,
+            sampleForDataHisto,
+            zUncBand,
+            makeRatio,
+        )
+    )
+    plots[-1].ymax = 5e5
+    plots[-1].ymin = 1e-1
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 250.0
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, == 0 b-tags, GeV]"
+    plots[-1].name = "Mee_PAS_noBtaggedJets"
+
+    plots.append(
+        makeDefaultPlot(
             "Mee_EBEB_PAS",
             histoBaseName_userDef,
             samplesForHistos,
@@ -1228,8 +1373,9 @@ if doPreselPlots:
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
+    plots[-1].ylog = "yes"
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 120.0
     plots[-1].xtit = "M(ee) (preselection, EB-EB) (GeV)"
 
     plots.append(
@@ -1248,8 +1394,9 @@ if doPreselPlots:
     plots[-1].rebin = 1
     # plots[-1].ymax = 2e3
     # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
+    plots[-1].ylog = "yes"
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 120.0
     plots[-1].xtit = "M(ee) (preselection, EB-EE) (GeV)"
 
     plots.append(
@@ -1268,8 +1415,9 @@ if doPreselPlots:
     plots[-1].rebin = 1
     #plots[-1].ymax = 1e3
     #plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
+    plots[-1].ylog = "yes"
+    plots[-1].xmin = 60.0
+    plots[-1].xmax = 120.0
     plots[-1].xtit = "M(ee) (preselection, EE-EE) (GeV)"
 
     plots.append(
