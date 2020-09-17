@@ -113,6 +113,13 @@ void analysisClass::Loop()
    std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
 
    //--------------------------------------------------------------------------
+   // B-tag stuff
+   //--------------------------------------------------------------------------
+   std::string btagAlgo = getPreCutString1("BTagAlgo");
+   std::string btagWP = getPreCutString1("BTagWP");
+   double btagCut = getPreCutValue1("BTagCutValue");
+
+   //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
    
@@ -449,6 +456,51 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_sT1720_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mee_sT1770_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mee_sT1815_PAS"		             ,    200   , 0       , 2000	  ); 
+   // with zero B-tags
+   CreateUserTH1D( "Mee_PAS_noBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEB_PAS_noBtaggedJets"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEE_PAS_noBtaggedJets"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EEEE_PAS_noBtaggedJets"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_sT300To500_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT500To750_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT750To1250_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1250ToInf_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin100To200_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin200To300_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin300To400_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin400To500_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin500To650_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin650ToInf_PAS_noBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   // with >= 1 B-tags
+   CreateUserTH1D( "Mee_PAS_gteOneBtaggedJet"		       ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEB_PAS_gteOneBtaggedJet"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEE_PAS_gteOneBtaggedJet"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EEEE_PAS_gteOneBtaggedJet"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_sT300To500_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT500To750_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT750To1250_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1250ToInf_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin100To200_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin200To300_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin300To400_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin400To500_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin500To650_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin650ToInf_PAS_gteOneBtaggedJet"		             ,    200   , 0       , 2000	  ); 
+   // with >= 2 B-tags
+   CreateUserTH1D( "Mee_PAS_gteTwoBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEB_PAS_gteTwoBtaggedJets"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EBEE_PAS_gteTwoBtaggedJets"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_EEEE_PAS_gteTwoBtaggedJets"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1D( "Mee_sT300To500_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT500To750_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT750To1250_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_sT1250ToInf_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin100To200_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin200To300_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin300To400_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin400To500_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin500To650_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
+   CreateUserTH1D( "Mee_MejMin650ToInf_PAS_gteTwoBtaggedJets"		             ,    200   , 0       , 2000	  ); 
    //// test opt
    //CreateUserTH1D( "Mee_sT2000_PAS"		             ,    200   , 0       , 2000	  ); 
    //CreateUserTH1D( "OptBinLQ600", 200, 0, 2000);
@@ -781,23 +833,46 @@ void analysisClass::Loop()
      // only do this for 2017 and 2018, the years with jet/pt binned samples
      if(analysisYear > 2016) {
        // for jet-pt bin stitching
-       //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos) {
-       //  passLHECuts = false;
-       //  if(readerTools_->ReadValueBranch<Double_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
-       //  else if(readerTools_->ReadValueBranch<Double_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
-       //}
        if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
            current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos) {
-         if(readerTools_->ReadValueBranch<Double_t>("GenZGamma1_Pt") > 70) passLHECuts = false; // if Z/gamma Pt > 70 GeV, cut it out
+           current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
+         passLHECuts = false;
+         if(readerTools_->ReadValueBranch<Double_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
+         else if(readerTools_->ReadValueBranch<Double_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
        }
-       if(current_file_name.find("DYJetsToLL_Pt-50") != std::string::npos) {
-         if(readerTools_->ReadValueBranch<Double_t>("GenZGamma1_Pt") <= 70) passLHECuts = false;
-       }
+       //// for Pt-binned stitching
+       //// for some reason, using genParticles here and not LHE info
+       //double GenEle1_Pt =  readerTools_->ReadValueBranch<Double_t>("GenEle1_Pt");
+       //double GenEle1_Eta = readerTools_->ReadValueBranch<Double_t>("GenEle1_Eta");
+       //double GenEle1_Phi = readerTools_->ReadValueBranch<Double_t>("GenEle1_Phi");
+       //double GenEle2_Pt =  readerTools_->ReadValueBranch<Double_t>("GenEle2_Pt");
+       //double GenEle2_Eta = readerTools_->ReadValueBranch<Double_t>("GenEle2_Eta");
+       //double GenEle2_Phi = readerTools_->ReadValueBranch<Double_t>("GenEle2_Phi");
+       //TLorentzVector t_genEle1, t_genEle2;
+       //t_genEle1.SetPtEtaPhiM ( GenEle1_Pt, GenEle1_Eta, GenEle1_Phi, 0.0 );
+       //t_genEle2.SetPtEtaPhiM ( GenEle2_Pt, GenEle2_Eta, GenEle2_Phi, 0.0 );
+       //TLorentzVector t_ele1ele2 = t_genEle1 + t_genEle2;
+       //float genZGammaPt = t_ele1ele2.Pt();
+       //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
+       //  //if(readerTools_->ReadValueBranch<Double_t>("GenZGamma1_Pt") > 70) passLHECuts = false; // if Z/gamma Pt > 70 GeV, cut it out
+       //  if(genZGammaPt > 70) passLHECuts = false; // if Z/gamma Pt > 70 GeV, cut it out
+       //}
+       //if(current_file_name.find("DYJetsToLL_Pt-50") != std::string::npos) {
+       //  //if(readerTools_->ReadValueBranch<Double_t>("GenZGamma1_Pt") <= 70) passLHECuts = false;
+       //  if(genZGammaPt <= 70) passLHECuts = false;
+       //}
      }
      fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
      //--------------------------------------------------------------------------
@@ -1108,6 +1183,92 @@ void analysisClass::Loop()
        }
      }
      
+     //--------------------------------------------------------------------------
+     // Fill bjet variables
+     //--------------------------------------------------------------------------
+     // require at least 1 b-tagged jet for TTBar control region
+     // require zero b-tagged jets for DYJets control region
+     // and then apply the b-tag scale factors (2-SF in the veto case)
+     // see: https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation
+     // for using event weights, we follow: https://twiki.cern.ch/twiki/bin/view/CMS/BTagSFMethods#1c_Event_reweighting_using_scale
+
+     double Jet1_btagDisc = readerTools_->ReadValueBranch<Double_t>("Jet1_btag"+btagAlgo);
+     double Jet2_btagDisc = readerTools_->ReadValueBranch<Double_t>("Jet2_btag"+btagAlgo);
+     double Jet3_btagDisc = readerTools_->ReadValueBranch<Double_t>("Jet3_btag"+btagAlgo);
+     double Jet4_btagDisc = readerTools_->ReadValueBranch<Double_t>("Jet4_btag"+btagAlgo);
+     double Jet5_btagDisc = readerTools_->ReadValueBranch<Double_t>("Jet5_btag"+btagAlgo);
+     std::string sfSuffix = btagWP+btagAlgo;
+     double Jet1_btagSF = readerTools_->ReadValueBranch<Double_t>("Jet1_btagSF"+sfSuffix);
+     double Jet2_btagSF = readerTools_->ReadValueBranch<Double_t>("Jet2_btagSF"+sfSuffix);
+     double Jet3_btagSF = readerTools_->ReadValueBranch<Double_t>("Jet3_btagSF"+sfSuffix);
+     double Jet4_btagSF = readerTools_->ReadValueBranch<Double_t>("Jet4_btagSF"+sfSuffix);
+     double Jet5_btagSF = readerTools_->ReadValueBranch<Double_t>("Jet5_btagSF"+sfSuffix);
+
+     float weightZeroBJets = 1.0;
+     float weightAtLeastOneBJet = 1.0;
+     float weightAtLeastTwoBJets = 1.0;
+     float weightAtLeastTwoBJetsOneBtagBin = 1.0;
+     float weightZeroBJetsBeyondLeadingTwo = 1.0;
+     float weightAtLeastOneBJetBeyondLeadingTwo = 1.0;
+     float weightZeroBJetsUpShift = 1.0;
+     float weightAtLeastOneBJetUpShift = 1.0;
+     float weightZeroBJetsDownShift = 1.0;
+     float weightAtLeastOneBJetDownShift = 1.0;
+
+     double discArray[5] = {Jet1_btagDisc, Jet2_btagDisc, Jet3_btagDisc, Jet4_btagDisc, Jet5_btagDisc};
+     if(!isData())
+     {
+       float weightAtLeastTwoBJetsOneBtagBin = 0.0;
+       // calculate and apply scale factors to MC only
+       double sfArray[5] = {Jet1_btagSF, Jet2_btagSF, Jet3_btagSF, Jet4_btagSF, Jet5_btagSF };
+       for(unsigned int iJet = 0; iJet < 5; ++iJet) {
+         if (discArray[iJet] > btagCut) {
+           weightZeroBJets*=(1-sfArray[iJet]);
+           float tmpWeight = 1.0;
+           for(unsigned int jJet = 0; jJet < 5; ++jJet) {
+             if (discArray[jJet] > btagCut && jJet != iJet)
+               tmpWeight*=(1-sfArray[jJet]);
+           }
+           weightAtLeastTwoBJetsOneBtagBin+=tmpWeight*sfArray[iJet];
+         }
+       }
+       weightAtLeastOneBJet = 1 - weightZeroBJets;
+       weightAtLeastTwoBJets = 1 - weightZeroBJets - weightAtLeastTwoBJetsOneBtagBin;
+       //
+       //if ( Jet3_btagDisc > btagCut ) weightZeroBJetsBeyondLeadingTwo*=(1-Jet3_btagSF);
+       //if ( Jet4_btagDisc > btagCut ) weightZeroBJetsBeyondLeadingTwo*=(1-Jet4_btagSF);
+       //if ( Jet5_btagDisc > btagCut ) weightZeroBJetsBeyondLeadingTwo*=(1-Jet5_btagSF);
+       //weightAtLeastOneBJetBeyondLeadingTwo = 1 - weightZeroBJetsBeyondLeadingTwo;
+       //
+       //if ( Jet1_btagDisc > btagCut ) weightZeroBJetsUpShift*=(1-Jet1_btagSF);
+       //if ( Jet2_btagDisc > btagCut ) weightZeroBJetsUpShift*=(1-Jet2_btagSF);
+       //if ( Jet3_btagDisc > btagCut ) weightZeroBJetsUpShift*=(1-Jet3_btagSF);
+       //if ( Jet4_btagDisc > btagCut ) weightZeroBJetsUpShift*=(1-Jet4_btagSF);
+       //if ( Jet5_btagDisc > btagCut ) weightZeroBJetsUpShift*=(1-Jet5_btagSF);
+       //weightAtLeastOneBJetUpShift = 1 - weightZeroBJetsUpShift;
+       ////
+       //if ( Jet1_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet1_btagSF);
+       //if ( Jet2_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet2_btagSF);
+       //if ( Jet3_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet3_btagSF);
+       //if ( Jet4_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet4_btagSF);
+       //if ( Jet5_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet5_btagSF);
+       //weightAtLeastOneBJetDownShift = 1 - weightZeroBJetsDownShift;
+     }
+     int nBJet_ptCut  = 0;
+     int nBJet_ptCut_beyondLeadingTwo = 0;
+     
+     for(unsigned int iJet = 0; iJet < 5; ++iJet) {
+       if (discArray[iJet] > btagCut)
+         nBJet_ptCut++;
+     }
+     
+     if ( Jet3_btagDisc > btagCut ) nBJet_ptCut_beyondLeadingTwo++;
+     if ( Jet4_btagDisc > btagCut ) nBJet_ptCut_beyondLeadingTwo++;
+     if ( Jet5_btagDisc > btagCut ) nBJet_ptCut_beyondLeadingTwo++;
+     
+     //std::cout << "INFO: weightAtLeastOneBJet=" << weightAtLeastOneBJet << "; while weightZeroBJets=" << weightZeroBJets << "; this event has " << nJet_store << " stored jets, with " << 
+     // nBJet_medium_ptCut << " passing the medium Btag cut." << std::endl;
+
      //--------------------------------------------------------------------------
      // Evaluate the cuts
      //--------------------------------------------------------------------------
@@ -1509,6 +1670,93 @@ void analysisClass::Loop()
          FillUserTH1D( "Mee_sT1770_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
        if (sT_eejj > 1815)
          FillUserTH1D( "Mee_sT1815_PAS"		             ,M_e1e2                         , pileup_weight * gen_weight ); 
+       //-------------------------------------------------------------------------- 
+       // no b tags
+       //-------------------------------------------------------------------------- 
+       if((isData() && nBJet_ptCut==0) || !isData()) {
+         FillUserTH1D( "Mee_PAS_noBtaggedJets"      , M_e1e2,  pileup_weight * gen_weight * weightZeroBJets ) ;
+         if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS_noBtaggedJets"		   , M_e1e2,  pileup_weight * gen_weight * weightZeroBJets ); 
+         else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS_noBtaggedJets"		   , M_e1e2,  pileup_weight * gen_weight * weightZeroBJets ); 
+         else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS_noBtaggedJets"		   , M_e1e2,  pileup_weight * gen_weight * weightZeroBJets ); 
+
+         if (sT_eejj >= 300 && sT_eejj < 500)
+           FillUserTH1D("Mee_sT300To500_PAS_noBtaggedJets", M_e1e2      , pileup_weight * gen_weight * weightZeroBJets );
+         else if (sT_eejj >= 500 && sT_eejj < 750)
+           FillUserTH1D("Mee_sT500To750_PAS_noBtaggedJets", M_e1e2      , pileup_weight * gen_weight * weightZeroBJets );
+         else if (sT_eejj >= 750 && sT_eejj < 1250)
+           FillUserTH1D("Mee_sT750To1250_PAS_noBtaggedJets", M_e1e2     , pileup_weight * gen_weight * weightZeroBJets );
+         else if (sT_eejj >= 1250)
+           FillUserTH1D("Mee_sT1250ToInf_PAS_noBtaggedJets", M_e1e2     , pileup_weight * gen_weight * weightZeroBJets );
+
+         if (M_ej_min >= 100 && M_ej_min < 200)
+           FillUserTH1D("Mee_MejMin100To200_PAS_noBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightZeroBJets );
+         else if (M_ej_min >= 200 && M_ej_min < 300)
+           FillUserTH1D("Mee_MejMin200To300_PAS_noBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightZeroBJets );
+         else if (M_ej_min >= 300 && M_ej_min < 400)
+           FillUserTH1D("Mee_MejMin300To400_PAS_noBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightZeroBJets );
+         else if (M_ej_min >= 400 && M_ej_min < 500)
+           FillUserTH1D("Mee_MejMin400To500_PAS_noBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightZeroBJets );
+         else if (M_ej_min >= 500 && M_ej_min < 650)
+           FillUserTH1D("Mee_MejMin500To650_PAS_noBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightZeroBJets );
+         else if (M_ej_min >= 650)
+           FillUserTH1D("Mee_MejMin650ToInf_PAS_noBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightZeroBJets );
+       }
+       if(nBJet_ptCut>=1) {
+         FillUserTH1D( "Mee_PAS_gteOneBtaggedJet"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+         if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS_gteOneBtaggedJet"		   , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+         else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS_gteOneBtaggedJet"		   , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+         else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS_gteOneBtaggedJet"		   , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ); 
+
+         if (sT_eejj >= 300 && sT_eejj < 500)
+           FillUserTH1D("Mee_sT300To500_PAS_gteOneBtaggedJet", M_e1e2      , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (sT_eejj >= 500 && sT_eejj < 750)
+           FillUserTH1D("Mee_sT500To750_PAS_gteOneBtaggedJet", M_e1e2      , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (sT_eejj >= 750 && sT_eejj < 1250)
+           FillUserTH1D("Mee_sT750To1250_PAS_gteOneBtaggedJet", M_e1e2     , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (sT_eejj >= 1250)
+           FillUserTH1D("Mee_sT1250ToInf_PAS_gteOneBtaggedJet", M_e1e2     , pileup_weight * gen_weight * weightAtLeastOneBJet );
+
+         if (M_ej_min >= 100 && M_ej_min < 200)
+           FillUserTH1D("Mee_MejMin100To200_PAS_gteOneBtaggedJet", M_e1e2  , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (M_ej_min >= 200 && M_ej_min < 300)
+           FillUserTH1D("Mee_MejMin200To300_PAS_gteOneBtaggedJet", M_e1e2  , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (M_ej_min >= 300 && M_ej_min < 400)
+           FillUserTH1D("Mee_MejMin300To400_PAS_gteOneBtaggedJet", M_e1e2  , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (M_ej_min >= 400 && M_ej_min < 500)
+           FillUserTH1D("Mee_MejMin400To500_PAS_gteOneBtaggedJet", M_e1e2  , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (M_ej_min >= 500 && M_ej_min < 650)
+           FillUserTH1D("Mee_MejMin500To650_PAS_gteOneBtaggedJet", M_e1e2  , pileup_weight * gen_weight * weightAtLeastOneBJet );
+         else if (M_ej_min >= 650)
+           FillUserTH1D("Mee_MejMin650ToInf_PAS_gteOneBtaggedJet", M_e1e2  , pileup_weight * gen_weight * weightAtLeastOneBJet );
+       }
+       if(nBJet_ptCut>=2) {
+         FillUserTH1D( "Mee_PAS_gteTwoBtaggedJets"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets ) ;
+         if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS_gteTwoBtaggedJets"		   , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets ); 
+         else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS_gteTwoBtaggedJets"		   , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets ); 
+         else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS_gteTwoBtaggedJets"		   , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets ); 
+
+         if (sT_eejj >= 300 && sT_eejj < 500)
+           FillUserTH1D("Mee_sT300To500_PAS_gteTwoBtaggedJets", M_e1e2      , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (sT_eejj >= 500 && sT_eejj < 750)
+           FillUserTH1D("Mee_sT500To750_PAS_gteTwoBtaggedJets", M_e1e2      , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (sT_eejj >= 750 && sT_eejj < 1250)
+           FillUserTH1D("Mee_sT750To1250_PAS_gteTwoBtaggedJets", M_e1e2     , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (sT_eejj >= 1250)
+           FillUserTH1D("Mee_sT1250ToInf_PAS_gteTwoBtaggedJets", M_e1e2     , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+
+         if (M_ej_min >= 100 && M_ej_min < 200)
+           FillUserTH1D("Mee_MejMin100To200_PAS_gteTwoBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (M_ej_min >= 200 && M_ej_min < 300)
+           FillUserTH1D("Mee_MejMin200To300_PAS_gteTwoBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (M_ej_min >= 300 && M_ej_min < 400)
+           FillUserTH1D("Mee_MejMin300To400_PAS_gteTwoBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (M_ej_min >= 400 && M_ej_min < 500)
+           FillUserTH1D("Mee_MejMin400To500_PAS_gteTwoBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (M_ej_min >= 500 && M_ej_min < 650)
+           FillUserTH1D("Mee_MejMin500To650_PAS_gteTwoBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+         else if (M_ej_min >= 650)
+           FillUserTH1D("Mee_MejMin650ToInf_PAS_gteTwoBtaggedJets", M_e1e2  , pileup_weight * gen_weight * weightAtLeastTwoBJets );
+       }
        ////
        //if (sT_eejj>2000)
        //  FillUserTH1D("Mee_sT2000_PAS"         ,M_e1e2                         , pileup_weight * gen_weight );
