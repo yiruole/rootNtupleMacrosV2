@@ -11,7 +11,7 @@ import math
 import os
 import os.path
 from ROOT import gROOT, gStyle, gPad, kTRUE, kWhite, kRed, kOrange, kYellow, kSpring, kGreen, kTeal, kCyan, kAzure, kBlack, kBlue, kViolet, kMagenta, kGray
-from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH1F, TH2F, TH1D, TGraph, TLine, TText, Double
+from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH1F, TH2F, TH1D, TGraph, TLine, TText
 from array import array
 import copy
 import numpy
@@ -25,7 +25,8 @@ gStyle.SetFrameBorderMode(0)
 gStyle.SetCanvasColor(kWhite)
 gStyle.SetPadTickX(1)
 gStyle.SetPadTickY(1)
-gStyle.SetPadTopMargin(0.08)
+# gStyle.SetPadTopMargin(0.08)
+gStyle.SetPadTopMargin(0.1)
 gStyle.SetPadBottomMargin(0.12)
 gStyle.SetPadRightMargin(0.02)
 gStyle.SetPadLeftMargin(0.1)
@@ -237,12 +238,13 @@ maxAxisValue = nSigma2DPaletteMax
 
 
 def GetFile(filename):
-    file = TFile(filename)
-    if not file:
+    print "GetFile("+filename+")"
+    tfile = TFile(filename)
+    if not tfile or tfile.IsZombie():
         print "ERROR: file " + filename + " not found"
         print "exiting..."
-        sys.exit()
-    return file
+        sys.exit(-1)
+    return tfile
 
 
 def GetHisto(histoName, file, scale=1):
