@@ -33,12 +33,12 @@ gStyle.SetPadTickY(1)
 
 
 def GetFile(filename):
-    file = TFile(filename)
-    if not file:
+    tfile = TFile(filename)
+    if not tfile or tfile.IsZombie():
         print "ERROR: file " + filename + " not found"
         print "exiting..."
-        sys.exit()
-    return file
+        sys.exit(-1)
+    return tfile
 
 
 def GetHisto(histoName, file, scale=1):
@@ -646,15 +646,34 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
 # --- Input files
 File_QCD_preselection = GetFile(
         # "$LQDATA/nanoV6/2016/analysis/qcdYield_24jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV6/2016/analysis/qcdYield_optFinalSels_6aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
         # "$LQDATA/nanoV6/2017/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV6/2017/analysis/qcdYield_optFinalSels_6aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # nanoV7
+        # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
 )
 
 File_preselection = GetFile(
     # "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV6/2016/analysis/prefire_optFinalSels_6aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2017/analysis/noPrefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2017/analysis/prefire_22may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
-    "$LQDATA/nanoV6/2018/analysis/eejj_6jul2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV6/2017/analysis/prefire_optFinalSels_6aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV6/2017/analysis/prefire_optFinalSels_6aug2020_dyjIncPtBinStitch/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV6/2018/analysis/eejj_6jul2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # nanoV7
+    # "$LQDATA/nanoV7/2016/analysis/26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV7/analysis/2017/prefire_26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV7/2018/analysis/eejj_26aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # pt-binned/inc stitch
+    # "$LQDATA/nanoV7/2017/analysis/prefire_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV7/2018/analysis/eejj_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # inc only
+    # "$LQDATA/nanoV7/2017/analysis/prefire_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    "$LQDATA/nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 )
 
 xsectionFile = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
@@ -672,15 +691,27 @@ if "2016" in File_preselection.GetName():
     zjetDatasetName = "DYJetsToLL_Pt.+Tune"
     allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson_triboson"
 else:
+    zjetDatasetName = "DY.+ToLL"
     wjet = "WJet_amcatnlo_jetBinned"
-    #zjet = "ZJet_jetAndPtBinned"
-    zjet = "ZJet_amcatnlo_jetBinned"
-    zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
-    #allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
-    allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetBinnedWJetAMCJetBinned_DibosonPyth"
+    # zjet = "ZJet_jetAndPtBinned"
+    # allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    # zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
+    # jet-binned
+    # zjet = "ZJet_amcatnlo_jetBinned"
+    # allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    # zjetDatasetName = "DYJetsToLL_.+J_TuneCP5"
+    # pt-binned inc stitch
+    # zjet = "ZJet_amcatnlo_ptBinned_IncStitch"
+    # allBkg = "ALLBKG_powhegTTBar_ZJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    # inc only
+    zjet = "ZJet_amcatnlo_Inc"
+    allBkg = "ALLBKG_powhegTTBar_ZJetIncWJetAMCJetBinned_NLODiboson_triboson"
+    # zjetDatasetName = "DYJetsToLL_M-50_.+Tune"
+    # ttbar = "TTbar_amcatnlo_Inc"
+    # allBkg = "ALLBKG_amcatnloTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
 # wjet = "WJet_amcatnlo_ptBinned"
-diboson = "DIBOSON"
-# diboson = "DIBOSON_nlo"
+# diboson = "DIBOSON"
+diboson = "DIBOSON_nlo"
 ttbar = "TTbar_powheg"
 ttbarDatasetName = "TT"
 singletop = "SingleTop"
@@ -705,9 +736,12 @@ print "\t PhotonJets -->", photonjets
 histBaseNames = []
 # nominal
 histBaseNames.append("Mee_PAS")
+histBaseNames.append("Mee_PAS_BJETBIN1")
+histBaseNames.append("Mee_PAS_BJETBIN2")
 # histBaseNames.append("Mee_80_100_Preselection")
 # histBaseNames.append("Mee_70_110_Preselection")
 histBaseNames.append("Mee_EBEB_PAS")
+histBaseNames.append("Mee_EBEE_PAS")
 histBaseNames.append("Mee_EEEE_PAS")
 ##histBaseNames.append('Mee_NJetEq2_PAS')
 ##histBaseNames.append('Mee_NJetEq3_PAS')
@@ -777,8 +811,9 @@ for idx, histBaseName in enumerate(histBaseNames):
     # plotBaseName= 'MTenu_50_110_gteOneBtaggedJet_LQ800'
     thisHistName = histNameDefault
 
-    # plotBaseName = histBaseName.replace("BJETBIN", "gteOneBtaggedJet")
-    plotBaseName = histBaseName
+    plotBaseName = histBaseName.replace("BJETBIN1", "gteOneBtaggedJet")
+    plotBaseName = plotBaseName.replace("BJETBIN2", "gteTwoBtaggedJets")
+    # plotBaseName = histBaseName
     print "for TTBar, using plotBaseName:", plotBaseName
 
     h_ALLBKG_powheg_ttbar = GetHisto(
@@ -863,7 +898,10 @@ for idx, histBaseName in enumerate(histBaseNames):
     # plotBaseName = 'MTenu_110_190_noBtaggedJets'
     # plotBaseName= 'MTenu_50_110_noBtaggedJets_LQ800'
 
-    # plotBaseName = histBaseName.replace("BJETBIN", "noBtaggedJets")
+    # plotBaseName = histBaseName.replace("BJETBIN1", "noBtaggedJets")
+    # plotBaseName = plotBaseName.replace("BJETBIN2", "noBtaggedJets")
+    plotBaseName = histBaseName.replace("_BJETBIN1", "")
+    plotBaseName = plotBaseName.replace("_BJETBIN2", "")
     print "for DYJets, using plotBaseName:", plotBaseName
 
     h_ALLBKG_powheg_dyjets = GetHisto(
