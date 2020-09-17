@@ -334,8 +334,8 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
 
     //c_gen_all->examine<GenParticle>("c_gen_all");
-    CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER);
-    //c_genEle_final->examine<GenParticle>("c_genEle_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_HARD_SCATTER)");
+    CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARDPROCESS_FINALSTATE);
+    //c_genEle_final->examine<GenParticle>("c_genEle_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_HARDPROCESS_FINALSTATE)");
 
     CollectionPtr c_genMu_final = c_gen_all    -> SkimByID<GenParticle>(GEN_MU_HARD_SCATTER);
 
@@ -343,20 +343,8 @@ void analysisClass::Loop()
     //c_genNu_final->examine<GenParticle>("c_genNu_final = c_gen_all after SkimByID<GenParticle>(GEN_NU_HARD_SCATTER)");
     CollectionPtr c_genJet_final = c_genJet_all;
 
-    CollectionPtr c_genZgamma_final    = c_gen_all -> SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER);
     //c_genZgamma_final->examine<GenParticle>("c_genZgamma_final = c_gen_all after SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER)");
-    CollectionPtr c_genW_final         = c_gen_all -> SkimByID<GenParticle>(GEN_W_HARD_SCATTER);
-    //c_genW_final->examine<GenParticle>("c_genW_final = c_gen_all after SkimByID<GenParticle>(GEN_W_HARD_SCATTER)");
-    //if(c_genW_final->GetSize()<1) {
-    //  cout << "DID NOT FIND A W THIS EVENT! HERE ARE ALL THE GENPARTICLES" << endl;
-    //  c_gen_all->examine<GenParticle>("c_gen_all");
-    //}
     CollectionPtr c_genNuFromW_final   = c_gen_all -> SkimByID<GenParticle>(GEN_NU_FROM_W);
-    CollectionPtr c_genEleFromW_final  = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_W);
-    CollectionPtr c_genEleFromDY_final = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_DY);
-    //c_genEleFromDY_final->examine<GenParticle>("c_genEleFromDY_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_FROM_DY)");
-    //c_genEleFromW_final->examine<GenParticle>("c_genEleFromW_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_FROM_W)");
-    //c_genNuFromW_final->examine<GenParticle>("c_genNuFromW_final = c_gen_all after SkimByID<GenParticle>(GEN_NU_FROM_W)");
     CollectionPtr c_genTop             = c_gen_all -> SkimByID<GenParticle>(GEN_TOP);
     CollectionPtr c_genTop_final       = c_genTop  -> SkimByID<GenParticle>(GEN_STATUS62);
 
@@ -675,11 +663,7 @@ void analysisClass::Loop()
     int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
     int n_jet_highEta_ptCut  = c_pfjet_highEta_final_ptCut   -> GetSize();
 
-    int n_genZgamma_store    = c_genZgamma_final             -> GetSize();
-    int n_genW_store         = c_genW_final                  -> GetSize();
     int n_genNuFromW_store   = c_genNuFromW_final            -> GetSize();
-    int n_genEleFromW_store  = c_genEleFromW_final           -> GetSize();
-    int n_genEleFromDY_store = c_genEleFromDY_final          -> GetSize();
 
     int n_genLQ_store = c_genLQ_final ->GetSize();
 
@@ -704,17 +688,9 @@ void analysisClass::Loop()
       fillVariableWithValue("nGenNu_store" , min(n_genNu_store,2));
       fillVariableWithValue("nGenMu_store" , min(n_genMu_store,3));
 
-      fillVariableWithValue("nGenW_ptCut"	 , n_genW_store         );
-      fillVariableWithValue("nGenDY_ptCut"	 , n_genZgamma_store    );  	     
       fillVariableWithValue("nGenNuFromW_ptCut"	 , n_genNuFromW_store   );
-      fillVariableWithValue("nGenEleFromW_ptCut" , n_genEleFromW_store  );
-      fillVariableWithValue("nGenEleFromDY_ptCut", n_genEleFromDY_store );
 
-      fillVariableWithValue("nGenW_store"	 , min(n_genW_store        ,2));
-      fillVariableWithValue("nGenDY_store"	 , min(n_genZgamma_store   ,2));  	     
       fillVariableWithValue("nGenNuFromW_store"	 , min(n_genNuFromW_store  ,2));
-      fillVariableWithValue("nGenEleFromW_store" , min(n_genEleFromW_store ,2));
-      fillVariableWithValue("nGenEleFromDY_store", min(n_genEleFromDY_store,4));
 
       if ( n_genJet_store >= 1 ) { 
         GenJet genJet1 = c_genJet_final -> GetConstituent<GenJet>(0);
@@ -808,38 +784,6 @@ void analysisClass::Loop()
         }
       }
 
-      if ( n_genZgamma_store >= 1 ){ 
-        GenParticle genZgamma1 = c_genZgamma_final -> GetConstituent<GenParticle>(0);
-        fillVariableWithValue ( "GenZGamma1_Pt" , genZgamma1.Pt () );
-        fillVariableWithValue ( "GenZGamma1_Eta", genZgamma1.Eta() );
-        fillVariableWithValue ( "GenZGamma1_Phi", genZgamma1.Phi() );
-        fillVariableWithValue ( "GenZGamma1_ID" , genZgamma1.PdgId());
-
-        if ( n_genZgamma_store >= 2 ){ 
-          GenParticle genZgamma2 = c_genZgamma_final -> GetConstituent<GenParticle>(1);
-          fillVariableWithValue ( "GenZGamma2_Pt" , genZgamma2.Pt () );
-          fillVariableWithValue ( "GenZGamma2_Eta", genZgamma2.Eta() );
-          fillVariableWithValue ( "GenZGamma2_Phi", genZgamma2.Phi() );
-          fillVariableWithValue ( "GenZGamma2_ID" , genZgamma2.PdgId());
-        }
-      }
-
-      if ( n_genW_store >= 1 ){ 
-        GenParticle genW1 = c_genW_final -> GetConstituent<GenParticle>(0);
-        fillVariableWithValue ( "GenW1_Pt" , genW1.Pt () );
-        fillVariableWithValue ( "GenW1_Eta", genW1.Eta() );
-        fillVariableWithValue ( "GenW1_Phi", genW1.Phi() );
-        fillVariableWithValue ( "GenW1_ID" , genW1.PdgId());
-
-        if ( n_genW_store >= 2 ){ 
-          GenParticle genW2 = c_genW_final -> GetConstituent<GenParticle>(1);
-          fillVariableWithValue ( "GenW2_Pt" , genW2.Pt () );
-          fillVariableWithValue ( "GenW2_Eta", genW2.Eta() );
-          fillVariableWithValue ( "GenW2_Phi", genW2.Phi() );
-          fillVariableWithValue ( "GenW2_ID" , genW2.PdgId());
-        }
-      }
-
       if ( n_genNuFromW_store >= 1 ){ 
         GenParticle genNuFromW1 = c_genNuFromW_final -> GetConstituent<GenParticle>(0);
         fillVariableWithValue ( "GenNuFromW1_Pt" , genNuFromW1.Pt () );
@@ -853,54 +797,6 @@ void analysisClass::Loop()
           fillVariableWithValue ( "GenNuFromW2_Eta", genNuFromW2.Eta() );
           fillVariableWithValue ( "GenNuFromW2_Phi", genNuFromW2.Phi() );
           fillVariableWithValue ( "GenNuFromW2_ID" , genNuFromW2.PdgId());
-        }
-      }
-
-      if ( n_genEleFromW_store >= 1 ){ 
-        GenParticle genEleFromW1 = c_genEleFromW_final -> GetConstituent<GenParticle>(0);
-        fillVariableWithValue ( "GenEleFromW1_Pt" , genEleFromW1.Pt () );
-        fillVariableWithValue ( "GenEleFromW1_Eta", genEleFromW1.Eta() );
-        fillVariableWithValue ( "GenEleFromW1_Phi", genEleFromW1.Phi() );
-        fillVariableWithValue ( "GenEleFromW1_ID" , genEleFromW1.PdgId());
-
-        if ( n_genEleFromW_store >= 2 ){ 
-          GenParticle genEleFromW2 = c_genEleFromW_final -> GetConstituent<GenParticle>(1);
-          fillVariableWithValue ( "GenEleFromW2_Pt" , genEleFromW2.Pt () );
-          fillVariableWithValue ( "GenEleFromW2_Eta", genEleFromW2.Eta() );
-          fillVariableWithValue ( "GenEleFromW2_Phi", genEleFromW2.Phi() );
-          fillVariableWithValue ( "GenEleFromW2_ID" , genEleFromW2.PdgId());
-        }
-      }
-
-      if ( n_genEleFromDY_store >= 1 ){ 
-        GenParticle genEleFromDY1 = c_genEleFromDY_final -> GetConstituent<GenParticle>(0);
-        fillVariableWithValue ( "GenEleFromDY1_Pt" , genEleFromDY1.Pt () );
-        fillVariableWithValue ( "GenEleFromDY1_Eta", genEleFromDY1.Eta() );
-        fillVariableWithValue ( "GenEleFromDY1_Phi", genEleFromDY1.Phi() );
-        fillVariableWithValue ( "GenEleFromDY1_ID" , genEleFromDY1.PdgId());
-
-        if ( n_genEleFromDY_store >= 2 ){ 
-          GenParticle genEleFromDY2 = c_genEleFromDY_final -> GetConstituent<GenParticle>(1);
-          fillVariableWithValue ( "GenEleFromDY2_Pt" , genEleFromDY2.Pt () );
-          fillVariableWithValue ( "GenEleFromDY2_Eta", genEleFromDY2.Eta() );
-          fillVariableWithValue ( "GenEleFromDY2_Phi", genEleFromDY2.Phi() );
-          fillVariableWithValue ( "GenEleFromDY2_ID" , genEleFromDY2.PdgId());
-
-          if ( n_genEleFromDY_store >= 3 ){ 
-            GenParticle genEleFromDY3 = c_genEleFromDY_final -> GetConstituent<GenParticle>(2);
-            fillVariableWithValue ( "GenEleFromDY3_Pt" , genEleFromDY3.Pt () );
-            fillVariableWithValue ( "GenEleFromDY3_Eta", genEleFromDY3.Eta() );
-            fillVariableWithValue ( "GenEleFromDY3_Phi", genEleFromDY3.Phi() );
-            fillVariableWithValue ( "GenEleFromDY3_ID" , genEleFromDY3.PdgId());
-
-            if ( n_genEleFromDY_store >= 4 ){ 
-              GenParticle genEleFromDY4 = c_genEleFromDY_final -> GetConstituent<GenParticle>(3);
-              fillVariableWithValue ( "GenEleFromDY4_Pt" , genEleFromDY4.Pt () );
-              fillVariableWithValue ( "GenEleFromDY4_Eta", genEleFromDY4.Eta() );
-              fillVariableWithValue ( "GenEleFromDY4_Phi", genEleFromDY4.Phi() );
-              fillVariableWithValue ( "GenEleFromDY4_ID" , genEleFromDY4.PdgId());
-            }
-          }
         }
       }
 
@@ -1158,11 +1054,13 @@ void analysisClass::Loop()
         fillVariableWithValue( "JetLooseEle1_Eta"     , loose_jet1.Eta()                        );
         fillVariableWithValue( "JetLooseEle1_Phi"     , loose_jet1.Phi()                        );
         fillVariableWithValue( "JetLooseEle1_btagDeepCSV" , loose_jet1.DeepCSVBTag()            );
-        fillVariableWithValue( "JetLooseEle1_btagSFLooseDeepCSV"  , loose_jet1.DeepCSVBTagSFLoose()   );
-        fillVariableWithValue( "JetLooseEle1_btagSFMediumDeepCSV" , loose_jet1.DeepCSVBTagSFMedium()  );
         fillVariableWithValue( "JetLooseEle1_btagDeepJet" , loose_jet1.DeepJetBTag()            );
-        fillVariableWithValue( "JetLooseEle1_btagSFLooseDeepJet"  , loose_jet1.DeepJetBTagSFLoose()   );
-        fillVariableWithValue( "JetLooseEle1_btagSFMediumDeepJet" , loose_jet1.DeepJetBTagSFMedium()  );
+        if(!isData()) {
+          fillVariableWithValue( "JetLooseEle1_btagSFLooseDeepCSV"  , loose_jet1.DeepCSVBTagSFLoose()   );
+          fillVariableWithValue( "JetLooseEle1_btagSFMediumDeepCSV" , loose_jet1.DeepCSVBTagSFMedium()  );
+          fillVariableWithValue( "JetLooseEle1_btagSFLooseDeepJet"  , loose_jet1.DeepJetBTagSFLoose()   );
+          fillVariableWithValue( "JetLooseEle1_btagSFMediumDeepJet" , loose_jet1.DeepJetBTagSFMedium()  );
+        }
 
         if ( n_jet_store >= 2 ){
           PFJet loose_jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
@@ -1172,11 +1070,13 @@ void analysisClass::Loop()
           fillVariableWithValue( "JetLooseEle2_Eta"     , loose_jet2.Eta()                        );
           fillVariableWithValue( "JetLooseEle2_Phi"     , loose_jet2.Phi()                        );
           fillVariableWithValue( "JetLooseEle2_btagDeepCSV" , loose_jet2.DeepCSVBTag()            );
-          fillVariableWithValue( "JetLooseEle2_btagSFLooseDeepCSV"  , loose_jet2.DeepCSVBTagSFLoose()   );
-          fillVariableWithValue( "JetLooseEle2_btagSFMediumDeepCSV" , loose_jet2.DeepCSVBTagSFMedium()  );
           fillVariableWithValue( "JetLooseEle2_btagDeepJet" , loose_jet2.DeepJetBTag()            );
-          fillVariableWithValue( "JetLooseEle2_btagSFLooseDeepJet"  , loose_jet2.DeepJetBTagSFLoose()   );
-          fillVariableWithValue( "JetLooseEle2_btagSFMediumDeepJet" , loose_jet2.DeepJetBTagSFMedium()  );
+          if(!isData()) {
+            fillVariableWithValue( "JetLooseEle2_btagSFLooseDeepCSV"  , loose_jet2.DeepCSVBTagSFLoose()   );
+            fillVariableWithValue( "JetLooseEle2_btagSFMediumDeepCSV" , loose_jet2.DeepCSVBTagSFMedium()  );
+            fillVariableWithValue( "JetLooseEle2_btagSFLooseDeepJet"  , loose_jet2.DeepJetBTagSFLoose()   );
+            fillVariableWithValue( "JetLooseEle2_btagSFMediumDeepJet" , loose_jet2.DeepJetBTagSFMedium()  );
+          }
 
           if ( n_jet_store >= 3 ){
             PFJet loose_jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
@@ -1186,11 +1086,13 @@ void analysisClass::Loop()
             fillVariableWithValue( "JetLooseEle3_Eta"     , loose_jet3.Eta()                        );
             fillVariableWithValue( "JetLooseEle3_Phi"     , loose_jet3.Phi()                        );
             fillVariableWithValue( "JetLooseEle3_btagDeepCSV" , loose_jet3.DeepCSVBTag()            );
-            fillVariableWithValue( "JetLooseEle3_btagSFLooseDeepCSV"  , loose_jet3.DeepCSVBTagSFLoose()   );
-            fillVariableWithValue( "JetLooseEle3_btagSFMediumDeepCSV" , loose_jet3.DeepCSVBTagSFMedium()  );
             fillVariableWithValue( "JetLooseEle3_btagDeepJet" , loose_jet3.DeepJetBTag()            );
-            fillVariableWithValue( "JetLooseEle3_btagSFLooseDeepJet"  , loose_jet3.DeepJetBTagSFLoose()   );
-            fillVariableWithValue( "JetLooseEle3_btagSFMediumDeepJet" , loose_jet3.DeepJetBTagSFMedium()  );
+            if(!isData()) {
+              fillVariableWithValue( "JetLooseEle3_btagSFLooseDeepCSV"  , loose_jet3.DeepCSVBTagSFLoose()   );
+              fillVariableWithValue( "JetLooseEle3_btagSFMediumDeepCSV" , loose_jet3.DeepCSVBTagSFMedium()  );
+              fillVariableWithValue( "JetLooseEle3_btagSFLooseDeepJet"  , loose_jet3.DeepJetBTagSFLoose()   );
+              fillVariableWithValue( "JetLooseEle3_btagSFMediumDeepJet" , loose_jet3.DeepJetBTagSFMedium()  );
+            }
 
             if ( n_jet_store >= 4 ){
               PFJet loose_jet4 = c_pfjet_final -> GetConstituent<PFJet>(3);
@@ -1200,11 +1102,13 @@ void analysisClass::Loop()
               fillVariableWithValue( "JetLooseEle4_Eta"     , loose_jet4.Eta()                        );
               fillVariableWithValue( "JetLooseEle4_Phi"     , loose_jet4.Phi()                        );
               fillVariableWithValue( "JetLooseEle4_btagDeepCSV" , loose_jet4.DeepCSVBTag());
-              fillVariableWithValue( "JetLooseEle4_btagSFLooseDeepCSV"  , loose_jet4.DeepCSVBTagSFLoose()   );
-              fillVariableWithValue( "JetLooseEle4_btagSFMediumDeepCSV" , loose_jet4.DeepCSVBTagSFMedium()  );
               fillVariableWithValue( "JetLooseEle4_btagDeepJet" , loose_jet4.DeepJetBTag());
-              fillVariableWithValue( "JetLooseEle4_btagSFLooseDeepJet"  , loose_jet4.DeepJetBTagSFLoose()   );
-              fillVariableWithValue( "JetLooseEle4_btagSFMediumDeepJet" , loose_jet4.DeepJetBTagSFMedium()  );
+              if(!isData()) {
+                fillVariableWithValue( "JetLooseEle4_btagSFLooseDeepCSV"  , loose_jet4.DeepCSVBTagSFLoose()   );
+                fillVariableWithValue( "JetLooseEle4_btagSFMediumDeepCSV" , loose_jet4.DeepCSVBTagSFMedium()  );
+                fillVariableWithValue( "JetLooseEle4_btagSFLooseDeepJet"  , loose_jet4.DeepJetBTagSFLoose()   );
+                fillVariableWithValue( "JetLooseEle4_btagSFMediumDeepJet" , loose_jet4.DeepJetBTagSFMedium()  );
+              }
 
               if ( n_jet_store >= 5 ){
                 PFJet loose_jet5 = c_pfjet_final -> GetConstituent<PFJet>(4);
@@ -1214,11 +1118,13 @@ void analysisClass::Loop()
                 fillVariableWithValue( "JetLooseEle5_Eta"     , loose_jet5.Eta()                        );
                 fillVariableWithValue( "JetLooseEle5_Phi"     , loose_jet5.Phi()                        );
                 fillVariableWithValue( "JetLooseEle5_btagDeepCSV" , loose_jet5.DeepCSVBTag()            );
-                fillVariableWithValue( "JetLooseEle5_btagSFLooseDeepCSV"  , loose_jet5.DeepCSVBTagSFLoose()   );
-                fillVariableWithValue( "JetLooseEle5_btagSFMediumDeepCSV" , loose_jet5.DeepCSVBTagSFMedium()  );
                 fillVariableWithValue( "JetLooseEle5_btagDeepJet" , loose_jet5.DeepJetBTag()            );
-                fillVariableWithValue( "JetLooseEle5_btagSFLooseDeepJet"  , loose_jet5.DeepJetBTagSFLoose()   );
-                fillVariableWithValue( "JetLooseEle5_btagSFMediumDeepJet" , loose_jet5.DeepJetBTagSFMedium()  );
+                if(!isData()) {
+                  fillVariableWithValue( "JetLooseEle5_btagSFLooseDeepCSV"  , loose_jet5.DeepCSVBTagSFLoose()   );
+                  fillVariableWithValue( "JetLooseEle5_btagSFMediumDeepCSV" , loose_jet5.DeepCSVBTagSFMedium()  );
+                  fillVariableWithValue( "JetLooseEle5_btagSFLooseDeepJet"  , loose_jet5.DeepJetBTagSFLoose()   );
+                  fillVariableWithValue( "JetLooseEle5_btagSFMediumDeepJet" , loose_jet5.DeepJetBTagSFMedium()  );
+                }
               }
             }
           }
@@ -1431,12 +1337,14 @@ void analysisClass::Loop()
         fillVariableWithValue( "Jet1_Eta"     , jet1.Eta()                        );
         fillVariableWithValue( "Jet1_Phi"     , jet1.Phi()                        );
         fillVariableWithValue( "Jet1_btagDeepCSV" , jet1.DeepCSVBTag()            );
-        fillVariableWithValue( "Jet1_btagSFLooseDeepCSV"  , jet1.DeepCSVBTagSFLoose()   );
-        fillVariableWithValue( "Jet1_btagSFMediumDeepCSV"  , jet1.DeepCSVBTagSFMedium()   );
         fillVariableWithValue( "Jet1_btagDeepJet" , jet1.DeepJetBTag()            );
-        fillVariableWithValue( "Jet1_btagSFLooseDeepJet"  , jet1.DeepJetBTagSFLoose()   );
-        fillVariableWithValue( "Jet1_btagSFMediumDeepJet"  , jet1.DeepJetBTagSFMedium()   );
         fillVariableWithValue( "Jet1_hltJetPt"	  , hltJet1Pt     );
+        if(!isData()) {
+          fillVariableWithValue( "Jet1_btagSFLooseDeepCSV"  , jet1.DeepCSVBTagSFLoose()   );
+          fillVariableWithValue( "Jet1_btagSFMediumDeepCSV"  , jet1.DeepCSVBTagSFMedium()   );
+          fillVariableWithValue( "Jet1_btagSFLooseDeepJet"  , jet1.DeepJetBTagSFLoose()   );
+          fillVariableWithValue( "Jet1_btagSFMediumDeepJet"  , jet1.DeepJetBTagSFMedium()   );
+        }
 
         if ( n_jet_store >= 2 ){
           PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
@@ -1447,12 +1355,14 @@ void analysisClass::Loop()
           fillVariableWithValue( "Jet2_Eta"     , jet2.Eta()                        );
           fillVariableWithValue( "Jet2_Phi"     , jet2.Phi()                        );
           fillVariableWithValue( "Jet2_btagDeepCSV" , jet2.DeepCSVBTag()            );
-          fillVariableWithValue( "Jet2_btagSFLooseDeepCSV"  , jet2.DeepCSVBTagSFLoose()   );
-          fillVariableWithValue( "Jet2_btagSFMediumDeepCSV"  , jet2.DeepCSVBTagSFMedium()   );
           fillVariableWithValue( "Jet2_btagDeepJet" , jet2.DeepJetBTag()            );
-          fillVariableWithValue( "Jet2_btagSFLooseDeepJet"  , jet2.DeepJetBTagSFLoose()   );
-          fillVariableWithValue( "Jet2_btagSFMediumDeepJet"  , jet2.DeepJetBTagSFMedium()   );
           fillVariableWithValue( "Jet2_hltJetPt"    , hltJet2Pt     );
+          if(!isData()) {
+            fillVariableWithValue( "Jet2_btagSFLooseDeepCSV"  , jet2.DeepCSVBTagSFLoose()   );
+            fillVariableWithValue( "Jet2_btagSFMediumDeepCSV"  , jet2.DeepCSVBTagSFMedium()   );
+            fillVariableWithValue( "Jet2_btagSFLooseDeepJet"  , jet2.DeepJetBTagSFLoose()   );
+            fillVariableWithValue( "Jet2_btagSFMediumDeepJet"  , jet2.DeepJetBTagSFMedium()   );
+          }
 
           if ( n_jet_store >= 3 ){
             PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
@@ -1463,12 +1373,14 @@ void analysisClass::Loop()
             fillVariableWithValue( "Jet3_Eta"     , jet3.Eta()                        );
             fillVariableWithValue( "Jet3_Phi"     , jet3.Phi()                        );
             fillVariableWithValue( "Jet3_btagDeepCSV" , jet3.DeepCSVBTag()            );
-            fillVariableWithValue( "Jet3_btagSFLooseDeepCSV"  , jet3.DeepCSVBTagSFLoose()   );
-            fillVariableWithValue( "Jet3_btagSFMediumDeepCSV"  , jet3.DeepCSVBTagSFMedium()   );
             fillVariableWithValue( "Jet3_btagDeepJet" , jet3.DeepJetBTag()            );
-            fillVariableWithValue( "Jet3_btagSFLooseDeepJet"  , jet3.DeepJetBTagSFLoose()   );
-            fillVariableWithValue( "Jet3_btagSFMediumDeepJet"  , jet3.DeepJetBTagSFMedium()   );
             fillVariableWithValue( "Jet3_hltJetPt"    , hltJet3Pt     );
+            if(!isData()) {
+              fillVariableWithValue( "Jet3_btagSFLooseDeepCSV"  , jet3.DeepCSVBTagSFLoose()   );
+              fillVariableWithValue( "Jet3_btagSFMediumDeepCSV"  , jet3.DeepCSVBTagSFMedium()   );
+              fillVariableWithValue( "Jet3_btagSFLooseDeepJet"  , jet3.DeepJetBTagSFLoose()   );
+              fillVariableWithValue( "Jet3_btagSFMediumDeepJet"  , jet3.DeepJetBTagSFMedium()   );
+            }
 
             if ( n_jet_store >= 4 ){
               PFJet jet4 = c_pfjet_final -> GetConstituent<PFJet>(3);
@@ -1479,12 +1391,14 @@ void analysisClass::Loop()
               fillVariableWithValue( "Jet4_Eta"     , jet4.Eta()                        );
               fillVariableWithValue( "Jet4_Phi"     , jet4.Phi()                        );
               fillVariableWithValue( "Jet4_btagDeepCSV" , jet4.DeepCSVBTag()            );
-              fillVariableWithValue( "Jet4_btagSFLooseDeepCSV"  , jet4.DeepCSVBTagSFLoose()   );
-              fillVariableWithValue( "Jet4_btagSFMediumDeepCSV"  , jet4.DeepCSVBTagSFMedium()   );
               fillVariableWithValue( "Jet4_btagDeepJet" , jet4.DeepJetBTag()            );
-              fillVariableWithValue( "Jet4_btagSFLooseDeepJet"  , jet4.DeepJetBTagSFLoose()   );
-              fillVariableWithValue( "Jet4_btagSFMediumDeepJet"  , jet4.DeepJetBTagSFMedium()   );
               fillVariableWithValue( "Jet4_hltJetPt"    , hltJet4Pt     );
+              if(!isData()) {
+                fillVariableWithValue( "Jet4_btagSFLooseDeepCSV"  , jet4.DeepCSVBTagSFLoose()   );
+                fillVariableWithValue( "Jet4_btagSFMediumDeepCSV"  , jet4.DeepCSVBTagSFMedium()   );
+                fillVariableWithValue( "Jet4_btagSFLooseDeepJet"  , jet4.DeepJetBTagSFLoose()   );
+                fillVariableWithValue( "Jet4_btagSFMediumDeepJet"  , jet4.DeepJetBTagSFMedium()   );
+              }
 
               if ( n_jet_store >= 5 ){
                 PFJet jet5 = c_pfjet_final -> GetConstituent<PFJet>(4);
@@ -1495,12 +1409,14 @@ void analysisClass::Loop()
                 fillVariableWithValue( "Jet5_Eta"     , jet5.Eta()                        );
                 fillVariableWithValue( "Jet5_Phi"     , jet5.Phi()                        );
                 fillVariableWithValue( "Jet5_btagDeepCSV" , jet5.DeepCSVBTag()            );
-                fillVariableWithValue( "Jet5_btagSFLooseDeepCSV"  , jet5.DeepCSVBTagSFLoose()   );
-                fillVariableWithValue( "Jet5_btagSFMediumDeepCSV"  , jet5.DeepCSVBTagSFMedium()   );
                 fillVariableWithValue( "Jet5_btagDeepJet" , jet5.DeepJetBTag()            );
-                fillVariableWithValue( "Jet5_btagSFLooseDeepJet"  , jet5.DeepJetBTagSFLoose()   );
-                fillVariableWithValue( "Jet5_btagSFMediumDeepJet"  , jet5.DeepJetBTagSFMedium()   );
                 fillVariableWithValue( "Jet5_hltJetPt"    , hltJet5Pt     );
+                if(!isData()) {
+                  fillVariableWithValue( "Jet5_btagSFLooseDeepCSV"  , jet5.DeepCSVBTagSFLoose()   );
+                  fillVariableWithValue( "Jet5_btagSFMediumDeepCSV"  , jet5.DeepCSVBTagSFMedium()   );
+                  fillVariableWithValue( "Jet5_btagSFLooseDeepJet"  , jet5.DeepJetBTagSFLoose()   );
+                  fillVariableWithValue( "Jet5_btagSFMediumDeepJet"  , jet5.DeepJetBTagSFMedium()   );
+                }
               }
             }
           }
