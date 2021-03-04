@@ -40,6 +40,21 @@ RecoSFFileName  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
 AnalysisYear   2016  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# B-tagging
+#-----------------------------------------------------------------------------------------------------------------------------
+BTagAlgo       DeepJet  - - - -1
+BTagWP         Loose    - - - -1
+BTagCutValue   0.0614   - - - -1
+#BTagAlgo       DeepJet  - - - -1
+#BTagWP         Medium   - - - -1
+#BTagCutValue   0.3093   - - - -1
+#BTagAlgo       DeepCSV  - - - -1
+#BTagWP         Loose    - - - -1
+#BTagCutValue   0.2217   - - - -1
+#BTagAlgo       DeepCSV  - - - -1
+#BTagWP         Medium   - - - -1
+#BTagCutValue   0.6321   - - - -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.

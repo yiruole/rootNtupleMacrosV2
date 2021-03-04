@@ -31,7 +31,7 @@ QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fak
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2018/egammaEffi.txt_EGM2D.root  - - - -1
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2018_HEEPv70-2018Prompt/egammaEffi.txt_EGM2D.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Reco scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -40,6 +40,21 @@ RecoSFFileName /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
 AnalysisYear   2018  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# B-tagging
+#-----------------------------------------------------------------------------------------------------------------------------
+BTagAlgo       DeepJet  - - - -1
+BTagWP         Loose    - - - -1
+BTagCutValue   0.0494   - - - -1
+#BTagAlgo       DeepJet  - - - -1
+#BTagWP         Medium   - - - -1
+#BTagCutValue   0.2770   - - - -1
+#BTagAlgo       DeepCSV  - - - -1
+#BTagWP         Loose    - - - -1
+#BTagCutValue   0.1241   - - - -1
+#BTagAlgo       DeepCSV  - - - -1
+#BTagWP         Medium   - - - -1
+#BTagCutValue   0.4184   - - - -1
 #
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
