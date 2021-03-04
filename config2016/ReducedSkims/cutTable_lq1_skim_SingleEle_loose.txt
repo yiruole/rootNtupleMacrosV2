@@ -27,14 +27,22 @@ JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/c
 produceReducedSkim    	   1            -               -               -               -1
 reducedSkimType	      	   3		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
+# Trigger scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Reco scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+RecoSFFileName  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
 AnalysisYear   2016  - - - -1
 #------------------------------------------------------------------------------------------------------
-# Energy scaling / smearing on electrons & jets
+# Energy scaling / smearing on electrons & jets -- not needed with NanoAOD-based setup
 #------------------------------------------------------------------------------------------------------
 do_electron_energy_smear   0		-		-		-		-1
-do_pfjet_energy_smear	     1		-		-		-		-1
+do_pfjet_energy_smear	     0		-		-		-		-1
 electron_energy_scale_sign 0		-		-		-		-1
 pfjet_energy_scale_sign	   0		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
@@ -103,9 +111,11 @@ run 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
 puWeight			-inf	     +inf		-		-		1	100 0 100	      SAVE
-L1PreFiringWeight_Nom				-inf	     +inf		-		-		1	100 0 100	      SAVE
-L1PreFiringWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
-L1PreFiringWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
+puWeight_Up		-inf	     +inf		-		-		1	100 0 100	      SAVE
+puWeight_Dn	  -inf	     +inf		-		-		1	100 0 100	      SAVE
+PrefireWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
+PrefireWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
+PrefireWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Vertex and pileup info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -190,36 +200,8 @@ GenMu3_Phi 			-inf         +inf               -               -               1 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Gen info for recoil
 #-----------------------------------------------------------------------------------------------------------------------------------------
-nGenW_store	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenDY_store	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 nGenNuFromW_store  		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenEleFromW_store 		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenEleFromDY_store		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenW_ptCut	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenDY_ptCut	     		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 nGenNuFromW_ptCut  		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenEleFromW_ptCut 		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-nGenEleFromDY_ptCut		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
-# 
-GenW1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenW1_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenW1_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenW1_ID 			-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenW2_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenW2_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenW2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenW2_ID  			-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenZGamma1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenZGamma1_Eta			-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenZGamma1_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenZGamma1_ID 			-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenZGamma2_Pt 		        -inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenZGamma2_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
-GenZGamma2_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenZGamma2_ID 		        -inf         +inf               -               -               1       100 0 100	      SAVE
 # 			        	                                                                                                  
 GenNuFromW1_Pt		        -inf	     +inf		-		-		1	100 0 2000	      SAVE
 GenNuFromW1_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
@@ -231,35 +213,6 @@ GenNuFromW2_Eta			-inf         +inf               -               -             
 GenNuFromW2_Phi			-inf         +inf               -               -               1       100 0 3.1416	      SAVE
 GenNuFromW2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
 # 
-GenEleFromW1_Pt			-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenEleFromW1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenEleFromW1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenEleFromW1_ID 		-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenEleFromW2_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenEleFromW2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenEleFromW2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenEleFromW2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
-				                                                                                                  
-GenEleFromDY1_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenEleFromDY1_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenEleFromDY1_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenEleFromDY1_ID 		-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenEleFromDY2_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenEleFromDY2_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenEleFromDY2_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenEleFromDY2_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenEleFromDY3_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenEleFromDY3_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenEleFromDY3_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenEleFromDY3_ID 		-inf         +inf               -               -               1       100 0 100	      SAVE
-# 				                                                                                                  
-GenEleFromDY4_Pt 		-inf	     +inf		-		-		1	100 0 2000	      SAVE
-GenEleFromDY4_Eta		-inf         +inf               -               -               1       100 -5 5	      SAVE
-GenEleFromDY4_Phi		-inf         +inf               -               -               1       100 0 3.1416	      SAVE
-GenEleFromDY4_ID  		-inf         +inf               -               -               1       100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Gen LQ info
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -282,6 +235,7 @@ LHE_NpLO	   		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 LHE_NpNLO	   		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 LHE_Njets	   		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 LHE_Nglu	   		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
+LHEPdfWeight	   		-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVEARRAY
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Electron info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -289,6 +243,9 @@ nEle_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 nEle_ID			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 # 
 #Ele1_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele1_Pt_EER                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele1_Pt_EES_Up                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele1_Pt_EES_Dn               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 #Ele1_SCEt                       -inf      +inf   -   -   1 200 0 2000        SAVE  
 Ele1_ECorr                      -inf	     +inf		-		-		1	100 0 1000	      SAVE  
 Ele1_Eta                        -inf	     +inf		-		-		1	100 -5 5	      SAVE  
@@ -310,6 +267,12 @@ Ele1_HcalIsolation              -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele1_CorrIsolation              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_PFCHIso03                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele1_R9		                  		-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Ele1_TrigSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele1_TrigSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele1_RecoSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele1_RecoSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele1_HEEPSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele1_HEEPSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 Ele1_PassHEEPMinPtCut                                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 Ele1_PassHEEPGsfEleSCEtaMultiRangeCut                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 Ele1_PassHEEPGsfEleDEtaInSeedCut                     -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -325,6 +288,9 @@ Ele1_PassHEEPEcalDrivenCut                           -inf      +inf             
 # 
 Ele2_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 #Ele2_SCEt                       -inf      +inf   -   -   1 200 0 2000        SAVE  
+Ele2_Pt_EER                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele2_Pt_EES_Up                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele2_Pt_EES_Dn               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_ECorr                      -inf	     +inf		-		-		1	100 0 1000	      SAVE  
 Ele2_Eta                        -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele2_Phi                        -inf	     +inf		-		-		1	100 0 3.1416	      SAVE  
@@ -345,6 +311,12 @@ Ele2_HcalIsolation              -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele2_CorrIsolation              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_PFCHIso03                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele2_R9		                  		-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Ele2_TrigSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele2_TrigSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele2_RecoSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele2_RecoSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele2_HEEPSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele2_HEEPSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 Ele2_PassHEEPMinPtCut                                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 Ele2_PassHEEPGsfEleSCEtaMultiRangeCut                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 Ele2_PassHEEPGsfEleDEtaInSeedCut                     -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -360,6 +332,9 @@ Ele2_PassHEEPEcalDrivenCut                           -inf      +inf             
 # 
 Ele3_Pt                         -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 #Ele3_SCEt                       -inf      +inf   -   -   1 200 0 2000        SAVE  
+Ele3_Pt_EER                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele3_Pt_EES_Up                 -inf	     +inf		-		-		1	200 0 2000	      SAVE  
+Ele3_Pt_EES_Dn               -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_ECorr                      -inf	     +inf		-		-		1	100 0 1000	      SAVE  
 Ele3_Eta                        -inf	     +inf		-		-		1	100 -5 5	      SAVE  
 Ele3_Phi                        -inf	     +inf		-		-		1	100 0 3.1416	      SAVE  
@@ -380,6 +355,12 @@ Ele3_HcalIsolation              -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Ele3_CorrIsolation              -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_PFCHIso03                  -inf	     +inf		-		-		1	200 0 2000	      SAVE  
 Ele3_R9				                  -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Ele3_TrigSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele3_TrigSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele3_RecoSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele3_RecoSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele3_HEEPSF                     -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
+Ele3_HEEPSF_Err                 -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 Ele3_PassHEEPMinPtCut                                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 Ele3_PassHEEPGsfEleSCEtaMultiRangeCut                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 Ele3_PassHEEPGsfEleDEtaInSeedCut                     -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -415,7 +396,10 @@ HighEtaJet1_Eta		        -inf         +inf               -               -      
 HighEtaJet1_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
 # 	
 Jet1_Pt   			-inf	     +inf		-		-		1	200 0 2000	      SAVE		        
-Jet1_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet1_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet1_Pt_JESTotal_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet1_Pt_JER_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet1_Pt_JER_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet1_Energy		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet1_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet1_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -427,10 +411,15 @@ Jet1_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet1_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #	
 Jet2_Pt   			-inf	     +inf		-		-		1	200 0 2000	      SAVE		        
-Jet2_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet2_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet2_Pt_JESTotal_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet2_Pt_JER_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet2_Pt_JER_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet2_Energy		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet2_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet2_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -442,10 +431,15 @@ Jet2_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet2_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet3_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet3_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet3_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet3_Pt_JESTotal_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet3_Pt_JER_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet3_Pt_JER_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet3_Energy		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet3_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet3_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -457,10 +451,15 @@ Jet3_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet3_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet4_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet4_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet4_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet4_Pt_JESTotal_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet4_Pt_JER_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet4_Pt_JER_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet4_Energy		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet4_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet4_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -472,10 +471,15 @@ Jet4_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet4_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #			        
 Jet5_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
-Jet5_JECUnc		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet5_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet5_Pt_JESTotal_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet5_Pt_JER_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet5_Pt_JER_Dn		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet5_Energy		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet5_Eta		        -inf         +inf               -               -               1       100 -5 5	      SAVE
 Jet5_Phi		        -inf         +inf               -               -               1       100 0 3.1416	      SAVE
@@ -487,6 +491,8 @@ Jet5_btagSFMediumDeepCSV		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagDeepJet		        -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagSFLooseDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
+Jet5_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Muon info 
@@ -546,16 +552,57 @@ MT_Ele1MET			-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Pt_Ele1MET			-inf	     +inf               -               -               1       200 0 2000	      SAVE
 Pt_j1j2				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 sT_eejj				-inf         +inf               -               -               1       200 0 2000	      SAVE
-sT_enujj   			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+sT_eejj_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_enujj   		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 M_j1j2				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 M_j1j3				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 M_j2j3				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 M_e1j1				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1j1_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e1j2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1j2_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e2j1				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e2j1_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e2j2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e2j2_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e1e2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1e2_EER				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1e2_EES_Up				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1e2_EES_Dn				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Pt_e1e2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Pt_e1e2_EER				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Pt_e1e2_EES_Up				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Pt_e1e2_EES_Dn				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Signal and TTbar triggers
 #-----------------------------------------------------------------------------------------------------------------------------------------
