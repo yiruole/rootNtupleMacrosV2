@@ -632,8 +632,8 @@ class Plot:
         # -- legend
         #        hsize=0.22
         #        vsize=0.26
-        hsize = 0.20
-        vsize = 0.35
+        hsize = 0.21
+        vsize = 0.33
 
         if self.lpos == "bottom-center":
             xstart = 0.35
@@ -889,7 +889,7 @@ class Plot:
 
         # -- draw label
         labelOffset = 0.03
-        ystart-=labelOffset
+        ystart -= labelOffset
         l = TLatex()
         l.SetTextAlign(12)
         l.SetTextFont(132)
@@ -975,6 +975,7 @@ class Plot:
             if self.makeRatio == 1:
                 fPads2.cd()
                 # fPads2.SetLogy()
+                fPads2.SetGridy()
                 h_ratio1.Divide(h_bkgTot1)
 
                 h_ratio1.GetXaxis().SetTitle("")
@@ -985,6 +986,7 @@ class Plot:
                 h_ratio1.GetYaxis().SetLabelSize(0.1)
                 h_ratio1.GetYaxis().SetTitleSize(0.13)
                 h_ratio1.GetYaxis().SetTitleOffset(0.3)
+                h_ratio1.GetYaxis().SetNdivisions(504)
                 h_ratio1.SetMarkerStyle(1)
 
                 h_ratio1.Draw("e0p")
@@ -1103,6 +1105,7 @@ class Plot:
                         g_nsigma.GetHistogram().GetYaxis().SetLabelSize(0.1)
                         g_nsigma.GetHistogram().GetYaxis().SetTitleSize(0.13)
                         g_nsigma.GetHistogram().GetYaxis().SetTitleOffset(0.3)
+                        g_nsigma.GetHistogram().GetYaxis().SetNdivisions(505)
 
                         lineAtZero = TLine(
                             h_ratio.GetXaxis().GetXmin(),
