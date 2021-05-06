@@ -35,9 +35,13 @@ gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
 # inputFile = "nanoV7/2017/analysis/prefire_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 # inputFile = "nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 # opt final sels
-inputFile = "nanoV7/2016/analysis/eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+# inputFile = "nanoV7/2016/analysis/eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 # inputFile = "nanoV7/2017/analysis/prefire_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+#
+# inputFile = "nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+inputFile = "nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 inputFile = "$LQDATA/"+inputFile
+systDictFilename = "$LQANA/versionsOfAnalysis/2016/nanoV7/eejj/apr16/systematics_dict.txt"
 
 File_QCD_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
@@ -52,8 +56,10 @@ File_QCD_preselection = GetFile(
     # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
     # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
     # opt final sels
-    "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
     # "$LQDATA/nanoV7/2017/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    #
+    "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
 )
 
 File_preselection = GetFile(
@@ -69,7 +75,7 @@ File_ttbar_preselection = GetFile(
 
 
 doPreselPlots = True
-doBTagPlots = False
+doBTagPlots = True
 doFinalSelectionPlots = False  # was True
 do2016 = False
 do2017 = False
@@ -92,11 +98,7 @@ else:
     LQmassesFinalSelection = []
 
 zUncBand = "no"
-bkgUncBand = False  # was True
-# FIXME parse these from dat files or hists
-# preselAllBkg = 50632.42
-# backgroundSyst = GetBackgroundSyst(preselAllBkg,42597.24,6262.92,36.85)
-# backgroundSyst /= preselAllBkg
+bkgUncBand = True
 makeRatio = 1
 makeNSigma = 1
 
@@ -166,7 +168,6 @@ if do2016:
         "t#bar{t} (powheg)",
         "Z/#gamma* + jets (MG5_aMC Pt)",
     ]
-    systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
 elif do2017:
     ilumi = "41.5"
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
@@ -193,7 +194,6 @@ elif do2017:
         # "Z/#gamma* + jets (MG5_aMC jet-binned)",
         "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
     ]
-    systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
 elif do2018:
     ilumi = "59.7"
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
@@ -218,7 +218,6 @@ elif do2018:
         # "Z/#gamma* + jets (MG5_aMC jet-binned)",
         "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
     ]
-    systTypes = ["qcd", "mc", "ttbarfromdata", "zjets"]
 
 # samplesForStackHistos_ZJets  = [ "TTbar_FromData", "ZJet_Madgraph" ]
 # older
@@ -229,11 +228,14 @@ samplesForStackHistos = (
     + samplesForStackHistos_ttbar
     + samplesForStackHistos_ZJets
 )
+systTypes = ["QCD", "other", "TTbar", "ZJet"]
 # print 'samplesForStackHistos',samplesForStackHistos
 # keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
 # keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
 stackColorIndexes = [kCyan, 9, 600, kRed]
 stackFillStyleIds = [1001, 1001, 1001, 1001]
+print "Using systDictFilename={}".format(systDictFilename)
+systsForStackHistos = [GetBackgroundSyst(systType, systDictFilename) for systType in systTypes]
 
 ##keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG Inc)"  ]
 ##stackColorIndexes     = [ 9                  , 600         ,  kRed           ]
@@ -306,7 +308,7 @@ def makeDefaultPlot(
         )
     )
     plot.keysStack = keysStack
-    plot.systs = [GetBackgroundSyst(systType, True) for systType in systTypes]
+    plot.systs = systsForStackHistos
     plot.histos = generateHistoList(
         histoBaseName, samplesForHistos, variableName, File_preselection
     )
@@ -1367,7 +1369,7 @@ if doBTagPlots:
     plots[-1].xmin = -0.5
     plots[-1].xmax = 6.5
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "Number of electrons [Preselection]"
+    plots[-1].xtit = "Number of electrons [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("nMuon_gteTwoBtaggedJets"))
     # plots[-1].ymax = 10000000
@@ -1375,10 +1377,10 @@ if doBTagPlots:
     plots[-1].xmin = -0.5
     plots[-1].xmax = 6.5
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "Number of muons [Preselection]"
+    plots[-1].xtit = "Number of muons [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("nJet_gteTwoBtaggedJets"))
-    plots[-1].xtit = "Number of jets [Preselection]"
+    plots[-1].xtit = "Number of jets [Preselection, >= 2 b-tags]"
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
@@ -1386,7 +1388,7 @@ if doBTagPlots:
     plots[-1].xmax = 10.5
 
     plots.append(makeDefaultPlot("nJet_gteTwoBtaggedJets"))
-    plots[-1].xtit = "Number of jets [Preselection]"
+    plots[-1].xtit = "Number of jets [Preselection, >= 2 b-tags]"
     # plots[-1].ymax = 5e4
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
@@ -1418,7 +1420,7 @@ if doBTagPlots:
     plots[-1].xmin = 0
     plots[-1].xmax = 1500
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "1st Electron p_{T} (GeV) [Preselection]"
+    plots[-1].xtit = "1st Electron p_{T} (GeV) [Preselection, >= 2 b-tags]"
 
     # plots.append(makeDefaultPlot("PtHeep2ndEle_gteTwoBtaggedJets"))
     plots.append(makeDefaultPlot("Pt2ndEle_gteTwoBtaggedJets", dataBlindAbove=dataBlindAbovePt2))
@@ -1428,28 +1430,28 @@ if doBTagPlots:
     plots[-1].xmin = 0
     plots[-1].xmax = 1000
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "2nd Electron p_{T} (GeV) [Preselection]"
+    plots[-1].xtit = "2nd Electron p_{T} (GeV) [Preselection, >= 2 b-tags]"
 
-    plots.append(makeDefaultPlot("Pt1stMuon_gteTwoBtaggedJets", dataBlindAbove=dataBlindAbovePt1))
-    # plots[-1].rebin = 2
-    # plots[-1].ymax = 1e5
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0
-    plots[-1].xmax = 200
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "1st Muon p_{T} (GeV) [Preselection]"
+    #plots.append(makeDefaultPlot("Pt1stMuon_gteTwoBtaggedJets", dataBlindAbove=dataBlindAbovePt1))
+    ## plots[-1].rebin = 2
+    ## plots[-1].ymax = 1e5
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0
+    #plots[-1].xmax = 200
+    #plots[-1].ylog = "yes"
+    #plots[-1].xtit = "1st Muon p_{T} (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Pt2ndMuon_gteTwoBtaggedJets", dataBlindAbove=dataBlindAbovePt2))
-    # plots[-1].rebin = 2
-    # plots[-1].ymax = 1e5
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0
-    plots[-1].xmax = 200
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "2nd Muon p_{T} (GeV) [Preselection]"
+    #plots.append(makeDefaultPlot("Pt2ndMuon_gteTwoBtaggedJets", dataBlindAbove=dataBlindAbovePt2))
+    ## plots[-1].rebin = 2
+    ## plots[-1].ymax = 1e5
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0
+    #plots[-1].xmax = 200
+    #plots[-1].ylog = "yes"
+    #plots[-1].xtit = "2nd Muon p_{T} (GeV) [Preselection]"
 
     plots.append(makeDefaultPlot("Eta1stEle_gteTwoBtaggedJets"))
-    plots[-1].xtit = "1st Electron #eta [Preselection]"
+    plots[-1].xtit = "1st Electron #eta [Preselection, >= 2 b-tags]"
     plots[-1].rebin = 2
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
@@ -1458,14 +1460,14 @@ if doBTagPlots:
     plots[-1].ylog = "yes"
 
     plots.append(makeDefaultPlot("Phi1stEle_gteTwoBtaggedJets"))
-    plots[-1].xtit = "1st Electron #phi [Preselection]"
+    plots[-1].xtit = "1st Electron #phi [Preselection, >= 2 b-tags]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 5e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
 
     plots.append(makeDefaultPlot("Eta2ndEle_gteTwoBtaggedJets"))
-    plots[-1].xtit = "2nd Electron #eta [Preselection]"
+    plots[-1].xtit = "2nd Electron #eta [Preselection, >= 2 b-tags]"
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
     plots[-1].xmin = -3
@@ -1474,24 +1476,24 @@ if doBTagPlots:
     plots[-1].ylog = "yes"
 
     plots.append(makeDefaultPlot("Phi2ndEle_gteTwoBtaggedJets"))
-    plots[-1].xtit = "2nd Electron #phi [Preselection]"
+    plots[-1].xtit = "2nd Electron #phi [Preselection, >= 2 b-tags]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 5e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
 
     plots.append(makeDefaultPlot("Charge1stEle_gteTwoBtaggedJets"))
-    plots[-1].xtit = "1st Electron Charge [Preselection]"
+    plots[-1].xtit = "1st Electron Charge [Preselection, >= 2 b-tags]"
     # plots[-1].ymin = 0.0
     # plots[-1].ymax = 8e4
 
     plots.append(makeDefaultPlot("Charge2ndEle_gteTwoBtaggedJets"))
-    plots[-1].xtit = "2nd Electron Charge [Preselection]"
+    plots[-1].xtit = "2nd Electron Charge [Preselection, >= 2 b-tags]"
     # plots[-1].ymin = 0.0
     # plots[-1].ymax = 8e4
 
     plots.append(makeDefaultPlot("MTenu_gteTwoBtaggedJets"))
-    plots[-1].xtit = "M_{T}(e_{1}m PFMET [Preselection]) (GeV)"
+    plots[-1].xtit = "M_{T}(e_{1}m PFMET [Preselection, >= 2 b-tags]) (GeV)"
     plots[-1].rebin = 1
     # plots[-1].ymax = 300000
     # plots[-1].ymin = 1e-1
@@ -1501,7 +1503,7 @@ if doBTagPlots:
     plots[-1].ylog = "yes"
 
     plots.append(makeDefaultPlot("MET_gteTwoBtaggedJets"))
-    plots[-1].xtit = "PFMET (GeV) [Preselection]"
+    plots[-1].xtit = "PFMET (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
@@ -1510,14 +1512,14 @@ if doBTagPlots:
     plots[-1].ylog = "yes"
 
     plots.append(makeDefaultPlot("METPhi_gteTwoBtaggedJets"))
-    plots[-1].xtit = "PFMET #phi [Preselection]"
+    plots[-1].xtit = "PFMET #phi [Preselection, >= 2 b-tags]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 1.2e4
     # plots[-1].ymin = 1e-1
     # plots[-1].ylog  = "yes"
 
     plots.append(makeDefaultPlot("Pt1stJet_gteTwoBtaggedJets"))
-    plots[-1].xtit = "1st Jet p_{T} (GeV) [Preselection]"
+    plots[-1].xtit = "1st Jet p_{T} (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].rebin = pt_rebin
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
@@ -1532,7 +1534,7 @@ if doBTagPlots:
     plots[-1].xmax = 2000
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "2nd Jet p_{T} (GeV) [Preselection]"
+    plots[-1].xtit = "2nd Jet p_{T} (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Eta1stJet_gteTwoBtaggedJets"))
     plots[-1].rebin = 2
@@ -1541,7 +1543,7 @@ if doBTagPlots:
     plots[-1].xmin = -3
     plots[-1].xmax = 3
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "1st Jet #eta [Preselection]"
+    plots[-1].xtit = "1st Jet #eta [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Eta2ndJet_gteTwoBtaggedJets"))
     plots[-1].rebin = 2
@@ -1550,21 +1552,21 @@ if doBTagPlots:
     plots[-1].xmin = -3
     plots[-1].xmax = 3
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "2nd Jet #eta [Preselection]"
+    plots[-1].xtit = "2nd Jet #eta [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Phi1stJet_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     # plots[-1].ymax = 4e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "1st Jet #phi [Preselection]"
+    plots[-1].xtit = "1st Jet #phi [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Phi2ndJet_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     # plots[-1].ymax = 4e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "2nd Jet #phi [Preselection]"
+    plots[-1].xtit = "2nd Jet #phi [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("sTlep_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
@@ -1574,7 +1576,7 @@ if doBTagPlots:
     plots[-1].xmin = 200
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron) (GeV) [Preselection]"
+    plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron) (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("sTjet_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
@@ -1584,7 +1586,7 @@ if doBTagPlots:
     plots[-1].xmax = 3000
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "S_{T} (1st Jet, 2nd Jet) (GeV) [Preselection]"
+    plots[-1].xtit = "S_{T} (1st Jet, 2nd Jet) (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("sT_gteTwoBtaggedJets", dataBlindAbove=dataBlindAboveSt))
     plots[-1].rebin = 1
@@ -1595,7 +1597,7 @@ if doBTagPlots:
     # plots[-1].rebin = 20
     plots[-1].rebin = 5
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "S_{T} (GeV) [Preselection]"
+    plots[-1].xtit = "S_{T} (GeV) [Preselection, >= 2 b-tags]"
 
     # plots.append(makeDefaultPlot("sT_zjj_gteTwoBtaggedJets"))
     # plots[-1].rebin = 1
@@ -1674,7 +1676,7 @@ if doBTagPlots:
     # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "Dijet Mass (GeV) [Preselection]"
+    plots[-1].xtit = "Dijet Mass (GeV) [Preselection, >= 2 b-tags]"
 
     # plots.append(makeDefaultPlot("M_j2j3_gteTwoBtaggedJets"))
     # plots[-1].rebin = 1
@@ -1698,14 +1700,14 @@ if doBTagPlots:
     # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection]"
+    plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Me1j1_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     # plots[-1].ymax = 9.5e3
     # plots[-1].ymin = 1e-1
     plots[-1].rebin = 4
-    plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection]"
+    plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection, >= 2 b-tags]"
 
     # plots.append(makeDefaultPlot("M_e1j3_gteTwoBtaggedJets"))
     # plots[-1].rebin = 1
@@ -1736,7 +1738,7 @@ if doBTagPlots:
     # plots[-1].ymax = 6e5
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection]"
+    plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets"))
     # plots[-1].rebin = 1
@@ -1765,7 +1767,7 @@ if doBTagPlots:
     plots[-1].xmin = 0.0
     plots[-1].xmax = 2000.0
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) (GeV) [Preselection]"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets"))
     plots[-1].rebin = 4
@@ -1794,7 +1796,7 @@ if doBTagPlots:
     plots[-1].xmin = 100.0
     plots[-1].xmax = 250.0
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) (GeV) [Preselection, 100-250 GeV]"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, 100-250 GeV, >= 2 b-tags]"
     plots[-1].name = "Mee_100_250_gteTwoBtaggedJets"
 
     plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets"))
@@ -1803,173 +1805,136 @@ if doBTagPlots:
     plots[-1].xmin = 60.0
     plots[-1].xmax = 250.0
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) (GeV) [Preselection, 60-250 GeV]"
+    plots[-1].xtit = "M(ee) (GeV) [Preselection, 60-250 GeV, >= 2 b-tags]"
     plots[-1].name = "Mee_60_250_gteTwoBtaggedJets"
 
-    plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets_gteTwoBtaggedJets"))
-    plots[-1].ymax = 5e5
-    plots[-1].ymin = 1e-1
-    plots[-1].xmin = 60.0
-    plots[-1].xmax = 250.0
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) (GeV) [Preselection, >= 2 b-tags, GeV]"
-    plots[-1].name = "Mee_gteTwoBtaggedJets_gteTwoBtaggedJets"
-
-    plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets_gteOneBtaggedJet"))
-    plots[-1].ymax = 5e5
-    plots[-1].ymin = 1e-1
-    plots[-1].xmin = 60.0
-    plots[-1].xmax = 250.0
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) (GeV) [Preselection, >= 1 b-tag, GeV]"
-    plots[-1].name = "Mee_gteTwoBtaggedJets_gteOneBtaggedJet"
-
-    plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets_noBtaggedJets"))
-    plots[-1].ymax = 5e5
-    plots[-1].ymin = 1e-1
-    plots[-1].xmin = 60.0
-    plots[-1].xmax = 250.0
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) (GeV) [Preselection, == 0 b-tags, GeV]"
-    plots[-1].name = "Mee_gteTwoBtaggedJets_noBtaggedJets"
-
-    plots.append(makeDefaultPlot("Mee_EBEB_gteTwoBtaggedJets"))
+    plots.append(makeDefaultPlot("Mee_EBEB_PAS_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xmin = 60.0
     plots[-1].xmax = 120.0
-    plots[-1].xtit = "M(ee) (preselection, EB-EB) (GeV)"
+    plots[-1].xtit = "M(ee) (preselection, EB-EB, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EBEE_gteTwoBtaggedJets"))
+    plots.append(makeDefaultPlot("Mee_EBEE_PAS_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     # plots[-1].ymax = 2e3
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xmin = 60.0
     plots[-1].xmax = 120.0
-    plots[-1].xtit = "M(ee) (preselection, EB-EE) (GeV)"
+    plots[-1].xtit = "M(ee) (preselection, EB-EE, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EEEE_gteTwoBtaggedJets"))
+    plots.append(makeDefaultPlot("Mee_EEEE_PAS_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     #plots[-1].ymax = 1e3
     #plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xmin = 60.0
     plots[-1].xmax = 120.0
-    plots[-1].xtit = "M(ee) (preselection, EE-EE) (GeV)"
+    plots[-1].xtit = "M(ee) (preselection, EE-EE, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EB_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 8e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) (preselection, EB-EE and EB-EB) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EB_PAS_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 8e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) (preselection, EB-EE and EB-EB, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EBEB_80_100_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 8e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EB) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EBEB_80_100_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 8e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EB, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EBEE_80_100_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 1500
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EE) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EBEE_80_100_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 1500
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EE, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EEEE_80_100_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 1e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [80, 100] (preselection, EE-EE) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EEEE_80_100_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 1e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [80, 100] (preselection, EE-EE, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EB_80_100_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 6e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EE and EB-EB) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EB_80_100_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 6e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [80, 100] (preselection, EB-EE and EB-EB, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_80_100_Preselection"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 1e8
-    # plots[-1].ymin = 1e-1
-    plots[-1].rebin = 4
-    plots[-1].xmin = 70.0
-    plots[-1].xmax = 110.0
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) [80, 100] (GeV) [Preselection]"
+    #plots.append(makeDefaultPlot("Mee_80_100_Preselection"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 1e8
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].rebin = 4
+    #plots[-1].xmin = 70.0
+    #plots[-1].xmax = 110.0
+    #plots[-1].ylog = "yes"
+    #plots[-1].xtit = "M(ee) [80, 100] (GeV) [Preselection, >= 2 b-tags]"
 
-    plots.append(makeDefaultPlot("Mee_EBEB_70_110_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 1e4
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EB) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EBEB_70_110_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 1e4
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EB, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EBEE_70_110_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 2e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EBEE_70_110_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 2e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EEEE_70_110_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 2e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [70, 110] (preselection, EE-EE) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EEEE_70_110_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 2e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [70, 110] (preselection, EE-EE, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EB_70_110_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 6e3
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0.0
-    plots[-1].xmax = 1000.0
-    plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE and EB-EB) (GeV)"
+    #plots.append(makeDefaultPlot("Mee_EB_70_110_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 6e3
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0.0
+    #plots[-1].xmax = 1000.0
+    #plots[-1].xtit = "M(ee) [70, 110] (preselection, EB-EE and EB-EB, >= 2 b-tags) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_70_110_Preselection"))
-    plots[-1].rebin = 1
-    # plots[-1].ymax = 2e8
-    # plots[-1].ymin = 1e-1
-    plots[-1].rebin = 4
-    plots[-1].xmin = 70.0
-    plots[-1].xmax = 110.0
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) [70, 110] (GeV) [Preselection]"
+    #plots.append(makeDefaultPlot("Mee_70_110_Preselection"))
+    #plots[-1].rebin = 1
+    ## plots[-1].ymax = 2e8
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].rebin = 4
+    #plots[-1].xmin = 70.0
+    #plots[-1].xmax = 110.0
+    #plots[-1].ylog = "yes"
+    #plots[-1].xtit = "M(ee) [70, 110] (GeV) [Preselection, >= 2 b-tags]"
 
-    plots.append(makeDefaultPlot("Ptee_gteTwoBtaggedJets"))
-    plots[-1].rebin = 2
-    # plots[-1].ymax = 4e6
-    # plots[-1].ymin = 1e-1
-    plots[-1].xmin = 0
-    plots[-1].xmax = 1000
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "P_{T}(ee) (GeV) [Preselection]"
-
-    plots.append(makeDefaultPlot("Mee_70_110_Preselection"))
-    plots[-1].rebin = 4
-    # plots[-1].ymax = 2e8
-    # plots[-1].ymin = 1e-1
-    plots[-1].rebin = 8
-    plots[-1].xmin = 70.0
-    plots[-1].xmax = 110.0
-    plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ee) [70, 110] (GeV) [Preselection]"
+    #plots.append(makeDefaultPlot("Ptee_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 2
+    ## plots[-1].ymax = 4e6
+    ## plots[-1].ymin = 1e-1
+    #plots[-1].xmin = 0
+    #plots[-1].xmax = 1000
+    #plots[-1].ylog = "yes"
+    #plots[-1].xtit = "P_{T}(ee) (GeV) [Preselection, >= 2 b-tags]"
 
     # plots.append(makeDefaultPlot("Ptj1j2_gteTwoBtaggedJets"))
     # plots[-1].rebin = 2
@@ -2037,7 +2002,7 @@ if doBTagPlots:
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(e_{1}j_{1}) (GeV) [Preselection]"
+    plots[-1].xtit = "M(e_{1}j_{1}) (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Me1j2_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
@@ -2047,7 +2012,7 @@ if doBTagPlots:
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(e_{1}j_{2}) (GeV) [Preselection]"
+    plots[-1].xtit = "M(e_{1}j_{2}) (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Me2j1_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
@@ -2057,14 +2022,14 @@ if doBTagPlots:
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(e_{2}j_{1}) (GeV) [Preselection]"
+    plots[-1].xtit = "M(e_{2}j_{1}) (GeV) [Preselection, >= 2 b-tags]"
 
     plots.append(makeDefaultPlot("Me2j2_gteTwoBtaggedJets"))
     plots[-1].rebin = 1
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(e_{2}j_{2}) (GeV) [Preselection]"
+    plots[-1].xtit = "M(e_{2}j_{2}) (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
@@ -2074,7 +2039,7 @@ if doBTagPlots:
     # plots[-1].ymax = 1.8e4
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
-    plots[-1].xtit = "M(ej) average (GeV) [Preselection]"
+    plots[-1].xtit = "M(ej) average (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 1000
     plots[-1].rebin = 5
@@ -2084,7 +2049,7 @@ if doBTagPlots:
     # plots[-1].ymax = 1.8e4
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
-    plots[-1].xtit = "M(ej) minimum (GeV) [Preselection]"
+    plots[-1].xtit = "M(ej) minimum (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 1000
     plots[-1].rebin = 5
@@ -2094,7 +2059,7 @@ if doBTagPlots:
     # plots[-1].ymax = 1.8e4
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "no"
-    plots[-1].xtit = "M(ej) maximum (GeV) [Preselection]"
+    plots[-1].xtit = "M(ej) maximum (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 1000
     plots[-1].rebin = 5
@@ -2105,7 +2070,7 @@ if doBTagPlots:
     # plots[-1].ymax = 4e4
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ej) average (GeV) [Preselection]"
+    plots[-1].xtit = "M(ej) average (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 1200
     plots[-1].rebin = 5
@@ -2115,7 +2080,7 @@ if doBTagPlots:
     # plots[-1].ymax = 1e6
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ej) minimum (GeV) [Preselection]"
+    plots[-1].xtit = "M(ej) minimum (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 1200
     plots[-1].rebin = 5
@@ -2125,7 +2090,7 @@ if doBTagPlots:
     # plots[-1].ymax = 1000000
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "M(ej) maximum (GeV) [Preselection]"
+    plots[-1].xtit = "M(ej) maximum (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].xmin = 0
     plots[-1].xmax = 1200
     plots[-1].rebin = 5
@@ -2140,14 +2105,14 @@ if doBTagPlots:
     # plots[-1].xmax  = 500
     # plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("nVertex_gteTwoBtaggedJets"))
-    plots[-1].rebin = 1
-    plots[-1].xmin = -0.5
-    plots[-1].xmax = 60.5
-    plots[-1].ymin = 1e-1
-    # plots[-1].ymax = 5e7
-    # plots[-1].ylog = "yes"
-    plots[-1].xtit = "n(vertices) [Preselection]"
+    #plots.append(makeDefaultPlot("nVertex_gteTwoBtaggedJets"))
+    #plots[-1].rebin = 1
+    #plots[-1].xmin = -0.5
+    #plots[-1].xmax = 60.5
+    #plots[-1].ymin = 1e-1
+    ## plots[-1].ymax = 5e7
+    ## plots[-1].ylog = "yes"
+    #plots[-1].xtit = "n(vertices) [Preselection, >= 2 b-tags]"
 
     # plots.append(makeDefaultPlot("nVertex_gteTwoBtaggedJets"))
     # plots[-1].rebin = 1
@@ -2243,7 +2208,7 @@ if doBTagPlots:
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
-    plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection]"
+    plots[-1].xtit = "Mass_{eejj} (GeV) [Preselection, >= 2 b-tags]"
 
     #plots.append(makeDefaultPlot("Meej_gteTwoBtaggedJets",histoBaseName_userDef,samplesForHistos,keys,samplesForStackHistos,keysStack,sampleForDataHisto,zUncBand,makeRatio))
     # plots[-1].rebin = 10
@@ -2260,7 +2225,7 @@ if doBTagPlots:
     # plots[-1].xtit = "Mass_{ejj} (GeV) [Preselection]"
 
     plots.append(makeDefaultPlot("MET_gteTwoBtaggedJets"))
-    plots[-1].xtit = "PFMET (GeV) [Preselection]"
+    plots[-1].xtit = "PFMET (GeV) [Preselection, >= 2 b-tags]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 1e6
     # plots[-1].ymin = 1e-1

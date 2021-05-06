@@ -33,98 +33,22 @@ gStyle.SetPadLeftMargin(0.1)
 # gStyle.SetTitleSize(0.05, "XYZ");
 # --- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
 
+bkgSystDict = {}
 
-def GetBackgroundSyst(systType, isEEJJ=True):
-    verbose = False
-    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/eejj_Preselection_sys.dat
-    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/eejj_Preselection_sys_05_03_2018.dat
-    #  100*(deltaX/X) [rel. change in %]
-    systDictEEJJ = {
-        "EER": 10.6582,
-        "JER": 0.785142,
-        "JEC": 3.57184,
-        "HEEP": 1.32785,
-        "E_RECO": 2.13808,
-        "EES": 1.31244,
-        "PileUp": 7.24591,
-        "PDF": 1.10962,
-        "DYShape": 9.92748,
-        "Lumi": 2.6,
-        "Trigger": 1.033228,
-    }
-    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/enujj_Preselection_sys.dat
-    # /afs/cern.ch/user/m/mbhat/work/public/Systematics_4Preselection_02_11_2017/enujj_Preselection_sys_05_03_2018.dat
-    systDictENuJJ = {
-        "EER": 4.668,
-        "JER": 0.98,
-        "JEC": 4.13745,
-        "HEEP": 0.652002,
-        "RECO": 1.01663,
-        "EES": 1.69524,
-        "PileUp": 9.99836,
-        "PDF": 1.61953,
-        "TTShape": 6.4724,
-        "WShape": 9.7182,
-        "MET": 6.14723,
-        "Lumi": 2.6,
-        "Trigger": 2.56837,
-    }
-    if isEEJJ:
-        systDict = systDictEEJJ
-    else:
-        systDict = systDictENuJJ
-    preselSyst = 0.0
-    for key in systDict.iterkeys():
-        # for QCD, take only QCD uncert
-        if "qcd" in systType.lower():
-            break
-        # for data-driven ttbar, take only its uncert
-        if "data" in systType.lower():
-            break
-        if "tt" not in systType.lower() and "ttshape" in key.lower():
-            continue
-        if "wjets" not in systType.lower() and "wshape" in key.lower():
-            continue
-        if (
-            "zjets" not in systType.lower()
-            and "dyjets" not in systType.lower()
-            and "dyshape" in key.lower()
-        ):
-            continue
-        item = float(systDict[key]) / 100.0
-        preselSyst += pow(item, 2)
-    if verbose:
-        print "MC background systematic for systType=", systType, "(relative):", math.sqrt(
-            preselSyst
-        )
-    # that is on all MC background
-    ## mine
-    term = 0
-    if isEEJJ:
-        #'qcdNorm' : 50,
-        if "qcd" in systType.lower():
-            term = pow(0.5, 2)
-        #'ttbarNorm' : 1,
-        elif "tt" in systType.lower():
-            term = pow(0.01, 2)
-        #'zjetsNorm' : 0.75,
-        elif "zjets" in systType.lower() or "dyjets" in systType.lower():
-            term = pow(0.0075, 2)
-    else:
-        #'qcdNorm' : 25,
-        if "qcd" in systType.lower():
-            term = pow(0.25, 2)
-        #'ttbarNorm' : 1,
-        elif "tt" in systType.lower():
-            term = pow(0.01, 2)
-        #'wjetsNorm' : 1,
-        elif "wjets" in systType.lower():
-            term = pow(0.01, 2)
-    preselSyst += term
-    preselSyst = math.sqrt(preselSyst)
-    if verbose:
-        print "final background systematic for systType=", systType, "(relative):", preselSyst
-    return preselSyst
+
+def GetBackgroundSyst(systType, dictFilename):
+    global bkgSystDict
+    if len(bkgSystDict.keys()) == 0:
+        dictFilename = os.path.expandvars(dictFilename)
+        with open(dictFilename, "r") as theFile:
+            theDictString = theFile.read()
+            bkgSystDict = eval(theDictString)
+    for bkg in bkgSystDict["preselection"].iterkeys():
+        if systType in bkg:
+            # print "INFO: GetBackgroundSyst({}) -- found systematic deltaX/X={}".format(systType, bkgSystDict["preselection"][bkg])
+            return bkgSystDict["preselection"][bkg]
+    raise RuntimeError("Cannot find preselection systematic for systType={}; dict has these backgrounds: {}".format(
+        systType, bkgSystDict["preselection"].keys()))
 
 
 def makePalette(nPaletteBins, d_color_axisValueRange):
@@ -483,7 +407,7 @@ def rebinHistos2D(
     return new_histos
 
 
-## The Plot class: add members if needed
+# The Plot class: add members if needed
 class Plot:
     data_file_name = ""
     histos = []  # list of histograms to be plotted in this plot
@@ -534,7 +458,7 @@ class Plot:
     addBkgUncBand = True
     bkgUncKey = "Bkg. syst."
     systs = []  # relative systematic uncertainty on each stack histo (for background)
-    isInteractive = False # draw the plot to the screen; use when running with python -i
+    isInteractive = False  # draw the plot to the screen; use when running with python -i
 
     def Draw(self, fileps, page_number=-1):
         if self.isInteractive:
@@ -807,6 +731,7 @@ class Plot:
             zUncHisto.Draw("E2same")
             legend.AddEntry(zUncHisto, self.ZUncKey, "f")
 
+        # -- total background uncertainty band
         if self.addBkgUncBand:
             bkgUncHisto = copy.deepcopy(thStack.GetStack().Last())
             bkgUncHisto.Reset()
@@ -964,12 +889,14 @@ class Plot:
                 h_nsigma1 = h_nsigma
 
             h_ratio1.SetStats(0)
-            if self.xmin != "" and self.xmax != "" and self.rebin != "var":
-                h_bkgTot1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
-                if self.addBkgUncBand:
-                    h_bkgUnc1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
-                h_ratio1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
-                h_nsigma1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
+            h_ratio1.SetTitle("")
+            # may 6 2020: this causes the ratio plot x-axis to get out of alignment with the others
+            #if self.xmin != "" and self.xmax != "" and self.rebin != "var":
+            #    h_bkgTot1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
+            #    if self.addBkgUncBand:
+            #        h_bkgUnc1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
+            #    h_ratio1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
+            #    h_nsigma1.GetXaxis().SetRangeUser(self.xmin, self.xmax - 0.000001)
 
             h_ratioSyst = copy.deepcopy(h_ratio1)
             if self.makeRatio == 1:
@@ -979,7 +906,7 @@ class Plot:
                 h_ratio1.Divide(h_bkgTot1)
 
                 h_ratio1.GetXaxis().SetTitle("")
-                h_ratio1.GetXaxis().SetTitleSize(0.06)
+                # h_ratio1.GetXaxis().SetTitleSize(0.06)
                 h_ratio1.GetXaxis().SetLabelSize(0.1)
                 h_ratio1.GetYaxis().SetRangeUser(0.0, 2)
                 h_ratio1.GetYaxis().SetTitle("Data/MC")
@@ -988,6 +915,11 @@ class Plot:
                 h_ratio1.GetYaxis().SetTitleOffset(0.3)
                 h_ratio1.GetYaxis().SetNdivisions(504)
                 h_ratio1.SetMarkerStyle(1)
+                h_ratio1.SetLineWidth(3)
+                h_ratio1.GetXaxis().SetLimits(
+                    self.histodata.GetXaxis().GetXmin(),
+                    self.histodata.GetXaxis().GetXmax(),
+                )
 
                 h_ratio1.Draw("e0p")
 
@@ -1026,7 +958,7 @@ class Plot:
                     # bgRatioErrs.SetDrawOption('hist')
                     # bgRatioErrs.Draw('aE2 E0 same')
                     bgRatioErrs.GetXaxis().SetTitle("")
-                    bgRatioErrs.GetXaxis().SetTitleSize(0.06)
+                    # bgRatioErrs.GetXaxis().SetTitleSize(0.06)
                     bgRatioErrs.GetXaxis().SetLabelSize(0.1)
                     bgRatioErrs.GetYaxis().SetRangeUser(0.0, 2)
                     bgRatioErrs.GetYaxis().SetTitle("Data/MC")
@@ -1034,11 +966,15 @@ class Plot:
                     bgRatioErrs.GetYaxis().SetTitleSize(0.13)
                     bgRatioErrs.GetYaxis().SetTitleOffset(0.3)
                     bgRatioErrs.SetMarkerStyle(1)
+                    bgRatioErrs.GetXaxis().SetLimits(
+                        self.histodata.GetXaxis().GetXmin(),
+                        self.histodata.GetXaxis().GetXmax(),
+                    )
                     bgRatioErrs.Draw("E2")
                     h_ratio1.Draw("e0psame")
 
                 lineAtOne = TLine(
-                    h_ratio.GetXaxis().GetXmin(), 1, h_ratio.GetXaxis().GetXmax(), 1
+                    h_ratio1.GetXaxis().GetXmin(), 1, h_ratio1.GetXaxis().GetXmax(), 1
                 )
                 lineAtOne.SetLineColor(2)
                 lineAtOne.Draw()
@@ -1078,9 +1014,6 @@ class Plot:
 
                         nsigma1_x = numpy.array(nsigma_x)
                         nsigma1_y = numpy.array(nsigma_y)
-
-                        xmin = h_ratio.GetXaxis().GetXmin()
-                        xmax = h_ratio.GetXaxis().GetXmax()
 
                         # if ( len ( nsigma_x ) == 0 ) continue
 
@@ -1213,8 +1146,9 @@ class Plot:
             fPads1.cd()
             page_text = TText()
             page_text.SetTextSize(0.10)
+            page_text.SetTextFont(42)
             page_text.SetTextAlign(33)
-            page_text.DrawTextNDC(0.97, 0.985, "%i" % page_number)
+            page_text.DrawTextNDC(0.97, 0.999, "%i" % page_number)
 
         canvas.Print(fileps)
         if self.isInteractive:
