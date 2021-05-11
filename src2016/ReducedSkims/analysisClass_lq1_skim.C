@@ -222,28 +222,20 @@ void analysisClass::Loop()
    *///-----------------------------------------------------------------
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
-    ////// test
+    //// test
     //double event = readerTools_->ReadValueBranch<ULong64_t>("event");
     //double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
     //double run = readerTools_->ReadValueBranch<UInt_t>("run");
-    ////////if(event!=8127635) continue;
-    //////if(run!=278822) continue;
-    //////if(ls!=10) continue;
-    //////event = static_cast<unsigned int>(event);
-    ////////if(event != 13917913 && event != 13759998 && event != 13786478 && event != 13789605 && event != 13834253 &&
-    ////////    event!=13935358 && event!=13925078 && event!=13864448 && event!=13871459 && event!=13832770) continue;
-    ////////if(event!=13660964) continue;
-    ////////if(event!=15118853) continue;
-    //////// run ls event
+    //if(event!=21273 && event!=21288) continue;
+    //if(ls!=227) continue;
+    //// run ls event
     ////std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
-    ////////continue;
-    //////if(run!=276318) continue;
-    //////if(ls!=10) continue;
-    //if(ls!=2610017) continue;
-    //if(event!=952655992) continue;
     ////std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
     ////cout << "Found the event! in file:" << current_file_name << endl;
-    //////test
+    //if(jentry==0)
+    //  std::cout << "WARNING WARNING WARNING -- ONLY RUNNING OVER FIRST 100 ENTRIES!" << std::endl;
+    //if(jentry > 100) continue;
+    ////test
 
     //-----------------------------------------------------------------
     // Print progress
@@ -338,9 +330,10 @@ void analysisClass::Loop()
     if(!isData()) {
       c_genJet_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nGenJet")));
     }
+    //c_genJet_all->examine<GenJet>("c_genJet_all");
     CollectionPtr c_pfjet_all ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nJet")));
     //  New: Cut all jet collections at 17 GeV as per 2016 custom skim
-    c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 17.0 );
+    //c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 17.0 );
     //c_pfjet_all->examine<PFJet>("c_pfjet_all with Pt>17");
 
     //-----------------------------------------------------------------
@@ -501,12 +494,13 @@ void analysisClass::Loop()
     CollectionPtr c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_TIGHT );    
     //c_pfjet_central_ID->examine<PFJet>("c_pfjet_central_ID");
     CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
-    //c_pfjet_central_ID_noMuonOverlap->examine<PFJet>("c_pfjet_central_ID_noMuonOverlap");
+    //c_pfjet_central_ID_noMuonOverlap->examine<PFJet>("c_pfjet_central_ID_noMuonOverlap [after muon cleaning]");
     CollectionPtr c_pfjet_central_ID_noLeptonOverlap  = c_pfjet_central_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
-    //c_pfjet_central_ID_noLeptonOverlap->examine<PFJet>("c_pfjet_central_ID_noLeptonOverlap");
+    //c_pfjet_central_ID_noLeptonOverlap->examine<PFJet>("c_pfjet_central_ID_noLeptonOverlap [after electron cleaning]");
     CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
     //c_pfjet_final->examine<PFJet>("c_pfjet_final");
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
+    //c_pfjet_final_ptCut->examine<PFJet>("c_pfjet_final_ptCut");
     //if(c_pfjet_final->GetSize() > 4) {
     //  // run ls event
     //  //double run = readerTools_->ReadValueBranch<UInt_t>("run");
@@ -519,6 +513,15 @@ void analysisClass::Loop()
     //  c_ele_final->examine<Electron>("c_ele_final");
     //  c_muon_all->examine<Muon>("c_muon_all");
     //  c_muon_final->examine<Muon>("c_muon_final");
+    //}
+    //PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+    //if(jet2.Pt() < 50) {
+    //  std::cout << "----> Interesting event!" << std::endl;
+    //  // run ls event
+    //  double run = readerTools_->ReadValueBranch<UInt_t>("run");
+    //  double event = readerTools_->ReadValueBranch<ULong64_t>("event");
+    //  double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
+    //  std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
     //}
 
     //-----------------------------------------------------------------
@@ -573,16 +576,16 @@ void analysisClass::Loop()
     fillVariableWithValue( "puWeight_Dn"   , puWeightDn   );
     // L1 prefiring
     float prefireDefault = -1.0;
-    if(hasBranch("PrefireWeight"))
-      fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("PrefireWeight"));
+    if(hasBranch("L1PreFiringWeight_Nom"))
+      fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
     else
       fillVariableWithValue("PrefireWeight", prefireDefault);
-    if(hasBranch("PrefireWeight_Down"))
-      fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("PrefireWeight_Down"));
+    if(hasBranch("L1PreFiringWeight_Dn"))
+      fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
     else
       fillVariableWithValue("PrefireWeight_Dn", prefireDefault);
-    if(hasBranch("PrefireWeight_Up"))
-      fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("PrefireWeight_Up"));
+    if(hasBranch("L1PreFiringWeight_Up"))
+      fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
     else
       fillVariableWithValue("PrefireWeight_Up", prefireDefault);
     // back to old weights as test
@@ -644,9 +647,10 @@ void analysisClass::Loop()
           fillVariableWithValue("LHE_Njets"	, readerTools_->ReadValueBranch<UChar_t>("LHE_Njets"));
           fillVariableWithValue("LHE_Nglu"	, readerTools_->ReadValueBranch<UChar_t>("LHE_Nglu"));
         }
-        if(hasBranch("LHEPdfWeight")) {
+        if(hasBranch("LHEPdfWeight"))
           fillArrayVariableWithValue("LHEPdfWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEPdfWeight"));
-        }
+        if(hasBranch("LHEScaleWeight"))
+          fillArrayVariableWithValue("LHEScaleWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEScaleWeight"));
       }
     }
 
