@@ -30,17 +30,19 @@ void analysisClass::Loop()
    // Final selection mass points
    //--------------------------------------------------------------------------
 
-   const int n_lq_mass = 29;
+   //const int n_lq_mass = 29;
+   const int n_lq_mass = 18; // 2018
    int LQ_MASS[n_lq_mass] = { 
      300,  400,  500,  600,
      700,  800,  900,  1000,
      1100, 1200, 1300, 1400,
      1500, 1600, 1700, 1800,
-     1900, 2000, 2100, 2200,
-     2300, 2400, //2500, // 2500 for 2016 missing, FIXME
-     2600, 2700, 2800, 2900,
-     3000, // 3000 missing for 2017, FIXME
-     3500, 4000
+     1900, 2000 // up to 2000 only for 2018
+     //1900, 2000, 2100, 2200, // 2017-2018
+     //2300, 2400, 2500, // 2500 for 2016 missing, FIXME
+     //2600, 2700, 2800, 2900,
+     ////3000, // 3000 missing for 2017, FIXME
+     //3500, 4000
    };
    //const int n_lq_mass = 18;
    //int LQ_MASS[n_lq_mass] = { 
@@ -860,9 +862,9 @@ void analysisClass::Loop()
      // Get information about prefire reweighting
      //--------------------------------------------------------------------------
      double prefire_weight = 1.0;
-     //if(analysisYear < 2018 && hasBranch("PrefireWeight") && !isData())
-     //  prefire_weight = readerTools_->ReadValueBranch<Float_t>("PrefireWeight");
-       prefire_weight = readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom");
+     if(analysisYear < 2018 && hasBranch("PrefireWeight") && !isData())
+       prefire_weight = readerTools_->ReadValueBranch<Float_t>("PrefireWeight");
+       //prefire_weight = readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom");
      gen_weight*=prefire_weight;
 
      std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
