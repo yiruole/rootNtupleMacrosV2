@@ -1,16 +1,26 @@
 #!/usr/bin/env python
 
+import math
+from tabulate import tabulate
+
 from ROOT import TH1D, TGraphAsymmErrors, TCanvas, gROOT, TLatex, TFile
 from plot_class import GetFile, GetHisto
 
-gROOT.SetBatch(False)
+gROOT.SetBatch()
 
 # filePath = "/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/nanoV7/2016/analysis/eejj_20oct2020_optFinalSels/condor/analysisClass_lq_eejj___{}/output/analysisClass_lq_eejj___{}_0.root"
 # filePath = "/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/nanoV7/2016/analysis/eejj_26oct2020_optFinalSels_noPdfReweight/condor/analysisClass_lq_eejj___{}/output/analysisClass_lq_eejj___{}_0.root"
 # filePath = "$LQDATA/nanoV7/2017/analysis/prefire_eejj_23oct2020_optFinalSels/condor/analysisClass_lq_eejj___{}/output/analysisClass_lq_eejj___{}_0.root"
-filePath = "$LQDATA/nanoV7/2016/analysis/eejj_9nov2020_optFinalSelsOld/condor/analysisClass_lq_eejj___{}/output/analysisClass_lq_eejj___{}_0.root"
+# filePath = "$LQDATA/nanoV7/2016/analysis/eejj_9nov2020_optFinalSelsOld/condor/analysisClass_lq_eejj___{}/output/analysisClass_lq_eejj___{}_0.root"
+#
+# filePath = "$LQDATA/nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/"
+# filePath = "$LQDATA/nanoV7/2017/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/"
+filePath = "$LQDATA/nanoV7/2018/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels//output_cutTable_lq_eejj/"
+filePath += "analysisClass_lq_eejj___{}.root"
 # LQToDEle
 signalNameTemplate = "LQToDEle_M-{}_pair_pythia8"
+if "2017" in filePath or "2018" in filePath:
+    signalNameTemplate = "LQToDEle_M-{}_pair"
 mass_points = [i for i in range(300, 3100, 100)]  # go from 300-3000 in 100 GeV steps
 mass_points.extend([3500, 4000])
 if "2016" in filePath:
@@ -21,10 +31,14 @@ elif "2017" in filePath:
 # signalNameTemplate = "LQToUE_M-{}_BetaOne_pythia8"
 # mass_points = [i for i in range(300, 2100, 100)]  # go from 300-2000 in 100 GeV steps
 #
+doPDFReweight = False
+
 if "2016" in filePath:
     year = 2016
 elif "2017" in filePath:
     year = 2017
+elif "2018" in filePath:
+    year = 2018
 if "UE" in signalNameTemplate:
     signalNameShort = "eeuu"
 elif "DEle" in signalNameTemplate:
@@ -46,40 +60,64 @@ for i, mass in enumerate(mass_points):
     filename = filePath.format(sampleName, sampleName)
     tfile = GetFile(filename)
     # histName = histNameBase.format(sampleName)
-    hist = GetHisto(histName, tfile)
+    eventsPassingHist = GetHisto(histName, tfile)
     # noCutEntries = hist.GetBinContent(1)
     sumOfWeightsHist = GetHisto("SumOfWeights", tfile)
     sumWeights = sumOfWeightsHist.GetBinContent(1)
     lhePdfWeightsHist = tfile.Get("LHEPdfSumw")
     lhePdfWeightSumw = lhePdfWeightsHist.GetBinContent(1)  # sum[genWeight*pdfWeight_0]
     # print hist.GetXaxis().GetBinLabel(2)
-    # finalSelName = "min_M_ej_LQ{}".format(mass)
-    # finalSelBin = hist.GetXaxis().FindBin(finalSelName)
+    finalSelName = "min_M_ej_LQ{}".format(mass)
+    finalSelBin = eventsPassingHist.GetXaxis().FindBin(finalSelName)
     # merged hists have no bin labels; have to use super ugly hack
-    finalSelBin = firstFinalSelBin+(i*3)
+    # finalSelBin = firstFinalSelBin+(i*3)
     # print "mass={}, finalSelBin ={}".format(mass, finalSelBin)
-    finalSelEntries = hist.GetBinContent(finalSelBin)
+    # finalSelEntries = eventsPassingHist.GetBinContent(finalSelBin)
+    if eventsPassingHist.ClassName() == "TProfile":
+        binContent = eventsPassingHist.GetBinContent(finalSelBin)*eventsPassingHist.GetBinEntries(finalSelBin)
+        binError = math.sqrt(eventsPassingHist.GetSumw2().At(finalSelBin))
+        firstBinContent = eventsPassingHist.GetBinContent(1)*eventsPassingHist.GetBinEntries(1)
+        firstBinError = math.sqrt(eventsPassingHist.GetSumw2().At(1))
+        # print "LQ {}: final sel bin {}, binContent={}, binEntries={}, passing={}".format(
+        #         mass, finalSelBin, eventsPassingHist.GetBinContent(finalSelBin), eventsPassingHist.GetBinEntries(finalSelBin), binContent)
+    else:
+        binContent = eventsPassingHist.GetBinContent(finalSelBin)
+        binError = eventsPassingHist.GetBinError(finalSelBin)
+        firstBinContent = eventsPassingHist.GetBinContent(1)
+        firstBinError = eventsPassingHist.GetBinError(1)
     # totalEventsByMass.append(round(noCutEntries, 3))
     totalEventsByMass.append(round(sumWeights, 3))
-    print "filename={}".format(filename)
-    if "2016" in filename:
+    # print "filename={}".format(filename)
+    if "2016" in filename and doPDFReweight:
         if "LQToBEle" in filename or "LQToDEle" in filename:
             totalEventsByMass.pop()
             totalEventsByMass.append(round(lhePdfWeightSumw, 3))
-            print "\tapplying LHEPdfWeight={} to dataset={}".format(lhePdfWeightSumw, filename)+"[instead of original sumWeights={}]".format(sumWeights)
+            print "\tapplying LHEPdfWeight={} to dataset={}".format(
+                    lhePdfWeightSumw, filename)+"[instead of original sumWeights={}]".format(sumWeights)
 
-    eventsAtFinalSelByMass.append(round(finalSelEntries, 4))
+    eventsAtFinalSelByMass.append(round(binContent, 4))
     histTotal.SetBinContent(histTotal.FindBin(mass), totalEventsByMass[i])
-    histTotal.SetBinError(histTotal.FindBin(mass), hist.GetBinError(1))
+    histTotal.SetBinError(histTotal.FindBin(mass), firstBinError)
     histPass.SetBinContent(histPass.FindBin(mass), eventsAtFinalSelByMass[i])
-    histPass.SetBinError(histTotal.FindBin(mass), hist.GetBinError(finalSelBin))
+    histPass.SetBinError(histTotal.FindBin(mass), binError)
     tfile.Close()
 
 
-print "masses:", mass_points
-print "total:", totalEventsByMass
-print "pass:", eventsAtFinalSelByMass
-print "effAcc:", [n/d for n, d in zip(eventsAtFinalSelByMass, totalEventsByMass)]
+# print "masses:", mass_points
+# print "total:", totalEventsByMass
+# print "pass:", eventsAtFinalSelByMass
+# print "effAcc:", [n/d for n, d in zip(eventsAtFinalSelByMass, totalEventsByMass)]
+table = []
+for idx, mass in enumerate(mass_points):
+    eventsAtFinalSel = eventsAtFinalSelByMass[idx]
+    total = totalEventsByMass[idx]
+    effAcc = eventsAtFinalSel/total
+    row = [mass, eventsAtFinalSel, total, effAcc]
+    table.append(row)
+
+print
+print tabulate(table, headers=["Mass", "Passing", "Total", "eff*acc"], tablefmt="github", floatfmt=".2f")
+print
 
 # tcan2 = TCanvas()
 # tcan2.cd()
@@ -93,7 +131,7 @@ tcan = TCanvas()
 tcan.cd()
 graph = TGraphAsymmErrors()
 graph.Divide(histPass, histTotal, "cl=0.683 b(1,1) modev")
-#graph.Divide(histPass, histTotal, "cp")
+# graph.Divide(histPass, histTotal, "cp")
 graph.Draw("ap")
 graph.GetYaxis().SetRangeUser(0, 0.7)
 graph.GetYaxis().SetTitle("Acceptance #times efficiency")
