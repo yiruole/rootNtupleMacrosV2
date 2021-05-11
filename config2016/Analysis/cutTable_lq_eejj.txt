@@ -62,24 +62,25 @@ BTagCutValue   0.3093   - - - -1
 #         name              source/formula/branch                                       cutVars
 #         ------------      ------------------------------------------------------      --------------------------------------
 ##SYST      FivePercentUp     1.05
-#SYST      PrefireDown       PrefireWeight_Dn/PrefireWeight
-#SYST      PrefireUp         PrefireWeight_Up/PrefireWeight
-#SYST      JERDown           regex=".+JER_Dn.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
-#SYST      JERUp             regex=".+JER_Up.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
-#SYST      JESDown           regex=".+JESTotal_Dn.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
-#SYST      JESUp             regex=".+JESTotal_Up.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
-#SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,min_M_ej
-#SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,min_M_ej
-#SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,min_M_ej
-#SYST      EleRecoSFUp       (Ele1_RecoSF+Ele1_RecoSF_Err)*(Ele2_RecoSF+Ele2_RecoSF_Err)/(Ele1_RecoSF*Ele2_RecoSF)
-#SYST      EleRecoSFDown     (Ele1_RecoSF-Ele1_RecoSF_Err)*(Ele2_RecoSF-Ele2_RecoSF_Err)/(Ele1_RecoSF*Ele2_RecoSF)
-#SYST      EleHEEPSFUp       (Ele1_HEEPSF+Ele1_HEEPSF_Err)*(Ele2_HEEPSF+Ele2_HEEPSF_Err)/(Ele1_HEEPSF*Ele2_HEEPSF)
-#SYST      EleHEEPSFDown     (Ele1_HEEPSF-Ele1_HEEPSF_Err)*(Ele2_HEEPSF-Ele2_HEEPSF_Err)/(Ele1_HEEPSF*Ele2_HEEPSF)
-#SYST      EleTrigSFUp       (Ele1_TrigSF+Ele1_TrigSF_Err)*(Ele2_TrigSF+Ele2_TrigSF_Err)/(Ele1_TrigSF*Ele2_TrigSF)
-#SYST      EleTrigSFDown     (Ele1_TrigSF-Ele1_TrigSF_Err)*(Ele2_TrigSF-Ele2_TrigSF_Err)/(Ele1_TrigSF*Ele2_TrigSF)
-#SYST      PileupUp          puWeight_Up/puWeight
-#SYST      PileupDown        puWeight_Dn/puWeight
-#SYST      LHEPdfWeight      LHEPdfWeight
+SYST      PrefireDown       PrefireWeight_Dn/PrefireWeight
+SYST      PrefireUp         PrefireWeight_Up/PrefireWeight
+SYST      JERDown           regex=".+JER_Dn.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
+SYST      JERUp             regex=".+JER_Up.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
+SYST      JESDown           regex=".+JESTotal_Dn.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
+SYST      JESUp             regex=".+JESTotal_Up.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt,min_M_ej
+SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,min_M_ej
+SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,min_M_ej
+SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,min_M_ej
+SYST      EleRecoSFUp       (Ele1_RecoSF+Ele1_RecoSF_Err)*(Ele2_RecoSF+Ele2_RecoSF_Err)/(Ele1_RecoSF*Ele2_RecoSF)
+SYST      EleRecoSFDown     (Ele1_RecoSF-Ele1_RecoSF_Err)*(Ele2_RecoSF-Ele2_RecoSF_Err)/(Ele1_RecoSF*Ele2_RecoSF)
+SYST      EleHEEPSFUp       (Ele1_HEEPSF+Ele1_HEEPSF_Err)*(Ele2_HEEPSF+Ele2_HEEPSF_Err)/(Ele1_HEEPSF*Ele2_HEEPSF)
+SYST      EleHEEPSFDown     (Ele1_HEEPSF-Ele1_HEEPSF_Err)*(Ele2_HEEPSF-Ele2_HEEPSF_Err)/(Ele1_HEEPSF*Ele2_HEEPSF)
+SYST      EleTrigSFUp       (Ele1_TrigSF+Ele1_TrigSF_Err)*(Ele2_TrigSF+Ele2_TrigSF_Err)/(Ele1_TrigSF*Ele2_TrigSF)
+SYST      EleTrigSFDown     (Ele1_TrigSF-Ele1_TrigSF_Err)*(Ele2_TrigSF-Ele2_TrigSF_Err)/(Ele1_TrigSF*Ele2_TrigSF)
+SYST      PileupUp          puWeight_Up/puWeight
+SYST      PileupDown        puWeight_Dn/puWeight
+SYST      LHEPdfWeight      LHEPdfWeight
+SYST      LHEScaleWeight      LHEScaleWeight
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
 # In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
