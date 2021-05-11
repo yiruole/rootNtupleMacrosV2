@@ -27,14 +27,22 @@ JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/c
 produceReducedSkim    	   1            -               -               -               -1
 reducedSkimType	      	   0		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
+# Trigger scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2018_HEEPv70-2018Prompt/egammaEffi.txt_EGM2D.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Reco scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+RecoSFFileName /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/2018/egammaEffi.txt_EGM2D_updatedAll.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
 AnalysisYear   2018  - - - -1
 #------------------------------------------------------------------------------------------------------
-# Energy scaling / smearing on electrons & jets
+# Energy scaling / smearing on electrons & jets -- not needed with NanoAOD-based setup
 #------------------------------------------------------------------------------------------------------
 do_electron_energy_smear   0		-		-		-		-1
-do_pfjet_energy_smear	   1		-		-		-		-1
+do_pfjet_energy_smear	     0		-		-		-		-1
 electron_energy_scale_sign 0		-		-		-		-1
 pfjet_energy_scale_sign	   0		-		-		-		-1
 #------------------------------------------------------------------------------------------------------
@@ -104,9 +112,11 @@ run 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #PtHat 				-inf	     +inf		-		-		1	100 0 100	      SAVE
 Weight				-inf	     +inf		-		-		1	100 0 100	      SAVE
 puWeight			-inf	     +inf		-		-		1	100 0 100	      SAVE
-L1PreFiringWeight_Nom				-inf	     +inf		-		-		1	100 0 100	      SAVE
-L1PreFiringWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
-L1PreFiringWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
+puWeight_Up		-inf	     +inf		-		-		1	100 0 100	      SAVE
+puWeight_Dn	  -inf	     +inf		-		-		1	100 0 100	      SAVE
+PrefireWeight				-inf	     +inf		-		-		1	100 0 100	      SAVE
+PrefireWeight_Dn				-inf	     +inf		-		-		1	100 0 100	      SAVE
+PrefireWeight_Up				-inf	     +inf		-		-		1	100 0 100	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Vertex and pileup info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -234,6 +244,8 @@ LooseEle3_PassHEEPEcalDrivenCut                           -inf      +inf        
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # MET info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
+PFMET_Raw_Pt                        -inf	     +inf               -               -               1       200 0 2000            SAVE
+PFMET_Raw_Phi			-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 PFMET_Type1_Pt                  -inf	     +inf               -               -               1       200 0 2000            SAVE
 PFMET_Type1_Phi 		-inf	     +inf		-		-		1	60 -3.1416 +3.1416    SAVE
 #PFMET_Type1XY_Pt               -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -361,17 +373,58 @@ mDPhi_METJet3			-inf         +inf               -               -               
 MT_Ele1MET			-inf         +inf               -               -               1       200 0 2000	      SAVE
 Pt_Ele1MET			-inf	     +inf               -               -               1       200 0 2000	      SAVE
 Pt_j1j2				-inf	     +inf               -               -               1       200 0 2000	      SAVE
-sT_eejj  			-inf         +inf               -               -               1       200 0 2000	      SAVE
-sT_enujj			-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_eejj_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+sT_enujj   		-inf	     +inf		-		-		1	200 0 2000	      SAVE
 M_j1j2				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 M_j1j3				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 M_j2j3				-inf	     +inf               -               -               1       200 0 2000	      SAVE
 M_e1j1				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1j1_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j1_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e1j2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1j2_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e1j2_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e2j1				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e2j1_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j1_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e2j2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e2j2_EER				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_EES_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_EES_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JESTotal_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JESTotal_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JER_Up				-inf         +inf               -               -               1       200 0 2000	      SAVE
+M_e2j2_JER_Dn				-inf         +inf               -               -               1       200 0 2000	      SAVE
 M_e1e2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1e2_EER				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1e2_EES_Up				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+M_e1e2_EES_Dn				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 Pt_e1e2				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Pt_e1e2_EER				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Pt_e1e2_EES_Up				-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Pt_e1e2_EES_Dn				-inf	     +inf		-		-		1	200 0 2000	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Photon triggers 
 #-----------------------------------------------------------------------------------------------------------------------------------------
