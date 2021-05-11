@@ -354,7 +354,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     integralTTbar_ttbar = GetIntegralTH1(
         plotObjTTBar.histoTTbar, plotObjTTBar.xmin, plotObjTTBar.xmax
     )
-    print "plotObjTTBar.histoTTbar=", plotObjTTBar.histoTTbar
+    # print "plotObjTTBar.histoTTbar=", plotObjTTBar.histoTTbar
     ERRintegralTTbar_ttbar = GetErrorIntegralTH1(
         plotObjTTBar.histoTTbar, plotObjTTBar.xmin, plotObjTTBar.xmax
     )
@@ -401,7 +401,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     integralTTbar_dyjets = GetIntegralTH1(
         plotObjDYJets.histoTTbar, plotObjDYJets.xmin, plotObjDYJets.xmax
     )
-    print "plotObjDYJets.histoTTbar=", plotObjDYJets.histoTTbar
+    # print "plotObjDYJets.histoTTbar=", plotObjDYJets.histoTTbar
     ERRintegralTTbar_dyjets = GetErrorIntegralTH1(
         plotObjDYJets.histoTTbar, plotObjDYJets.xmin, plotObjDYJets.xmax
     )
@@ -642,6 +642,13 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
 
 ##############################################################################
 # ############ USER CODE - BEGIN ##############################################
+year = 2016
+qcdFiles = {}
+qcdFiles[2016] = "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+qcdFiles[2017] = ""
+mcDataFiles = {}
+mcDataFiles[2016] = "$LQDATA/nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+mcDataFiles[2017] = "$LQDATA/nanoV7/2017/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 
 # --- Input files
 File_QCD_preselection = GetFile(
@@ -653,7 +660,9 @@ File_QCD_preselection = GetFile(
         # nanoV7
         # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
         # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # 2021
+        qcdFiles[year]
 )
 
 File_preselection = GetFile(
@@ -673,7 +682,9 @@ File_preselection = GetFile(
     # "$LQDATA/nanoV7/2018/analysis/eejj_3sep2020_dyjPt50Inc/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # inc only
     # "$LQDATA/nanoV7/2017/analysis/prefire_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
-    "$LQDATA/nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # "$LQDATA/nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+    # 2021
+    mcDataFiles[year]
 )
 
 xsectionFile = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
