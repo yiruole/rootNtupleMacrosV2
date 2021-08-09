@@ -30,28 +30,29 @@ void analysisClass::Loop()
    // Final selection mass points
    //--------------------------------------------------------------------------
 
-   //const int n_lq_mass = 29;
+   //const int n_lq_mass = 30; // 2017
+   /////const int n_lq_mass = 29; // 2016
+   //int LQ_MASS[n_lq_mass] = { 
+   //  300,  400,  500,  600,
+   //  700,  800,  900,  1000,
+   //  1100, 1200, 1300, 1400,
+   //  1500, 1600, 1700, 1800,
+   //  //1900, 2000, // up to 2000 only for 2018
+   //  1900, 2000, 2100, 2200, // 2017-2018
+   //  2300, 2400, 2500, // 2500 for 2016 missing, FIXME
+   //  2600, 2700, 2800, 2900,
+   //  3000,
+   //  3500, 4000
+   //};
+
    const int n_lq_mass = 18; // 2018
    int LQ_MASS[n_lq_mass] = { 
      300,  400,  500,  600,
      700,  800,  900,  1000,
      1100, 1200, 1300, 1400,
      1500, 1600, 1700, 1800,
-     1900, 2000 // up to 2000 only for 2018
-     //1900, 2000, 2100, 2200, // 2017-2018
-     //2300, 2400, 2500, // 2500 for 2016 missing, FIXME
-     //2600, 2700, 2800, 2900,
-     ////3000, // 3000 missing for 2017, FIXME
-     //3500, 4000
+     1900, 2000
    };
-   //const int n_lq_mass = 18;
-   //int LQ_MASS[n_lq_mass] = { 
-   //  300,  400,  500,  600,
-   //  700,  800,  900,  1000,
-   //  1100, 1200, 1300, 1400,
-   //  1500, 1600, 1700, 1800,
-   //  1900, 2000
-   //};
 
    // SIC only look at LQ650 selection for now
    // LQ650 only 2012
@@ -676,6 +677,7 @@ void analysisClass::Loop()
    {
      for (int i_lq_mass = 0; i_lq_mass < n_lq_mass ; ++i_lq_mass ) { 
        int lq_mass = LQ_MASS[i_lq_mass];
+       sprintf(plot_name, "GeneratorWeight_LQ%d"        , lq_mass ); CreateUserTH1D ( plot_name, 200 , -2 , 2 );
        sprintf(plot_name, "Mej_selected_avg_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
        sprintf(plot_name, "Mej_selected_min_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
        sprintf(plot_name, "Mej_selected_max_LQ%d"       , lq_mass ); CreateUserTH1D ( plot_name, 60  , 0 , 3000 );
@@ -815,8 +817,8 @@ void analysisClass::Loop()
      //if(jentry > 1000) continue;
      //if(run==319077) continue;
      //XXX TEST
-     double ls = readerTools_->ReadValueBranch<Float_t>("ls");
-     double event = readerTools_->ReadValueBranch<Float_t>("event");
+     //double ls = readerTools_->ReadValueBranch<Float_t>("ls");
+     //double event = readerTools_->ReadValueBranch<Float_t>("event");
      //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
 
@@ -855,8 +857,7 @@ void analysisClass::Loop()
      //  else if ( 200.0 < M_e1e2        ) gen_weight = 0.42;
      //}
 
-     // std::cout << "Gen weight = " << int ( 1.0 / gen_weight ) << std::endl;
-     //std::cout << "Gen weight = " << gen_weight << "; isData? " << isData() << std::endl;
+     //std::cout << "Gen weight = " << gen_weight << "; pileup_weight = " << pileup_weight << std::endl;
 
      //--------------------------------------------------------------------------
      // Get information about prefire reweighting
@@ -883,6 +884,8 @@ void analysisClass::Loop()
      //    //std::cout << "INFO: Applying LHEPdfWeight=" << readerTools_->ReadArrayBranch<Float_t>("LHEPdfWeight", 0) << " for run: " << run << " ls: " << ls << " event: " << event << std::endl;
      //  }
      //}
+
+     //std::cout << "prefire weight = " << prefire_weight << std::endl;
     
      // Electron scale factors for MC only
      if(!isData()) {
@@ -908,6 +911,8 @@ void analysisClass::Loop()
          float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
          float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
          recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+         //std::cout << "recoSFEle1*recoSFEle2 = " << recoSFEle1 << "*" << recoSFEle2 << " = " << recoSFEle1*recoSFEle2 << std::endl;
+         //std::cout << "heepSFEle1*heepSFEle2 = " << heepSFEle1 << "*" << heepSFEle2 << " = " << heepSFEle1*heepSFEle2 << std::endl;
        }
        else if(analysisYear==2017) {
          float zVtxSF = ElectronScaleFactors2017::zVtxSF;
@@ -932,6 +937,8 @@ void analysisClass::Loop()
        float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
        float totalScaleFactor = recoHeepSF*trigSFEle1*trigSFEle2;
        gen_weight*=totalScaleFactor;
+       //std::cout << "trigSFEle1*trigSFEle2 = " << trigSFEle1 << "*" << trigSFEle2 << " = " << trigSFEle1*trigSFEle2 << std::endl;
+       //std::cout << "totalScaleFactor = " << totalScaleFactor << std::endl;
      }
 
      //--------------------------------------------------------------------------
@@ -2499,6 +2506,7 @@ void analysisClass::Loop()
            bool pass    = passed_vector[i_lq_mass];
            if ( !pass ) continue;
 
+           sprintf(plot_name, "GeneratorWeight_LQ%d"        , lq_mass ); FillUserTH1D ( plot_name, gen_weight        );
            sprintf(plot_name, "Mej_selected_avg_LQ%d"       , lq_mass ); FillUserTH1D ( plot_name, M_ej_avg          , pileup_weight * gen_weight );
            sprintf(plot_name, "Mej_selected_min_LQ%d"       , lq_mass ); FillUserTH1D ( plot_name, M_ej_min          , pileup_weight * gen_weight );
            sprintf(plot_name, "Mej_selected_max_LQ%d"       , lq_mass ); FillUserTH1D ( plot_name, M_ej_max          , pileup_weight * gen_weight );
