@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 from plot_class import GetFile, Plot, Plot2D, generateHistoList, generateHisto, GetBackgroundSyst, makeTOC
 from ROOT import gROOT, kCyan, kRed, TCanvas
 
@@ -39,9 +40,37 @@ gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
 # inputFile = "nanoV7/2017/analysis/prefire_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
 #
 # inputFile = "nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
-inputFile = "nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-inputFile = "$LQDATA/"+inputFile
-systDictFilename = "$LQANA/versionsOfAnalysis/2016/nanoV7/eejj/apr16/systematics_dict.txt"
+#year = 2017
+#inputFiles = {}
+#inputFiles[2016] = "nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+#inputFiles[2017] = "nanoV7/2017/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+#inputFiles[2018] = "nanoV7/2018/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+#inputFilesQCD = {}
+#inputFilesQCD[2016] = "nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+#inputFilesQCD[2017] = "nanoV7/2017/analysis/qcdYield_eejj_30apr2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+#inputFilesQCD[2018] = "nanoV7/2018/analysis/qcdYield_eejj_1jun2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+systDictFilenames = {}
+systDictFilenames[2016] = "$LQANA/versionsOfAnalysis/2016/nanoV7/eejj/apr16/systematics_dict.txt"
+systDictFilenames[2017] = ""
+systDictFilenames[2018] = ""
+if len(sys.argv) < 4:
+    print "ERROR: did not find MC/data combined plot file or QCD plot file or year"
+    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    exit(-1)
+if len(sys.argv) > 4:
+    print "ERROR: found extra arguments"
+    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    exit(-1)
+
+qcdFile = sys.argv[1]
+mcFile = sys.argv[2]
+year = int(sys.argv[3])
+
+# inputFile = "$LQDATA/"+inputFiles[year]
+# inputFileQCD = "$LQDATA/"+inputFilesQCD[year]
+inputFile = mcFile
+inputFileQCD = qcdFile
+systDictFilename = systDictFilenames[year]
 
 File_QCD_preselection = GetFile(
     # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
@@ -59,7 +88,8 @@ File_QCD_preselection = GetFile(
     # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
     # "$LQDATA/nanoV7/2017/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
     #
-    "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+    inputFileQCD
 )
 
 File_preselection = GetFile(
@@ -72,7 +102,8 @@ File_ttbar_preselection = GetFile(
     # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
     inputFile
 )
-
+# print "Using plot file: {}".format(inputFile)
+# print "Using QCD plot file: {}".format(inputFileQCD)
 
 doPreselPlots = True
 doBTagPlots = True
@@ -91,14 +122,13 @@ else:
     exit(-1)
 
 if do2016:
-    LQmasses = [650, 1500]
-    LQmassesFinalSelection = [400, 650, 1000]
+    LQmasses = [700, 1500]  # new samples don't have 650 GeV point
+    LQmassesFinalSelection = [400, 700, 1000]
 else:
     LQmasses = []
     LQmassesFinalSelection = []
 
 zUncBand = "no"
-bkgUncBand = True
 makeRatio = 1
 makeNSigma = 1
 
@@ -154,7 +184,8 @@ if do2016:
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
     # samplesForStackHistos_other = ["OTHERBKG_WJetPt_amcAtNLODiboson"]
     # samplesForStackHistos_other = ["OTHERBKG_WJetAMCInc_amcAtNLODiboson"]
-    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"]
+    # samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"]
+    samplesForStackHistos_other = ["OTHERBKG_WJetAMCPtBinned_dibosonNLO_triboson"]
     # MC ttbar
     # samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
     samplesForStackHistos_ttbar = ["TTbar_powheg"]
@@ -234,8 +265,13 @@ systTypes = ["QCD", "other", "TTbar", "ZJet"]
 # keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
 stackColorIndexes = [kCyan, 9, 600, kRed]
 stackFillStyleIds = [1001, 1001, 1001, 1001]
-print "Using systDictFilename={}".format(systDictFilename)
-systsForStackHistos = [GetBackgroundSyst(systType, systDictFilename) for systType in systTypes]
+if systDictFilename != "":
+    print "Using systDictFilename={}".format(systDictFilename)
+    systsForStackHistos = [GetBackgroundSyst(systType, systDictFilename) for systType in systTypes]
+    bkgUncBand = True
+else:
+    bkgUncBand = False
+    systsForStackHistos = []
 
 ##keysStack             = [ "Other backgrounds", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG Inc)"  ]
 ##stackColorIndexes     = [ 9                  , 600         ,  kRed           ]
@@ -252,8 +288,10 @@ systsForStackHistos = [GetBackgroundSyst(systType, systDictFilename) for systTyp
 ##stackColorIndexes.reverse()
 ##stackFillStyleIds.reverse()
 
-samplesForHistos = ["LQ_M{}".format(lqmass) for lqmass in LQmasses]
-keys = ["LQ, M={} GeV".format(lqmass) for lqmass in LQmasses]
+signalSampleName = "LQToBEle_M-{}_pair"
+signalSampleLabel = "LQToBEle, M={} GeV"
+samplesForHistos = [signalSampleName.format(lqmass) for lqmass in LQmasses]
+keys = [signalSampleLabel.format(lqmass) for lqmass in LQmasses]
 # no signal
 # samplesForHistos = []
 # keys             = []
@@ -1213,6 +1251,16 @@ if doPreselPlots:
     # plots[-1].xmin  = 0
     # plots[-1].xmax  = 500
     # plots[-1].rebin = 5
+
+    plots.append(makeDefaultPlot("Mej_asym_PAS"))
+    plots[-1].rebin = 1
+    # plots[-1].ymax = 1000000
+    # plots[-1].ymin = 1e-1
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ej) asym (GeV) [Preselection]"
+    #plots[-1].xmin = 0
+    #plots[-1].xmax = 1200
+    #plots[-1].rebin = 5
 
     plots.append(makeDefaultPlot("nVertex_PAS"))
     plots[-1].rebin = 1
