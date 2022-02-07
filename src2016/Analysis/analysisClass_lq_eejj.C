@@ -31,28 +31,29 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
 
    //const int n_lq_mass = 30; // 2017
-   /////const int n_lq_mass = 29; // 2016
-   //int LQ_MASS[n_lq_mass] = { 
-   //  300,  400,  500,  600,
-   //  700,  800,  900,  1000,
-   //  1100, 1200, 1300, 1400,
-   //  1500, 1600, 1700, 1800,
-   //  //1900, 2000, // up to 2000 only for 2018
-   //  1900, 2000, 2100, 2200, // 2017-2018
-   //  2300, 2400, 2500, // 2500 for 2016 missing, FIXME
-   //  2600, 2700, 2800, 2900,
-   //  3000,
-   //  3500, 4000
-   //};
-
-   const int n_lq_mass = 18; // 2018
+   const int n_lq_mass = 29; // 2016
    int LQ_MASS[n_lq_mass] = { 
      300,  400,  500,  600,
      700,  800,  900,  1000,
      1100, 1200, 1300, 1400,
      1500, 1600, 1700, 1800,
-     1900, 2000
+     //1900, 2000, // up to 2000 only for 2018
+     1900, 2000, 2100, 2200, // 2017-2018
+     2300, 2400, //2500, // 2500 for 2016 missing, FIXME
+     //2300, 2400, 2500, // 2017
+     2600, 2700, 2800, 2900,
+     3000,
+     3500, 4000
    };
+
+   //const int n_lq_mass = 18; // 2018
+   //int LQ_MASS[n_lq_mass] = { 
+   //  300,  400,  500,  600,
+   //  700,  800,  900,  1000,
+   //  1100, 1200, 1300, 1400,
+   //  1500, 1600, 1700, 1800,
+   //  1900, 2000
+   //};
 
    // SIC only look at LQ650 selection for now
    // LQ650 only 2012
@@ -73,7 +74,6 @@ void analysisClass::Loop()
    // Decide which plots to save (default is to save everything)
    //--------------------------------------------------------------------------
    
-   fillSkim                         ( !true  ) ;
    fillAllPreviousCuts              ( true  ) ;
    fillAllOtherCuts                 ( true  ) ;
    fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -124,7 +124,7 @@ void analysisClass::Loop()
    // reco scale factors
    //--------------------------------------------------------------------------
    std::string recoSFFileName = getPreCutString1("RecoSFFileName");
-   std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
+   std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false));
 
    //--------------------------------------------------------------------------
    // B-tag stuff
@@ -217,6 +217,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mej_selected_avg_PAS"            ,    200   , 0       , 2000   ); 
    CreateUserTH1D( "Mej_selected_min_PAS"            ,    200   , 0       , 2000   ); 
    CreateUserTH1D( "Mej_selected_max_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1D( "Mej_asym_PAS"                    ,    50    , 0       , 1   ); 
    CreateUserTH1D( "Mej_minmax_PAS"                  ,    200   , 0       , 2000   ); 
    CreateUserTH1D( "Meejj_PAS"                       ,    400   , 0       , 4000   );
    CreateUserTH1D( "Mejj_PAS"                        ,    400   , 0       , 4000   );
@@ -893,7 +894,7 @@ void analysisClass::Loop()
        float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
        float ele2ECorr = readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
        float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-       float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+       float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele2ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
        //float ele1PtUncorr = readerTools_->ReadValueBranch<Float_t>("Ele1_SCEt");
        //float ele2PtUncorr = readerTools_->ReadValueBranch<Float_t>("Ele2_SCEt");
        //std::cout << "Ele1_Pt = " << readerTools_->ReadValueBranch<Float_t>("Ele1_Pt") << "; Ele1_ECorr = " << ele1ECorr << "; Ele1_SCEta = " << readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta") << std::endl;
@@ -905,12 +906,14 @@ void analysisClass::Loop()
          //float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
          //float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
          //float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
-         // TODO take from branches
          float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
          float recoSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_RecoSF");
-         float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
-         float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
-         recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+         //float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
+         //float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
+         //recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+         float looseSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_EGMLooseIDSF");
+         float looseSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_EGMLooseIDSF");
+         recoHeepSF *= recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
          //std::cout << "recoSFEle1*recoSFEle2 = " << recoSFEle1 << "*" << recoSFEle2 << " = " << recoSFEle1*recoSFEle2 << std::endl;
          //std::cout << "heepSFEle1*heepSFEle2 = " << heepSFEle1 << "*" << heepSFEle2 << " = " << heepSFEle1*heepSFEle2 << std::endl;
        }
@@ -918,6 +921,7 @@ void analysisClass::Loop()
          float zVtxSF = ElectronScaleFactors2017::zVtxSF;
          float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
          float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
+         // TODO take from branches
          float heepSFEle1 = ElectronScaleFactors2017::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
          float heepSFEle2 = ElectronScaleFactors2017::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
          recoHeepSF *= zVtxSF*recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
@@ -925,6 +929,7 @@ void analysisClass::Loop()
        else if(analysisYear==2018) {
          float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
          float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
+         // TODO take from branches
          float heepSFEle1 = ElectronScaleFactors2018::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
          float heepSFEle2 = ElectronScaleFactors2018::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
          recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
@@ -984,18 +989,18 @@ void analysisClass::Loop()
      // only do this for 2017 and 2018, the years with jet/pt binned samples
      if(analysisYear > 2016) {
        // for jet-pt bin stitching
-       if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
-         passLHECuts = false;
-         if(readerTools_->ReadValueBranch<Float_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
-         else if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
-       }
+       //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
+       //    current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
+       //  passLHECuts = false;
+       //  if(readerTools_->ReadValueBranch<Float_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
+       //  else if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
+       //}
        //// for Pt-binned stitching
        //// for some reason, using genParticles here and not LHE info
        //double GenEle1_Pt =  readerTools_->ReadValueBranch<Float_t>("GenEle1_Pt");
@@ -1024,6 +1029,19 @@ void analysisClass::Loop()
        //  //if(readerTools_->ReadValueBranch<Float_t>("GenZGamma1_Pt") <= 70) passLHECuts = false;
        //  if(genZGammaPt <= 70) passLHECuts = false;
        //}
+       // pt-binned stitching test, Jan. 2022
+       if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
+           current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
+         passLHECuts = false;
+         if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") <= 100)
+           passLHECuts = true; // if Z/gamma Pt < 100 GeV, take it
+       }
      }
      fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
      //--------------------------------------------------------------------------
@@ -1078,6 +1096,7 @@ void analysisClass::Loop()
          if(analysisYear==2016) {
            if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") != 1 && 
                (readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
+               //(readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele115
              passHLT = 1;
          }
          else {
@@ -1211,7 +1230,7 @@ void analysisClass::Loop()
      // Calculate electron-jet pair mass values
      //--------------------------------------------------------------------------
 
-     double M_ej_avg, M_ej_min, M_ej_max;
+     double M_ej_avg, M_ej_min, M_ej_max, M_ej_asym;
      double M_ej_avg_JER_Up, M_ej_min_JER_Up, M_ej_max_JER_Up;
      double M_ej_avg_JER_Dn, M_ej_min_JER_Dn, M_ej_max_JER_Dn;
      double M_ej_avg_JES_Up, M_ej_min_JES_Up, M_ej_max_JES_Up;
@@ -1308,6 +1327,7 @@ void analysisClass::Loop()
            M_ej_min_JES_Dn = M_e2j1_JESTotal_Dn;
          }
        }
+       M_ej_asym = (M_ej_max - M_ej_min)/(M_ej_max + M_ej_min);
      }
 
      double sT_zjj = Pt_e1e2 + readerTools_->ReadValueBranch<Float_t>("Jet1_Pt") + readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
@@ -1381,6 +1401,7 @@ void analysisClass::Loop()
      double M_e1e2_EER =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EER");
      double M_e1e2_EES_Up =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EES_Up");
      double M_e1e2_EES_Dn =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EES_Dn");
+     double PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
 
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
@@ -1394,8 +1415,10 @@ void analysisClass::Loop()
          fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
+         //fillVariableWithValue( "Mej_asym_opt", M_ej_asym, gen_weight * pileup_weight  ) ;
        }      
      }
+     //fillVariableWithValue( "PFMET_opt", PFMET_Type1_Pt, gen_weight * pileup_weight  ) ;
 
      // Dummy variables
      fillVariableWithValue ("preselection", 1, gen_weight * pileup_weight ); 
@@ -1421,6 +1444,10 @@ void analysisClass::Loop()
          fillSystVariableWithValue( "JESDown", cut_name, M_ej_min_JES_Dn);
          fillSystVariableWithValue( "JERUp", cut_name, M_ej_min_JER_Up);
          fillSystVariableWithValue( "JERDown", cut_name, M_ej_min_JER_Dn);
+         // add Masym for test
+         //sprintf(cut_name, "asym_M_ej_LQ%d", lq_mass );
+         //fillVariableWithValue ( cut_name, M_ej_asym, gen_weight * pileup_weight  ) ;
+         //
        }
      }
      
@@ -1517,6 +1544,7 @@ void analysisClass::Loop()
      evaluateCuts();
 
      //std::cout << "getVariableValue(\"PassNEle\")=" << getVariableValue("PassNEle") << "; passedCut(\"PassNEle\")=" << passedCut("PassNEle") << std::endl;
+     //std::cout << "getVariableValue(\"asym_M_ej_LQ300\")=" << getVariableValue("asym_M_ej_LQ300") << "; passedCut(\"asym_M_ej_LQ300\")=" << passedCut("asym_M_ej_LQ300") << std::endl;
      //--------------------------------------------------------------------------
      // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
@@ -1618,7 +1646,6 @@ void analysisClass::Loop()
        double Muon2_Pt = readerTools_->ReadValueBranch<Float_t>("Muon2_Pt");
        double Muon2_Eta = readerTools_->ReadValueBranch<Float_t>("Muon2_Eta");
        double Muon2_Phi = readerTools_->ReadValueBranch<Float_t>("Muon2_Phi");
-       double PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
        double PFMET_Type1_Phi = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
 
        e1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
@@ -2202,6 +2229,7 @@ void analysisClass::Loop()
        FillUserTH1D("Mej_selected_max_PAS"  , M_ej_max                       , pileup_weight * gen_weight );	   
        FillUserTH1D("Mej_minmax_PAS"        , M_ej_min                       , pileup_weight * gen_weight );	   
        FillUserTH1D("Mej_minmax_PAS"        , M_ej_max                       , pileup_weight * gen_weight );	   
+       FillUserTH1D("Mej_asym_PAS"        , M_ej_asym                        , pileup_weight * gen_weight );	   
 
        FillUserTH2D("MeeVsST_PAS" , M_e1e2, sT_eejj, pileup_weight * gen_weight );	   
        FillUserTH2D("MeeVsPtee_PAS" , M_e1e2, Pt_e1e2, pileup_weight * gen_weight );	   
@@ -2626,11 +2654,6 @@ void analysisClass::Loop()
            FillUserTH1D("Mee_70_110_LQ1000", M_e1e2 , pileup_weight * gen_weight );
 
        }
-
-       //--------------------------------------------------------------------------
-       // Fill skim tree
-       //--------------------------------------------------------------------------
-       fillSkimTree();
 
      } // End preselection 
    } // End loop over events
