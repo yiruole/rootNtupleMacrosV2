@@ -85,9 +85,9 @@ ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------
-nVLooseEle_ptCut			0	     +inf  		-		-		0	16 -0.5 15.5	      SAVE
-LooseEle1_Pt			35.0	     +inf		-		-		0	100 0 2000	      SAVE
-PassTrigger			0	     1			-		-		0	2 -0.5 1.5	      SAVE
+nVLooseEle_ptCut                     0      +inf            -  -  0  16   -0.5  15.5  SAVE
+LooseEle1_Pt                         35.0   +inf            -  -  0  100  0     2000  SAVE
+PassTrigger                          0      1               -  -  0  2    -0.5  1.5   SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -133,7 +133,8 @@ nLooseEle_store			-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 nLooseEle_ID		  	-inf	     +inf		-		-		1	16 -0.5 15.5	      SAVE
 # 
 LooseEle1_ECorr                 -inf	     +inf		            -		            -		            1	      100 0 1000	          SAVE  
-LooseEle1_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle1_PassHEEPID            -inf	     +inf               -               -               1       2 -0.5 1,5            SAVE         
+LooseEle1_PassLooseID           -inf	     +inf               -               -               1       2 -0.5 1.5            SAVE         
 LooseEle1_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_Eta                   -inf	     +inf               -               -               1       100 -5 5            SAVE
 LooseEle1_Phi                   -inf	     +inf               -               -               1       100 0 3.1416            SAVE
@@ -153,7 +154,8 @@ LooseEle1_TrkIsoHEEP7           -inf	     +inf               -               -  
 LooseEle1_EcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_HcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_CorrIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle1_PFCHIso03             -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_PFRelIsoCh03          -inf       +inf               -               -               1       200 0 2000            SAVE
+LooseEle1_PFRelIsoAll03         -inf       +inf               -               -               1       200 0 2000            SAVE
 LooseEle1_hltPhotonPt           -inf	     +inf               -               -               1       200 0 2000            SAVE 
 LooseEle1_PassHEEPMinPtCut                                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -167,8 +169,17 @@ LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut                  -inf      +inf        
 LooseEle1_PassHEEPGsfEleDxyCut                            -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPGsfEleMissingHitsCut                    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle1_PassHEEPEcalDrivenCut                           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleDEtaInSeedCut              -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleDPhiInCut                  -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleHadronicOverEMScaledCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleEInverseMinusPInverseCut   -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleRelPFIsoScaledCut          -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleConversionVetoCut          -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle1_PassEGammaLooseGsfEleMissingHitsCut             -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 # 
-LooseEle2_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle2_PassHEEPID            -inf	     +inf               -               -               1       2 -0.5 1.5            SAVE         
+LooseEle2_PassLooseID           -inf	     +inf               -               -               1       2 -0.5 1,5            SAVE         
 LooseEle2_Pt                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_ECorr                 -inf	     +inf		            -		            -		            1	      100 0 1000	          SAVE  
 LooseEle2_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -190,7 +201,8 @@ LooseEle2_TrkIsoHEEP7           -inf	     +inf               -               -  
 LooseEle2_EcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_HcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_CorrIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle2_PFCHIso03             -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_PFRelIsoCh03          -inf       +inf               -               -               1       200 0 2000            SAVE
+LooseEle2_PFRelIsoAll03         -inf       +inf               -               -               1       200 0 2000            SAVE
 LooseEle2_hltPhotonPt           -inf	     +inf               -               -               1       200 0 2000            SAVE 
 LooseEle2_PassHEEPMinPtCut                                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleSCEtaMultiRangeCut                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -204,8 +216,17 @@ LooseEle2_PassHEEPGsfEleEmHadD1IsoRhoCut                  -inf      +inf        
 LooseEle2_PassHEEPGsfEleDxyCut                            -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPGsfEleMissingHitsCut                    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle2_PassHEEPEcalDrivenCut                           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleDEtaInSeedCut              -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleDPhiInCut                  -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleHadronicOverEMScaledCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleEInverseMinusPInverseCut   -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleRelPFIsoScaledCut          -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleConversionVetoCut          -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle2_PassEGammaLooseGsfEleMissingHitsCut             -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 # 
-LooseEle3_PassHEEPID            -inf	     +inf               -               -               1       200 0 2000            SAVE         
+LooseEle3_PassHEEPID            -inf	     +inf               -               -               1       2 -0.5 1.5            SAVE         
+LooseEle3_PassLooseID           -inf	     +inf               -               -               1       2 -0.5 1,5            SAVE         
 LooseEle3_Pt                    -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_ECorr                 -inf	     +inf		            -		            -		            1	      100 0 1000	          SAVE  
 LooseEle3_RhoForHeep            -inf	     +inf               -               -               1       200 0 2000            SAVE
@@ -227,7 +248,8 @@ LooseEle3_TrkIsoHEEP7           -inf	     +inf               -               -  
 LooseEle3_EcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_HcalIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_CorrIsolation         -inf	     +inf               -               -               1       200 0 2000            SAVE
-LooseEle3_PFCHIso03             -inf	     +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_PFRelIsoCh03          -inf       +inf               -               -               1       200 0 2000            SAVE
+LooseEle3_PFRelIsoAll03         -inf       +inf               -               -               1       200 0 2000            SAVE
 LooseEle3_hltPhotonPt           -inf	     +inf               -               -               1       200 0 2000            SAVE 
 LooseEle3_PassHEEPMinPtCut                                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleSCEtaMultiRangeCut                -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
@@ -241,6 +263,14 @@ LooseEle3_PassHEEPGsfEleEmHadD1IsoRhoCut                  -inf      +inf        
 LooseEle3_PassHEEPGsfEleDxyCut                            -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPGsfEleMissingHitsCut                    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 LooseEle3_PassHEEPEcalDrivenCut                           -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleDEtaInSeedCut              -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleDPhiInCut                  -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleHadronicOverEMScaledCut    -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleEInverseMinusPInverseCut   -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleRelPFIsoScaledCut          -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleConversionVetoCut          -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
+LooseEle3_PassEGammaLooseGsfEleMissingHitsCut             -inf      +inf               -               -               1       2 -0.5 1.5	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # MET info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
