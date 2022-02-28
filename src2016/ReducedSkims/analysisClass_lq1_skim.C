@@ -79,7 +79,6 @@ void analysisClass::Loop()
   // Decide which plots to save (default is to save everything)
   //--------------------------------------------------------------------------
   
-  fillSkim                         ( !true  ) ;
   fillAllPreviousCuts              ( !true  ) ;
   fillAllOtherCuts                 ( !true  ) ;
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -127,6 +126,12 @@ void analysisClass::Loop()
   std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
 
   //--------------------------------------------------------------------------
+  // ID scale factors
+  //--------------------------------------------------------------------------
+  std::string egmIDSFFileName = getPreCutString1("EGMIDSFFileName");
+  std::unique_ptr<HistoReader> idScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(egmIDSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false));
+
+  //--------------------------------------------------------------------------
   // Should we do any scaling / smearing for systematics?
   //--------------------------------------------------------------------------
 
@@ -163,6 +168,25 @@ void analysisClass::Loop()
   // electron cuts
   double ele_PtCut    	         = getPreCutValue1("ele_PtCut");
   double ele_hltMatch_DeltaRCut  = getPreCutValue1("ele_hltMatch_DeltaRCut");
+
+  //--------------------------------------------------------------------------
+  // IDs
+  //--------------------------------------------------------------------------
+  std::string electronIDType     = getPreCutString1("electronIDType");
+  std::string muonIDType         = getPreCutString1("muonIDType");
+  std::string jetIDType          = getPreCutString1("jetIDType");
+  if(electronIDType != "HEEP" && electronIDType != "EGMLoose") {
+    STDOUT("electronIDType=" << electronIDType << " is unknown! Please implement it in the analysisClass code. Exiting.");
+    exit(-5);
+  }
+  if(muonIDType != "HighPtTrkRelIso03" && muonIDType != "Tight" && muonIDType != "Loose") {
+    STDOUT("muonIDType=" << muonIDType << " is unknown! Please implement it in the analysisClass code. Exiting.");
+    exit(-5);
+  }
+  if(jetIDType != "PFJetTight") {
+    STDOUT("jetIDType=" << jetIDType << " is unknown! Please implement it in the analysisClass code. Exiting.");
+    exit(-5);
+  }
 
   //--------------------------------------------------------------------------
   // Tell the user how many entries we'll look at
@@ -344,10 +368,15 @@ void analysisClass::Loop()
     CollectionPtr c_genEle_final = c_gen_all    -> SkimByID<GenParticle>(GEN_ELE_HARDPROCESS_FINALSTATE);
     //c_genEle_final->examine<GenParticle>("c_genEle_final = c_gen_all after SkimByID<GenParticle>(GEN_ELE_HARDPROCESS_FINALSTATE)");
 
+    CollectionPtr c_genEle_fromLQ_finalState = c_gen_all -> SkimByID<GenParticle>(GEN_ELE_FROM_LQ);
+    c_genEle_fromLQ_finalState = c_genEle_fromLQ_finalState -> SkimByID<GenParticle>(GEN_ELE_HARDPROCESS_FINALSTATE);
+    //c_genEle_fromLQ_finalState->examine<GenParticle>("c_genEle_fromLQ_finalState = (GEN_ELE_FROM_LQ && GEN_ELE_HARDPROCESS_FINALSTATE)");
+
     CollectionPtr c_genMu_final = c_gen_all    -> SkimByID<GenParticle>(GEN_MU_HARD_SCATTER);
 
     CollectionPtr c_genNu_final = c_gen_all    -> SkimByID<GenParticle>(GEN_NU_HARD_SCATTER);
     //c_genNu_final->examine<GenParticle>("c_genNu_final = c_gen_all after SkimByID<GenParticle>(GEN_NU_HARD_SCATTER)");
+    //c_genJet_all->examine<GenJet>("c_genJet_all");
     CollectionPtr c_genJet_final = c_genJet_all;
 
     //c_genZgamma_final->examine<GenParticle>("c_genZgamma_final = c_gen_all after SkimByID<GenParticle>(GEN_ZGAMMA_HARD_SCATTER)");
@@ -358,6 +387,12 @@ void analysisClass::Loop()
     CollectionPtr c_genLQ              = c_gen_all ->SkimByID<GenParticle>(GEN_LQ);
     CollectionPtr c_genLQ_final        = c_genLQ  -> SkimByID<GenParticle>(GEN_STATUS62);
     //c_genLQ_final->examine<GenParticle>("c_genLQ = c_gen_all after SkimByID GEN_LQ and GEN_STATUS62");
+
+    CollectionPtr c_genQuark_hardScatter = c_gen_all -> SkimByID<GenParticle>(GEN_QUARK_HARD_SCATTER);
+    //c_genQuark_hardScatter->examine<GenParticle>("c_genQuark_hardScatter");
+    const CollectionPtr c_genQuark_hardScatter_const(c_genQuark_hardScatter);
+    CollectionPtr c_genJetMatchedLQ = c_genJet_all -> SkimByRequireDRMatch<GenJet, GenParticle>(c_genQuark_hardScatter_const, 0.1);
+   // c_genJetMatchedLQ->examine<GenJet>("c_genJetMatchedLQ");
 
     //-----------------------------------------------------------------
     // If this is MC, smear jets if requested (not needed for NanoAOD-based setup)
@@ -423,18 +458,27 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
 
     CollectionPtr c_ele_HEEP;
+    CollectionPtr c_ele_egammaLoose;
     CollectionPtr c_ele_final;
     CollectionPtr c_ele_final_ptCut;
     CollectionPtr c_ele_vLoose_ptCut;
+    CollectionPtr c_ele_loose;
+    CollectionPtr c_ele_vLoose;
     ID heepIdType = HEEP70;
     if(analysisYear == 2018)
       heepIdType = HEEP70_2018;
 
     if ( reducedSkimType == 0 ){ 
-      CollectionPtr c_ele_loose = c_ele_all   -> SkimByID<LooseElectron>( FAKE_RATE_HEEP_LOOSE);
+      if(electronIDType == "HEEP") {
+        c_ele_loose = c_ele_all   -> SkimByID<LooseElectron>( FAKE_RATE_HEEP_LOOSE);
+        c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
+      }
+      else if(electronIDType == "EGMLoose") {
+        c_ele_loose = c_ele_all   -> SkimByID<LooseElectron>( FAKE_RATE_EGMLOOSE );
+        c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE_EGMLOOSE);
+      }
       c_ele_final               = c_ele_loose;
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<LooseElectron>( ele_PtCut  );
-      CollectionPtr c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
       c_ele_vLoose_ptCut         = c_ele_vLoose -> SkimByMinPt<LooseElectron>( 10.0 );
       //c_ele_all->examine<Electron>("c_ele_all");
       //c_ele_loose->examine<Electron>("c_ele_loose");
@@ -442,11 +486,18 @@ void analysisClass::Loop()
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ){
-      c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( heepIdType );
-      //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
-      c_ele_final               = c_ele_HEEP;
+      if(electronIDType == "HEEP") {
+        c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( heepIdType );
+        //CollectionPtr c_ele_HEEP  = c_ele_all -> SkimByID <Electron> ( HEEP70_MANUAL , true );
+        c_ele_final               = c_ele_HEEP;
+        c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
+      }
+      else if(electronIDType == "EGMLoose") {
+        c_ele_egammaLoose = c_ele_all -> SkimByID<Electron>(EGAMMA_BUILTIN_LOOSE);
+        c_ele_final               = c_ele_egammaLoose;
+        c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE_EGMLOOSE);
+      }
       c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
-      CollectionPtr c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
       c_ele_vLoose_ptCut         = c_ele_vLoose -> SkimByMinPt<LooseElectron>( 10.0 );
     }
     // look at final electrons
@@ -472,12 +523,21 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // All skims need muons
     //-----------------------------------------------------------------
+    CollectionPtr c_muon_final;
 
     CollectionPtr c_muon_eta               = c_muon_all       -> SkimByEtaRange<Muon> ( -muon_EtaCut, muon_EtaCut );
-    //CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
-    CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03);
     CollectionPtr c_muon_eta_IDLoose       = c_muon_eta       -> SkimByID      <Muon> ( MUON_LOOSE);
-    CollectionPtr c_muon_final             = c_muon_eta_IDHighPt;
+    CollectionPtr c_muon_eta_IDHighPt      = c_muon_eta       -> SkimByID      <Muon> ( MUON_HIGH_PT_TRKRELISO03);
+    if(muonIDType == "HighPtTrkRelIso03") {
+      c_muon_final             = c_muon_eta_IDHighPt;
+    }
+    else if(muonIDType == "Tight") {
+      CollectionPtr c_muon_eta_IDTight       = c_muon_eta       -> SkimByID      <Muon> ( MUON_TIGHT_PFISO04TIGHT );
+      c_muon_final             = c_muon_eta_IDTight;
+    }
+    else if(muonIDType == "Loose") {
+      c_muon_final             = c_muon_eta_IDLoose;
+    }
     //CollectionPtr c_muon_final             = c_muon_eta_IDLoose;
     CollectionPtr c_muon_final_ptCut       = c_muon_final     -> SkimByMinPt   <Muon> ( muon_PtCut );
     //c_muon_all->examine<Muon>("c_muon_all");
@@ -487,11 +547,13 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // All skims need PFJets
     //-----------------------------------------------------------------
+    CollectionPtr c_pfjet_central_ID;
 
     //c_pfjet_all->examine<PFJet>("c_pfjet_all");
     CollectionPtr c_pfjet_central                     = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_EtaCut, jet_EtaCut   );
     //c_pfjet_central->examine<PFJet>("c_pfjet_central");
-    CollectionPtr c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_TIGHT );    
+    if(jetIDType == "PFJetTight")
+      c_pfjet_central_ID                  = c_pfjet_central                      -> SkimByID         <PFJet>          ( PFJET_TIGHT );    
     //c_pfjet_central_ID->examine<PFJet>("c_pfjet_central_ID");
     CollectionPtr c_pfjet_central_ID_noMuonOverlap    = c_pfjet_central_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
     //c_pfjet_central_ID_noMuonOverlap->examine<PFJet>("c_pfjet_central_ID_noMuonOverlap [after muon cleaning]");
@@ -523,13 +585,18 @@ void analysisClass::Loop()
     //  double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
     //  std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
     //}
+    const CollectionPtr c_pfjet_all_const(c_pfjet_all);
+    CollectionPtr c_pfJetMatchedLQ = c_genJetMatchedLQ -> SkimByRequireDRMatch<GenJet, PFJet>(c_pfjet_all_const, 0.1);
+    //c_pfJetMatchedLQ->examine<PFJet>("c_pfJetMatchedLQ");
 
     //-----------------------------------------------------------------
     // We need high-eta jets in order to look at boson recoil
     //-----------------------------------------------------------------
+    CollectionPtr c_pfjet_highEta_ID;
 
     CollectionPtr c_pfjet_highEta                    = c_pfjet_all                          -> SkimByEtaRange   <PFJet>          ( -jet_HighEtaCut, jet_HighEtaCut   );
-    CollectionPtr c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_TIGHT );    
+    if(jetIDType == "PFJetTight")
+      c_pfjet_highEta_ID                 = c_pfjet_highEta                      -> SkimByID         <PFJet>          ( PFJET_TIGHT );    
     CollectionPtr c_pfjet_highEta_ID_noMuonOverlap   = c_pfjet_highEta_ID                   -> SkimByVetoDRMatch<PFJet, Muon>    ( c_muon_final_ptCut   , jet_muon_DeltaRCut  );
     CollectionPtr c_pfjet_highEta_ID_noLeptonOverlap = c_pfjet_highEta_ID_noMuonOverlap     -> SkimByVetoDRMatch<PFJet, Electron>( c_ele_final_ptCut    , jet_ele_DeltaRCut );
     CollectionPtr c_pfjet_highEta_final              = c_pfjet_highEta_ID_noLeptonOverlap;
@@ -625,6 +692,8 @@ void analysisClass::Loop()
     // for 2017 and 2018 only
     if(hasBranch("Flag_ecalBadCalibFilterV2"))
       fillVariableWithValue("PassEcalBadCalibV2Filter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
+    else
+      fillVariableWithValue("PassEcalBadCalibV2Filter"    , 1);
 
     //-----------------------------------------------------------------
     // Fill MET values
@@ -929,6 +998,7 @@ void analysisClass::Loop()
         }
 
         fillVariableWithValue( "LooseEle1_PassHEEPID"           , loose_ele1.PassUserID ( heepIdType )  );
+        fillVariableWithValue( "LooseEle1_PassLooseID"          , loose_ele1.PassEGammaIDLoose()  );
         fillVariableWithValue( "LooseEle1_Pt"                   , loose_ele1.Pt()                 );
         fillVariableWithValue( "LooseEle1_ECorr"                , loose_ele1.ECorr()              );
         fillVariableWithValue( "LooseEle1_RhoForHeep"           , loose_ele1.RhoForHEEP());
@@ -951,7 +1021,8 @@ void analysisClass::Loop()
         fillVariableWithValue( "LooseEle1_EcalIsolation" , loose_ele1.EcalIsoDR03()         );
         fillVariableWithValue( "LooseEle1_HcalIsolation" , loose_ele1.HcalIsoD1DR03()       );
         fillVariableWithValue( "LooseEle1_CorrIsolation" , loose_ele1.HEEPCorrIsolation()   );
-        fillVariableWithValue( "LooseEle1_PFCHIso03"     , loose_ele1.PFChargedHadronIso03());
+        fillVariableWithValue( "LooseEle1_PFRelIsoCh03"  , loose_ele1.PFRelIso03Charged());
+        fillVariableWithValue( "LooseEle1_PFRelIsoAll03" , loose_ele1.PFRelIso03All());
 
         fillVariableWithValue( "LooseEle1_PassHEEPMinPtCut"                            ,loose_ele1.PassHEEPMinPtCut                            () );
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut"            ,loose_ele1.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
@@ -961,16 +1032,25 @@ void analysisClass::Loop()
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,loose_ele1.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
         fillVariableWithValue( "LooseEle1_PassHEEPGsfEleTrkPtIsoCut"                   ,loose_ele1.PassHEEPGsfEleTrkPtIsoCut                   () ); 
         if(analysisYear == 2018) {
-          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele1.PassHEEPGsfEleEmHadD1IsoRhoCut2018        () ); 
-          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele1.PassHEEPGsfEleHadronicOverEMLinearCut2018 () ); 
+          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut"            ,loose_ele1.PassHEEPGsfEleEmHadD1IsoRhoCut2018          () ); 
+          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut"     ,loose_ele1.PassHEEPGsfEleHadronicOverEMLinearCut2018   () ); 
         }
         else {
-          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,loose_ele1.PassHEEPGsfEleEmHadD1IsoRhoCut            () ); 
-          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut"       ,loose_ele1.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
+          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut"            ,loose_ele1.PassHEEPGsfEleEmHadD1IsoRhoCut              () ); 
+          fillVariableWithValue( "LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut"     ,loose_ele1.PassHEEPGsfEleHadronicOverEMLinearCut       () ); 
         }
-        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleDxyCut"                        ,loose_ele1.PassHEEPGsfEleDxyCut                        () ); 
-        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleMissingHitsCut"                ,loose_ele1.PassHEEPGsfEleMissingHitsCut                () ); 
-        fillVariableWithValue( "LooseEle1_PassHEEPEcalDrivenCut"                       ,loose_ele1.PassHEEPEcalDrivenCut                       () );
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleDxyCut"                         ,loose_ele1.PassHEEPGsfEleDxyCut                           () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPGsfEleMissingHitsCut"                 ,loose_ele1.PassHEEPGsfEleMissingHitsCut                   () ); 
+        fillVariableWithValue( "LooseEle1_PassHEEPEcalDrivenCut"                        ,loose_ele1.PassHEEPEcalDrivenCut                          () );
+        // EGM Loose ID cuts
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut" ,loose_ele1.PassEGammaIDLooseGsfEleFull5x5SigmaIEtaIEtaCut () );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleDEtaInSeedCut"           ,loose_ele1.PassEGammaIDLooseGsfEleDEtaInSeedCut           () );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleDPhiInCut"               ,loose_ele1.PassEGammaIDLooseGsfEleDPhiInCut               () );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleHadronicOverEMScaledCut" ,loose_ele1.PassEGammaIDLooseGsfEleHadronicOverEMScaledCut () );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleEInverseMinusPInverseCut",loose_ele1.PassEGammaIDLooseGsfEleEInverseMinusPInverseCut() );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleRelPFIsoScaledCut"       ,loose_ele1.PassEGammaIDLooseGsfEleRelPFIsoScaledCut       () );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleConversionVetoCut"       ,loose_ele1.PassEGammaIDLooseGsfEleConversionVetoCut       () );
+        fillVariableWithValue( "LooseEle1_PassEGammaLooseGsfEleMissingHitsCut"          ,loose_ele1.PassEGammaIDLooseGsfEleMissingHitsCut          () );
 
         fillVariableWithValue( "LooseEle1_hltPhotonPt"  , hltPhotonPt );
 
@@ -983,6 +1063,7 @@ void analysisClass::Loop()
           }
 
           fillVariableWithValue( "LooseEle2_PassHEEPID"    , loose_ele2.PassUserID ( heepIdType ));
+          fillVariableWithValue( "LooseEle2_PassLooseID"   , loose_ele2.PassEGammaIDLoose()  );
           fillVariableWithValue( "LooseEle2_Pt"            , loose_ele2.Pt()                 );
           fillVariableWithValue( "LooseEle2_ECorr"         , loose_ele2.ECorr()              );
           fillVariableWithValue( "LooseEle2_RhoForHeep"  , loose_ele2.RhoForHEEP());
@@ -1005,7 +1086,8 @@ void analysisClass::Loop()
           fillVariableWithValue( "LooseEle2_EcalIsolation" , loose_ele2.EcalIsoDR03()         );
           fillVariableWithValue( "LooseEle2_HcalIsolation" , loose_ele2.HcalIsoD1DR03()       );
           fillVariableWithValue( "LooseEle2_CorrIsolation" , loose_ele2.HEEPCorrIsolation()   );
-          fillVariableWithValue( "LooseEle2_PFCHIso03"     , loose_ele2.PFChargedHadronIso03());
+          fillVariableWithValue( "LooseEle2_PFRelIsoCh03"  , loose_ele2.PFRelIso03Charged());
+          fillVariableWithValue( "LooseEle2_PFRelIsoAll03" , loose_ele2.PFRelIso03All());
 
           fillVariableWithValue( "LooseEle2_PassHEEPMinPtCut"                            ,loose_ele2.PassHEEPMinPtCut                            () );
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleSCEtaMultiRangeCut"            ,loose_ele2.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
@@ -1025,6 +1107,15 @@ void analysisClass::Loop()
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleDxyCut"                        ,loose_ele2.PassHEEPGsfEleDxyCut                        () ); 
           fillVariableWithValue( "LooseEle2_PassHEEPGsfEleMissingHitsCut"                ,loose_ele2.PassHEEPGsfEleMissingHitsCut                () ); 
           fillVariableWithValue( "LooseEle2_PassHEEPEcalDrivenCut"                       ,loose_ele2.PassHEEPEcalDrivenCut                       () );
+          // EGM Loose ID cuts
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut" ,loose_ele2.PassEGammaIDLooseGsfEleFull5x5SigmaIEtaIEtaCut () );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleDEtaInSeedCut"           ,loose_ele2.PassEGammaIDLooseGsfEleDEtaInSeedCut           () );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleDPhiInCut"               ,loose_ele2.PassEGammaIDLooseGsfEleDPhiInCut               () );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleHadronicOverEMScaledCut" ,loose_ele2.PassEGammaIDLooseGsfEleHadronicOverEMScaledCut () );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleEInverseMinusPInverseCut",loose_ele2.PassEGammaIDLooseGsfEleEInverseMinusPInverseCut() );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleRelPFIsoScaledCut"       ,loose_ele2.PassEGammaIDLooseGsfEleRelPFIsoScaledCut       () );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleConversionVetoCut"       ,loose_ele2.PassEGammaIDLooseGsfEleConversionVetoCut       () );
+          fillVariableWithValue( "LooseEle2_PassEGammaLooseGsfEleMissingHitsCut"          ,loose_ele2.PassEGammaIDLooseGsfEleMissingHitsCut          () );
 
           fillVariableWithValue( "LooseEle2_hltPhotonPt"  , hltPhotonPt );
 
@@ -1036,6 +1127,7 @@ void analysisClass::Loop()
             }
 
             fillVariableWithValue( "LooseEle3_PassHEEPID"    , loose_ele3.PassUserID ( heepIdType )  );
+            fillVariableWithValue( "LooseEle3_PassLooseID"   , loose_ele3.PassEGammaIDLoose()  );
             fillVariableWithValue( "LooseEle3_Pt"            , loose_ele3.Pt()                 );
             fillVariableWithValue( "LooseEle3_ECorr"         , loose_ele3.ECorr()               );
             fillVariableWithValue( "LooseEle3_RhoForHeep"           , loose_ele3.RhoForHEEP());
@@ -1058,7 +1150,8 @@ void analysisClass::Loop()
             fillVariableWithValue( "LooseEle3_EcalIsolation" , loose_ele3.EcalIsoDR03()         );
             fillVariableWithValue( "LooseEle3_HcalIsolation" , loose_ele3.HcalIsoD1DR03()       );
             fillVariableWithValue( "LooseEle3_CorrIsolation" , loose_ele3.HEEPCorrIsolation()   );
-            fillVariableWithValue( "LooseEle3_PFCHIso03"     , loose_ele3.PFChargedHadronIso03());
+            fillVariableWithValue( "LooseEle3_PFRelIsoCh03"  , loose_ele3.PFRelIso03Charged());
+            fillVariableWithValue( "LooseEle3_PFRelIsoAll03" , loose_ele3.PFRelIso03All());
 
             fillVariableWithValue( "LooseEle3_PassHEEPMinPtCut"                            ,loose_ele3.PassHEEPMinPtCut                            () );
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleSCEtaMultiRangeCut"            ,loose_ele3.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
@@ -1078,6 +1171,15 @@ void analysisClass::Loop()
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleDxyCut"                        ,loose_ele3.PassHEEPGsfEleDxyCut                        () ); 
             fillVariableWithValue( "LooseEle3_PassHEEPGsfEleMissingHitsCut"                ,loose_ele3.PassHEEPGsfEleMissingHitsCut                () ); 
             fillVariableWithValue( "LooseEle3_PassHEEPEcalDrivenCut"                       ,loose_ele3.PassHEEPEcalDrivenCut                       () );
+            // EGM Loose ID cuts
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut" ,loose_ele3.PassEGammaIDLooseGsfEleFull5x5SigmaIEtaIEtaCut () );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleDEtaInSeedCut"           ,loose_ele3.PassEGammaIDLooseGsfEleDEtaInSeedCut           () );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleDPhiInCut"               ,loose_ele3.PassEGammaIDLooseGsfEleDPhiInCut               () );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleHadronicOverEMScaledCut" ,loose_ele3.PassEGammaIDLooseGsfEleHadronicOverEMScaledCut () );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleEInverseMinusPInverseCut",loose_ele3.PassEGammaIDLooseGsfEleEInverseMinusPInverseCut() );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleRelPFIsoScaledCut"       ,loose_ele3.PassEGammaIDLooseGsfEleRelPFIsoScaledCut       () );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleConversionVetoCut"       ,loose_ele3.PassEGammaIDLooseGsfEleConversionVetoCut       () );
+            fillVariableWithValue( "LooseEle3_PassEGammaLooseGsfEleMissingHitsCut"          ,loose_ele3.PassEGammaIDLooseGsfEleMissingHitsCut          () );
 
             fillVariableWithValue( "LooseEle3_hltPhotonPt"  , hltPhotonPt );
           }
@@ -1168,7 +1270,7 @@ void analysisClass::Loop()
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4) { 
 
-      fillVariableWithValue ("nEle_store"       , min(n_ele_store,2) );
+      fillVariableWithValue ("nEle_store"       , min(n_ele_store,3) );
       fillVariableWithValue ("nEle_ID"          , n_ele_store);
       fillVariableWithValue ("nJet_store"       , min(n_jet_store,5) );
       fillVariableWithValue ("nJet_etaIdLepCleaned"       , n_jet_store);
@@ -1208,7 +1310,8 @@ void analysisClass::Loop()
         fillVariableWithValue( "Ele1_EcalIsolation" , ele1.EcalIsoDR03()        );
         fillVariableWithValue( "Ele1_HcalIsolation" , ele1.HcalIsoD1DR03()      );
         fillVariableWithValue( "Ele1_CorrIsolation" , ele1.HEEPCorrIsolation()  );
-        fillVariableWithValue( "Ele1_PFCHIso03"     , ele1.PFChargedHadronIso03());
+        fillVariableWithValue( "Ele1_PFRelIsoCh03"  , ele1.PFRelIso03Charged());
+        fillVariableWithValue( "Ele1_PFRelIsoAll03" , ele1.PFRelIso03All());
 
         fillVariableWithValue( "Ele1_PassHEEPMinPtCut"                            ,ele1.PassHEEPMinPtCut                            () );
         fillVariableWithValue( "Ele1_PassHEEPGsfEleSCEtaMultiRangeCut"            ,ele1.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
@@ -1246,6 +1349,8 @@ void analysisClass::Loop()
           fillVariableWithValue( "Ele1_RecoSF_Err" , recoScaleFactorReader->LookupValueError(ele1.SCEta(),elePtUncorr) );
           fillVariableWithValue( "Ele1_HEEPSF"                                      ,ElectronScaleFactorsRunII::LookupHeepSF(ele1.SCEta(), analysisYear) );
           fillVariableWithValue( "Ele1_HEEPSF_Err"                                  ,ElectronScaleFactorsRunII::LookupHeepSFSyst(ele1.SCEta(), elePtUncorr, analysisYear) );
+          fillVariableWithValue( "Ele1_EGMLooseIDSF", idScaleFactorReader->LookupValue(ele1.SCEta(),elePtUncorr) );
+          fillVariableWithValue( "Ele1_EGMLooseIDSF_Err", idScaleFactorReader->LookupValueError(ele1.SCEta(),elePtUncorr) );
         }
 
         if ( n_ele_store >= 2 ){
@@ -1277,7 +1382,8 @@ void analysisClass::Loop()
           fillVariableWithValue( "Ele2_EcalIsolation" , ele2.EcalIsoDR03()        );
           fillVariableWithValue( "Ele2_HcalIsolation" , ele2.HcalIsoD1DR03()      );
           fillVariableWithValue( "Ele2_CorrIsolation" , ele2.HEEPCorrIsolation()  );
-          fillVariableWithValue( "Ele2_PFCHIso03"     , ele2.PFChargedHadronIso03());
+          fillVariableWithValue( "Ele2_PFRelIsoCh03"  , ele2.PFRelIso03Charged());
+          fillVariableWithValue( "Ele2_PFRelIsoAll03" , ele2.PFRelIso03All());
 
           fillVariableWithValue( "Ele2_PassHEEPMinPtCut"                            ,ele2.PassHEEPMinPtCut                            () );
           fillVariableWithValue( "Ele2_PassHEEPGsfEleSCEtaMultiRangeCut"            ,ele2.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
@@ -1315,6 +1421,8 @@ void analysisClass::Loop()
             fillVariableWithValue( "Ele2_RecoSF_Err" , recoScaleFactorReader->LookupValueError(ele2.SCEta(),elePtUncorr) );
             fillVariableWithValue( "Ele2_HEEPSF"                                      ,ElectronScaleFactorsRunII::LookupHeepSF(ele2.SCEta(), analysisYear) );
             fillVariableWithValue( "Ele2_HEEPSF_Err"                                  ,ElectronScaleFactorsRunII::LookupHeepSFSyst(ele2.SCEta(), elePtUncorr, analysisYear) );
+            fillVariableWithValue( "Ele2_EGMLooseIDSF", idScaleFactorReader->LookupValue(ele2.SCEta(),elePtUncorr) );
+            fillVariableWithValue( "Ele2_EGMLooseIDSF_Err", idScaleFactorReader->LookupValueError(ele2.SCEta(),elePtUncorr) );
           }
 
           if ( n_ele_store >= 3 ){
@@ -1346,7 +1454,8 @@ void analysisClass::Loop()
             fillVariableWithValue( "Ele3_EcalIsolation" , ele3.EcalIsoDR03()        );
             fillVariableWithValue( "Ele3_HcalIsolation" , ele3.HcalIsoD1DR03()      );
             fillVariableWithValue( "Ele3_CorrIsolation" , ele3.HEEPCorrIsolation()  );
-            fillVariableWithValue( "Ele3_PFCHIso03"     , ele3.PFChargedHadronIso03());
+            fillVariableWithValue( "Ele3_PFRelIsoCh03"  , ele3.PFRelIso03Charged());
+            fillVariableWithValue( "Ele3_PFRelIsoAll03" , ele3.PFRelIso03All());
 
             fillVariableWithValue( "Ele3_PassHEEPMinPtCut"                            ,ele3.PassHEEPMinPtCut                            () );
             fillVariableWithValue( "Ele3_PassHEEPGsfEleSCEtaMultiRangeCut"            ,ele3.PassHEEPGsfEleSCEtaMultiRangeCut            () ); 
@@ -1384,6 +1493,8 @@ void analysisClass::Loop()
               fillVariableWithValue( "Ele3_RecoSF_Err" , recoScaleFactorReader->LookupValueError(ele3.SCEta(),elePtUncorr) );
               fillVariableWithValue( "Ele3_HEEPSF"                                      ,ElectronScaleFactorsRunII::LookupHeepSF(ele3.SCEta(), analysisYear) );
               fillVariableWithValue( "Ele3_HEEPSF_Err"                                  ,ElectronScaleFactorsRunII::LookupHeepSFSyst(ele3.SCEta(), elePtUncorr, analysisYear) );
+              fillVariableWithValue( "Ele3_EGMLooseIDSF", idScaleFactorReader->LookupValue(ele3.SCEta(),elePtUncorr) );
+              fillVariableWithValue( "Ele3_EGMLooseIDSF_Err", idScaleFactorReader->LookupValueError(ele3.SCEta(),elePtUncorr) );
             }
 
           }
@@ -1410,6 +1521,7 @@ void analysisClass::Loop()
         fillVariableWithValue( "Jet1_btagDeepCSV" , jet1.DeepCSVBTag()            );
         fillVariableWithValue( "Jet1_btagDeepJet" , jet1.DeepJetBTag()            );
         fillVariableWithValue( "Jet1_hltJetPt"	  , hltJet1Pt     );
+        //fillVariableWithValue( "Jet1_qgl"	  , jet1.QuarkGluonLikelihood()     );
         if(!isData()) {
           fillVariableWithValue( "Jet1_btagSFLooseDeepCSV"  , jet1.DeepCSVBTagSFLoose()   );
           fillVariableWithValue( "Jet1_btagSFMediumDeepCSV"  , jet1.DeepCSVBTagSFMedium()   );
@@ -1421,6 +1533,8 @@ void analysisClass::Loop()
           fillVariableWithValue( "Jet1_Pt_JESTotal_Dn", jet1.PtJESTotalDown()        );
           fillVariableWithValue( "Jet1_Pt_JER_Up"  , jet1.PtJERUp()                  );
           fillVariableWithValue( "Jet1_Pt_JER_Dn", jet1.PtJERDown()                  );
+          if(c_pfJetMatchedLQ->Has<PFJet>(jet1))
+            fillVariableWithValue( "Jet1_LQMatched", 1);
         }
 
         if ( n_jet_store >= 2 ){
@@ -1432,6 +1546,7 @@ void analysisClass::Loop()
           fillVariableWithValue( "Jet2_btagDeepCSV" , jet2.DeepCSVBTag()            );
           fillVariableWithValue( "Jet2_btagDeepJet" , jet2.DeepJetBTag()            );
           fillVariableWithValue( "Jet2_hltJetPt"    , hltJet2Pt     );
+          //fillVariableWithValue( "Jet2_qgl"	  , jet2.QuarkGluonLikelihood()     );
           if(!isData()) {
             fillVariableWithValue( "Jet2_btagSFLooseDeepCSV"  , jet2.DeepCSVBTagSFLoose()   );
             fillVariableWithValue( "Jet2_btagSFMediumDeepCSV"  , jet2.DeepCSVBTagSFMedium()   );
@@ -1443,6 +1558,8 @@ void analysisClass::Loop()
             fillVariableWithValue( "Jet2_Pt_JESTotal_Dn", jet2.PtJESTotalDown()        );
             fillVariableWithValue( "Jet2_Pt_JER_Up"  , jet2.PtJERUp()                  );
             fillVariableWithValue( "Jet2_Pt_JER_Dn", jet2.PtJERDown()                  );
+            if(c_pfJetMatchedLQ->Has<PFJet>(jet2))
+              fillVariableWithValue( "Jet2_LQMatched", 1);
           }
 
           if ( n_jet_store >= 3 ){
@@ -1454,6 +1571,7 @@ void analysisClass::Loop()
             fillVariableWithValue( "Jet3_btagDeepCSV" , jet3.DeepCSVBTag()            );
             fillVariableWithValue( "Jet3_btagDeepJet" , jet3.DeepJetBTag()            );
             fillVariableWithValue( "Jet3_hltJetPt"    , hltJet3Pt     );
+            //fillVariableWithValue( "Jet3_qgl"	  , jet3.QuarkGluonLikelihood()     );
             if(!isData()) {
               fillVariableWithValue( "Jet3_btagSFLooseDeepCSV"  , jet3.DeepCSVBTagSFLoose()   );
               fillVariableWithValue( "Jet3_btagSFMediumDeepCSV"  , jet3.DeepCSVBTagSFMedium()   );
@@ -1465,6 +1583,8 @@ void analysisClass::Loop()
               fillVariableWithValue( "Jet3_Pt_JESTotal_Dn", jet3.PtJESTotalDown()        );
               fillVariableWithValue( "Jet3_Pt_JER_Up"  , jet3.PtJERUp()                  );
               fillVariableWithValue( "Jet3_Pt_JER_Dn", jet3.PtJERDown()                  );
+              if(c_pfJetMatchedLQ->Has<PFJet>(jet3))
+                fillVariableWithValue( "Jet3_LQMatched", 1);
             }
 
             if ( n_jet_store >= 4 ){
@@ -1476,6 +1596,7 @@ void analysisClass::Loop()
               fillVariableWithValue( "Jet4_btagDeepCSV" , jet4.DeepCSVBTag()            );
               fillVariableWithValue( "Jet4_btagDeepJet" , jet4.DeepJetBTag()            );
               fillVariableWithValue( "Jet4_hltJetPt"    , hltJet4Pt     );
+              //fillVariableWithValue( "Jet4_qgl"	  , jet4.QuarkGluonLikelihood()     );
               if(!isData()) {
                 fillVariableWithValue( "Jet4_btagSFLooseDeepCSV"  , jet4.DeepCSVBTagSFLoose()   );
                 fillVariableWithValue( "Jet4_btagSFMediumDeepCSV"  , jet4.DeepCSVBTagSFMedium()   );
@@ -1487,6 +1608,8 @@ void analysisClass::Loop()
                 fillVariableWithValue( "Jet4_Pt_JESTotal_Dn", jet4.PtJESTotalDown()        );
                 fillVariableWithValue( "Jet4_Pt_JER_Up"  , jet4.PtJERUp()                  );
                 fillVariableWithValue( "Jet4_Pt_JER_Dn", jet4.PtJERDown()                  );
+                if(c_pfJetMatchedLQ->Has<PFJet>(jet4))
+                  fillVariableWithValue( "Jet4_LQMatched", 1);
               }
 
               if ( n_jet_store >= 5 ){
@@ -1498,6 +1621,7 @@ void analysisClass::Loop()
                 fillVariableWithValue( "Jet5_btagDeepCSV" , jet5.DeepCSVBTag()            );
                 fillVariableWithValue( "Jet5_btagDeepJet" , jet5.DeepJetBTag()            );
                 fillVariableWithValue( "Jet5_hltJetPt"    , hltJet5Pt     );
+                //fillVariableWithValue( "Jet5_qgl"	  , jet5.QuarkGluonLikelihood()     );
                 if(!isData()) {
                   fillVariableWithValue( "Jet5_btagSFLooseDeepCSV"  , jet5.DeepCSVBTagSFLoose()   );
                   fillVariableWithValue( "Jet5_btagSFMediumDeepCSV"  , jet5.DeepCSVBTagSFMedium()   );
@@ -1509,6 +1633,8 @@ void analysisClass::Loop()
                   fillVariableWithValue( "Jet5_Pt_JESTotal_Dn", jet5.PtJESTotalDown()        );
                   fillVariableWithValue( "Jet5_Pt_JER_Up"  , jet5.PtJERUp()                  );
                   fillVariableWithValue( "Jet5_Pt_JER_Dn", jet5.PtJERDown()                  );
+                  if(c_pfJetMatchedLQ->Has<PFJet>(jet5))
+                    fillVariableWithValue( "Jet5_LQMatched", 1);
                 }
               }
             }
@@ -1610,6 +1736,7 @@ void analysisClass::Loop()
         TLorentzVector t_ele1ele2_eesDown = t_ele1ScaledDown + t_ele2ScaledDown;
         fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
         fillVariableWithValue ("Pt_e1e2", t_ele1ele2.Pt());
+        //std::cout << "Pt_e1e2 Pt=" << t_ele1ele2.Pt() << std::endl;
         // systs
         if(!isData()) {
           fillVariableWithValue ("M_e1e2_EER" , t_ele1ele2_eer.M ());
@@ -1618,6 +1745,9 @@ void analysisClass::Loop()
           fillVariableWithValue ("Pt_e1e2_EER" , t_ele1ele2_eer.Pt ());
           fillVariableWithValue ("Pt_e1e2_EES_Up" , t_ele1ele2_eesUp.Pt ());
           fillVariableWithValue ("Pt_e1e2_EES_Dn" , t_ele1ele2_eesDown.Pt ());
+          //std::cout << "Pt_e1e2_EER Pt=" << t_ele1ele2_eer.Pt() << std::endl;
+          //std::cout << "Pt_e1e2_EES_Up Pt=" << t_ele1ele2_eesUp.Pt() << std::endl;
+          //std::cout << "Pt_e1e2_EES_Down Pt=" << t_ele1ele2_eesDown.Pt() << std::endl;
         }
       }
     } 
@@ -1842,67 +1972,58 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------    
     // Fill the trees
     //-----------------------------------------------------------------    
-    // QCD fake rate calculation skim
-    if ( reducedSkimType == 0 ) { 
-      if(passedCut("PassTrigger"      ) &&  
-          passedCut("nVLooseEle_ptCut"  ) && 
-          //passedCut("LooseEle1_Pt"     ) ){
-        passedCut("LooseEle1_Pt"     ) ){
-          //c_ele_final->examine<Electron>("final electrons");
-          //c_ele_final_ptCut->examine<Electron>("final electrons with Pt cut");
-          fillSkimTree();
-          fillReducedSkimTree();
-        }
-    }
+    //// QCD fake rate calculation skim
+    //if ( reducedSkimType == 0 ) { 
+    //  if(passedCut("PassTrigger"      ) &&  
+    //      passedCut("nVLooseEle_ptCut"  ) && 
+    //      //passedCut("LooseEle1_Pt"     ) ){
+    //    passedCut("LooseEle1_Pt"     ) ){
+    //      //c_ele_final->examine<Electron>("final electrons");
+    //      //c_ele_final_ptCut->examine<Electron>("final electrons with Pt cut");
+    //      fillSkimTree();
+    //      fillReducedSkimTree();
+    //    }
+    //}
 
-    // enujj analysis skim
-    else if ( reducedSkimType == 1 ) { 
-      if( passedCut("nEle_ptCut"       ) && 
-          //passedCut("Ele1_Pt"          ) && 
-          passedCut("Ele1_Pt"          ) && 
-          passedCut("PFMET_Type1XY_Pt") && 
-          passedCut("Jet1_Pt"          ) && 
-          passedCut("Jet2_Pt"          ) && 
-          passedCut("sT_enujj"         ) && 
-          passedCut("MT_Ele1MET"       )) {
-        fillSkimTree();
-        fillReducedSkimTree();
-      }
-    }
+    //// enujj analysis skim
+    //else if ( reducedSkimType == 1 ) { 
+    //  if( passedCut("nEle_ptCut"       ) && 
+    //      //passedCut("Ele1_Pt"          ) && 
+    //      passedCut("Ele1_Pt"          ) && 
+    //      passedCut("PFMET_Type1XY_Pt") && 
+    //      passedCut("Jet1_Pt"          ) && 
+    //      passedCut("Jet2_Pt"          ) && 
+    //      passedCut("sT_enujj"         ) && 
+    //      passedCut("MT_Ele1MET"       )) {
+    //    fillSkimTree();
+    //    fillReducedSkimTree();
+    //  }
+    //}
 
-    // eejj analysis skim
-    else if ( reducedSkimType == 2 ) { 
-      if( passedCut("nEle_ptCut"       ) && 
-          //passedCut("Ele1_Pt"          ) &&
-          //passedCut("Ele2_Pt"          ) && 
-          passedCut("Ele1_Pt"          ) && 
-          passedCut("Ele2_Pt"          ) && 
-          passedCut("Jet1_Pt"          ) &&
-          passedCut("Jet2_Pt"          ) &&
-          passedCut("sT_eejj"          ) && 
-          passedCut("M_e1e2"           )) {
-        fillSkimTree();
-        fillReducedSkimTree();
-      }
-    }
+    //// eejj analysis skim
+    //else if ( reducedSkimType == 2 ) { 
+    //  if( passedCut("nEle_ptCut"       ) && 
+    //      //passedCut("Ele1_Pt"          ) &&
+    //      //passedCut("Ele2_Pt"          ) && 
+    //      passedCut("Ele1_Pt"          ) && 
+    //      passedCut("Ele2_Pt"          ) && 
+    //      passedCut("Jet1_Pt"          ) &&
+    //      passedCut("Jet2_Pt"          ) &&
+    //      passedCut("sT_eejj"          ) && 
+    //      passedCut("M_e1e2"           )) {
+    //    fillSkimTree();
+    //    fillReducedSkimTree();
+    //  }
+    //}
 
-    // Single electron skim
-    else if ( reducedSkimType == 3 ) { 
-      if( passedCut("nEle_ptCut"       ) && 
-          passedCut("Ele1_Pt"          ) ){
-        fillSkimTree();
-        fillReducedSkimTree();
-      }
-    }
-
-    // Single muon skim
-    else if ( reducedSkimType == 4 ) { 
-      if( passedCut("nMuon_ptCut"       ) && 
-          passedCut("Muon1_Pt"          ) ){
-        fillSkimTree();
-        fillReducedSkimTree();
-      }
-    }
+    //// Single muon skim
+    //else if ( reducedSkimType == 4 ) { 
+    //  if( passedCut("nMuon_ptCut"       ) && 
+    //      passedCut("Muon1_Pt"          ) ){
+    //    fillSkimTree();
+    //    fillReducedSkimTree();
+    //  }
+    //}
 
   } // event loop
   std::cout << "analysisClass::Loop(): ends " << std::endl;
