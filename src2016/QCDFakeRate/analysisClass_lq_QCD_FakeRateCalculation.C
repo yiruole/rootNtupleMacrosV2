@@ -62,7 +62,6 @@ void analysisClass::Loop()
   // Decide which plots to save (default is to save everything)
   //--------------------------------------------------------------------------
 
-  fillSkim                         ( !true  ) ;
   fillAllPreviousCuts              ( !true  ) ;
   fillAllOtherCuts                 ( !true  ) ; 
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -208,7 +207,7 @@ void analysisClass::Loop()
     // Check good run list
     //--------------------------------------------------------------------------
 
-    double run = readerTools_->ReadValueBranch<Float_t>("run");
+    float run = readerTools_->ReadValueBranch<Float_t>("run");
     int passedJSON = passJSON ( run,
         readerTools_->ReadValueBranch<Float_t>("ls"),
         isData() ) ;
@@ -219,7 +218,7 @@ void analysisClass::Loop()
     double min_prescale = 1;
     int passTrigger = 0;
 
-    double LooseEle1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("LooseEle1_hltPhotonPt");
+    float LooseEle1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("LooseEle1_hltPhotonPt");
 
     std::string triggerName = "";
     if ( LooseEle1_hltPhotonPt > 0.0 ) {
@@ -264,13 +263,13 @@ void analysisClass::Loop()
     // Do pileup re-weighting
     //--------------------------------------------------------------------------
 
-    double pileup_weight = readerTools_->ReadValueBranch<Float_t>("puWeight");
+    float pileup_weight = readerTools_->ReadValueBranch<Float_t>("puWeight");
     if ( isData() ) pileup_weight = 1.0;
 
     //--------------------------------------------------------------------------
     // Get information about gen-level reweighting (should be for Sherpa only)
     //--------------------------------------------------------------------------
-    double gen_weight = readerTools_->ReadValueBranch<Float_t>("Weight");
+    float gen_weight = readerTools_->ReadValueBranch<Float_t>("Weight");
     if ( isData() ) gen_weight = 1.0;
 
     //// TopPt reweight
@@ -284,7 +283,7 @@ void analysisClass::Loop()
     if(!isData()) {
       bool verbose = false;
       float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("LooseEle1_ECorr");
-      float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("LooseEle1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt");
+      float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("LooseEle1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("LooseEle1_Pt");
       float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta"),ele1PtUncorr,verbose);
       //float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta"));
       //float totalScaleFactor = recoSFEle1*heepSFEle1;
@@ -332,9 +331,9 @@ void analysisClass::Loop()
     // Muon variables ( for veto ) 					      	       
     // remove muon veto
     //fillVariableWithValue(   "nMuon"                   , readerTools_->ReadValueBranch<Float_t>("nMuon_ptCut")     , min_prescale * pileup_weight );
-    double nLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nLooseEle_ptCut");
-    double nVLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nVLooseEle_ptCut");
-    double nJetLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nJetLooseEle_ptCut");
+    float nLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nLooseEle_ptCut");
+    float nVLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nVLooseEle_ptCut");
+    float nJetLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nJetLooseEle_ptCut");
     // 1st Electron variables				      		              
     fillVariableWithValue(   "nEle"                    , nVLooseEle_ptCut , min_prescale * pileup_weight );
 
@@ -370,36 +369,36 @@ void analysisClass::Loop()
     // 1st JET variables                                     		                    
     fillVariableWithValue(   "nJet"                          , nJetLooseEle_ptCut          , min_prescale * pileup_weight );
 
-    double PFMET_Type1_Pt  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
-    double PFMET_Type1_Phi  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
+    float PFMET_Type1_Pt  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
+    float PFMET_Type1_Phi  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
     // MET									            
     fillVariableWithValue(   "MET"                           , PFMET_Type1_Pt           , min_prescale * pileup_weight );
 
-    double LooseEle1_SCEta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta");
-    double LooseEle2_SCEta = readerTools_->ReadValueBranch<Float_t>("LooseEle2_SCEta");
-    double LooseEle1_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Eta");
-    double LooseEle2_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Eta");
-    double LooseEle3_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Eta");
-    double LooseEle1_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Phi");
-    double LooseEle2_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Phi");
-    double LooseEle3_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Phi");
-    double JetLooseEle1_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Eta");
-    double JetLooseEle2_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Eta");
-    double JetLooseEle3_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Eta");
-    double JetLooseEle4_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Eta");
-    double JetLooseEle5_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Eta");
-    double JetLooseEle1_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Phi");
-    double JetLooseEle2_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Phi");
-    double JetLooseEle3_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Phi");
-    double JetLooseEle4_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Phi");
-    double JetLooseEle5_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Phi");
-    double JetLooseEle1_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Pt");
-    double JetLooseEle2_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Pt");
-    double JetLooseEle3_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Pt");
-    double JetLooseEle4_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Pt");
-    double JetLooseEle5_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Pt");
-    double DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
-    double DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
+    float LooseEle1_SCEta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta");
+    float LooseEle2_SCEta = readerTools_->ReadValueBranch<Float_t>("LooseEle2_SCEta");
+    float LooseEle1_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Eta");
+    float LooseEle2_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Eta");
+    float LooseEle3_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Eta");
+    float LooseEle1_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Phi");
+    float LooseEle2_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Phi");
+    float LooseEle3_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Phi");
+    float JetLooseEle1_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Eta");
+    float JetLooseEle2_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Eta");
+    float JetLooseEle3_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Eta");
+    float JetLooseEle4_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Eta");
+    float JetLooseEle5_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Eta");
+    float JetLooseEle1_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Phi");
+    float JetLooseEle2_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Phi");
+    float JetLooseEle3_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Phi");
+    float JetLooseEle4_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Phi");
+    float JetLooseEle5_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Phi");
+    float JetLooseEle1_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Pt");
+    float JetLooseEle2_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Pt");
+    float JetLooseEle3_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Pt");
+    float JetLooseEle4_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Pt");
+    float JetLooseEle5_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Pt");
+    float DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
+    float DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
     // max deltaR(ele,jets)
     double min_DR_EleJet = 999.0;
     double DR_Ele1Jet3 = 999.0;
@@ -440,9 +439,9 @@ void analysisClass::Loop()
     }
     fillVariableWithValue(   "minDREleJets"                          , min_DR_EleJet          , min_prescale * pileup_weight );
 
-    double mDPhi_METEle1 = readerTools_->ReadValueBranch<Float_t>("mDPhi_METEle1");
-    double nJetLooseEle_store = readerTools_->ReadValueBranch<Float_t>("nJetLooseEle_store");
-    double nLooseEle_store = readerTools_->ReadValueBranch<Float_t>("nLooseEle_store");
+    float mDPhi_METEle1 = readerTools_->ReadValueBranch<Float_t>("mDPhi_METEle1");
+    float nJetLooseEle_store = readerTools_->ReadValueBranch<Float_t>("nJetLooseEle_store");
+    float nLooseEle_store = readerTools_->ReadValueBranch<Float_t>("nLooseEle_store");
     TLorentzVector loose_ele1, met;
     // need to use uncorrected Pt
     loose_ele1.SetPtEtaPhiM ( LooseEle1_Pt , LooseEle1_Eta , LooseEle1_Phi , 0.0 );
@@ -533,8 +532,8 @@ void analysisClass::Loop()
     double MT_JetMET;
     double Mej;
     bool mejSelectedJet1 = true;
-    double M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
-    double M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
+    float M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
+    float M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
 
     if ( fabs ( MT_Jet1MET - MT_Ele1Jet2 ) < fabs( MT_Jet2MET - MT_Ele1Jet1 )){
       MT_JetMET = MT_Jet1MET;
