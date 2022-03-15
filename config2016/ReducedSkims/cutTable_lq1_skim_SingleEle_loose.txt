@@ -92,8 +92,10 @@ electronIDType             EGMLoose  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------------
+nVLooseEle_ptCut                0            +inf           -           -           0           16            -0.5           15.5           SAVE
 nEle_ptCut                      0            +inf           -           -           0           16            -0.5           15.5           SAVE
-Ele1_Pt                         35           +inf           -           -           0           200           0              2000           SAVE
+Ele1_Pt                         35           +inf           -           -           0          200             0             2000           SAVE
+#PassTrigger                     0             1             -           -           0            2            -0.5           1.5            SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -254,7 +256,7 @@ nEle_ID                                                     -inf           +inf 
 Ele1_Pt_EER                                                 -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_Pt_EES_Up                                              -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_Pt_EES_Dn                                              -inf           +inf           -           -           1           200           0              2000             SAVE
-#Ele1_SCEt                                                  -inf           +inf           -           -           1           200           0              2000             SAVE
+Ele1_SCEt                                                   -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_ECorr                                                  -inf           +inf           -           -           1           100           0              1000             SAVE
 Ele1_Eta                                                    -inf           +inf           -           -           1           100           -5             5                SAVE
 Ele1_Phi                                                    -inf           +inf           -           -           1           100           0              3.1416           SAVE
@@ -276,6 +278,7 @@ Ele1_CorrIsolation                                          -inf           +inf 
 Ele1_PFRelIsoCh03                                           -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_PFRelIsoAll03                                          -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_R9                                                     -inf           +inf           -           -           1           200           0              2000             SAVE
+Ele1_hltPhotonPt                                            -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -284,6 +287,8 @@ Ele1_HEEPSF                                                 -inf           +inf 
 Ele1_HEEPSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_EGMLooseIDSF                                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_EGMLooseIDSF_Err                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele1_PassHEEPID                                             -inf	         +inf           -           -           1           2             -0.5           1,5              SAVE         
+Ele1_PassEGMLooseID                                         -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
 Ele1_PassHEEPMinPtCut                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_PassHEEPGsfEleSCEtaMultiRangeCut                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_PassHEEPGsfEleDEtaInSeedCut                            -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -296,9 +301,17 @@ Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut                         -inf           +inf 
 Ele1_PassHEEPGsfEleDxyCut                                   -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_PassHEEPGsfEleMissingHitsCut                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_PassHEEPEcalDrivenCut                                  -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut           -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleDEtaInSeedCut                     -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleDPhiInCut                         -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut           -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut          -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleRelPFIsoScaledCut                 -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleConversionVetoCut                 -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele1_PassEGammaLooseGsfEleMissingHitsCut                    -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
 # 
 Ele2_Pt                                                     -inf           +inf           -           -           1           200           0              2000             SAVE
-#Ele2_SCEt                                                  -inf           +inf           -           -           1           200           0              2000             SAVE
+Ele2_SCEt                                                   -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_Pt_EER                                                 -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_Pt_EES_Up                                              -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_Pt_EES_Dn                                              -inf           +inf           -           -           1           200           0              2000             SAVE
@@ -323,6 +336,7 @@ Ele2_CorrIsolation                                          -inf           +inf 
 Ele2_PFRelIsoCh03                                           -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_PFRelIsoAll03                                          -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_R9                                                     -inf           +inf           -           -           1           200           0              2000             SAVE
+Ele2_hltPhotonPt                                            -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -331,6 +345,8 @@ Ele2_HEEPSF                                                 -inf           +inf 
 Ele2_HEEPSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_EGMLooseIDSF                                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_EGMLooseIDSF_Err                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele2_PassHEEPID                                             -inf	         +inf           -           -           1           2             -0.5           1,5              SAVE         
+Ele2_PassEGMLooseID                                         -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
 Ele2_PassHEEPMinPtCut                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_PassHEEPGsfEleSCEtaMultiRangeCut                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_PassHEEPGsfEleDEtaInSeedCut                            -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -343,9 +359,17 @@ Ele2_PassHEEPGsfEleEmHadD1IsoRhoCut                         -inf           +inf 
 Ele2_PassHEEPGsfEleDxyCut                                   -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_PassHEEPGsfEleMissingHitsCut                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_PassHEEPEcalDrivenCut                                  -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele2_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut           -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleDEtaInSeedCut                     -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleDPhiInCut                         -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleHadronicOverEMScaledCut           -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleEInverseMinusPInverseCut          -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleRelPFIsoScaledCut                 -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleConversionVetoCut                 -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele2_PassEGammaLooseGsfEleMissingHitsCut                    -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
 # 
 Ele3_Pt                                                     -inf           +inf           -           -           1           200           0              2000             SAVE
-#Ele3_SCEt                                                  -inf           +inf           -           -           1           200           0              2000             SAVE
+Ele3_SCEt                                                   -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_Pt_EER                                                 -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_Pt_EES_Up                                              -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_Pt_EES_Dn                                              -inf           +inf           -           -           1           200           0              2000             SAVE
@@ -370,6 +394,7 @@ Ele3_CorrIsolation                                          -inf           +inf 
 Ele3_PFRelIsoCh03                                           -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_PFRelIsoAll03                                          -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_R9                                                     -inf           +inf           -           -           1           200           0              2000             SAVE
+Ele3_hltPhotonPt                                            -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -378,6 +403,8 @@ Ele3_HEEPSF                                                 -inf           +inf 
 Ele3_HEEPSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_EGMLooseIDSF                                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_EGMLooseIDSF_Err                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele3_PassHEEPID                                             -inf	         +inf           -           -           1           2             -0.5           1,5              SAVE         
+Ele3_PassEGMLooseID                                         -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
 Ele3_PassHEEPMinPtCut                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_PassHEEPGsfEleSCEtaMultiRangeCut                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_PassHEEPGsfEleDEtaInSeedCut                            -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -390,6 +417,14 @@ Ele3_PassHEEPGsfEleEmHadD1IsoRhoCut                         -inf           +inf 
 Ele3_PassHEEPGsfEleDxyCut                                   -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_PassHEEPGsfEleMissingHitsCut                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_PassHEEPEcalDrivenCut                                  -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele3_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut           -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleDEtaInSeedCut                     -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleDPhiInCut                         -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleHadronicOverEMScaledCut           -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleEInverseMinusPInverseCut          -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleRelPFIsoScaledCut                 -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleConversionVetoCut                 -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
+Ele3_PassEGammaLooseGsfEleMissingHitsCut                    -inf           +inf           -           -           1           2             -0.5           1.5	            SAVE
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # MET info 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
