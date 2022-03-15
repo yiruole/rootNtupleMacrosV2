@@ -218,40 +218,40 @@ void analysisClass::Loop()
     double min_prescale = 1;
     int passTrigger = 0;
 
-    float LooseEle1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("LooseEle1_hltPhotonPt");
+    float Ele1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele1_hltPhotonPt");
 
     std::string triggerName = "";
-    if ( LooseEle1_hltPhotonPt > 0.0 ) {
+    if ( Ele1_hltPhotonPt > 0.0 ) {
       if(analysisYear==2016) {
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon22")   > 0.1 && LooseEle1_hltPhotonPt >= 22.  && LooseEle1_hltPhotonPt < 30. ) { passTrigger = 1; triggerName = "Photon22"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon30")   > 0.1 && LooseEle1_hltPhotonPt >= 30.  && LooseEle1_hltPhotonPt < 36. ) { passTrigger = 1; triggerName = "Photon30"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon36")   > 0.1 && LooseEle1_hltPhotonPt >= 36.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon36"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon120"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && LooseEle1_hltPhotonPt >= 175.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon22")   > 0.1 && Ele1_hltPhotonPt >= 22.  && Ele1_hltPhotonPt < 30. ) { passTrigger = 1; triggerName = "Photon22"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon30")   > 0.1 && Ele1_hltPhotonPt >= 30.  && Ele1_hltPhotonPt < 36. ) { passTrigger = 1; triggerName = "Photon30"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon36")   > 0.1 && Ele1_hltPhotonPt >= 36.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon36"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175.) { passTrigger = 1; triggerName = "Photon175"; } 
       }
       else if(analysisYear==2017) {
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon25")   > 0.1 && LooseEle1_hltPhotonPt >= 25.  && LooseEle1_hltPhotonPt < 33. ) { passTrigger = 1; triggerName = "Photon25"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && LooseEle1_hltPhotonPt >= 33.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && LooseEle1_hltPhotonPt >= 150. && LooseEle1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && LooseEle1_hltPhotonPt >= 175. && LooseEle1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && LooseEle1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon25")   > 0.1 && Ele1_hltPhotonPt >= 25.  && Ele1_hltPhotonPt < 33. ) { passTrigger = 1; triggerName = "Photon25"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && Ele1_hltPhotonPt >= 33.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && Ele1_hltPhotonPt >= 150. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175. && Ele1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
       }
       else if(analysisYear==2018) {
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && LooseEle1_hltPhotonPt >= 33.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && LooseEle1_hltPhotonPt >= 150. && LooseEle1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && LooseEle1_hltPhotonPt >= 175. && LooseEle1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && LooseEle1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && Ele1_hltPhotonPt >= 33.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && Ele1_hltPhotonPt >= 150. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175. && Ele1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
       }
     }
     if(isData() && passTrigger) {
@@ -282,10 +282,10 @@ void analysisClass::Loop()
     // Electron scale factors for MC only
     if(!isData()) {
       bool verbose = false;
-      float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("LooseEle1_ECorr");
-      float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("LooseEle1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("LooseEle1_Pt");
-      float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta"),ele1PtUncorr,verbose);
-      //float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta"));
+      float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
+      float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+      float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
+      //float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
       //float totalScaleFactor = recoSFEle1*heepSFEle1;
       //gen_weight*=totalScaleFactor;
       gen_weight*=recoSFEle1;
@@ -331,21 +331,27 @@ void analysisClass::Loop()
     // Muon variables ( for veto ) 					      	       
     // remove muon veto
     //fillVariableWithValue(   "nMuon"                   , readerTools_->ReadValueBranch<Float_t>("nMuon_ptCut")     , min_prescale * pileup_weight );
-    float nLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nLooseEle_ptCut");
+    float nEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nEle_ptCut");
     float nVLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nVLooseEle_ptCut");
-    float nJetLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nJetLooseEle_ptCut");
+    float nJet_ptCut = readerTools_->ReadValueBranch<Float_t>("nJet_ptCut");
     // 1st Electron variables				      		              
     fillVariableWithValue(   "nEle"                    , nVLooseEle_ptCut , min_prescale * pileup_weight );
 
     // use uncorrected energy
-    double LooseEle1_Pt = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle1_ECorr");
-    double LooseEle2_Pt = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle2_ECorr");
-    double LooseEle3_Pt = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Pt");// loose ele Pt is now uncorrected /readerTools_->ReadValueBranch<Double_t>("LooseEle3_ECorr");
-    //fillVariableWithValue(   "Pt1stEle"               , LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)Heep            , min_prescale * pileup_weight );
-    fillVariableWithValue(   "Pt1stEle"                , LooseEle1_Pt                , min_prescale * pileup_weight );
-    fillVariableWithValue(   "SCEta1stEle"             , readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta")             , min_prescale * pileup_weight );
-    fillVariableWithValue(   "Phi1stEle"               , readerTools_->ReadValueBranch<Float_t>("LooseEle1_Phi")               , min_prescale * pileup_weight );
-    fillVariableWithValue(   "HLTPt1stEle"             , LooseEle1_hltPhotonPt       , min_prescale * pileup_weight );
+    float Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+    if(readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr") != 0)
+      Ele1_Pt/=readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
+    float Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+    if(readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr") != 0)
+      Ele2_Pt/=readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
+    float Ele3_Pt = readerTools_->ReadValueBranch<Float_t>("Ele3_Pt");
+    if(readerTools_->ReadValueBranch<Float_t>("Ele3_ECorr") != 0)
+      Ele3_Pt/=readerTools_->ReadValueBranch<Float_t>("Ele3_ECorr");
+    fillVariableWithValue(   "Pt1stEle"                , Ele1_Pt                , min_prescale * pileup_weight );
+    //fillVariableWithValue(   "Pt1stEle"               , Ele1_SCEnergy/cosh(Ele1_SCEta)Heep            , min_prescale * pileup_weight );
+    fillVariableWithValue(   "SCEta1stEle"             , readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta")             , min_prescale * pileup_weight );
+    fillVariableWithValue(   "Phi1stEle"               , readerTools_->ReadValueBranch<Float_t>("Ele1_Phi")               , min_prescale * pileup_weight );
+    fillVariableWithValue(   "HLTPt1stEle"             , Ele1_hltPhotonPt       , min_prescale * pileup_weight );
     if(analysisYear==2016)
       fillVariableWithValue(   "H_Photon22"              , readerTools_->ReadValueBranch<Float_t>("H_Photon22")            , min_prescale * pileup_weight );
     else
@@ -367,36 +373,36 @@ void analysisClass::Loop()
       fillVariableWithValue(   "H_Photon200"             , readerTools_->ReadValueBranch<Float_t>("H_Photon200")           , min_prescale * pileup_weight );   
 
     // 1st JET variables                                     		                    
-    fillVariableWithValue(   "nJet"                          , nJetLooseEle_ptCut          , min_prescale * pileup_weight );
+    fillVariableWithValue(   "nJet"                          , nJet_ptCut          , min_prescale * pileup_weight );
 
     float PFMET_Type1_Pt  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
     float PFMET_Type1_Phi  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
     // MET									            
     fillVariableWithValue(   "MET"                           , PFMET_Type1_Pt           , min_prescale * pileup_weight );
 
-    float LooseEle1_SCEta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_SCEta");
-    float LooseEle2_SCEta = readerTools_->ReadValueBranch<Float_t>("LooseEle2_SCEta");
-    float LooseEle1_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Eta");
-    float LooseEle2_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Eta");
-    float LooseEle3_Eta = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Eta");
-    float LooseEle1_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Phi");
-    float LooseEle2_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle2_Phi");
-    float LooseEle3_Phi = readerTools_->ReadValueBranch<Float_t>("LooseEle3_Phi");
-    float JetLooseEle1_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Eta");
-    float JetLooseEle2_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Eta");
-    float JetLooseEle3_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Eta");
-    float JetLooseEle4_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Eta");
-    float JetLooseEle5_Eta = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Eta");
-    float JetLooseEle1_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Phi");
-    float JetLooseEle2_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Phi");
-    float JetLooseEle3_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Phi");
-    float JetLooseEle4_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Phi");
-    float JetLooseEle5_Phi = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Phi");
-    float JetLooseEle1_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle1_Pt");
-    float JetLooseEle2_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle2_Pt");
-    float JetLooseEle3_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle3_Pt");
-    float JetLooseEle4_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle4_Pt");
-    float JetLooseEle5_Pt = readerTools_->ReadValueBranch<Float_t>("JetLooseEle5_Pt");
+    float Ele1_SCEta = readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta");
+    float Ele2_SCEta = readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta");
+    float Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
+    float Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
+    float Ele3_Eta = readerTools_->ReadValueBranch<Float_t>("Ele3_Eta");
+    float Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
+    float Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
+    float Ele3_Phi = readerTools_->ReadValueBranch<Float_t>("Ele3_Phi");
+    float Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
+    float Jet2_Eta = readerTools_->ReadValueBranch<Float_t>("Jet2_Eta");
+    float Jet3_Eta = readerTools_->ReadValueBranch<Float_t>("Jet3_Eta");
+    float Jet4_Eta = readerTools_->ReadValueBranch<Float_t>("Jet4_Eta");
+    float Jet5_Eta = readerTools_->ReadValueBranch<Float_t>("Jet5_Eta");
+    float Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
+    float Jet2_Phi = readerTools_->ReadValueBranch<Float_t>("Jet2_Phi");
+    float Jet3_Phi = readerTools_->ReadValueBranch<Float_t>("Jet3_Phi");
+    float Jet4_Phi = readerTools_->ReadValueBranch<Float_t>("Jet4_Phi");
+    float Jet5_Phi = readerTools_->ReadValueBranch<Float_t>("Jet5_Phi");
+    float Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
+    float Jet2_Pt = readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
+    float Jet3_Pt = readerTools_->ReadValueBranch<Float_t>("Jet3_Pt");
+    float Jet4_Pt = readerTools_->ReadValueBranch<Float_t>("Jet4_Pt");
+    float Jet5_Pt = readerTools_->ReadValueBranch<Float_t>("Jet5_Pt");
     float DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
     float DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
     // max deltaR(ele,jets)
@@ -404,33 +410,33 @@ void analysisClass::Loop()
     double DR_Ele1Jet3 = 999.0;
     double DR_Ele1Jet4 = 999.0;
     double DR_Ele1Jet5 = 999.0;
-    if ( nJetLooseEle_ptCut > 2 ) {
+    if ( nJet_ptCut > 2 ) {
       TLorentzVector ele1,  jet3;
-      ele1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_Eta, LooseEle1_Phi, 0.0 );
-      jet3.SetPtEtaPhiM ( JetLooseEle3_Pt, JetLooseEle3_Eta, JetLooseEle3_Phi, 0.0 );	 
+      ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+      jet3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );	 
       DR_Ele1Jet3 = ele1.DeltaR ( jet3 ) ;
-      if ( nJetLooseEle_ptCut > 3 ) {
+      if ( nJet_ptCut > 3 ) {
         TLorentzVector ele1,  jet4;
-        ele1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_Eta, LooseEle1_Phi, 0.0 );
-        jet4.SetPtEtaPhiM ( JetLooseEle4_Pt, JetLooseEle4_Eta, JetLooseEle4_Phi, 0.0 );	 
+        ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+        jet4.SetPtEtaPhiM ( Jet4_Pt, Jet4_Eta, Jet4_Phi, 0.0 );	 
         DR_Ele1Jet4 = ele1.DeltaR ( jet4 ) ;
-        if ( nJetLooseEle_ptCut > 4 ) {
+        if ( nJet_ptCut > 4 ) {
           TLorentzVector ele1,  jet5;
-          ele1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_Eta, LooseEle1_Phi, 0.0 );
-          jet5.SetPtEtaPhiM ( JetLooseEle5_Pt, JetLooseEle5_Eta, JetLooseEle5_Phi, 0.0 );	 
+          ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+          jet5.SetPtEtaPhiM ( Jet5_Pt, Jet5_Eta, Jet5_Phi, 0.0 );	 
           DR_Ele1Jet5 = ele1.DeltaR ( jet5 ) ;
         }
       }
     }
-    if ( nJetLooseEle_ptCut > 0 ) {
+    if ( nJet_ptCut > 0 ) {
       if ( DR_Ele1Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet1;
-      if ( nJetLooseEle_ptCut > 1 ) {
+      if ( nJet_ptCut > 1 ) {
         if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
-        if ( nJetLooseEle_ptCut > 2 ) {
+        if ( nJet_ptCut > 2 ) {
           if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
-          if ( nJetLooseEle_ptCut > 3 ) {
+          if ( nJet_ptCut > 3 ) {
             if ( DR_Ele1Jet4 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet4;
-            if ( nJetLooseEle_ptCut > 4 ) {
+            if ( nJet_ptCut > 4 ) {
               if ( DR_Ele1Jet5 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet5;
             }
           }
@@ -440,24 +446,24 @@ void analysisClass::Loop()
     fillVariableWithValue(   "minDREleJets"                          , min_DR_EleJet          , min_prescale * pileup_weight );
 
     float mDPhi_METEle1 = readerTools_->ReadValueBranch<Float_t>("mDPhi_METEle1");
-    float nJetLooseEle_store = readerTools_->ReadValueBranch<Float_t>("nJetLooseEle_store");
-    float nLooseEle_store = readerTools_->ReadValueBranch<Float_t>("nLooseEle_store");
+    float nJet_store = readerTools_->ReadValueBranch<Float_t>("nJet_store");
+    float nEle_store = readerTools_->ReadValueBranch<Float_t>("nEle_store");
     TLorentzVector loose_ele1, met;
     // need to use uncorrected Pt
-    loose_ele1.SetPtEtaPhiM ( LooseEle1_Pt , LooseEle1_Eta , LooseEle1_Phi , 0.0 );
+    loose_ele1.SetPtEtaPhiM ( Ele1_Pt , Ele1_Eta , Ele1_Phi , 0.0 );
     met.SetPtEtaPhiM        ( PFMET_Type1_Pt         , 0.0             , PFMET_Type1_Phi         , 0.0 );
     mDPhi_METEle1= fabs(loose_ele1.DeltaPhi ( met ));
     fillVariableWithValue(   "mDeltaPhiMETEle"          , mDPhi_METEle1           , min_prescale * pileup_weight );
 
     //XXX FIXME: these got replaced in the tree previously
-    //sT_enujj = LooseEle1_Pt + PFMET_Type1_Pt + JetLooseEle1_Pt + JetLooseEle2_Pt ;
-    //MT_Ele1MET = sqrt(2 * LooseEle1_Pt * PFMET_Type1_Pt  * (1 - cos(loose_ele1.DeltaPhi ( met) ) ) );
+    //sT_enujj = Ele1_Pt + PFMET_Type1_Pt + JetEle1_Pt + Jetle2_Pt ;
+    //MT_Ele1MET = sqrt(2 * Ele1_Pt * PFMET_Type1_Pt  * (1 - cos(loose_ele1.DeltaPhi ( met) ) ) );
 
     double MT_Jet1MET, MT_Jet2MET, MT_Ele1Jet1, MT_Ele1Jet2;//, MT_Ele1MET_Type01;
     //double mDPhi_METType01_Ele1, mDPhi_METType01_Jet1, mDPhi_METType01_Jet2;
 
     // 1st JET variables                                     		           
-    if ( nJetLooseEle_store > 0 ) { 						           
+    if ( nJet_store > 0 ) { 						           
       //fillVariableWithValue( "mDeltaPhiMET1stJet"       , mDPhi_METJet1           , min_prescale * pileup_weight );
 
       TVector2 v_MET;
@@ -465,14 +471,14 @@ void analysisClass::Loop()
       //TVector2 v_MET_Type01;
       //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
       v_MET.SetMagPhi( PFMET_Type1_Pt , PFMET_Type1_Phi  );
-      v_jet.SetMagPhi( JetLooseEle1_Pt, JetLooseEle1_Phi );
+      v_jet.SetMagPhi( Jet1_Pt, Jet1_Phi );
       //mDPhi_METType01_Jet1 = fabs(v_MET_Type01.DeltaPhi ( v_jet ));
       float deltaphi = v_MET.DeltaPhi(v_jet);
-      MT_Jet1MET = sqrt ( 2 * JetLooseEle1_Pt * PFMET_Type1_Pt * ( 1 - cos ( deltaphi ) ) );
+      MT_Jet1MET = sqrt ( 2 * Jet1_Pt * PFMET_Type1_Pt * ( 1 - cos ( deltaphi ) ) );
     }									           
 
     // 2nd JET variables                                     		           
-    if ( nJetLooseEle_store > 1 ) { 	                                      	           
+    if ( nJet_store > 1 ) { 	                                      	           
       //fillVariableWithValue( "ST"                       , sT_enujj                , min_prescale * pileup_weight );
 
       TVector2 v_MET;
@@ -480,20 +486,20 @@ void analysisClass::Loop()
       //TVector2 v_MET_Type01;
       //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
       v_MET.SetMagPhi( PFMET_Type1_Pt , PFMET_Type1_Phi  );
-      v_jet.SetMagPhi( JetLooseEle2_Pt, JetLooseEle2_Phi );
+      v_jet.SetMagPhi( Jet2_Pt, Jet2_Phi );
       //mDPhi_METType01_Jet2 = fabs(v_MET_Type01.DeltaPhi ( v_jet ));
       float deltaphi = v_MET.DeltaPhi(v_jet);
-      MT_Jet2MET = sqrt ( 2 * JetLooseEle2_Pt * PFMET_Type1_Pt * ( 1 - cos ( deltaphi ) ) );
+      MT_Jet2MET = sqrt ( 2 * Jet2_Pt * PFMET_Type1_Pt * ( 1 - cos ( deltaphi ) ) );
     }
 
     // 3rd JET variables 
-    // if ( nJetLooseEle_store > 2 ) {
-    //   fillVariableWithValue( "Jet3_Pt"                  , JetLooseEle3_Pt         , min_prescale * pileup_weight );
-    //   fillVariableWithValue( "Jet3_Eta"                 , JetLooseEle3_Eta        , min_prescale * pileup_weight );
+    // if ( nJetEle_store > 2 ) {
+    //   fillVariableWithValue( "Jet3_Pt"                  , JetEle3_Pt         , min_prescale * pileup_weight );
+    //   fillVariableWithValue( "Jet3_Eta"                 , JetEle3_Eta        , min_prescale * pileup_weight );
     // }
 
     //// 1 electron, 1 jet variables 
-    //if ( nLooseEle_store > 0 && nJetLooseEle_store > 0 ) { 
+    //if ( nEle_store > 0 && nJetEle_store > 0 ) { 
     //  fillVariableWithValue ( "DR_Ele1Jet1"             , DR_Ele1Jet1             , min_prescale * pileup_weight );
 
 
@@ -501,31 +507,31 @@ void analysisClass::Loop()
     //  TVector2 v_jet1;
     //  //TVector2 v_MET_Type01;
     //  //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-    //  //v_ele .SetMagPhi ( LooseEle1_Pt, LooseEle1_Phi );
+    //  //v_ele .SetMagPhi ( Ele1_Pt, Ele1_Phi );
     //  // need to use uncorrected Pt
-    //  v_ele .SetMagPhi ( LooseEle1_SCEnergy/cosh(LooseEle1_SCEta), LooseEle1_Phi );
-    //  v_jet1.SetMagPhi ( JetLooseEle1_Pt, JetLooseEle1_Phi );
+    //  v_ele .SetMagPhi ( Ele1_SCEnergy/cosh(Ele1_SCEta), Ele1_Phi );
+    //  v_jet1.SetMagPhi ( JetEle1_Pt, JetEle1_Phi );
     //  float deltaphi = v_ele.DeltaPhi ( v_jet1 );
-    //  //MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle1_Pt * LooseEle1_Pt * ( 1 - cos ( deltaphi ) ) );
-    //  MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle1_Pt * LooseEle1_SCEnergy/cosh(LooseEle1_SCEta) * ( 1 - cos ( deltaphi ) ) );
+    //  //MT_Ele1Jet2 = sqrt ( 2 * JetEle1_Pt * Ele1_Pt * ( 1 - cos ( deltaphi ) ) );
+    //  MT_Ele1Jet2 = sqrt ( 2 * JetEle1_Pt * Ele1_SCEnergy/cosh(Ele1_SCEta) * ( 1 - cos ( deltaphi ) ) );
 
     //}
 
     //// 1 electron, 2 jet variables 
-    //if ( nLooseEle_store > 0 && nJetLooseEle_store > 1 ) { 
+    //if ( nEle_store > 0 && nJetEle_store > 1 ) { 
     //  fillVariableWithValue ( "DR_Ele1Jet2"             , DR_Ele1Jet2             , min_prescale * pileup_weight );
 
     //  TVector2 v_ele;
     //  TVector2 v_jet2;
     //  //TVector2 v_MET_Type01;
     //  //v_MET_Type01.SetMagPhi( PFMET_Type01_Pt , PFMET_Type01_Phi  );
-    //  //v_ele .SetMagPhi ( LooseEle1_Pt, LooseEle1_Phi );
+    //  //v_ele .SetMagPhi ( Ele1_Pt, Ele1_Phi );
     //  // need to use uncorrected Pt
-    //  v_ele .SetMagPhi ( LooseEle1_SCEnergy/cosh(LooseEle1_SCEta), LooseEle1_Phi );
-    //  v_jet2.SetMagPhi ( JetLooseEle2_Pt, JetLooseEle2_Phi );
+    //  v_ele .SetMagPhi ( Ele1_SCEnergy/cosh(Ele1_SCEta), Ele1_Phi );
+    //  v_jet2.SetMagPhi ( JetEle2_Pt, JetEle2_Phi );
     //  float deltaphi = v_ele.DeltaPhi ( v_jet2 );
-    //  //MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle2_Pt * LooseEle1_Pt * ( 1 - cos ( deltaphi ) ) );
-    //  MT_Ele1Jet2 = sqrt ( 2 * JetLooseEle2_Pt * LooseEle1_SCEnergy/cosh(LooseEle1_SCEta) * ( 1 - cos ( deltaphi ) ) );
+    //  //MT_Ele1Jet2 = sqrt ( 2 * JetEle2_Pt * Ele1_Pt * ( 1 - cos ( deltaphi ) ) );
+    //  MT_Ele1Jet2 = sqrt ( 2 * JetEle2_Pt * Ele1_SCEnergy/cosh(Ele1_SCEta) * ( 1 - cos ( deltaphi ) ) );
 
     //}
 
@@ -545,20 +551,20 @@ void analysisClass::Loop()
     }	 
 
     double M_e1e2 = 0.0;
-    if ( nLooseEle_store > 1) {
+    if ( nEle_store > 1) {
       TLorentzVector v_ele1, v_ele2, v_sum;
-      v_ele1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_Eta, LooseEle1_Phi, 0.0 );
-      v_ele2.SetPtEtaPhiM ( LooseEle2_Pt, LooseEle2_Eta, LooseEle2_Phi, 0.0 );
+      v_ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+      v_ele2.SetPtEtaPhiM ( Ele2_Pt, Ele2_Eta, Ele2_Phi, 0.0 );
       v_sum = v_ele1+v_ele2;
       M_e1e2 = v_sum.M();
     }
     double M_e1e3 = 0.0;
     double M_e2e3 = 0.0;
-    if ( nLooseEle_store > 2) {
+    if ( nEle_store > 2) {
       TLorentzVector v_ele1, v_ele2, v_ele3, v_sum;
-      v_ele1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_Eta, LooseEle1_Phi, 0.0 );
-      v_ele2.SetPtEtaPhiM ( LooseEle2_Pt, LooseEle2_Eta, LooseEle2_Phi, 0.0 );
-      v_ele3.SetPtEtaPhiM ( LooseEle3_Pt, LooseEle3_Eta, LooseEle3_Phi, 0.0 );
+      v_ele1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+      v_ele2.SetPtEtaPhiM ( Ele2_Pt, Ele2_Eta, Ele2_Phi, 0.0 );
+      v_ele3.SetPtEtaPhiM ( Ele3_Pt, Ele3_Eta, Ele3_Phi, 0.0 );
       v_sum = v_ele1+v_ele3;
       M_e1e3 = v_sum.M();
       v_sum = v_ele2+v_ele3;
@@ -571,7 +577,7 @@ void analysisClass::Loop()
     fillVariableWithValue(   "denominator"                   , 1                           , min_prescale * pileup_weight );
 
     // Debugging variables 
-    // fillVariableWithValue ( "HLTPt1stEle"        , LooseEle1_hltPhotonPt , min_prescale * pileup_weight );
+    // fillVariableWithValue ( "HLTPt1stEle"        , Ele1_hltPhotonPt , min_prescale * pileup_weight );
     // fillVariableWithValue ( "H_Photon30_CIdVL"  , H_Photon30_CIdVL      , min_prescale * pileup_weight );	      
     // fillVariableWithValue ( "H_Photon50_CIdVL"  , H_Photon50_CIdVL      , min_prescale * pileup_weight );		
     // fillVariableWithValue ( "H_Photon75_CIdVL"  , H_Photon75_CIdVL      , min_prescale * pileup_weight );		
@@ -607,26 +613,26 @@ void analysisClass::Loop()
     bool isEndcap1 = false;
     bool isEndcap2 = false;
 
-    //if( fabs( LooseEle1_Eta  ) < eleEta_bar )        isBarrel = true;
-    //if( fabs( LooseEle1_Eta  ) > eleEta_end1_min &&
-    //    fabs( LooseEle1_Eta  ) < eleEta_end1_max )   isEndcap1 = true;
-    //if( fabs( LooseEle1_Eta  ) > eleEta_end2_min &&
-    //    fabs( LooseEle1_Eta  ) < eleEta_end2_max )   isEndcap2 = true;
+    //if( fabs( Ele1_Eta  ) < eleEta_bar )        isBarrel = true;
+    //if( fabs( Ele1_Eta  ) > eleEta_end1_min &&
+    //    fabs( Ele1_Eta  ) < eleEta_end1_max )   isEndcap1 = true;
+    //if( fabs( Ele1_Eta  ) > eleEta_end2_min &&
+    //    fabs( Ele1_Eta  ) < eleEta_end2_max )   isEndcap2 = true;
 
-    if( fabs( LooseEle1_SCEta  ) < eleEta_bar )        isBarrel = true;
-    if( fabs( LooseEle1_SCEta  ) > eleEta_end1_min &&
-        fabs( LooseEle1_SCEta  ) < eleEta_end1_max )   isEndcap1 = true;
-    if( fabs( LooseEle1_SCEta  ) > eleEta_end2_min &&
-        fabs( LooseEle1_SCEta  ) < eleEta_end2_max )   isEndcap2 = true;
+    if( fabs( Ele1_SCEta  ) < eleEta_bar )        isBarrel = true;
+    if( fabs( Ele1_SCEta  ) > eleEta_end1_min &&
+        fabs( Ele1_SCEta  ) < eleEta_end1_max )   isEndcap1 = true;
+    if( fabs( Ele1_SCEta  ) > eleEta_end2_min &&
+        fabs( Ele1_SCEta  ) < eleEta_end2_max )   isEndcap2 = true;
 
     if ( passed_denominator ) { 
       float nVertex = readerTools_->ReadValueBranch<Float_t>("nVertex");
-      float LooseEle1_Charge = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Charge");
-      //float LooseEle1_EcalDriven = readerTools_->ReadValueBranch<Float_t>("LooseEle1_EcalDriven");
-      float LooseEle1_TrkIsoHEEP7 = readerTools_->ReadValueBranch<Float_t>("LooseEle1_TrkIsoHEEP7");
+      float Ele1_Charge = readerTools_->ReadValueBranch<Float_t>("Ele1_Charge");
+      //float Ele1_EcalDriven = readerTools_->ReadValueBranch<Float_t>("Ele1_EcalDriven");
+      float Ele1_TrkIsoHEEP7 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkIsoHEEP7");
       float MT_Ele1MET = readerTools_->ReadValueBranch<Float_t>("MT_Ele1MET");
-      float LooseEle1_PFRelIsoAll = readerTools_->ReadValueBranch<Float_t>("LooseEle1_PFRelIsoAll03");
-      float LooseEle1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("LooseEle1_Full5x5SigmaIEtaIEta");
+      float Ele1_PFRelIsoAll = readerTools_->ReadValueBranch<Float_t>("Ele1_PFRelIsoAll03");
+      float Ele1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele1_Full5x5SigmaIEtaIEta");
 
       // debugging 
       // fillReducedSkimTree();
@@ -634,560 +640,560 @@ void analysisClass::Loop()
       // run ls event
       //std::cout << "[QCD FR] passing run/ls/event: " << static_cast<int>(run) << " " << static_cast<int>(ls) << " " << ((unsigned int)event) << std::endl;
       //
-      //if(nLooseEle_ptCut > 1) {
-      //  cout << "Found event with nVLooseEle_ptCut = " << nVLooseEle_ptCut << " and nLooseEle_ptCut = " << nLooseEle_ptCut << "! odd." << std::endl;
-      //  float LooseEle1_HoE  = readerTools_->ReadValueBranch<Float_t>("LooseEle1_HoE");
-      //  bool LooseEle1_EcalDriven = (readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPEcalDrivenCut") == 1);
-      //  cout << "LooseEle1_Pt = " << LooseEle1_Pt << "; LooseEle1_HoE = " << LooseEle1_HoE << "; isEcalDriven = " << LooseEle1_EcalDriven << endl;
-      //  float LooseEle2_HoE  = readerTools_->ReadValueBranch<Float_t>("LooseEle2_HoE");
-      //  bool LooseEle2_EcalDriven = (readerTools_->ReadValueBranch<Float_t>("LooseEle2_PassHEEPEcalDrivenCut") == 2);
-      //  cout << "LooseEle2_Pt = " << LooseEle2_Pt << "; LooseEle2_HoE = " << LooseEle2_HoE << "; isEcalDriven = " << LooseEle2_EcalDriven << endl;
+      //if(nEle_ptCut > 1) {
+      //  cout << "Found event with nVEle_ptCut = " << nVEle_ptCut << " and nEle_ptCut = " << nEle_ptCut << "! odd." << std::endl;
+      //  float Ele1_HoE  = readerTools_->ReadValueBranch<Float_t>("Ele1_HoE");
+      //  bool Ele1_EcalDriven = (readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPEcalDrivenCut") == 1);
+      //  cout << "Ele1_Pt = " << Ele1_Pt << "; Ele1_HoE = " << Ele1_HoE << "; isEcalDriven = " << Ele1_EcalDriven << endl;
+      //  float Ele2_HoE  = readerTools_->ReadValueBranch<Float_t>("Ele2_HoE");
+      //  bool Ele2_EcalDriven = (readerTools_->ReadValueBranch<Float_t>("Ele2_PassHEEPEcalDrivenCut") == 2);
+      //  cout << "Ele2_Pt = " << Ele2_Pt << "; Ele2_HoE = " << Ele2_HoE << "; isEcalDriven = " << Ele2_EcalDriven << endl;
       //}
 
       FillUserTH1D("Total_minPrescale"                     ,   min_prescale );
       FillUserTH1D("Total_pileupWeight"                    ,   pileup_weight);
 
       FillUserTH1D( "Total_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_Pt1stEle_PAS"	         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_hltPt1stEle_PAS"       , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_Eta1stEle_PAS"	 , LooseEle1_Eta                , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_Phi1stEle_PAS"	 , LooseEle1_Phi                , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+      FillUserTH1D( "Total_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Pt1stEle_PAS"	         , Ele1_Pt                 , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_hltPt1stEle_PAS"       , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Eta1stEle_PAS"	 , Ele1_Eta                , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Phi1stEle_PAS"	 , Ele1_Phi                , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
       FillUserTH1D( "Total_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-      FillUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-      FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-      FillUserTH1D( "Total_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-      FillUserTH2D( "Total_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-      FillUserTH2D( "Total_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-      FillUserTH2D( "Total_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-      FillUserTH2D( "Total_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-      FillUserTH2D( "Total_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+      FillUserTH1D( "Total_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH1D( "Total_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+      FillUserTH2D( "Total_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+      FillUserTH2D( "Total_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+      FillUserTH2D( "Total_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+      FillUserTH2D( "Total_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
       if(analysisYear==2018) {
         if(run >= 319077 || !isData()) {
-          FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-            FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+            FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           else
-            FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
         else
-          FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
       }
-      FillUserTH2D( "Total_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+      FillUserTH2D( "Total_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
       FillUserTH1D( "Total_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
 
       if ( isBarrel ) {
 
         FillUserTH1D( "Total_Bar_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_Pt1stEle_PAS"	         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_hltPt1stEle_PAS"       , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_Eta1stEle_PAS"	 , LooseEle1_Eta                , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_Phi1stEle_PAS"	 , LooseEle1_Phi                , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        FillUserTH1D( "Total_Bar_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_Pt1stEle_PAS"	         , Ele1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_hltPt1stEle_PAS"       , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_Eta1stEle_PAS"	 , Ele1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_Phi1stEle_PAS"	 , Ele1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
         FillUserTH1D( "Total_Bar_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_Bar_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_Bar_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_Bar_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
         if(analysisYear==2018) {
           if(run >= 319077 || !isData()) {
-            FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-              FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+              FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             else
-              FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           else
-            FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
-        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_Bar_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         FillUserTH1D( "Total_Bar_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
 
-        if ( nJetLooseEle_ptCut <= 1 ) {
-          FillUserTH1D( "Total_Bar_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_lte1Jet_Pt1stEle_PAS"	      , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_lte1Jet_Eta1stEle_PAS"	      , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_lte1Jet_Phi1stEle_PAS"	      , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut <= 1 ) {
+          FillUserTH1D( "Total_Bar_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_lte1Jet_Pt1stEle_PAS"	      , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_lte1Jet_Eta1stEle_PAS"	      , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_lte1Jet_Phi1stEle_PAS"	      , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_Bar_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_Bar_lte1Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 1 ) {
-          FillUserTH1D( "Total_Bar_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_1Jet_Pt1stEle_PAS"	      , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_1Jet_Eta1stEle_PAS"	      , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_1Jet_Phi1stEle_PAS"	      , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 1 ) {
+          FillUserTH1D( "Total_Bar_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_1Jet_Pt1stEle_PAS"	      , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_1Jet_Eta1stEle_PAS"	      , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_1Jet_Phi1stEle_PAS"	      , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_Bar_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_Bar_1Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 2 ) {
-          FillUserTH1D( "Total_Bar_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_2Jet_Pt1stEle_PAS"	      , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_2Jet_Eta1stEle_PAS"	      , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_2Jet_Phi1stEle_PAS"	      , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 2 ) {
+          FillUserTH1D( "Total_Bar_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_2Jet_Pt1stEle_PAS"	      , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_2Jet_Eta1stEle_PAS"	      , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_2Jet_Phi1stEle_PAS"	      , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_Bar_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_2Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_Bar_2Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 3 ) {
-          FillUserTH1D( "Total_Bar_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_3Jet_Pt1stEle_PAS"	      , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_3Jet_Eta1stEle_PAS"	      , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_3Jet_Phi1stEle_PAS"	      , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 3 ) {
+          FillUserTH1D( "Total_Bar_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_3Jet_Pt1stEle_PAS"	      , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_3Jet_Eta1stEle_PAS"	      , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_3Jet_Phi1stEle_PAS"	      , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_Bar_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_Bar_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_Bar_3Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_Bar_3Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
         if ( nVertex >= 0 && nVertex <= 5 ){
-          FillUserTH1D( "Total_Bar_PU0-8_nElectron_PAS"          , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU0-8_Pt1stEle_PAS"           , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU0-8_Eta1stEle_PAS"          , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU0-8_Phi1stEle_PAS"          , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU0-8_Charge1stEle_PAS"       , LooseEle1_Charge             , min_prescale * pileup_weight);  
+          FillUserTH1D( "Total_Bar_PU0-8_nElectron_PAS"          , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU0-8_Pt1stEle_PAS"           , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU0-8_Eta1stEle_PAS"          , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU0-8_Phi1stEle_PAS"          , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU0-8_Charge1stEle_PAS"       , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_Bar_PU0-8_MET_PAS"                , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         }						          
 
         if ( nVertex >= 6 && nVertex <= 10 ){      
-          FillUserTH1D( "Total_Bar_PU9-UP_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU9-UP_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU9-UP_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU9-UP_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_Bar_PU9-UP_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+          FillUserTH1D( "Total_Bar_PU9-UP_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU9-UP_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU9-UP_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU9-UP_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_Bar_PU9-UP_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_Bar_PU9-UP_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         }
       }
 
       if ( isEndcap1 ) {
         FillUserTH1D( "Total_End1_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_hltPt1stEle_PAS"       , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        FillUserTH1D( "Total_End1_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_hltPt1stEle_PAS"       , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
         FillUserTH1D( "Total_End1_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End1_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End1_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End1_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End1_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End1_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End1_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End1_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End1_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
         if(analysisYear==2018) {
           if(run >= 319077 || !isData()) {
-            FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-              FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+              FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             else
-              FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           else
-            FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
-        FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End1_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
 
-        if ( nJetLooseEle_ptCut <= 1 ) {
-          FillUserTH1D( "Total_End1_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_lte1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut <= 1 ) {
+          FillUserTH1D( "Total_End1_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_lte1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End1_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_lte1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End1_lte1Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 1 ) {
-          FillUserTH1D( "Total_End1_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 1 ) {
+          FillUserTH1D( "Total_End1_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End1_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_1Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End1_1Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 2 ) {
-          FillUserTH1D( "Total_End1_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_2Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 2 ) {
+          FillUserTH1D( "Total_End1_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_2Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End1_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_2Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End1_2Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 3 ) {
-          FillUserTH1D( "Total_End1_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_3Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 3 ) {
+          FillUserTH1D( "Total_End1_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_3Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End1_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End1_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End1_3Jet_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           FillUserTH1D( "Total_End1_3Jet_MTenu_PAS", MT_Ele1MET, min_prescale * pileup_weight);
         }
 
         if ( nVertex >= 0 && nVertex <= 5 ){
-          FillUserTH1D( "Total_End1_PU0-8_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU0-8_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU0-8_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU0-8_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU0-8_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+          FillUserTH1D( "Total_End1_PU0-8_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU0-8_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU0-8_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU0-8_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU0-8_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End1_PU0-8_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         }						          
 
         if ( nVertex >= 6 && nVertex <= 10 ){      
-          FillUserTH1D( "Total_End1_PU9-UP_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU9-UP_Pt1stEle_PAS"         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU9-UP_Eta1stEle_PAS"        , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU9-UP_Phi1stEle_PAS"        , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End1_PU9-UP_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);  
+          FillUserTH1D( "Total_End1_PU9-UP_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU9-UP_Pt1stEle_PAS"         , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU9-UP_Eta1stEle_PAS"        , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU9-UP_Phi1stEle_PAS"        , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End1_PU9-UP_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End1_PU9-UP_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         }
       }
 
       if ( isEndcap2 ) {
         FillUserTH1D( "Total_End2_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_hltPt1stEle_PAS"       , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        FillUserTH1D( "Total_End2_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_hltPt1stEle_PAS"       , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
         FillUserTH1D( "Total_End2_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH1D( "Total_End2_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-        FillUserTH2D( "Total_End2_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH1D( "Total_End2_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
         if(analysisYear==2018) {
           if(run >= 319077 || !isData()) {
-            FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-              FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+              FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             else
-              FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           else
-            FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
-        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Total_End2_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
 
-        if ( nJetLooseEle_ptCut <= 1 ) {
-          FillUserTH1D( "Total_End2_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_lte1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut <= 1 ) {
+          FillUserTH1D( "Total_End2_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_lte1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 1 ) {
-          FillUserTH1D( "Total_End2_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 1 ) {
+          FillUserTH1D( "Total_End2_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 2 ) {
-          FillUserTH1D( "Total_End2_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_2Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 2 ) {
+          FillUserTH1D( "Total_End2_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_2Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
 
-        if ( nJetLooseEle_ptCut >= 3 ) {
-          FillUserTH1D( "Total_End2_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_3Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);  
+        if ( nJet_ptCut >= 3 ) {
+          FillUserTH1D( "Total_End2_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_3Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Total_End2_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Total_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
 
         if ( nVertex >= 0 && nVertex <= 5 ){
-          FillUserTH1D( "Total_End2_PU0-8_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU0-8_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU0-8_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU0-8_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU0-8_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+          FillUserTH1D( "Total_End2_PU0-8_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU0-8_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU0-8_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU0-8_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU0-8_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_PU0-8_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         }						          
 
         if ( nVertex >= 6 && nVertex <= 10 ){      
-          FillUserTH1D( "Total_End2_PU9-UP_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU9-UP_Pt1stEle_PAS"         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU9-UP_Eta1stEle_PAS"        , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU9-UP_Phi1stEle_PAS"        , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Total_End2_PU9-UP_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);  
+          FillUserTH1D( "Total_End2_PU9-UP_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU9-UP_Pt1stEle_PAS"         , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU9-UP_Eta1stEle_PAS"        , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU9-UP_Phi1stEle_PAS"        , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Total_End2_PU9-UP_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);  
           FillUserTH1D( "Total_End2_PU9-UP_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
         }
       }
@@ -1197,70 +1203,70 @@ void analysisClass::Loop()
       //  same as HEEPv7.0, but no TrkIso cut
       //----------------------------------------------------------------------
       bool passHEEPprime = (
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPMinPtCut") == 1                             &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleDEtaInSeedCut") == 1                  &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleDPhiInCut") == 1                      &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 1 &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 1  &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
-          //readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleTrkPtIsoCut") == 1                    &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleDxyCut") == 1                         &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPEcalDrivenCut") == 1
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                             &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDEtaInSeedCut") == 1                  &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDPhiInCut") == 1                      &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 1 &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 1  &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
+          //readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleTrkPtIsoCut") == 1                    &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDxyCut") == 1                         &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPEcalDrivenCut") == 1
           );
 
-      bool passHEEP = readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPID") == 1;
-      bool passLoose = readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassLooseID") == 1;
+      bool passHEEP = readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPID") == 1;
+      bool passLoose = readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGMLooseID") == 1;
 
       bool passLoosePrime = (
           // use HEEP MinPt and eta cuts
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPMinPtCut") == 1                              &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 1  &&  
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleDEtaInSeedCut") == 1            &&            
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleDPhiInCut") == 1                &&                
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 1 && 
-          //readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleRelPFIsoScaledCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleMissingHitsCut") == 1
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                              &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 1  &&  
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDEtaInSeedCut") == 1            &&            
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDPhiInCut") == 1                &&                
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 1 && 
+          //readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleRelPFIsoScaledCut") == 1        &&        
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleMissingHitsCut") == 1
           );
 
       // for jets
       // they must pass all except at least one of: deltaEtaSeed, deltaPhi, sigmaIEtaIEta, shape
       bool passJetHEEP = (
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPMinPtCut") == 1                             &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                             &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
           (
-           readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleDEtaInSeedCut") == 0                  ||
-           readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleDPhiInCut") == 0                      ||
-           readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 0 ||
-           readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 0
+           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDEtaInSeedCut") == 0                  ||
+           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDPhiInCut") == 0                      ||
+           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 0 ||
+           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 0
           ) &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
-          //readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleTrkPtIsoCut") == 1                    &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleDxyCut") == 1                         &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPEcalDrivenCut") == 1
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
+          //readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleTrkPtIsoCut") == 1                    &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDxyCut") == 1                         &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPEcalDrivenCut") == 1
           );
       // they must pass all except at least one of: deltaEtaSeed, deltaPhi, sigmaIEtaIEta, 1/E-1/p
       bool passJetLoose = (
           // use HEEP MinPt and eta cuts
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPMinPtCut") == 1                              &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                              &&
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
           (
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleDEtaInSeedCut") == 0            ||
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleDPhiInCut") == 0                ||
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 0  ||
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 0
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDEtaInSeedCut") == 0            ||
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDPhiInCut") == 0                ||
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 0  ||
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 0
           ) &&
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
-          //readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleRelPFIsoScaledCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("LooseEle1_PassEGammaLooseGsfEleMissingHitsCut") == 1
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
+          //readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleRelPFIsoScaledCut") == 1        &&        
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
+          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleMissingHitsCut") == 1
         );
 
 
@@ -1272,666 +1278,666 @@ void analysisClass::Loop()
       //if(run==284043 && (ls==116 || ls==146 || ls==172 || ls==199 || ls==45 || ls==8) )
       //{
       //        //std::cout << (uint64_t)run << " " << (uint64_t)ls << " " << (uint64_t)event << std::endl;
-      //        std::cout << "\tPassEt: " << pass_et << " --> " << LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)Heep << std::endl
-      //          << "\tPassEcalDriven: " << pass_ecalDriven << " --> " << LooseEle1_EcalDriven << std::endl
-      //          << "\tPassDeltaPhi: " << pass_deltaPhi << " --> " << LooseEle1_DeltaPhiTrkSC << std::endl
-      //          << "\tPassMissingHits: " << pass_missingHits << " --> " << LooseEle1_MissingHits << std::endl
-      //          << "\tPassDeltaEtaSeed: " << pass_deltaEtaSeed << " --> " << LooseEle1_DeltaEtaSeed << std::endl;
-      //        if ( fabs(LooseEle1_SCEta) > 1.566 && fabs(LooseEle1_SCEta) < 2.5 )
-      //          std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << LooseEle1_Full5x5SigmaIEtaIEta << " [ENDCAP]"<< std::endl;
+      //        std::cout << "\tPassEt: " << pass_et << " --> " << Ele1_SCEnergy/cosh(Ele1_SCEta)Heep << std::endl
+      //          << "\tPassEcalDriven: " << pass_ecalDriven << " --> " << Ele1_EcalDriven << std::endl
+      //          << "\tPassDeltaPhi: " << pass_deltaPhi << " --> " << Ele1_DeltaPhiTrkSC << std::endl
+      //          << "\tPassMissingHits: " << pass_missingHits << " --> " << Ele1_MissingHits << std::endl
+      //          << "\tPassDeltaEtaSeed: " << pass_deltaEtaSeed << " --> " << Ele1_DeltaEtaSeed << std::endl;
+      //        if ( fabs(Ele1_SCEta) > 1.566 && fabs(Ele1_SCEta) < 2.5 )
+      //          std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << Ele1_Full5x5SigmaIEtaIEta << " [ENDCAP]"<< std::endl;
       //        else
-      //          std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << LooseEle1_Full5x5SigmaIEtaIEta << " [BARREL]"<< std::endl;
-      //        if ( fabs(LooseEle1_SCEta) < 1.4442 )
+      //          std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << Ele1_Full5x5SigmaIEtaIEta << " [BARREL]"<< std::endl;
+      //        if ( fabs(Ele1_SCEta) < 1.4442 )
       //        {
-      //          std::cout << "\tPassShowerShape: " << pass_shape << " --> E1x5/E5x5=" << LooseEle1_Full5x5E1x5OverE5x5 << ", E2x5/E5x5=" << LooseEle1_Full5x5E2x5OverE5x5 << " [BARREL]" << std::endl;
-      //          std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << ( 2.0 + ( 0.03 * LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)Heep ) + (0.28 * LooseEle1_RhoForHeep ) ) << std::endl;
-      //          std::cout << "\tPassDxy: " << pass_dxy << " --> " << LooseEle1_LeadVtxDistXY << " < 0.02 " << std::endl
-      //            << "\tPassH/E: " << pass_hoe << " --> " << LooseEle1_HoE << " < " << 1/LooseEle1_SCEnergy + 0.05 << std::endl;
+      //          std::cout << "\tPassShowerShape: " << pass_shape << " --> E1x5/E5x5=" << Ele1_Full5x5E1x5OverE5x5 << ", E2x5/E5x5=" << Ele1_Full5x5E2x5OverE5x5 << " [BARREL]" << std::endl;
+      //          std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << ( 2.0 + ( 0.03 * Ele1_SCEnergy/cosh(Ele1_SCEta)Heep ) + (0.28 * Ele1_RhoForHeep ) ) << std::endl;
+      //          std::cout << "\tPassDxy: " << pass_dxy << " --> " << Ele1_LeadVtxDistXY << " < 0.02 " << std::endl
+      //            << "\tPassH/E: " << pass_hoe << " --> " << Ele1_HoE << " < " << 1/Ele1_SCEnergy + 0.05 << std::endl;
       //        }
       //        else
       //        {
-      //          std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << (LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)Heep<50 ? (2.5+( 0.28 * LooseEle1_RhoForHeep ) ) : (2.5+( 0.28 * LooseEle1_RhoForHeep ) + ( 0.03 * (LooseEle1_SCEnergy/cosh(LooseEle1_SCEta)Heep - 50.0 ) )) ) << std::endl;
-      //          std::cout << "\tPassDxy: " << pass_dxy << " --> " << LooseEle1_LeadVtxDistXY << " < 0.05" << std::endl
-      //            << "\tPassH/E: " << pass_hoe << " --> " << LooseEle1_HoE << " < " << 5/LooseEle1_SCEnergy + 0.05 << std::endl;
+      //          std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << (Ele1_SCEnergy/cosh(Ele1_SCEta)Heep<50 ? (2.5+( 0.28 * Ele1_RhoForHeep ) ) : (2.5+( 0.28 * Ele1_RhoForHeep ) + ( 0.03 * (Ele1_SCEnergy/cosh(Ele1_SCEta)Heep - 50.0 ) )) ) << std::endl;
+      //          std::cout << "\tPassDxy: " << pass_dxy << " --> " << Ele1_LeadVtxDistXY << " < 0.05" << std::endl
+      //            << "\tPassH/E: " << pass_hoe << " --> " << Ele1_HoE << " < " << 5/Ele1_SCEnergy + 0.05 << std::endl;
       //        }
-      //        std::cout << "\tPassTrkIso: " << (LooseEle1_TrkIsoHEEP7 < 5.0) << " --> " << LooseEle1_TrkIsoHEEP7 << " < 5.0" << std::endl;
+      //        std::cout << "\tPassTrkIso: " << (Ele1_TrkIsoHEEP7 < 5.0) << " --> " << Ele1_TrkIsoHEEP7 << " < 5.0" << std::endl;
       //}
       ////XXX SIC TEST
 
       if ( passElectron ) { 
 
         FillUserTH1D( "Electrons_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);
         FillUserTH1D( "Electrons_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH1D( "Electrons_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-        FillUserTH2D( "Electrons_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH1D( "Electrons_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH2D( "Electrons_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
         if(analysisYear==2018) {
           if(run >= 319077 || !isData()) {
-            FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-              FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+              FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             else
-              FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           else
-            FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
         if(passHEEP) {
           FillUserTH1D( "ElectronsHEEP_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-          FillUserTH1D( "ElectronsHEEP_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+          FillUserTH1D( "ElectronsHEEP_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
         }
 
         if ( isBarrel ) { 
           FillUserTH1D( "Electrons_Bar_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);
           FillUserTH1D( "Electrons_Bar_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_Bar_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_Bar_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_Bar_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_Bar_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_Bar_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           if(passHEEP) {
             FillUserTH1D( "ElectronsHEEP_Bar_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-            FillUserTH1D( "ElectronsHEEP_Bar_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+            FillUserTH1D( "ElectronsHEEP_Bar_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
           }
 
-          if ( nJetLooseEle_ptCut <= 1 ) {
-            FillUserTH1D( "Electrons_Bar_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_lte1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut <= 1 ) {
+            FillUserTH1D( "Electrons_Bar_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_lte1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_Bar_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_Bar_lte1Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_Bar_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_Bar_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 1 ) {
-            FillUserTH1D( "Electrons_Bar_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 1 ) {
+            FillUserTH1D( "Electrons_Bar_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_Bar_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_Bar_1Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_Bar_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_Bar_1Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 2 ) {
-            FillUserTH1D( "Electrons_Bar_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_2Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 2 ) {
+            FillUserTH1D( "Electrons_Bar_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_2Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_Bar_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_Bar_2Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_Bar_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_Bar_2Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 3 ) {
-            FillUserTH1D( "Electrons_Bar_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_3Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 3 ) {
+            FillUserTH1D( "Electrons_Bar_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_3Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_Bar_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_Bar_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_Bar_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_Bar_3Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_Bar_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_Bar_3Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
           if ( nVertex >= 0 && nVertex <= 5 ){
-            FillUserTH1D( "Electrons_Bar_PU0-8_nElectron_PAS"          , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU0-8_Pt1stEle_PAS"           , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU0-8_Eta1stEle_PAS"          , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU0-8_Phi1stEle_PAS"          , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU0-8_Charge1stEle_PAS"       , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Electrons_Bar_PU0-8_nElectron_PAS"          , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU0-8_Pt1stEle_PAS"           , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU0-8_Eta1stEle_PAS"          , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU0-8_Phi1stEle_PAS"          , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU0-8_Charge1stEle_PAS"       , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Electrons_Bar_PU0-8_MET_PAS"                , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }						          
 
           if ( nVertex >= 6 && nVertex <= 10 ){      
-            FillUserTH1D( "Electrons_Bar_PU9-UP_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU9-UP_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU9-UP_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU9-UP_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_Bar_PU9-UP_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Electrons_Bar_PU9-UP_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU9-UP_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU9-UP_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU9-UP_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_Bar_PU9-UP_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Electrons_Bar_PU9-UP_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }	  
         }
 
         if ( isEndcap1 ) { 
           FillUserTH1D( "Electrons_End1_nVertex_PAS"          , nVertex                      , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);
           FillUserTH1D( "Electrons_End1_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End1_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End1_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End1_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End1_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_End1_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           if(passHEEP) {
             FillUserTH1D( "ElectronsHEEP_End1_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-            FillUserTH1D( "ElectronsHEEP_End1_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+            FillUserTH1D( "ElectronsHEEP_End1_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
           }
 
-          if ( nJetLooseEle_ptCut <= 1 ) {
-            FillUserTH1D( "Electrons_End1_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_lte1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut <= 1 ) {
+            FillUserTH1D( "Electrons_End1_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_lte1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End1_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End1_lte1Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End1_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End1_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
 
           }
 
-          if ( nJetLooseEle_ptCut >= 1 ) {
-            FillUserTH1D( "Electrons_End1_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 1 ) {
+            FillUserTH1D( "Electrons_End1_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End1_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End1_1Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End1_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End1_1Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
 
           }
 
-          if ( nJetLooseEle_ptCut >= 2 ) {
-            FillUserTH1D( "Electrons_End1_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_2Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 2 ) {
+            FillUserTH1D( "Electrons_End1_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_2Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End1_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End1_2Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End1_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End1_2Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 3 ) {
-            FillUserTH1D( "Electrons_End1_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_3Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 3 ) {
+            FillUserTH1D( "Electrons_End1_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_3Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End1_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End1_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End1_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End1_3Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End1_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End1_3Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
           if ( nVertex >= 0 && nVertex <= 5 ){
-            FillUserTH1D( "Electrons_End1_PU0-8_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU0-8_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU0-8_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU0-8_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU0-8_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Electrons_End1_PU0-8_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU0-8_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU0-8_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU0-8_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU0-8_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Electrons_End1_PU0-8_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }						          
 
           if ( nVertex >= 6 && nVertex <= 10 ){      
-            FillUserTH1D( "Electrons_End1_PU9-UP_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU9-UP_Pt1stEle_PAS"         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU9-UP_Eta1stEle_PAS"        , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU9-UP_Phi1stEle_PAS"        , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End1_PU9-UP_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Electrons_End1_PU9-UP_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU9-UP_Pt1stEle_PAS"         , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU9-UP_Eta1stEle_PAS"        , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU9-UP_Phi1stEle_PAS"        , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End1_PU9-UP_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Electrons_End1_PU9-UP_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }
         }
 
         if ( isEndcap2 ) { 
           FillUserTH1D( "Electrons_End2_nVertex_PAS"          , nVertex                      , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);
           FillUserTH1D( "Electrons_End2_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Electrons_End2_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Electrons_End2_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Electrons_End2_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Electrons_End2_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Electrons_End2_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           if(passHEEP) {
             FillUserTH1D( "ElectronsHEEP_End2_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-            FillUserTH1D( "ElectronsHEEP_End2_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+            FillUserTH1D( "ElectronsHEEP_End2_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
           }
 
-          if ( nJetLooseEle_ptCut <= 1 ) {
-            FillUserTH1D( "Electrons_End2_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_lte1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut <= 1 ) {
+            FillUserTH1D( "Electrons_End2_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_lte1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End2_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End2_lte1Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End2_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End2_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 1 ) {
-            FillUserTH1D( "Electrons_End2_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 1 ) {
+            FillUserTH1D( "Electrons_End2_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End2_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End2_1Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End2_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End2_1Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 2 ) {
-            FillUserTH1D( "Electrons_End2_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_2Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 2 ) {
+            FillUserTH1D( "Electrons_End2_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_2Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End2_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End2_2Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End2_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End2_2Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 3 ) {
-            FillUserTH1D( "Electrons_End2_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_3Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 3 ) {
+            FillUserTH1D( "Electrons_End2_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_3Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Electrons_End2_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Electrons_End2_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Electrons_End2_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Electrons_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             if(passHEEP) {
               FillUserTH1D( "ElectronsHEEP_End2_3Jet_MTenu_PAS"               , MT_Ele1MET            , min_prescale * pileup_weight);
-              FillUserTH1D( "ElectronsHEEP_End2_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt            , min_prescale * pileup_weight);
+              FillUserTH1D( "ElectronsHEEP_End2_3Jet_Pt1stEle_PAS"            , Ele1_Pt            , min_prescale * pileup_weight);
             }
           }
 
           if ( nVertex >= 0 && nVertex <= 5 ){
-            FillUserTH1D( "Electrons_End2_PU0-8_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU0-8_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU0-8_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU0-8_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU0-8_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Electrons_End2_PU0-8_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU0-8_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU0-8_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU0-8_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU0-8_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Electrons_End2_PU0-8_MET_PAS"        , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }						          
 
           if ( nVertex >= 6 && nVertex <= 10 ){      
-            FillUserTH1D( "Electrons_End2_PU9-UP_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU9-UP_Pt1stEle_PAS"         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU9-UP_Eta1stEle_PAS"        , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU9-UP_Phi1stEle_PAS"        , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Electrons_End2_PU9-UP_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Electrons_End2_PU9-UP_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU9-UP_Pt1stEle_PAS"         , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU9-UP_Eta1stEle_PAS"        , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU9-UP_Phi1stEle_PAS"        , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Electrons_End2_PU9-UP_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Electrons_End2_PU9-UP_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }
         }
 
         //// for event list
         //// see if we passed full HEEP
-        //if(LooseEle1_TrkIsoHEEP7 < 5.0)
-        ////if(LooseEle1_PassHEEPID)
+        //if(Ele1_TrkIsoHEEP7 < 5.0)
+        ////if(Ele1_PassHEEPID)
         //{
         //  if(run>=284043 && run<=284044)
         //  {
-        //    if ( fabs(LooseEle1_SCEta) < 1.4442 )
+        //    if ( fabs(Ele1_SCEta) < 1.4442 )
         //    {
         //      std::cout << (uint64_t)run << " " << (uint64_t)ls << " " << (uint64_t)event << std::endl;
 
-        //      if ( H_Photon22   > 0.1 && LooseEle1_hltPhotonPt >= 22.  && LooseEle1_hltPhotonPt < 30. ) { std::cout << "\tTrigger: HLT_Photon22"<<std::endl; } 
-        //      if ( H_Photon30   > 0.1 && LooseEle1_hltPhotonPt >= 30.  && LooseEle1_hltPhotonPt < 36. ) { std::cout << "\tTrigger: HLT_Photon30"<<std::endl; } 
-        //      if ( H_Photon36   > 0.1 && LooseEle1_hltPhotonPt >= 36.  && LooseEle1_hltPhotonPt < 50. ) { std::cout << "\tTrigger: HLT_Photon36"<<std::endl; } 
-        //      if ( H_Photon50   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { std::cout << "\tTrigger: HLT_Photon50"<<std::endl; } 
-        //      if ( H_Photon75   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { std::cout << "\tTrigger: HLT_Photon75"<<std::endl; } 
-        //      if ( H_Photon90   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { std::cout << "\tTrigger: HLT_Photon90"<<std::endl; } 
-        //      if ( H_Photon120  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 175.) { std::cout << "\tTrigger: HLT_Photon120"<<std::endl; } 
-        //      if ( H_Photon175  > 0.1 && LooseEle1_hltPhotonPt >= 175.)                                 { std::cout << "\tTrigger: HLT_Photon175"<<std::endl; } 
-        //      std::cout << "\tPassEt: " << pass_et << " --> " << LooseEle1_PtHeep << std::endl
-        //        << "\tPassEcalDriven: " << pass_ecalDriven << " --> " << LooseEle1_EcalDriven << std::endl
-        //        << "\tPassDeltaPhi: " << pass_deltaPhi << " --> " << LooseEle1_DeltaPhiTrkSC << std::endl
-        //        << "\tPassMissingHits: " << pass_missingHits << " --> " << LooseEle1_MissingHits << std::endl
-        //        << "\tPassDeltaEtaSeed: " << pass_deltaEtaSeed << " --> " << LooseEle1_DeltaEtaSeed << std::endl;
-        //      if ( fabs(LooseEle1_SCEta) > 1.566 && fabs(LooseEle1_SCEta) < 2.5 )
-        //        std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << LooseEle1_Full5x5SigmaIEtaIEta << " [ENDCAP]"<< std::endl;
+        //      if ( H_Photon22   > 0.1 && Ele1_hltPhotonPt >= 22.  && Ele1_hltPhotonPt < 30. ) { std::cout << "\tTrigger: HLT_Photon22"<<std::endl; } 
+        //      if ( H_Photon30   > 0.1 && Ele1_hltPhotonPt >= 30.  && Ele1_hltPhotonPt < 36. ) { std::cout << "\tTrigger: HLT_Photon30"<<std::endl; } 
+        //      if ( H_Photon36   > 0.1 && Ele1_hltPhotonPt >= 36.  && Ele1_hltPhotonPt < 50. ) { std::cout << "\tTrigger: HLT_Photon36"<<std::endl; } 
+        //      if ( H_Photon50   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { std::cout << "\tTrigger: HLT_Photon50"<<std::endl; } 
+        //      if ( H_Photon75   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { std::cout << "\tTrigger: HLT_Photon75"<<std::endl; } 
+        //      if ( H_Photon90   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { std::cout << "\tTrigger: HLT_Photon90"<<std::endl; } 
+        //      if ( H_Photon120  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 175.) { std::cout << "\tTrigger: HLT_Photon120"<<std::endl; } 
+        //      if ( H_Photon175  > 0.1 && Ele1_hltPhotonPt >= 175.)                                 { std::cout << "\tTrigger: HLT_Photon175"<<std::endl; } 
+        //      std::cout << "\tPassEt: " << pass_et << " --> " << Ele1_PtHeep << std::endl
+        //        << "\tPassEcalDriven: " << pass_ecalDriven << " --> " << Ele1_EcalDriven << std::endl
+        //        << "\tPassDeltaPhi: " << pass_deltaPhi << " --> " << Ele1_DeltaPhiTrkSC << std::endl
+        //        << "\tPassMissingHits: " << pass_missingHits << " --> " << Ele1_MissingHits << std::endl
+        //        << "\tPassDeltaEtaSeed: " << pass_deltaEtaSeed << " --> " << Ele1_DeltaEtaSeed << std::endl;
+        //      if ( fabs(Ele1_SCEta) > 1.566 && fabs(Ele1_SCEta) < 2.5 )
+        //        std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << Ele1_Full5x5SigmaIEtaIEta << " [ENDCAP]"<< std::endl;
         //      else
-        //        std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << LooseEle1_Full5x5SigmaIEtaIEta << " [BARREL]"<< std::endl;
-        //      if ( fabs(LooseEle1_SCEta) < 1.4442 )
+        //        std::cout << "\tPassSigmaIetaIeta: " << pass_sigmaIEtaIEta << " --> " << Ele1_Full5x5SigmaIEtaIEta << " [BARREL]"<< std::endl;
+        //      if ( fabs(Ele1_SCEta) < 1.4442 )
         //      {
-        //        std::cout << "\tPassShowerShape: " << pass_shape << " --> E1x5/E5x5=" << LooseEle1_Full5x5E1x5OverE5x5 << ", E2x5/E5x5=" << LooseEle1_Full5x5E2x5OverE5x5 << " [BARREL]" << std::endl;
-        //        std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << ( 2.0 + ( 0.03 * LooseEle1_PtHeep ) + (0.28 * LooseEle1_RhoForHeep ) ) << std::endl;
-        //        std::cout << "\tPassDxy: " << pass_dxy << " --> " << LooseEle1_LeadVtxDistXY << " < 0.02 " << std::endl
-        //          << "\tPassH/E: " << pass_hoe << " --> " << LooseEle1_HoE << " < " << 1/LooseEle1_SCEnergy + 0.05 << std::endl;
+        //        std::cout << "\tPassShowerShape: " << pass_shape << " --> E1x5/E5x5=" << Ele1_Full5x5E1x5OverE5x5 << ", E2x5/E5x5=" << Ele1_Full5x5E2x5OverE5x5 << " [BARREL]" << std::endl;
+        //        std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << ( 2.0 + ( 0.03 * Ele1_PtHeep ) + (0.28 * Ele1_RhoForHeep ) ) << std::endl;
+        //        std::cout << "\tPassDxy: " << pass_dxy << " --> " << Ele1_LeadVtxDistXY << " < 0.02 " << std::endl
+        //          << "\tPassH/E: " << pass_hoe << " --> " << Ele1_HoE << " < " << 1/Ele1_SCEnergy + 0.05 << std::endl;
         //      }
         //      else
         //      {
-        //        std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << (LooseEle1_PtHeep<50 ? (2.5+( 0.28 * LooseEle1_RhoForHeep ) ) : (2.5+( 0.28 * LooseEle1_RhoForHeep ) + ( 0.03 * (LooseEle1_PtHeep - 50.0 ) )) ) << std::endl;
-        //        std::cout << "\tPassDxy: " << pass_dxy << " --> " << LooseEle1_LeadVtxDistXY << " < 0.05" << std::endl
-        //          << "\tPassH/E: " << pass_hoe << " --> " << LooseEle1_HoE << " < " << 5/LooseEle1_SCEnergy + 0.05 << std::endl;
+        //        std::cout << "\tPassCaloIso: " << pass_caloIsolation << " --> " << caloIsolation << " < " << (Ele1_PtHeep<50 ? (2.5+( 0.28 * Ele1_RhoForHeep ) ) : (2.5+( 0.28 * Ele1_RhoForHeep ) + ( 0.03 * (Ele1_PtHeep - 50.0 ) )) ) << std::endl;
+        //        std::cout << "\tPassDxy: " << pass_dxy << " --> " << Ele1_LeadVtxDistXY << " < 0.05" << std::endl
+        //          << "\tPassH/E: " << pass_hoe << " --> " << Ele1_HoE << " < " << 5/Ele1_SCEnergy + 0.05 << std::endl;
         //      }
-        //      std::cout << "\tPassTrkIso: " << (LooseEle1_TrkIsoHEEP7 < 5.0) << " --> " << LooseEle1_TrkIsoHEEP7 << " < 5.0" << std::endl;
+        //      std::cout << "\tPassTrkIso: " << (Ele1_TrkIsoHEEP7 < 5.0) << " --> " << Ele1_TrkIsoHEEP7 << " < 5.0" << std::endl;
         //    }
         //  }
         //}
@@ -1941,687 +1947,687 @@ void analysisClass::Loop()
       else if (passJet) {
 
         FillUserTH1D( "Jets_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);
         FillUserTH1D( "Jets_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-        FillUserTH1D( "Jets_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-        FillUserTH2D( "Jets_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH1D( "Jets_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
         if(analysisYear==2018) {
           if(run >= 319077 || !isData()) {
-            FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-              FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+              FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             else
-              FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           else
-            FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         }
-        FillUserTH2D( "Jets_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+        FillUserTH2D( "Jets_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
         // for SR/SR division
-        if(LooseEle1_TrkIsoHEEP7 < 5) {
+        if(Ele1_TrkIsoHEEP7 < 5) {
           FillUserTH1D( "JetsSR_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "JetsSR_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+          FillUserTH1D( "JetsSR_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
         }
-        else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+        else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
         {
           FillUserTH1D( "JetsSB_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "JetsSB_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+          FillUserTH1D( "JetsSB_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
         }
 
         if ( isBarrel ) { 
           FillUserTH1D( "Jets_Bar_nVertex_PAS"           , nVertex                      , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);
           FillUserTH1D( "Jets_Bar_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_Bar_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_Bar_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_Bar_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
-          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_Bar_TrkIsoHEEP7vsMTenu_PAS"   , MT_Ele1MET, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           // for SR/SR division
-          if(LooseEle1_TrkIsoHEEP7 < 5) {
+          if(Ele1_TrkIsoHEEP7 < 5) {
             FillUserTH1D( "JetsSR_Bar_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "JetsSR_Bar_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+            FillUserTH1D( "JetsSR_Bar_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
           }
-          else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+          else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
           {
             FillUserTH1D( "JetsSB_Bar_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "JetsSB_Bar_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+            FillUserTH1D( "JetsSB_Bar_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
           }
 
-          if ( nJetLooseEle_ptCut <= 1 ) {
-            FillUserTH1D( "Jets_Bar_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_lte1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut <= 1 ) {
+            FillUserTH1D( "Jets_Bar_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_lte1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_Bar_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
-            FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_Bar_lte1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_Bar_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_Bar_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_Bar_lte1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_Bar_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_Bar_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 1 ) {
-            FillUserTH1D( "Jets_Bar_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_1Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 1 ) {
+            FillUserTH1D( "Jets_Bar_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_1Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_Bar_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_Bar_1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_Bar_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_Bar_1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_Bar_1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_Bar_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_Bar_1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 2 ) {
-            FillUserTH1D( "Jets_Bar_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_2Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 2 ) {
+            FillUserTH1D( "Jets_Bar_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_2Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_Bar_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_Bar_2Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_Bar_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_Bar_2Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_Bar_2Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_Bar_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_Bar_2Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 3 ) {
-            FillUserTH1D( "Jets_Bar_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_3Jet_Pt1stEle_PAS"	       , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 3 ) {
+            FillUserTH1D( "Jets_Bar_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_3Jet_Pt1stEle_PAS"	       , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_Bar_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_Bar_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_Bar_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_Bar_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_Bar_3Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_Bar_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_Bar_3Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_Bar_3Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_Bar_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_Bar_3Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
           if ( nVertex >= 0 && nVertex <= 5 ){
-            FillUserTH1D( "Jets_Bar_PU0-8_nElectron_PAS"          , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU0-8_Pt1stEle_PAS"           , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU0-8_Eta1stEle_PAS"          , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU0-8_Phi1stEle_PAS"          , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU0-8_Charge1stEle_PAS"       , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Jets_Bar_PU0-8_nElectron_PAS"          , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU0-8_Pt1stEle_PAS"           , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU0-8_Eta1stEle_PAS"          , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU0-8_Phi1stEle_PAS"          , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU0-8_Charge1stEle_PAS"       , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Jets_Bar_PU0-8_MET_PAS"                , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }						          
 
           if ( nVertex >= 6 && nVertex <= 10 ){      
-            FillUserTH1D( "Jets_Bar_PU9-UP_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU9-UP_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU9-UP_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU9-UP_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_Bar_PU9-UP_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Jets_Bar_PU9-UP_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU9-UP_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU9-UP_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU9-UP_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_Bar_PU9-UP_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Jets_Bar_PU9-UP_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }	  
         }
 
         if ( isEndcap1 ) { 
           FillUserTH1D( "Jets_End1_nVertex_PAS"          , nVertex                      , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);
           FillUserTH1D( "Jets_End1_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End1_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End1_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End1_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End1_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_End1_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           // for SR/SR division
-          if(LooseEle1_TrkIsoHEEP7 < 5) {
+          if(Ele1_TrkIsoHEEP7 < 5) {
             FillUserTH1D( "JetsSR_End1_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "JetsSR_End1_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+            FillUserTH1D( "JetsSR_End1_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
           }
-          else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+          else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
           {
             FillUserTH1D( "JetsSB_End1_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "JetsSB_End1_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+            FillUserTH1D( "JetsSB_End1_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
           }
 
-          if ( nJetLooseEle_ptCut <= 1 ) {
-            FillUserTH1D( "Jets_End1_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_lte1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut <= 1 ) {
+            FillUserTH1D( "Jets_End1_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_lte1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End1_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End1_lte1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End1_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End1_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End1_lte1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End1_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End1_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 1 ) {
-            FillUserTH1D( "Jets_End1_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 1 ) {
+            FillUserTH1D( "Jets_End1_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End1_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End1_1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End1_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End1_1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End1_1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End1_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End1_1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 2 ) {
-            FillUserTH1D( "Jets_End1_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_2Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 2 ) {
+            FillUserTH1D( "Jets_End1_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_2Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End1_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End1_2Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End1_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End1_2Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End1_2Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End1_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End1_2Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 3 ) {
-            FillUserTH1D( "Jets_End1_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_3Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 3 ) {
+            FillUserTH1D( "Jets_End1_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_3Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End1_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End1_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End1_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End1_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End1_3Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End1_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End1_3Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End1_3Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End1_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End1_3Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
           if ( nVertex >= 0 && nVertex <= 5 ){
-            FillUserTH1D( "Jets_End1_PU0-8_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU0-8_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU0-8_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU0-8_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU0-8_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Jets_End1_PU0-8_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU0-8_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU0-8_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU0-8_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU0-8_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Jets_End1_PU0-8_MET_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }						          
 
           if ( nVertex >= 6 && nVertex <= 10 ){      
-            FillUserTH1D( "Jets_End1_PU9-UP_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU9-UP_Pt1stEle_PAS"         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU9-UP_Eta1stEle_PAS"        , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU9-UP_Phi1stEle_PAS"        , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End1_PU9-UP_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Jets_End1_PU9-UP_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU9-UP_Pt1stEle_PAS"         , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU9-UP_Eta1stEle_PAS"        , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU9-UP_Phi1stEle_PAS"        , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End1_PU9-UP_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Jets_End1_PU9-UP_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }
         }
 
         if ( isEndcap2 ) { 
           FillUserTH1D( "Jets_End2_nVertex_PAS"          , nVertex                      , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_Pt1stEle_PAS"	  , LooseEle1_Pt                 , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_hltPt1stEle_PAS"	  , LooseEle1_hltPhotonPt        , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_Eta1stEle_PAS"	  , LooseEle1_Eta                , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_Phi1stEle_PAS"	  , LooseEle1_Phi                , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_Pt1stEle_PAS"	  , Ele1_Pt                 , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_hltPt1stEle_PAS"	  , Ele1_hltPhotonPt        , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_Eta1stEle_PAS"	  , Ele1_Eta                , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_Phi1stEle_PAS"	  , Ele1_Phi                , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);
           FillUserTH1D( "Jets_End2_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-          FillUserTH1D( "Jets_End2_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-          FillUserTH2D( "Jets_End2_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+          FillUserTH1D( "Jets_End2_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+          FillUserTH2D( "Jets_End2_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
           if(analysisYear==2018) {
             if(run >= 319077 || !isData()) {
-              FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-              if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               else
-                FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             else
-              FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+              FillUserTH2D( "Jets_End2_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
           }
           // for SR/SR division
-          if(LooseEle1_TrkIsoHEEP7 < 5) {
+          if(Ele1_TrkIsoHEEP7 < 5) {
             FillUserTH1D( "JetsSR_End2_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "JetsSR_End2_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+            FillUserTH1D( "JetsSR_End2_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
           }
-          else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+          else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
           {
             FillUserTH1D( "JetsSB_End2_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "JetsSB_End2_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+            FillUserTH1D( "JetsSB_End2_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
           }
 
-          if ( nJetLooseEle_ptCut <= 1 ) {
-            FillUserTH1D( "Jets_End2_lte1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_lte1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_lte1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_lte1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_lte1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut <= 1 ) {
+            FillUserTH1D( "Jets_End2_lte1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_lte1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_lte1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_lte1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_lte1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End2_lte1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_lte1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_lte1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_lte1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_lte1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_lte1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_lte1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End2_lte1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End2_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End2_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End2_lte1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End2_lte1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End2_lte1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 1 ) {
-            FillUserTH1D( "Jets_End2_1Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_1Jet_Pt1stEle_PAS"        , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_1Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_1Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_1Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 1 ) {
+            FillUserTH1D( "Jets_End2_1Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_1Jet_Pt1stEle_PAS"        , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_1Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_1Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_1Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End2_1Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_1Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_1Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_1Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_1Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_1Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_1Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End2_1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End2_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End2_1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End2_1Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End2_1Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End2_1Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 2 ) {
-            FillUserTH1D( "Jets_End2_2Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_2Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_2Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_2Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_2Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 2 ) {
+            FillUserTH1D( "Jets_End2_2Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_2Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_2Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_2Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_2Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End2_2Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_2Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_2Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_2Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_2Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_2Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_2Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End2_2Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End2_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End2_2Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End2_2Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End2_2Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End2_2Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
-          if ( nJetLooseEle_ptCut >= 3 ) {
-            FillUserTH1D( "Jets_End2_3Jet_nElectron_PAS"       , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_3Jet_Pt1stEle_PAS"	, LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_3Jet_Eta1stEle_PAS"       , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_3Jet_Phi1stEle_PAS"       , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_3Jet_Charge1stEle_PAS"    , LooseEle1_Charge             , min_prescale * pileup_weight);
+          if ( nJet_ptCut >= 3 ) {
+            FillUserTH1D( "Jets_End2_3Jet_nElectron_PAS"       , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_3Jet_Pt1stEle_PAS"	, Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_3Jet_Eta1stEle_PAS"       , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_3Jet_Phi1stEle_PAS"       , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_3Jet_Charge1stEle_PAS"    , Ele1_Charge             , min_prescale * pileup_weight);
             FillUserTH1D( "Jets_End2_3Jet_MET_PAS"             , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_3Jet_TrkIsoHEEP7_PAS"       , LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , LooseEle1_Pt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_3Jet_hltPt_PAS", LooseEle1_hltPhotonPt, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, LooseEle1_TrkIsoHEEP7, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_PFRelIsoAllvsPt_PAS"            , LooseEle1_hltPhotonPt, LooseEle1_PFRelIsoAll, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
-            FillUserTH2D( "Jets_End2_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , LooseEle1_hltPhotonPt, LooseEle1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_3Jet_TrkIsoHEEP7_PAS"       , Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsPt_PAS"   , Ele1_Pt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_PAS"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_3Jet_hltPt_PAS", Ele1_hltPhotonPt, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsNvtx_PAS"          , nVertex, Ele1_TrkIsoHEEP7, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_PFRelIsoAllvsNvtx_PAS"          , nVertex, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_PFRelIsoAllvsPt_PAS"            , Ele1_hltPhotonPt, Ele1_PFRelIsoAll, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_Full5x5SigmaIEtaIEtavsNvtx_PAS" , nVertex, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
+            FillUserTH2D( "Jets_End2_3Jet_Full5x5SigmaIEtaIEtavsPt_PAS"   , Ele1_hltPhotonPt, Ele1_Full5x5SigmaIEtaIEta, min_prescale * pileup_weight);
             if(analysisYear==2018) {
               if(run >= 319077 || !isData()) {
-                FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
-                if(isHEMElectron(LooseEle1_SCEta, LooseEle1_Phi))
-                  FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                if(isHEMElectron(Ele1_SCEta, Ele1_Phi))
+                  FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_HEMonly_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
                 else
-                  FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                  FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_noHEM_post319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
               }
               else
-                FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , LooseEle1_hltPhotonPt, LooseEle1_TrkIsoHEEP7            , min_prescale * pileup_weight);
+                FillUserTH2D( "Jets_End2_3Jet_TrkIsoHEEP7vsHLTPt_pre319077"   , Ele1_hltPhotonPt, Ele1_TrkIsoHEEP7            , min_prescale * pileup_weight);
             }
             // for SR/SR division
-            if(LooseEle1_TrkIsoHEEP7 < 5) {
+            if(Ele1_TrkIsoHEEP7 < 5) {
               FillUserTH1D( "JetsSR_End2_3Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSR_End2_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSR_End2_3Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
-            else if(LooseEle1_TrkIsoHEEP7 >= 10 && LooseEle1_TrkIsoHEEP7 < 20)
+            else if(Ele1_TrkIsoHEEP7 >= 10 && Ele1_TrkIsoHEEP7 < 20)
             {
               FillUserTH1D( "JetsSB_End2_3Jet_MTenu_PAS"               , PFMET_Type1_Pt            , min_prescale * pileup_weight);
-              FillUserTH1D( "JetsSB_End2_3Jet_Pt1stEle_PAS"            , LooseEle1_Pt           , min_prescale * pileup_weight);
+              FillUserTH1D( "JetsSB_End2_3Jet_Pt1stEle_PAS"            , Ele1_Pt           , min_prescale * pileup_weight);
             }
           }
 
           if ( nVertex >= 0 && nVertex <= 5 ){
-            FillUserTH1D( "Jets_End2_PU0-8_nElectron_PAS"         , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU0-8_Pt1stEle_PAS"          , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU0-8_Eta1stEle_PAS"         , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU0-8_Phi1stEle_PAS"         , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU0-8_Charge1stEle_PAS"      , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Jets_End2_PU0-8_nElectron_PAS"         , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU0-8_Pt1stEle_PAS"          , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU0-8_Eta1stEle_PAS"         , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU0-8_Phi1stEle_PAS"         , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU0-8_Charge1stEle_PAS"      , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Jets_End2_PU0-8_MET_PAS"        , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }						          
 
           if ( nVertex >= 6 && nVertex <= 10 ){      
-            FillUserTH1D( "Jets_End2_PU9-UP_nElectron_PAS"        , nLooseEle_ptCut              , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU9-UP_Pt1stEle_PAS"         , LooseEle1_Pt                 , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU9-UP_Eta1stEle_PAS"        , LooseEle1_Eta                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU9-UP_Phi1stEle_PAS"        , LooseEle1_Phi                , min_prescale * pileup_weight);
-            FillUserTH1D( "Jets_End2_PU9-UP_Charge1stEle_PAS"     , LooseEle1_Charge             , min_prescale * pileup_weight);  
+            FillUserTH1D( "Jets_End2_PU9-UP_nElectron_PAS"        , nEle_ptCut              , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU9-UP_Pt1stEle_PAS"         , Ele1_Pt                 , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU9-UP_Eta1stEle_PAS"        , Ele1_Eta                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU9-UP_Phi1stEle_PAS"        , Ele1_Phi                , min_prescale * pileup_weight);
+            FillUserTH1D( "Jets_End2_PU9-UP_Charge1stEle_PAS"     , Ele1_Charge             , min_prescale * pileup_weight);  
             FillUserTH1D( "Jets_End2_PU9-UP_MET_PAS"              , PFMET_Type1_Pt            , min_prescale * pileup_weight);
           }
         }
