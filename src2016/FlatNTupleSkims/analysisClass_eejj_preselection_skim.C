@@ -29,7 +29,6 @@ void analysisClass::Loop() {
   // Decide which plots to save (default is to save everything)
   //--------------------------------------------------------------------------
   
-  fillSkim                         (  true  ) ;
   fillAllPreviousCuts              ( !true  ) ;
   fillAllOtherCuts                 ( !true  ) ;
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -265,15 +264,6 @@ void analysisClass::Loop() {
 
     evaluateCuts();
     
-    //------------------------------------------------------------------
-    // If event passes, fill the tree
-    //------------------------------------------------------------------
-
-    if ( passedCut            ("M_e1e2") &&
-        passedAllPreviousCuts("M_e1e2") ){
-      fillSkimTree();
-    }
-
    } // End loop over events
 
    std::cout << "analysisClass::Loop() ends" <<std::endl;   
