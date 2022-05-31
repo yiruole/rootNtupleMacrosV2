@@ -10,6 +10,8 @@
 #include <TVector3.h>
 // for fake rate
 #include "include/QCDFakeRate.h"
+// for prescales
+#include "include/Run2PhotonTriggerPrescales.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -24,7 +26,6 @@ void analysisClass::Loop()
   // Decide which plots to save (default is to save everything)
   //--------------------------------------------------------------------------
 
-  fillSkim                         ( true  ) ;
   fillAllPreviousCuts              ( !true  ) ;
   fillAllOtherCuts                 ( !true  ) ;
   fillAllSameLevelAndLowerLevelCuts( !true  ) ;
@@ -41,12 +42,34 @@ void analysisClass::Loop()
   double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
   double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
+  // prescales
+  Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
+
+  //--------------------------------------------------------------------------
+  // Analysis year
+  //--------------------------------------------------------------------------
+  int analysisYear = getPreCutValue1("AnalysisYear");
+
   //--------------------------------------------------------------------------
   // QCD Fake Rate loading part
   //--------------------------------------------------------------------------
-  std::string qcdFileName = getPreCutString1("QCDFakeRateFileName");
-  //FIXME TODO eventually remove hardcoding of graph name
-  QCDFakeRate qcdFakeRate(qcdFileName);
+  std::string qcdFileName = getPreCutString1("QCDFakeRateFilename");
+  //HistoReader qcdFakeRateReader(qcdFileName,"fr2D_Bar_2Jet","fr2D_End_2Jet",true,false);
+  std::vector<std::string> regionVec;
+  if(analysisYear < 2018)
+    regionVec = {"Bar_2Jet", "End1_2Jet", "End2_2Jet"};
+  else
+    regionVec = {
+      "Bar_pre319077_2Jet",
+      "End1_pre319077_2Jet",
+      "End2_pre319077_2Jet",
+      "Bar_noHEM_post319077_2Jet",
+      "End1_noHEM_post319077_2Jet",
+      "End2_noHEM_post319077_2Jet",
+      "Bar_HEMonly_post319077_2Jet",
+      "End1_HEMonly_post319077_2Jet",
+      "End2_HEMonly_post319077_2Jet"};
+  QCDFakeRate qcdFR(qcdFileName, regionVec, analysisYear);
 
   //--------------------------------------------------------------------------
   // Create TH1D's
@@ -214,11 +237,6 @@ void analysisClass::Loop()
   CreateUserTH1D( "Ptee_PASandMee100"     ,    200 , 0       , 2000     );
   CreateUserTH1D( "Ptee_ROI"              ,    200 , 0       , 2000     );
 
-  CreateUserTH1D( "DCotTheta1stEle_PAS"   ,    100 , 0.0, 1.0);
-  CreateUserTH1D( "Dist1stEle_PAS"        ,    100 , 0.0, 1.0);  
-  CreateUserTH1D( "DCotTheta2ndEle_PAS"   ,    100 , 0.0, 1.0);
-  CreateUserTH1D( "Dist2ndEle_PAS"        ,    100 , 0.0, 1.0);  
-
   CreateUserTH1D( "nVertex_PAS"                     ,    101   , -0.5   , 100.5	 ) ; 
   CreateUserTH1D( "nVertex_PASandMee100"            ,    101   , -0.5   , 100.5	 ) ; 
   CreateUserTH1D( "nVertex_ROI"                     ,    101   , -0.5   , 100.5	 ) ; 
@@ -270,93 +288,49 @@ void analysisClass::Loop()
   CreateUserTH1D( "PileupWeight"   , 100, -10, 10 );
   CreateUserTH1D( "GeneratorWeight", 100, -2.0 , 2.0 );
 
-  CreateUserTH1D("BeamSpotDXY_1stEle_PAS"                   , 200,  0.0 ,   0.5  ); CreateUserTH1D("BeamSpotDXY_2ndEle_PAS"                   , 200,  0.0 ,   0.5  );
-  CreateUserTH1D("Classif_1stEle_PAS"                       , 5  , -0.5 ,   4.5  ); CreateUserTH1D("Classif_2ndEle_PAS"                       , 5  , -0.5 ,   4.5  );
   CreateUserTH1D("CorrIsolation_1stEle_PAS"                 , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_PAS"                 , 200,-25.0 ,  25.0  );
   CreateUserTH1D("DeltaEtaTrkSC_1stEle_PAS"                 , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_PAS"                 , 200, -0.01,   0.01 );
-  CreateUserTH1D("DeltaPhiTrkSC_1stEle_PAS"                 , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_PAS"                 , 200, -0.1 ,   0.1  );
-  CreateUserTH1D("E1x5OverE5x5_1stEle_PAS"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_PAS"                  , 200,  0.0 ,   2.0  );
   CreateUserTH1D("E2x5OverE5x5_1stEle_PAS"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_PAS"                  , 200,  0.0 ,   2.0  );
   CreateUserTH1D("EcalIsolation_1stEle_PAS"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_PAS"                 , 200,  0.0 ,  20.0  );
   CreateUserTH1D("HcalIsolation_1stEle_PAS"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_PAS"                 , 200,  0.0 ,  20.0  );
   CreateUserTH1D("TrkIsolation_1stEle_PAS"                  , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_PAS"                  , 200,  0.0,    5.0  );
-  CreateUserTH1D("Energy_1stEle_PAS"                        , 200,  0.0 ,3000.0  ); CreateUserTH1D("Energy_2ndEle_PAS"                        , 200,  0.0 ,3000.0  );
-  CreateUserTH1D("FBrem_1stEle_PAS"                         , 200,-10.0 ,  10.0  ); CreateUserTH1D("FBrem_2ndEle_PAS"                         , 200,-10.0 ,  10.0  );
-  CreateUserTH1D("GsfCtfCharge_1stEle_PAS"                  , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfCharge_2ndEle_PAS"                  , 2,   -0.5 ,   1.5  );
-  CreateUserTH1D("GsfCtfScPixCharge_1stEle_PAS"             , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfScPixCharge_2ndEle_PAS"             , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("GsfScPixCharge_1stEle_PAS"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfScPixCharge_2ndEle_PAS"                , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("HasMatchedPhot_1stEle_PAS"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("HasMatchedPhot_2ndEle_PAS"                , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("HoE_1stEle_PAS"                           , 200,  0.0 ,   0.05 ); CreateUserTH1D("HoE_2ndEle_PAS"                           , 200,  0.0 ,   0.05 );
   CreateUserTH1D("LeadVtxDistXY_1stEle_PAS"                 , 200, -0.05,   0.05 ); CreateUserTH1D("LeadVtxDistXY_2ndEle_PAS"                 , 200, -0.05,   0.05 );
   CreateUserTH1D("LeadVtxDistZ_1stEle_PAS"                  , 200, -0.2 ,   0.2  ); CreateUserTH1D("LeadVtxDistZ_2ndEle_PAS"                  , 200, -0.2 ,   0.2  );
   CreateUserTH1D("MissingHits_1stEle_PAS"                   , 2  , -0.5,    1.5  ); CreateUserTH1D("MissingHits_2ndEle_PAS"                   , 2  , -0.5,    1.5  );
-  CreateUserTH1D("NBrems_1stEle_PAS"                        , 11 , -0.5,   10.5  ); CreateUserTH1D("NBrems_2ndEle_PAS"                        , 11 , -0.5,   10.5  );
-  CreateUserTH1D("EnergyORawEnergy_1stEle_PAS"              , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_PAS"              , 200,  0.9,    1.4  );
-  CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_PAS"            , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_PAS"            , 200,  0.0,    0.02 );
-  CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_PAS"            , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_PAS"            , 200,  0.0,    0.1  );
   CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS"          , 200,  0.0,    0.04 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS"          , 200,  0.0,    0.04 );
   CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS"          , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS"          , 200,  0.0,    0.1  );
-  CreateUserTH1D("TrkPtOPt_1stEle_PAS"                      , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_PAS"                      , 200,  0.0,  100.0  );
-  CreateUserTH1D("ValidFrac_1stEle_PAS"                     , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_PAS"                     , 200,  0.0 ,   2.0  );
 
-  CreateUserTH1D("BeamSpotDXY_1stEle_PASandMee100"          , 200,  0.0 ,   0.5  ); CreateUserTH1D("BeamSpotDXY_2ndEle_PASandMee100"          , 200,  0.0 ,   0.5  );
-  CreateUserTH1D("Classif_1stEle_PASandMee100"              , 5  , -0.5 ,   4.5  ); CreateUserTH1D("Classif_2ndEle_PASandMee100"              , 5  , -0.5 ,   4.5  );
   CreateUserTH1D("CorrIsolation_1stEle_PASandMee100"        , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_PASandMee100"        , 200,-25.0 ,  25.0  );
   CreateUserTH1D("DeltaEtaTrkSC_1stEle_PASandMee100"        , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_PASandMee100"        , 200, -0.01,   0.01 );
-  CreateUserTH1D("DeltaPhiTrkSC_1stEle_PASandMee100"        , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_PASandMee100"        , 200, -0.1 ,   0.1  );
-  CreateUserTH1D("E1x5OverE5x5_1stEle_PASandMee100"         , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_PASandMee100"         , 200,  0.0 ,   2.0  );
   CreateUserTH1D("E2x5OverE5x5_1stEle_PASandMee100"         , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_PASandMee100"         , 200,  0.0 ,   2.0  );
   CreateUserTH1D("EcalIsolation_1stEle_PASandMee100"        , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_PASandMee100"        , 200,  0.0 ,  20.0  );
   CreateUserTH1D("HcalIsolation_1stEle_PASandMee100"        , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_PASandMee100"        , 200,  0.0 ,  20.0  );
   CreateUserTH1D("TrkIsolation_1stEle_PASandMee100"         , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_PASandMee100"         , 200,  0.0,    5.0  );
-  CreateUserTH1D("Energy_1stEle_PASandMee100"               , 200,  0.0 ,3000.0  ); CreateUserTH1D("Energy_2ndEle_PASandMee100"               , 200,  0.0 ,3000.0  );
-  CreateUserTH1D("FBrem_1stEle_PASandMee100"                , 200,-10.0 ,  10.0  ); CreateUserTH1D("FBrem_2ndEle_PASandMee100"                , 200,-10.0 ,  10.0  );
-  CreateUserTH1D("GsfCtfCharge_1stEle_PASandMee100"         , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfCharge_2ndEle_PASandMee100"         , 2,   -0.5 ,   1.5  );
-  CreateUserTH1D("GsfCtfScPixCharge_1stEle_PASandMee100"    , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfScPixCharge_2ndEle_PASandMee100"    , 2,   -0.5 ,   1.5  );
-  CreateUserTH1D("GsfScPixCharge_1stEle_PASandMee100"       , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfScPixCharge_2ndEle_PASandMee100"       , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("HasMatchedPhot_1stEle_PASandMee100"       , 2,   -0.5 ,   1.5  ); CreateUserTH1D("HasMatchedPhot_2ndEle_PASandMee100"       , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("HoE_1stEle_PASandMee100"                  , 200,  0.0 ,   0.05 ); CreateUserTH1D("HoE_2ndEle_PASandMee100"                  , 200,  0.0 ,   0.05 );
   CreateUserTH1D("LeadVtxDistXY_1stEle_PASandMee100"        , 200, -0.05,   0.05 ); CreateUserTH1D("LeadVtxDistXY_2ndEle_PASandMee100"        , 200, -0.05,   0.05 );
   CreateUserTH1D("LeadVtxDistZ_1stEle_PASandMee100"         , 200, -0.2 ,   0.2  ); CreateUserTH1D("LeadVtxDistZ_2ndEle_PASandMee100"         , 200, -0.2 ,   0.2  );
   CreateUserTH1D("MissingHits_1stEle_PASandMee100"          , 2  , -0.5,    1.5  ); CreateUserTH1D("MissingHits_2ndEle_PASandMee100"          , 2  , -0.5,    1.5  );
-  CreateUserTH1D("NBrems_1stEle_PASandMee100"               , 11 , -0.5,   10.5  ); CreateUserTH1D("NBrems_2ndEle_PASandMee100"               , 11 , -0.5,   10.5  );
-  CreateUserTH1D("EnergyORawEnergy_1stEle_PASandMee100"     , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_PASandMee100"     , 200,  0.9,    1.4  );
-  CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_PASandMee100"   , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_PASandMee100"   , 200,  0.0,    0.02 );
-  CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_PASandMee100"   , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_PASandMee100"   , 200,  0.0,    0.1  );
   CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PASandMee100" , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PASandMee100" , 200,  0.0,    0.02 );
   CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PASandMee100" , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100" , 200,  0.0,    0.1  );
-  CreateUserTH1D("TrkPtOPt_1stEle_PASandMee100"             , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_PASandMee100"             , 200,  0.0,  100.0  );
-  CreateUserTH1D("ValidFrac_1stEle_PASandMee100"            , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_PASandMee100"            , 200,  0.0 ,   2.0  );
 
 
-  CreateUserTH1D("BeamSpotDXY_1stEle_ROI"                   , 200,  0.0 ,   0.5  ); CreateUserTH1D("BeamSpotDXY_2ndEle_ROI"                   , 200,  0.0 ,   0.5  );
-  CreateUserTH1D("Classif_1stEle_ROI"                       , 5  , -0.5 ,   4.5  ); CreateUserTH1D("Classif_2ndEle_ROI"                       , 5  , -0.5 ,   4.5  );
   CreateUserTH1D("CorrIsolation_1stEle_ROI"                 , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_ROI"                 , 200,-25.0 ,  25.0  );
   CreateUserTH1D("DeltaEtaTrkSC_1stEle_ROI"                 , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"                 , 200, -0.01,   0.01 );
-  CreateUserTH1D("DeltaPhiTrkSC_1stEle_ROI"                 , 200, -0.1 ,   0.1  ); CreateUserTH1D("DeltaPhiTrkSC_2ndEle_ROI"                 , 200, -0.1 ,   0.1  );
-  CreateUserTH1D("E1x5OverE5x5_1stEle_ROI"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E1x5OverE5x5_2ndEle_ROI"                  , 200,  0.0 ,   2.0  );
   CreateUserTH1D("E2x5OverE5x5_1stEle_ROI"                  , 200,  0.0 ,   2.0  ); CreateUserTH1D("E2x5OverE5x5_2ndEle_ROI"                  , 200,  0.0 ,   2.0  );
   CreateUserTH1D("EcalIsolation_1stEle_ROI"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("EcalIsolation_2ndEle_ROI"                 , 200,  0.0 ,  20.0  );
   CreateUserTH1D("HcalIsolation_1stEle_ROI"                 , 200,  0.0 ,  20.0  ); CreateUserTH1D("HcalIsolation_2ndEle_ROI"                 , 200,  0.0 ,  20.0  );
   CreateUserTH1D("TrkIsolation_1stEle_ROI"                  , 200,  0.0,    5.0  ); CreateUserTH1D("TrkIsolation_2ndEle_ROI"                  , 200,  0.0,    5.0  );
-  CreateUserTH1D("Energy_1stEle_ROI"                        , 200,  0.0 ,3000.0  ); CreateUserTH1D("Energy_2ndEle_ROI"                        , 200,  0.0 ,3000.0  );
-  CreateUserTH1D("FBrem_1stEle_ROI"                         , 200,-10.0 ,  10.0  ); CreateUserTH1D("FBrem_2ndEle_ROI"                         , 200,-10.0 ,  10.0  );
-  CreateUserTH1D("GsfCtfCharge_1stEle_ROI"                  , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfCharge_2ndEle_ROI"                  , 2,   -0.5 ,   1.5  );
-  CreateUserTH1D("GsfCtfScPixCharge_1stEle_ROI"             , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfCtfScPixCharge_2ndEle_ROI"             , 2,   -0.5 ,   1.5  );
-  CreateUserTH1D("GsfScPixCharge_1stEle_ROI"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("GsfScPixCharge_2ndEle_ROI"                , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("HasMatchedPhot_1stEle_ROI"                , 2,   -0.5 ,   1.5  ); CreateUserTH1D("HasMatchedPhot_2ndEle_ROI"                , 2,   -0.5 ,   1.5  );
   CreateUserTH1D("HoE_1stEle_ROI"                           , 200,  0.0 ,   0.05 ); CreateUserTH1D("HoE_2ndEle_ROI"                           , 200,  0.0 ,   0.05 );
   CreateUserTH1D("LeadVtxDistXY_1stEle_ROI"                 , 200, -0.05,   0.05 ); CreateUserTH1D("LeadVtxDistXY_2ndEle_ROI"                 , 200, -0.05,   0.05 );
   CreateUserTH1D("LeadVtxDistZ_1stEle_ROI"                  , 200, -0.2 ,   0.2  ); CreateUserTH1D("LeadVtxDistZ_2ndEle_ROI"                  , 200, -0.2 ,   0.2  );
   CreateUserTH1D("MissingHits_1stEle_ROI"                   , 2  , -0.5,    1.5  ); CreateUserTH1D("MissingHits_2ndEle_ROI"                   , 2  , -0.5,    1.5  );
-  CreateUserTH1D("NBrems_1stEle_ROI"                        , 11 , -0.5,   10.5  ); CreateUserTH1D("NBrems_2ndEle_ROI"                        , 11 , -0.5,   20.5  );
-  CreateUserTH1D("EnergyORawEnergy_1stEle_ROI"              , 200,  0.9,    1.4  ); CreateUserTH1D("EnergyORawEnergy_2ndEle_ROI"              , 200,  0.9,    1.4  );
-  CreateUserTH1D("SigmaEtaEta_Barrel_1stEle_ROI"            , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaEtaEta_Barrel_2ndEle_ROI"            , 200,  0.0,    0.02 );
-  CreateUserTH1D("SigmaEtaEta_Endcap_1stEle_ROI"            , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaEtaEta_Endcap_2ndEle_ROI"            , 200,  0.0,    0.1  );
   CreateUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI"          , 200,  0.0,    0.02 ); CreateUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI"          , 200,  0.0,    0.02 );
   CreateUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI"          , 200,  0.0,    0.1  ); CreateUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI"          , 200,  0.0,    0.1  );
-  CreateUserTH1D("TrkPtOPt_1stEle_ROI"                      , 200,  0.0,  100.0  ); CreateUserTH1D("TrkPtOPt_2ndEle_ROI"                      , 200,  0.0,  100.0  );
-  CreateUserTH1D("ValidFrac_1stEle_ROI"                     , 200,  0.0 ,   2.0  ); CreateUserTH1D("ValidFrac_2ndEle_ROI"                     , 200,  0.0 ,   2.0  );
   // for scale factor dependence studies
   CreateUserTH1D( "Mee_NJetEq2_PAS"		             ,    200   , 0       , 2000	  ); 
   CreateUserTH1D( "Mee_NJetEq3_PAS"		             ,    200   , 0       , 2000	  ); 
@@ -386,6 +360,13 @@ void analysisClass::Loop()
 
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
+    //--------------------------------------------------------------------------
+    // Tricky part: refine Weight branch for data only
+    //--------------------------------------------------------------------------
+    float weight = 1.0;
+
+    if(isData())
+      resetSkimTreeBranchAddress("Weight", &weight);
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
@@ -401,28 +382,62 @@ void analysisClass::Loop()
     // Check good run list
     //--------------------------------------------------------------------------
 
-    int passedJSON = passJSON ( readerTools_->ReadValueBranch<Double_t>("run"),
-        readerTools_->ReadValueBranch<Double_t>("ls"),
-        isData() ) ;
+    float run = readerTools_->ReadValueBranch<Float_t>("run");
+    float ls = readerTools_->ReadValueBranch<Float_t>("ls");
+    float event = readerTools_->ReadValueBranch<Float_t>("event");
+    int passedJSON = passJSON ( run, ls, isData() ) ;
 
     //--------------------------------------------------------------------------
     // Find the right prescale for this event
     //--------------------------------------------------------------------------
 
-    int min_prescale = 0;
+    double min_prescale = 1;
     int passTrigger  = 0;
 
-    double LooseEle1_hltPhotonPt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_hltPhotonPt");
-    if ( LooseEle1_hltPhotonPt > 0.0 ) { 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon22")   > 0.1 && LooseEle1_hltPhotonPt >= 22.  && LooseEle1_hltPhotonPt < 30. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon22") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon30")   > 0.1 && LooseEle1_hltPhotonPt >= 30.  && LooseEle1_hltPhotonPt < 36. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon30") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon36")   > 0.1 && LooseEle1_hltPhotonPt >= 36.  && LooseEle1_hltPhotonPt < 50. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon36") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon50")   > 0.1 && LooseEle1_hltPhotonPt >= 50.  && LooseEle1_hltPhotonPt < 75. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon50") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon75")   > 0.1 && LooseEle1_hltPhotonPt >= 75.  && LooseEle1_hltPhotonPt < 90. ) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon75") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon90")   > 0.1 && LooseEle1_hltPhotonPt >= 90.  && LooseEle1_hltPhotonPt < 120.) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon90") ; } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon120")  > 0.1 && LooseEle1_hltPhotonPt >= 120. && LooseEle1_hltPhotonPt < 175.) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon120"); } 
-      if ( readerTools_->ReadValueBranch<Double_t>("H_Photon175")  > 0.1 && LooseEle1_hltPhotonPt >= 175.) { passTrigger = 1; min_prescale = readerTools_->ReadValueBranch<Double_t>("H_Photon175"); } 
+    float Ele1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele1_hltPhotonPt");
+    
+    std::string triggerName = "";
+
+    if ( Ele1_hltPhotonPt > 0.0 ) {
+      if(analysisYear==2016) {
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon22")   > 0.1 && Ele1_hltPhotonPt >= 22.  && Ele1_hltPhotonPt < 30. ) { passTrigger = 1; triggerName = "Photon22"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon30")   > 0.1 && Ele1_hltPhotonPt >= 30.  && Ele1_hltPhotonPt < 36. ) { passTrigger = 1; triggerName = "Photon30"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon36")   > 0.1 && Ele1_hltPhotonPt >= 36.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon36"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175.) { passTrigger = 1; triggerName = "Photon175"; } 
+      }
+      else if(analysisYear==2017) {
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon25")   > 0.1 && Ele1_hltPhotonPt >= 25.  && Ele1_hltPhotonPt < 33. ) { passTrigger = 1; triggerName = "Photon25"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && Ele1_hltPhotonPt >= 33.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && Ele1_hltPhotonPt >= 150. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175. && Ele1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
+      }
+      else if(analysisYear==2018) {
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && Ele1_hltPhotonPt >= 33.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && Ele1_hltPhotonPt >= 150. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175. && Ele1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
+      }
     }
+    if(isData() && passTrigger) {
+      //std::cout << "INFO: lookup trigger name " << triggerName << " for year: " << year << std::endl;
+      min_prescale = run2PhotonTriggerPrescales.LookupPrescale(analysisYear,triggerName);
+    }
+    //else {
+    //  std::cout << "Photon with hltPt = " << Ele1_hltPhotonPt << " did not pass any of the single photon triggers.." << std::endl;
+    //}
     ///XXX SIC TEST FIXME to remove trigger and prescale requirements
     //passTrigger=1;
     //if ( H_Photon22   > 0.1 ) { passTrigger = 1; min_prescale = H_Photon22  ; } 
@@ -434,17 +449,18 @@ void analysisClass::Loop()
     //if ( H_Photon120  > 0.1 ) { passTrigger = 1; min_prescale = H_Photon120 ; } 
     //if ( H_Photon175  > 0.1 ) { passTrigger = 1; min_prescale = H_Photon175 ; } 
     //min_prescale=1.0;
-    // test output
-    std::cout << " LooseEle1_hltPhotonPt = " << LooseEle1_hltPhotonPt  << std::endl;
-    std::cout << " prescale of H_Photon22 = " << readerTools_->ReadValueBranch<Double_t>("H_Photon22")  << std::endl;
-    std::cout << " prescale of H_Photon30 = " << readerTools_->ReadValueBranch<Double_t>("H_Photon30")  << std::endl;
-    std::cout << " prescale of H_Photon36 = " << readerTools_->ReadValueBranch<Double_t>("H_Photon36")  << std::endl;
-    std::cout << " prescale of H_Photon50 = " << readerTools_->ReadValueBranch<Double_t>("H_Photon50")  << std::endl;
-    std::cout << " prescale of H_Photon75 = " << readerTools_->ReadValueBranch<Double_t>("H_Photon75")  << std::endl;
-    std::cout << " prescale of H_Photon90 = " << readerTools_->ReadValueBranch<Double_t>("H_Photon90")  << std::endl;
-    std::cout << " prescale of H_Photon120= " << readerTools_->ReadValueBranch<Double_t>("H_Photon120") << std::endl;
-    std::cout << " prescale of H_Photon175= " << readerTools_->ReadValueBranch<Double_t>("H_Photon175") << std::endl;
-    // test output
+    //// test output
+    //std::cout << "Ele1_hltPhotonPt: " << Ele1_hltPhotonPt << std::endl;
+    //std::cout << "Ele2_hltPhotonPt: " << readerTools_->ReadValueBranch<Float_t>("Ele2_hltPhotonPt") << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon22 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon22")  << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon30 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon30")  << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon36 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon36")  << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon50 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon50")  << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon75 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon75")  << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon90 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon90")  << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon120= " << readerTools_->ReadValueBranch<Float_t>("H_Photon120") << "; min_prescale=" << min_prescale << std::endl;
+    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon175= " << readerTools_->ReadValueBranch<Float_t>("H_Photon175") << "; min_prescale=" << min_prescale << std::endl;
+    //// test output
 
     //--------------------------------------------------------------------------
     // What kind of event is this?
@@ -460,22 +476,26 @@ void analysisClass::Loop()
     bool ele2_isEndcap1 = false;
     bool ele2_isEndcap2 = false;
 
-    double LooseEle1_SCEta = readerTools_->ReadValueBranch<Double_t>("LooseEle1_SCEta");
-    double LooseEle2_SCEta = readerTools_->ReadValueBranch<Double_t>("LooseEle2_SCEta");
-    double LooseEle1_PtHeep = readerTools_->ReadValueBranch<Double_t>("LooseEle1_PtHeep");
-    double LooseEle2_PtHeep = readerTools_->ReadValueBranch<Double_t>("LooseEle2_PtHeep");
+    float Ele1_SCEta = readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta");
+    float Ele2_SCEta = readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta");
+    //float Ele1_PtHeep = readerTools_->ReadValueBranch<Float_t>("Ele1_PtHeep");
+    //float Ele2_PtHeep = readerTools_->ReadValueBranch<Float_t>("Ele2_PtHeep");
+    float Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+    float Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+    float Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
+    float Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
 
-    if( fabs( LooseEle1_SCEta  ) < eleEta_bar )        ele1_isBarrel  = true;
-    if( fabs( LooseEle1_SCEta  ) > eleEta_end1_min &&
-        fabs( LooseEle1_SCEta  ) < eleEta_end1_max )   ele1_isEndcap1 = true;
-    if( fabs( LooseEle1_SCEta  ) > eleEta_end2_min &&
-        fabs( LooseEle1_SCEta  ) < eleEta_end2_max )   ele1_isEndcap2 = true;
+    if( fabs( Ele1_SCEta  ) < eleEta_bar )        ele1_isBarrel  = true;
+    if( fabs( Ele1_SCEta  ) > eleEta_end1_min &&
+        fabs( Ele1_SCEta  ) < eleEta_end1_max )   ele1_isEndcap1 = true;
+    if( fabs( Ele1_SCEta  ) > eleEta_end2_min &&
+        fabs( Ele1_SCEta  ) < eleEta_end2_max )   ele1_isEndcap2 = true;
 
-    if( fabs( LooseEle2_SCEta  ) < eleEta_bar )        ele2_isBarrel  = true;
-    if( fabs( LooseEle2_SCEta  ) > eleEta_end1_min &&
-        fabs( LooseEle2_SCEta  ) < eleEta_end1_max )   ele2_isEndcap1 = true;
-    if( fabs( LooseEle2_SCEta  ) > eleEta_end2_min &&
-        fabs( LooseEle2_SCEta  ) < eleEta_end2_max )   ele2_isEndcap2 = true;
+    if( fabs( Ele2_SCEta  ) < eleEta_bar )        ele2_isBarrel  = true;
+    if( fabs( Ele2_SCEta  ) > eleEta_end1_min &&
+        fabs( Ele2_SCEta  ) < eleEta_end1_max )   ele2_isEndcap1 = true;
+    if( fabs( Ele2_SCEta  ) > eleEta_end2_min &&
+        fabs( Ele2_SCEta  ) < eleEta_end2_max )   ele2_isEndcap2 = true;
 
     bool ele1_isEndcap = ( ele1_isEndcap1 || ele1_isEndcap2 ) ;
     bool ele2_isEndcap = ( ele2_isEndcap1 || ele2_isEndcap2 ) ;
@@ -489,20 +509,42 @@ void analysisClass::Loop()
     //--------------------------------------------------------------------------
     // Make this a QCD fake rate calculation
     //--------------------------------------------------------------------------
-    float fakeRate1 = qcdFakeRate.GetFakeRate(LooseEle1_SCEta,LooseEle1_PtHeep);
-    float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_SCEta,LooseEle2_PtHeep);
+    float fakeRate1 = -1;
+    float fakeRate2 = -1;
+    if(analysisYear < 2018) {
+      fakeRate1 = qcdFR.GetFakeRate(Ele1_Pt, QCDFakeRate::GetFakeRateRegion(ele1_isBarrel, ele1_isEndcap1, ele1_isEndcap2));
+      fakeRate2 = qcdFR.GetFakeRate(Ele2_Pt, QCDFakeRate::GetFakeRateRegion(ele2_isBarrel, ele2_isEndcap1, ele2_isEndcap2));
+    }
+    else {
+      fakeRate1 = qcdFR.GetFakeRate(Ele1_Pt, QCDFakeRate::GetFakeRateRegion(ele1_isBarrel, ele1_isEndcap1, ele1_isEndcap2,
+            Ele1_SCEta, Ele1_Phi, run));
+      fakeRate2 = qcdFR.GetFakeRate(Ele2_Pt, QCDFakeRate::GetFakeRateRegion(ele2_isBarrel, ele2_isEndcap1, ele2_isEndcap2,
+            Ele2_SCEta, Ele2_Phi, run ));
+    }
 
     //--------------------------------------------------------------------------
     // Finally have the effective fake rate
     //--------------------------------------------------------------------------
 
     //FIXME: add error on fake rate as well
-    double fakeRateEffective  = fakeRate1 * fakeRate2;
+    //double fakeRateEffective  = fakeRate1 * fakeRate2;
+    double fakeRateEffective  = fakeRate1/(1-fakeRate1); // require loose electron to fail HEEP ID
+    //if(1-fakeRate1 <= 0)
+    //{
+    //  cout << "ERROR: Found fakeRate1: " << fakeRate1 << " for SCEta=" << Ele1_SCEta << " SCEt="
+    //    << Ele1_SCEnergy/cosh(Ele1_SCEta) << "=" << Ele1_SCEnergy << "/" << 
+    //    cosh(Ele1_SCEta) << endl;
+    //}
+    float nEle_store = readerTools_->ReadValueBranch<Float_t>("nEle_store");
+    if ( nEle_store >= 2 ) { 							        
+      fakeRateEffective *= fakeRate2/(1-fakeRate2);
+    }
     // double eFakeRateEffective = fakeRateEffective * sqrt (  ( eFakeRate1 / fakeRate1 ) * ( eFakeRate1 / fakeRate1 ) +
     //					     ( eFakeRate2 / fakeRate2 ) * ( eFakeRate2 / fakeRate2 ) );
     double eFakeRateEffective = 0.0;
-    // FIXME XXX TESTING
-    //fakeRateEffective  = 1.0;
+
+    weight = fakeRateEffective * min_prescale;
+
     //--------------------------------------------------------------------------
     // Fill variables
     //--------------------------------------------------------------------------
@@ -519,33 +561,43 @@ void analysisClass::Loop()
     // Fill noise filters
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue( "PassGlobalTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Double_t>("PassGlobalTightHalo2016Filter")==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassGoodVertices"	             , int(readerTools_->ReadValueBranch<Double_t>("PassGoodVertices")             ==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassHBHENoiseFilter"	         , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseFilter")          ==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassHBHENoiseIsoFilter"	       , int(readerTools_->ReadValueBranch<Double_t>("PassHBHENoiseIsoFilter")       ==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Double_t>("PassBadEESupercrystalFilter")  ==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Double_t>("PassEcalDeadCellTrigPrim")     ==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Double_t>("PassChargedCandidateFilter")   ==1), fakeRateEffective * min_prescale );
-    fillVariableWithValue( "PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Double_t>("PassBadPFMuonFilter")          ==1), fakeRateEffective * min_prescale );
+    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Float_t>("PassGlobalSuperTightHalo2016Filter")     == 1), fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassGoodVertices"                   , int(readerTools_->ReadValueBranch<Float_t>("PassGoodVertices")                       == 1), fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassHBHENoiseFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseFilter")                    == 1), fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassHBHENoiseIsoFilter"             , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseIsoFilter")                 == 1), fakeRateEffective * min_prescale);
+    // eBadScFilter not suggested for MC
+    if(isData())
+      fillVariableWithValue("PassBadEESupercrystalFilter"      , int(readerTools_->ReadValueBranch<Float_t>("PassBadEESupercrystalFilter")            == 1), fakeRateEffective * min_prescale);
+    else
+      fillVariableWithValue("PassBadEESupercrystalFilter"      , 1                                                                                          , fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Float_t>("PassEcalDeadCellTrigPrim")               == 1), fakeRateEffective * min_prescale);
+    // not recommended
+    //fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueBranch<Float_t>("PassChargedCandidateFilter")             == 1), fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassBadPFMuonFilter")                    == 1), fakeRateEffective * min_prescale);
+    // EcalBadCalibV2 for 2017, 2018
+    if(analysisYear > 2016)
+      fillVariableWithValue("PassEcalBadCalibV2Filter"         , int(readerTools_->ReadValueBranch<Float_t>("PassEcalBadCalibV2Filter")               == 1), fakeRateEffective * min_prescale);
+    else
+      fillVariableWithValue("PassEcalBadCalibV2Filter"         , 1                                                                                          , fakeRateEffective * min_prescale);
 
     // Electrons
     int PassNEle = 0;
-    double nLooseEle_ptCut = readerTools_->ReadValueBranch<Double_t>("nLooseEle_ptCut");
-    if ( nLooseEle_ptCut == 2 ) PassNEle = 1;
+    float nEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nEle_ptCut");
+    if ( nEle_ptCut >= 2 ) PassNEle = 1;
     // we only look at events that have exactly two loose electrons (passing Pt>10)
 
     //FIXME fix the counting to avoid the below
-    //// nLooseEle_store is the number of loose eles with pt>10
-    //if(nLooseEle_store==3)
+    //// nEle_store is the number of loose eles with pt>10
+    //if(nEle_store==3)
     //{
     //  // if 3 stored, 2 leads must pass Pt cut and third must fail
-    //  if(LooseEle3_Pt<50 && LooseEle1_Pt>=50 && LooseEle2_Pt>=50)
+    //  if(Ele3_Pt<50 && Ele1_Pt>=50 && Ele2_Pt>=50)
     //    PassNEle=1;
     //}
-    //else if(nLooseEle_store==2)
+    //else if(nEle_store==2)
     //{
     //  // if 2 stored, OK
-    //  if(LooseEle1_Pt>=50 && LooseEle2_Pt>=50)
+    //  if(Ele1_Pt>=50 && Ele2_Pt>=50)
     //      PassNEle=1;
     //}
 
@@ -555,7 +607,7 @@ void analysisClass::Loop()
 
     // Muons
     int PassNMuon = 0;
-    double nMuon_ptCut = readerTools_->ReadValueBranch<Double_t>("nMuon_ptCut");
+    float nMuon_ptCut = readerTools_->ReadValueBranch<Float_t>("nMuon_ptCut");
     if ( nMuon_ptCut == 0 ) PassNMuon = 1;
 
     fillVariableWithValue ( "PassHLT"                        , passTrigger             , fakeRateEffective * min_prescale ) ;
@@ -564,46 +616,54 @@ void analysisClass::Loop()
 
 
     // Electrons								        
-    if(nLooseEle_ptCut > 1) std::cout << "INFO: nLooseEle_ptCut=" << nLooseEle_ptCut << "; PassNEle=" << PassNEle << std::endl;
+    //if(nEle_ptCut > 1) std::cout << "INFO: nEle_ptCut=" << nEle_ptCut << "; PassNEle=" << PassNEle << std::endl;
     fillVariableWithValue(   "PassNEle"                      , PassNEle                , fakeRateEffective * min_prescale ) ;
-    double nLooseEle_store = readerTools_->ReadValueBranch<Double_t>("nLooseEle_store");
-    if ( nLooseEle_store >= 1 ) { 							        
-      fillVariableWithValue( "Ele1_PtHeep"                       , LooseEle1_PtHeep            , fakeRateEffective * min_prescale ) ;
+    float Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
+    float Ele1_PassHEEPID = readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPID");
+    float Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
+    float Ele2_PassHEEPID = readerTools_->ReadValueBranch<Float_t>("Ele2_PassHEEPID");
+    float Pt_e1e2 = readerTools_->ReadValueBranch<Float_t>("Pt_e1e2");
+    float M_e1e2 = readerTools_->ReadValueBranch<Float_t>("M_e1e2");
+    if ( nEle_store >= 1 ) { 							        
+      fillVariableWithValue( "Ele1_Eta"                      , Ele1_Eta            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_Pt"                       , Ele1_Pt            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_PassHEEPID"               , Ele1_PassHEEPID                , fakeRateEffective * min_prescale ) ;
     }										        
-    double M_e1e2 = readerTools_->ReadValueBranch<Double_t>("M_e1e2");
-    if ( nLooseEle_store >= 2 ) { 							        
-      fillVariableWithValue( "Ele2_PtHeep"                       , LooseEle2_PtHeep            , fakeRateEffective * min_prescale ) ;
+    if ( nEle_store >= 2 ) { 							        
+      fillVariableWithValue( "Ele2_Eta"                        , Ele2_Eta            , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_Pt"                       , Ele2_Pt                 , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_PassHEEPID"                 , Ele2_PassHEEPID                , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Pt_e1e2"                       , Pt_e1e2             , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2_opt"                    , M_e1e2                  , fakeRateEffective * min_prescale ) ;
     }
 
     // Jets
-    double nJetLooseEle_ptCut = readerTools_->ReadValueBranch<Double_t>("nJetLooseEle_ptCut");
-    double nJetLooseEle_store = readerTools_->ReadValueBranch<Double_t>("nJetLooseEle_store");
-    double JetLooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("JetLooseEle1_Pt");
-    double JetLooseEle2_Pt = readerTools_->ReadValueBranch<Double_t>("JetLooseEle2_Pt");
-    double JetLooseEle1_Eta = readerTools_->ReadValueBranch<Double_t>("JetLooseEle1_Eta");
-    double JetLooseEle2_Eta = readerTools_->ReadValueBranch<Double_t>("JetLooseEle2_Eta");
-    double JetLooseEle1_Phi = readerTools_->ReadValueBranch<Double_t>("JetLooseEle1_Phi");
-    double JetLooseEle2_Phi = readerTools_->ReadValueBranch<Double_t>("JetLooseEle2_Phi");
-    double DR_Jet1Jet2 = readerTools_->ReadValueBranch<Double_t>("DR_Jet1Jet2");
-    fillVariableWithValue(   "nJet"                          , nJetLooseEle_ptCut      , fakeRateEffective * min_prescale ) ;
-    if ( nJetLooseEle_store >= 1 ) { 						                
-      fillVariableWithValue( "Jet1_Pt"                       , JetLooseEle1_Pt         , fakeRateEffective * min_prescale ) ;
-      fillVariableWithValue( "Jet1_Eta"                      , JetLooseEle1_Eta        , fakeRateEffective * min_prescale ) ;
+    float nJet_ptCut = readerTools_->ReadValueBranch<Float_t>("nJet_ptCut");
+    float nJet_store = readerTools_->ReadValueBranch<Float_t>("nJet_store");
+    float Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
+    float Jet2_Pt = readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
+    float Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
+    float Jet2_Eta = readerTools_->ReadValueBranch<Float_t>("Jet2_Eta");
+    float Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
+    float Jet2_Phi = readerTools_->ReadValueBranch<Float_t>("Jet2_Phi");
+    float DR_Jet1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Jet1Jet2");
+    fillVariableWithValue(   "nJet"                          , nJet_ptCut      , fakeRateEffective * min_prescale ) ;
+    if ( nJet_store >= 1 ) { 						                
+      fillVariableWithValue( "Jet1_Pt"                       , Jet1_Pt         , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Jet1_Eta"                      , Jet1_Eta        , fakeRateEffective * min_prescale ) ;
     }
 
-    double M_e1j1 = readerTools_->ReadValueBranch<Double_t>("M_e1j1");
-    double M_e1j2 = readerTools_->ReadValueBranch<Double_t>("M_e1j2");
-    double M_e2j1 = readerTools_->ReadValueBranch<Double_t>("M_e2j1");
-    double M_e2j2 = readerTools_->ReadValueBranch<Double_t>("M_e2j2");
-    double Pt_e1e2 = readerTools_->ReadValueBranch<Double_t>("Pt_e1e2");
-    if ( nJetLooseEle_store >= 2 ) { 
-      fillVariableWithValue( "Jet2_Pt"                       , JetLooseEle2_Pt         , fakeRateEffective * min_prescale ) ;
-      fillVariableWithValue( "Jet2_Eta"                      , JetLooseEle2_Eta        , fakeRateEffective * min_prescale ) ;
+    float M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
+    float M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
+    float M_e2j1 = readerTools_->ReadValueBranch<Float_t>("M_e2j1");
+    float M_e2j2 = readerTools_->ReadValueBranch<Float_t>("M_e2j2");
+    if ( nJet_store >= 2 ) { 
+      fillVariableWithValue( "Jet2_Pt"                       , Jet2_Pt         , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Jet2_Eta"                      , Jet2_Eta        , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "DR_Jet1Jet2"                   , DR_Jet1Jet2             , fakeRateEffective * min_prescale ) ;
 
-      if ( nLooseEle_store >= 2 && nJetLooseEle_store >= 2) {
+      if ( nEle_store >= 2 && nJet_store >= 2) {
         if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) )  {
           M_ej_avg = (M_e1j1 + M_e2j2) / 2.0;
           if    ( M_e1j1 < M_e2j2 ) { M_ej_min = M_e1j1; M_ej_max = M_e2j2; }
@@ -617,43 +677,46 @@ void analysisClass::Loop()
       }      
     }
 
-    double sT_zjj = Pt_e1e2 + JetLooseEle1_Pt + JetLooseEle2_Pt;
+    double sT_zjj = Pt_e1e2 + Jet1_Pt + Jet2_Pt;
 
     // Muons
     fillVariableWithValue(   "PassNMuon"                     , PassNMuon               , fakeRateEffective * min_prescale ) ;
 
     // DeltaR
-    double DR_Ele1Jet1 = readerTools_->ReadValueBranch<Double_t>("DR_Ele1Jet1");
-    double DR_Ele1Jet2 = readerTools_->ReadValueBranch<Double_t>("DR_Ele1Jet2");
-    double DR_Ele2Jet1 = readerTools_->ReadValueBranch<Double_t>("DR_Ele2Jet1");
-    double DR_Ele2Jet2 = readerTools_->ReadValueBranch<Double_t>("DR_Ele2Jet2");
-    if ( nLooseEle_store >= 2 && nJetLooseEle_store >= 1) {
+    float DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
+    float DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
+    float DR_Ele2Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet1");
+    float DR_Ele2Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet2");
+    if ( nEle_store >= 2 && nJet_store >= 1) {
       fillVariableWithValue( "DR_Ele1Jet1"                   , DR_Ele1Jet1             , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "DR_Ele2Jet1"                   , DR_Ele2Jet1             , fakeRateEffective * min_prescale ) ;
-      if(nJetLooseEle_store >= 2) {
+      if(nJet_store >= 2) {
         fillVariableWithValue( "DR_Ele1Jet2"                 , DR_Ele1Jet2             , fakeRateEffective * min_prescale ) ;
         fillVariableWithValue( "DR_Ele2Jet2"                 , DR_Ele2Jet2             , fakeRateEffective * min_prescale ) ;
       }
     }
 
     // sT
-    double sT_eejj = readerTools_->ReadValueBranch<Double_t>("sT_eejj");
-    if ( nLooseEle_store >= 2 && nJetLooseEle_store >= 2) {
+    float sT_eejj = readerTools_->ReadValueBranch<Float_t>("sT_eejj");
+    if ( nEle_store >= 2 && nJet_store >= 2) {
       // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
-      //sT_eejj = LooseEle1_PtHeep+LooseEle2_PtHeep+JetLooseEle1_Pt+JetLooseEle2_Pt;
+      //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
       fillVariableWithValue( "sT_eejj"                       , sT_eejj                 , fakeRateEffective  * min_prescale ) ;
       fillVariableWithValue( "sT_eejj_opt"                   , sT_eejj                 , fakeRateEffective  * min_prescale ) ;
       fillVariableWithValue( "Mej_min_opt"                   , M_ej_min                , fakeRateEffective  * min_prescale ) ;
     }      
+
+    // Dummy variables
+    fillVariableWithValue ("preselection", 1, fakeRateEffective * min_prescale ); 
 
     //--------------------------------------------------------------------------
     // Evaluate the cuts
     //--------------------------------------------------------------------------
 
     evaluateCuts();
-    if(passedCut("PassNEle")) std::cout << "DID MANAGE TO PassNEle !" <<
-      "The weight of this event: fakeRateEffective=" << fakeRateEffective << " x min_prescale=" <<
-        min_prescale << " = " << fakeRateEffective*min_prescale << std::endl;
+    //if(passedCut("PassNEle")) std::cout << "DID MANAGE TO PassNEle !" <<
+    //  "The weight of this event: fakeRateEffective=" << fakeRateEffective << " x min_prescale=" <<
+    //    min_prescale << " = " << fakeRateEffective*min_prescale << std::endl;
 
     //--------------------------------------------------------------------------
     // Did we at least pass the noise filtes?
@@ -666,14 +729,6 @@ void analysisClass::Loop()
     //--------------------------------------------------------------------------
 
     bool passed_preselection = ( passedAllPreviousCuts("M_e1e2") && passedCut ("M_e1e2") );
-
-    //------------------------------------------------------------------
-    // If event passes, fill the tree
-    //------------------------------------------------------------------
-
-    if ( passed_preselection ) {
-      fillSkimTree();
-    }
 
     //--------------------------------------------------------------------------
     // Are we in the region of interest?
@@ -696,39 +751,39 @@ void analysisClass::Loop()
       //FIXME DEBUG
       //std::cout << "The weight of this event: fakeRateEffective=" << fakeRateEffective << " x min_prescale=" << min_prescale << " = " << fakeRateEffective*min_prescale << std::endl;
       //
-      //std::cout << "We have electrons which look like (ptHEEP,eta,phi): (" << LooseEle1_PtHeep << "," << LooseEle1_Eta << "," << LooseEle1_Phi << "); FR = " << qcdFakeRate.GetFakeRate(LooseEle1_Eta,LooseEle2_PtHeep) << std::endl;
-      //std::cout << "We have electrons which look like (pt,eta,phi): (" << LooseEle1_Pt << "," << LooseEle1_Eta << "," << LooseEle1_Phi << "); FR = " << qcdFakeRate.GetFakeRate(LooseEle1_Eta,LooseEle2_Pt) << std::endl;
+      //std::cout << "We have electrons which look like (ptHEEP,eta,phi): (" << Ele1_PtHeep << "," << Ele1_Eta << "," << Ele1_Phi << "); FR = " << qcdFakeRate.GetFakeRate(Ele1_Eta,Ele2_PtHeep) << std::endl;
+      //std::cout << "We have electrons which look like (pt,eta,phi): (" << Ele1_Pt << "," << Ele1_Eta << "," << Ele1_Phi << "); FR = " << qcdFakeRate.GetFakeRate(Ele1_Eta,Ele2_Pt) << std::endl;
       //std::cout << "Used fake rate=" << fakeRate1 << std::endl;
-      ////float fakeRate2 = qcdFakeRate.GetFakeRate(LooseEle2_Eta,LooseEle2_PtHeep);
-      //std::cout << "We have electrons which look like (pt,eta,phi): (" << LooseEle2_Pt << "," << LooseEle2_Eta << "," << LooseEle2_Phi << ")" << std::endl;
-      //if(nLooseEle_store > 2)
-      //  std::cout << "We have electrons which look like (pt,eta,phi): (" << LooseEle3_Pt << "," << LooseEle3_Eta << "," << LooseEle3_Phi << ")" << std::endl;
+      ////float fakeRate2 = qcdFakeRate.GetFakeRate(Ele2_Eta,Ele2_PtHeep);
+      //std::cout << "We have electrons which look like (pt,eta,phi): (" << Ele2_Pt << "," << Ele2_Eta << "," << Ele2_Phi << ")" << std::endl;
+      //if(nEle_store > 2)
+      //  std::cout << "We have electrons which look like (pt,eta,phi): (" << Ele3_Pt << "," << Ele3_Eta << "," << Ele3_Phi << ")" << std::endl;
 
       //--------------------------------------------------------------------------
       // Recalculate some variables
       //--------------------------------------------------------------------------
-      double LooseEle1_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Pt");
-      double LooseEle2_Pt = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Pt");
-      double LooseEle1_Phi = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Phi");
-      double LooseEle2_Phi = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Phi");
-      double Muon1_Pt = readerTools_->ReadValueBranch<Double_t>("Muon1_Pt");
-      double Muon2_Pt = readerTools_->ReadValueBranch<Double_t>("Muon2_Pt");
-      double Muon1_Eta = readerTools_->ReadValueBranch<Double_t>("Muon1_Eta");
-      double Muon2_Eta = readerTools_->ReadValueBranch<Double_t>("Muon2_Eta");
-      double Muon1_Phi = readerTools_->ReadValueBranch<Double_t>("Muon1_Phi");
-      double Muon2_Phi = readerTools_->ReadValueBranch<Double_t>("Muon2_Phi");
-      double PFMET_Type1_Pt = readerTools_->ReadValueBranch<Double_t>("PFMET_Type1_Pt");
-      double PFMET_Type1_Phi = readerTools_->ReadValueBranch<Double_t>("PFMET_Type1_Phi");
+      float Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+      float Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+      float Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
+      float Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
+      float Muon1_Pt = readerTools_->ReadValueBranch<Float_t>("Muon1_Pt");
+      float Muon2_Pt = readerTools_->ReadValueBranch<Float_t>("Muon2_Pt");
+      float Muon1_Eta = readerTools_->ReadValueBranch<Float_t>("Muon1_Eta");
+      float Muon2_Eta = readerTools_->ReadValueBranch<Float_t>("Muon2_Eta");
+      float Muon1_Phi = readerTools_->ReadValueBranch<Float_t>("Muon1_Phi");
+      float Muon2_Phi = readerTools_->ReadValueBranch<Float_t>("Muon2_Phi");
+      float PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
+      float PFMET_Type1_Phi = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
 
       TLorentzVector e1, j1, e2, j2,j3, mu, met;
       TLorentzVector eejj, e1e2mu;
       TLorentzVector eej, ejj, ee;
       TLorentzVector e1j3, e2j3, j1j3, j2j3, j1j2, j1j2j3, eejjj;
 
-      e1.SetPtEtaPhiM ( LooseEle1_Pt, LooseEle1_SCEta, LooseEle1_Phi, 0.0 );
-      e2.SetPtEtaPhiM ( LooseEle2_Pt, LooseEle2_SCEta, LooseEle2_Phi, 0.0 );
-      j1.SetPtEtaPhiM ( JetLooseEle1_Pt, JetLooseEle1_Eta, JetLooseEle1_Phi, 0.0 );
-      j2.SetPtEtaPhiM ( JetLooseEle2_Pt, JetLooseEle2_Eta, JetLooseEle2_Phi, 0.0 );
+      e1.SetPtEtaPhiM ( Ele1_Pt, Ele1_SCEta, Ele1_Phi, 0.0 );
+      e2.SetPtEtaPhiM ( Ele2_Pt, Ele2_SCEta, Ele2_Phi, 0.0 );
+      j1.SetPtEtaPhiM ( Jet1_Pt, Jet1_Eta, Jet1_Phi, 0.0 );
+      j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
       mu.SetPtEtaPhiM ( Muon1_Pt, Muon1_Eta, Muon1_Phi, 0.0 );
       met.SetPtEtaPhiM ( PFMET_Type1_Pt, 0.0, PFMET_Type1_Phi, 0.0 );
 
@@ -762,11 +817,11 @@ void analysisClass::Loop()
       double DR_ZJ1 = ee.DeltaR ( j1 );
       double DR_ZJ2 = ee.DeltaR ( j2 );
 
-      double JetLooseEle3_Pt = readerTools_->ReadValueBranch<Double_t>("JetLooseEle3_Pt");
-      double JetLooseEle3_Eta = readerTools_->ReadValueBranch<Double_t>("JetLooseEle3_Eta");
-      double JetLooseEle3_Phi = readerTools_->ReadValueBranch<Double_t>("JetLooseEle3_Phi");
-      if ( nJetLooseEle_ptCut > 2 ) { 
-        j3.SetPtEtaPhiM ( JetLooseEle3_Pt, JetLooseEle3_Eta, JetLooseEle3_Phi, 0.0 );
+      float Jet3_Pt = readerTools_->ReadValueBranch<Float_t>("Jet3_Pt");
+      float Jet3_Eta = readerTools_->ReadValueBranch<Float_t>("Jet3_Eta");
+      float Jet3_Phi = readerTools_->ReadValueBranch<Float_t>("Jet3_Phi");
+      if ( nJet_ptCut > 2 ) { 
+        j3.SetPtEtaPhiM ( Jet3_Pt, Jet3_Eta, Jet3_Phi, 0.0 );
 
         e1j3 = e1 + j3;
         e2j3 = e2 + j3;
@@ -792,7 +847,7 @@ void analysisClass::Loop()
       if ( DR_Ele1Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet2;
       if ( DR_Ele2Jet1 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet1;
       if ( DR_Ele2Jet2 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet2;
-      if ( nJetLooseEle_ptCut > 2 ) {
+      if ( nJet_ptCut > 2 ) {
         if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
         if ( DR_Ele2Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet3;
       }
@@ -800,180 +855,114 @@ void analysisClass::Loop()
       //--------------------------------------------------------------------------
       // Electron quality histograms (preselection)
       //--------------------------------------------------------------------------
-       double LooseEle1_BeamSpotDXY          = readerTools_->ReadValueBranch<Double_t>("LooseEle1_BeamSpotDXY")        ; 
-       double LooseEle1_Classif              = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Classif")            ; 
-       double LooseEle1_CorrIsolation        = readerTools_->ReadValueBranch<Double_t>("LooseEle1_CorrIsolation")      ; 
-       double LooseEle1_DeltaEtaTrkSC        = readerTools_->ReadValueBranch<Double_t>("LooseEle1_DeltaEtaTrkSC")      ; 
-       double LooseEle1_DeltaPhiTrkSC        = readerTools_->ReadValueBranch<Double_t>("LooseEle1_DeltaPhiTrkSC")      ; 
-       double LooseEle1_Full5x5E1x5OverE5x5  = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Full5x5E1x5OverE5x5"); 
-       double LooseEle1_Full5x5E2x5OverE5x5  = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Full5x5E2x5OverE5x5"); 
-       double LooseEle1_EcalIsolation        = readerTools_->ReadValueBranch<Double_t>("LooseEle1_EcalIsolation")      ; 
-       double LooseEle1_HcalIsolation        = readerTools_->ReadValueBranch<Double_t>("LooseEle1_HcalIsolation")      ; 
-       double LooseEle1_TrkIsolation         = readerTools_->ReadValueBranch<Double_t>("LooseEle1_TrkIsolation")       ; 
-       double LooseEle1_Energy               = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Energy")             ; 
-       double LooseEle1_FBrem                = readerTools_->ReadValueBranch<Double_t>("LooseEle1_FBrem")              ; 
-       double LooseEle1_GsfCtfCharge         = readerTools_->ReadValueBranch<Double_t>("LooseEle1_GsfCtfCharge")       ; 
-       double LooseEle1_GsfCtfScPixCharge    = readerTools_->ReadValueBranch<Double_t>("LooseEle1_GsfCtfScPixCharge")  ; 
-       double LooseEle1_GsfScPixCharge       = readerTools_->ReadValueBranch<Double_t>("LooseEle1_GsfScPixCharge")     ; 
-       double LooseEle1_HasMatchedPhot       = readerTools_->ReadValueBranch<Double_t>("LooseEle1_HasMatchedPhot")     ; 
-       double LooseEle1_HoE                  = readerTools_->ReadValueBranch<Double_t>("LooseEle1_HoE")                ; 
-       double LooseEle1_LeadVtxDistXY        = readerTools_->ReadValueBranch<Double_t>("LooseEle1_LeadVtxDistXY")      ; 
-       double LooseEle1_LeadVtxDistZ         = readerTools_->ReadValueBranch<Double_t>("LooseEle1_LeadVtxDistZ")       ; 
-       double LooseEle1_MissingHits          = readerTools_->ReadValueBranch<Double_t>("LooseEle1_MissingHits")        ; 
-       double LooseEle1_NBrems               = readerTools_->ReadValueBranch<Double_t>("LooseEle1_NBrems")             ; 
-       double LooseEle1_ValidFrac            = readerTools_->ReadValueBranch<Double_t>("LooseEle1_ValidFrac")          ; 
-       double LooseEle1_RawEnergy            = readerTools_->ReadValueBranch<Double_t>("LooseEle1_RawEnergy");
-       double LooseEle1_SCEta                = readerTools_->ReadValueBranch<Double_t>("LooseEle1_SCEta");
-       double LooseEle1_TrkPt                = readerTools_->ReadValueBranch<Double_t>("LooseEle1_TrkPt"); 
-       double LooseEle1_SigmaEtaEta          = readerTools_->ReadValueBranch<Double_t>("LooseEle1_SigmaEtaEta");
-       double LooseEle1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Full5x5SigmaIEtaIEta");
-       double LooseEle1_Charge               = readerTools_->ReadValueBranch<Double_t>("LooseEle1_Charge");
-       double LooseEle1_PtHeep               = readerTools_->ReadValueBranch<Double_t>("LooseEle1_PtHeep");
+       float Ele1_CorrIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_CorrIsolation")      ; 
+       float Ele1_DeltaEtaTrkSC        = readerTools_->ReadValueBranch<Float_t>("Ele1_DeltaEtaTrkSC")      ; 
+       float Ele1_EcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_EcalIsolation")      ; 
+       float Ele1_HcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_HcalIsolation")      ; 
+       float Ele1_TrkIsolation         = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkIsolation")       ; 
+       float Ele1_HasMatchedPhot       = readerTools_->ReadValueBranch<Float_t>("Ele1_HasMatchedPhot")     ; 
+       float Ele1_HoE                  = readerTools_->ReadValueBranch<Float_t>("Ele1_HoE")                ; 
+       float Ele1_LeadVtxDistXY        = readerTools_->ReadValueBranch<Float_t>("Ele1_LeadVtxDistXY")      ; 
+       float Ele1_LeadVtxDistZ         = readerTools_->ReadValueBranch<Float_t>("Ele1_LeadVtxDistZ")       ; 
+       float Ele1_MissingHits          = readerTools_->ReadValueBranch<Float_t>("Ele1_MissingHits")        ; 
+       float Ele1_SCEta                = readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta");
+       float Ele1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele1_Full5x5SigmaIEtaIEta");
+       float Ele1_Charge               = readerTools_->ReadValueBranch<Float_t>("Ele1_Charge");
+       //float Ele1_PtHeep               = readerTools_->ReadValueBranch<Float_t>("Ele1_PtHeep");
 
-      FillUserTH1D("BeamSpotDXY_1stEle_PAS"           , LooseEle1_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("Classif_1stEle_PAS"               , LooseEle1_Classif                        , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("CorrIsolation_1stEle_PAS"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("DeltaEtaTrkSC_1stEle_PAS"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("DeltaPhiTrkSC_1stEle_PAS"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E1x5OverE5x5_1stEle_PAS"          , LooseEle1_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E2x5OverE5x5_1stEle_PAS"          , LooseEle1_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("EcalIsolation_1stEle_PAS"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("HcalIsolation_1stEle_PAS"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("TrkIsolation_1stEle_PAS"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("Energy_1stEle_PAS"                , LooseEle1_Energy                         , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("FBrem_1stEle_PAS"                 , LooseEle1_FBrem                          , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("GsfCtfCharge_1stEle_PAS"          , LooseEle1_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("GsfCtfScPixCharge_1stEle_PAS"     , LooseEle1_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("GsfScPixCharge_1stEle_PAS"        , LooseEle1_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("HasMatchedPhot_1stEle_PAS"        , LooseEle1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("HoE_1stEle_PAS"                   , LooseEle1_HoE                            , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("LeadVtxDistXY_1stEle_PAS"         , LooseEle1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("LeadVtxDistZ_1stEle_PAS"          , LooseEle1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("MissingHits_1stEle_PAS"           , LooseEle1_MissingHits                    , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("NBrems_1stEle_PAS"                , LooseEle1_NBrems                         , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("ValidFrac_1stEle_PAS"             , LooseEle1_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("EnergyORawEnergy_1stEle_PAS"      , LooseEle1_Energy / LooseEle1_RawEnergy   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("TrkPtOPt_1stEle_PAS"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
-      if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
-        FillUserTH1D("SigmaEtaEta_Barrel_1stEle_PAS"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS", LooseEle1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("CorrIsolation_1stEle_PAS"         , Ele1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("DeltaEtaTrkSC_1stEle_PAS"         , Ele1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("EcalIsolation_1stEle_PAS"         , Ele1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("HcalIsolation_1stEle_PAS"         , Ele1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("TrkIsolation_1stEle_PAS"          , Ele1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("HasMatchedPhot_1stEle_PAS"        , Ele1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("HoE_1stEle_PAS"                   , Ele1_HoE                            , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("LeadVtxDistXY_1stEle_PAS"         , Ele1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("LeadVtxDistZ_1stEle_PAS"          , Ele1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("MissingHits_1stEle_PAS"           , Ele1_MissingHits                    , min_prescale * fakeRateEffective   ); 
+      if ( fabs(Ele1_SCEta) < eleEta_bar ) { 
+        FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PAS", Ele1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
       }
-      else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
-        FillUserTH1D("SigmaEtaEta_Endcap_1stEle_PAS"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS", LooseEle1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+      else if ( fabs(Ele1_SCEta) > eleEta_end1_min && fabs(Ele2_SCEta) < eleEta_end2_max ){
+        FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PAS", Ele1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
       }
 
-      double LooseEle2_BeamSpotDXY          = readerTools_->ReadValueBranch<Double_t>("LooseEle2_BeamSpotDXY")        ; 
-      double LooseEle2_Classif              = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Classif")            ; 
-      double LooseEle2_CorrIsolation        = readerTools_->ReadValueBranch<Double_t>("LooseEle2_CorrIsolation")      ; 
-      double LooseEle2_DeltaEtaTrkSC        = readerTools_->ReadValueBranch<Double_t>("LooseEle2_DeltaEtaTrkSC")      ; 
-      double LooseEle2_DeltaPhiTrkSC        = readerTools_->ReadValueBranch<Double_t>("LooseEle2_DeltaPhiTrkSC")      ; 
-      double LooseEle2_Full5x5E1x5OverE5x5  = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Full5x5E1x5OverE5x5"); 
-      double LooseEle2_Full5x5E2x5OverE5x5  = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Full5x5E2x5OverE5x5"); 
-      double LooseEle2_EcalIsolation        = readerTools_->ReadValueBranch<Double_t>("LooseEle2_EcalIsolation")      ; 
-      double LooseEle2_HcalIsolation        = readerTools_->ReadValueBranch<Double_t>("LooseEle2_HcalIsolation")      ; 
-      double LooseEle2_TrkIsolation         = readerTools_->ReadValueBranch<Double_t>("LooseEle2_TrkIsolation")       ; 
-      double LooseEle2_Energy               = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Energy")             ; 
-      double LooseEle2_FBrem                = readerTools_->ReadValueBranch<Double_t>("LooseEle2_FBrem")              ; 
-      double LooseEle2_GsfCtfCharge         = readerTools_->ReadValueBranch<Double_t>("LooseEle2_GsfCtfCharge")       ; 
-      double LooseEle2_GsfCtfScPixCharge    = readerTools_->ReadValueBranch<Double_t>("LooseEle2_GsfCtfScPixCharge")  ; 
-      double LooseEle2_GsfScPixCharge       = readerTools_->ReadValueBranch<Double_t>("LooseEle2_GsfScPixCharge")     ; 
-      double LooseEle2_HasMatchedPhot       = readerTools_->ReadValueBranch<Double_t>("LooseEle2_HasMatchedPhot")     ; 
-      double LooseEle2_HoE                  = readerTools_->ReadValueBranch<Double_t>("LooseEle2_HoE")                ; 
-      double LooseEle2_LeadVtxDistXY        = readerTools_->ReadValueBranch<Double_t>("LooseEle2_LeadVtxDistXY")      ; 
-      double LooseEle2_LeadVtxDistZ         = readerTools_->ReadValueBranch<Double_t>("LooseEle2_LeadVtxDistZ")       ; 
-      double LooseEle2_MissingHits          = readerTools_->ReadValueBranch<Double_t>("LooseEle2_MissingHits")        ; 
-      double LooseEle2_NBrems               = readerTools_->ReadValueBranch<Double_t>("LooseEle2_NBrems")             ; 
-      double LooseEle2_ValidFrac            = readerTools_->ReadValueBranch<Double_t>("LooseEle2_ValidFrac")          ; 
-      double LooseEle2_RawEnergy            = readerTools_->ReadValueBranch<Double_t>("LooseEle2_RawEnergy");
-      double LooseEle2_SCEta                = readerTools_->ReadValueBranch<Double_t>("LooseEle2_SCEta");
-      double LooseEle2_TrkPt                = readerTools_->ReadValueBranch<Double_t>("LooseEle2_TrkPt"); 
-      double LooseEle2_SigmaEtaEta          = readerTools_->ReadValueBranch<Double_t>("LooseEle2_SigmaEtaEta");
-      double LooseEle2_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Full5x5SigmaIEtaIEta");
-      double LooseEle2_Charge               = readerTools_->ReadValueBranch<Double_t>("LooseEle2_Charge");
-      double LooseEle2_PtHeep               = readerTools_->ReadValueBranch<Double_t>("LooseEle2_PtHeep");
+      float Ele2_CorrIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_CorrIsolation")      ; 
+      float Ele2_DeltaEtaTrkSC        = readerTools_->ReadValueBranch<Float_t>("Ele2_DeltaEtaTrkSC")      ; 
+      float Ele2_EcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_EcalIsolation")      ; 
+      float Ele2_HcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_HcalIsolation")      ; 
+      float Ele2_TrkIsolation         = readerTools_->ReadValueBranch<Float_t>("Ele2_TrkIsolation")       ; 
+      float Ele2_HasMatchedPhot       = readerTools_->ReadValueBranch<Float_t>("Ele2_HasMatchedPhot")     ; 
+      float Ele2_HoE                  = readerTools_->ReadValueBranch<Float_t>("Ele2_HoE")                ; 
+      float Ele2_LeadVtxDistXY        = readerTools_->ReadValueBranch<Float_t>("Ele2_LeadVtxDistXY")      ; 
+      float Ele2_LeadVtxDistZ         = readerTools_->ReadValueBranch<Float_t>("Ele2_LeadVtxDistZ")       ; 
+      float Ele2_MissingHits          = readerTools_->ReadValueBranch<Float_t>("Ele2_MissingHits")        ; 
+      float Ele2_SCEta                = readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta");
+      float Ele2_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele2_Full5x5SigmaIEtaIEta");
+      float Ele2_Charge               = readerTools_->ReadValueBranch<Float_t>("Ele2_Charge");
+      //float Ele2_PtHeep               = readerTools_->ReadValueBranch<Float_t>("Ele2_PtHeep");
 
-      FillUserTH1D("BeamSpotDXY_2ndEle_PAS"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("Classif_2ndEle_PAS"               , LooseEle2_Classif                        , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("CorrIsolation_2ndEle_PAS"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("DeltaEtaTrkSC_2ndEle_PAS"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("DeltaPhiTrkSC_2ndEle_PAS"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E1x5OverE5x5_2ndEle_PAS"          , LooseEle2_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("E2x5OverE5x5_2ndEle_PAS"          , LooseEle2_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("EcalIsolation_2ndEle_PAS"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("HcalIsolation_2ndEle_PAS"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("TrkIsolation_2ndEle_PAS"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("Energy_2ndEle_PAS"                , LooseEle2_Energy                         , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("FBrem_2ndEle_PAS"                 , LooseEle2_FBrem                          , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("GsfCtfCharge_2ndEle_PAS"          , LooseEle2_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("GsfCtfScPixCharge_2ndEle_PAS"     , LooseEle2_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("GsfScPixCharge_2ndEle_PAS"        , LooseEle2_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("HasMatchedPhot_2ndEle_PAS"        , LooseEle2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("HoE_2ndEle_PAS"                   , LooseEle2_HoE                            , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("LeadVtxDistXY_2ndEle_PAS"         , LooseEle2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("LeadVtxDistZ_2ndEle_PAS"          , LooseEle2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("MissingHits_2ndEle_PAS"           , LooseEle2_MissingHits                    , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("NBrems_2ndEle_PAS"                , LooseEle2_NBrems                         , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("ValidFrac_2ndEle_PAS"             , LooseEle2_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("EnergyORawEnergy_2ndEle_PAS"      , LooseEle2_Energy / LooseEle2_RawEnergy   , min_prescale * fakeRateEffective   ); 
-      FillUserTH1D("TrkPtOPt_2ndEle_PAS"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
-      if ( fabs(LooseEle2_SCEta) < eleEta_bar ) { 
-        FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_PAS"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS", LooseEle2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("CorrIsolation_2ndEle_PAS"         , Ele2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("DeltaEtaTrkSC_2ndEle_PAS"         , Ele2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("EcalIsolation_2ndEle_PAS"         , Ele2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("HcalIsolation_2ndEle_PAS"         , Ele2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("TrkIsolation_2ndEle_PAS"          , Ele2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("HasMatchedPhot_2ndEle_PAS"        , Ele2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("HoE_2ndEle_PAS"                   , Ele2_HoE                            , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("LeadVtxDistXY_2ndEle_PAS"         , Ele2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("LeadVtxDistZ_2ndEle_PAS"          , Ele2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+      FillUserTH1D("MissingHits_2ndEle_PAS"           , Ele2_MissingHits                    , min_prescale * fakeRateEffective   ); 
+      if ( fabs(Ele2_SCEta) < eleEta_bar ) { 
+        FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PAS", Ele2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
       }
-      else if ( fabs(LooseEle2_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
-        FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_PAS"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS", LooseEle2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+      else if ( fabs(Ele2_SCEta) > eleEta_end1_min && fabs(Ele2_SCEta) < eleEta_end2_max ){
+        FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PAS", Ele2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
       }
 
       //--------------------------------------------------------------------------
       // Preselection histograms
       //--------------------------------------------------------------------------
-      double M_j1j2 = readerTools_->ReadValueBranch<Double_t>("M_j1j2");
-      double nVertex = readerTools_->ReadValueBranch<Double_t>("nVertex");
+      float M_j1j2 = readerTools_->ReadValueBranch<Float_t>("M_j1j2");
+      float nVertex = readerTools_->ReadValueBranch<Float_t>("nVertex");
 
       FillUserTH1D( "Ptj1j2_PAS"           , Pt_j1j2                        , min_prescale * fakeRateEffective ) ;
       FillUserTH1D( "Ptee_Minus_Ptj1j2_PAS", Pt_e1e2 - Pt_j1j2              , min_prescale * fakeRateEffective ) ;
 
       FillUserTH1D("minDR_EleJet_PAS"     , min_DR_EleJet                      , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("DR_Ele1Ele2_PAS"	   , DR_Ele1Ele2                        , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("EleChargeSum_PAS"     , LooseEle1_Charge + LooseEle2_Charge, min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("EleChargeSum_PAS"     , Ele1_Charge + Ele2_Charge, min_prescale * fakeRateEffective ) ;
 
-      FillUserTH1D("nElectron_PAS"        , nLooseEle_ptCut                    , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("nElectron_PAS"        , nEle_ptCut                    , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("nMuon_PAS"            , nMuon_ptCut                        , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("nJet_PAS"             , nJetLooseEle_ptCut                 , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Pt1stEle_PAS"	   , LooseEle1_PtHeep                       , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Eta1stEle_PAS"	   , LooseEle1_SCEta                      , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Phi1stEle_PAS"	   , LooseEle1_Phi                      , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Pt2ndEle_PAS"	   , LooseEle2_PtHeep                       , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Eta2ndEle_PAS"	   , LooseEle2_SCEta                      , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Phi2ndEle_PAS"	   , LooseEle2_Phi                      , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Charge1stEle_PAS"	   , LooseEle1_Charge                   , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Charge2ndEle_PAS"	   , LooseEle2_Charge                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("nJet_PAS"             , nJet_ptCut                 , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Pt1stEle_PAS"	   , Ele1_Pt                       , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Eta1stEle_PAS"	   , Ele1_SCEta                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Phi1stEle_PAS"	   , Ele1_Phi                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Pt2ndEle_PAS"	   , Ele2_Pt                       , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Eta2ndEle_PAS"	   , Ele2_SCEta                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Phi2ndEle_PAS"	   , Ele2_Phi                      , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Charge1stEle_PAS"	   , Ele1_Charge                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Charge2ndEle_PAS"	   , Ele2_Charge                   , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("MET_PAS"              , PFMET_Type1_Pt                  , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("METPhi_PAS"	   , PFMET_Type1_Phi                 , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Pt1stJet_PAS"         , JetLooseEle1_Pt                    , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Pt2ndJet_PAS"         , JetLooseEle2_Pt                    , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Eta1stJet_PAS"        , JetLooseEle1_Eta                   , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Eta2ndJet_PAS"        , JetLooseEle2_Eta                   , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Phi1stJet_PAS"	   , JetLooseEle1_Phi                   , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("Phi2ndJet_PAS"	   , JetLooseEle2_Phi                   , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("sTlep_PAS"            , LooseEle1_Pt + LooseEle2_Pt        , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("sTjet_PAS"            , JetLooseEle1_Pt + JetLooseEle2_Pt  , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Pt1stJet_PAS"         , Jet1_Pt                    , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Pt2ndJet_PAS"         , Jet2_Pt                    , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Eta1stJet_PAS"        , Jet1_Eta                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Eta2ndJet_PAS"        , Jet2_Eta                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Phi1stJet_PAS"	   , Jet1_Phi                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("Phi2ndJet_PAS"	   , Jet2_Phi                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("sTlep_PAS"            , Ele1_Pt + Ele2_Pt        , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("sTjet_PAS"            , Jet1_Pt + Jet2_Pt  , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("sT_PAS"               , sT_eejj                            , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("sT_zjj_PAS"           , sT_zjj                             , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Mjj_PAS"		   , M_j1j2                             , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Mee_PAS"		   , M_e1e2                             , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("MTenu_PAS"            , readerTools_->ReadValueBranch<Double_t>("MT_Ele1MET")                   , min_prescale * fakeRateEffective ) ;
+      FillUserTH1D("MTenu_PAS"            , readerTools_->ReadValueBranch<Float_t>("MT_Ele1MET")                   , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Me1j1_PAS"            , M_e1j1                             , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Me1j2_PAS"            , M_e1j2                             , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Me2j1_PAS"            , M_e2j1                             , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Me2j2_PAS"            , M_e2j2                             , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("Ptee_PAS"             , Pt_e1e2                            , min_prescale * fakeRateEffective ) ;
-      FillUserTH1D("DCotTheta1stEle_PAS"   , readerTools_->ReadValueBranch<Double_t>("LooseEle1_DCotTheta")         , min_prescale * fakeRateEffective );
-      FillUserTH1D("Dist1stEle_PAS"        , readerTools_->ReadValueBranch<Double_t>("LooseEle1_Dist")              , min_prescale * fakeRateEffective );
-      FillUserTH1D("DCotTheta2ndEle_PAS"   , readerTools_->ReadValueBranch<Double_t>("LooseEle2_DCotTheta")         , min_prescale * fakeRateEffective );
-      FillUserTH1D("Dist2ndEle_PAS"        , readerTools_->ReadValueBranch<Double_t>("LooseEle2_Dist")              , min_prescale * fakeRateEffective );
       FillUserTH1D("nVertex_PAS"           , nVertex                         , min_prescale * fakeRateEffective );
       FillUserTH1D("DR_Ele1Jet1_PAS"	   , DR_Ele1Jet1                        , min_prescale * fakeRateEffective ) ;
       FillUserTH1D("DR_Ele1Jet2_PAS"	   , DR_Ele1Jet2                        , min_prescale * fakeRateEffective ) ;
@@ -994,22 +983,22 @@ void analysisClass::Loop()
 
       FillUserTH2D("MeeVsST_PAS" , M_e1e2, sT_eejj, min_prescale * fakeRateEffective ) ;	   
       // scale factor dependence histos
-      if ( nJetLooseEle_ptCut == 2 )
+      if ( nJet_ptCut == 2 )
         FillUserTH1D("Mee_NJetEq2_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
-      else if( nJetLooseEle_ptCut == 3 )
+      else if( nJet_ptCut == 3 )
         FillUserTH1D("Mee_NJetEq3_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
-      else if( nJetLooseEle_ptCut == 4 )
+      else if( nJet_ptCut == 4 )
         FillUserTH1D("Mee_NJetEq4_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
-      else if( nJetLooseEle_ptCut == 5 )
+      else if( nJet_ptCut == 5 )
         FillUserTH1D("Mee_NJetEq5_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
-      else if( nJetLooseEle_ptCut == 6 )
+      else if( nJet_ptCut == 6 )
         FillUserTH1D("Mee_NJetEq6_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
-      else if( nJetLooseEle_ptCut == 7 )
+      else if( nJet_ptCut == 7 )
         FillUserTH1D("Mee_NJetEq7_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
       //
-      if ( nJetLooseEle_ptCut >= 3 )
+      if ( nJet_ptCut >= 3 )
         FillUserTH1D("Mee_NJetGeq3_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
-      if ( nJetLooseEle_ptCut >= 4 )
+      if ( nJet_ptCut >= 4 )
         FillUserTH1D("Mee_NJetGeq4_PAS", M_e1e2                         , min_prescale * fakeRateEffective );
       //
       if (sT_eejj >= 300 && sT_eejj < 500)
@@ -1055,7 +1044,7 @@ void analysisClass::Loop()
       // Preselection + N(Jet) > 2 
       //--------------------------------------------------------------------------
 
-      if ( nJetLooseEle_ptCut > 2 ){ 
+      if ( nJet_ptCut > 2 ){ 
         FillUserTH1D( "M_e1j3_PAS"  , M_e1j3, min_prescale * fakeRateEffective  ); 
         FillUserTH1D( "M_e2j3_PAS"  , M_e2j3, min_prescale * fakeRateEffective  ); 
         FillUserTH1D( "M_j1j3_PAS"  , M_j1j3, min_prescale * fakeRateEffective  ); 
@@ -1102,70 +1091,38 @@ void analysisClass::Loop()
 
       if ( M_e1e2 > 100. ) { 
 
-        FillUserTH1D("BeamSpotDXY_1stEle_PASandMee100"           , LooseEle1_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Classif_1stEle_PASandMee100"               , LooseEle1_Classif                        , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("CorrIsolation_1stEle_PASandMee100"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaEtaTrkSC_1stEle_PASandMee100"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaPhiTrkSC_1stEle_PASandMee100"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E1x5OverE5x5_1stEle_PASandMee100"          , LooseEle1_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E2x5OverE5x5_1stEle_PASandMee100"          , LooseEle1_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EcalIsolation_1stEle_PASandMee100"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HcalIsolation_1stEle_PASandMee100"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkIsolation_1stEle_PASandMee100"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Energy_1stEle_PASandMee100"                , LooseEle1_Energy                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("FBrem_1stEle_PASandMee100"                 , LooseEle1_FBrem                          , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfCharge_1stEle_PASandMee100"          , LooseEle1_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfScPixCharge_1stEle_PASandMee100"     , LooseEle1_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfScPixCharge_1stEle_PASandMee100"        , LooseEle1_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HasMatchedPhot_1stEle_PASandMee100"        , LooseEle1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HoE_1stEle_PASandMee100"                   , LooseEle1_HoE                            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistXY_1stEle_PASandMee100"         , LooseEle1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistZ_1stEle_PASandMee100"          , LooseEle1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("MissingHits_1stEle_PASandMee100"           , LooseEle1_MissingHits                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("NBrems_1stEle_PASandMee100"                , LooseEle1_NBrems                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("ValidFrac_1stEle_PASandMee100"             , LooseEle1_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EnergyORawEnergy_1stEle_PASandMee100"      , LooseEle1_Energy / LooseEle1_RawEnergy   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkPtOPt_1stEle_PASandMee100"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
-        if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
-          FillUserTH1D("SigmaEtaEta_Barrel_1stEle_PASandMee100"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PASandMee100", LooseEle1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("CorrIsolation_1stEle_PASandMee100"         , Ele1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaEtaTrkSC_1stEle_PASandMee100"         , Ele1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EcalIsolation_1stEle_PASandMee100"         , Ele1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HcalIsolation_1stEle_PASandMee100"         , Ele1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkIsolation_1stEle_PASandMee100"          , Ele1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HasMatchedPhot_1stEle_PASandMee100"        , Ele1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HoE_1stEle_PASandMee100"                   , Ele1_HoE                            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistXY_1stEle_PASandMee100"         , Ele1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistZ_1stEle_PASandMee100"          , Ele1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("MissingHits_1stEle_PASandMee100"           , Ele1_MissingHits                    , min_prescale * fakeRateEffective   ); 
+        if ( fabs(Ele1_SCEta) < eleEta_bar ) { 
+          FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_PASandMee100", Ele1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
-        else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
-          FillUserTH1D("SigmaEtaEta_Endcap_1stEle_PASandMee100"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PASandMee100", LooseEle1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        else if ( fabs(Ele1_SCEta) > eleEta_end1_min && fabs(Ele2_SCEta) < eleEta_end2_max ){
+          FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_PASandMee100", Ele1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
 
-        FillUserTH1D("BeamSpotDXY_2ndEle_PASandMee100"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Classif_2ndEle_PASandMee100"               , LooseEle2_Classif                        , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("CorrIsolation_2ndEle_PASandMee100"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaEtaTrkSC_2ndEle_PASandMee100"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaPhiTrkSC_2ndEle_PASandMee100"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E1x5OverE5x5_2ndEle_PASandMee100"          , LooseEle2_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E2x5OverE5x5_2ndEle_PASandMee100"          , LooseEle2_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EcalIsolation_2ndEle_PASandMee100"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HcalIsolation_2ndEle_PASandMee100"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkIsolation_2ndEle_PASandMee100"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Energy_2ndEle_PASandMee100"                , LooseEle2_Energy                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("FBrem_2ndEle_PASandMee100"                 , LooseEle2_FBrem                          , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfCharge_2ndEle_PASandMee100"          , LooseEle2_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfScPixCharge_2ndEle_PASandMee100"     , LooseEle2_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfScPixCharge_2ndEle_PASandMee100"        , LooseEle2_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HasMatchedPhot_2ndEle_PASandMee100"        , LooseEle2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HoE_2ndEle_PASandMee100"                   , LooseEle2_HoE                            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistXY_2ndEle_PASandMee100"         , LooseEle2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistZ_2ndEle_PASandMee100"          , LooseEle2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("MissingHits_2ndEle_PASandMee100"           , LooseEle2_MissingHits                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("NBrems_2ndEle_PASandMee100"                , LooseEle2_NBrems                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("ValidFrac_2ndEle_PASandMee100"             , LooseEle2_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EnergyORawEnergy_2ndEle_PASandMee100"      , LooseEle2_Energy / LooseEle2_RawEnergy   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkPtOPt_2ndEle_PASandMee100"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
-        if ( fabs(LooseEle2_SCEta) < eleEta_bar ) { 
-          FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_PASandMee100"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PASandMee100", LooseEle2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("CorrIsolation_2ndEle_PASandMee100"         , Ele2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaEtaTrkSC_2ndEle_PASandMee100"         , Ele2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EcalIsolation_2ndEle_PASandMee100"         , Ele2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HcalIsolation_2ndEle_PASandMee100"         , Ele2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkIsolation_2ndEle_PASandMee100"          , Ele2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HasMatchedPhot_2ndEle_PASandMee100"        , Ele2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HoE_2ndEle_PASandMee100"                   , Ele2_HoE                            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistXY_2ndEle_PASandMee100"         , Ele2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistZ_2ndEle_PASandMee100"          , Ele2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("MissingHits_2ndEle_PASandMee100"           , Ele2_MissingHits                    , min_prescale * fakeRateEffective   ); 
+        if ( fabs(Ele2_SCEta) < eleEta_bar ) { 
+          FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_PASandMee100", Ele2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
-        else if ( fabs(LooseEle2_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
-          FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_PASandMee100"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", LooseEle2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        else if ( fabs(Ele2_SCEta) > eleEta_end1_min && fabs(Ele2_SCEta) < eleEta_end2_max ){
+          FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_PASandMee100", Ele2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
 
         FillUserTH1D("Me1j1_PASandMee100"           , M_e1j1                              , min_prescale * fakeRateEffective ) ;
@@ -1174,28 +1131,28 @@ void analysisClass::Loop()
         FillUserTH1D("sT_zjj_PASandMee100"          , sT_zjj                              , min_prescale * fakeRateEffective ) ;
         FillUserTH1D("nVertex_PASandMee100"         , nVertex                             , min_prescale * fakeRateEffective ) ;
         FillUserTH1D("sT_PASandMee100"              , sT_eejj                             , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("EleChargeSum_PASandMee100"    , LooseEle1_Charge + LooseEle2_Charge , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("nJet_PASandMee100"            , nJetLooseEle_ptCut                  , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTlep_PASandMee100"           , LooseEle1_Pt    + LooseEle2_Pt      , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTjet_PASandMee100"           , JetLooseEle1_Pt + JetLooseEle2_Pt   , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("EleChargeSum_PASandMee100"    , Ele1_Charge + Ele2_Charge , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("nJet_PASandMee100"            , nJet_ptCut                  , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTlep_PASandMee100"           , Ele1_Pt    + Ele2_Pt      , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTjet_PASandMee100"           , Jet1_Pt + Jet2_Pt   , min_prescale * fakeRateEffective ) ;
         FillUserTH1D("Mjj_PASandMee100"             , M_j1j2                              , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("Pt1stEle_PASandMee100"        , LooseEle1_Pt                        , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("Pt2ndEle_PASandMee100"        , LooseEle2_Pt                        , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("Pt1stJet_PASandMee100"        , JetLooseEle1_Pt                     , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("Pt2ndJet_PASandMee100"        , JetLooseEle2_Pt                     , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("Pt1stEle_PASandMee100"        , Ele1_Pt                        , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("Pt2ndEle_PASandMee100"        , Ele2_Pt                        , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("Pt1stJet_PASandMee100"        , Jet1_Pt                     , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("Pt2ndJet_PASandMee100"        , Jet2_Pt                     , min_prescale * fakeRateEffective ) ;
         FillUserTH1D("Mej_selected_avg_PASandMee100", M_ej_avg                            , min_prescale * fakeRateEffective ) ;
 
-        FillUserTH1D("sTfrac_Jet1_PASandMee100"     , JetLooseEle1_Pt / sT_eejj                       , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTfrac_Jet2_PASandMee100"     , JetLooseEle2_Pt / sT_eejj                       , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTfrac_Ele1_PASandMee100"     , LooseEle1_Pt / sT_eejj                          , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTfrac_Ele2_PASandMee100"     , LooseEle2_Pt / sT_eejj                          , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTfrac_Jet_PASandMee100"      , ( JetLooseEle1_Pt + JetLooseEle2_Pt ) / sT_eejj , min_prescale * fakeRateEffective ) ;
-        FillUserTH1D("sTfrac_Ele_PASandMee100"      , ( LooseEle1_Pt + LooseEle2_Pt ) / sT_eejj       , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTfrac_Jet1_PASandMee100"     , Jet1_Pt / sT_eejj                       , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTfrac_Jet2_PASandMee100"     , Jet2_Pt / sT_eejj                       , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTfrac_Ele1_PASandMee100"     , Ele1_Pt / sT_eejj                          , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTfrac_Ele2_PASandMee100"     , Ele2_Pt / sT_eejj                          , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTfrac_Jet_PASandMee100"      , ( Jet1_Pt + Jet2_Pt ) / sT_eejj , min_prescale * fakeRateEffective ) ;
+        FillUserTH1D("sTfrac_Ele_PASandMee100"      , ( Ele1_Pt + Ele2_Pt ) / sT_eejj       , min_prescale * fakeRateEffective ) ;
 
         FillUserTH1D("Ptj1j2_PASandMee100"            , Pt_j1j2                        ,  min_prescale * fakeRateEffective ) ;
         FillUserTH1D("Ptee_Minus_Ptj1j2_PASandMee100" , Pt_e1e2 - Pt_j1j2              ,  min_prescale * fakeRateEffective ) ;
 
-        if ( nJetLooseEle_ptCut > 2 ) { 	 
+        if ( nJet_ptCut > 2 ) { 	 
           FillUserTH1D( "M_j1j3_PASandMee100" , M_j1j3, min_prescale * fakeRateEffective ) ;
           FillUserTH1D( "M_j2j3_PASandMee100" , M_j2j3, min_prescale * fakeRateEffective ) ;
           FillUserTH1D( "M_e1j3_PASandMee100" , M_e1j3, min_prescale * fakeRateEffective ) ;
@@ -1237,88 +1194,56 @@ void analysisClass::Loop()
       if ( passed_region_of_interest ) { 
 
 
-        FillUserTH1D("BeamSpotDXY_1stEle_ROI"           , LooseEle1_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Classif_1stEle_ROI"               , LooseEle1_Classif                        , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("CorrIsolation_1stEle_ROI"         , LooseEle1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaEtaTrkSC_1stEle_ROI"         , LooseEle1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaPhiTrkSC_1stEle_ROI"         , LooseEle1_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E1x5OverE5x5_1stEle_ROI"          , LooseEle1_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E2x5OverE5x5_1stEle_ROI"          , LooseEle1_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EcalIsolation_1stEle_ROI"         , LooseEle1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HcalIsolation_1stEle_ROI"         , LooseEle1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkIsolation_1stEle_ROI"          , LooseEle1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Energy_1stEle_ROI"                , LooseEle1_Energy                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("FBrem_1stEle_ROI"                 , LooseEle1_FBrem                          , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfCharge_1stEle_ROI"          , LooseEle1_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfScPixCharge_1stEle_ROI"     , LooseEle1_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfScPixCharge_1stEle_ROI"        , LooseEle1_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HasMatchedPhot_1stEle_ROI"        , LooseEle1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HoE_1stEle_ROI"                   , LooseEle1_HoE                            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistXY_1stEle_ROI"         , LooseEle1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistZ_1stEle_ROI"          , LooseEle1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("MissingHits_1stEle_ROI"           , LooseEle1_MissingHits                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("NBrems_1stEle_ROI"                , LooseEle1_NBrems                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("ValidFrac_1stEle_ROI"             , LooseEle1_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EnergyORawEnergy_1stEle_ROI"      , LooseEle1_Energy / LooseEle1_RawEnergy   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkPtOPt_1stEle_ROI"              , LooseEle1_TrkPt  / LooseEle1_Pt          , min_prescale * fakeRateEffective   ); 
-        if ( fabs(LooseEle1_SCEta) < eleEta_bar ) { 
-          FillUserTH1D("SigmaEtaEta_Barrel_1stEle_ROI"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI", LooseEle1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("CorrIsolation_1stEle_ROI"         , Ele1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaEtaTrkSC_1stEle_ROI"         , Ele1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EcalIsolation_1stEle_ROI"         , Ele1_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HcalIsolation_1stEle_ROI"         , Ele1_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkIsolation_1stEle_ROI"          , Ele1_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HasMatchedPhot_1stEle_ROI"        , Ele1_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HoE_1stEle_ROI"                   , Ele1_HoE                            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistXY_1stEle_ROI"         , Ele1_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistZ_1stEle_ROI"          , Ele1_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("MissingHits_1stEle_ROI"           , Ele1_MissingHits                    , min_prescale * fakeRateEffective   ); 
+        if ( fabs(Ele1_SCEta) < eleEta_bar ) { 
+          FillUserTH1D("SigmaIEtaIEta_Barrel_1stEle_ROI", Ele1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
-        else if ( fabs(LooseEle1_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) > eleEta_end2_max ){
-          FillUserTH1D("SigmaEtaEta_Endcap_1stEle_ROI"  , LooseEle1_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI", LooseEle1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        else if ( fabs(Ele1_SCEta) > eleEta_end1_min && fabs(Ele2_SCEta) > eleEta_end2_max ){
+          FillUserTH1D("SigmaIEtaIEta_Endcap_1stEle_ROI", Ele1_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
 
-        FillUserTH1D("BeamSpotDXY_2ndEle_ROI"           , LooseEle2_BeamSpotDXY                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Classif_2ndEle_ROI"               , LooseEle2_Classif                        , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("CorrIsolation_2ndEle_ROI"         , LooseEle2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"         , LooseEle2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("DeltaPhiTrkSC_2ndEle_ROI"         , LooseEle2_DeltaPhiTrkSC                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E1x5OverE5x5_2ndEle_ROI"          , LooseEle2_Full5x5E1x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("E2x5OverE5x5_2ndEle_ROI"          , LooseEle2_Full5x5E2x5OverE5x5            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EcalIsolation_2ndEle_ROI"         , LooseEle2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HcalIsolation_2ndEle_ROI"         , LooseEle2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkIsolation_2ndEle_ROI"          , LooseEle2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("Energy_2ndEle_ROI"                , LooseEle2_Energy                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("FBrem_2ndEle_ROI"                 , LooseEle2_FBrem                          , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfCharge_2ndEle_ROI"          , LooseEle2_GsfCtfCharge                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfCtfScPixCharge_2ndEle_ROI"     , LooseEle2_GsfCtfScPixCharge              , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("GsfScPixCharge_2ndEle_ROI"        , LooseEle2_GsfScPixCharge                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HasMatchedPhot_2ndEle_ROI"        , LooseEle2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("HoE_2ndEle_ROI"                   , LooseEle2_HoE                            , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistXY_2ndEle_ROI"         , LooseEle2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("LeadVtxDistZ_2ndEle_ROI"          , LooseEle2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("MissingHits_2ndEle_ROI"           , LooseEle2_MissingHits                    , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("NBrems_2ndEle_ROI"                , LooseEle2_NBrems                         , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("ValidFrac_2ndEle_ROI"             , LooseEle2_ValidFrac                      , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("EnergyORawEnergy_2ndEle_ROI"      , LooseEle2_Energy / LooseEle2_RawEnergy   , min_prescale * fakeRateEffective   ); 
-        FillUserTH1D("TrkPtOPt_2ndEle_ROI"              , LooseEle2_TrkPt  / LooseEle2_Pt          , min_prescale * fakeRateEffective   ); 
-        if ( fabs(LooseEle2_SCEta) < eleEta_bar ) { 
-          FillUserTH1D("SigmaEtaEta_Barrel_2ndEle_ROI"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI", LooseEle2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("CorrIsolation_2ndEle_ROI"         , Ele2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("DeltaEtaTrkSC_2ndEle_ROI"         , Ele2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("EcalIsolation_2ndEle_ROI"         , Ele2_EcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HcalIsolation_2ndEle_ROI"         , Ele2_HcalIsolation                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("TrkIsolation_2ndEle_ROI"          , Ele2_TrkIsolation                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HasMatchedPhot_2ndEle_ROI"        , Ele2_HasMatchedPhot                 , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("HoE_2ndEle_ROI"                   , Ele2_HoE                            , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistXY_2ndEle_ROI"         , Ele2_LeadVtxDistXY                  , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("LeadVtxDistZ_2ndEle_ROI"          , Ele2_LeadVtxDistZ                   , min_prescale * fakeRateEffective   ); 
+        FillUserTH1D("MissingHits_2ndEle_ROI"           , Ele2_MissingHits                    , min_prescale * fakeRateEffective   ); 
+        if ( fabs(Ele2_SCEta) < eleEta_bar ) { 
+          FillUserTH1D("SigmaIEtaIEta_Barrel_2ndEle_ROI", Ele2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
-        else if ( fabs(LooseEle2_SCEta) > eleEta_end1_min && fabs(LooseEle2_SCEta) < eleEta_end2_max ){
-          FillUserTH1D("SigmaEtaEta_Endcap_2ndEle_ROI"  , LooseEle2_SigmaEtaEta                    , min_prescale * fakeRateEffective   ); 
-          FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI", LooseEle2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
+        else if ( fabs(Ele2_SCEta) > eleEta_end1_min && fabs(Ele2_SCEta) < eleEta_end2_max ){
+          FillUserTH1D("SigmaIEtaIEta_Endcap_2ndEle_ROI", Ele2_Full5x5SigmaIEtaIEta           , min_prescale * fakeRateEffective   ); 
         }
 
         FillUserTH1D("Me1j1_ROI"           , M_e1j1                                         , min_prescale * fakeRateEffective );
         FillUserTH1D("Ptee_ROI"            , Pt_e1e2                                        , min_prescale * fakeRateEffective );
-        FillUserTH1D("Eta1stJet_ROI"       , JetLooseEle1_Eta                               , min_prescale * fakeRateEffective );
-        FillUserTH1D("Eta2ndJet_ROI"       , JetLooseEle2_Eta                               , min_prescale * fakeRateEffective );
-        FillUserTH1D("Eta1stEle_ROI"	    , LooseEle1_SCEta                                  , min_prescale * fakeRateEffective );
-        FillUserTH1D("Eta2ndEle_ROI"	    , LooseEle2_SCEta                                  , min_prescale * fakeRateEffective );
-        FillUserTH1D("Phi1stJet_ROI"       , JetLooseEle1_Phi                               , min_prescale * fakeRateEffective );
-        FillUserTH1D("Phi2ndJet_ROI"       , JetLooseEle2_Phi                               , min_prescale * fakeRateEffective );
-        FillUserTH1D("Phi1stEle_ROI"	    , LooseEle1_Phi                                  , min_prescale * fakeRateEffective );
-        FillUserTH1D("Phi2ndEle_ROI"	    , LooseEle2_Phi                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta1stJet_ROI"       , Jet1_Eta                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta2ndJet_ROI"       , Jet2_Eta                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta1stEle_ROI"	    , Ele1_SCEta                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Eta2ndEle_ROI"	    , Ele2_SCEta                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi1stJet_ROI"       , Jet1_Phi                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi2ndJet_ROI"       , Jet2_Phi                               , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi1stEle_ROI"	    , Ele1_Phi                                  , min_prescale * fakeRateEffective );
+        FillUserTH1D("Phi2ndEle_ROI"	    , Ele2_Phi                                  , min_prescale * fakeRateEffective );
         FillUserTH2D("MeeVsST_ROI"         , M_e1e2                                , sT_eejj, min_prescale * fakeRateEffective );	   
         FillUserTH1D("Mee_ROI"		    , M_e1e2                                         , min_prescale * fakeRateEffective );
         FillUserTH1D("sT_zjj_ROI"          , sT_zjj                                         , min_prescale * fakeRateEffective );
         FillUserTH1D("nVertex_ROI"         , nVertex                                        , min_prescale * fakeRateEffective );
-        FillUserTH1D("EleChargeSum_ROI"    , LooseEle1_Charge + LooseEle2_Charge            , min_prescale * fakeRateEffective );
-        FillUserTH1D("nJet_ROI"            , nJetLooseEle_ptCut                             , min_prescale * fakeRateEffective );
+        FillUserTH1D("EleChargeSum_ROI"    , Ele1_Charge + Ele2_Charge            , min_prescale * fakeRateEffective );
+        FillUserTH1D("nJet_ROI"            , nJet_ptCut                             , min_prescale * fakeRateEffective );
         FillUserTH1D("Mej_selected_avg_ROI", M_ej_avg                                       , min_prescale * fakeRateEffective );
         FillUserTH1D("Meejj_ROI"           , M_eejj                                         , min_prescale * fakeRateEffective );
         FillUserTH1D("Meej_ROI"            , M_eej                                          , min_prescale * fakeRateEffective );
@@ -1329,22 +1254,22 @@ void analysisClass::Loop()
         FillUserTH1D("MET_ROI"             , PFMET_Type1_Pt                                 , min_prescale * fakeRateEffective );
         FillUserTH1D("Mjj_ROI"             , M_j1j2                                         , min_prescale * fakeRateEffective );
         FillUserTH1D("sT_ROI"              , sT_eejj                                        , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTlep_ROI"           , LooseEle1_Pt    + LooseEle2_Pt                 , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTjet_ROI"           , JetLooseEle1_Pt + JetLooseEle2_Pt              , min_prescale * fakeRateEffective );
-        FillUserTH1D("Pt1stEle_ROI"        , LooseEle1_Pt                                   , min_prescale * fakeRateEffective );
-        FillUserTH1D("Pt2ndEle_ROI"        , LooseEle2_Pt                                   , min_prescale * fakeRateEffective );
-        FillUserTH1D("Pt1stJet_ROI"        , JetLooseEle1_Pt                                , min_prescale * fakeRateEffective );
-        FillUserTH1D("Pt2ndJet_ROI"        , JetLooseEle2_Pt                                , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTfrac_Jet1_ROI"     , JetLooseEle1_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTfrac_Jet2_ROI"     , JetLooseEle2_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTfrac_Ele1_ROI"     , LooseEle1_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTfrac_Ele2_ROI"     , LooseEle2_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
-        FillUserTH1D("sTfrac_Jet_ROI"      , ( JetLooseEle1_Pt + JetLooseEle2_Pt ) / sT_eejj, min_prescale * fakeRateEffective );
-        FillUserTH1D("sTfrac_Ele_ROI"      , ( LooseEle1_Pt + LooseEle2_Pt )       / sT_eejj, min_prescale * fakeRateEffective );
+        FillUserTH1D("sTlep_ROI"           , Ele1_Pt    + Ele2_Pt                 , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTjet_ROI"           , Jet1_Pt + Jet2_Pt              , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt1stEle_ROI"        , Ele1_Pt                                   , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt2ndEle_ROI"        , Ele2_Pt                                   , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt1stJet_ROI"        , Jet1_Pt                                , min_prescale * fakeRateEffective );
+        FillUserTH1D("Pt2ndJet_ROI"        , Jet2_Pt                                , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Jet1_ROI"     , Jet1_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Jet2_ROI"     , Jet2_Pt / sT_eejj                      , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Ele1_ROI"     , Ele1_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Ele2_ROI"     , Ele2_Pt / sT_eejj                         , min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Jet_ROI"      , ( Jet1_Pt + Jet2_Pt ) / sT_eejj, min_prescale * fakeRateEffective );
+        FillUserTH1D("sTfrac_Ele_ROI"      , ( Ele1_Pt + Ele2_Pt )       / sT_eejj, min_prescale * fakeRateEffective );
         FillUserTH1D("Ptj1j2_ROI"            , Pt_j1j2                                      , min_prescale * fakeRateEffective );
         FillUserTH1D("Ptee_Minus_Ptj1j2_ROI" , Pt_e1e2 - Pt_j1j2                            , min_prescale * fakeRateEffective );
 
-        if ( nJetLooseEle_ptCut > 2 ) { 	 
+        if ( nJet_ptCut > 2 ) { 	 
           FillUserTH1D( "M_e1j3_ROI" , M_e1j3, min_prescale * fakeRateEffective ) ;
           FillUserTH1D( "M_e2j3_ROI" , M_e2j3, min_prescale * fakeRateEffective ) ;
           FillUserTH1D( "M_j1j3_ROI" , M_j1j3, min_prescale * fakeRateEffective ) ;
