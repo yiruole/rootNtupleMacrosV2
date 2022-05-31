@@ -569,7 +569,8 @@ class Plot:
             ystart = 0.54
         else:
             # xstart=0.68
-            xstart = 0.65
+            # xstart = 0.65
+            xstart = 0.75
             # ystart = 0.52
             ystart = 0.55
             if self.makeRatio == 0 and self.makeNSigma == 0:
