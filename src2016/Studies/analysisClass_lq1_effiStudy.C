@@ -33,7 +33,6 @@ analysisClass::~analysisClass()
 void analysisClass::Loop(){
 
   std::cout << "analysisClass::Loop() begins" <<std::endl;   
-  if (fChain == 0) return;
   
   //--------------------------------------------------------------------------
   // Verbose? Or not?
@@ -59,28 +58,23 @@ void analysisClass::Loop(){
   char electron_id_name[200];
   ID ElectronID = NULL_ID;
   
-  if      ( ElectronID_FromFile == 0 ) {
-    ElectronID = HEEP61;
-    sprintf(electron_id_name, "HEEPv6p1" );
+  if      ( ElectronID_FromFile == 1 ) {
+    std::cout << "analysisClass::Loop() -- Using HEEPv7.0 ID" << std::endl;
+    ElectronID = HEEP70;
+    sprintf(electron_id_name, "HEEPv7p0" );
   }
-  else if      ( ElectronID_FromFile == 1 ) {
-    ElectronID = HEEP60;
-    sprintf(electron_id_name, "HEEPv6p0" );
-  }
-  else if      ( ElectronID_FromFile == 2 ) {
-    ElectronID = HEEP51;
-    sprintf(electron_id_name, "HEEPv5p1" );
-  }
-  else if ( ElectronID_FromFile == 3 ) {
-    ElectronID = EGAMMA_TIGHT;
+  else if ( ElectronID_FromFile == 2 ) {
+    ElectronID = EGAMMA_BUILTIN_TIGHT;
     sprintf(electron_id_name, "EGamma Tight" );
   }
-  else if ( ElectronID_FromFile == 4 ) {
-    ElectronID = EGAMMA_MEDIUM;
+  else if ( ElectronID_FromFile == 3 ) {
+    std::cout << "analysisClass::Loop() -- Using EGAMMA_MEDIUM ID" << std::endl;
+    ElectronID = EGAMMA_BUILTIN_MEDIUM;
     sprintf(electron_id_name, "EGamma Medium" );
   }
-  else if ( ElectronID_FromFile == 5 ) {
-    ElectronID = EGAMMA_LOOSE;
+  else if ( ElectronID_FromFile == 4 ) {
+    std::cout << "analysisClass::Loop() -- Using EGAMMA_LOOSE ID" << std::endl;
+    ElectronID = EGAMMA_BUILTIN_LOOSE;
     sprintf(electron_id_name, "EGamma Loose" );
   }
 
@@ -103,7 +97,7 @@ void analysisClass::Loop(){
   // Jet ID and muon ID, which should not be changed
   //--------------------------------------------------------------------------
 
-  ID MuonID = MUON_TIGHT_PFISO04;
+  ID MuonID = MUON_HIGH_PT_TRKRELISO03;
   ID JetID  = PFJET_LOOSE;
 
   //--------------------------------------------------------------------------  
@@ -272,9 +266,9 @@ void analysisClass::Loop(){
   // Tell the user how many entries we'll look at
   //--------------------------------------------------------------------------
 
-  Long64_t nentries = fChain->GetEntriesFast();
+  Long64_t nentries = GetTreeEntries();
   //Long64_t nentries = 10;
-  std::cout << "analysisClass::Loop(): nentries = " << fChain -> GetEntries() << std::endl;   
+  std::cout << "analysisClass::Loop(): nentries = " << nentries << std::endl;   
   
   /*//------------------------------------------------------------------
    *
@@ -285,12 +279,9 @@ void analysisClass::Loop(){
    *
    *
    *///-----------------------------------------------------------------
-  
-  Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
-    Long64_t ientry = LoadTree(jentry);
-    if (ientry < 0) break;
-    nb = fChain->GetEntry(jentry);   nbytes += nb;
+    readerTools_->LoadEntry(jentry);
+  
 
     //-----------------------------------------------------------------
     // Get trigger names
@@ -369,25 +360,25 @@ void analysisClass::Loop(){
     //-----------------------------------------------------------------
     
     bool printEvery = false;
-    if( (jentry < 10 || jentry%1000 == 0) || printEvery)
-      std::cout << "--------------------> analysisClass::Loop(): jentry = " << jentry << std::endl;   
+    if(jentry < 10 || jentry%5000 == 0 || printEvery) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     
     //-----------------------------------------------------------------
     // Did the trigger fire?
     //-----------------------------------------------------------------
 
-    getTriggers ( HLTKey, HLTInsideDatasetTriggerNames, HLTInsideDatasetTriggerDecisions,  HLTInsideDatasetTriggerPrescales ) ; 
-    bool trigger_fired = triggerFired ( trigger_name );
-    if(trigger2_name[0] != '\0')
-      trigger_fired = trigger_fired || triggerFired (trigger2_name);
-    int trigger_prescale = triggerPrescale ( trigger_name );
-    if(trigger2_name[0] != '\0') {
-      int trigger2_prescale = triggerPrescale (trigger2_name);
-      if (trigger_prescale != trigger2_prescale) {
-        std::cerr << "WARNING: Trigger " << trigger_name << " has prescale " << trigger_prescale << " while trigger " <<
-          trigger2_name << " has prescale " << trigger2_prescale << ". You selected the OR of these triggers." << std::endl;
-      }
-    }
+    getTriggers(jentry); 
+    // XXX hardcoded trigger
+    bool trigger_fired = triggerFired ("HLT_Ele27_WPTight_Gsf" ) || triggerFired("HLT_Ele115_CaloIdVT_GsfTrkIdT") || triggerFired("HLT_Photon175");
+    //if(trigger2_name[0] != '\0')
+    //  trigger_fired = trigger_fired || triggerFired (trigger2_name);
+    //int trigger_prescale = triggerPrescale ( trigger_name );
+    //if(trigger2_name[0] != '\0') {
+    //  int trigger2_prescale = triggerPrescale (trigger2_name);
+    //  if (trigger_prescale != trigger2_prescale) {
+    //    std::cerr << "WARNING: Trigger " << trigger_name << " has prescale " << trigger_prescale << " while trigger " <<
+    //      trigger2_name << " has prescale " << trigger2_prescale << ". You selected the OR of these triggers." << std::endl;
+    //  }
+    //}
     
     // check
     //std::cout << "did trigger fire? " << (trigger_fired==true ? "yes" : "no") << std::endl;
@@ -396,10 +387,13 @@ void analysisClass::Loop(){
     // Define initial, inclusive collections for RECO objects
     //-----------------------------------------------------------------
 
-    CollectionPtr gen_all   ( new Collection(*this, GenParticlePt -> size() ));
-    CollectionPtr ele_all   ( new Collection(*this, ElectronPt    -> size() ));
-    CollectionPtr muon_all  ( new Collection(*this, MuonPt        -> size() ));
-    CollectionPtr pfjet_all ( new Collection(*this, PFJetPtAK4CHS       -> size() ));
+    CollectionPtr gen_all   ( new Collection(readerTools_));
+    if(!isData()) {
+      gen_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nGenPart")));
+    }
+    CollectionPtr ele_all   ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nElectron")));
+    CollectionPtr muon_all  ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nMuon")));
+    CollectionPtr pfjet_all ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nJet")));
 
     //-----------------------------------------------------------------
     // Similarly, for HLT Filter objects
@@ -432,7 +426,7 @@ void analysisClass::Loop(){
     //  sampleMass = thisMass;
 
     // get mass from filename
-    std::string filename = fChain->GetCurrentFile()->GetName();
+    std::string filename = readerTools_->GetTree()->GetCurrentFile()->GetName();
     int lastSlash = filename.rfind("/");
     filename = filename.substr(lastSlash);
     std::string mass = filename.substr(filename.find("M-")+2,filename.find("_Beta")-filename.find("M-")-2);
@@ -468,39 +462,38 @@ void analysisClass::Loop(){
   //    trigger_100jet_all   = CollectionPtr(new Collection (*this, 0));
   //    trigger_100jet_noEle = CollectionPtr(new Collection (*this, 0));
   //  }
-    CollectionPtr trigger_all (new Collection(*this, HLTriggerObjPt->size() ));
+    //CollectionPtr trigger_all (new Collection(*this, HLTriggerObjPt->size() ));
     //HLTriggerObjectCollectionHelper helper (*this,"New741"); // use 741 HLT branches
     HLTriggerObjectCollectionHelper helper (*this,"");
-    //CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath(trigger_name,true); // true->verbose for testing
-    CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath(trigger_name);
-    //trigger_l3objects_all->examine<HLTriggerObject>("HLT L3Filter-passing objects");
-    CollectionPtr trigger_l3jets_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_JET);
-    //trigger_l3jets_all->examine<HLTriggerObject>("HLT L3Filter-passing jets");
     // which one passed the last filter?
-    CollectionPtr trigger_lastObjects = helper.GetLastFilterObjectsByPath(trigger_name);
+    //CollectionPtr trigger_lastObjects = helper.GetLastFilterObjectsByPath(trigger_name);
     //trigger_lastObjects->examine<HLTriggerObject>("HLT LastFilter-passing objects");
-    CollectionPtr trigger_lastJets = trigger_lastObjects->SkimByID<HLTriggerObject>(TRIGGER_JET);
+    CollectionPtr trigger_lastJets;
     //trigger_lastJets->examine<HLTriggerObject>("HLT LastFilter-passing jets");
     //// get rid of overlaps
     //CollectionPtr trigger_l3jets_noLastJet = trigger_l3jets_all -> SkimByVetoDRMatch<HLTriggerObject,HLTriggerObject>( trigger_lastJets, 0.3 );
     //trigger_l3jets_noLastJet->examine<HLTriggerObject>("HLT L3-passing jets (no last jet)");
 
     // electrons seem to come as TRIGGER_PHOTON most of the time
-    CollectionPtr trigger_ele_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
+    CollectionPtr trigger_ele_all = helper.GetFilterObjectsByType(TRIGGER_PHOTON);
+    //CollectionPtr trigger_ele_all = helper.GetLastFilterObjectsByPath(12); // 1e (CaloIdVT_GsfTrkIdT) for Ele115
+    //trigger_ele_all->Append(*helper.GetLastFilterObjectsByPath(2)); // WPTight for Ele27
+    //trigger_ele_all->Append(*helper.GetLastFilterObjectsByPath(14)); // Photon175/200
     //trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON)");
     // if not, try TRIGGER_ELECTRON
     if(trigger_ele_all->GetSize() == 0)
-      trigger_ele_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
+      //trigger_ele_all = trigger_lastObjects->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
+      trigger_ele_all = helper.GetFilterObjectsByType(TRIGGER_ELECTRON);
     // Note: could also be TRIGGER_CLUSTER?
     //trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON or TRIGGER_ELECTRON)");
 
-    if(trigger_l3jets_all->GetSize() < 2 && trigger_l3jets_all->GetSize() > 0)
-    {
-      std::cout << "Interesting event found:" << std::endl;
-      trigger_l3jets_all->examine<HLTriggerObject>("HLT L3Filter-passing jets");
-      trigger_ele_all->examine<HLTriggerObject>("HLT L3-passing electrons (with ID TRIGGER_PHOTON or TRIGGER_ELECTRON)");
-      trigger_lastObjects->examine<HLTriggerObject>("HLT LastFilter-passing objects");
-    }
+    //if(trigger_lastJets->GetSize() < 2 && trigger_lastJets->GetSize() > 0)
+    //{
+    //  std::cout << "Interesting event found:" << std::endl;
+    //  trigger_lastJets->examine<HLTriggerObject>("HLT LastFilter-passing jets");
+    //  trigger_ele_all->examine<HLTriggerObject>("HLT LastFilter-passing electrons (with ID TRIGGER_PHOTON or TRIGGER_ELECTRON)");
+    //  //trigger_lastObjects->examine<HLTriggerObject>("HLT LastFilter-passing objects");
+    //}
     //-----------------------------------------------------------------
     // Skim and examine GEN electrons:
     // - Electrons that come from LQs 
@@ -663,8 +656,8 @@ void analysisClass::Loop(){
     //  std::cout << "trigger_50jet_all has size: " << trigger_50jet_all->GetSize() << ", so skip event!" << std::endl;
     //  continue;
     //}
-    CollectionPtr pfjet_ID_trigger50Matched  = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_l3jets_all, jet_triggerMatch_DeltaRMax);
-    CollectionPtr pfjet_ID_trigger200Matched = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_lastJets, jet_triggerMatch_DeltaRMax);
+    //CollectionPtr pfjet_ID_trigger50Matched  = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_l3jets_all, jet_triggerMatch_DeltaRMax);
+    //CollectionPtr pfjet_ID_trigger200Matched = pfjet_ID -> SkimByRequireDRMatch<PFJet, HLTriggerObject> (trigger_lastJets, jet_triggerMatch_DeltaRMax);
     //std::cout << "Size of pfjet_ID_trigger50Matched: " << pfjet_ID_trigger50Matched->GetSize() << std::endl;
     //std::cout << "Size of pfjet_ID_trigger200Matched: " << pfjet_ID_trigger200Matched->GetSize() << std::endl;
     //pfjet_ID->examine<PFJet>("PFJETs with ID");
@@ -683,8 +676,8 @@ void analysisClass::Loop(){
     fillVariableWithValue("NRecoJetWithID"	     , pfjet_ID                   -> GetSize());	
     fillVariableWithValue("RecoJetWithID1_Pt"	     , recoJetWithID1_Pt                      );
     fillVariableWithValue("RecoJetWithID2_Pt"	     , recoJetWithID2_Pt                      );   
-    fillVariableWithValue("NRecoJetMatchedToTrig50"  , pfjet_ID_trigger50Matched  -> GetSize());	
-    fillVariableWithValue("NRecoJetMatchedToTrig200" , pfjet_ID_trigger200Matched -> GetSize());	
+    //fillVariableWithValue("NRecoJetMatchedToTrig50"  , pfjet_ID_trigger50Matched  -> GetSize());	
+    //fillVariableWithValue("NRecoJetMatchedToTrig200" , pfjet_ID_trigger200Matched -> GetSize());	
     
     //-----------------------------------------------------------------
     // Evaluate the cuts
@@ -755,40 +748,40 @@ void analysisClass::Loop(){
 
       Electron ele_genMatched_1 = ele_genMatched -> GetConstituent<Electron>(0);
       
-      FillUserTH1D("nVertex1stGenMatchedEle_total"   , VertexChi2->size());
-      FillUserTH1D("nPileup1stGenMatchedEle_total"   , PileUpInteractions->at(0));
+      //FillUserTH1D("nVertex1stGenMatchedEle_total"   , VertexChi2->size());
+      //FillUserTH1D("nPileup1stGenMatchedEle_total"   , PileUpInteractions->at(0));
       FillUserTH1D("Pt1stGenMatchedEle_total"        , ele_genMatched_1.Pt()  );
       FillUserTH1D("Eta1stGenMatchedEle_total"       , ele_genMatched_1.Eta() );
       FillUserTH1D("Phi1stGenMatchedEle_total"       , ele_genMatched_1.Phi() );
 
       if      ( ele_genMatched_1.IsEB() )
-	FillUserTH1D("Pt1stGenMatchedEle_barrel_total" , ele_genMatched_1.Pt() );
-      
+        FillUserTH1D("Pt1stGenMatchedEle_barrel_total" , ele_genMatched_1.Pt() );
+
       else if ( ele_genMatched_1.IsEE() ){
-	FillUserTH1D("Pt1stGenMatchedEle_endcap_total" , ele_genMatched_1.Pt() );
-	if ( fabs(ele_genMatched_1.Eta()) <= 2.00 )  
-	  FillUserTH1D("Pt1stGenMatchedEle_endcap1_total", ele_genMatched_1.Pt() );
-	else                                            
-	  FillUserTH1D("Pt1stGenMatchedEle_endcap2_total", ele_genMatched_1.Pt() );
+        FillUserTH1D("Pt1stGenMatchedEle_endcap_total" , ele_genMatched_1.Pt() );
+        if ( fabs(ele_genMatched_1.Eta()) <= 2.00 )  
+          FillUserTH1D("Pt1stGenMatchedEle_endcap1_total", ele_genMatched_1.Pt() );
+        else                                            
+          FillUserTH1D("Pt1stGenMatchedEle_endcap2_total", ele_genMatched_1.Pt() );
       }
-      
+
       if ( ele_genMatched_1.PassUserID ( ElectronID ) ){
-	
-	FillUserTH1D("nVertex1stGenMatchedEle_pass"   , VertexChi2->size());
-	FillUserTH1D("nPileup1stGenMatchedEle_pass"   , PileUpInteractions->at(0));
-	FillUserTH1D("Pt1stGenMatchedEle_pass"        , ele_genMatched_1.Pt()  );
-	FillUserTH1D("Eta1stGenMatchedEle_pass"       , ele_genMatched_1.Eta() );
-	FillUserTH1D("Phi1stGenMatchedEle_pass"       , ele_genMatched_1.Phi() );
-	
-	if      ( ele_genMatched_1.IsEB() )
-	  FillUserTH1D("Pt1stGenMatchedEle_barrel_pass" , ele_genMatched_1.Pt() );
-	else if ( ele_genMatched_1.IsEE() ){
-	  FillUserTH1D("Pt1stGenMatchedEle_endcap_pass" , ele_genMatched_1.Pt() );
-	  if ( fabs(ele_genMatched_1.Eta()) <= 2.00 ) 
-	    FillUserTH1D("Pt1stGenMatchedEle_endcap1_pass", ele_genMatched_1.Pt() ); 
-	  else                             
-	    FillUserTH1D("Pt1stGenMatchedEle_endcap2_pass", ele_genMatched_1.Pt() );               
-	}
+
+        //FillUserTH1D("nVertex1stGenMatchedEle_pass"   , VertexChi2->size());
+        //FillUserTH1D("nPileup1stGenMatchedEle_pass"   , PileUpInteractions->at(0));
+        FillUserTH1D("Pt1stGenMatchedEle_pass"        , ele_genMatched_1.Pt()  );
+        FillUserTH1D("Eta1stGenMatchedEle_pass"       , ele_genMatched_1.Eta() );
+        FillUserTH1D("Phi1stGenMatchedEle_pass"       , ele_genMatched_1.Phi() );
+
+        if      ( ele_genMatched_1.IsEB() )
+          FillUserTH1D("Pt1stGenMatchedEle_barrel_pass" , ele_genMatched_1.Pt() );
+        else if ( ele_genMatched_1.IsEE() ){
+          FillUserTH1D("Pt1stGenMatchedEle_endcap_pass" , ele_genMatched_1.Pt() );
+          if ( fabs(ele_genMatched_1.Eta()) <= 2.00 ) 
+            FillUserTH1D("Pt1stGenMatchedEle_endcap1_pass", ele_genMatched_1.Pt() ); 
+          else                             
+            FillUserTH1D("Pt1stGenMatchedEle_endcap2_pass", ele_genMatched_1.Pt() );               
+        }
       }
     }
 
@@ -799,41 +792,41 @@ void analysisClass::Loop(){
     if ( nGenMatchedEle > 1 ) {
 
       Electron ele_genMatched_2 = ele_genMatched -> GetConstituent<Electron>(1);
-      
-      FillUserTH1D("nVertex2ndGenMatchedEle_total"   , VertexChi2->size());
-      FillUserTH1D("nPileup2ndGenMatchedEle_total"   , PileUpInteractions->at(0));
+
+      //FillUserTH1D("nVertex2ndGenMatchedEle_total"   , VertexChi2->size());
+      //FillUserTH1D("nPileup2ndGenMatchedEle_total"   , PileUpInteractions->at(0));
       FillUserTH1D("Pt2ndGenMatchedEle_total"        , ele_genMatched_2.Pt()  );
       FillUserTH1D("Eta2ndGenMatchedEle_total"       , ele_genMatched_2.Eta() );
       FillUserTH1D("Phi2ndGenMatchedEle_total"       , ele_genMatched_2.Phi() );
 
       if      ( ele_genMatched_2.IsEB() )
-	FillUserTH1D("Pt2ndGenMatchedEle_barrel_total" , ele_genMatched_2.Pt() );
-      
+        FillUserTH1D("Pt2ndGenMatchedEle_barrel_total" , ele_genMatched_2.Pt() );
+
       else if ( ele_genMatched_2.IsEE() ){
-	FillUserTH1D("Pt2ndGenMatchedEle_endcap_total" , ele_genMatched_2.Pt() );
-	if ( fabs(ele_genMatched_2.Eta()) <= 2.00 )  
-	  FillUserTH1D("Pt2ndGenMatchedEle_endcap1_total", ele_genMatched_2.Pt() );
-	else                                            
-	  FillUserTH1D("Pt2ndGenMatchedEle_endcap2_total", ele_genMatched_2.Pt() );
+        FillUserTH1D("Pt2ndGenMatchedEle_endcap_total" , ele_genMatched_2.Pt() );
+        if ( fabs(ele_genMatched_2.Eta()) <= 2.00 )  
+          FillUserTH1D("Pt2ndGenMatchedEle_endcap1_total", ele_genMatched_2.Pt() );
+        else                                            
+          FillUserTH1D("Pt2ndGenMatchedEle_endcap2_total", ele_genMatched_2.Pt() );
       }
-      
+
       if ( ele_genMatched_2.PassUserID ( ElectronID ) ){
-	
-	FillUserTH1D("nVertex2ndGenMatchedEle_pass"   , VertexChi2->size());
-	FillUserTH1D("nPileup2ndGenMatchedEle_pass"   , PileUpInteractions->at(0));
-	FillUserTH1D("Pt2ndGenMatchedEle_pass"        , ele_genMatched_2.Pt()  );
-	FillUserTH1D("Eta2ndGenMatchedEle_pass"       , ele_genMatched_2.Eta() );
-	FillUserTH1D("Phi2ndGenMatchedEle_pass"       , ele_genMatched_2.Phi() );
-	
-	if      ( ele_genMatched_2.IsEB() )
-	  FillUserTH1D("Pt2ndGenMatchedEle_barrel_pass" , ele_genMatched_2.Pt() );
-	else if ( ele_genMatched_2.IsEE() ){
-	  FillUserTH1D("Pt2ndGenMatchedEle_endcap_pass" , ele_genMatched_2.Pt() );
-	  if ( fabs(ele_genMatched_2.Eta()) <= 2.00 ) 
-	    FillUserTH1D("Pt2ndGenMatchedEle_endcap1_pass", ele_genMatched_2.Pt() ); 
-	  else                             
-	    FillUserTH1D("Pt2ndGenMatchedEle_endcap2_pass", ele_genMatched_2.Pt() );               
-	}
+
+        //FillUserTH1D("nVertex2ndGenMatchedEle_pass"   , VertexChi2->size());
+        //FillUserTH1D("nPileup2ndGenMatchedEle_pass"   , PileUpInteractions->at(0));
+        FillUserTH1D("Pt2ndGenMatchedEle_pass"        , ele_genMatched_2.Pt()  );
+        FillUserTH1D("Eta2ndGenMatchedEle_pass"       , ele_genMatched_2.Eta() );
+        FillUserTH1D("Phi2ndGenMatchedEle_pass"       , ele_genMatched_2.Phi() );
+
+        if      ( ele_genMatched_2.IsEB() )
+          FillUserTH1D("Pt2ndGenMatchedEle_barrel_pass" , ele_genMatched_2.Pt() );
+        else if ( ele_genMatched_2.IsEE() ){
+          FillUserTH1D("Pt2ndGenMatchedEle_endcap_pass" , ele_genMatched_2.Pt() );
+          if ( fabs(ele_genMatched_2.Eta()) <= 2.00 ) 
+            FillUserTH1D("Pt2ndGenMatchedEle_endcap1_pass", ele_genMatched_2.Pt() ); 
+          else                             
+            FillUserTH1D("Pt2ndGenMatchedEle_endcap2_pass", ele_genMatched_2.Pt() );               
+        }
       }
     }
     
@@ -847,10 +840,10 @@ void analysisClass::Loop(){
       //trigger_ele_all            -> examine<HLTFilterObject>("HLT electrons");
       ele_ID                     -> examine<Electron       >("RECO electrons");
       ele_ID_triggerMatched      -> examine<Electron       >("RECO electrons, trigger matched");
-      trigger_l3jets_all          -> examine<HLTriggerObject>("HLT PFJets");
+      //trigger_l3jets_all          -> examine<HLTriggerObject>("HLT PFJets");
       pfjet_ID                   -> examine<PFJet          >("RECO PFJets");
-      pfjet_ID_trigger50Matched -> examine<PFJet          >("RECO PFJets, trigger 50 matched");
-      pfjet_ID_trigger200Matched -> examine<PFJet          >("RECO PFJets, trigger 200 matched");
+      //pfjet_ID_trigger50Matched -> examine<PFJet          >("RECO PFJets, trigger 50 matched");
+      //pfjet_ID_trigger200Matched -> examine<PFJet          >("RECO PFJets, trigger 200 matched");
     }
 
   } // End loop over events
