@@ -15,10 +15,17 @@ gROOT.SetBatch()
 #
 # filePath = "$LQDATA/nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/"
 # filePath = "$LQDATA/nanoV7/2017/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/"
-filePath = "$LQDATA/nanoV7/2018/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels//output_cutTable_lq_eejj/"
+#filePath = "$LQDATA/nanoV7/2018/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels//output_cutTable_lq_eejj/"
+#filePath = "$LQDATA/nanoV7/2016/analysis/eejj_finalSelsZPL_1sep2021/output_cutTable_lq_eejj/"
+#filePath = "$LQDATA/nanoV7/2016/analysis/eejj_MasymFinalSelsPunzi_31aug2021/output_cutTable_lq_eejj_MasymTest/"
+#filePath = "$LQDATA/nanoV7/2016/analysis/eejj_finalSelsPunzi_2sep2021/output_cutTable_lq_eejj/"
+#filePath = "$LQDATA/nanoV7/2016/analysis/eejj_MasymFinalSels_13aug2021/output_cutTable_lq_eejj_MasymTest/"
+#filePath = "$LQDATA/nanoV7/2016/analysis/eejj_finalSelsPunziAddFlatMasym_3sep2021/output_cutTable_lq_eejj_MasymTest/"
+filePath = "$LQDATA/nanoV7/2016/analysis/eejj_finalSels_egLoose_19jan2022/output_cutTable_lq_eejj/"
 filePath += "analysisClass_lq_eejj___{}.root"
 # LQToDEle
-signalNameTemplate = "LQToDEle_M-{}_pair_pythia8"
+#signalNameTemplate = "LQToDEle_M-{}_pair_pythia8"
+signalNameTemplate = "LQToDEle_M-{}_pair"
 if "2017" in filePath or "2018" in filePath:
     signalNameTemplate = "LQToDEle_M-{}_pair"
 mass_points = [i for i in range(300, 3100, 100)]  # go from 300-3000 in 100 GeV steps
