@@ -624,9 +624,9 @@ void analysisClass::Loop()
     //FIXME -- topPtWeights -- perhaps not needed since unused for 2016 analysis
     //fillVariableWithValue( "TopPtWeight",GenParticleTopPtWeight);
     // pileup
-    float puWeight = -1.0;
-    float puWeightDn = -1.0;
-    float puWeightUp = -1.0;
+    float puWeight = 1.0;
+    float puWeightDn = 1.0;
+    float puWeightUp = 1.0;
     if(!isData()) {
       puWeight = readerTools_->ReadValueBranch<Float_t>("puWeight");
       puWeightUp = readerTools_->ReadValueBranch<Float_t>("puWeightUp");
@@ -638,23 +638,30 @@ void analysisClass::Loop()
     fillVariableWithValue( "puWeight_Up"   , puWeightUp   );
     fillVariableWithValue( "puWeight_Dn"   , puWeightDn   );
     // L1 prefiring
-    float prefireDefault = -1.0;
-    if(hasBranch("L1PreFiringWeight_Nom"))
-      fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
-    else
-      fillVariableWithValue("PrefireWeight", prefireDefault);
-    if(hasBranch("L1PreFiringWeight_Dn"))
-      fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
-    else
-      fillVariableWithValue("PrefireWeight_Dn", prefireDefault);
-    if(hasBranch("L1PreFiringWeight_Up"))
-      fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
-    else
-      fillVariableWithValue("PrefireWeight_Up", prefireDefault);
-    // back to old weights as test
-    //fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
-    //fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
-    //fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
+    float prefireDefault = 1.0;
+    if(!isData()) {
+      if(hasBranch("L1PreFiringWeight_Nom"))
+        fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
+      else
+        fillVariableWithValue("PrefireWeight", prefireDefault);
+      if(hasBranch("L1PreFiringWeight_Dn"))
+        fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
+      else
+        fillVariableWithValue("PrefireWeight_Dn", prefireDefault);
+      if(hasBranch("L1PreFiringWeight_Up"))
+        fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
+      else
+        fillVariableWithValue("PrefireWeight_Up", prefireDefault);
+      // back to old weights as test
+      //fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
+      //fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
+      //fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
+    }
+    else {
+      fillVariableWithValue("PrefireWeight", 1.0);
+      fillVariableWithValue("PrefireWeight_Dn", 1.0);
+      fillVariableWithValue("PrefireWeight_Up", 1.0);
+    }
 
 
     //-----------------------------------------------------------------
@@ -998,7 +1005,10 @@ void analysisClass::Loop()
         //std::cout << "we have at least one photon trigger object. try to triggerMatchPt" << std::endl;
         hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, ele, ele_hltMatch_DeltaRCut);
       }
-      fillVariableWithValue( prefix+"_Pt"            , ele.Pt()                 );
+      if(reducedSkimType == 0)
+        fillVariableWithValue( prefix+"_Pt"            , ele.PtUncorr()           );
+      else
+        fillVariableWithValue( prefix+"_Pt"            , ele.Pt()                 );
       fillVariableWithValue( prefix+"_SCEt"          , ele.SCEnergy()/cosh(ele.SCEta()) );
       fillVariableWithValue( prefix+"_PassHEEPID"    , ele.PassUserID ( heepIdType )  );
       fillVariableWithValue( prefix+"_PassEGMLooseID", ele.PassEGammaIDLoose()  );
@@ -1065,7 +1075,9 @@ void analysisClass::Loop()
         fillVariableWithValue( prefix+"_Pt_EER"      , ele1smeared.Pt()          );
         fillVariableWithValue( prefix+"_Pt_EES_Up"    , ele1scaledUp.Pt()         );
         fillVariableWithValue( prefix+"_Pt_EES_Dn"  , ele1scaledDown.Pt()       );
-        float elePtUncorr = ele.ECorr() != 0 ? ele.Pt()/ele.ECorr() : ele.Pt();
+      }
+      if(!isData()) {
+        float elePtUncorr = ele.PtUncorr();
         fillVariableWithValue( prefix+"_TrigSF" , triggerScaleFactorReader.LookupValue(ele.SCEta(),elePtUncorr) );
         fillVariableWithValue( prefix+"_TrigSF_Err" , triggerScaleFactorReader.LookupValueError(ele.SCEta(),elePtUncorr) );
         fillVariableWithValue( prefix+"_RecoSF" , recoScaleFactorReader->LookupValue(ele.SCEta(),elePtUncorr) );
@@ -1074,6 +1086,16 @@ void analysisClass::Loop()
         fillVariableWithValue( prefix+"_HEEPSF_Err"                                  ,ElectronScaleFactorsRunII::LookupHeepSFSyst(ele.SCEta(), elePtUncorr, analysisYear) );
         fillVariableWithValue( prefix+"_EGMLooseIDSF", idScaleFactorReader->LookupValue(ele.SCEta(),elePtUncorr) );
         fillVariableWithValue( prefix+"_EGMLooseIDSF_Err", idScaleFactorReader->LookupValueError(ele.SCEta(),elePtUncorr) );
+      }
+      else {
+        fillVariableWithValue( prefix+"_TrigSF"          , 1.0);
+        fillVariableWithValue( prefix+"_TrigSF_Err"      , 0.0);
+        fillVariableWithValue( prefix+"_RecoSF"          , 1.0);
+        fillVariableWithValue( prefix+"_RecoSF_Err"      , 0.0);
+        fillVariableWithValue( prefix+"_HEEPSF"          , 1.0);
+        fillVariableWithValue( prefix+"_HEEPSF_Err"      , 0.0);
+        fillVariableWithValue( prefix+"_EGMLooseIDSF"    , 1.0);
+        fillVariableWithValue( prefix+"_EGMLooseIDSF_Err", 0.0);
       }
     }
 
@@ -1177,7 +1199,7 @@ void analysisClass::Loop()
       Electron ele1 = c_ele_final -> GetConstituent<Electron>(0);
       t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
-        t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
+        t_ele1.SetPtEtaPhiM ( ele1.PtUncorr(), ele1.Eta(), ele1.Phi(), 0.0 );
       if(!isData()) {
         Electron ele1smeared = *find(smearedEles.begin(), smearedEles.end(), ele1);
         Electron ele1scaledUp = *find(scaledUpEles.begin(), scaledUpEles.end(), ele1);
@@ -1190,7 +1212,7 @@ void analysisClass::Loop()
         Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
         t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
         if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
-          t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
+          t_ele2.SetPtEtaPhiM ( ele2.PtUncorr(), ele2.Eta(), ele2.Phi(), 0.0 );
         if(!isData()) {
           Electron ele2smeared = *find(smearedEles.begin(), smearedEles.end(), ele2);
           Electron ele2scaledUp = *find(scaledUpEles.begin(), scaledUpEles.end(), ele2);
