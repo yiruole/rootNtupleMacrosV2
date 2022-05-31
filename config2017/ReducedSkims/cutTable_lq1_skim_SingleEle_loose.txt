@@ -415,6 +415,7 @@ Jet1_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet1_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet1_LQMatched    -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 #	
 Jet2_Pt   			-inf	     +inf		-		-		1	200 0 2000	      SAVE		        
 Jet2_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -435,6 +436,7 @@ Jet2_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet2_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet2_LQMatched    -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 #			        
 Jet3_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet3_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -455,6 +457,7 @@ Jet3_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet3_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet3_LQMatched    -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 #			        
 Jet4_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet4_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -475,6 +478,7 @@ Jet4_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet4_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet4_LQMatched    -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 #			        
 Jet5_Pt			        -inf	     +inf		-		-		1	200 0 2000	      SAVE
 Jet5_Pt_JESTotal_Up		        -inf	     +inf		-		-		1	200 0 2000	      SAVE
@@ -495,6 +499,7 @@ Jet5_btagSFMediumDeepJet		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagSFLooseDeepJet_Up		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_btagSFLooseDeepJet_Dn		  -inf	     +inf		-		-		1	100 0 1.0	      SAVE
 Jet5_hltJetPt			-inf	     +inf		-		-		1	200 0 2000	      SAVE
+Jet5_LQMatched    -inf       +inf   -   -   1 2 -0.5 1.5	      SAVE
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Muon info 
 #-----------------------------------------------------------------------------------------------------------------------------------------
