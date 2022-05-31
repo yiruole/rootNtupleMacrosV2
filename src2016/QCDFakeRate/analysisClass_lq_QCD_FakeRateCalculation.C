@@ -337,16 +337,9 @@ void analysisClass::Loop()
     // 1st Electron variables				      		              
     fillVariableWithValue(   "nEle"                    , nVLooseEle_ptCut , min_prescale * pileup_weight );
 
-    // use uncorrected energy
     float Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-    if(readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr") != 0)
-      Ele1_Pt/=readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
     float Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
-    if(readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr") != 0)
-      Ele2_Pt/=readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
     float Ele3_Pt = readerTools_->ReadValueBranch<Float_t>("Ele3_Pt");
-    if(readerTools_->ReadValueBranch<Float_t>("Ele3_ECorr") != 0)
-      Ele3_Pt/=readerTools_->ReadValueBranch<Float_t>("Ele3_ECorr");
     fillVariableWithValue(   "Pt1stEle"                , Ele1_Pt                , min_prescale * pileup_weight );
     //fillVariableWithValue(   "Pt1stEle"               , Ele1_SCEnergy/cosh(Ele1_SCEta)Heep            , min_prescale * pileup_weight );
     fillVariableWithValue(   "SCEta1stEle"             , readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta")             , min_prescale * pileup_weight );
