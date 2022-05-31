@@ -44,9 +44,7 @@ def GetFile(filename):
 def GetHisto(histoName, file, scale=1):
     histo = file.Get(histoName)
     if not histo:
-        print "ERROR: histo " + histoName + " not found in " + file.GetName()
-        print "exiting..."
-        sys.exit()
+        raise RuntimeError("ERROR: histo " + histoName + " not found in " + file.GetName())
     new = copy.deepcopy(histo)
     if scale != 1:
         new.Scale(scale)
@@ -632,7 +630,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
             print >> outputFile, line
 
     outputFile.close()
-    print "New xsection file (after WJets rescaling) is: " + newFileName
+    print "New xsection file (after DYJets rescaling) is: " + newFileName
     print " "
 
 
@@ -642,13 +640,28 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
 
 ##############################################################################
 # ############ USER CODE - BEGIN ##############################################
-year = 2016
-qcdFiles = {}
-qcdFiles[2016] = "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-qcdFiles[2017] = ""
-mcDataFiles = {}
-mcDataFiles[2016] = "$LQDATA/nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
-mcDataFiles[2017] = "$LQDATA/nanoV7/2017/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+if len(sys.argv) < 4:
+    print "ERROR: did not find MC/data combined plot file or QCD plot file or year"
+    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    exit(-1)
+if len(sys.argv) > 4:
+    print "ERROR: found extra arguments"
+    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    exit(-1)
+
+qcdFile = sys.argv[1]
+mcFile = sys.argv[2]
+year = int(sys.argv[3])
+#year = 2016
+#qcdFiles = {}
+#qcdFiles[2016] = "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+#qcdFiles[2017] = "$LQDATA/nanoV7/2017/analysis/qcdYield_eejj_30apr2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+#qcdFiles[2018] = "$LQDATA/nanoV7/2018/analysis/qcdYield_eejj_1jun2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+#mcDataFiles = {}
+##mcDataFiles[2016] = "$LQDATA/nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+#mcDataFiles[2016] = "$LQDATA/nanoV7/2016/analysis/precomputePrefire_looserPSK_eejj_4jun2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+#mcDataFiles[2017] = "$LQDATA/nanoV7/2017/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
+#mcDataFiles[2018] = "$LQDATA/nanoV7/2018/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 
 # --- Input files
 File_QCD_preselection = GetFile(
@@ -662,9 +675,9 @@ File_QCD_preselection = GetFile(
         # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
         # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
         # 2021
-        qcdFiles[year]
+        #qcdFiles[year]
+        qcdFile
 )
-
 File_preselection = GetFile(
     # "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2016/analysis/prefire_optFinalSels_6aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
@@ -684,7 +697,8 @@ File_preselection = GetFile(
     # "$LQDATA/nanoV7/2017/analysis/prefire_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV7/2018/analysis/eejj_8sep2020_dyjIncOnly/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # 2021
-    mcDataFiles[year]
+    #mcDataFiles[year]
+    mcFile
 )
 
 xsectionFile = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
@@ -697,15 +711,17 @@ histNameAllPrevCuts = "histo1D__SAMPLE__cutHisto_allPreviousCuts________"
 # allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetInc_NLODiboson_triboson"
 if "2016" in File_preselection.GetName():
     # wjet = "WJet_amcatnlo_Inc"
-    wjet = "WJet_amcatnlo_jetBinned"
-    zjet = "ZJet_amcatnlo_ptBinned"
+    # wjet = "WJet_amcatnlo_jetBinned"
+    wjet = "WJet_amcatnlo_ptBinned"
+    # zjet = "ZJet_amcatnlo_ptBinned"
+    zjet = "ZJet_amcatnlo_Inc"
     zjetDatasetName = "DYJetsToLL_Pt.+Tune"
-    allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson_triboson"
+    allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCPtBinned_NLODiboson_triboson"
 else:
     zjetDatasetName = "DY.+ToLL"
     wjet = "WJet_amcatnlo_jetBinned"
-    # zjet = "ZJet_jetAndPtBinned"
-    # allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    zjet = "ZJet_jetAndPtBinned"
+    allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
     # zjetDatasetName = "DY.+JetsToLL_M-50_LHEZpT_.+Tune"
     # jet-binned
     # zjet = "ZJet_amcatnlo_jetBinned"
@@ -715,8 +731,8 @@ else:
     # zjet = "ZJet_amcatnlo_ptBinned_IncStitch"
     # allBkg = "ALLBKG_powhegTTBar_ZJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
     # inc only
-    zjet = "ZJet_amcatnlo_Inc"
-    allBkg = "ALLBKG_powhegTTBar_ZJetIncWJetAMCJetBinned_NLODiboson_triboson"
+    # zjet = "ZJet_amcatnlo_Inc"
+    # allBkg = "ALLBKG_powhegTTBar_ZJetIncWJetAMCJetBinned_NLODiboson_triboson"
     # zjetDatasetName = "DYJetsToLL_M-50_.+Tune"
     # ttbar = "TTbar_amcatnlo_Inc"
     # allBkg = "ALLBKG_amcatnloTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
@@ -731,17 +747,6 @@ photonjets = "PhotonJets_Madgraph"
 qcd = "QCDFakes_DATA"
 # File_QCD_preselection = File_preselection
 
-print "INFO: using file: " + File_preselection.GetName()
-print "INFO: using QCD file: " + File_QCD_preselection.GetName()
-print "INFO: using samples:"
-print "\t allBkg ------>", allBkg
-print "\t DY ---------->", zjet, "; datasetname =", zjetDatasetName
-print "\t W ----------->", wjet
-print "\t ttbar ------->", ttbar, "; datasetname =", ttbarDatasetName
-print "\t diboson ----->", diboson
-print "\t QCD --------->", qcd
-print "\t SingleTop --->", singletop
-print "\t PhotonJets -->", photonjets
 # --- Rescaling of W + jet and ttbar+jets background
 
 histBaseNames = []
@@ -827,50 +832,54 @@ for idx, histBaseName in enumerate(histBaseNames):
     # plotBaseName = histBaseName
     print "for TTBar, using plotBaseName:", plotBaseName
 
-    h_ALLBKG_powheg_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", allBkg)
-        + plotBaseName,
-        File_preselection,
-    )  # MC all
+    try:
+        h_ALLBKG_powheg_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", allBkg)
+            + plotBaseName,
+            File_preselection,
+        )  # MC all
 
-    # powheg ttbar
-    h_TTbar_powheg_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", ttbar) + plotBaseName, File_preselection
-    )  # MC TTbar
-    h_ZJets_amcatnlo_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", zjet) + plotBaseName,
-        File_preselection,
-    )
-    h_WJets_amcatnlo_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", wjet) + plotBaseName,
-        File_preselection,
-    )
-    # h_WJets_amcatnlo_ttbar = GetHisto("histo1D__WJet_amcatnlo_Inc__"+plotBaseName, File_preselection)
-    h_SingleTop_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", singletop) + plotBaseName, File_preselection
-    )
-    h_PhotonJets_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", photonjets) + plotBaseName,
-        File_preselection,
-    )
-    # h_Diboson_ttbar = GetHisto("histo1D__DIBOSON__"+plotBaseName, File_preselection)
-    h_Diboson_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", diboson) + plotBaseName,
-        File_preselection,
-    )
+        # powheg ttbar
+        h_TTbar_powheg_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", ttbar) + plotBaseName, File_preselection
+        )  # MC TTbar
+        h_ZJets_amcatnlo_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", zjet) + plotBaseName,
+            File_preselection,
+        )
+        h_WJets_amcatnlo_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", wjet) + plotBaseName,
+            File_preselection,
+        )
+        # h_WJets_amcatnlo_ttbar = GetHisto("histo1D__WJet_amcatnlo_Inc__"+plotBaseName, File_preselection)
+        h_SingleTop_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", singletop) + plotBaseName, File_preselection
+        )
+        h_PhotonJets_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", photonjets) + plotBaseName,
+            File_preselection,
+        )
+        # h_Diboson_ttbar = GetHisto("histo1D__DIBOSON__"+plotBaseName, File_preselection)
+        h_Diboson_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", diboson) + plotBaseName,
+            File_preselection,
+        )
 
-    # DATA
-    h_DATA_ttbar = GetHisto(
-        thisHistName.replace("SAMPLE", "DATA") + plotBaseName, File_preselection
-    )  # DATA
-    # QCD
-    h_QCD = GetHisto(
-        thisHistName.replace("SAMPLE", qcd)
-        #+ plotBaseName.replace("_btagSFDownShift", "").replace("_btagSFUpShift", ""),
-        + plotBaseName,
-        File_QCD_preselection,
-    )
-    # h_QCD_ttbar = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
+        # DATA
+        h_DATA_ttbar = GetHisto(
+            thisHistName.replace("SAMPLE", "DATA") + plotBaseName, File_preselection
+        )  # DATA
+        # QCD
+        h_QCD = GetHisto(
+            thisHistName.replace("SAMPLE", qcd)
+            #+ plotBaseName.replace("_btagSFDownShift", "").replace("_btagSFUpShift", ""),
+            + plotBaseName,
+            File_QCD_preselection,
+        )
+        # h_QCD_ttbar = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
+    except RuntimeError as e:
+        print "Caught exception while getting histo: '", e, "'; skipping this one"
+        continue
 
     plotTTbar = Plot()
     plotTTbar.histoDATA = h_DATA_ttbar
@@ -1006,3 +1015,16 @@ for idx, plot in enumerate(plotsTTBar):
     CalculateRescaleFactor(plot, plotsDYJets[idx], fileps)
 # c.Print(fileps+"]")
 # os.system('ps2pdf '+fileps)
+
+print "INFO: year = {}".format(year)
+print "INFO: using file: " + File_preselection.GetName()
+print "INFO: using QCD file: " + File_QCD_preselection.GetName()
+print "INFO: using samples:"
+print "\t allBkg ------>", allBkg
+print "\t DY ---------->", zjet, "; datasetname =", zjetDatasetName
+print "\t W ----------->", wjet
+print "\t ttbar ------->", ttbar, "; datasetname =", ttbarDatasetName
+print "\t diboson ----->", diboson
+print "\t QCD --------->", qcd
+print "\t SingleTop --->", singletop
+print "\t PhotonJets -->", photonjets
