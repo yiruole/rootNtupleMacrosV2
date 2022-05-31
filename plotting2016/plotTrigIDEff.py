@@ -72,36 +72,33 @@ def MakeTrigEffGraphs(inputFilesTrigs, IsEEJJ):
 
 
 def GetTrigNameFromIndex(index):
-    index = int(index)
-    if index == 1:
-        return "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1"
-    elif index == 2:
-        return "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1"
-    elif index == 3:
-        return "HLT_Ele27_WP85_Gsf_v1"
-    elif index == 4:
-        return "HLT_Ele27_WPTight_Gsf_v2"
-    elif index == 5:
-        return "HLT_Ele27_WPLoose_Gsf_v2"
-    elif index == 6:
-        return "HLT_Ele27_WPTight_Gsf || HLT_Photon175"
-    elif index == 7:
-        return "HLT_Ele27_WPTight_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT"
+    # index = int(index)
+    # if index == 1:
+    #     return "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1"
+    # elif index == 2:
+    #     return "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v1"
+    # elif index == 3:
+    #     return "HLT_Ele27_WP85_Gsf_v1"
+    # elif index == 4:
+    #     return "HLT_Ele27_WPTight_Gsf_v2"
+    # elif index == 5:
+    #     return "HLT_Ele27_WPLoose_Gsf_v2"
+    # elif index == 6:
+    #     return "HLT_Ele27_WPTight_Gsf || HLT_Photon175"
+    # elif index == 7:
+    #     return "HLT_Ele27_WPTight_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT"
+    return "HLT_Ele27_WPTight_Gsf || HLT_Ele115_CaloIdVT_GsfTrkIdT || Photon175"
 
 
 def GetIDNameFromIndex(index):
     index = int(index)
-    if index == 0:
-        return "HEEPv6.1"
-    elif index == 1:
-        return "HEEPv6.0"
+    if index == 1:
+        return "HEEPv7.0"
     elif index == 2:
-        return "HEEPv5.1"
-    elif index == 3:
         return "EGamma Tight"
-    elif index == 4:
+    elif index == 3:
         return "EGamma Medium"
-    elif index == 5:
+    elif index == 4:
         return "EGamma Loose"
 
 
@@ -154,7 +151,7 @@ def MakeIDEffGraphs(inputFilesIDs, IsEEJJ):
         idEffGraphs.append(idEff)
         # trig and ID
         trigAndIdEff = TGraphAsymmErrors()
-        trigAndIdEff.BayesDivide(numeratorTrigAndID, denominatorTrigAndID)
+        trigAndIdEff.Divide(numeratorTrigAndID, denominatorTrigAndID, "cl=0.683 b(1,1) mode")
         trigAndIdEff.GetXaxis().SetTitle("LQ mass [GeV]")
         trigAndIdEff.GetXaxis().SetNdivisions(512)
         if IsEEJJ:
@@ -180,12 +177,12 @@ def MakeIDEffGraphs(inputFilesIDs, IsEEJJ):
         trigNum = fileName[fileName.find("trigger") + 7: fileName.find("trigger") + 8]
         trigName = GetTrigNameFromIndex(trigNum)
         trigNames.append(trigName)
-        # print 'fileName=',fileName
+        # print 'fileName=' ,fileName
         # print 'trigNum=',trigNum
         # print 'GetTrigNameFromIndex(trigNum)=',GetTrigNameFromIndex(trigNum)
-        idNum = fileName[fileName.find("id") + 2: fileName.find("id") + 3]
+        idNum = fileName[fileName.rfind("id") + 2: fileName.rfind("id") + 3]
+        # print 'idNum=', idNum
         idNames.append(GetIDNameFromIndex(idNum))
-        # print 'idNum=',idNum
         # print 'GetIDNameFromIndex(idNum)=',GetIDNameFromIndex(idNum)
         # if i%2==0:
         #  trigNames.append('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1')
@@ -327,10 +324,11 @@ def MakeTrigAndIDEffMultigraphWithID(
     trigAndIdEffGraphs = copy.deepcopy(trigAndIdEffGraphsOrig)
     mg3 = TMultiGraph()
     if IsEEJJ:
-        leg3 = TLegend(0.375, 0.6, 0.852, 0.9)
+        leg3 = TLegend(0.4, 0.65, 0.95, 0.9)
     else:
         leg3 = TLegend(0.375, 0.178, 0.852, 0.451)
     leg3.SetHeader(idname)
+    leg3.SetTextSize(0.02)
     counter = 0
     if idname not in idNames:
         print "ERROR: requested ID", idname, "not in idNames=", idNames
@@ -352,7 +350,7 @@ def MakeTrigAndIDEffMultigraphWithID(
         mg3.GetYaxis().SetTitle("Efficiency [eejj]")
     else:
         mg3.GetYaxis().SetTitle("Efficiency [e#nujj]")
-    mg3.GetYaxis().SetTitleOffset(0.8)
+    mg3.GetYaxis().SetTitleOffset(1)
     mg3.GetYaxis().SetNdivisions(514)
     mg3.GetYaxis().SetRangeUser(0.5, 0.9)
     if IsEEJJ:
@@ -416,30 +414,30 @@ eejjAnalysisDir = lqdata + "/2016analysis/trigEffStudies_2016sep19/"
 
 # diff trigs
 eejjInputFilesTrigs = []
-eejjInputFilesTrigs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_eejj.root"
-)
-eejjInputFilesTrigs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_eejj.root"
-)
-eejjInputFilesTrigs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_eejj.root"
-)
-eejjInputFilesTrigs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_eejj.root"
-)
-eejjInputFilesTrigs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_eejj.root"
-)
-eejjInputFilesTrigs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_eejj.root"
-)
+#eejjInputFilesTrigs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesTrigs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesTrigs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesTrigs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesTrigs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesTrigs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_eejj.root"
+#)
 # eejjInputFilesTrigs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id2_effiStudy/combined.root')
 # eejjInputFilesTrigs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined.root')
 # diff IDs
@@ -456,30 +454,34 @@ eejjInputFilesIDs = []
 # #eejjInputFilesIDs.append(eejjAnalysisDir+'output_cutTable_lq1_eejj_trigger3_id5_effiStudy/combined.root')
 # eejjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined.root')
 # eejjInputFilesIDs.append('/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/RunII/eejj_trigEff_9Dec2015_AK5_reHLTSignalsFromRaw/output_cutTable_lq1_eejj_trigger5_id4_effiStudy/combined.root')
-eejjInputFilesIDs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_eejj.root"
-)
-eejjInputFilesIDs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_eejj.root"
-)
-eejjInputFilesIDs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_eejj.root"
-)
-eejjInputFilesIDs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_eejj.root"
-)
-eejjInputFilesIDs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_eejj.root"
-)
-eejjInputFilesIDs.append(
-    eejjAnalysisDir
-    + "output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_eejj.root"
-)
+#eejjInputFilesIDs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger4_id1_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesIDs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger5_id1_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesIDs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger4_id0_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesIDs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger5_id0_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesIDs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger6_id0_effiStudy/combined_eejj.root"
+#)
+#eejjInputFilesIDs.append(
+#    eejjAnalysisDir
+#    + "output_cutTable_lq1_eejj_trigger7_id0_effiStudy/combined_eejj.root"
+#)
+eejjInputFilesTrigs.append("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/studies//idEffStudies2016_2021sep20/output_cutTable_lq1_eejj_trigger1_id1_effiStudy/lqToDEle_id1.root")
+eejjInputFilesIDs.append("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/studies//idEffStudies2016_2021sep20/output_cutTable_lq1_eejj_trigger1_id1_effiStudy/lqToDEle_id1.root")
+#eejjInputFilesTrigs.append("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/studies//idEffStudies2016_2021sep20/output_cutTable_lq1_eejj_trigger1_id4_effiStudy/lqToDEle_id4.root")
+#eejjInputFilesIDs.append("/afs/cern.ch/user/s/scooper/work/private/data/Leptoquarks/studies//idEffStudies2016_2021sep20/output_cutTable_lq1_eejj_trigger1_id4_effiStudy/lqToDEle_id4.root")
 
 # ENUJJ
 # enujjAnalysisDir = lqdata+'/2016analysis/trigEffStudies_2016sep13/'
@@ -549,7 +551,7 @@ enujjInputFilesIDs.append(
 )
 
 
-eejjTrigEffGraphs = MakeTrigEffGraphs(eejjInputFilesTrigs, True)
+#eejjTrigEffGraphs = MakeTrigEffGraphs(eejjInputFilesTrigs, True)
 (
     eejjTrigNames,
     eejjIdNames,
@@ -557,88 +559,89 @@ eejjTrigEffGraphs = MakeTrigEffGraphs(eejjInputFilesTrigs, True)
     eejjTrigAndIdEffGraphs,
     eejjIdEffVsPt1stGenEleGraphs,
 ) = MakeIDEffGraphs(eejjInputFilesIDs, True)
-# EEJJ trig eff multigraph
-MakeTrigEffMultigraph(eejjTrigEffGraphs, True)
-# EEJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
-# MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
-MakeIDEffMultigraph(
-    "HLT_Ele27_WPTight_Gsf_v2", eejjTrigNames, eejjIdNames, eejjIdEffGraphs, True
-)
-MakeIDEffMultigraph(
-    "HLT_Ele27_WPLoose_Gsf_v2", eejjTrigNames, eejjIdNames, eejjIdEffGraphs, True
-)
-# MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
-MakeFirstEleGenPtMultigraph(
-    "HLT_Ele27_WPTight_Gsf_v2",
-    eejjTrigNames,
-    eejjIdNames,
-    eejjIdEffVsPt1stGenEleGraphs,
-    True,
-)
-MakeFirstEleGenPtMultigraph(
-    "HLT_Ele27_WPLoose_Gsf_v2",
-    eejjTrigNames,
-    eejjIdNames,
-    eejjIdEffVsPt1stGenEleGraphs,
-    True,
-)
-# MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
-MakeTrigAndIDEffMultigraph(
-    "HLT_Ele27_WPTight_Gsf_v2", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
-)
-MakeTrigAndIDEffMultigraph(
-    "HLT_Ele27_WPLoose_Gsf_v2", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
-)
-#
-MakeTrigAndIDEffMultigraphWithID(
-    "HEEPv6.0", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
-)
-MakeTrigAndIDEffMultigraphWithID(
-    "HEEPv6.1", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
-)
-# MakeTrigAndIDEffMultigraphWithID('EGamma Medium',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
-
-enujjTrigEffGraphs = MakeTrigEffGraphs(enujjInputFilesTrigs, False)
-(
-    enujjTrigNames,
-    enujjIdNames,
-    enujjIdEffGraphs,
-    enujjTrigAndIdEffGraphs,
-    enujjIdEffVsPt1stGenEleGraphs,
-) = MakeIDEffGraphs(enujjInputFilesIDs, False)
-# ENUJJ trig eff multigraph
-MakeTrigEffMultigraph(enujjTrigEffGraphs, False)
-# ENUJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
-# MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
-MakeIDEffMultigraph(
-    "HLT_Ele27_WPTight_Gsf_v2", enujjTrigNames, enujjIdNames, enujjIdEffGraphs, False
-)
-MakeIDEffMultigraph(
-    "HLT_Ele27_WPLoose_Gsf_v2", enujjTrigNames, enujjIdNames, enujjIdEffGraphs, False
-)
-##MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffVsPt1stGenEleGraphs,False)
-# MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
-MakeTrigAndIDEffMultigraph(
-    "HLT_Ele27_WPTight_Gsf_v2",
-    enujjTrigNames,
-    enujjIdNames,
-    enujjTrigAndIdEffGraphs,
-    False,
-)
-MakeTrigAndIDEffMultigraph(
-    "HLT_Ele27_WPLoose_Gsf_v2",
-    enujjTrigNames,
-    enujjIdNames,
-    enujjTrigAndIdEffGraphs,
-    False,
-)
+## EEJJ trig eff multigraph
+#MakeTrigEffMultigraph(eejjTrigEffGraphs, True)
+## EEJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
+## MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffGraphs,True)
+#MakeIDEffMultigraph(
+#    "HLT_Ele27_WPTight_Gsf_v2", eejjTrigNames, eejjIdNames, eejjIdEffGraphs, True
+#)
+#MakeIDEffMultigraph(
+#    "HLT_Ele27_WPLoose_Gsf_v2", eejjTrigNames, eejjIdNames, eejjIdEffGraphs, True
+#)
+## MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjIdEffVsPt1stGenEleGraphs,True)
+#MakeFirstEleGenPtMultigraph(
+#    "HLT_Ele27_WPTight_Gsf_v2",
+#    eejjTrigNames,
+#    eejjIdNames,
+#    eejjIdEffVsPt1stGenEleGraphs,
+#    True,
+#)
+#MakeFirstEleGenPtMultigraph(
+#    "HLT_Ele27_WPLoose_Gsf_v2",
+#    eejjTrigNames,
+#    eejjIdNames,
+#    eejjIdEffVsPt1stGenEleGraphs,
+#    True,
+#)
+## MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+#MakeTrigAndIDEffMultigraph(
+#    "HLT_Ele27_WPTight_Gsf_v2", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
+#)
+#MakeTrigAndIDEffMultigraph(
+#    "HLT_Ele27_WPLoose_Gsf_v2", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
+#)
 ##
+#MakeTrigAndIDEffMultigraphWithID(
+#    "HEEPv6.0", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
+#)
 MakeTrigAndIDEffMultigraphWithID(
-    "HEEPv6.0", enujjTrigNames, enujjIdNames, enujjTrigAndIdEffGraphs, False
+    "HEEPv7.0", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
+    # "EGamma Loose", eejjTrigNames, eejjIdNames, eejjTrigAndIdEffGraphs, True
 )
-MakeTrigAndIDEffMultigraphWithID(
-    "HEEPv6.1", enujjTrigNames, enujjIdNames, enujjTrigAndIdEffGraphs, False
-)
+## MakeTrigAndIDEffMultigraphWithID('EGamma Medium',eejjTrigNames,eejjIdNames,eejjTrigAndIdEffGraphs,True)
+#
+#enujjTrigEffGraphs = MakeTrigEffGraphs(enujjInputFilesTrigs, False)
+#(
+#    enujjTrigNames,
+#    enujjIdNames,
+#    enujjIdEffGraphs,
+#    enujjTrigAndIdEffGraphs,
+#    enujjIdEffVsPt1stGenEleGraphs,
+#) = MakeIDEffGraphs(enujjInputFilesIDs, False)
+## ENUJJ trig eff multigraph
+#MakeTrigEffMultigraph(enujjTrigEffGraphs, False)
+## ENUJJ ID eff multigraph: trig 1 = HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1
+## MakeIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffGraphs,False)
+#MakeIDEffMultigraph(
+#    "HLT_Ele27_WPTight_Gsf_v2", enujjTrigNames, enujjIdNames, enujjIdEffGraphs, False
+#)
+#MakeIDEffMultigraph(
+#    "HLT_Ele27_WPLoose_Gsf_v2", enujjTrigNames, enujjIdNames, enujjIdEffGraphs, False
+#)
+###MakeFirstEleGenPtMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjIdEffVsPt1stGenEleGraphs,False)
+## MakeTrigAndIDEffMultigraph('HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
+#MakeTrigAndIDEffMultigraph(
+#    "HLT_Ele27_WPTight_Gsf_v2",
+#    enujjTrigNames,
+#    enujjIdNames,
+#    enujjTrigAndIdEffGraphs,
+#    False,
+#)
+#MakeTrigAndIDEffMultigraph(
+#    "HLT_Ele27_WPLoose_Gsf_v2",
+#    enujjTrigNames,
+#    enujjIdNames,
+#    enujjTrigAndIdEffGraphs,
+#    False,
+#)
+##
+#MakeTrigAndIDEffMultigraphWithID(
+#    "HEEPv6.0", enujjTrigNames, enujjIdNames, enujjTrigAndIdEffGraphs, False
+#)
+#MakeTrigAndIDEffMultigraphWithID(
+#    "HEEPv6.1", enujjTrigNames, enujjIdNames, enujjTrigAndIdEffGraphs, False
+#)
 ##MakeTrigAndIDEffMultigraphWithID('EGamma Medium',enujjTrigNames,enujjIdNames,enujjTrigAndIdEffGraphs,False)
 
 
