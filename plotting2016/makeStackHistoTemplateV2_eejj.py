@@ -50,7 +50,8 @@ gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
 #inputFilesQCD[2017] = "nanoV7/2017/analysis/qcdYield_eejj_30apr2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
 #inputFilesQCD[2018] = "nanoV7/2018/analysis/qcdYield_eejj_1jun2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
 systDictFilenames = {}
-systDictFilenames[2016] = "$LQANA/versionsOfAnalysis/2016/nanoV7/eejj/apr16/systematics_dict.txt"
+# systDictFilenames[2016] = "$LQANA/versionsOfAnalysis/2016/nanoV7/eejj/apr16/systematics_dict.txt"
+systDictFilenames[2016] = ""
 systDictFilenames[2017] = ""
 systDictFilenames[2018] = ""
 if len(sys.argv) < 4:
@@ -72,39 +73,7 @@ inputFile = mcFile
 inputFileQCD = qcdFile
 systDictFilename = systDictFilenames[year]
 
-File_QCD_preselection = GetFile(
-    # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
-    # inputFile
-    # "$LQDATA/nanoV6/2016/analysis/qcdYield_24jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # nanoV7
-    # "$LQDATA/nanoV7/2016/analysis/qcdYield_optFinalSels_25aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # opt final sels
-    # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    # "$LQDATA/nanoV7/2017/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    #
-    # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-    inputFileQCD
-)
-
-File_preselection = GetFile(
-    # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
-    inputFile
-)
-File_ttbar_preselection = GetFile(
-    # "/data3/scooper/LQData/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root"
-    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
-    inputFile
-)
-# print "Using plot file: {}".format(inputFile)
-# print "Using QCD plot file: {}".format(inputFileQCD)
-
+doQCD = False
 doPreselPlots = True
 doBTagPlots = True
 doFinalSelectionPlots = False  # was True
@@ -122,7 +91,8 @@ else:
     exit(-1)
 
 if do2016:
-    LQmasses = [700, 1500]  # new samples don't have 650 GeV point
+    # LQmasses = [700, 1500]  # new samples don't have 650 GeV point
+    LQmasses = [1500, 2000]  # new samples don't have 650 GeV point
     LQmassesFinalSelection = [400, 700, 1000]
 else:
     LQmasses = []
@@ -141,6 +111,39 @@ histoBaseName_userDef = "histo1D__SAMPLE__VARIABLE"
 histoBaseName2D = "histo2D__SAMPLE__cutHisto_allOtherCuts___________VARIABLE"
 histoBaseName2D_userDef = "histo2D__SAMPLE__VARIABLE"
 
+if doQCD:
+    File_QCD_preselection = GetFile(
+        # "$LQDATA/nano/2016/analysis/eejj_qcd_rsk_nov22/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+        # inputFile
+        # "$LQDATA/nanoV6/2016/analysis/qcdYield_24jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV6/2017/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # nanoV7
+        # "$LQDATA/nanoV7/2016/analysis/qcdYield_optFinalSels_25aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # opt final sels
+        # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        # "$LQDATA/nanoV7/2017/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        #
+        # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        inputFileQCD
+    )
+
+File_preselection = GetFile(
+    # "$LQDATA/nano/2016/analysis/eejj_trigSFUncorrPt_dec3/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    inputFile
+)
+File_ttbar_preselection = GetFile(
+    # "/data3/scooper/LQData/2016ttbar/mar20_emujj_fixPlots/output_cutTable_lq_ttbar_emujj_correctTrig/analysisClass_lq_ttbarEst_plots.root"
+    # "$LQDATA/nanoV6/2017/analysis/eejj_noJets_7apr/output_cutTable_lq_eejj_noJets/analysisClass_lq_eejj_noJets_plots.root"
+    inputFile
+)
+# print "Using plot file: {}".format(inputFile)
+# print "Using QCD plot file: {}".format(inputFileQCD)
 # samplesForStackHistos_ZJets  = [ "TTbar_Madgraph", "ZJet_amcAtNLO_Inc" ]
 # samplesForStackHistos_other = [ "WJet_amcAtNLO_Inc" , "SingleTop", "QCD_EMEnriched", "DIBOSON"]
 # samplesForStackHistos_other = [ "WJet_amcAtNLO_Inc" , "SingleTop", "PhotonJets_Madgraph", "QCD_EMEnriched", "DIBOSON"]
@@ -177,7 +180,8 @@ histoBaseName2D_userDef = "histo2D__SAMPLE__VARIABLE"
 if do2016:
     ilumi = "35.9"
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
-    samplesForStackHistos_QCD = ["QCDFakes_DATA"]
+    if doQCD:
+        samplesForStackHistos_QCD = ["QCDFakes_DATA"]
     # nominal
     samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned"]
     # samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_Inc" ]
@@ -192,17 +196,19 @@ if do2016:
     # keysStack             = ["QCD multijet (data)", "Other backgrounds", "t#bar{t} (MG5_aMC)"  ,  "Z/#gamma* + jets (MG5_aMC Pt)"  ]
     # data-driven ttbar
     #samplesForStackHistos_ttbar = ["TTBarFromDATA"]
-    keysStack = [
-        "QCD multijet (data)",
+    keysStack = "QCD multijet (data)" if doQCD else []
+    keysStack.extend([
+        
         # "QCD multijet (MC)",
         "Other backgrounds",
         "t#bar{t} (powheg)",
         "Z/#gamma* + jets (MG5_aMC Pt)",
-    ]
+    ])
 elif do2017:
     ilumi = "41.5"
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
-    samplesForStackHistos_QCD = ["QCDFakes_DATA"]
+    if doQCD:
+        samplesForStackHistos_QCD = ["QCDFakes_DATA"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
     # samplesForStackHistos_ZJets = ["ZToEE"]
@@ -214,9 +220,9 @@ elif do2017:
     samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"]
     # MC ttbar
     samplesForStackHistos_ttbar = ["TTbar_powheg"]
-    keysStack = [
+    keysStack = "QCD multijet (data)" if doQCD else []
+    keysStack.extend([
         # "QCD multijet (MC)",
-        "QCD multijet (data)",
         "Other backgrounds",
         "t#bar{t} (powheg)",
         # "Z/#gamma* + jets (MG5_aMC Inc.)",
@@ -224,11 +230,12 @@ elif do2017:
         # "Z/#gamma* + jets (ZToEE)",
         # "Z/#gamma* + jets (MG5_aMC jet-binned)",
         "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
-    ]
+    ])
 elif do2018:
     ilumi = "59.7"
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
-    samplesForStackHistos_QCD = ["QCDFakes_DATA"]
+    if doQCD:
+        samplesForStackHistos_QCD = ["QCDFakes_DATA"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_jetBinned"]
@@ -239,31 +246,36 @@ elif do2018:
     samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"]
     # MC ttbar
     samplesForStackHistos_ttbar = ["TTbar_powheg"]
-    keysStack = [
+    keysStack = "QCD multijet (data)" if doQCD else []
+    keysStack.extend([
         # "QCD multijet (MC)",
-        "QCD multijet (data)",
         "Other backgrounds",
         "t#bar{t} (powheg)",
         # "Z/#gamma* + jets (MG5_aMC Inc.)",
         # "Z/#gamma* + jets (MG5_aMC pt-binned stitch)",
         # "Z/#gamma* + jets (MG5_aMC jet-binned)",
         "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
-    ]
+    ])
 
 # samplesForStackHistos_ZJets  = [ "TTbar_FromData", "ZJet_Madgraph" ]
 # older
 # samplesForStackHistos = samplesForStackHistos_other + samplesForStackHistos_ZJets
-samplesForStackHistos = (
-    samplesForStackHistos_QCD
-    + samplesForStackHistos_other
-    + samplesForStackHistos_ttbar
-    + samplesForStackHistos_ZJets
-)
+samplesForStackHistos = samplesForHistos_QCD if doQCD else []
+# samplesForStackHistos = (
+#     samplesForStackHistos_QCD
+#     + samplesForStackHistos_other
+#     + samplesForStackHistos_ttbar
+#     + samplesForStackHistos_ZJets
+# )
+samplesForStackHistos += samplesForStackHistos_other + samplesForStackHistos_ttbar + samplesForStackHistos_ZJets
 systTypes = ["QCD", "other", "TTbar", "ZJet"]
 # print 'samplesForStackHistos',samplesForStackHistos
 # keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG HT)"  ]
 # keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (amc@NLO Pt)"  ]
-stackColorIndexes = [kCyan, 9, 600, kRed]
+if doQCD:
+    stackColorIndexes = [kCyan, 9, 600, kRed]
+else:
+    stackColorIndexes = [9, 600, kRed]
 stackFillStyleIds = [1001, 1001, 1001, 1001]
 if systDictFilename != "":
     print "Using systDictFilename={}".format(systDictFilename)
@@ -288,8 +300,8 @@ else:
 ##stackColorIndexes.reverse()
 ##stackFillStyleIds.reverse()
 
-signalSampleName = "LQToBEle_M-{}_pair"
-signalSampleLabel = "LQToBEle, M={} GeV"
+signalSampleName = "LQToDEle_M-{}_pair"
+signalSampleLabel = "LQToDEle, M={} GeV"
 samplesForHistos = [signalSampleName.format(lqmass) for lqmass in LQmasses]
 keys = [signalSampleLabel.format(lqmass) for lqmass in LQmasses]
 # no signal
@@ -309,7 +321,7 @@ dataBlindAboveAll = -1
 dataBlindAbovePt1 = -1  # GeV; used for ele Pt1, Mee, Mej
 dataBlindAbovePt2 = -1  # for ele pt2
 
-print "INFO: Using DYJets sample:", samplesForStackHistos_ZJets, " ("+keysStack[3]+")"
+print "INFO: Using DYJets sample:", samplesForStackHistos_ZJets, " ("+keysStack[3] if doQCD else keysStack[2]+")"
 
 
 def makeDefaultPlot(
@@ -325,14 +337,15 @@ def makeDefaultPlot(
     dataBlindAbove=-1,
 ):
     plot = Plot()
-    plot.histosStack = (
+    plot.histosStack = generateHistoList(
+        histoBaseName,
+        samplesForStackHistos_QCD,
+        variableName,
+        File_QCD_preselection,
+    ) if doQCD else []
+    # print "histosStack=", plot.histosStack
+    plot.histosStack.extend(
         generateHistoList(
-            histoBaseName,
-            samplesForStackHistos_QCD,
-            variableName,
-            File_QCD_preselection,
-        )
-        + generateHistoList(
             histoBaseName, samplesForStackHistos_other, variableName, File_preselection
         )
         + generateHistoList(
@@ -345,6 +358,7 @@ def makeDefaultPlot(
             histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection
         )
     )
+    # print "2) histosStack=", plot.histosStack
     plot.keysStack = keysStack
     plot.systs = systsForStackHistos
     plot.histos = generateHistoList(
@@ -1404,6 +1418,15 @@ if doPreselPlots:
     # plots[-1].ytit = "S_{T}(eejj) [GeV]"
     #
     #
+    plots.append(makeDefaultPlot("BDTOutput_Presel"))
+    plots[-1].xtit = "BDT output [Preselection]"
+    plots[-1].rebin = 200
+    plots[-1].ymax = 1e6
+    plots[-1].ymin = 1e-1
+    plots[-1].xmax = 1
+    plots[-1].xmin = -1
+    plots[-1].ylog = "yes"
+
     print "Done"
 
 ####################################################################################################
