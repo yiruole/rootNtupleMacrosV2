@@ -12,6 +12,8 @@
 #include <TVector2.h>
 #include <TVector3.h>
 #include <TProfile.h>
+#include <TMVA/Tools.h>
+#include <TMVA/Reader.h>
 // for scale factors
 #include "ElectronScaleFactors.C"
 #include "MuonScaleFactors.C"
@@ -30,21 +32,26 @@ void analysisClass::Loop()
    // Final selection mass points
    //--------------------------------------------------------------------------
 
-   //const int n_lq_mass = 30; // 2017
-   const int n_lq_mass = 29; // 2016
-   int LQ_MASS[n_lq_mass] = { 
-     300,  400,  500,  600,
-     700,  800,  900,  1000,
-     1100, 1200, 1300, 1400,
-     1500, 1600, 1700, 1800,
-     //1900, 2000, // up to 2000 only for 2018
-     1900, 2000, 2100, 2200, // 2017-2018
-     2300, 2400, //2500, // 2500 for 2016 missing, FIXME
-     //2300, 2400, 2500, // 2017
-     2600, 2700, 2800, 2900,
-     3000,
-     3500, 4000
+   // BDT test
+   const int n_lq_mass = 4;
+   int LQ_MASS[n_lq_mass] = {
+     1400, 1500, 1600, 1700
    };
+   ////const int n_lq_mass = 30; // 2017
+   //const int n_lq_mass = 29; // 2016
+   //int LQ_MASS[n_lq_mass] = { 
+   //  300,  400,  500,  600,
+   //  700,  800,  900,  1000,
+   //  1100, 1200, 1300, 1400,
+   //  1500, 1600, 1700, 1800,
+   //  //1900, 2000, // up to 2000 only for 2018
+   //  1900, 2000, 2100, 2200, // 2017-2018
+   //  2300, 2400, //2500, // 2500 for 2016 missing, FIXME
+   //  //2300, 2400, 2500, // 2017
+   //  2600, 2700, 2800, 2900,
+   //  3000,
+   //  3500, 4000
+   //};
 
    //const int n_lq_mass = 18; // 2018
    //int LQ_MASS[n_lq_mass] = { 
@@ -132,6 +139,11 @@ void analysisClass::Loop()
    std::string btagAlgo = getPreCutString1("BTagAlgo");
    std::string btagWP = getPreCutString1("BTagWP");
    double btagCut = getPreCutValue1("BTagCutValue");
+
+   //--------------------------------------------------------------------------
+   // BDT weight file
+   //--------------------------------------------------------------------------
+   std::string bdtWeightFileName = getPreCutString1("BDTWeightFileName");
 
    //--------------------------------------------------------------------------
    // Create TH1D's
@@ -655,6 +667,8 @@ void analysisClass::Loop()
    CreateUserTH1D( "DeltaEtaTrkSC_2ndEle_Presel",4000,0,10);
    CreateUserTH1D( "SCEtaMinusEleEta_2ndEle_Presel",4000,0,10);
    CreateUserTH1D( "DeltaEtaTrkSC_Minus_SCEtaMinusEleEta_2ndEle_Presel",4000,0,10);
+   CreateUserTH1D( "BDTOutput_Presel",20000,-2,2);
+   CreateUserTH1D( "BDTOutput_noWeight_Presel",20000,-2,2);
 
    //--------------------------------------------------------------------------
    // Final selection plots
@@ -663,7 +677,9 @@ void analysisClass::Loop()
    // check if there is a final Mej specific in cutfile for any LQ mass
    for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
      int lq_mass = LQ_MASS[i_lq_mass];
-     sprintf(cut_name, "min_M_ej_LQ%d"   , lq_mass );
+     //TODO FIXME; hack for now
+     //sprintf(cut_name, "min_M_ej_LQ%d"   , lq_mass );
+     sprintf(cut_name, "BDTOutput_LQ%d"   , lq_mass );
      if(hasCut(cut_name)) {
        doFinalSelections = true;
        break;
@@ -797,6 +813,55 @@ void analysisClass::Loop()
    }
 
    //--------------------------------------------------------------------------
+   // TMVA Reader
+   // See, for example: https://github.com/lmoneta/tmva-tutorial/blob/master/notebooks/TMVA_Reader.ipynb
+   //--------------------------------------------------------------------------
+   float sT_eejj, M_e1e2, M_e1j1, M_e1j2, M_e2j1, M_e2j2, Ele1_Pt, Ele2_Pt, Jet1_Pt, Jet2_Pt;
+   float PFMET_Type1_Pt, PFMET_Type1_Phi;
+   float Ele1_Eta, Ele2_Eta, Ele1_Phi, Ele2_Phi;
+   float Jet1_Eta, Jet2_Eta, Jet1_Phi, Jet2_Phi;
+   float Jet3_Eta, Jet3_Phi, Jet3_Pt;
+   float Masym, MejMin, MejMax, Meejj;
+   float DR_Ele1Jet1, DR_Ele1Jet2, DR_Ele2Jet1, DR_Ele2Jet2, DR_Jet1Jet2;
+   float mass = 1700; // FIXME: handle this better in the future
+   TMVA::Tools::Instance();
+   TMVA::Reader reader( "!Color:!Silent" );
+   reader.AddVariable( "sT_eejj", &sT_eejj);
+   reader.AddVariable( "PFMET_Type1_Pt", &PFMET_Type1_Pt);
+   reader.AddVariable( "PFMET_Type1_Phi", &PFMET_Type1_Phi);
+   reader.AddVariable( "M_e1e2", &M_e1e2);
+   reader.AddVariable( "M_e1j1", &M_e1j1);
+   reader.AddVariable( "M_e1j2", &M_e1j2);
+   reader.AddVariable( "M_e2j1", &M_e2j1);
+   reader.AddVariable( "M_e2j2", &M_e2j2);
+   reader.AddVariable( "Ele1_Pt", &Ele1_Pt);
+   reader.AddVariable( "Ele2_Pt", &Ele2_Pt);
+   reader.AddVariable( "Ele1_Eta", &Ele1_Eta);
+   reader.AddVariable( "Ele2_Eta", &Ele2_Eta);
+   reader.AddVariable( "Ele1_Phi", &Ele1_Phi);
+   reader.AddVariable( "Ele2_Phi", &Ele2_Phi);
+   reader.AddVariable( "Jet1_Pt", &Jet1_Pt);
+   reader.AddVariable( "Jet2_Pt", &Jet2_Pt);
+   reader.AddVariable( "Jet3_Pt", &Jet3_Pt);
+   reader.AddVariable( "Jet1_Eta", &Jet1_Eta);
+   reader.AddVariable( "Jet2_Eta", &Jet2_Eta);
+   reader.AddVariable( "Jet3_Eta", &Jet3_Eta);
+   reader.AddVariable( "Jet1_Phi", &Jet1_Phi);
+   reader.AddVariable( "Jet2_Phi", &Jet2_Phi);
+   reader.AddVariable( "Jet3_Phi", &Jet3_Phi);
+   reader.AddVariable( "DR_Ele1Jet1", &DR_Ele1Jet1);
+   reader.AddVariable( "DR_Ele1Jet2", &DR_Ele1Jet2);
+   reader.AddVariable( "DR_Ele2Jet1", &DR_Ele2Jet1);
+   reader.AddVariable( "DR_Ele2Jet2", &DR_Ele2Jet2);
+   reader.AddVariable( "DR_Jet1Jet2", &DR_Jet1Jet2);
+   reader.AddVariable( "Masym", &Masym);
+   reader.AddVariable( "MejMin", &MejMin);
+   reader.AddVariable( "MejMax", &MejMax);
+   reader.AddVariable( "Meejj", &Meejj);
+   reader.AddVariable( "mass", &mass);
+   reader.BookMVA("BDT", bdtWeightFileName );
+
+   //--------------------------------------------------------------------------
    // Tell the user how many entries we'll look at
    //--------------------------------------------------------------------------
 
@@ -818,8 +883,8 @@ void analysisClass::Loop()
      //if(jentry > 1000) continue;
      //if(run==319077) continue;
      //XXX TEST
-     //double ls = readerTools_->ReadValueBranch<Float_t>("ls");
-     //double event = readerTools_->ReadValueBranch<Float_t>("event");
+     //float ls = readerTools_->ReadValueBranch<Float_t>("ls");
+     //float event = readerTools_->ReadValueBranch<Float_t>("event");
      //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
 
@@ -908,9 +973,11 @@ void analysisClass::Loop()
          //float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
          float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
          float recoSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_RecoSF");
+         // HEEP ID
          //float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
          //float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
          //recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+         // EGM loose ID
          float looseSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_EGMLooseIDSF");
          float looseSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_EGMLooseIDSF");
          recoHeepSF *= recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
@@ -1241,10 +1308,10 @@ void analysisClass::Loop()
 
      double nEle_store = readerTools_->ReadValueBranch<Float_t>("nEle_store");
      double nJet_store = readerTools_->ReadValueBranch<Float_t>("nJet_store");
-     double M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
-     double M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
-     double M_e2j1 = readerTools_->ReadValueBranch<Float_t>("M_e2j1");
-     double M_e2j2 = readerTools_->ReadValueBranch<Float_t>("M_e2j2");
+     M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
+     M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
+     M_e2j1 = readerTools_->ReadValueBranch<Float_t>("M_e2j1");
+     M_e2j2 = readerTools_->ReadValueBranch<Float_t>("M_e2j2");
      double Pt_e1e2 = readerTools_->ReadValueBranch<Float_t>("Pt_e1e2");
      // systs
      double M_e1j1_EER = readerTools_->ReadValueBranch<Float_t>("M_e1j1_EER");
@@ -1337,13 +1404,15 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      //double Ele1_PtHeep = readerTools_->ReadValueBranch<Float_t>("Ele1_PtHeep");
      //double Ele2_PtHeep = readerTools_->ReadValueBranch<Float_t>("Ele2_PtHeep");
-     double Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-     double Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
-     double Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
-     double Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
+     Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+     Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+     Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
+     Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
+     Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
+     Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
      //double Ele1_TrkEta = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkEta");
      //double Ele2_TrkEta = readerTools_->ReadValueBranch<Float_t>("Ele2_TrkEta");
-     
+
      if ( nEle_store >= 1 ) {
        //fillVariableWithValue( "Ele1_PtHeep",            Ele1_PtHeep, gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "Ele1_Pt",            Ele1_Pt, gen_weight * pileup_weight  ) ;
@@ -1356,13 +1425,22 @@ void analysisClass::Loop()
        //fillVariableWithValue( "Ele2_AbsDeltaEtaEleTrk",
        //    fabs(Ele2_Eta-Ele2_TrkEta), gen_weight * pileup_weight );
      }
-			
+
      //--------------------------------------------------------------------------
      // Fill jet variables 
      //--------------------------------------------------------------------------
+     Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
+     Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
+     Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
+     Jet2_Pt = readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
+     Jet2_Phi = readerTools_->ReadValueBranch<Float_t>("Jet2_Phi");
+     Jet2_Eta = readerTools_->ReadValueBranch<Float_t>("Jet2_Eta");
+     Jet3_Pt = readerTools_->ReadValueBranch<Float_t>("Jet3_Pt");
+     Jet3_Phi = readerTools_->ReadValueBranch<Float_t>("Jet3_Phi");
+     Jet3_Eta = readerTools_->ReadValueBranch<Float_t>("Jet3_Eta");
 
      double nJet_ptCut = readerTools_->ReadValueBranch<Float_t>("nJet_ptCut");
-     double DR_Jet1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Jet1Jet2");
+     DR_Jet1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Jet1Jet2");
      // Jets								    
      fillVariableWithValue("nJet", nJet_ptCut, gen_weight * pileup_weight );
      if ( nJet_store >= 1 ) { 						    
@@ -1379,10 +1457,10 @@ void analysisClass::Loop()
      // Fill DeltaR variables
      //--------------------------------------------------------------------------
 
-     double DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
-     double DR_Ele2Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet1");
-     double DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
-     double DR_Ele2Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet2");
+     DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
+     DR_Ele2Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet1");
+     DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
+     DR_Ele2Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet2");
      if ( nEle_store >= 2 && nJet_store >= 1) {
        fillVariableWithValue( "DR_Ele1Jet1"  , DR_Ele1Jet1, gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "DR_Ele2Jet1"  , DR_Ele2Jet1 , gen_weight * pileup_weight  ) ;
@@ -1396,16 +1474,30 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Multi-object variables
      //--------------------------------------------------------------------------
-     double sT_eejj = readerTools_->ReadValueBranch<Float_t>("sT_eejj");
-     double M_e1e2 =  readerTools_->ReadValueBranch<Float_t>("M_e1e2");
+     sT_eejj = readerTools_->ReadValueBranch<Float_t>("sT_eejj");
+     M_e1e2 =  readerTools_->ReadValueBranch<Float_t>("M_e1e2");
      double M_e1e2_EER =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EER");
      double M_e1e2_EES_Up =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EES_Up");
      double M_e1e2_EES_Dn =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EES_Dn");
-     double PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
+     PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
+     PFMET_Type1_Phi = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
+     MejMin = M_ej_min;
+     MejMax = M_ej_max;
+     Masym = M_ej_asym;
+     // calc Meejj and set it for the BDT
+     TLorentzVector e1, j1, e2, j2;
+     TLorentzVector eejj;
+     e1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
+     e2.SetPtEtaPhiM ( Ele2_Pt, Ele2_Eta, Ele2_Phi, 0.0 );
+     j1.SetPtEtaPhiM ( Jet1_Pt, Jet1_Eta, Jet1_Phi, 0.0 );
+     j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
+     eejj = e1 + e2 + j1 + j2 ; 
+     Meejj = eejj.M();
+     double bdtOutput = reader.EvaluateMVA("BDT");
 
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
-       fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
+       //fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
        // for Ptee cut
        fillVariableWithValue( "Pt_e1e2"    , Pt_e1e2 , gen_weight * pileup_weight  ) ;
 
@@ -1413,9 +1505,14 @@ void analysisClass::Loop()
          // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
          //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
          fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
-         fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
-         fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
+         //fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
+         //fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
          //fillVariableWithValue( "Mej_asym_opt", M_ej_asym, gen_weight * pileup_weight  ) ;
+         // BDT evaluation
+         //std::cout << "\tBDT = " << bdtOutput << std::endl; //XXX SIC DEBUG
+         fillVariableWithValue("BDToutput_opt" , bdtOutput, gen_weight * pileup_weight );
+         FillUserTH1D( "BDTOutput_Presel"   , bdtOutput, gen_weight * pileup_weight );
+         FillUserTH1D( "BDTOutput_noWeight_Presel"   , bdtOutput );
        }      
      }
      //fillVariableWithValue( "PFMET_opt", PFMET_Type1_Pt, gen_weight * pileup_weight  ) ;
@@ -1431,12 +1528,14 @@ void analysisClass::Loop()
      {
        for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
          int lq_mass = LQ_MASS[i_lq_mass];
-         sprintf(cut_name, "M_e1e2_LQ%d"  , lq_mass );
-         fillVariableWithValue ( cut_name, M_e1e2  , gen_weight * pileup_weight  ) ;
-         sprintf(cut_name, "sT_eejj_LQ%d" , lq_mass );
-         fillVariableWithValue ( cut_name, sT_eejj , gen_weight * pileup_weight  ) ;
-         sprintf(cut_name, "min_M_ej_LQ%d", lq_mass );
-         fillVariableWithValue ( cut_name, M_ej_min, gen_weight * pileup_weight  ) ;
+         //sprintf(cut_name, "M_e1e2_LQ%d"  , lq_mass );
+         //fillVariableWithValue ( cut_name, M_e1e2  , gen_weight * pileup_weight  ) ;
+         //sprintf(cut_name, "sT_eejj_LQ%d" , lq_mass );
+         //fillVariableWithValue ( cut_name, sT_eejj , gen_weight * pileup_weight  ) ;
+         //sprintf(cut_name, "min_M_ej_LQ%d", lq_mass );
+         //fillVariableWithValue ( cut_name, M_ej_min, gen_weight * pileup_weight  ) ;
+         sprintf(cut_name, "BDTOutput_LQ%d", lq_mass );
+         fillVariableWithValue ( cut_name, bdtOutput, gen_weight * pileup_weight  ) ;
          fillSystVariableWithValue( "EER", cut_name, M_ej_min_EER);
          fillSystVariableWithValue( "EESUp", cut_name, M_ej_min_EES_Up);
          fillSystVariableWithValue( "EESDown", cut_name, M_ej_min_EES_Dn);
@@ -1575,7 +1674,9 @@ void analysisClass::Loop()
        for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
          int lq_mass = LQ_MASS[i_lq_mass];
          //sprintf(cut_name, "M_e1e2_LQ%d", lq_mass );
-         sprintf(cut_name, "min_M_ej_LQ%d", lq_mass ); // this is actually the last cut in the cut file...!
+         //sprintf(cut_name, "min_M_ej_LQ%d", lq_mass ); // this is actually the last cut in the cut file...!
+         // TODO FIXME the right way; hack for now
+         sprintf(cut_name, "BDTOutput_LQ%d", lq_mass ); // this is actually the last cut in the cut file...!
          bool decision = bool ( passedAllPreviousCuts(cut_name) && passedCut (cut_name));
          passed_vector.push_back (decision);
        }
@@ -1630,23 +1731,12 @@ void analysisClass::Loop()
        TLorentzVector eejj, e1e2mu;
        TLorentzVector eej, ejj, ee;
        TLorentzVector e1j3, e2j3, j1j3, j2j3, j1j2, j1j2j3, eejjj;
-       double Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
-       double Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
-       double Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
-       double Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
-       double Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
-       double Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
-       double Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
-       double Jet2_Pt = readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
-       double Jet2_Phi = readerTools_->ReadValueBranch<Float_t>("Jet2_Phi");
-       double Jet2_Eta = readerTools_->ReadValueBranch<Float_t>("Jet2_Eta");
        double Muon1_Pt = readerTools_->ReadValueBranch<Float_t>("Muon1_Pt");
        double Muon1_Eta = readerTools_->ReadValueBranch<Float_t>("Muon1_Eta");
        double Muon1_Phi = readerTools_->ReadValueBranch<Float_t>("Muon1_Phi");
        double Muon2_Pt = readerTools_->ReadValueBranch<Float_t>("Muon2_Pt");
        double Muon2_Eta = readerTools_->ReadValueBranch<Float_t>("Muon2_Eta");
        double Muon2_Phi = readerTools_->ReadValueBranch<Float_t>("Muon2_Phi");
-       double PFMET_Type1_Phi = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
 
        e1.SetPtEtaPhiM ( Ele1_Pt, Ele1_Eta, Ele1_Phi, 0.0 );
        e2.SetPtEtaPhiM ( Ele2_Pt, Ele2_Eta, Ele2_Phi, 0.0 );
