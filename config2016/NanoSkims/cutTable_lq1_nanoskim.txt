@@ -24,7 +24,7 @@ produceSkim           	   1            -               -               -        
 #-----------------------------------------------------------------------------------------------------------------------------
 # Branch Selection
 #-----------------------------------------------------------------------------------------------------------------------------
-BranchSelection  /afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/keepAndDrop.txt  - - - -1
+BranchSelection  /afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/nanoSkim_keepAndDrop.txt  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
