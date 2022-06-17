@@ -1,0 +1,102 @@
+#------------------------------------------------------------------------------------------------------
+# 2016 Sep23 ReReco JSON file
+#------------------------------------------------------------------------------------------------------
+JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/certifiedGolden_11mar2020_2016_2017_2018.json
+#------------------------------------------------------------------------------------------------------
+#                                 Example of file with list of cuts
+#
+#------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
+# This first list of variable names and values are used to pass configurable values to the user code associated
+# to a variable name.
+# The user can retrieve the values associated to a variable name via a provided function call
+# [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1.
+# Variable names must be unique.
+#
+#VariableName         value1            value2          value3          value4          level
+#------------         ------------      -------------   ------------    -------------   -----
+#------------------------------------------------------------------------------------------------------
+# What kind of skim to make?:
+#   [0]: QCD   = cut on number of gsf electrons satisfying HEEP QCD fake rate study denominator requirements
+#   [1]: enujj = cut on 1st electron pt, 1st & 2nd jet pts, MET  + require exactly ONE for "nEle"
+#   [2]: eejj  = cut on 1st & 2nd electron pt, 1st & 2nd jet pts + require exactly TWO for "nEle"
+#   [3]: single electron  = cut on 1st electron Pt
+#   [4]: single muon  = cut on 1st muon Pt
+#------------------------------------------------------------------------------------------------------
+produceSkim           	   1            -               -               -               -1
+skimType	            	   3		-		-		-		-1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Trigger scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Reco scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+RecoSFFileName /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# EGM Loose ID scale factors
+#-----------------------------------------------------------------------------------------------------------------------------
+EGMIDSFFileName  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaIDSF/2016/2016LegacyReReco_ElectronLoose_Fall17V2.root  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Branch Selection
+#-----------------------------------------------------------------------------------------------------------------------------
+BranchSelection  /afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/keepAndDrop.txt  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Analysis year
+#-----------------------------------------------------------------------------------------------------------------------------
+AnalysisYear   2016  - - - -1
+#------------------------------------------------------------------------------------------------------
+# Energy scaling / smearing on electrons & jets -- not needed with NanoAOD-based setup
+#------------------------------------------------------------------------------------------------------
+do_electron_energy_smear   0		-		-		-		-1
+do_pfjet_energy_smear	     0		-		-		-		-1
+electron_energy_scale_sign 0		-		-		-		-1
+pfjet_energy_scale_sign	   0		-		-		-		-1
+#------------------------------------------------------------------------------------------------------
+# Jet selection
+#------------------------------------------------------------------------------------------------------
+jet_PtCut		               50	         	-               -               -               -1
+jet_EtaCut            	   2.4         	-               -               -               -1
+jet_HighEtaCut		   5.0		-               -               -               -1
+jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
+jet_muon_DeltaRCut    	   0.3        	-               -               -               -1
+jet_hltMatch_DeltaRCut     0.5		-		-		-		-1
+jetIDType                  PFJetTight  - - - -1
+#------------------------------------------------------------------------------------------------------
+# Muon ID and selection
+#------------------------------------------------------------------------------------------------------
+muon_PtCut		   20           -               -               -               -1
+muon_EtaCut	      	   2.4		-               -               -               -1
+muon_hltMatch_DeltaRCut    0.5		-		-		-		-1
+muonIDType             HighPtTrkRelIso03  - - - -1
+#------------------------------------------------------------------------------------------------------
+# Electron ID and selection 
+#------------------------------------------------------------------------------------------------------
+ele_PtCut		               35          -               -               -               -1
+ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
+electronIDType             EGMLoose  - - - -1
+#--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
+# The cut variable names, cut boundaries and histogram binnings are provided here by the user.
+# In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
+# a provided function call [ e.g. fillVariableWithValue("nEleFinal", number_of_electrons) ]
+# The variable names in the user code has to match the names provided here.
+# Variable names must be unique.
+# The cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )
+# in case only the first range (minValue1, maxValue1) is provided,
+# otherwise the cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )  OR  ( minValue2 < VariableName <= maxValue2 )
+# in case even the second range (minValue2, maxValue2) is provided.
+# The level of the cut (0,1,2 ... n) is provided by the user and can be used in the code to easily determine if
+# groups of same-level cuts have passed or failed.
+#
+#VariableName                   minValue1(<) maxValue1(>=) minValue2(<) maxValue2(>=)   level   histoNbinsMinMax      OptionalFlag
+#------------                   ------------ ------------- ------------ -------------   -----   ----------------      ------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------
+# Cuts that have to pass for the skim to fill (level = 0)
+#-----------------------------------------------------------------------------------------------------------------------------------------------
+nVLooseEle_ptCut                0            +inf           -           -           0           16            -0.5           15.5           SAVE
+nEle_ptCut                      0            +inf           -           -           0           16            -0.5           15.5           SAVE
+Ele1_Pt                         35           +inf           -           -           0          200             0             2000           SAVE
+#PassTrigger                     0             1             -           -           0            2            -0.5           1.5            SAVE
