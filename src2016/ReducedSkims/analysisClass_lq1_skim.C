@@ -1,6 +1,7 @@
 #define analysisClass_cxx
 #include "analysisClass.h"
 #include <typeinfo>
+#include <variant>
 #include <TH2.h>
 #include <TH1F.h>
 #include <TStyle.h>
@@ -21,6 +22,8 @@
 #include "HLTriggerObjectCollectionHelper.h"
 #include "HistoReader.h"
 #include "ElectronScaleFactors.C"
+
+#include "correction.h"
 
 //--------------------------------------------------------------------------
 // Function for trigger matching 
@@ -130,11 +133,34 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   std::string egmIDSFFileName = getPreCutString1("EGMIDSFFileName");
   std::unique_ptr<HistoReader> idScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(egmIDSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false));
+  //FIXME TODO move to correctionlib
+
+  //--------------------------------------------------------------------------
+  // correctionlib PU
+  //--------------------------------------------------------------------------
+  std::string puJSONFileName = getPreCutString1("PUJSONFileName");
+  auto cset_puAll = correction::CorrectionSet::from_file(puJSONFileName);
+  auto cset_pu = cset_puAll->at("Collisions16_UltraLegacy_goldenJSON");
+
+  //--------------------------------------------------------------------------
+  // correctionlib B-tagging
+  //--------------------------------------------------------------------------
+  std::string btagJSONFileName = getPreCutString1("BTVJSONFileName");
+  auto cset_btagAll = correction::CorrectionSet::from_file(btagJSONFileName);
+  auto cset_btagDeepJetIncl = cset_btagAll->at("deepJet_incl");
+  auto cset_btagDeepJetComb = cset_btagAll->at("deepJet_comb");
+  auto cset_btagDeepJetMuJets = cset_btagAll->at("deepJet_mujets");
+
+  //--------------------------------------------------------------------------
+  // correctionlib JME
+  //--------------------------------------------------------------------------
+  std::string jmeJSONFileName = getPreCutString1("JMEJSONFileName");
+  auto cset_jmeAll = correction::CorrectionSet::from_file(jmeJSONFileName);
+  std::string jerTag = getPreCutString1("JERTag");
 
   //--------------------------------------------------------------------------
   // Should we do any scaling / smearing for systematics?
   //--------------------------------------------------------------------------
-
   int electron_energy_scale_sign = int(getPreCutValue1("electron_energy_scale_sign" ));
   int pfjet_energy_scale_sign    = int(getPreCutValue1("pfjet_energy_scale_sign"    ));
 
@@ -391,7 +417,7 @@ void analysisClass::Loop()
    // c_genJetMatchedLQ->examine<GenJet>("c_genJetMatchedLQ");
 
     //-----------------------------------------------------------------
-    // If this is MC, smear jets if requested (not needed for NanoAOD-based setup)
+    // If this is MC, smear jets if requested
     // Don't do it for data
     //-----------------------------------------------------------------
     if ( !isData() && do_jer) do_jer = true;
@@ -400,8 +426,6 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Energy scaling and resolution smearing here
     //-----------------------------------------------------------------
-
-    //SIC: JER/JES already replaced by JER/JES variations from nanoAOD-tools; eventually EER/EES should be there as well
     if ( do_eer || do_jer || do_ees || do_jes ) { 
 
       // If  you're scaling/smearing PFJets, recall that only jets with pt > 10 GeV affect the PFMET
@@ -415,9 +439,11 @@ void analysisClass::Loop()
       // Do the energy scale / energy resolution operations
       // dR for matching = Rcone/2
       //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
+      std::string jerPtRes = jerTag+"_MC_PtResolution_AK4PFchs";
+      std::string jerSF = jerTag+"_MC_ScaleFactor_AK4PFchs";
 
       if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.4/2.0, rootEngine, v_delta_met );
-      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met );
+      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll->at(jerPtRes).get(), cset_jmeAll->at(jerSF).get() );
       if ( do_ees ) c_ele_all      -> ScaleEnergy <Electron> ( electron_energy_scale_sign, v_delta_met );
       if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
 
@@ -628,9 +654,10 @@ void analysisClass::Loop()
     float puWeightDn = 1.0;
     float puWeightUp = 1.0;
     if(!isData()) {
-      puWeight = readerTools_->ReadValueBranch<Float_t>("puWeight");
-      puWeightUp = readerTools_->ReadValueBranch<Float_t>("puWeightUp");
-      puWeightDn = readerTools_->ReadValueBranch<Float_t>("puWeightDown");
+      float nTrueInteractions = readerTools_->ReadValueBranch<Float_t>("Pileup_nTrueInt");
+      puWeight =   cset_pu->evaluate({nTrueInteractions, "nominal"});
+      puWeightUp = cset_pu->evaluate({nTrueInteractions, "up"});
+      puWeightDn = cset_pu->evaluate({nTrueInteractions, "down"});  
       if(puWeight==0)
         std::cout << "Got puWeight = " << puWeight << "; run: " << getVariableValue("run") << " ls: " << getVariableValue("ls") << " event: " << getVariableValue("event") << std::endl;
     }
@@ -640,27 +667,14 @@ void analysisClass::Loop()
     // L1 prefiring
     float prefireDefault = 1.0;
     if(!isData()) {
-      if(hasBranch("L1PreFiringWeight_Nom"))
-        fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
-      else
-        fillVariableWithValue("PrefireWeight", prefireDefault);
-      if(hasBranch("L1PreFiringWeight_Dn"))
-        fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
-      else
-        fillVariableWithValue("PrefireWeight_Dn", prefireDefault);
-      if(hasBranch("L1PreFiringWeight_Up"))
-        fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
-      else
-        fillVariableWithValue("PrefireWeight_Up", prefireDefault);
-      // back to old weights as test
-      //fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
-      //fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
-      //fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
+      fillVariableWithValue("PrefireWeight",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom"));
+      fillVariableWithValue("PrefireWeight_Dn",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Dn"));
+      fillVariableWithValue("PrefireWeight_Up",readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Up"));
     }
     else {
-      fillVariableWithValue("PrefireWeight", 1.0);
-      fillVariableWithValue("PrefireWeight_Dn", 1.0);
-      fillVariableWithValue("PrefireWeight_Up", 1.0);
+      fillVariableWithValue("PrefireWeight", prefireDefault);
+      fillVariableWithValue("PrefireWeight_Dn", prefireDefault);
+      fillVariableWithValue("PrefireWeight_Up", prefireDefault);
     }
 
 
@@ -740,7 +754,6 @@ void analysisClass::Loop()
     //fillVariableWithValue( "nPileUpInt_BXminus1", -1 );
     //fillVariableWithValue( "nPileUpInt_BX0"     , -1 );
     //fillVariableWithValue( "nPileUpInt_BXplus1" , -1 );
-    //FIXME
     //if ( !isData() ){
     //  for(int pu=0; pu<PileUpInteractions->size(); pu++) {
     //    if(PileUpOriginBX->at(pu) == 0  ) { 
@@ -1012,6 +1025,7 @@ void analysisClass::Loop()
       fillVariableWithValue( prefix+"_SCEt"          , ele.SCEnergy()/cosh(ele.SCEta()) );
       fillVariableWithValue( prefix+"_PassHEEPID"    , ele.PassUserID ( heepIdType )  );
       fillVariableWithValue( prefix+"_PassEGMLooseID", ele.PassEGammaIDLoose()  );
+      fillVariableWithValue( prefix+"_PassEGMMediumID", ele.PassEGammaIDMedium()  );
       fillVariableWithValue( prefix+"_ECorr"         , ele.ECorr()              );
       fillVariableWithValue( prefix+"_Eta"           , ele.Eta()                );
       fillVariableWithValue( prefix+"_Phi"           , ele.Phi()                );
@@ -1112,24 +1126,74 @@ void analysisClass::Loop()
       std::string prefix = "Jet"+std::to_string(iJet+1);
       // leading HLT jet from 200 GeV collection
       double hltJet1Pt     = triggerMatchPt<HLTriggerObject, PFJet >( c_trigger_l3jets_all     , jet, jet_hltMatch_DeltaRCut);
-      fillVariableWithValue( prefix+"_Pt"      , jet.Pt()                         );
-      fillVariableWithValue( prefix+"_Eta"     , jet.Eta()                        );
-      fillVariableWithValue( prefix+"_Phi"     , jet.Phi()                        );
-      fillVariableWithValue( prefix+"_btagDeepCSV" , jet.DeepCSVBTag()            );
-      fillVariableWithValue( prefix+"_btagDeepJet" , jet.DeepJetBTag()            );
-      fillVariableWithValue( prefix+"_hltJetPt"	  , hltJet1Pt     );
+      int flavor = isData() ? 0 : jet.HadronFlavor();
+      float pt = jet.Pt();
+      fillVariableWithValue( prefix+"_Pt"          , pt                         );
+      fillVariableWithValue( prefix+"_PtOriginal"  , jet.PtOrignal()            );
+      fillVariableWithValue( prefix+"_Eta"         , jet.Eta()                  );
+      fillVariableWithValue( prefix+"_Phi"         , jet.Phi()                  );
+      fillVariableWithValue( prefix+"_btagDeepJet" , jet.DeepJetBTag()          );
+      fillVariableWithValue( prefix+"_hltJetPt"	   , hltJet1Pt                  );
+      fillVariableWithValue( prefix+"_HadronFlavor", flavor                     );
       //fillVariableWithValue( prefix+"_qgl"	  , jet1.QuarkGluonLikelihood()     );
+      float absEta = fabs(jet.Eta());
+      // b-tagging scale factors and uncertainties
       if(!isData() && reducedSkimType != 0) {
-        fillVariableWithValue( prefix+"_btagSFLooseDeepCSV"  , jet.DeepCSVBTagSFLoose()   );
-        fillVariableWithValue( prefix+"_btagSFMediumDeepCSV"  , jet.DeepCSVBTagSFMedium()   );
-        fillVariableWithValue( prefix+"_btagSFLooseDeepJet"  , jet.DeepJetBTagSFLoose()   );
-        fillVariableWithValue( prefix+"_btagSFLooseDeepJet_Up"  , jet.DeepJetBTagSFLooseUp()   );
-        fillVariableWithValue( prefix+"_btagSFLooseDeepJet_Dn"  , jet.DeepJetBTagSFLooseDown()   );
-        fillVariableWithValue( prefix+"_btagSFMediumDeepJet"  , jet.DeepJetBTagSFMedium()   );
-        fillVariableWithValue( prefix+"_Pt_JESTotal_Up"  , jet.PtJESTotalUp()        );
-        fillVariableWithValue( prefix+"_Pt_JESTotal_Dn", jet.PtJESTotalDown()        );
-        fillVariableWithValue( prefix+"_Pt_JER_Up"  , jet.PtJERUp()                  );
-        fillVariableWithValue( prefix+"_Pt_JER_Dn", jet.PtJERDown()                  );
+        if(flavor == 0) {
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl"  , cset_btagDeepJetIncl->evaluate({"central", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_Up"  , cset_btagDeepJetIncl->evaluate({"up", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_UpCorrelated"  , cset_btagDeepJetIncl->evaluate({"up_correlated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_UpUncorrelated"  , cset_btagDeepJetIncl->evaluate({"up_uncorrelated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_Dn"  , cset_btagDeepJetIncl->evaluate({"down", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_DnCorrelated"  , cset_btagDeepJetIncl->evaluate({"down_correlated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_DnUncorrelated"  , cset_btagDeepJetIncl->evaluate({"down_uncorrelated", "L", flavor, absEta, pt}) );
+          // medium
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl"  , cset_btagDeepJetIncl->evaluate({"central", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl_Up"  , cset_btagDeepJetIncl->evaluate({"up", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl_UpCorrelated"  , cset_btagDeepJetIncl->evaluate({"up_correlated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl_UpUncorrelated"  , cset_btagDeepJetIncl->evaluate({"up_uncorrelated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl_Dn"  , cset_btagDeepJetIncl->evaluate({"down", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl_DnCorrelated"  , cset_btagDeepJetIncl->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetIncl_DnUncorrelated"  , cset_btagDeepJetIncl->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
+        }
+        else if(flavor==4 || flavor==5) {
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb"  , cset_btagDeepJetComb->evaluate({"central", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb_Up"  , cset_btagDeepJetComb->evaluate({"up", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb_UpCorrelated"  , cset_btagDeepJetComb->evaluate({"up_correlated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb_UpUncorrelated"  , cset_btagDeepJetComb->evaluate({"up_uncorrelated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb_Dn"  , cset_btagDeepJetComb->evaluate({"down", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb_DnCorrelated"  , cset_btagDeepJetComb->evaluate({"down_correlated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetComb_DnUncorrelated"  , cset_btagDeepJetComb->evaluate({"down_uncorrelated", "L", flavor, absEta, pt}) );
+          // medium
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb"  , cset_btagDeepJetComb->evaluate({"central", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_Up"  , cset_btagDeepJetComb->evaluate({"up", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_UpCorrelated"  , cset_btagDeepJetComb->evaluate({"up_correlated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_UpUncorrelated"  , cset_btagDeepJetComb->evaluate({"up_uncorrelated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_Dn"  , cset_btagDeepJetComb->evaluate({"down", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnCorrelated"  , cset_btagDeepJetComb->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnUncorrelated"  , cset_btagDeepJetComb->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
+          // mujets
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets"  , cset_btagDeepJetMuJets->evaluate({"central", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_Up"  , cset_btagDeepJetMuJets->evaluate({"up", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_UpCorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_correlated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_UpUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_uncorrelated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_Dn"  , cset_btagDeepJetMuJets->evaluate({"down", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_DnCorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_correlated", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_DnUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_uncorrelated", "L", flavor, absEta, pt}) );
+          // medium
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets"  , cset_btagDeepJetMuJets->evaluate({"central", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_Up"  , cset_btagDeepJetMuJets->evaluate({"up", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_UpCorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_correlated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_UpUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_uncorrelated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_Dn"  , cset_btagDeepJetMuJets->evaluate({"down", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_DnCorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_DnUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
+        }
+        //XXX SIC JUNE 2022 FIXME
+        //fillVariableWithValue( prefix+"_Pt_JESTotal_Up"  , jet.PtJESTotalUp()        );
+        //fillVariableWithValue( prefix+"_Pt_JESTotal_Dn", jet.PtJESTotalDown()        );
+        //fillVariableWithValue( prefix+"_Pt_JER_Up"  , jet.PtJERUp()                  );
+        //fillVariableWithValue( prefix+"_Pt_JER_Dn", jet.PtJERDown()                  );
         if(c_pfJetMatchedLQ->Has<PFJet>(jet))
           fillVariableWithValue( prefix+"_LQMatched", 1);
       }
@@ -1154,10 +1218,11 @@ void analysisClass::Loop()
       PFJet jet1 = c_pfjet_final -> GetConstituent<PFJet>(0);
       t_jet1.SetPtEtaPhiM ( jet1.Pt(), jet1.Eta(), jet1.Phi(), 0.0 );
       if(!isData()) {
-        t_jet1JESTotalUp.SetPtEtaPhiM ( jet1.PtJESTotalUp(), jet1.Eta(), jet1.Phi(), 0.0 );
-        t_jet1JESTotalDown.SetPtEtaPhiM ( jet1.PtJESTotalDown(), jet1.Eta(), jet1.Phi(), 0.0 );
-        t_jet1JERUp.SetPtEtaPhiM ( jet1.PtJERUp(), jet1.Eta(), jet1.Phi(), 0.0 );
-        t_jet1JERDown.SetPtEtaPhiM ( jet1.PtJERDown(), jet1.Eta(), jet1.Phi(), 0.0 );
+        //XXX SIC JUNE 2022 FIXME
+        //t_jet1JESTotalUp.SetPtEtaPhiM ( jet1.PtJESTotalUp(), jet1.Eta(), jet1.Phi(), 0.0 );
+        //t_jet1JESTotalDown.SetPtEtaPhiM ( jet1.PtJESTotalDown(), jet1.Eta(), jet1.Phi(), 0.0 );
+        //t_jet1JERUp.SetPtEtaPhiM ( jet1.PtJERUp(), jet1.Eta(), jet1.Phi(), 0.0 );
+        //t_jet1JERDown.SetPtEtaPhiM ( jet1.PtJERDown(), jet1.Eta(), jet1.Phi(), 0.0 );
       }
 
       fillVariableWithValue ("mDPhi_METJet1", fabs( t_MET.DeltaPhi ( t_jet1 )));
@@ -1167,10 +1232,11 @@ void analysisClass::Loop()
         PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
         t_jet2.SetPtEtaPhiM ( jet2.Pt(), jet2.Eta(), jet2.Phi(), 0.0 );
         if(!isData()) {
-          t_jet2JESTotalUp.SetPtEtaPhiM ( jet2.PtJESTotalUp(), jet2.Eta(), jet2.Phi(), 0.0 );
-          t_jet2JESTotalDown.SetPtEtaPhiM ( jet2.PtJESTotalDown(), jet2.Eta(), jet2.Phi(), 0.0 );
-          t_jet2JERUp.SetPtEtaPhiM ( jet2.PtJERUp(), jet2.Eta(), jet2.Phi(), 0.0 );
-          t_jet2JERDown.SetPtEtaPhiM ( jet2.PtJERDown(), jet2.Eta(), jet2.Phi(), 0.0 );
+        //XXX SIC JUNE 2022 FIXME
+          //t_jet2JESTotalUp.SetPtEtaPhiM ( jet2.PtJESTotalUp(), jet2.Eta(), jet2.Phi(), 0.0 );
+          //t_jet2JESTotalDown.SetPtEtaPhiM ( jet2.PtJESTotalDown(), jet2.Eta(), jet2.Phi(), 0.0 );
+          //t_jet2JERUp.SetPtEtaPhiM ( jet2.PtJERUp(), jet2.Eta(), jet2.Phi(), 0.0 );
+          //t_jet2JERDown.SetPtEtaPhiM ( jet2.PtJERDown(), jet2.Eta(), jet2.Phi(), 0.0 );
         }
 
         TLorentzVector t_jet1jet2 = t_jet1 + t_jet2;
