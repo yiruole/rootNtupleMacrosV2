@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 ##############################################################################
 # # USER CODE IS TOWARD THE END OF THE FILE
@@ -35,8 +35,8 @@ gStyle.SetPadTickY(1)
 def GetFile(filename):
     tfile = TFile(filename)
     if not tfile or tfile.IsZombie():
-        print "ERROR: file " + filename + " not found"
-        print "exiting..."
+        print("ERROR: file " + filename + " not found")
+        print("exiting...")
         sys.exit(-1)
     return tfile
 
@@ -68,14 +68,14 @@ def GetIntegralTH1(histo, xmin, xmax, verbose=False):
     )
     integral = histo.Integral(bmin, bmax) - bminResidual - bmaxResidual
     if verbose:
-        print "GetIntegralTH1(" + histo.GetName(), xmin, xmax, ")=", integral
+        print("GetIntegralTH1(" + histo.GetName(), xmin, xmax, ")=", integral)
     return integral
 
 
 def GetErrorIntegralTH1(histo, xmin, xmax, verbose=False):
     if verbose:
-        print "## calculating error for integral of histo " + str(histo)
-        print "## in the x range [" + str(xmin) + "," + str(xmax) + "]"
+        print("## calculating error for integral of histo " + str(histo))
+        print("## in the x range [" + str(xmin) + "," + str(xmax) + "]")
     # get integral
     axis = histo.GetXaxis()
     bmin = axis.FindBin(xmin)
@@ -98,14 +98,14 @@ def GetErrorIntegralTH1(histo, xmin, xmax, verbose=False):
             bmax
         ):  # skip last bin if out of range
             if verbose:
-                print "     --> skip bin: " + str(bin)
+                print("     --> skip bin: " + str(bin))
         else:
             error = error + histo.GetBinError(bin) ** 2
             # print "error**2 : " + str(error)
 
     error = math.sqrt(error)
     if verbose:
-        print " "
+        print(" ")
     return error
 
 
@@ -118,7 +118,6 @@ class Plot:
     histoZJet = ""
     histoWJet = ""
     histoSingleTop = ""
-    histoPhotonJets = ""
     histoDiboson = ""
     xtit = ""  # xtitle
     ytit = ""  # ytitle
@@ -142,12 +141,12 @@ class Plot:
     def CheckMCDataConsistency(self):
         # checks
         if self.histoMCall.GetNbinsX() != self.histoDATA.GetNbinsX():
-            print "WARNING! number of bins is different between DATA and MC"
-            print "exiting..."
+            print("WARNING! number of bins is different between DATA and MC")
+            print("exiting...")
             sys.exit()
         if self.histoMCall.GetBinWidth(1) != self.histoDATA.GetBinWidth(1):
-            print "WARNING! bin width is different between DATA and MC"
-            print "exiting..."
+            print("WARNING! bin width is different between DATA and MC")
+            print("exiting...")
             sys.exit()
 
 
@@ -178,12 +177,16 @@ def GetRTTBarDYJets(plotObjTTBar, plotObjDYJets, randomize=False, verbose=False)
     ERRintegralDYJets_ttbar = GetErrorIntegralTH1(
         plotObjTTBar.histoZJet, plotObjTTBar.xmin, plotObjTTBar.xmax
     )
-    integralQCD_ttbar = GetIntegralTH1(
-        plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
-    )
-    ERRintegralQCD_ttbar = GetErrorIntegralTH1(
-        plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
-    )
+    if doQCD:
+        integralQCD_ttbar = GetIntegralTH1(
+            plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
+        )
+        ERRintegralQCD_ttbar = GetErrorIntegralTH1(
+            plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
+        )
+    else:
+        integralQCD_ttbar = 0
+        ERRintegralQCD_ttbar = 0
     # contamination from other backgrounds (except TTbar and DYJets) in the integral range [QCD is not in MCall]
     integralMCothers_ttbar = (
         integralMCall_ttbar - integralTTbar_ttbar - integralDYJets_ttbar
@@ -217,12 +220,16 @@ def GetRTTBarDYJets(plotObjTTBar, plotObjDYJets, randomize=False, verbose=False)
     ERRintegralDYJets_dyjets = GetErrorIntegralTH1(
         plotObjDYJets.histoZJet, plotObjDYJets.xmin, plotObjDYJets.xmax
     )
-    integralQCD_dyjets = GetIntegralTH1(
-        plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
-    )
-    ERRintegralQCD_dyjets = GetErrorIntegralTH1(
-        plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
-    )
+    if doQCD:
+        integralQCD_dyjets = GetIntegralTH1(
+            plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
+        )
+        ERRintegralQCD_dyjets = GetErrorIntegralTH1(
+            plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
+        )
+    else:
+        integralQCD_dyjets = 0
+        ERRintegralQCD_dyjets = 0
     # contamination from other backgrounds (except dyjets and TTBar) in the integral range [QCD is not in MCall]
     integralMCothers_dyjets = (
         integralMCall_dyjets - integralDYJets_dyjets - integralTTbar_dyjets
@@ -262,14 +269,14 @@ def GetRTTBarDYJets(plotObjTTBar, plotObjDYJets, randomize=False, verbose=False)
         integralMCothers_ttbar + integralQCD_ttbar - integralDATA_ttbar
     ) * integraldyjets_dyjets
     if verbose:
-        print integralTTbar_dyjets, integralDYJets_ttbar, integralTTbar_ttbar, integralDYJets_dyjets
+        print(integralTTbar_dyjets, integralDYJets_ttbar, integralTTbar_ttbar, integralDYJets_dyjets)
     try:
         rTTBar /= (
             integralTTbar_dyjets * integralDYJets_ttbar
             - integralTTbar_ttbar * integralDYJets_dyjets
         )
     except ZeroDivisionError:
-        print "ERROR: ZeroDivisionError: one or more of the integrals above are zero"
+        print("ERROR: ZeroDivisionError: one or more of the integrals above are zero")
         return -1, -1
     rDYJets = (
         integralDATA_dyjets * integralTTbar_ttbar
@@ -297,7 +304,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     N = 100
     # NB: the commented code below makes a nice progress bar but causes the dict to be undefined...
     # steps = N
-    print "Randomizing histos and calculating scale factors:",
+    print("Randomizing histos and calculating scale factors:", end=' ')
     # progressString = "0% [" + " " * steps + "] 100%"
     # print progressString,
     # print "\b" * (len(progressString) - 3),
@@ -312,7 +319,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
         # print "\b.",
         # sys.stdout.flush()
     # print "\b] 100%"
-    print "Done."
+    print("Done.")
 
     ttMean = 0
     for rtt in rTTBarList:
@@ -362,12 +369,16 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     ERRintegralDYJets_ttbar = GetErrorIntegralTH1(
         plotObjTTBar.histoZJet, plotObjTTBar.xmin, plotObjTTBar.xmax
     )
-    integralQCD_ttbar = GetIntegralTH1(
-        plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
-    )
-    ERRintegralQCD_ttbar = GetErrorIntegralTH1(
-        plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
-    )
+    if doQCD:
+        integralQCD_ttbar = GetIntegralTH1(
+            plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
+        )
+        ERRintegralQCD_ttbar = GetErrorIntegralTH1(
+            plotObjTTBar.histoQCD, plotObjTTBar.xmin, plotObjTTBar.xmax
+        )
+    else:
+        integralQCD_ttbar = 0
+        ERRintegralQCD_ttbar = 0
     # contamination from other backgrounds (except TTbar and DYJets) in the integral range [QCD is not in MCall]
     integralMCothers_ttbar = (
         integralMCall_ttbar - integralTTbar_ttbar - integralDYJets_ttbar
@@ -380,7 +391,7 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
             integralMCothers_ttbar + integralDYJets_ttbar + integralQCD_ttbar
         ) / (integralMCall_ttbar + integralQCD_ttbar)
     except ZeroDivisionError:
-        print "ERROR: ZeroDivisionError: integralMCall_ttbar+integralQCD_ttbar is zero; integralMCall_ttbar=", integralMCall_ttbar, "integralQCD_ttbar=", integralQCD_ttbar
+        print("ERROR: ZeroDivisionError: integralMCall_ttbar+integralQCD_ttbar is zero; integralMCall_ttbar=", integralMCall_ttbar, "integralQCD_ttbar=", integralQCD_ttbar)
         contamination_ttbar = -1
 
     # integrals: dyjets
@@ -409,12 +420,16 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     ERRintegralDYJets_dyjets = GetErrorIntegralTH1(
         plotObjDYJets.histoZJet, plotObjDYJets.xmin, plotObjDYJets.xmax
     )
-    integralQCD_dyjets = GetIntegralTH1(
-        plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
-    )
-    ERRintegralQCD_dyjets = GetErrorIntegralTH1(
-        plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
-    )
+    if doQCD:
+        integralQCD_dyjets = GetIntegralTH1(
+            plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
+        )
+        ERRintegralQCD_dyjets = GetErrorIntegralTH1(
+            plotObjDYJets.histoQCD, plotObjDYJets.xmin, plotObjDYJets.xmax
+        )
+    else:
+        integralQCD_dyjets = 0
+        ERRintegralQCD_dyjets = 0
     # contamination from other backgrounds (except WJets and TTBar) in the integral range [QCD is not in MCall]
     integralMCothers_dyjets = (
         integralMCall_dyjets - integralDYJets_dyjets - integralTTbar_dyjets
@@ -442,8 +457,8 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
             - integralTTbar_ttbar * integralDYJets_dyjets
         )
     except ZeroDivisionError:
-        print "ERROR in rTTBar: ZeroDivisionError: one or more of the integrals is zero:"
-        print integralTTbar_dyjets, integralDYJets_ttbar, "-", integralTTbar_ttbar, integralDYJets_dyjets
+        print("ERROR in rTTBar: ZeroDivisionError: one or more of the integrals is zero:")
+        print(integralTTbar_dyjets, integralDYJets_ttbar, "-", integralTTbar_ttbar, integralDYJets_dyjets)
     rDYJets = (
         integralDATA_dyjets * integralTTbar_ttbar
         - (integralMCothers_dyjets + integralQCD_dyjets) * integralTTbar_ttbar
@@ -457,8 +472,8 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
             - integralTTbar_dyjets * integralDYJets_ttbar
         )
     except ZeroDivisionError:
-        print "ERROR in rWJets: ZeroDivisionError: one or more of the integrals is zero:"
-        print integralTTbar_ttbar, integralDYJets_dyjets, "-", integralTTbar_dyjets, integralDYJets_ttbar
+        print("ERROR in rWJets: ZeroDivisionError: one or more of the integrals is zero:")
+        print(integralTTbar_ttbar, integralDYJets_dyjets, "-", integralTTbar_dyjets, integralDYJets_ttbar)
 
     # FIXME
     ##draw histo
@@ -487,107 +502,106 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
     # self.histoZJet.Write()
     # self.histoWJet.Write()
     # self.histoSingleTop.Write()
-    # self.histoPhotonJets.Write()
     # self.histoDiboson.Write()
     # tfile.Close()
 
     # printout
-    print
-    print " TTBar "
-    print "######################################## "
-    print "name:                         " + plotObjTTBar.name
-    print "integral range:               " + str(
+    print()
+    print(" TTBar ")
+    print("######################################## ")
+    print("name:                         " + plotObjTTBar.name)
+    print("integral range:               " + str(
         plotObjTTBar.xmin
-    ) + " < Mee < " + str(plotObjTTBar.xmax) + " GeV/c2"
-    print "integral MC All:              " + str(integralMCall_ttbar) + " +/- " + str(
+    ) + " < Mee < " + str(plotObjTTBar.xmax) + " GeV/c2")
+    print("integral MC All:              " + str(integralMCall_ttbar) + " +/- " + str(
         ERRintegralMCall_ttbar
-    )
-    print "integral QCD:                 " + str(integralQCD_ttbar) + " +/- " + str(
-        ERRintegralQCD_ttbar
-    )
-    print "integral MC TTbar:            " + str(integralTTbar_ttbar) + " +/- " + str(
+    ))
+    if doQCD:
+        print("integral QCD:                 " + str(integralQCD_ttbar) + " +/- " + str(
+            ERRintegralQCD_ttbar
+        ))
+    print("integral MC TTbar:            " + str(integralTTbar_ttbar) + " +/- " + str(
         ERRintegralTTbar_ttbar
-    )
-    print "integral MC DYJets:            " + str(integralDYJets_ttbar) + " +/- " + str(
+    ))
+    print("integral MC DYJets:            " + str(integralDYJets_ttbar) + " +/- " + str(
         ERRintegralDYJets_ttbar
-    )
-    print "integral MC other:            " + str(
+    ))
+    print("integral MC other:            " + str(
         integralMCothers_ttbar
-    ) + " +/- " + str(ERRintegralMCothers_ttbar)
-    print "rescaled integral MC TTbar:   " + str(
+    ) + " +/- " + str(ERRintegralMCothers_ttbar))
+    print("rescaled integral MC TTbar:   " + str(
         rTTBar * integralTTbar_ttbar
-    ) + " +/- " + str(rTTBar * ERRintegralTTbar_ttbar)
-    print "rescaled integral MC DYJets:   " + str(
+    ) + " +/- " + str(rTTBar * ERRintegralTTbar_ttbar))
+    print("rescaled integral MC DYJets:   " + str(
         rDYJets * integralDYJets_ttbar
-    ) + " +/- " + str(rDYJets * ERRintegralDYJets_ttbar)
-    print "integral DATA:                " + str(integralDATA_ttbar) + " +/- " + str(
+    ) + " +/- " + str(rDYJets * ERRintegralDYJets_ttbar))
+    print("integral DATA:                " + str(integralDATA_ttbar) + " +/- " + str(
         ERRintegralDATA_ttbar
-    )
-    print "contribution from other bkgs (except TTbar): " + str(
+    ))
+    print("contribution from other bkgs (except TTbar): " + str(
         contamination_ttbar * 100
-    ) + "% [purity " + str(100-contamination_ttbar*100) + "%]"
+    ) + "% [purity " + str(100-contamination_ttbar*100) + "%]")
     # print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr_ttbar ) + " +/- " + str( ERRintegralDATAcorr_ttbar )
-    print "rescale factor for TTbar background: " + str(rTTBar) + " +/- " + str(
+    print("rescale factor for TTbar background: " + str(rTTBar) + " +/- " + str(
         rTTBarSigma
-    )
+    ))
     # print "systematical uncertainty of TTbar background modeling: " + str(relERRrescale*100) + "%"
-    print "######################################## "
-    print " DYJets "
-    print "######################################## "
-    print "name:                         " + plotObjDYJets.name
-    print "integral range:               " + str(
+    print("######################################## ")
+    print(" DYJets ")
+    print("######################################## ")
+    print("name:                         " + plotObjDYJets.name)
+    print("integral range:               " + str(
         plotObjDYJets.xmin
-    ) + " < Mee < " + str(plotObjDYJets.xmax) + " GeV/c2"
-    print "integral MC All:              " + str(integralMCall_dyjets) + " +/- " + str(
+    ) + " < Mee < " + str(plotObjDYJets.xmax) + " GeV/c2")
+    print("integral MC All:              " + str(integralMCall_dyjets) + " +/- " + str(
         ERRintegralMCall_dyjets
-    )
-    print "integral QCD:                 " + str(integralQCD_dyjets) + " +/- " + str(
-        ERRintegralQCD_dyjets
-    )
-    print "integral MC TTbar:            " + str(integralTTbar_dyjets) + " +/- " + str(
+    ))
+    if doQCD:
+        print("integral QCD:                 " + str(integralQCD_dyjets) + " +/- " + str(
+            ERRintegralQCD_dyjets
+        ))
+    print("integral MC TTbar:            " + str(integralTTbar_dyjets) + " +/- " + str(
         ERRintegralTTbar_dyjets
-    )
-    print "integral MC DYJets:            " + str(integralDYJets_dyjets) + " +/- " + str(
+    ))
+    print("integral MC DYJets:            " + str(integralDYJets_dyjets) + " +/- " + str(
         ERRintegralDYJets_dyjets
-    )
-    print "integral MC other:            " + str(
+    ))
+    print("integral MC other:            " + str(
         integralMCothers_dyjets
-    ) + " +/- " + str(ERRintegralMCothers_dyjets)
-    print "rescaled integral MC TTbar:   " + str(
+    ) + " +/- " + str(ERRintegralMCothers_dyjets))
+    print("rescaled integral MC TTbar:   " + str(
         rTTBar * integralTTbar_dyjets
-    ) + " +/- " + str(rTTBar * ERRintegralTTbar_dyjets)
-    print "rescaled integral MC DYJets:   " + str(
+    ) + " +/- " + str(rTTBar * ERRintegralTTbar_dyjets))
+    print("rescaled integral MC DYJets:   " + str(
         rDYJets * integralDYJets_dyjets
-    ) + " +/- " + str(rDYJets * ERRintegralDYJets_dyjets)
-    print "integral DATA:                " + str(integralDATA_dyjets) + " +/- " + str(
+    ) + " +/- " + str(rDYJets * ERRintegralDYJets_dyjets))
+    print("integral DATA:                " + str(integralDATA_dyjets) + " +/- " + str(
         ERRintegralDATA_dyjets
-    )
-    print "contribution from other bkgs (except wjets): " + str(
+    ))
+    print("contribution from other bkgs (except wjets): " + str(
         contamination_dyjets * 100
-    ) + "% [purity " + str(100-contamination_dyjets*100) + "%]"
+    ) + "% [purity " + str(100-contamination_dyjets*100) + "%]")
     # print "integral DATA (corrected for contribution from other bkgs): "  + str( integralDATAcorr_wjets ) + " +/- " + str( ERRintegralDATAcorr_wjets )
-    print "rescale factor for DYJets background: " + str(rDYJets) + " +/- " + str(
+    print("rescale factor for DYJets background: " + str(rDYJets) + " +/- " + str(
         rDYJetsSigma
-    )
-    print "######################################## "
-    print
+    ))
+    print("######################################## ")
+    print()
 
     # create new cross section file -- ttbar
-    originalFileName = string.split(
-        string.split(plotTTbar.fileXsectionNoRescale, "/")[-1], "."
-    )[0]
+    originalFileName = plotTTbar.fileXsectionNoRescale.split("/")[-1].split(".")[0]
     ttbarFileName = originalFileName + "_" + plotObjTTBar.name + ".txt"
     os.system("rm -f " + ttbarFileName)
     outputFile = open(ttbarFileName, "w")
 
     for line in open(plotTTbar.fileXsectionNoRescale):
-        line = string.strip(line, "\n")
+        line = line.strip("\n")
         lineNoComments = line.split("#")[
             0
         ]  # strip off anything after any '#' if present
         # ignore empty lines
         if len(lineNoComments) <= 0:
-            print >> outputFile, line
+            print(line, file=outputFile)
             continue
         # FIXME this doesn't support keeping comments at the end of lines
 
@@ -596,28 +610,28 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
             newline = (
                 str(list[0]) + "    " + str("%.6f" % (float(list[1]) * float(rTTBar)))
             )
-            print >> outputFile, newline
+            print(newline, file=outputFile)
         else:
-            print >> outputFile, line
+            print(line, file=outputFile)
 
     outputFile.close()
-    print "New xsection file (after TTbar rescaling) is: " + ttbarFileName
-    print " "
+    print("New xsection file (after TTbar rescaling) is: " + ttbarFileName)
+    print(" ")
 
     # create new cross section file -- DYJets
-    originalFileName = string.split(string.split(ttbarFileName, "/")[-1], ".")[0]
+    originalFileName = ttbarFileName.split("/")[-1].split(".")[0]
     newFileName = originalFileName + "_" + plotObjDYJets.name + ".txt"
     os.system("rm -f " + newFileName)
     outputFile = open(newFileName, "w")
 
     for line in open(ttbarFileName):
-        line = string.strip(line, "\n")
+        line = line.strip("\n")
         lineNoComments = line.split("#")[
             0
         ]  # strip off anything after any '#' if present
         # ignore empty lines
         if len(lineNoComments) <= 0:
-            print >> outputFile, line
+            print(line, file=outputFile)
             continue
 
         if re.search(plotDYJets.datasetName, line):
@@ -625,13 +639,13 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
             newline = (
                 str(list[0]) + "    " + str("%.6f" % (float(list[1]) * float(rDYJets)))
             )
-            print >> outputFile, newline
+            print(newline, file=outputFile)
         else:
-            print >> outputFile, line
+            print(line, file=outputFile)
 
     outputFile.close()
-    print "New xsection file (after DYJets rescaling) is: " + newFileName
-    print " "
+    print("New xsection file (after DYJets rescaling) is: " + newFileName)
+    print(" ")
 
 
 # ############ DON'T NEED TO MODIFY ANYTHING HERE - END #######################
@@ -640,18 +654,21 @@ def CalculateRescaleFactor(plotObjTTBar, plotObjDYJets, fileps):
 
 ##############################################################################
 # ############ USER CODE - BEGIN ##############################################
+doQCD = False
+if not doQCD:
+    print("INFO: ignoring QCD")
 if len(sys.argv) < 4:
-    print "ERROR: did not find MC/data combined plot file or QCD plot file or year"
-    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    print("ERROR: did not find MC/data combined plot file or QCD plot file or year")
+    print("Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year")
     exit(-1)
 if len(sys.argv) > 4:
-    print "ERROR: found extra arguments"
-    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    print("ERROR: found extra arguments")
+    print("Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year")
     exit(-1)
 
 qcdFile = sys.argv[1]
 mcFile = sys.argv[2]
-year = int(sys.argv[3])
+year = sys.argv[3]
 #year = 2016
 #qcdFiles = {}
 #qcdFiles[2016] = "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
@@ -664,20 +681,21 @@ year = int(sys.argv[3])
 #mcDataFiles[2018] = "$LQDATA/nanoV7/2018/analysis/precomputePrefire_looserPSK_eejj_12apr2021_oldOptFinalSels/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
 
 # --- Input files
-File_QCD_preselection = GetFile(
-        # "$LQDATA/nanoV6/2016/analysis/qcdYield_24jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # "$LQDATA/nanoV6/2016/analysis/qcdYield_optFinalSels_6aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # "$LQDATA/nanoV6/2017/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # "$LQDATA/nanoV6/2017/analysis/qcdYield_optFinalSels_6aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # nanoV7
-        # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        # 2021
-        #qcdFiles[year]
-        qcdFile
-)
+if doQCD:
+    File_QCD_preselection = GetFile(
+            # "$LQDATA/nanoV6/2016/analysis/qcdYield_24jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # "$LQDATA/nanoV6/2016/analysis/qcdYield_optFinalSels_6aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # "$LQDATA/nanoV6/2017/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # "$LQDATA/nanoV6/2017/analysis/qcdYield_optFinalSels_6aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # "$LQDATA/nanoV6/2018/analysis/qcdYield_25jun2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # nanoV7
+            # "$LQDATA/nanoV7/2016/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # "$LQDATA/nanoV7/analysis/2017/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # "$LQDATA/nanoV7/2018/analysis/qcdYield_26aug2020/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
+            # 2021
+            #qcdFiles[year]
+            qcdFile
+    )
 File_preselection = GetFile(
     # "$LQDATA/nanoV6/2016/analysis/prefire_19may2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
     # "$LQDATA/nanoV6/2016/analysis/prefire_optFinalSels_6aug2020/output_cutTable_lq_eejj/analysisClass_lq_eejj_plots_unscaled.root"
@@ -701,7 +719,7 @@ File_preselection = GetFile(
     mcFile
 )
 
-xsectionFile = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2015.txt"
+xsectionFile = "/afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/config/xsection_13TeV_2022.txt"
 
 histNameDefault = "histo1D__SAMPLE__"
 # histNameReleaseMee = "histo1D__SAMPLE__cutHisto_allOtherCuts___________"
@@ -709,14 +727,16 @@ histNameAllPrevCuts = "histo1D__SAMPLE__cutHisto_allPreviousCuts________"
 #
 # allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_DibosonPyth"
 # allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetInc_NLODiboson_triboson"
-if "2016" in File_preselection.GetName():
+if "2016" in year:
     # wjet = "WJet_amcatnlo_Inc"
-    # wjet = "WJet_amcatnlo_jetBinned"
-    wjet = "WJet_amcatnlo_ptBinned"
-    # zjet = "ZJet_amcatnlo_ptBinned"
-    zjet = "ZJet_amcatnlo_Inc"
-    zjetDatasetName = "DYJetsToLL_Pt.+Tune"
-    allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCPtBinned_NLODiboson_triboson"
+    wjet = "WJet_amcatnlo_jetBinned"
+    # wjet = "WJet_amcatnlo_ptBinned"
+    zjet = "ZJet_amcatnlo_ptBinned"
+    # zjet = "ZJet_amcatnlo_Inc"
+    #zjetDatasetName = "DYJetsToLL_Pt.+Tune"
+    zjetDatasetName = "DYJetsToLL_LHE.+"
+    # allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCPtBinned_NLODiboson"
+    allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson"
 else:
     zjetDatasetName = "DY.+ToLL"
     wjet = "WJet_amcatnlo_jetBinned"
@@ -742,7 +762,6 @@ diboson = "DIBOSON_nlo"
 ttbar = "TTbar_powheg"
 ttbarDatasetName = "TT"
 singletop = "SingleTop"
-photonjets = "PhotonJets_Madgraph"
 # qcd = "QCD_EMEnriched"
 qcd = "QCDFakes_DATA"
 # File_QCD_preselection = File_preselection
@@ -830,7 +849,7 @@ for idx, histBaseName in enumerate(histBaseNames):
     plotBaseName = histBaseName.replace("BJETBIN1", "gteOneBtaggedJet")
     plotBaseName = plotBaseName.replace("BJETBIN2", "gteTwoBtaggedJets")
     # plotBaseName = histBaseName
-    print "for TTBar, using plotBaseName:", plotBaseName
+    print("for TTBar, using plotBaseName:", plotBaseName)
 
     try:
         h_ALLBKG_powheg_ttbar = GetHisto(
@@ -855,10 +874,6 @@ for idx, histBaseName in enumerate(histBaseNames):
         h_SingleTop_ttbar = GetHisto(
             thisHistName.replace("SAMPLE", singletop) + plotBaseName, File_preselection
         )
-        h_PhotonJets_ttbar = GetHisto(
-            thisHistName.replace("SAMPLE", photonjets) + plotBaseName,
-            File_preselection,
-        )
         # h_Diboson_ttbar = GetHisto("histo1D__DIBOSON__"+plotBaseName, File_preselection)
         h_Diboson_ttbar = GetHisto(
             thisHistName.replace("SAMPLE", diboson) + plotBaseName,
@@ -870,15 +885,16 @@ for idx, histBaseName in enumerate(histBaseNames):
             thisHistName.replace("SAMPLE", "DATA") + plotBaseName, File_preselection
         )  # DATA
         # QCD
-        h_QCD = GetHisto(
-            thisHistName.replace("SAMPLE", qcd)
-            #+ plotBaseName.replace("_btagSFDownShift", "").replace("_btagSFUpShift", ""),
-            + plotBaseName,
-            File_QCD_preselection,
-        )
-        # h_QCD_ttbar = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
+        if doQCD:
+            h_QCD = GetHisto(
+                thisHistName.replace("SAMPLE", qcd)
+                #+ plotBaseName.replace("_btagSFDownShift", "").replace("_btagSFUpShift", ""),
+                + plotBaseName,
+                File_QCD_preselection,
+            )
+            # h_QCD_ttbar = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
     except RuntimeError as e:
-        print "Caught exception while getting histo: '", e, "'; skipping this one"
+        print("Caught exception while getting histo: '", e, "'; skipping this one")
         continue
 
     plotTTbar = Plot()
@@ -886,12 +902,12 @@ for idx, histBaseName in enumerate(histBaseNames):
     plotTTbar.histoMCall = h_ALLBKG_powheg_ttbar
     plotTTbar.histoTTbar = h_TTbar_powheg_ttbar
     # plotTTbar.histoQCD = h_QCD_ttbar
-    plotTTbar.histoQCD = h_QCD
+    if doQCD:
+        plotTTbar.histoQCD = h_QCD
     plotTTbar.histoZJet = h_ZJets_amcatnlo_ttbar
     plotTTbar.histoWJet = h_WJets_amcatnlo_ttbar
 
     plotTTbar.histoSingleTop = h_SingleTop_ttbar
-    plotTTbar.histoPhotonJets = h_PhotonJets_ttbar
     plotTTbar.histoDiboson = h_Diboson_ttbar
     plotTTbar.xmin = meeMinTTBar
     # plotTTbar.xmax = h_TTbar_amcatnlo_ttbar.GetXaxis().GetXmax()
@@ -922,7 +938,7 @@ for idx, histBaseName in enumerate(histBaseNames):
     # plotBaseName = plotBaseName.replace("BJETBIN2", "noBtaggedJets")
     plotBaseName = histBaseName.replace("_BJETBIN1", "")
     plotBaseName = plotBaseName.replace("_BJETBIN2", "")
-    print "for DYJets, using plotBaseName:", plotBaseName
+    print("for DYJets, using plotBaseName:", plotBaseName)
 
     h_ALLBKG_powheg_dyjets = GetHisto(
         thisHistName.replace("SAMPLE", allBkg)
@@ -944,10 +960,6 @@ for idx, histBaseName in enumerate(histBaseNames):
     h_SingleTop_dyjets = GetHisto(
         thisHistName.replace("SAMPLE", singletop) + plotBaseName, File_preselection
     )
-    h_PhotonJets_dyjets = GetHisto(
-        thisHistName.replace("SAMPLE", photonjets) + plotBaseName,
-        File_preselection,
-    )
     # h_Diboson_dyjets = GetHisto("histo1D__DIBOSON__"+plotBaseName, File_preselection)
     h_Diboson_dyjets = GetHisto(
         thisHistName.replace("SAMPLE", diboson) + plotBaseName,
@@ -959,25 +971,26 @@ for idx, histBaseName in enumerate(histBaseNames):
         thisHistName.replace("SAMPLE", "DATA") + plotBaseName, File_preselection
     )  # DATA
     # QCD
-    h_QCD = GetHisto(
-        thisHistName.replace("SAMPLE", qcd)
-        # + plotBaseName.replace("_btagSFDownShift", "").replace("_btagSFUpShift", ""),
-        + plotBaseName,
-        File_QCD_preselection,
-    )
-    # h_QCD_wjets = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
+    if doQCD:
+        h_QCD = GetHisto(
+            thisHistName.replace("SAMPLE", qcd)
+            # + plotBaseName.replace("_btagSFDownShift", "").replace("_btagSFUpShift", ""),
+            + plotBaseName,
+            File_QCD_preselection,
+        )
+        # h_QCD_wjets = GetHisto("histo1D__QCD_EMEnriched__"+plotBaseName,File_QCD_preselection)
 
     plotDYJets = Plot()
     plotDYJets.histoDATA = h_DATA_dyjets
     plotDYJets.histoMCall = h_ALLBKG_powheg_dyjets
     plotDYJets.histoTTbar = h_TTbar_powheg_dyjets
     # plotDYJets.histoQCD = h_QCD_dyjets
-    plotDYJets.histoQCD = h_QCD
+    if doQCD:
+        plotDYJets.histoQCD = h_QCD
     plotDYJets.histoZJet = h_ZJets_amcatnlo_dyjets
     plotDYJets.histoWJet = h_WJets_amcatnlo_dyjets
 
     plotDYJets.histoSingleTop = h_SingleTop_dyjets
-    plotDYJets.histoPhotonJets = h_PhotonJets_dyjets
     plotDYJets.histoDiboson = h_Diboson_dyjets
     plotDYJets.xmin = meeMinDYJets
     # plotDYJets.xmax = h_TTbar_amcatnlo_wjets.GetXaxis().GetXmax()
@@ -1011,20 +1024,21 @@ fileps = "allPlots_calc_dyJetsAndTTBarRescale_And_xsecFile.ps"
 # c = TCanvas()
 # c.Print(fileps+"[")
 for idx, plot in enumerate(plotsTTBar):
-    print "plot:",plot.name
+    print("plot:",plot.name)
     CalculateRescaleFactor(plot, plotsDYJets[idx], fileps)
 # c.Print(fileps+"]")
 # os.system('ps2pdf '+fileps)
 
-print "INFO: year = {}".format(year)
-print "INFO: using file: " + File_preselection.GetName()
-print "INFO: using QCD file: " + File_QCD_preselection.GetName()
-print "INFO: using samples:"
-print "\t allBkg ------>", allBkg
-print "\t DY ---------->", zjet, "; datasetname =", zjetDatasetName
-print "\t W ----------->", wjet
-print "\t ttbar ------->", ttbar, "; datasetname =", ttbarDatasetName
-print "\t diboson ----->", diboson
-print "\t QCD --------->", qcd
-print "\t SingleTop --->", singletop
-print "\t PhotonJets -->", photonjets
+print("INFO: year = {}".format(year))
+print("INFO: using file: " + File_preselection.GetName())
+if doQCD:
+    print("INFO: using QCD file: " + File_QCD_preselection.GetName())
+print("INFO: using samples:")
+print("\t allBkg ------>", allBkg)
+print("\t DY ---------->", zjet, "; datasetname =", zjetDatasetName)
+print("\t W ----------->", wjet)
+print("\t ttbar ------->", ttbar, "; datasetname =", ttbarDatasetName)
+print("\t diboson ----->", diboson)
+if doQCD:
+    print("\t QCD --------->", qcd)
+print("\t SingleTop --->", singletop)
