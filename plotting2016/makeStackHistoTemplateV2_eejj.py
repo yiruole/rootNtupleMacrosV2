@@ -55,44 +55,57 @@ systDictFilenames[2016] = ""
 systDictFilenames[2017] = ""
 systDictFilenames[2018] = ""
 if len(sys.argv) < 4:
-    print "ERROR: did not find MC/data combined plot file or QCD plot file or year"
-    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    print("ERROR: did not find MC/data combined plot file or QCD plot file or year")
+    print("Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year")
     exit(-1)
 if len(sys.argv) > 4:
-    print "ERROR: found extra arguments"
-    print "Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year"
+    print("ERROR: found extra arguments")
+    print("Usage: python calc_DYJetsAndTTBarRescale_And_xsecFile.py combinedQCDPlotFile.root combinedDataMCPlotFile.root year")
     exit(-1)
 
 qcdFile = sys.argv[1]
 mcFile = sys.argv[2]
-year = int(sys.argv[3])
+year = sys.argv[3]
 
 # inputFile = "$LQDATA/"+inputFiles[year]
 # inputFileQCD = "$LQDATA/"+inputFilesQCD[year]
 inputFile = mcFile
 inputFileQCD = qcdFile
-systDictFilename = systDictFilenames[year]
 
 doQCD = False
 doPreselPlots = True
 doBTagPlots = True
 doFinalSelectionPlots = False  # was True
 do2016 = False
+do2016pre = False
+do2016post = False
 do2017 = False
 do2018 = False
-if '2016' in inputFile:
+if '2016preVFP' in year:
     do2016 = True
-elif '2017' in inputFile:
+    do2016pre = True
+elif '2016postVFP' in year:
+    do2016 = True
+    do2016post = True
+elif '2016' in year:
+    do2016 = True
+elif '2017' in year:
     do2017 = True
-elif '2018' in inputFile:
+elif '2018' in year:
     do2018 = True
 else:
-    print "ERROR: could not find one of 2017/2017/2018 in inputfile path. cannot do year-specific customizations. quitting."
+    print("ERROR: could not find one of 2017/2017/2018 in given year. cannot do year-specific customizations. quitting.")
     exit(-1)
+if "2016" in year:
+    year = 2016
+else:
+    year = int(year)
+systDictFilename = systDictFilenames[year]
 
 if do2016:
     # LQmasses = [700, 1500]  # new samples don't have 650 GeV point
-    LQmasses = [1500, 2000]  # new samples don't have 650 GeV point
+    #LQmasses = [1500, 2000]  # new samples don't have 650 GeV point
+    LQmasses = []
     LQmassesFinalSelection = [400, 700, 1000]
 else:
     LQmasses = []
@@ -178,7 +191,11 @@ File_ttbar_preselection = GetFile(
 # keysStack             = [ "Other backgrounds", "QCD multijet", "t#bar{t} (Madgraph)"  ,  "Z/#gamma* + jets (MG5_aMC Pt)"  ]
 
 if do2016:
-    ilumi = "35.9"
+    ilumi = "36.3"
+    if do2016pre:
+        ilumi = "19.5"  # preVFP
+    elif do2016post:
+        ilumi = "16.8"  # postVFP
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
     if doQCD:
         samplesForStackHistos_QCD = ["QCDFakes_DATA"]
@@ -188,8 +205,9 @@ if do2016:
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
     # samplesForStackHistos_other = ["OTHERBKG_WJetPt_amcAtNLODiboson"]
     # samplesForStackHistos_other = ["OTHERBKG_WJetAMCInc_amcAtNLODiboson"]
-    # samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"]
-    samplesForStackHistos_other = ["OTHERBKG_WJetAMCPtBinned_dibosonNLO_triboson"]
+    # samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"] # preUL
+    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO"]  # UL
+    # samplesForStackHistos_other = ["OTHERBKG_WJetAMCPtBinned_dibosonNLO_triboson"]
     # MC ttbar
     # samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
     samplesForStackHistos_ttbar = ["TTbar_powheg"]
@@ -198,7 +216,6 @@ if do2016:
     #samplesForStackHistos_ttbar = ["TTBarFromDATA"]
     keysStack = "QCD multijet (data)" if doQCD else []
     keysStack.extend([
-        
         # "QCD multijet (MC)",
         "Other backgrounds",
         "t#bar{t} (powheg)",
@@ -278,7 +295,7 @@ else:
     stackColorIndexes = [9, 600, kRed]
 stackFillStyleIds = [1001, 1001, 1001, 1001]
 if systDictFilename != "":
-    print "Using systDictFilename={}".format(systDictFilename)
+    print("Using systDictFilename={}".format(systDictFilename))
     systsForStackHistos = [GetBackgroundSyst(systType, systDictFilename) for systType in systTypes]
     bkgUncBand = True
 else:
@@ -321,7 +338,7 @@ dataBlindAboveAll = -1
 dataBlindAbovePt1 = -1  # GeV; used for ele Pt1, Mee, Mej
 dataBlindAbovePt2 = -1  # for ele pt2
 
-print "INFO: Using DYJets sample:", samplesForStackHistos_ZJets, " ("+keysStack[3] if doQCD else keysStack[2]+")"
+print("INFO: Using DYJets sample:", samplesForStackHistos_ZJets, " ("+keysStack[3] if doQCD else keysStack[2]+")")
 
 
 def makeDefaultPlot(
@@ -486,7 +503,7 @@ plots = []
 #  PRESELECTION
 ####################################################################################################
 if doPreselPlots:
-    print "INFO: creating preselection plots...",
+    print("INFO: creating preselection plots...", end=' ')
     plots.append(makeDefaultPlot("nElectron_PAS"))
     plots[-1].ymax = 10000000
     # plots[-1].ymin = 1e-1
@@ -867,7 +884,7 @@ if doPreselPlots:
     plots.append(makeDefaultPlot("Mee_PAS"))
     # plots[-1].rebin = 1
     plots[-1].rebin = "var"
-    plots[-1].xbins = range(0, 410, 10) + [
+    plots[-1].xbins = list(range(0, 410, 10)) + [
         420,
         440,
         460,
@@ -1427,13 +1444,13 @@ if doPreselPlots:
     plots[-1].xmin = -1
     plots[-1].ylog = "yes"
 
-    print "Done"
+    print("Done")
 
 ####################################################################################################
 #  PRESELECTION -- two B-tagged jets
 ####################################################################################################
 if doBTagPlots:
-    print "INFO: creating B-tag plots...",
+    print("INFO: creating B-tag plots...", end=' ')
     plots.append(makeDefaultPlot("nElectron_gteTwoBtaggedJets"))
     plots[-1].ymax = 10000000
     # plots[-1].ymin = 1e-1
@@ -1814,7 +1831,7 @@ if doBTagPlots:
     plots.append(makeDefaultPlot("Mee_gteTwoBtaggedJets"))
     # plots[-1].rebin = 1
     plots[-1].rebin = "var"
-    plots[-1].xbins = range(0, 410, 10) + [
+    plots[-1].xbins = list(range(0, 410, 10)) + [
         420,
         440,
         460,
@@ -2318,13 +2335,13 @@ if doBTagPlots:
     # plots[-1].ytit = "S_{T}(eejj) [GeV]"
     #
     #
-    print "Done"
+    print("Done")
 
 ####################################################################################################
 #  FINAL SELECTION
 ####################################################################################################
 if doFinalSelectionPlots:
-    print "INFO: creating final selection plots...",
+    print("INFO: creating final selection plots...", end=' ')
     for mass_point in LQmassesFinalSelection:
         samplesForHistos = ["LQ_M{}".format(mass_point)]
         keys = ["LQ, M={} GeV".format(mass_point)]
@@ -3648,7 +3665,7 @@ if doFinalSelectionPlots:
         plots[-1].rebin = 4
         plots[-1].xmax = 500
         plots[-1].xmin = 0
-    print "Done"
+    print("Done")
 
 ####################################################################################################
 # --- Generate and print the plots from the list 'plots' define above
@@ -3657,13 +3674,13 @@ c = TCanvas()
 
 fileps = "allPlots_eejj_analysis.ps"
 
-print "INFO: writing canvas with plots to PDF...",
+print("INFO: writing canvas with plots to PDF...", end=' ')
 c.Print(fileps + "[")
 for i_plot, plot in enumerate(plots):
     # print 'draw plot:',plot
     plot.Draw(fileps, i_plot + 1)
 c.Print(fileps + "]")
-print "DONE"
+print("DONE")
 
-print "INFO: MakeTOC()"
+print("INFO: MakeTOC()")
 makeTOC("allPlots_eejj_analysis_toc.tex", fileps, plots)

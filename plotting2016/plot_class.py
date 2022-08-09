@@ -38,17 +38,17 @@ bkgSystDict = {}
 
 def GetBackgroundSyst(systType, dictFilename):
     global bkgSystDict
-    if len(bkgSystDict.keys()) == 0:
+    if len(list(bkgSystDict.keys())) == 0:
         dictFilename = os.path.expandvars(dictFilename)
         with open(dictFilename, "r") as theFile:
             theDictString = theFile.read()
             bkgSystDict = eval(theDictString)
-    for bkg in bkgSystDict["preselection"].iterkeys():
+    for bkg in bkgSystDict["preselection"].keys():
         if systType in bkg:
             # print "INFO: GetBackgroundSyst({}) -- found systematic deltaX/X={}".format(systType, bkgSystDict["preselection"][bkg])
             return bkgSystDict["preselection"][bkg]
     raise RuntimeError("Cannot find preselection systematic for systType={}; dict has these backgrounds: {}".format(
-        systType, bkgSystDict["preselection"].keys()))
+        systType, list(bkgSystDict["preselection"].keys())))
 
 
 def makePalette(nPaletteBins, d_color_axisValueRange):
@@ -64,7 +64,7 @@ def makePalette(nPaletteBins, d_color_axisValueRange):
     # Different bins can have the same color
     # --------------------------------------------------------------
 
-    nColorBins = len(d_color_axisValueRange.keys())
+    nColorBins = len(list(d_color_axisValueRange.keys()))
 
     # --------------------------------------------------------------
     # Find the range of the axis
@@ -73,7 +73,7 @@ def makePalette(nPaletteBins, d_color_axisValueRange):
     minAxisValue = 1e9
     maxAxisValue = -1e9
 
-    for color in d_color_axisValueRange.keys():
+    for color in list(d_color_axisValueRange.keys()):
         axis_range_min = d_color_axisValueRange[color][0]
         axis_range_max = d_color_axisValueRange[color][1]
 
@@ -102,7 +102,7 @@ def makePalette(nPaletteBins, d_color_axisValueRange):
 
         axis_value = cen_bin_value_on_axis
 
-        for color in d_color_axisValueRange.keys():
+        for color in list(d_color_axisValueRange.keys()):
             axis_range_min = d_color_axisValueRange[color][0]
             axis_range_max = d_color_axisValueRange[color][1]
 
@@ -162,11 +162,11 @@ maxAxisValue = nSigma2DPaletteMax
 
 
 def GetFile(filename):
-    print "GetFile("+filename+")"
+    print("GetFile("+filename+")")
     tfile = TFile(filename)
     if not tfile or tfile.IsZombie():
-        print "ERROR: file " + filename + " not found"
-        print "exiting..."
+        print("ERROR: file " + filename + " not found")
+        print("exiting...")
         sys.exit(-1)
     return tfile
 
@@ -187,8 +187,8 @@ def GetHisto(histoName, file, scale=1):
     #      rep = rep[0]
 
     if not histo:
-        print "ERROR: histo " + histoName + " not found in " + file.GetName()
-        print "exiting..."
+        print("ERROR: histo " + histoName + " not found in " + file.GetName())
+        print("exiting...")
         sys.exit()
     new = copy.deepcopy(histo)
     if scale != 1:
@@ -241,7 +241,7 @@ def generateHisto(histoBaseName, sample, variableName, fileName, scale=1, maxX=-
 
 def generateHistoBlank(histoBaseName, sample, variableName, fileName, scale=1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
-    print "*** BLANK name:", hname
+    print("*** BLANK name:", hname)
     histo = GetHisto(hname, fileName)
     new = copy.deepcopy(histo)
     new.Reset()
@@ -290,8 +290,8 @@ def rebinHisto(histo, xmin, xmax, rebin, xbins, addOvfl):
     new_histo = TH1F()
     minBinWidth = 0
     if (xbins == "" and rebin == "var") or (xbins != "" and rebin != "var"):
-        print 'ERROR: Did not understand rebinning; xbins must be set to a list and rebin="var" must be set to activate variable rebinning. Quit here.'
-        print 'Got xbins="' + str(xbins) + '" and rebin="' + str(rebin) + '"'
+        print('ERROR: Did not understand rebinning; xbins must be set to a list and rebin="var" must be set to activate variable rebinning. Quit here.')
+        print('Got xbins="' + str(xbins) + '" and rebin="' + str(rebin) + '"')
         exit(-1)
     elif xmin != "" and xmax != "" and rebin != "var":
         if rebin != "":
@@ -670,7 +670,7 @@ class Plot:
             #   if 1 < len(rep):
             #      rep = rep[0]
 
-        for index in xrange(len(self.histosStack) - 1, -1, -1):
+        for index in range(len(self.histosStack) - 1, -1, -1):
             legend.AddEntry(stkcp[index], self.keysStack[index], "lf")
 
         if self.ymin != "" and self.ymax != "":
@@ -738,7 +738,7 @@ class Plot:
             bkgUncHisto.Reset()
             for idx, hist in enumerate(stkSystErrHistos):
                 syst = self.systs[idx]
-                for ibin in xrange(0, hist.GetNbinsX() + 2):
+                for ibin in range(0, hist.GetNbinsX() + 2):
                     hist.SetBinError(ibin, syst * hist.GetBinContent(ibin))
                 bkgUncHisto.Add(hist)
 
@@ -1073,7 +1073,7 @@ class Plot:
         if self.isInteractive:
             rep = ''
             while rep not in ['c', 'C']:
-                rep = raw_input('enter "c" to continue: ')
+                rep = input('enter "c" to continue: ')
                 if 1 < len(rep):
                     rep = rep[0]
 
@@ -1629,8 +1629,8 @@ class Plot2DRatio:
 def makeTOC(tex_file_name, plot_file_name, plot_list):
 
     if not os.path.isfile(plot_file_name):
-        print "Cannot find plot file:", plot_file_name
-        print "Will not make table of contents"
+        print("Cannot find plot file:", plot_file_name)
+        print("Will not make table of contents")
         return
 
     makeTOCTexFile(tex_file_name, plot_list)
@@ -1657,9 +1657,9 @@ def makeTOC(tex_file_name, plot_file_name, plot_list):
 def makeTOCTexFile(tex_file_name, plot_list):
     with open(tex_file_name, "w") as texFile:
         texFile.write("\documentclass{article}\n")
-        texFile.write("\usepackage{multirow}\n")
+        texFile.write("\\usepackage{multirow}\n")
         texFile.write(
-            "\usepackage[landscape, top=1cm, bottom=1cm, left=1cm, right=1cm]{geometry}\n"
+            "\\usepackage[landscape, top=1cm, bottom=1cm, left=1cm, right=1cm]{geometry}\n"
         )
         texFile.write("\pagestyle{empty}\n")
         texFile.write("\\begin{document}\n")
