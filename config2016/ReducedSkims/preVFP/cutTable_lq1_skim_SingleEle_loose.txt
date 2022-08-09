@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
-# 2016 Sep23 ReReco JSON file
+# combined ultralegacy golden json
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/certifiedGolden_11mar2020_2016_2017_2018.json
+JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/ultralegacy/certifiedGolden_2016_2017_2018.json
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -31,13 +31,9 @@ reducedSkimType	      	   3		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
 TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
-# Reco scale factors
+# EGM ID scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-RecoSFFileName  root://eoscms//store/group/phys_egamma/UL_SF_EGammaFiles/UL16preVFP/Electrons/RecoSFs/egammaEffi_ptAbove20.txt_EGM2D_UL2016preVFP.root  - - - -1
-#-----------------------------------------------------------------------------------------------------------------------------
-# EGM Loose ID scale factors
-#-----------------------------------------------------------------------------------------------------------------------------
-EGMIDSFFileName  root://eoscms//store/group/phys_egamma/UL_SF_EGammaFiles/UL16preVFP/Electrons/egammaEffi.txt_Ele_Loose_preVFP_EGM2D.root  - - - -1
+EGMIDJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/EGM/2016preVFP_UL/electron.json.gz  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # PU JSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -50,18 +46,11 @@ BTVJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BT
 # JME JSON
 #-----------------------------------------------------------------------------------------------------------------------------
 JMEJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2016preVFP_UL/jet_jerc.json.gz  - - - -1
-JERTag   Summer20UL16_JRV3_MC  - - - -1
+JERTag   Summer20UL16APV_JRV3_MC  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
-AnalysisYear   2016  - - - -1
-#------------------------------------------------------------------------------------------------------
-# Energy scaling / smearing on electrons & jets -- not needed with NanoAOD-based setup
-#------------------------------------------------------------------------------------------------------
-do_electron_energy_smear   0		-		-		-		-1
-do_pfjet_energy_smear	     0		-		-		-		-1
-electron_energy_scale_sign 0		-		-		-		-1
-pfjet_energy_scale_sign	   0		-		-		-		-1
+AnalysisYear   2016preVFP  - - - -1
 #------------------------------------------------------------------------------------------------------
 # Jet selection
 #------------------------------------------------------------------------------------------------------
@@ -295,11 +284,13 @@ Ele1_hltPhotonPt                                            -inf           +inf 
 Ele1_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
-Ele1_RecoSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele1_RecoSF_Up                                              -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele1_RecoSF_Dn                                              -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_HEEPSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_HEEPSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_EGMLooseIDSF                                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
-Ele1_EGMLooseIDSF_Err                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele1_EGMLooseIDSF_Up                                        -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele1_EGMLooseIDSF_Dn                                        -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_PassHEEPID                                             -inf	         +inf           -           -           1           2             -0.5           1,5              SAVE         
 Ele1_PassEGMLooseID                                         -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
 Ele1_PassEGMMediumID                                        -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
@@ -354,11 +345,13 @@ Ele2_hltPhotonPt                                            -inf           +inf 
 Ele2_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
-Ele2_RecoSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele2_RecoSF_Up                                              -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele2_RecoSF_Dn                                              -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_HEEPSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_HEEPSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_EGMLooseIDSF                                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
-Ele2_EGMLooseIDSF_Err                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele2_EGMLooseIDSF_Up                                        -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele2_EGMLooseIDSF_Dn                                        -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_PassHEEPID                                             -inf	         +inf           -           -           1           2             -0.5           1,5              SAVE         
 Ele2_PassEGMLooseID                                         -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
 Ele2_PassEGMMediumID                                        -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
@@ -413,11 +406,13 @@ Ele3_hltPhotonPt                                            -inf           +inf 
 Ele3_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
-Ele3_RecoSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele3_RecoSF_Up                                              -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele3_RecoSF_Dn                                              -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_HEEPSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_HEEPSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_EGMLooseIDSF                                           -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
-Ele3_EGMLooseIDSF_Err                                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele3_EGMLooseIDSF_Up                                        -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
+Ele3_EGMLooseIDSF_Dn                                        -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_PassHEEPID                                             -inf	         +inf           -           -           1           2             -0.5           1,5              SAVE         
 Ele3_PassEGMLooseID                                         -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
 Ele3_PassEGMMediumID                                        -inf	         +inf           -           -           1           2             -0.5           1.5              SAVE         
@@ -500,20 +495,6 @@ Jet1_btagSFMediumDeepJetComb_UpUncorrelated    -inf           +inf           -  
 Jet1_btagSFMediumDeepJetComb_Dn                -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet1_btagSFMediumDeepJetComb_DnCorrelated      -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet1_btagSFMediumDeepJetComb_DnUncorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets                  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets_Up               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets_UpCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets_UpUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets_Dn               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets_DnCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFLooseDeepJetMuJets_DnUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets                 -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets_Up              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets_UpCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets_UpUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets_Dn              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets_DnCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet1_btagSFMediumDeepJetMuJets_DnUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet1_hltJetPt                        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet1_LQMatched                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Jet1_HadronFlavor                    -inf           +inf           -           -           1           6             -0.5           5.5              SAVE
@@ -524,7 +505,6 @@ Jet2_Pt_JESTotal_Up                  -inf           +inf           -           -
 Jet2_Pt_JESTotal_Dn                  -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_Pt_JER_Up                       -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_Pt_JER_Dn                       -inf           +inf           -           -           1           200           0              2000             SAVE
-Jet2_Energy                          -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_Eta                             -inf           +inf           -           -           1           100           -5             5                SAVE
 Jet2_Phi                             -inf           +inf           -           -           1           100           0              3.1416           SAVE
 Jet2_btagDeepJet                     -inf           +inf           -           -           1           100           0              1.0              SAVE
@@ -556,20 +536,6 @@ Jet2_btagSFMediumDeepJetComb_UpUncorrelated    -inf           +inf           -  
 Jet2_btagSFMediumDeepJetComb_Dn                -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet2_btagSFMediumDeepJetComb_DnCorrelated      -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet2_btagSFMediumDeepJetComb_DnUncorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets                  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets_Up               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets_UpCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets_UpUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets_Dn               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets_DnCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFLooseDeepJetMuJets_DnUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets                 -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets_Up              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets_UpCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets_UpUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets_Dn              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets_DnCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet2_btagSFMediumDeepJetMuJets_DnUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet2_hltJetPt                        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_LQMatched                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Jet2_HadronFlavor                    -inf           +inf           -           -           1           6             -0.5           5.5              SAVE
@@ -611,20 +577,6 @@ Jet3_btagSFMediumDeepJetComb_UpUncorrelated    -inf           +inf           -  
 Jet3_btagSFMediumDeepJetComb_Dn                -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet3_btagSFMediumDeepJetComb_DnCorrelated      -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet3_btagSFMediumDeepJetComb_DnUncorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets                  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets_Up               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets_UpCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets_UpUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets_Dn               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets_DnCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFLooseDeepJetMuJets_DnUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets                 -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets_Up              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets_UpCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets_UpUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets_Dn              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets_DnCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet3_btagSFMediumDeepJetMuJets_DnUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet3_hltJetPt                        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet3_LQMatched                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Jet3_HadronFlavor                    -inf           +inf           -           -           1           6             -0.5           5.5              SAVE
@@ -666,20 +618,6 @@ Jet4_btagSFMediumDeepJetComb_UpUncorrelated    -inf           +inf           -  
 Jet4_btagSFMediumDeepJetComb_Dn                -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet4_btagSFMediumDeepJetComb_DnCorrelated      -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet4_btagSFMediumDeepJetComb_DnUncorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets                  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets_Up               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets_UpCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets_UpUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets_Dn               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets_DnCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFLooseDeepJetMuJets_DnUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets                 -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets_Up              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets_UpCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets_UpUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets_Dn              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets_DnCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet4_btagSFMediumDeepJetMuJets_DnUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet4_hltJetPt                        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet4_LQMatched                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Jet4_HadronFlavor                    -inf           +inf           -           -           1           6             -0.5           5.5              SAVE
@@ -721,20 +659,6 @@ Jet5_btagSFMediumDeepJetComb_UpUncorrelated    -inf           +inf           -  
 Jet5_btagSFMediumDeepJetComb_Dn                -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet5_btagSFMediumDeepJetComb_DnCorrelated      -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet5_btagSFMediumDeepJetComb_DnUncorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets                  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets_Up               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets_UpCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets_UpUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets_Dn               -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets_DnCorrelated     -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFLooseDeepJetMuJets_DnUncorrelated   -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets                 -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets_Up              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets_UpCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets_UpUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets_Dn              -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets_DnCorrelated    -inf           +inf           -           -           1           100           0              1.0              SAVE
-Jet5_btagSFMediumDeepJetMuJets_DnUncorrelated  -inf           +inf           -           -           1           100           0              1.0              SAVE
 Jet5_hltJetPt                        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet5_LQMatched                       -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Jet5_HadronFlavor                    -inf           +inf           -           -           1           6             -0.5           5.5              SAVE
