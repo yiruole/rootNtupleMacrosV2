@@ -17,7 +17,7 @@
 // for scale factors
 #include "ElectronScaleFactors.C"
 #include "MuonScaleFactors.C"
-#include "include/HistoReader.h"
+#include "HistoReader.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -143,7 +143,12 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
    // BDT weight file
    //--------------------------------------------------------------------------
-   std::string bdtWeightFileName = getPreCutString1("BDTWeightFileName");
+   std::string bdtWeightFileName = "";
+   bool evaluateBDT = false;
+   if(hasPreCut("BDTWeightFileName")) {
+       bdtWeightFileName = getPreCutString1("BDTWeightFileName");
+       evaluateBDT = true;
+   }
 
    //--------------------------------------------------------------------------
    // Create TH1D's
@@ -859,7 +864,8 @@ void analysisClass::Loop()
    reader.AddVariable( "MejMax", &MejMax);
    reader.AddVariable( "Meejj", &Meejj);
    reader.AddVariable( "mass", &mass);
-   reader.BookMVA("BDT", bdtWeightFileName );
+   if(evaluateBDT)
+     reader.BookMVA("BDT", bdtWeightFileName );
 
    //--------------------------------------------------------------------------
    // Tell the user how many entries we'll look at
@@ -1053,62 +1059,25 @@ void analysisClass::Loop()
      //fillVariableWithValue("PassGenWZPt",passGenWZPt,gen_weight*pileup_weight);
 
      bool passLHECuts = true;
-     // only do this for 2017 and 2018, the years with jet/pt binned samples
-     if(analysisYear > 2016) {
-       // for jet-pt bin stitching
-       //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
-       //  passLHECuts = false;
-       //  if(readerTools_->ReadValueBranch<Float_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
-       //  else if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
-       //}
-       //// for Pt-binned stitching
-       //// for some reason, using genParticles here and not LHE info
-       //double GenEle1_Pt =  readerTools_->ReadValueBranch<Float_t>("GenEle1_Pt");
-       //double GenEle1_Eta = readerTools_->ReadValueBranch<Float_t>("GenEle1_Eta");
-       //double GenEle1_Phi = readerTools_->ReadValueBranch<Float_t>("GenEle1_Phi");
-       //double GenEle2_Pt =  readerTools_->ReadValueBranch<Float_t>("GenEle2_Pt");
-       //double GenEle2_Eta = readerTools_->ReadValueBranch<Float_t>("GenEle2_Eta");
-       //double GenEle2_Phi = readerTools_->ReadValueBranch<Float_t>("GenEle2_Phi");
-       //TLorentzVector t_genEle1, t_genEle2;
-       //t_genEle1.SetPtEtaPhiM ( GenEle1_Pt, GenEle1_Eta, GenEle1_Phi, 0.0 );
-       //t_genEle2.SetPtEtaPhiM ( GenEle2_Pt, GenEle2_Eta, GenEle2_Phi, 0.0 );
-       //TLorentzVector t_ele1ele2 = t_genEle1 + t_genEle2;
-       //float genZGammaPt = t_ele1ele2.Pt();
-       //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
-       //    current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
-       //  //if(readerTools_->ReadValueBranch<Float_t>("GenZGamma1_Pt") > 70) passLHECuts = false; // if Z/gamma Pt > 70 GeV, cut it out
-       //  if(genZGammaPt > 70) passLHECuts = false; // if Z/gamma Pt > 70 GeV, cut it out
-       //}
-       //if(current_file_name.find("DYJetsToLL_Pt-50") != std::string::npos) {
-       //  //if(readerTools_->ReadValueBranch<Float_t>("GenZGamma1_Pt") <= 70) passLHECuts = false;
-       //  if(genZGammaPt <= 70) passLHECuts = false;
-       //}
-       // pt-binned stitching test, Jan. 2022
-       if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
-           current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
-         passLHECuts = false;
-         if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") <= 100)
-           passLHECuts = true; // if Z/gamma Pt < 100 GeV, take it
-       }
+     // for jet-pt bin stitching
+     //if(current_file_name.find("DYJetsToLL_M-50_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_newPMX_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_ext_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_ext_newPMX_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_ext1_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_ext1_newPMX_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_ext2_amcatnloFXFX") != std::string::npos ||
+     //    current_file_name.find("DYJetsToLL_M-50_ext2_newPMX_amcatnloFXFX") != std::string::npos) {
+     //  passLHECuts = false;
+     //  if(readerTools_->ReadValueBranch<Float_t>("LHE_NpNLO") == 0) passLHECuts = true; // if zero jets, take it
+     //  else if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") < 50) passLHECuts = true; // if Z/gamma Pt < 50 GeV, take it
+     //}
+     // pt-binned sample stitching, Jul. 2022
+     // see: https://cms-talk.web.cern.ch/t/bug-in-ul-pt-binned-dy-samples/11639
+     if(current_file_name.find("DYJetsToLL_M-50_TuneCP5") != std::string::npos) {
+       passLHECuts = false;
+       if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") == 0)
+         passLHECuts = true; // if Z/gamma Pt == 0 GeV, take it
      }
      fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
      //--------------------------------------------------------------------------
@@ -1493,7 +1462,9 @@ void analysisClass::Loop()
      j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
      eejj = e1 + e2 + j1 + j2 ; 
      Meejj = eejj.M();
-     double bdtOutput = reader.EvaluateMVA("BDT");
+     double bdtOutput = -999;
+     if(evaluateBDT)
+       bdtOutput = reader.EvaluateMVA("BDT");
 
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
@@ -1564,12 +1535,17 @@ void analysisClass::Loop()
      double Jet3_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet3_btag"+btagAlgo);
      double Jet4_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet4_btag"+btagAlgo);
      double Jet5_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet5_btag"+btagAlgo);
+     int Jet1_flavor = readerTools_->ReadValueBranch<Float_t>("Jet1_HadronFlavor");
+     int Jet2_flavor = readerTools_->ReadValueBranch<Float_t>("Jet2_HadronFlavor");
+     int Jet3_flavor = readerTools_->ReadValueBranch<Float_t>("Jet3_HadronFlavor");
+     int Jet4_flavor = readerTools_->ReadValueBranch<Float_t>("Jet4_HadronFlavor");
+     int Jet5_flavor = readerTools_->ReadValueBranch<Float_t>("Jet5_HadronFlavor");
      std::string sfSuffix = btagWP+btagAlgo;
-     double Jet1_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix);
-     double Jet2_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix);
-     double Jet3_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet3_btagSF"+sfSuffix);
-     double Jet4_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet4_btagSF"+sfSuffix);
-     double Jet5_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet5_btagSF"+sfSuffix);
+     double Jet1_btagSF = Jet1_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix+"Comb");
+     double Jet2_btagSF = Jet2_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix+"Comb");
+     double Jet3_btagSF = Jet3_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet3_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet3_btagSF"+sfSuffix+"Comb");
+     double Jet4_btagSF = Jet4_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet4_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet4_btagSF"+sfSuffix+"Comb");
+     double Jet5_btagSF = Jet5_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet5_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet5_btagSF"+sfSuffix+"Comb");
 
      float weightZeroBJets = 1.0;
      float weightAtLeastOneBJet = 1.0;
