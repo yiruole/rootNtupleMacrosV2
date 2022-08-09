@@ -23,7 +23,7 @@
 #include "HistoReader.h"
 #include "ElectronScaleFactors.C"
 
-#include "correction.h"
+#include "CorrectionHandler.h"
 
 //--------------------------------------------------------------------------
 // Function for trigger matching 
@@ -123,57 +123,47 @@ void analysisClass::Loop()
   HistoReader triggerScaleFactorReader(trigSFFileName,"SF_TH2F_Barrel","SF_TH2F_EndCap",false,false);
 
   //--------------------------------------------------------------------------
-  // reco scale factors
+  // EGM scale factors
   //--------------------------------------------------------------------------
-  std::string recoSFFileName = getPreCutString1("RecoSFFileName");
-  std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
-
-  //--------------------------------------------------------------------------
-  // ID scale factors
-  //--------------------------------------------------------------------------
-  std::string egmIDSFFileName = getPreCutString1("EGMIDSFFileName");
-  std::unique_ptr<HistoReader> idScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(egmIDSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false));
-  //FIXME TODO move to correctionlib
-
-  //--------------------------------------------------------------------------
-  // correctionlib PU
-  //--------------------------------------------------------------------------
-  std::string puJSONFileName = getPreCutString1("PUJSONFileName");
-  auto cset_puAll = correction::CorrectionSet::from_file(puJSONFileName);
-  auto cset_pu = cset_puAll->at("Collisions16_UltraLegacy_goldenJSON");
+  std::string egmIDJSONFileName = getPreCutString1("EGMIDJSONFileName");
+  auto cset_ulEGMID = CorrectionHandler::GetCorrectionFromFile(egmIDJSONFileName, "UL-Electron-ID-SF");
 
   //--------------------------------------------------------------------------
   // correctionlib B-tagging
   //--------------------------------------------------------------------------
   std::string btagJSONFileName = getPreCutString1("BTVJSONFileName");
-  auto cset_btagAll = correction::CorrectionSet::from_file(btagJSONFileName);
-  auto cset_btagDeepJetIncl = cset_btagAll->at("deepJet_incl");
-  auto cset_btagDeepJetComb = cset_btagAll->at("deepJet_comb");
-  auto cset_btagDeepJetMuJets = cset_btagAll->at("deepJet_mujets");
+  auto cset_btagDeepJetIncl = CorrectionHandler::GetCorrectionFromFile(btagJSONFileName, "deepJet_incl");
+  auto cset_btagDeepJetComb = CorrectionHandler::GetCorrectionFromFile(btagJSONFileName, "deepJet_comb");
+  auto cset_btagDeepJetMuJets = CorrectionHandler::GetCorrectionFromFile(btagJSONFileName, "deepJet_mujets");
 
   //--------------------------------------------------------------------------
   // correctionlib JME
   //--------------------------------------------------------------------------
   std::string jmeJSONFileName = getPreCutString1("JMEJSONFileName");
-  auto cset_jmeAll = correction::CorrectionSet::from_file(jmeJSONFileName);
+  CorrectionHandler cset_jmeAll(jmeJSONFileName);
   std::string jerTag = getPreCutString1("JERTag");
-
-  //--------------------------------------------------------------------------
-  // Should we do any scaling / smearing for systematics?
-  //--------------------------------------------------------------------------
-  int electron_energy_scale_sign = int(getPreCutValue1("electron_energy_scale_sign" ));
-  int pfjet_energy_scale_sign    = int(getPreCutValue1("pfjet_energy_scale_sign"    ));
-
-  bool do_eer = bool ( int(getPreCutValue1("do_electron_energy_smear"   )) == 1 );
-  bool do_jer = bool ( int(getPreCutValue1("do_pfjet_energy_smear"      )) == 1 );
-  bool do_ees = bool ( electron_energy_scale_sign != 0 );
-  bool do_jes = bool ( pfjet_energy_scale_sign    != 0 );
   
   //--------------------------------------------------------------------------
   // Analysis year
   //--------------------------------------------------------------------------
-  int analysisYear = getPreCutValue1("AnalysisYear");
+  std::string analysisYear = getPreCutString1("AnalysisYear");
+  int analysisYearInt;
+  if(analysisYear.find("2016") != std::string::npos)
+    analysisYearInt = std::stoi(analysisYear.substr(analysisYear.find("2016"), 4));
+  else if(analysisYear.size() != 0)
+    analysisYearInt = std::stoi(analysisYear);
+  else {
+    analysisYearInt = getPreCutValue1("AnalysisYear");
+    analysisYear = to_string(analysisYearInt);
+  }
 
+  //--------------------------------------------------------------------------
+  // correctionlib PU
+  //--------------------------------------------------------------------------
+  std::string puJSONFileName = getPreCutString1("PUJSONFileName");
+  // need to use last 2 digits of analysisYear
+  std::string puEntry = "Collisions"+to_string(analysisYearInt).replace(0, 2, "")+"_UltraLegacy_goldenJSON";
+  auto cset_pu = CorrectionHandler::GetCorrectionFromFile(puJSONFileName, puEntry);
   //--------------------------------------------------------------------------
   // Cuts for physics objects selection
   //--------------------------------------------------------------------------
@@ -420,51 +410,46 @@ void analysisClass::Loop()
     // If this is MC, smear jets if requested
     // Don't do it for data
     //-----------------------------------------------------------------
-    if ( !isData() && do_jer) do_jer = true;
-    else do_jer = false; // never for data
+    bool do_jer = true;
+    if (isData())
+      do_jer = false; // never for data
 
     //-----------------------------------------------------------------
     // Energy scaling and resolution smearing here
     //-----------------------------------------------------------------
-    if ( do_eer || do_jer || do_ees || do_jes ) { 
+    // recall that only jets with pt > 10 GeV affect the PFMET
+    // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
+    c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
 
-      // If  you're scaling/smearing PFJets, recall that only jets with pt > 10 GeV affect the PFMET
-      // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
-      c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
+    // Set the PFMET difference to zero
+    v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
 
-      // Set the PFMET difference to zero
+    // Do the energy scale / energy resolution operations
+    // dR for matching = Rcone/2
+    //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
+    std::string jerPtRes = jerTag+"_PtResolution_AK4PFchs";
+    std::string jerSF = jerTag+"_ScaleFactor_AK4PFchs";
 
-      v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
+    if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll.GetCorrection(jerPtRes).get(), cset_jmeAll.GetCorrection(jerSF).get() );
+    //FIXME
+    //if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
 
-      // Do the energy scale / energy resolution operations
-      // dR for matching = Rcone/2
-      //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
-      std::string jerPtRes = jerTag+"_MC_PtResolution_AK4PFchs";
-      std::string jerSF = jerTag+"_MC_ScaleFactor_AK4PFchs";
+    // Propagate the results to the PFMET
+    v_PFMETType1Cor   .SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0., readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0. );
+    //v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
 
-      if ( do_eer ) c_ele_all      -> MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.4/2.0, rootEngine, v_delta_met );
-      if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll->at(jerPtRes).get(), cset_jmeAll->at(jerSF).get() );
-      if ( do_ees ) c_ele_all      -> ScaleEnergy <Electron> ( electron_energy_scale_sign, v_delta_met );
-      if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
+    v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
+    //v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
 
-      // Propagate the results to the PFMET
+    //FIXME
+    //(*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
+    //(*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
+    //
+    //FIXME
+    //(*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
+    //(*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
 
-      v_PFMETType1Cor   .SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0., readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0. );
-      //v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
-
-      v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
-      //v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
-
-      //FIXME
-      //(*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
-      //(*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
-      //
-      //FIXME
-      //(*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
-      //(*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
-    }
-
-    // new systematics handling
+    // new systematics handling for electron energy resolution and scale
     std::vector<Electron> smearedEles;
     std::vector<Electron> scaledUpEles;
     std::vector<Electron> scaledDownEles;
@@ -487,7 +472,7 @@ void analysisClass::Loop()
     CollectionPtr c_ele_loose;
     CollectionPtr c_ele_vLoose;
     ID heepIdType = HEEP70;
-    if(analysisYear == 2018)
+    if(analysisYearInt == 2018)
       heepIdType = HEEP70_2018;
 
     if ( reducedSkimType == 0 ){ 
@@ -515,7 +500,7 @@ void analysisClass::Loop()
         c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
       }
       else if(electronIDType == "EGMLoose") {
-        c_ele_egammaLoose = c_ele_all -> SkimByID<Electron>(EGAMMA_BUILTIN_LOOSE);
+        c_ele_egammaLoose = c_ele_all -> SkimByID<Electron>(EGAMMA_LOOSE_HEEPETACUT);
         c_ele_final               = c_ele_egammaLoose;
         c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE_EGMLOOSE);
       }
@@ -647,7 +632,7 @@ void analysisClass::Loop()
       genWeight = readerTools_->ReadValueBranch<Float_t>("genWeight");
     }
     fillVariableWithValue( "Weight"   , genWeight   );
-    //FIXME -- topPtWeights -- perhaps not needed since unused for 2016 analysis
+    // topPtWeights -- perhaps not needed since unused for 2016 analysis
     //fillVariableWithValue( "TopPtWeight",GenParticleTopPtWeight);
     // pileup
     float puWeight = 1.0;
@@ -1056,7 +1041,7 @@ void analysisClass::Loop()
       fillVariableWithValue( prefix+"_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut",ele.PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut() ); 
       fillVariableWithValue( prefix+"_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut" ,ele.PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut () ); 
       fillVariableWithValue( prefix+"_PassHEEPGsfEleTrkPtIsoCut"                   ,ele.PassHEEPGsfEleTrkPtIsoCut                   () ); 
-      if(analysisYear == 2018) {
+      if(analysisYearInt == 2018) {
         fillVariableWithValue( prefix+"_PassHEEPGsfEleEmHadD1IsoRhoCut"              ,ele.PassHEEPGsfEleEmHadD1IsoRhoCut2018        () ); 
         fillVariableWithValue( prefix+"_PassHEEPGsfEleHadronicOverEMLinearCut"       ,ele.PassHEEPGsfEleHadronicOverEMLinearCut2018 () ); 
       }
@@ -1091,25 +1076,33 @@ void analysisClass::Loop()
         fillVariableWithValue( prefix+"_Pt_EES_Dn"  , ele1scaledDown.Pt()       );
       }
       if(!isData()) {
-        float elePtUncorr = ele.PtUncorr();
-        fillVariableWithValue( prefix+"_TrigSF" , triggerScaleFactorReader.LookupValue(ele.SCEta(),elePtUncorr) );
-        fillVariableWithValue( prefix+"_TrigSF_Err" , triggerScaleFactorReader.LookupValueError(ele.SCEta(),elePtUncorr) );
-        fillVariableWithValue( prefix+"_RecoSF" , recoScaleFactorReader->LookupValue(ele.SCEta(),elePtUncorr) );
-        fillVariableWithValue( prefix+"_RecoSF_Err" , recoScaleFactorReader->LookupValueError(ele.SCEta(),elePtUncorr) );
-        fillVariableWithValue( prefix+"_HEEPSF"                                      ,ElectronScaleFactorsRunII::LookupHeepSF(ele.SCEta(), analysisYear) );
-        fillVariableWithValue( prefix+"_HEEPSF_Err"                                  ,ElectronScaleFactorsRunII::LookupHeepSFSyst(ele.SCEta(), elePtUncorr, analysisYear) );
-        fillVariableWithValue( prefix+"_EGMLooseIDSF", idScaleFactorReader->LookupValue(ele.SCEta(),elePtUncorr) );
-        fillVariableWithValue( prefix+"_EGMLooseIDSF_Err", idScaleFactorReader->LookupValueError(ele.SCEta(),elePtUncorr) );
+        fillVariableWithValue( prefix+"_TrigSF" , triggerScaleFactorReader.LookupValue(ele.SCEta(), ele.Pt()) );
+        fillVariableWithValue( prefix+"_TrigSF_Err" , triggerScaleFactorReader.LookupValueError(ele.SCEta(), ele.Pt()) );
+        if(ele.Pt() >= 10) {
+          float recoSF = ele.Pt() >= 20 ? cset_ulEGMID->evaluate({analysisYear, "sf", "RecoAbove20", ele.SCEta(), ele.Pt()}) : cset_ulEGMID->evaluate({analysisYear, "sf", "RecoBelow20", ele.SCEta(), ele.Pt()});
+          float recoSFUp = ele.Pt() >= 20 ? cset_ulEGMID->evaluate({analysisYear, "sfup", "RecoAbove20", ele.SCEta(), ele.Pt()}) : cset_ulEGMID->evaluate({analysisYear, "sfup", "RecoBelow20", ele.SCEta(), ele.Pt()});
+          float recoSFDn = ele.Pt() >= 20 ? cset_ulEGMID->evaluate({analysisYear, "sfdown", "RecoAbove20", ele.SCEta(), ele.Pt()}) : cset_ulEGMID->evaluate({analysisYear, "sfdown", "RecoBelow20", ele.SCEta(), ele.Pt()});
+          fillVariableWithValue( prefix+"_RecoSF",    recoSF );
+          fillVariableWithValue( prefix+"_RecoSF_Up", recoSFUp );
+          fillVariableWithValue( prefix+"_RecoSF_Dn", recoSFDn );
+          fillVariableWithValue( prefix+"_EGMLooseIDSF",    cset_ulEGMID->evaluate({analysisYear, "sf", "Loose", ele.SCEta(), ele.Pt()}));
+          fillVariableWithValue( prefix+"_EGMLooseIDSF_Up", cset_ulEGMID->evaluate({analysisYear, "sfup", "Loose", ele.SCEta(), ele.Pt()}));
+          fillVariableWithValue( prefix+"_EGMLooseIDSF_Dn", cset_ulEGMID->evaluate({analysisYear, "sfdown", "Loose", ele.SCEta(), ele.Pt()}));
+        }
+        fillVariableWithValue( prefix+"_HEEPSF",    ElectronScaleFactorsRunII::LookupHeepSF(ele.SCEta(), analysisYearInt) );
+        fillVariableWithValue( prefix+"_HEEPSF_Err",ElectronScaleFactorsRunII::LookupHeepSFSyst(ele.SCEta(), ele.Pt(), analysisYearInt) );
       }
       else {
         fillVariableWithValue( prefix+"_TrigSF"          , 1.0);
         fillVariableWithValue( prefix+"_TrigSF_Err"      , 0.0);
         fillVariableWithValue( prefix+"_RecoSF"          , 1.0);
-        fillVariableWithValue( prefix+"_RecoSF_Err"      , 0.0);
+        fillVariableWithValue( prefix+"_RecoSF_Up"       , 0.0);
+        fillVariableWithValue( prefix+"_RecoSF_Dn"       , 0.0);
+        fillVariableWithValue( prefix+"_EGMLooseIDSF"    , 1.0);
+        fillVariableWithValue( prefix+"_EGMLooseIDSF_Up" , 0.0);
+        fillVariableWithValue( prefix+"_EGMLooseIDSF_Dn" , 0.0);
         fillVariableWithValue( prefix+"_HEEPSF"          , 1.0);
         fillVariableWithValue( prefix+"_HEEPSF_Err"      , 0.0);
-        fillVariableWithValue( prefix+"_EGMLooseIDSF"    , 1.0);
-        fillVariableWithValue( prefix+"_EGMLooseIDSF_Err", 0.0);
       }
     }
 
@@ -1172,22 +1165,6 @@ void analysisClass::Loop()
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_Dn"  , cset_btagDeepJetComb->evaluate({"down", "M", flavor, absEta, pt}) );
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnCorrelated"  , cset_btagDeepJetComb->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnUncorrelated"  , cset_btagDeepJetComb->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
-          // mujets
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets"  , cset_btagDeepJetMuJets->evaluate({"central", "L", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_Up"  , cset_btagDeepJetMuJets->evaluate({"up", "L", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_UpCorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_correlated", "L", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_UpUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_uncorrelated", "L", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_Dn"  , cset_btagDeepJetMuJets->evaluate({"down", "L", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_DnCorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_correlated", "L", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetMuJets_DnUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_uncorrelated", "L", flavor, absEta, pt}) );
-          // medium
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets"  , cset_btagDeepJetMuJets->evaluate({"central", "M", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_Up"  , cset_btagDeepJetMuJets->evaluate({"up", "M", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_UpCorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_correlated", "M", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_UpUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"up_uncorrelated", "M", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_Dn"  , cset_btagDeepJetMuJets->evaluate({"down", "M", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_DnCorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
-          fillVariableWithValue( prefix+"_btagSFMediumDeepJetMuJets_DnUncorrelated"  , cset_btagDeepJetMuJets->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
         }
         //XXX SIC JUNE 2022 FIXME
         //fillVariableWithValue( prefix+"_Pt_JESTotal_Up"  , jet.PtJESTotalUp()        );
