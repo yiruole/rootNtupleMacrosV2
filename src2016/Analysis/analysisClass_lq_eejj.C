@@ -17,7 +17,6 @@
 // for scale factors
 #include "ElectronScaleFactors.C"
 #include "MuonScaleFactors.C"
-#include "HistoReader.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
@@ -126,12 +125,6 @@ void analysisClass::Loop()
    // Analysis year
    //--------------------------------------------------------------------------
    int analysisYear = getPreCutValue1("AnalysisYear");
-
-   //--------------------------------------------------------------------------
-   // reco scale factors
-   //--------------------------------------------------------------------------
-   std::string recoSFFileName = getPreCutString1("RecoSFFileName");
-   std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false));
 
    //--------------------------------------------------------------------------
    // B-tag stuff
@@ -972,40 +965,19 @@ void analysisClass::Loop()
        //std::cout << "Ele2_Pt = " << readerTools_->ReadValueBranch<Float_t>("Ele2_Pt") << "; Ele2_ECorr = " << ele2ECorr << "; Ele2_SCEta = " << readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta") << std::endl;
        float recoHeepSF = 1.0;
        bool verbose = false;
-       if(analysisYear==2016) {
-         //float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
-         //float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
-         //float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
-         //float heepSFEle2 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
-         float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
-         float recoSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_RecoSF");
-         // HEEP ID
-         //float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
-         //float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
-         //recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
-         // EGM loose ID
-         float looseSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_EGMLooseIDSF");
-         float looseSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_EGMLooseIDSF");
-         recoHeepSF *= recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
-         //std::cout << "recoSFEle1*recoSFEle2 = " << recoSFEle1 << "*" << recoSFEle2 << " = " << recoSFEle1*recoSFEle2 << std::endl;
-         //std::cout << "heepSFEle1*heepSFEle2 = " << heepSFEle1 << "*" << heepSFEle2 << " = " << heepSFEle1*heepSFEle2 << std::endl;
-       }
-       else if(analysisYear==2017) {
+       float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
+       float recoSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_RecoSF");
+       // HEEP ID
+       //float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
+       //float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
+       //recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+       // EGM loose ID
+       float looseSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_EGMLooseIDSF");
+       float looseSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_EGMLooseIDSF");
+       recoHeepSF *= recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
+       if(analysisYear==2017) {
          float zVtxSF = ElectronScaleFactors2017::zVtxSF;
-         float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
-         float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
-         // TODO take from branches
-         float heepSFEle1 = ElectronScaleFactors2017::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
-         float heepSFEle2 = ElectronScaleFactors2017::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
-         recoHeepSF *= zVtxSF*recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
-       }
-       else if(analysisYear==2018) {
-         float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
-         float recoSFEle2 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
-         // TODO take from branches
-         float heepSFEle1 = ElectronScaleFactors2018::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
-         float heepSFEle2 = ElectronScaleFactors2018::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"));
-         recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+         recoHeepSF *= zVtxSF;
        }
        // add trigger scale factor
        // FIXME TODO: should be using the electron matched to the trigger object only
