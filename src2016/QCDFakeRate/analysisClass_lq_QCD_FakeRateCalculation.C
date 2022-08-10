@@ -7,11 +7,10 @@
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TVector3.h>
-#include "include/HistoReader.h"
 // for scale factors
 #include "ElectronScaleFactors.C"
 // for prescales
-#include "include/Run2PhotonTriggerPrescales.h"
+#include "Run2PhotonTriggerPrescales.h"
 
 const std::vector<string> jetBinNames = {"", "lte1Jet", "1Jet", "2Jet", "3Jet"};
 const std::vector<string> allRegions = {"", "Bar", "End1", "End2"};
@@ -81,12 +80,6 @@ void analysisClass::Loop()
   // Analysis year
   //--------------------------------------------------------------------------
   int analysisYear = getPreCutValue1("AnalysisYear");
-
-  //--------------------------------------------------------------------------
-  // reco scale factors
-  //--------------------------------------------------------------------------
-  std::string recoSFFileName = getPreCutString1("RecoSFFileName");
-  std::unique_ptr<HistoReader> recoScaleFactorReader = std::unique_ptr<HistoReader>(new HistoReader(recoSFFileName,"EGamma_SF2D","EGamma_SF2D",true,false));
 
   //--------------------------------------------------------------------------
   // Photon trigger average prescales
@@ -284,7 +277,7 @@ void analysisClass::Loop()
       bool verbose = false;
       float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
       float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-      float recoSFEle1 = recoScaleFactorReader->LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
+      float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
       //float heepSFEle1 = ElectronScaleFactors2016::LookupHeepSF(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"));
       //float totalScaleFactor = recoSFEle1*heepSFEle1;
       //gen_weight*=totalScaleFactor;
