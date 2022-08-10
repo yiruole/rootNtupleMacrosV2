@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
-# 2016 Sep23 ReReco JSON file
+# combined ultralegacy golden json
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/certifiedGolden_11mar2020_2016_2017_2018.json
+JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/ultralegacy/certifiedGolden_2016_2017_2018.json
 #
 #############################     Example of file with list of cuts
 #
@@ -32,10 +32,6 @@ QCDFakeRateFilename		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/QCDFake
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
 TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
-#-----------------------------------------------------------------------------------------------------------------------------
-# Reco scale factors
-#-----------------------------------------------------------------------------------------------------------------------------
-RecoSFFileName  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/egammaRecoSF/2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
