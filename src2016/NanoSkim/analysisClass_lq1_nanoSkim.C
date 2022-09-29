@@ -204,11 +204,14 @@ void analysisClass::Loop()
     int n_ele_store          = c_ele_final                   -> GetSize();
     int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
     int n_ele_vloose_ptCut   = c_ele_vLoose_ptCut            -> GetSize();
+    int n_ele_vloose   = c_ele_vLoose            -> GetSize();
 
     //-----------------------------------------------------------------
     // Fill variables
     //-----------------------------------------------------------------
+    fillVariableWithValue ("nVLooseEle"  , n_ele_vloose );
     fillVariableWithValue ("nVLooseEle_ptCut"  , n_ele_vloose_ptCut );
+    fillVariableWithValue ("nLooseEle"  , n_ele_store );
     if ( n_ele_store >= 1 ) { 
       Electron ele = c_ele_final -> GetConstituent<Electron>(0);
       std::string prefix = "Ele1";
@@ -235,23 +238,23 @@ void analysisClass::Loop()
     if(triggerExists("HLT_Photon22"))
       fillTriggerVariable ( "HLT_Photon22" , "H_Photon22"  );
     else
-      fillVariableWithValue( "H_Photon22", -1); 
+      fillVariableWithValue( "H_Photon22", -1.0); 
     if(triggerExists("HLT_Photon25"))
       fillTriggerVariable ( "HLT_Photon25" , "H_Photon25"  );
     else
-      fillVariableWithValue( "H_Photon25", -1); 
+      fillVariableWithValue( "H_Photon25", -1.0); 
     if(triggerExists("HLT_Photon30"))
       fillTriggerVariable ( "HLT_Photon30" , "H_Photon30"  );
     else
-      fillVariableWithValue( "H_Photon30", -1); 
+      fillVariableWithValue( "H_Photon30", -1.0); 
     if(triggerExists("HLT_Photon33"))
       fillTriggerVariable ( "HLT_Photon33" , "H_Photon33"  );
     else
-      fillVariableWithValue( "H_Photon33", -1); 
+      fillVariableWithValue( "H_Photon33", -1.0); 
     if(triggerExists("HLT_Photon36"))
       fillTriggerVariable ( "HLT_Photon36" , "H_Photon36"  );
     else
-      fillVariableWithValue( "H_Photon36", -1); 
+      fillVariableWithValue( "H_Photon36", -1.0); 
     fillTriggerVariable ( "HLT_Photon50"   , "H_Photon50"  );
     fillTriggerVariable ( "HLT_Photon75"   , "H_Photon75"  );
     fillTriggerVariable ( "HLT_Photon90"   , "H_Photon90"  );
@@ -259,12 +262,12 @@ void analysisClass::Loop()
     if(triggerExists("HLT_Photon150"))
       fillTriggerVariable ( "HLT_Photon150", "H_Photon150" );
     else
-      fillVariableWithValue( "H_Photon150", -1); 
+      fillVariableWithValue( "H_Photon150", -1.0); 
     fillTriggerVariable ( "HLT_Photon175" , "H_Photon175" );
     if(triggerExists("HLT_Photon200"))
       fillTriggerVariable ( "HLT_Photon200" , "H_Photon200" );
     else
-      fillVariableWithValue ( "H_Photon200" , -1 );
+      fillVariableWithValue ( "H_Photon200" , -1.0 );
 
     bool pass_any_photon_trigger = (
         getVariableValue("H_Photon22") > 0 || 
@@ -286,15 +289,15 @@ void analysisClass::Loop()
     if(triggerExists("HLT_Ele27_WPTight_Gsf"))
       fillTriggerVariable( "HLT_Ele27_WPTight_Gsf" , "H_Ele27_WPTight" );
     else
-      fillVariableWithValue( "H_Ele27_WPTight" , -1 );
+      fillVariableWithValue( "H_Ele27_WPTight" , -1.0 );
     if(triggerExists("HLT_Ele32_WPTight_Gsf"))
       fillTriggerVariable( "HLT_Ele32_WPTight_Gsf" , "H_Ele32_WPTight" );
     else
-      fillVariableWithValue( "H_Ele32_WPTight" , -1 );
+      fillVariableWithValue( "H_Ele32_WPTight" , -1.0 );
     if(triggerExists("HLT_Ele35_WPTight_Gsf"))
       fillTriggerVariable( "HLT_Ele35_WPTight_Gsf" , "H_Ele35_WPTight" );
     else
-      fillVariableWithValue( "H_Ele35_WPTight" , -1 );
+      fillVariableWithValue( "H_Ele35_WPTight" , -1.0 );
     // check that we have at least one WPTight trigger
     if(!triggerExists("HLT_Ele27_WPTight_Gsf") && !triggerExists("HLT_Ele32_WPTight_Gsf") && !triggerExists("HLT_Ele35_WPTight_Gsf")) {
       STDOUT("Could not find any Ele WPTight trigger. Exiting.");
@@ -304,15 +307,15 @@ void analysisClass::Loop()
     if(triggerExists("HLT_Ele115_CaloIdVT_GsfTrkIdT"))
       fillTriggerVariable( "HLT_Ele115_CaloIdVT_GsfTrkIdT" , "H_Ele115_CIdVT_GsfIdT");
     else
-      fillVariableWithValue( "H_Ele115_CIdVT_GsfIdT" , -1 );
+      fillVariableWithValue( "H_Ele115_CIdVT_GsfIdT" , -1.0 );
     if(triggerExists("HLT_Photon175"))
       fillTriggerVariable( "HLT_Photon175" , "H_Photon175" );
     else
-      fillVariableWithValue( "H_Photon175" , -1 );
+      fillVariableWithValue( "H_Photon175" , -1.0 );
     if(triggerExists("HLT_Photon200"))
       fillTriggerVariable( "HLT_Photon200" , "H_Photon200" );
     else
-      fillVariableWithValue( "H_Photon200" , -1 );
+      fillVariableWithValue( "H_Photon200" , -1.0 );
     // check that we have at least one photon trigger
     if(!triggerExists("HLT_Photon175") && !triggerExists("HLT_Photon200")) {
       STDOUT("Could not find a Photon175 or Photon200 trigger. Exiting.");
@@ -323,11 +326,11 @@ void analysisClass::Loop()
     if(triggerExists("HLT_Ele105_CaloIdVT_GsfTrkIdT"))
       fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT" , "H_Ele105_CIdVT_GsfIdT");
     else
-      fillVariableWithValue( "H_Ele105_CIdVT_GsfIdT" , -1 );
+      fillVariableWithValue( "H_Ele105_CIdVT_GsfIdT" , -1.0 );
     if(triggerExists("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL"))
       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
     else
-      fillVariableWithValue( "H_DoubleEle33_CIdL_GsfIdVL", -1 );
+      fillVariableWithValue( "H_DoubleEle33_CIdL_GsfIdVL", -1.0 );
     //fillTriggerVariable( "HLT_Mu45_eta2p1"  , "H_Mu45_eta2p1" );
 
     bool pass_lowPtEle = getVariableValue("H_Ele27_WPTight") > 0 ||
@@ -340,7 +343,7 @@ void analysisClass::Loop()
         getVariableValue("H_Ele115_CIdVT_GsfIdT") > 0 ||
         pass_photon ||
         pass_any_photon_trigger;
-    fillVariableWithValue ("PassTrigger", pass_trigger ? 1 : 0 );
+    fillVariableWithValue ("PassTrigger", pass_trigger);
 
     //-----------------------------------------------------------------
     // Evaluate the cuts
