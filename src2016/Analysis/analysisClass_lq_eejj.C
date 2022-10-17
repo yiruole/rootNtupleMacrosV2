@@ -113,15 +113,6 @@ void analysisClass::Loop()
    double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
    //--------------------------------------------------------------------------
-   // Trigger scale factors
-   //--------------------------------------------------------------------------
-   std::string trigSFFileName = getPreCutString1("TriggerSFFileName");
-   //std::string graphName = getPreCutString1("TriggerEfficiencyGraphName");
-   HistoReader triggerScaleFactorReader(trigSFFileName,"SF_TH2F_Barrel","SF_TH2F_EndCap",false,false);
-   //
-   //TriggerEfficiency triggerEfficiency("/afs/cern.ch/user/m/mbhat/work/public/TRigger_Files_2016data/TriggerEff.root", "hEff_Ele27OR115OR175");
-
-   //--------------------------------------------------------------------------
    // Analysis year
    //--------------------------------------------------------------------------
    int analysisYear = getPreCutValue1("AnalysisYear");
@@ -316,6 +307,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_EBEE_70_110_PAS"	   ,    60 , 60       , 120	 ); 
    CreateUserTH1D( "Mee_EEEE_70_110_PAS"	   ,    60 , 60       , 120	 ); 
    CreateUserTH1D( "Mee_EB_70_110_PAS" 	     	   ,    60 , 60       , 120	 ); 
+   CreateUserTH1D( "Mee_EBEB_70_110_Uncorr_PAS"	 ,    60 , 60       , 120	 ); 
 
    CreateUserTH1D( "PileupWeight"   , 100, -10, 10 );
    CreateUserTH1D( "GeneratorWeight", 100, -2.0, 2.0);
@@ -342,6 +334,8 @@ void analysisClass::Loop()
    CreateUserTH1D("MissingHits_1stEle_PAS"                   , 2  , -0.5,    1.5  ); CreateUserTH1D("MissingHits_2ndEle_PAS"                   , 2  , -0.5,    1.5  );
    CreateUserTH1D("Full5x5SigmaIEtaIEta_Barrel_1stEle_PAS"          , 200,  0.0,    0.04 ); CreateUserTH1D("Full5x5SigmaIEtaIEta_Barrel_2ndEle_PAS"          , 200,  0.0,    0.04 );
    CreateUserTH1D("Full5x5SigmaIEtaIEta_Endcap_1stEle_PAS"          , 200,  0.0,    0.1  ); CreateUserTH1D("Full5x5SigmaIEtaIEta_Endcap_2ndEle_PAS"          , 200,  0.0,    0.1  );
+   CreateUserTH1D( "ECorrEle1_PAS", 100, 0, 1);
+   CreateUserTH1D( "ECorrEle2_PAS", 100, 0, 1);
                                                                                                                                                                       
    CreateUserTH1D("CorrIsolation_1stEle_PASandMee100"        , 200,-25.0 ,  25.0  ); CreateUserTH1D("CorrIsolation_2ndEle_PASandMee100"        , 200,-25.0 ,  25.0  );
    CreateUserTH1D("DeltaEtaTrkSC_1stEle_PASandMee100"        , 200, -0.01,   0.01 ); CreateUserTH1D("DeltaEtaTrkSC_2ndEle_PASandMee100"        , 200, -0.01,   0.01 );
@@ -875,9 +869,9 @@ void analysisClass::Loop()
      //-----------------------------------------------------------------
      // Print progress
      //-----------------------------------------------------------------
-     if(jentry < 10 || jentry%2000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+     if(jentry < 10 || jentry%10000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
      // run ls event
-     double run = readerTools_->ReadValueBranch<Float_t>("run");
+     unsigned int run = readerTools_->ReadValueBranch<UInt_t>("run");
      //XXX TEST
      //if(jentry > 1000) continue;
      //if(run==319077) continue;
@@ -899,21 +893,21 @@ void analysisClass::Loop()
      
      //double run = readerTools_->ReadValueBranch<Float_t>("run");
      int passedJSON = passJSON ( run,
-         readerTools_->ReadValueBranch<Float_t>("ls"),
+         readerTools_->ReadValueBranch<UInt_t>("ls"),
          isData() ) ;
 
      //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
-     double pileup_weight = readerTools_->ReadValueBranch<Float_t>("puWeight");
+     float pileup_weight = readerTools_->ReadValueBranch<Float_t>("puWeight");
      if ( isData() ) pileup_weight = 1.0;
      
      //--------------------------------------------------------------------------
      // Get information about gen-level reweighting (should be for Sherpa only)
      //--------------------------------------------------------------------------
 
-     double gen_weight = readerTools_->ReadValueBranch<Float_t>("Weight");
+     float gen_weight = readerTools_->ReadValueBranch<Float_t>("Weight");
      if ( isData() ) gen_weight = 1.0;
      //if ( isData && Ele2_ValidFrac > 998. ){
      //  gen_weight = 0.0;
@@ -927,7 +921,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Get information about prefire reweighting
      //--------------------------------------------------------------------------
-     double prefire_weight = 1.0;
+     float prefire_weight = 1.0;
      if(analysisYear < 2018 && hasBranch("PrefireWeight") && !isData())
        prefire_weight = readerTools_->ReadValueBranch<Float_t>("PrefireWeight");
        //prefire_weight = readerTools_->ReadValueBranch<Float_t>("L1PreFiringWeight_Nom");
@@ -955,10 +949,10 @@ void analysisClass::Loop()
      // Electron scale factors for MC only
      if(!isData()) {
        //  miniAOD electron Pt
-       float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
-       float ele2ECorr = readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
-       float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-       float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele2ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+       //float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
+       //float ele2ECorr = readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
+       //float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+       //float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele2ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
        //float ele1PtUncorr = readerTools_->ReadValueBranch<Float_t>("Ele1_SCEt");
        //float ele2PtUncorr = readerTools_->ReadValueBranch<Float_t>("Ele2_SCEt");
        //std::cout << "Ele1_Pt = " << readerTools_->ReadValueBranch<Float_t>("Ele1_Pt") << "; Ele1_ECorr = " << ele1ECorr << "; Ele1_SCEta = " << readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta") << std::endl;
@@ -968,28 +962,153 @@ void analysisClass::Loop()
        float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
        float recoSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_RecoSF");
        // HEEP ID
-       //float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
-       //float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
-       //recoHeepSF *= recoSFEle1*recoSFEle2*heepSFEle1*heepSFEle2;
+       float heepSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_HEEPSF");
+       float heepSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_HEEPSF");
        // EGM loose ID
        float looseSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_EGMLooseIDSF");
        float looseSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_EGMLooseIDSF");
-       recoHeepSF *= recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
+       // ZVtx 2017
+       float zVtxSF = 1.0;
        if(analysisYear==2017) {
-         float zVtxSF = ElectronScaleFactors2017::zVtxSF;
-         recoHeepSF *= zVtxSF;
+         zVtxSF = ElectronScaleFactors2017::zVtxSF;
        }
+       gen_weight*=zVtxSF;
        // add trigger scale factor
-       // FIXME TODO: should be using the electron matched to the trigger object only
-       //float trigSFEle1 = triggerScaleFactorReader.LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verbose);
-       //float trigSFEle2 = triggerScaleFactorReader.LookupValue(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verbose);
-       float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
-       float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
-       float totalScaleFactor = recoHeepSF*trigSFEle1*trigSFEle2;
-       gen_weight*=totalScaleFactor;
-       //std::cout << "trigSFEle1*trigSFEle2 = " << trigSFEle1 << "*" << trigSFEle2 << " = " << trigSFEle1*trigSFEle2 << std::endl;
-       //std::cout << "totalScaleFactor = " << totalScaleFactor << std::endl;
+       // have to modify for trigger path selection below
+       // TODO: better way of handling this
+       bool ele1PassedHLTWPTight = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerWPTightFilter");
+       bool ele1PassedHLTCaloIdVTGsfTrkIdT = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerCaloIdVTGsfTrkIdTFilter");
+       bool ele1PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerPhotonFilter");
+       bool ele2PassedHLTWPTight = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerWPTightFilter");
+       bool ele2PassedHLTCaloIdVTGsfTrkIdT = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerCaloIdVTGsfTrkIdTFilter");
+       bool ele2PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerPhotonFilter");
+       if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
+         float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
+         gen_weight*=trigSFEle1;
+       }
+       else if(ele2PassedHLTWPTight || ele2PassedHLTPhoton) {
+         float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
+         gen_weight*=trigSFEle2;
+       }
+       ////float totalScaleFactor = recoHeepSF*trigSFEle1*trigSFEle2;
+       //////std::cout << "trigSFEle1*trigSFEle2 = " << trigSFEle1 << "*" << trigSFEle2 << " = " << trigSFEle1*trigSFEle2 << std::endl;
+       //////std::cout << "totalScaleFactor = " << totalScaleFactor << std::endl;
+       //gen_weight*=recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2*trigSFEle1*trigSFEle2;
+       gen_weight*=recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
      }
+
+     //--------------------------------------------------------------------------
+     // Fill HLT
+     //--------------------------------------------------------------------------
+     int passHLT = 0;
+     bool verboseTrigEff = false;
+     if ( isData() ) {
+       if(current_file_name.find("SinglePhoton") != std::string::npos) {
+         if(analysisYear==2016) {
+           if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1) // take events triggered by Photon175 only plus those triggered by Photon175 AND Ele27/Ele115
+             passHLT = 1;
+         }
+         else {
+           if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1) // take events triggered by Photon200 only plus those triggered by Photon200 AND Ele35
+             passHLT = 1;
+         }
+       }
+       else if(current_file_name.find("SingleElectron") != std::string::npos) {
+         if(analysisYear==2016) {
+           if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") != 1 && 
+               //(readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
+               //(readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele115
+               (readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1) )
+             passHLT = 1;
+         }
+         else {
+           if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") != 1 && 
+               readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
+             passHLT = 1;
+         }
+       }
+       else if(analysisYear==2018) {
+         if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+             readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 ||
+             readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) // take events triggered by Photon200 OR Ele32 OR Ele115
+           passHLT = 1;
+       }
+       //if(current_file_name.find("SingleElectron") != std::string::npos) {
+       //  if(analysisYear==2016) {
+       //    if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") != 1 &&
+       //        (readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
+       //        //(readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele115
+       //      //(readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1) ) // take events triggered only by Ele27
+       //        passHLT = 1;
+       //  }
+       //  else {
+       //    if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") != 1 && 
+       //        readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
+       //      passHLT = 1;
+       //  }
+       //}
+       //else if(analysisYear==2018) {
+       //  if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+       //      readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 ||
+       //      readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) // take events triggered by Photon200 OR Ele32 OR Ele115
+       //    passHLT = 1;
+       //}
+     }
+     else
+     {
+       //// a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+       ////   we get two chances to pass since we may have two electrons in the event
+       //// trigger efficiency is binned in SCEta and SCEt (uncorrected)
+       //// FIXME if used with stock nano...
+       //// uncorrect the Pt, if there is a nonzero ecorr stored
+       //float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
+       //float ele2ECorr = readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
+       //float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+       //float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+       ////std::cout << "INFO: ele1PtUncorr = Ele1_Pt / Ele1_ECorr = " << readerTools_->ReadValueBranch<Float_t>("Ele1_Pt") << " / " << readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr") << " = " << ele1PtUncorr << std::endl;
+       //passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verboseTrigEff) ? 1 : 0;
+       //if(!passHLT) { // if the first one doesn't pass, try the second one
+       //  //std::cout << "INFO: ele2PtUncorr = Ele2_Pt / Ele2_ECorr = " << readerTools_->ReadValueBranch<Float_t>("Ele2_Pt") << " / " << readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr") << " = " << ele2PtUncorr << std::endl;
+       //  passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verboseTrigEff) ? 1 : 0;
+       //}
+       // using trigger scale factors
+       if(analysisYear==2016) {
+         if (//readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
+             // XXX SIC: exclude Ele115 for now
+             //readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
+             readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 )
+           passHLT = 1;
+       }
+       else if(analysisYear==2017) {
+         if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+             readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 )
+           passHLT = 1;
+       }
+       else if(analysisYear==2018) {
+         if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+             readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
+             readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 )
+           passHLT = 1;
+       }
+     }
+     fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
+
+     //--------------------------------------------------------------------------
+     // Calculate variables for trigger matching 
+     //--------------------------------------------------------------------------
+
+     int nEle_hltMatched = 0.0;
+     //FIXME reduced skim
+     //if ( Ele1_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
+     //if ( Ele2_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
+
+     int nJet_hltMatched = 0.0;
+     if ( readerTools_->ReadValueBranch<Float_t>("Jet1_hltJetPt") > 0.0 ) nJet_hltMatched++;
+     if ( readerTools_->ReadValueBranch<Float_t>("Jet2_hltJetPt") > 0.0 ) nJet_hltMatched++;
+
+     fillVariableWithValue("nEle_hltMatched",nEle_hltMatched, gen_weight * pileup_weight  );
+     fillVariableWithValue("nJet_hltMatched",nJet_hltMatched, gen_weight * pileup_weight  );
+
 
      //--------------------------------------------------------------------------
      // First variable to fill just shows the "reweighting".  Always passes.
@@ -997,7 +1116,6 @@ void analysisClass::Loop()
 
      // TEST
      //gen_weight = gen_weight > 0 ? 1.0 : -1.0;
-     //gen_weight = 1.0;
      //pileup_weight = 1.0;
      fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
 
@@ -1064,115 +1182,24 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
      // we filled these at skim time
-     fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Float_t>("PassGlobalSuperTightHalo2016Filter")     == 1), gen_weight * pileup_weight);
-     fillVariableWithValue("PassGoodVertices"                   , int(readerTools_->ReadValueBranch<Float_t>("PassGoodVertices")                       == 1), gen_weight * pileup_weight);
-     fillVariableWithValue("PassHBHENoiseFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseFilter")                    == 1), gen_weight * pileup_weight);
-     fillVariableWithValue("PassHBHENoiseIsoFilter"             , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseIsoFilter")                 == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , readerTools_->ReadValueBranch<Bool_t>("PassGlobalSuperTightHalo2016Filter")     , gen_weight * pileup_weight);
+     fillVariableWithValue("PassGoodVertices"                   , readerTools_->ReadValueBranch<Bool_t>("PassGoodVertices")                       , gen_weight * pileup_weight);
+     fillVariableWithValue("PassHBHENoiseFilter"                , readerTools_->ReadValueBranch<Bool_t>("PassHBHENoiseFilter")                    , gen_weight * pileup_weight);
+     fillVariableWithValue("PassHBHENoiseIsoFilter"             , readerTools_->ReadValueBranch<Bool_t>("PassHBHENoiseIsoFilter")                 , gen_weight * pileup_weight);
      // eBadScFilter not suggested for MC
      if(isData())
-       fillVariableWithValue("PassBadEESupercrystalFilter"      , int(readerTools_->ReadValueBranch<Float_t>("PassBadEESupercrystalFilter")            == 1), gen_weight * pileup_weight);
+       fillVariableWithValue("PassBadEESupercrystalFilter"      , readerTools_->ReadValueBranch<Bool_t>("PassBadEESupercrystalFilter")            , gen_weight * pileup_weight);
      else
-       fillVariableWithValue("PassBadEESupercrystalFilter"      , 1                                                                                          , gen_weight * pileup_weight);
-     fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Float_t>("PassEcalDeadCellTrigPrim")               == 1), gen_weight * pileup_weight);
+       fillVariableWithValue("PassBadEESupercrystalFilter"      , 1                                                                                , gen_weight * pileup_weight);
+     fillVariableWithValue("PassEcalDeadCellTrigPrim"           , readerTools_->ReadValueBranch<Bool_t>("PassEcalDeadCellTrigPrim")               , gen_weight * pileup_weight);
      // not recommended
-     //fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueBranch<Float_t>("PassChargedCandidateFilter")             == 1), gen_weight * pileup_weight);
-     fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassBadPFMuonFilter")                    == 1), gen_weight * pileup_weight);
+     //fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueB<Float_t>("PassChargedCandidateFilter")            == 1), gen_weight * pileup_weight);
+     fillVariableWithValue("PassBadPFMuonFilter"                , readerTools_->ReadValueBranch<Bool_t>("PassBadPFMuonFilter")                    , gen_weight * pileup_weight);
      // EcalBadCalibV2 for 2017, 2018
      if(analysisYear > 2016)
-       fillVariableWithValue("PassEcalBadCalibV2Filter"         , int(readerTools_->ReadValueBranch<Float_t>("PassEcalBadCalibV2Filter")               == 1), gen_weight * pileup_weight);
+       fillVariableWithValue("PassEcalBadCalibV2Filter"         , readerTools_->ReadValueBranch<Bool_t>("PassEcalBadCalibV2Filter")               , gen_weight * pileup_weight);
      else
-       fillVariableWithValue("PassEcalBadCalibV2Filter"         , 1                                                                                          , gen_weight * pileup_weight);
-
-     //--------------------------------------------------------------------------
-     // Fill HLT
-     //--------------------------------------------------------------------------
-
-     int passHLT = 0;
-     bool verboseTrigEff = false;
-     if ( isData() ) { 
-       if(current_file_name.find("SinglePhoton") != std::string::npos) {
-         if(analysisYear==2016) {
-           if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1) // take events triggered by Photon175 only plus those triggered by Photon175 AND Ele27/Ele115
-             passHLT = 1;
-         }
-         else {
-           if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1) // take events triggered by Photon200 only plus those triggered by Photon200 AND Ele35
-             passHLT = 1;
-         }
-       }
-       else if(current_file_name.find("SingleElectron") != std::string::npos) {
-         if(analysisYear==2016) {
-           if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") != 1 && 
-               (readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
-               //(readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele115
-             passHLT = 1;
-         }
-         else {
-           if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") != 1 && 
-               readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
-             passHLT = 1;
-         }
-       }
-       else if(analysisYear==2018) {
-         if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) // take events triggered by Photon200 OR Ele32 OR Ele115
-           passHLT = 1;
-       }
-     }
-     else
-     {
-       //// a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
-       ////   we get two chances to pass since we may have two electrons in the event
-       //// trigger efficiency is binned in SCEta and SCEt (uncorrected)
-       //// FIXME if used with stock nano...
-       //// uncorrect the Pt, if there is a nonzero ecorr stored
-       //float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
-       //float ele2ECorr = readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
-       //float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-       //float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
-       ////std::cout << "INFO: ele1PtUncorr = Ele1_Pt / Ele1_ECorr = " << readerTools_->ReadValueBranch<Float_t>("Ele1_Pt") << " / " << readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr") << " = " << ele1PtUncorr << std::endl;
-       //passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verboseTrigEff) ? 1 : 0;
-       //if(!passHLT) { // if the first one doesn't pass, try the second one
-       //  //std::cout << "INFO: ele2PtUncorr = Ele2_Pt / Ele2_ECorr = " << readerTools_->ReadValueBranch<Float_t>("Ele2_Pt") << " / " << readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr") << " = " << ele2PtUncorr << std::endl;
-       //  passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verboseTrigEff) ? 1 : 0;
-       //}
-       // using trigger scale factors
-       if(analysisYear==2016) {
-         if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 )
-           passHLT = 1;
-       }
-       else if(analysisYear==2017) {
-         if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 )
-           passHLT = 1;
-       }
-       else if(analysisYear==2018) {
-         if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
-             readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 )
-           passHLT = 1;
-       }
-     }
-     fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
-
-     //--------------------------------------------------------------------------
-     // Calculate variables for trigger matching 
-     //--------------------------------------------------------------------------
-
-     int nEle_hltMatched = 0.0;
-     //FIXME reduced skim
-     //if ( Ele1_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
-     //if ( Ele2_hltEleSignalPt > 0.0 ) nEle_hltMatched++;
-
-     int nJet_hltMatched = 0.0;
-     if ( readerTools_->ReadValueBranch<Float_t>("Jet1_hltJetPt") > 0.0 ) nJet_hltMatched++;
-     if ( readerTools_->ReadValueBranch<Float_t>("Jet2_hltJetPt") > 0.0 ) nJet_hltMatched++;
-
-     fillVariableWithValue("nEle_hltMatched",nEle_hltMatched, gen_weight * pileup_weight  );
-     fillVariableWithValue("nJet_hltMatched",nJet_hltMatched, gen_weight * pileup_weight  );
+       fillVariableWithValue("PassEcalBadCalibV2Filter"         , 1                                                                                , gen_weight * pileup_weight);
 
      //--------------------------------------------------------------------------
      // Pass number of muons & electrons 
@@ -1186,8 +1213,8 @@ void analysisClass::Loop()
      // NB: we are doing data-driven ttbar separately so this shouldn't be the case here
 
      int PassNEle = 0;
-     double nEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nEle_ptCut");
-     // nEle_ptCut are HEEP ID'ed electrons passing the Pt cut in the skim
+     // nEle_ptCut are ID'ed electrons passing the Pt cut in the skim
+     int nEle_ptCut = readerTools_->ReadValueBranch<Int_t>("nEle_ptCut");
      //if ( !is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
      //if (  is_ttbar_from_data && nEle_ptCut == 2 ) PassNEle = 1;
      if ( !is_ttbar_from_data && nEle_ptCut >= 2 )
@@ -1196,7 +1223,7 @@ void analysisClass::Loop()
        PassNEle = 1;
 
      int PassNMuon = 0;
-     double nMuon_ptCut = readerTools_->ReadValueBranch<Float_t>("nMuon_ptCut");
+     int nMuon_ptCut = readerTools_->ReadValueBranch<Int_t>("nMuon_ptCut");
      if ( !is_ttbar_from_data && nMuon_ptCut == 0 )
        PassNMuon = 1;
      if (  is_ttbar_from_data && nMuon_ptCut >  0 )
@@ -1247,8 +1274,8 @@ void analysisClass::Loop()
      double M_ej_avg_EES_Up, M_ej_min_EES_Up, M_ej_max_EES_Up;
      double M_ej_avg_EES_Dn, M_ej_min_EES_Dn, M_ej_max_EES_Dn;
 
-     double nEle_store = readerTools_->ReadValueBranch<Float_t>("nEle_store");
-     double nJet_store = readerTools_->ReadValueBranch<Float_t>("nJet_store");
+     int nEle_store = readerTools_->ReadValueBranch<Int_t>("nEle_store");
+     int nJet_store = readerTools_->ReadValueBranch<Int_t>("nJet_store");
      M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
      M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
      M_e2j1 = readerTools_->ReadValueBranch<Float_t>("M_e2j1");
@@ -1380,19 +1407,19 @@ void analysisClass::Loop()
      Jet3_Phi = readerTools_->ReadValueBranch<Float_t>("Jet3_Phi");
      Jet3_Eta = readerTools_->ReadValueBranch<Float_t>("Jet3_Eta");
 
-     double nJet_ptCut = readerTools_->ReadValueBranch<Float_t>("nJet_ptCut");
+     int nJet_ptCut = readerTools_->ReadValueBranch<Int_t>("nJet_ptCut");
      DR_Jet1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Jet1Jet2");
      // Jets								    
      fillVariableWithValue("nJet", nJet_ptCut, gen_weight * pileup_weight );
-     if ( nJet_store >= 1 ) { 						    
-       fillVariableWithValue( "Jet1_Pt"    , readerTools_->ReadValueBranch<Float_t>("Jet1_Pt")     , gen_weight * pileup_weight  ) ;
-       fillVariableWithValue( "Jet1_Eta"   , readerTools_->ReadValueBranch<Float_t>("Jet1_Eta")    , gen_weight * pileup_weight  ) ;
-     }
-     if ( nJet_store >= 2 ) { 
-       fillVariableWithValue( "Jet2_Pt"    , readerTools_->ReadValueBranch<Float_t>("Jet2_Pt")     , gen_weight * pileup_weight  ) ;
-       fillVariableWithValue( "Jet2_Eta"   , readerTools_->ReadValueBranch<Float_t>("Jet2_Eta")    , gen_weight * pileup_weight  ) ;
+     //if ( nJet_store >= 1 ) {
+       fillVariableWithValue( "Jet1_Pt"    , Jet1_Pt     , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Jet1_Eta"   , Jet1_Eta    , gen_weight * pileup_weight  ) ;
+     //}
+     //if ( nJet_store >= 2 ) {
+       fillVariableWithValue( "Jet2_Pt"    , Jet2_Pt     , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Jet2_Eta"   , Jet2_Eta    , gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "DR_Jet1Jet2", DR_Jet1Jet2 , gen_weight * pileup_weight  ) ;
-     }
+     //}
 
      //--------------------------------------------------------------------------
      // Fill DeltaR variables
@@ -1402,14 +1429,14 @@ void analysisClass::Loop()
      DR_Ele2Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet1");
      DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
      DR_Ele2Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet2");
-     if ( nEle_store >= 2 && nJet_store >= 1) {
+     //if ( nEle_store >= 2 && nJet_store >= 1) {
        fillVariableWithValue( "DR_Ele1Jet1"  , DR_Ele1Jet1, gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "DR_Ele2Jet1"  , DR_Ele2Jet1 , gen_weight * pileup_weight  ) ;
-       if(nJet_store >= 2) {
+       //if(nJet_store >= 2) {
          fillVariableWithValue( "DR_Ele1Jet2", DR_Ele1Jet2 , gen_weight * pileup_weight  ) ;
          fillVariableWithValue( "DR_Ele2Jet2", DR_Ele2Jet2 , gen_weight * pileup_weight  ) ;
-       }
-     }
+       //}
+     //}
 
 
      //--------------------------------------------------------------------------
@@ -1444,10 +1471,11 @@ void analysisClass::Loop()
        // for Ptee cut
        fillVariableWithValue( "Pt_e1e2"    , Pt_e1e2 , gen_weight * pileup_weight  ) ;
 
+       fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
+
        if ( nJet_store >= 2 ) { 
          // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
          //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
-         fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
          //fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
          //fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
          //fillVariableWithValue( "Mej_asym_opt", M_ej_asym, gen_weight * pileup_weight  ) ;
@@ -1507,11 +1535,11 @@ void analysisClass::Loop()
      double Jet3_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet3_btag"+btagAlgo);
      double Jet4_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet4_btag"+btagAlgo);
      double Jet5_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet5_btag"+btagAlgo);
-     int Jet1_flavor = readerTools_->ReadValueBranch<Float_t>("Jet1_HadronFlavor");
-     int Jet2_flavor = readerTools_->ReadValueBranch<Float_t>("Jet2_HadronFlavor");
-     int Jet3_flavor = readerTools_->ReadValueBranch<Float_t>("Jet3_HadronFlavor");
-     int Jet4_flavor = readerTools_->ReadValueBranch<Float_t>("Jet4_HadronFlavor");
-     int Jet5_flavor = readerTools_->ReadValueBranch<Float_t>("Jet5_HadronFlavor");
+     int Jet1_flavor = readerTools_->ReadValueBranch<Int_t>("Jet1_HadronFlavor");
+     int Jet2_flavor = readerTools_->ReadValueBranch<Int_t>("Jet2_HadronFlavor");
+     int Jet3_flavor = readerTools_->ReadValueBranch<Int_t>("Jet3_HadronFlavor");
+     int Jet4_flavor = readerTools_->ReadValueBranch<Int_t>("Jet4_HadronFlavor");
+     int Jet5_flavor = readerTools_->ReadValueBranch<Int_t>("Jet5_HadronFlavor");
      std::string sfSuffix = btagWP+btagAlgo;
      double Jet1_btagSF = Jet1_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix+"Comb");
      double Jet2_btagSF = Jet2_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix+"Comb");
@@ -1641,7 +1669,7 @@ void analysisClass::Loop()
      // Fill noise filter level plots
      //--------------------------------------------------------------------------
 
-     double nVertex = readerTools_->ReadValueBranch<Float_t>("nVertex");
+     int nVertex = readerTools_->ReadValueBranch<Int_t>("nVertex");
      if ( passed_minimum && isData() ){ 
        FillUserTH1D ("run_HLT", run );
        FillUserTProfile("run_vs_nvtx_HLT", run, nVertex, 1);
@@ -1651,26 +1679,48 @@ void analysisClass::Loop()
      // Print if desired
      //--------------------------------------------------------------------------
 
-     /*
-     if ( isData ) {
-       std::cout.precision(0);
-       std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
-       std::cout.precision(3);
-       std::cout << fixed <<  "  Mej      = " << M_ej_avg << std::endl;
-       std::cout << fixed <<  "  Mee      = " << M_e1e2 << std::endl;
-       std::cout << fixed <<  "  sT       = " << sT_enujj << std::endl;
-       std::cout << fixed <<  "  Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
-       std::cout << fixed <<  "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
-       std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
-       std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
-     }
-     */
+     //if ( !isData() ) {
+     //  unsigned int ls = readerTools_->ReadValueBranch<UInt_t>("ls");
+     //  unsigned long long int event = readerTools_->ReadValueBranch<ULong64_t>("event");
+     //  float recoSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_RecoSF");
+     //  float recoSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_RecoSF");
+     //  float looseSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_EGMLooseIDSF");
+     //  float looseSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_EGMLooseIDSF");
+     //  float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
+     //  float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
+     //  std::cout.precision(0);
+     //  std::cout << fixed <<  "Run = " << run << ", event = " << event << ", ls = " << ls << std::endl;
+     //  std::cout.precision(3);
+     //  std::cout << fixed <<  "  Mej      = " << M_ej_avg << std::endl;
+     //  std::cout << fixed <<  "  Mee      = " << M_e1e2 << std::endl;
+     //  std::cout << fixed <<  "  sT       = " << sT_eejj << std::endl;
+     //  std::cout << fixed <<  "  Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+     //  std::cout << fixed <<  "  Ele1 recoSF  = " << recoSFEle1 << "\t, looseSF = " << looseSFEle1 << "\t, trigSF = " << trigSFEle1 << std::endl;
+     //  std::cout << fixed <<  "  Ele2 recoSF  = " << recoSFEle2 << "\t, looseSF = " << looseSFEle2 << "\t, trigSF = " << trigSFEle2 << std::endl;
+     //  std::cout << fixed <<  "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
+     //  std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+     //  std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
+     //}
 
      //--------------------------------------------------------------------------
      // Fill preselection plots
      //--------------------------------------------------------------------------
      if ( passed_preselection ) {
 
+       //// printing
+       //unsigned int ls = readerTools_->ReadValueBranch<UInt_t>("ls");
+       //unsigned long long int event = readerTools_->ReadValueBranch<ULong64_t>("event");
+       //std::cout.precision(0);
+       //std::cout << fixed << "Run = " << run << ", ls = " << ls << ", event = " << event << std::endl;
+       //std::cout.precision(3);
+       //std::cout << fixed <<  "  Mej      = " << M_ej_avg << std::endl;
+       //std::cout << fixed <<  "  Mee      = " << M_e1e2 << std::endl;
+       //std::cout << fixed <<  "  sT       = " << sT_eejj << std::endl;
+       //std::cout << fixed <<  "  Ele1 Pt  = " << Ele1_Pt << "\t, Eta = " << Ele1_Eta << "\t, Phi = " << Ele1_Phi << std::endl;
+       ////std::cout << fixed <<  "  Ele1 dPhi  = " << Ele1_DeltaPhiTrkSC << "\t, HoE = " << Ele1_HoE << "\t, sIetaIeta = " << Ele1_SigmaIEtaIEta << std::endl;
+       //std::cout << fixed <<  "  Ele2 Pt  = " << Ele2_Pt << "\t, Eta = " << Ele2_Eta << "\t, Phi = " << Ele2_Phi << std::endl;
+       //std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
+       //std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
        //--------------------------------------------------------------------------
        // Recalculate some variables
        //--------------------------------------------------------------------------
@@ -1678,6 +1728,7 @@ void analysisClass::Loop()
        TLorentzVector e1, j1, e2, j2,j3, mu, met;
        TLorentzVector eejj, e1e2mu;
        TLorentzVector eej, ejj, ee;
+       TLorentzVector e1Uncorr, e2Uncorr, eeUncorr;
        TLorentzVector e1j3, e2j3, j1j3, j2j3, j1j2, j1j2j3, eejjj;
        double Muon1_Pt = readerTools_->ReadValueBranch<Float_t>("Muon1_Pt");
        double Muon1_Eta = readerTools_->ReadValueBranch<Float_t>("Muon1_Eta");
@@ -1698,6 +1749,11 @@ void analysisClass::Loop()
        ejj  = e1 + j1 + j2;
        ee   = e1 + e2;
        j1j2 = j1 + j2;
+
+       e1Uncorr.SetPtEtaPhiM ( Ele1_Pt/readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr"), Ele1_Eta, Ele1_Phi, 0.0 );
+       e2Uncorr.SetPtEtaPhiM ( Ele2_Pt/readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr"), Ele2_Eta, Ele2_Phi, 0.0 );
+       eeUncorr = e1Uncorr + e2Uncorr;
+       double M_e1e2Uncorr = eeUncorr.M();
 
        double min_DR_EleJet;
        double DR_Ele1Jet3;
@@ -1784,14 +1840,14 @@ void analysisClass::Loop()
        double Ele1_EcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_EcalIsolation")      ; 
        double Ele1_HcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_HcalIsolation")      ; 
        double Ele1_TrkIsolation         = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkIsolation")       ; 
-       double Ele1_HasMatchedPhot       = readerTools_->ReadValueBranch<Float_t>("Ele1_HasMatchedPhot")     ; 
+       bool Ele1_HasMatchedPhot         = readerTools_->ReadValueBranch<Bool_t>("Ele1_HasMatchedPhot")     ; 
        double Ele1_HoE                  = readerTools_->ReadValueBranch<Float_t>("Ele1_HoE")                ; 
        double Ele1_LeadVtxDistXY        = readerTools_->ReadValueBranch<Float_t>("Ele1_LeadVtxDistXY")      ; 
        double Ele1_LeadVtxDistZ         = readerTools_->ReadValueBranch<Float_t>("Ele1_LeadVtxDistZ")       ; 
-       double Ele1_MissingHits          = readerTools_->ReadValueBranch<Float_t>("Ele1_MissingHits")        ; 
+       int Ele1_MissingHits          = readerTools_->ReadValueBranch<Int_t>("Ele1_MissingHits")        ; 
        double Ele1_SCEta                = readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta");
        double Ele1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele1_Full5x5SigmaIEtaIEta");
-       double Ele1_Charge               = readerTools_->ReadValueBranch<Float_t>("Ele1_Charge");
+       int Ele1_Charge               = readerTools_->ReadValueBranch<Int_t>("Ele1_Charge");
        //double Ele1_PtHeep               = readerTools_->ReadValueBranch<Float_t>("Ele1_PtHeep");
 
        FillUserTH1D("CorrIsolation_1stEle_PAS"       ,Ele1_CorrIsolation       , pileup_weight * gen_weight    ); 
@@ -1810,20 +1866,22 @@ void analysisClass::Loop()
        else if ( fabs(Ele1_Eta) > eleEta_end1_min && fabs(Ele2_Eta) < eleEta_end2_max ){
          FillUserTH1D("Full5x5SigmaIEtaIEta_Endcap_1stEle_PAS", Ele1_Full5x5SigmaIEtaIEta                  , pileup_weight * gen_weight    ); 
        }
+       FillUserTH1D("ECorrEle1_PAS", readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr"), pileup_weight * gen_weight);
+       FillUserTH1D("ECorrEle2_PAS", readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr"), pileup_weight * gen_weight);
 
       double Ele2_CorrIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_CorrIsolation")      ; 
       double Ele2_DeltaEtaTrkSC        = readerTools_->ReadValueBranch<Float_t>("Ele2_DeltaEtaTrkSC")      ; 
       double Ele2_EcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_EcalIsolation")      ; 
       double Ele2_HcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_HcalIsolation")      ; 
       double Ele2_TrkIsolation         = readerTools_->ReadValueBranch<Float_t>("Ele2_TrkIsolation")       ; 
-      double Ele2_HasMatchedPhot       = readerTools_->ReadValueBranch<Float_t>("Ele2_HasMatchedPhot")     ; 
+      bool Ele2_HasMatchedPhot         = readerTools_->ReadValueBranch<Bool_t>("Ele2_HasMatchedPhot")     ; 
       double Ele2_HoE                  = readerTools_->ReadValueBranch<Float_t>("Ele2_HoE")                ; 
       double Ele2_LeadVtxDistXY        = readerTools_->ReadValueBranch<Float_t>("Ele2_LeadVtxDistXY")      ; 
       double Ele2_LeadVtxDistZ         = readerTools_->ReadValueBranch<Float_t>("Ele2_LeadVtxDistZ")       ; 
-      double Ele2_MissingHits          = readerTools_->ReadValueBranch<Float_t>("Ele2_MissingHits")        ; 
+      int Ele2_MissingHits          = readerTools_->ReadValueBranch<Int_t>("Ele2_MissingHits")        ; 
       double Ele2_SCEta                = readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta");
       double Ele2_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele2_Full5x5SigmaIEtaIEta");
-      double Ele2_Charge               = readerTools_->ReadValueBranch<Float_t>("Ele2_Charge");
+      int Ele2_Charge               = readerTools_->ReadValueBranch<Int_t>("Ele2_Charge");
       //double Ele2_PtHeep               = readerTools_->ReadValueBranch<Float_t>("Ele2_PtHeep");
 
        FillUserTH1D("CorrIsolation_2ndEle_PAS"       ,Ele2_CorrIsolation            , pileup_weight * gen_weight    ); 
@@ -2244,7 +2302,7 @@ void analysisClass::Loop()
        FillUserTH1D("Me2j1_PAS"             , M_e2j1                         , pileup_weight * gen_weight );
        FillUserTH1D("Me2j2_PAS"             , M_e2j2                         , pileup_weight * gen_weight );
        FillUserTH1D("Ptee_PAS"              , Pt_e1e2                        , pileup_weight * gen_weight );
-       FillUserTH1D("nVertex_PAS"           , readerTools_->ReadValueBranch<Float_t>("nVertex")                        , pileup_weight * gen_weight );
+       FillUserTH1D("nVertex_PAS"           , nVertex                        , pileup_weight * gen_weight );
        FillUserTH1D("DR_Ele1Jet1_PAS"	    , DR_Ele1Jet1                    , pileup_weight * gen_weight );
        FillUserTH1D("DR_Ele1Jet2_PAS"	    , DR_Ele1Jet2                    , pileup_weight * gen_weight );
        FillUserTH1D("DR_Ele2Jet1_PAS"	    , DR_Ele2Jet1                    , pileup_weight * gen_weight );
@@ -2448,7 +2506,10 @@ void analysisClass::Loop()
        if ( M_e1e2 > 70.0 && M_e1e2 < 110.0 ){
          FillUserTH1D("Mee_70_110_Preselection", M_e1e2, pileup_weight * gen_weight ) ;
          if ( sT_eejj > 600 ) FillUserTH1D("Mee_70_110_ST600_Preselection", M_e1e2, pileup_weight * gen_weight ) ;
-         if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_70_110_PAS", M_e1e2, pileup_weight * gen_weight ); 
+         if      ( isEBEB ) {
+           FillUserTH1D( "Mee_EBEB_70_110_PAS", M_e1e2, pileup_weight * gen_weight );
+           FillUserTH1D( "Mee_EBEB_70_110_Uncorr_PAS", M_e1e2Uncorr, pileup_weight * gen_weight );
+         }
          else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_70_110_PAS", M_e1e2, pileup_weight * gen_weight ); 
          else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_70_110_PAS", M_e1e2, pileup_weight * gen_weight ); 
          if      ( isEB   ) FillUserTH1D( "Mee_EB_70_110_PAS"  , M_e1e2, pileup_weight * gen_weight ); 
