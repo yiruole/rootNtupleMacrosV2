@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 from plot_class import GetFile, Plot, Plot2D, generateHistoList, generateHisto, GetBackgroundSyst, makeTOC
@@ -200,13 +200,14 @@ if do2016:
     if doQCD:
         samplesForStackHistos_QCD = ["QCDFakes_DATA"]
     # nominal
-    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned"]
+    #samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned"]
+    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
     # samplesForStackHistos_ZJets  = [ "ZJet_amcatnlo_Inc" ]
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
     # samplesForStackHistos_other = ["OTHERBKG_WJetPt_amcAtNLODiboson"]
     # samplesForStackHistos_other = ["OTHERBKG_WJetAMCInc_amcAtNLODiboson"]
     # samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"] # preUL
-    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO"]  # UL
+    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_tribosonGJetsTTX"]  # UL
     # samplesForStackHistos_other = ["OTHERBKG_WJetAMCPtBinned_dibosonNLO_triboson"]
     # MC ttbar
     # samplesForStackHistos_ttbar = [ "TTbar_amcatnlo_Inc" ]
@@ -219,7 +220,9 @@ if do2016:
         # "QCD multijet (MC)",
         "Other backgrounds",
         "t#bar{t} (powheg)",
-        "Z/#gamma* + jets (MG5_aMC Pt)",
+        #"Z/#gamma* + jets (MG5_aMC Pt)",
+        "Z/#gamma* + jets (MG5_aMC Pt+IncStitch)",
+        # "Z/#gamma* + jets (MG5_aMC Inc.)",
     ])
 elif do2017:
     ilumi = "41.5"
@@ -330,6 +333,8 @@ samplesForHistos_blank = []
 keys_blank = []
 
 sampleForDataHisto = "DATA"
+#sampleForDataHisto = "SingleElectron_2016_HIPM"
+#sampleForDataHisto = "SingleElectron_2016"
 # dataBlindAbovePt1 = 800 # GeV; used for ele Pt1, Mee, Mej
 # dataBlindAbovePt2 = 400 # for ele pt2
 # dataBlindAboveSt = 1500 # for St plots
