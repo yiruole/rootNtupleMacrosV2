@@ -33,7 +33,7 @@ template < class Object1, class Object2 >
 double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_object, double delta_r_cut, bool verbose=false ){
   double matched_pt = -999.0;
   if ( collection ) { 
-    int size = collection -> GetSize();
+    unsigned int size = collection -> GetSize();
     if ( size > 0 ){ 
       if(verbose) {
         std::cout << "triggerMatchPt(): try to find closest object in DR to object: " << target_object << "from collection: " << std::endl;
@@ -41,9 +41,6 @@ double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_objec
       }
       Object1 matched_object = collection -> GetClosestInDR <Object1, Object2> ( target_object );
       double dr = matched_object.DeltaR ( & target_object );
-      if(verbose) {
-        std::cout << "found matched_object: " << matched_object << " with dR=" << dr << std::endl;
-      }
       if ( dr < delta_r_cut ) { 
         matched_pt = matched_object.Pt();
         if(verbose) {
@@ -119,8 +116,8 @@ void analysisClass::Loop()
   // Trigger scale factors
   //--------------------------------------------------------------------------
   std::string trigSFFileName = getPreCutString1("TriggerSFFileName");
-  //std::string graphName = getPreCutString1("TriggerEfficiencyGraphName");
-  HistoReader triggerScaleFactorReader(trigSFFileName,"SF_TH2F_Barrel","SF_TH2F_EndCap",false,false);
+  //HistoReader triggerScaleFactorReader(trigSFFileName,"SF_TH2F_Barrel","SF_TH2F_EndCap",false,false);
+  HistoReader triggerScaleFactorReader(trigSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false);
 
   //--------------------------------------------------------------------------
   // EGM scale factors
@@ -215,8 +212,8 @@ void analysisClass::Loop()
   // Create HLT collections in advance (won't need all of them)
   //--------------------------------------------------------------------------
   
-  // QCD photon filters
-  CollectionPtr c_hltPhoton_QCD_all;
+  // trigger objects matching filters/ID
+  CollectionPtr c_hlTriggerObjects_filterBits_id;
 
   // muon filter
   CollectionPtr c_hltMuon_SingleMu_all;
@@ -262,20 +259,14 @@ void analysisClass::Loop()
    *///-----------------------------------------------------------------
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
-    //// test
-    //double event = readerTools_->ReadValueBranch<ULong64_t>("event");
-    //double ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
-    //double run = readerTools_->ReadValueBranch<UInt_t>("run");
-    //if(event!=21273 && event!=21288) continue;
-    //if(ls!=227) continue;
-    //// run ls event
-    ////std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
+    // run ls event
+    //unsigned long long int event = readerTools_->ReadValueBranch<ULong64_t>("event");
+    //unsigned int ls = readerTools_->ReadValueBranch<UInt_t>("luminosityBlock");
+    //unsigned int run = readerTools_->ReadValueBranch<UInt_t>("run");
+    //std::cout << run << " " << ls << " " << event << std::endl;
     ////std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
     ////cout << "Found the event! in file:" << current_file_name << endl;
-    //if(jentry==0)
-    //  std::cout << "WARNING WARNING WARNING -- ONLY RUNNING OVER FIRST 100 ENTRIES!" << std::endl;
-    //if(jentry > 100) continue;
-    ////test
+    //if(jentry > 10000) continue;
 
     //-----------------------------------------------------------------
     // Print progress
@@ -297,8 +288,9 @@ void analysisClass::Loop()
 
     // QCD photon triggers
     std::vector<int> typeIds {11, 22};
-    c_hltPhoton_QCD_all = helper.GetFilterObjectsByType(typeIds);
-    //c_hltPhoton_QCD_all->examine<HLTriggerObject>("c_hltPhoton_QCD_all");
+    std::vector<unsigned int> filterBits {1, 11, 13}; // in nanoAODv9 for UL, these represent the 3 filters of Ele27/35/32, Ele115, Photon175/200
+    c_hlTriggerObjects_filterBits_id = helper.GetTriggerObjectsByFilterBitAndType(filterBits, typeIds);
+    //c_hlTriggerObjects_filterBits_id->examine<HLTriggerObject>("c_hlTriggerObjects_filterBits_id");
 
     //else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4){
 
@@ -440,14 +432,6 @@ void analysisClass::Loop()
 
     v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
     //v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
-
-    //FIXME
-    //(*PFMETType1Cor      )[0] = v_PFMETType1Cor   .Pt();
-    //(*PFMETType1XYCor   )[0] = v_PFMETType1XYCor.Pt();
-    //
-    //FIXME
-    //(*PFMETPhiType1Cor   )[0] = v_PFMETType1Cor   .Phi();
-    //(*PFMETPhiType1XYCor)[0] = v_PFMETType1XYCor.Phi();
 
     // new systematics handling for electron energy resolution and scale
     std::vector<Electron> smearedEles;
@@ -644,7 +628,7 @@ void analysisClass::Loop()
       puWeightUp = cset_pu->evaluate({nTrueInteractions, "up"});
       puWeightDn = cset_pu->evaluate({nTrueInteractions, "down"});  
       if(puWeight==0)
-        std::cout << "Got puWeight = " << puWeight << "; run: " << getVariableValue("run") << " ls: " << getVariableValue("ls") << " event: " << getVariableValue("event") << std::endl;
+        std::cout << "Got puWeight = " << puWeight << "; run: " << getVariableValue<unsigned int>("run") << " ls: " << getVariableValue<unsigned int>("ls") << " event: " << getVariableValue<long long unsigned int>("event") << std::endl;
     }
     fillVariableWithValue( "puWeight"   , puWeight   );
     fillVariableWithValue( "puWeight_Up"   , puWeightUp   );
@@ -666,18 +650,18 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Pass JSON
     //-----------------------------------------------------------------
-    fillVariableWithValue("PassJSON"                   , passJSON(getVariableValue("run"), getVariableValue("ls"), isData())                       );    
+    fillVariableWithValue("PassJSON"                   , passJSON(getVariableValue<unsigned int>("run"), getVariableValue<unsigned int>("ls"), isData())                       );    
 
     //-----------------------------------------------------------------
     // Fill MET filter values
     // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     //-----------------------------------------------------------------
-    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Bool_t>("Flag_globalSuperTightHalo2016Filter")          == 1));
-    fillVariableWithValue("PassGoodVertices"              , int(readerTools_->ReadValueBranch<Bool_t>("Flag_goodVertices")                       == 1));
-    fillVariableWithValue("PassHBHENoiseFilter"           , int(readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseFilter")                    == 1));
-    fillVariableWithValue("PassHBHENoiseIsoFilter"        , int(readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseIsoFilter")                 == 1));
-    fillVariableWithValue("PassBadEESupercrystalFilter"   , int(readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter")                      == 1));
-    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , int(readerTools_->ReadValueBranch<Bool_t>("Flag_EcalDeadCellTriggerPrimitiveFilter") == 1));
+    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , readerTools_->ReadValueBranch<Bool_t>("Flag_globalSuperTightHalo2016Filter"));
+    fillVariableWithValue("PassGoodVertices"              , readerTools_->ReadValueBranch<Bool_t>("Flag_goodVertices"));
+    fillVariableWithValue("PassHBHENoiseFilter"           , readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseFilter"));
+    fillVariableWithValue("PassHBHENoiseIsoFilter"        , readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseIsoFilter"));
+    fillVariableWithValue("PassBadEESupercrystalFilter"   , readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter"));
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"      , readerTools_->ReadValueBranch<Bool_t>("Flag_EcalDeadCellTriggerPrimitiveFilter"));
     std::string branchName = "Flag_BadChargedCandidateFilter";
     //std::string branchType = std::string(readerTools_->GetTree()->GetBranch(branchName.c_str())->GetLeaf(branchName.c_str())->GetTypeName());
     ////std::cout << "Found branchType=" << branchType << std::endl;
@@ -689,20 +673,22 @@ void analysisClass::Loop()
     //  fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<UChar_t>(branchName)          == 1));
     //  fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<UChar_t>("Flag_BadPFMuonFilter")                    == 1));
     //}
-    fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
-    fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter")                    == 1));
+    fillVariableWithValue("PassChargedCandidateFilter"    , readerTools_->ReadValueBranch<Bool_t>(branchName));
+    fillVariableWithValue("PassBadPFMuonFilter"           , readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter"));
     // for 2017 and 2018 only
     if(hasBranch("Flag_ecalBadCalibFilterV2"))
-      fillVariableWithValue("PassEcalBadCalibV2Filter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
+      fillVariableWithValue("PassEcalBadCalibV2Filter"    , readerTools_->ReadValueBranch<Bool_t>(branchName));
     else
-      fillVariableWithValue("PassEcalBadCalibV2Filter"    , 1);
+      fillVariableWithValue("PassEcalBadCalibV2Filter"    , true);
 
     //-----------------------------------------------------------------
     // Fill MET values
     //-----------------------------------------------------------------
 
-    fillVariableWithValue("PFMET_Type1_Pt"     , readerTools_->ReadValueBranch<Float_t>("MET_pt"));      
-    fillVariableWithValue("PFMET_Type1_Phi"    , readerTools_->ReadValueBranch<Float_t>("MET_phi"));
+    //fillVariableWithValue("PFMET_Type1_Pt"     , readerTools_->ReadValueBranch<Float_t>("MET_pt"));      
+    //fillVariableWithValue("PFMET_Type1_Phi"    , readerTools_->ReadValueBranch<Float_t>("MET_phi"));
+    fillVariableWithValue("PFMET_Type1_Pt"     , float(v_PFMETType1Cor.Pt()));      
+    fillVariableWithValue("PFMET_Type1_Phi"    , float(v_PFMETType1Cor.Phi()));
     //fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
     //fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
 
@@ -713,10 +699,10 @@ void analysisClass::Loop()
         // add LHE variables if needed
         if(hasBranch("LHE_Vpt")) {
           fillVariableWithValue("LHE_Vpt"	  , readerTools_->ReadValueBranch<Float_t>("LHE_Vpt"));
-          fillVariableWithValue("LHE_NpLO"	, readerTools_->ReadValueBranch<UChar_t>("LHE_NpLO"));
-          fillVariableWithValue("LHE_NpNLO"	, readerTools_->ReadValueBranch<UChar_t>("LHE_NpNLO"));
-          fillVariableWithValue("LHE_Njets"	, readerTools_->ReadValueBranch<UChar_t>("LHE_Njets"));
-          fillVariableWithValue("LHE_Nglu"	, readerTools_->ReadValueBranch<UChar_t>("LHE_Nglu"));
+          fillVariableWithValue("LHE_NpLO"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_NpLO")));
+          fillVariableWithValue("LHE_NpNLO"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_NpNLO")));
+          fillVariableWithValue("LHE_Njets"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_Njets")));
+          fillVariableWithValue("LHE_Nglu"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_Nglu")));
         }
         if(hasBranch("LHEPdfWeight"))
           fillArrayVariableWithValue("LHEPdfWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEPdfWeight"));
@@ -988,9 +974,11 @@ void analysisClass::Loop()
     fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
     fillVariableWithValue ("nHighEtaJet_ptCut", n_jet_highEta_ptCut );
 
-    int n_filters = c_hltPhoton_QCD_all -> GetSize();
-
-    for(int iEle = 0; iEle < getVariableValue("nEle_store"); ++iEle) {
+    //c_ele_all->examine<Electron>("c_ele_all");
+    //c_ele_final->examine<Electron>("c_ele_final");
+    if(getVariableValue<int>("nEle_store") < 1)
+      fillVariableWithValue( "Ele1_Pt", -1.0);
+    for(int iEle = 0; iEle < getVariableValue<int>("nEle_store"); ++iEle) {
       Electron ele = c_ele_final -> GetConstituent<Electron>(iEle);
       std::string prefix = "Ele"+std::to_string(iEle+1);
       //if(fabs(ele1.Eta()) >= 1.4442 && fabs(ele1.Eta()) <= 1.566)
@@ -998,11 +986,33 @@ void analysisClass::Loop()
       //double hltEle1Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
       //double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
       //double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
-      double hltPhotonPt = -999.;
-      if ( n_filters != 0 ) {
-        //std::cout << "we have at least one photon trigger object. try to triggerMatchPt" << std::endl;
-        hltPhotonPt = triggerMatchPt<HLTriggerObject, Electron>(c_hltPhoton_QCD_all, ele, ele_hltMatch_DeltaRCut);
+      unsigned int n_trigObjs = c_hlTriggerObjects_filterBits_id -> GetSize();
+      float matchedHLTriggerObjectPt = -999.;
+      bool passedHLTriggerWPTightFilter = false;
+      bool passedHLTriggerCaloIdVTGsfTrkIdTFilter = false;
+      bool passedHLTriggerPhotonFilter = false;
+      if ( n_trigObjs > 0 ) {
+        //c_hlTriggerObjects_filterBits_id->examine<HLTriggerObject>("c_hlTriggerObjects_filterBits_id");
+        //matchedHLTriggerObjectPt = triggerMatchPt<HLTriggerObject, Electron>(c_hlTriggerObjects_filterBits_id, ele, ele_hltMatch_DeltaRCut);
+        //matchedHLTriggerObjectPt = triggerMatchPt<HLTriggerObject, Electron>(c_hlTriggerObjects_filterBits_id, ele, ele_hltMatch_DeltaRCut, true);
+        //HLTriggerObject matchedObject = c_hlTriggerObjects_filterBits_id->GetClosestInDR<HLTriggerObject, Electron>(ele);
+        HLTriggerObject matchedObject;
+        //bool matched = ele.template MatchByDRAndDPt<HLTriggerObject>(c_hlTriggerObjects_filterBits_id, matchedObject, ele_hltMatch_DeltaRCut, 30 );
+        bool matched = ele.template MatchByDR<HLTriggerObject>(c_hlTriggerObjects_filterBits_id, matchedObject, ele_hltMatch_DeltaRCut);
+        if(matched) {
+          matchedHLTriggerObjectPt = matchedObject.Pt();
+          float dR = matchedObject.DeltaR(&ele);
+          float dPt = matchedObject.DeltaPt(&ele);
+          passedHLTriggerWPTightFilter = matchedObject.PassedFilterBit(1);
+          passedHLTriggerCaloIdVTGsfTrkIdTFilter = matchedObject.PassedFilterBit(11);
+          passedHLTriggerPhotonFilter = matchedObject.PassedFilterBit(13);
+          //std::cout << "\t--> Matched a trigger object with pT=" << matchedHLTriggerObjectPt << " to electron; dR=" << dR << ", dPt=" << dPt << std::endl <<
+          //  "\t\t" << matchedObject << "; passedWPTight=" << passedHLTriggerWPTightFilter << ", passedCaloId=" << passedHLTriggerCaloIdVTGsfTrkIdTFilter << 
+          //  ", passedPhoton=" << passedHLTriggerPhotonFilter << std::endl;
+          c_hlTriggerObjects_filterBits_id->RemoveConstituent(matchedObject); // remove so that we can't match it with another electron
+        }
       }
+      //std::cout << "\t" << ele << std::endl;
       if(reducedSkimType == 0)
         fillVariableWithValue( prefix+"_Pt"            , ele.PtUncorr()           );
       else
@@ -1062,7 +1072,10 @@ void analysisClass::Loop()
       fillVariableWithValue( prefix+"_PassEGammaLooseGsfEleConversionVetoCut"       ,ele.PassEGammaIDLooseGsfEleConversionVetoCut       () );
       fillVariableWithValue( prefix+"_PassEGammaLooseGsfEleMissingHitsCut"          ,ele.PassEGammaIDLooseGsfEleMissingHitsCut          () );
 
-      fillVariableWithValue( prefix+"_hltPhotonPt"  , hltPhotonPt );
+      fillVariableWithValue( prefix+"_MatchedHLTriggerObjectPt"  , matchedHLTriggerObjectPt );
+      fillVariableWithValue( prefix+"_PassedHLTriggerWPTightFilter"  , passedHLTriggerWPTightFilter );
+      fillVariableWithValue( prefix+"_PassedHLTriggerCaloIdVTGsfTrkIdTFilter"  , passedHLTriggerCaloIdVTGsfTrkIdTFilter );
+      fillVariableWithValue( prefix+"_PassedHLTriggerPhotonFilter"  , passedHLTriggerPhotonFilter );
 
       //fillVariableWithValue( prefix+"_hltEleSignalPt", hltEle1Pt_signal          );
       //fillVariableWithValue( prefix+"_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
@@ -1078,6 +1091,7 @@ void analysisClass::Loop()
       if(!isData()) {
         fillVariableWithValue( prefix+"_TrigSF" , triggerScaleFactorReader.LookupValue(ele.SCEta(), ele.Pt()) );
         fillVariableWithValue( prefix+"_TrigSF_Err" , triggerScaleFactorReader.LookupValueError(ele.SCEta(), ele.Pt()) );
+        //if(ele.PtUncorr() >= 10) {
         if(ele.Pt() >= 10) {
           float recoSF = ele.Pt() >= 20 ? cset_ulEGMID->evaluate({analysisYear, "sf", "RecoAbove20", ele.SCEta(), ele.Pt()}) : cset_ulEGMID->evaluate({analysisYear, "sf", "RecoBelow20", ele.SCEta(), ele.Pt()});
           float recoSFUp = ele.Pt() >= 20 ? cset_ulEGMID->evaluate({analysisYear, "sfup", "RecoAbove20", ele.SCEta(), ele.Pt()}) : cset_ulEGMID->evaluate({analysisYear, "sfup", "RecoBelow20", ele.SCEta(), ele.Pt()});
@@ -1093,16 +1107,16 @@ void analysisClass::Loop()
         fillVariableWithValue( prefix+"_HEEPSF_Err",ElectronScaleFactorsRunII::LookupHeepSFSyst(ele.SCEta(), ele.Pt(), analysisYearInt) );
       }
       else {
-        fillVariableWithValue( prefix+"_TrigSF"          , 1.0);
-        fillVariableWithValue( prefix+"_TrigSF_Err"      , 0.0);
-        fillVariableWithValue( prefix+"_RecoSF"          , 1.0);
-        fillVariableWithValue( prefix+"_RecoSF_Up"       , 0.0);
-        fillVariableWithValue( prefix+"_RecoSF_Dn"       , 0.0);
-        fillVariableWithValue( prefix+"_EGMLooseIDSF"    , 1.0);
-        fillVariableWithValue( prefix+"_EGMLooseIDSF_Up" , 0.0);
-        fillVariableWithValue( prefix+"_EGMLooseIDSF_Dn" , 0.0);
-        fillVariableWithValue( prefix+"_HEEPSF"          , 1.0);
-        fillVariableWithValue( prefix+"_HEEPSF_Err"      , 0.0);
+        fillVariableWithValue( prefix+"_TrigSF"          , float(1.0));
+        fillVariableWithValue( prefix+"_TrigSF_Err"      , float(0.0));
+        fillVariableWithValue( prefix+"_RecoSF"          , float(1.0));
+        fillVariableWithValue( prefix+"_RecoSF_Up"       , float(0.0));
+        fillVariableWithValue( prefix+"_RecoSF_Dn"       , float(0.0));
+        fillVariableWithValue( prefix+"_EGMLooseIDSF"    , float(1.0));
+        fillVariableWithValue( prefix+"_EGMLooseIDSF_Up" , float(0.0));
+        fillVariableWithValue( prefix+"_EGMLooseIDSF_Dn" , float(0.0));
+        fillVariableWithValue( prefix+"_HEEPSF"          , float(1.0));
+        fillVariableWithValue( prefix+"_HEEPSF_Err"      , float(0.0));
       }
     }
 
@@ -1114,11 +1128,11 @@ void analysisClass::Loop()
       fillVariableWithValue( "HighEtaJet1_Phi", jet1.Phi() );
     }
 
-    for(int iJet = 0; iJet < getVariableValue("nJet_store"); ++iJet) {
+    for(int iJet = 0; iJet < getVariableValue<int>("nJet_store"); ++iJet) {
       PFJet jet = c_pfjet_final -> GetConstituent<PFJet>(iJet);
       std::string prefix = "Jet"+std::to_string(iJet+1);
       // leading HLT jet from 200 GeV collection
-      double hltJet1Pt     = triggerMatchPt<HLTriggerObject, PFJet >( c_trigger_l3jets_all     , jet, jet_hltMatch_DeltaRCut);
+      float hltJet1Pt     = triggerMatchPt<HLTriggerObject, PFJet >( c_trigger_l3jets_all     , jet, jet_hltMatch_DeltaRCut);
       int flavor = isData() ? 0 : jet.HadronFlavor();
       float pt = jet.Pt();
       fillVariableWithValue( prefix+"_Pt"          , pt                         );
@@ -1133,7 +1147,7 @@ void analysisClass::Loop()
       // b-tagging scale factors and uncertainties
       if(!isData() && reducedSkimType != 0) {
         if(flavor == 0) {
-          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl"  , cset_btagDeepJetIncl->evaluate({"central", "L", flavor, absEta, pt}) );
+          fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl"  , cset_btagDeepJetIncl->evaluate({"central", "L", flavor, absEta, pt} ));
           fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_Up"  , cset_btagDeepJetIncl->evaluate({"up", "L", flavor, absEta, pt}) );
           fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_UpCorrelated"  , cset_btagDeepJetIncl->evaluate({"up_correlated", "L", flavor, absEta, pt}) );
           fillVariableWithValue( prefix+"_btagSFLooseDeepJetIncl_UpUncorrelated"  , cset_btagDeepJetIncl->evaluate({"up_uncorrelated", "L", flavor, absEta, pt}) );
@@ -1172,7 +1186,7 @@ void analysisClass::Loop()
         //fillVariableWithValue( prefix+"_Pt_JER_Up"  , jet.PtJERUp()                  );
         //fillVariableWithValue( prefix+"_Pt_JER_Dn", jet.PtJERDown()                  );
         if(c_pfJetMatchedLQ->Has<PFJet>(jet))
-          fillVariableWithValue( prefix+"_LQMatched", 1);
+          fillVariableWithValue( prefix+"_LQMatched", true);
       }
     }
 
