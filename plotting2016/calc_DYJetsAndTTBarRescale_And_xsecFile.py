@@ -731,12 +731,20 @@ if "2016" in year:
     # wjet = "WJet_amcatnlo_Inc"
     wjet = "WJet_amcatnlo_jetBinned"
     # wjet = "WJet_amcatnlo_ptBinned"
-    zjet = "ZJet_amcatnlo_ptBinned"
-    # zjet = "ZJet_amcatnlo_Inc"
     #zjetDatasetName = "DYJetsToLL_Pt.+Tune"
-    zjetDatasetName = "DYJetsToLL_LHE.+"
+    #zjetDatasetName = "DYJetsToLL_LHE.+"
+    zjetDatasetName = "DYJetsToLL.+"
+    #zjet = "ZJet_amcatnlo_ptBinned"
+    zjet = "ZJet_amcatnlo_ptBinned_IncStitch"
+    #zjet = "ZJet_amcatnlo_Inc"
     # allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCPtBinned_NLODiboson"
-    allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson"
+    #allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson"
+    #allBkg = "ALLBKG_powhegTTBar_ZJetAMCJetPtBinnedWJetAMCJetBinned_NLODiboson_triboson"
+    #allBkg = "ALLBKG_powhegTTBar_ZJetPtWJetAMCJetBinned_NLODiboson_tribosonGJetsTTX"
+    allBkg = "ALLBKG_powhegTTBar_ZJetPtIncStitchWJetAMCJetBinned_NLODiboson_tribosonGJetsTTX"
+    #allBkg = "ALLBKG_powhegTTBar_ZJetIncWJetAMCJetBinned_NLODiboson_tribosonGJetsTTX"
+    data = "DATA"
+    #data = "SingleElectron_2016_HIPM"
 else:
     zjetDatasetName = "DY.+ToLL"
     wjet = "WJet_amcatnlo_jetBinned"
@@ -760,7 +768,7 @@ else:
 # diboson = "DIBOSON"
 diboson = "DIBOSON_nlo"
 ttbar = "TTbar_powheg"
-ttbarDatasetName = "TT"
+ttbarDatasetName = "TTT"
 singletop = "SingleTop"
 # qcd = "QCD_EMEnriched"
 qcd = "QCDFakes_DATA"
@@ -968,7 +976,7 @@ for idx, histBaseName in enumerate(histBaseNames):
 
     # DATA
     h_DATA_dyjets = GetHisto(
-        thisHistName.replace("SAMPLE", "DATA") + plotBaseName, File_preselection
+        thisHistName.replace("SAMPLE", data) + plotBaseName, File_preselection
     )  # DATA
     # QCD
     if doQCD:
@@ -1034,6 +1042,7 @@ print("INFO: using file: " + File_preselection.GetName())
 if doQCD:
     print("INFO: using QCD file: " + File_QCD_preselection.GetName())
 print("INFO: using samples:")
+print("\t DATA ------>", data)
 print("\t allBkg ------>", allBkg)
 print("\t DY ---------->", zjet, "; datasetname =", zjetDatasetName)
 print("\t W ----------->", wjet)
