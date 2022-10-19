@@ -1,8 +1,3 @@
-#------------------------------------------------------------------------------------------------------
-# combined ultralegacy golden json
-#------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/ultralegacy/certifiedGolden_2016_2017_2018.json
-#
 #############################     Example of file with list of cuts
 #
 #
@@ -19,24 +14,9 @@ JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/u
 #------------         ------------      -------------   ------------    -------------   -----
 produceSkim          1                 -               -               -               -1
 #-----------------------------------------------------------------------------------------------------------------------------
-# Preselection cuts
-#-----------------------------------------------------------------------------------------------------------------------------
-eleEta_bar            	1.4442        -                    -               -               -1
-eleEta_end1            	1.560        2.0                  -               -               -1
-eleEta_end2            	2.000        2.5                  -               -               -1
-#-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
 AnalysisYear   2016  - - - -1
-#-----------------------------------------------------------------------------------------------------------------------------
-# Fake rates
-#-----------------------------------------------------------------------------------------------------------------------------
-#QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FRHistogram2D2Jet.root	- - - -1
-QCDFakeRateFileName		/afs/cern.ch/user/s/scooper/work/public/Leptoquarks/qcd_fake_rate/2016/FR2D2JetScEt.root	- - - -1
-#QCD_fit_func_version	1				-	  -		  -		  -1
-#QCD_barrel_plot		hist_Bar_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-#QCD_endcap1_plot	hist_End1_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
-#QCD_endcap2_plot	hist_End2_2Jet_Pt1stEle_PAS	-	  -		  -		  -1
 # 
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
@@ -71,7 +51,6 @@ PassHBHENoiseFilter                 0              1              -           - 
 PassHBHENoiseIsoFilter              0              1              -           -           0           2             -0.5           1.5
 PassBadEESupercrystalFilter         0              1              -           -           0           2             -0.5           1.5
 PassEcalDeadCellTrigPrim            0              1              -           -           0           2             -0.5           1.5
-PassChargedCandidateFilter          0              1              -           -           0           2             -0.5           1.5
 PassBadPFMuonFilter                 0              1              -           -           0           2             -0.5           1.5
 PassEcalBadCalibV2Filter            0              1              -           -           0           2             -0.5           1.5
 PassNEle                            0              1              -           -           0           11            -0.5           10.5
@@ -79,24 +58,24 @@ PassNJet                            0              1              -           - 
 #PassNMuon                          0              1              -           -           0           16            -0.5           15.5
 nEle_hltMatched                     -inf           +inf           -           -           0           3             -0.5           2.5
 nJet_hltMatched                     -inf           +inf           -           -           0           3             -0.5           2.5
-#Ele1_PtHeep                        50             +inf           -           -           0           200           0              2000
-#Ele2_PtHeep                        50             +inf           -           -           0           200           0              2000
+Ele1_Pt                             50             +inf           -           -           0           200           0              2000
+Ele2_Pt                             50             +inf           -           -           0           200           0              2000
 nJet                                -inf           +inf           -           -           0           16            -0.5           15.5
-Jet1_Pt                             30             +inf           -           -           0           200           0              2000
+Jet1_Pt                             50             +inf           -           -           0           200           0              2000
 Jet1_Eta                            -2.4           2.4            -           -           0           100           -5             5
-Jet2_Pt                             30             +inf           -           -           0           200           0              2000
+Jet2_Pt                             50             +inf           -           -           0           200           0              2000
 Jet2_Eta                            -2.4           2.4            -           -           0           100           -5             5
 DR_Ele1Jet1                         -inf           +inf           -           -           0           100           0              10
 DR_Ele1Jet2                         -inf           +inf           -           -           0           100           0              10
 DR_Ele2Jet1                         -inf           +inf           -           -           0           100           0              10
 DR_Ele2Jet2                         -inf           +inf           -           -           0           100           0              10
 DR_Jet1Jet2                         -inf           +inf           -           -           0           100           0              10
-sT_eejj                             100            +inf           -           -           0           200           0              2000
+sT_eejj                             300            +inf           -           -           0           200           0              2000
 M_e1e2                              50             +inf           -           -           0           200           0              2000
 #---------------------------------------------------------------------------------------------------------------------------------------
 # Optimization variables (unused)
 #---------------------------------------------------------------------------------------------------------------------------------------
-sT_eejj_opt                         -inf           +inf           -           -           1           200           0           2000
-M_e1e2_opt                          -inf           +inf           -           -           1           200           0           2000
-Mej_min_opt                         -inf           +inf           -           -           1           200           0           2000
+#sT_eejj_opt                         -inf           +inf           -           -           1           200           0           2000
+#M_e1e2_opt                          -inf           +inf           -           -           1           200           0           2000
+#Mej_min_opt                         -inf           +inf           -           -           1           200           0           2000
 #---------------------------------------------------------------------------------------------------------------------------------------
