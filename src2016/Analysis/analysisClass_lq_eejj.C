@@ -96,22 +96,22 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
    // Get pre-cut values
    //--------------------------------------------------------------------------
-
    // eta boundaries
-
    double eleEta_bar_max = getPreCutValue1("eleEta_bar");
    double eleEta_end_min = getPreCutValue1("eleEta_end1");
    double eleEta_end_max = getPreCutValue2("eleEta_end2");
 
 
    // eta boundaries
-
    double eleEta_bar            = getPreCutValue1("eleEta_bar");
    double eleEta_end1_min       = getPreCutValue1("eleEta_end1");
    double eleEta_end1_max       = getPreCutValue2("eleEta_end1");
    double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
    double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
+   // background control regions
+   double sT_eejj_bkgCR = getPreCutValue1("sT_eejj_bkgCR");
+   double M_e1e2_bkgCR = getPreCutValue1("M_e1e2_bkgCR");
    //--------------------------------------------------------------------------
    // Analysis year
    //--------------------------------------------------------------------------
@@ -631,6 +631,33 @@ void analysisClass::Loop()
   CreateUserTH1D( "Mejj_gteTwoBtaggedJets"              ,    400 , 0       , 4000     );
   CreateUserTH1D( "Meej_gteTwoBtaggedJets"              ,    400 , 0       , 4000     );
   CreateUserTH1D( "Meejj_gteTwoBtaggedJets"             ,    400 , 0       , 4000     );
+
+  // bkg control region plots
+  CreateUserTH1D( "Mee_BkgControlRegion"		            ,    2000   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"		       ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EBEB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EBEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EEEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_NJetEq2_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq3_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq4_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq5_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq6_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq7_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetGeq3_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetGeq4_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT300To500_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT500To750_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT750To1250_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT1250ToInf_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin100To200_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin200To300_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin300To400_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin400To500_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin500To650_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin650ToInf_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
    //// test opt
    //CreateUserTH1D( "Mee_sT2000_PAS"		             ,    200   , 0       , 2000	  ); 
    //CreateUserTH1D( "OptBinLQ600", 200, 0, 2000);
@@ -659,6 +686,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "DeltaEtaTrkSC_2ndEle_Presel",4000,0,10);
    CreateUserTH1D( "SCEtaMinusEleEta_2ndEle_Presel",4000,0,10);
    CreateUserTH1D( "DeltaEtaTrkSC_Minus_SCEtaMinusEleEta_2ndEle_Presel",4000,0,10);
+   // BDT
    CreateUserTH1D( "BDTOutput_Presel",20000,-2,2);
    CreateUserTH1D( "BDTOutput_noWeight_Presel",20000,-2,2);
 
@@ -888,15 +916,6 @@ void analysisClass::Loop()
      resetCuts();
 
      //--------------------------------------------------------------------------
-     // Check good run list
-     //--------------------------------------------------------------------------
-     
-     //double run = readerTools_->ReadValueBranch<Float_t>("run");
-     int passedJSON = passJSON ( run,
-         readerTools_->ReadValueBranch<UInt_t>("ls"),
-         isData() ) ;
-
-     //--------------------------------------------------------------------------
      // Do pileup re-weighting
      //--------------------------------------------------------------------------
      
@@ -984,11 +1003,22 @@ void analysisClass::Loop()
        bool ele2PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerPhotonFilter");
        if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
          float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
+         float trigSFEle1Err = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF_Err");
          gen_weight*=trigSFEle1;
+         fillSystVariableWithValue("EleTrigSFUp", trigSFEle1+trigSFEle1Err);
+         fillSystVariableWithValue("EleTrigSFDown", trigSFEle1-trigSFEle1Err);
        }
        else if(ele2PassedHLTWPTight || ele2PassedHLTPhoton) {
          float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
+         float trigSFEle2Err = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF_Err");
          gen_weight*=trigSFEle2;
+         fillSystVariableWithValue("EleTrigSFUp", trigSFEle2+trigSFEle2Err);
+         fillSystVariableWithValue("EleTrigSFDown", trigSFEle2-trigSFEle2Err);
+       }
+       else {
+         // no trigger scale factor applied
+         fillSystVariableWithValue("EleTrigSFUp", 1);
+         fillSystVariableWithValue("EleTrigSFDown", 1);
        }
        ////float totalScaleFactor = recoHeepSF*trigSFEle1*trigSFEle2;
        //////std::cout << "trigSFEle1*trigSFEle2 = " << trigSFEle1 << "*" << trigSFEle2 << " = " << trigSFEle1*trigSFEle2 << std::endl;
@@ -1170,12 +1200,11 @@ void analysisClass::Loop()
          passLHECuts = true; // if Z/gamma Pt == 0 GeV, take it
      }
      fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
+
      //--------------------------------------------------------------------------
      // Fill JSON variable
      //--------------------------------------------------------------------------
-
-     // JSON variable
-     fillVariableWithValue ("PassJSON", passedJSON, gen_weight * pileup_weight); 
+     fillVariableWithValue ("PassJSON", readerTools_->ReadValueBranch<Bool_t>("PassJSON"), gen_weight * pileup_weight); 
 
      //--------------------------------------------------------------------------
      // Fill noise filters
@@ -1624,8 +1653,15 @@ void analysisClass::Loop()
      // Did we at least pass the noise filtes?
      //--------------------------------------------------------------------------
      
-     bool passed_minimum = ( passedAllPreviousCuts("PassBadPFMuonFilter") && passedCut ("PassBadPFMuonFilter"));
+     bool passed_minimum = ( passedAllPreviousCuts("PassEcalBadCalibV2Filter") && passedCut ("PassEcalBadCalibV2Filter"));
      
+     //--------------------------------------------------------------------------
+     // Did we make it to the background control region?
+     //--------------------------------------------------------------------------
+     bool bkgControlRegion = passedAllPreviousCuts("Pt_e1e2") && passedCut("Pt_e1e2")
+       && sT_eejj > sT_eejj_bkgCR
+       && M_e1e2 > M_e1e2_bkgCR;
+
      //--------------------------------------------------------------------------
      // Did we pass preselection?
      //--------------------------------------------------------------------------
@@ -1701,6 +1737,79 @@ void analysisClass::Loop()
      //  std::cout << fixed <<  "  Jet1 Pt  = " << Jet1_Pt << "\t, Eta = " << Jet1_Eta << "\t, Phi = " << Jet1_Phi << std::endl;
      //  std::cout << fixed <<  "  Jet2 Pt  = " << Jet2_Pt << "\t, Eta = " << Jet2_Eta << "\t, Phi = " << Jet2_Phi << std::endl;
      //}
+
+     //--------------------------------------------------------------------------
+     // Determine what kind of event this is:
+     // - EB-EB
+     // - EB-EE
+     // - EE-EE
+     //--------------------------------------------------------------------------
+
+     bool isEB1 = ( fabs(Ele1_Eta) < eleEta_bar_max  ) ;
+     bool isEE1 = ( fabs(Ele1_Eta) > eleEta_end_min &&
+         fabs(Ele1_Eta) < eleEta_end_max ) ;
+
+     bool isEB2 = ( fabs(Ele2_Eta) < eleEta_bar_max  ) ;
+     bool isEE2 = ( fabs(Ele2_Eta) > eleEta_end_min &&
+         fabs(Ele2_Eta) < eleEta_end_max ) ;
+
+     bool isEBEB = ( isEB1 && isEB2 ) ;
+     bool isEBEE = ( ( isEB1 && isEE2 ) ||
+         ( isEE1 && isEB2 ) );
+     bool isEEEE = ( isEE1  && isEE2  );
+     bool isEB   = ( isEBEB || isEBEE );
+
+     //--------------------------------------------------------------------------
+     // Fill background control region plots
+     //--------------------------------------------------------------------------
+     if(bkgControlRegion) {
+       FillUserTH1D("Mee_BkgControlRegion"	                ,    M_e1e2,    pileup_weight * gen_weight );
+       if(nBJet_ptCut>=1)
+         FillUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+       if(nBJet_ptCut>=2)
+         FillUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets ) ;
+       if      ( isEB   ) FillUserTH1D( "Mee_EB_BkgControlRegion"  , M_e1e2, pileup_weight * gen_weight ); 
+       if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_BkgControlRegion", M_e1e2, pileup_weight * gen_weight ); 
+       else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_BkgControlRegion", M_e1e2, pileup_weight * gen_weight ); 
+       else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_BkgControlRegion", M_e1e2, pileup_weight * gen_weight ); 
+       // scale factor dependence histos
+       if ( nJet_ptCut == 2 )
+         FillUserTH1D("Mee_NJetEq2_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 3 )
+         FillUserTH1D("Mee_NJetEq3_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 4 )
+         FillUserTH1D("Mee_NJetEq4_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 5 )
+         FillUserTH1D("Mee_NJetEq5_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 6 )
+         FillUserTH1D("Mee_NJetEq6_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if( nJet_ptCut == 7 )
+         FillUserTH1D("Mee_NJetEq7_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       if ( nJet_ptCut >= 3 )
+         FillUserTH1D("Mee_NJetGeq3_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       if ( nJet_ptCut >= 4 )
+         FillUserTH1D("Mee_NJetGeq4_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       if (sT_eejj >= 300 && sT_eejj < 500)
+         FillUserTH1D("Mee_sT300To500_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (sT_eejj >= 500 && sT_eejj < 750)
+         FillUserTH1D("Mee_sT500To750_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (sT_eejj >= 750 && sT_eejj < 1250)
+         FillUserTH1D("Mee_sT750To1250_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (sT_eejj >= 1250)
+         FillUserTH1D("Mee_sT1250ToInf_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       if (M_ej_min >= 100 && M_ej_min < 200)
+         FillUserTH1D("Mee_MejMin100To200_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 200 && M_ej_min < 300)
+         FillUserTH1D("Mee_MejMin200To300_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 300 && M_ej_min < 400)
+         FillUserTH1D("Mee_MejMin300To400_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 400 && M_ej_min < 500)
+         FillUserTH1D("Mee_MejMin400To500_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 500 && M_ej_min < 650)
+         FillUserTH1D("Mee_MejMin500To650_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+       else if (M_ej_min >= 650)
+         FillUserTH1D("Mee_MejMin650ToInf_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
+     }
 
      //--------------------------------------------------------------------------
      // Fill preselection plots
@@ -1809,28 +1918,6 @@ void analysisClass::Loop()
          if ( DR_Ele1Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele1Jet3;
          if ( DR_Ele2Jet3 < min_DR_EleJet ) min_DR_EleJet = DR_Ele2Jet3;
        }
-
-       //--------------------------------------------------------------------------
-       // Determine what kind of event this is:
-       // - EB-EB
-       // - EB-EE
-       // - EE-EE
-       //--------------------------------------------------------------------------
-
-       bool isEB1 = ( fabs(Ele1_Eta) < eleEta_bar_max  ) ;
-       bool isEE1 = ( fabs(Ele1_Eta) > eleEta_end_min &&
-           fabs(Ele1_Eta) < eleEta_end_max ) ;
-
-       bool isEB2 = ( fabs(Ele2_Eta) < eleEta_bar_max  ) ;
-       bool isEE2 = ( fabs(Ele2_Eta) > eleEta_end_min &&
-           fabs(Ele2_Eta) < eleEta_end_max ) ;
-
-       bool isEBEB = ( isEB1 && isEB2 ) ;
-       bool isEBEE = ( ( isEB1 && isEE2 ) ||
-           ( isEE1 && isEB2 ) );
-       bool isEEEE = ( isEE1  && isEE2  );
-       bool isEB   = ( isEBEB || isEBEE );
-
 
        //--------------------------------------------------------------------------
        // Electron quality histograms (preselection)
