@@ -109,9 +109,6 @@ void analysisClass::Loop()
    double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
    double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
-   // background control regions
-   double sT_eejj_bkgCR = getPreCutValue1("sT_eejj_bkgCR");
-   double M_e1e2_bkgCR = getPreCutValue1("M_e1e2_bkgCR");
    //--------------------------------------------------------------------------
    // Analysis year
    //--------------------------------------------------------------------------
@@ -633,7 +630,7 @@ void analysisClass::Loop()
   CreateUserTH1D( "Meejj_gteTwoBtaggedJets"             ,    400 , 0       , 4000     );
 
   // bkg control region plots
-  CreateUserTH1D( "Mee_BkgControlRegion"		            ,    2000   , 0       , 2000	  ); 
+  CreateUserTH1DWithSysts( "Mee_BkgControlRegion"		            ,    2000   , 0       , 2000	  ); 
   CreateUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"		       ,    2000 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_EB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
@@ -845,42 +842,42 @@ void analysisClass::Loop()
    float DR_Ele1Jet1, DR_Ele1Jet2, DR_Ele2Jet1, DR_Ele2Jet2, DR_Jet1Jet2;
    float mass = 1700; // FIXME: handle this better in the future
    TMVA::Tools::Instance();
-   TMVA::Reader reader( "!Color:!Silent" );
-   reader.AddVariable( "sT_eejj", &sT_eejj);
-   reader.AddVariable( "PFMET_Type1_Pt", &PFMET_Type1_Pt);
-   reader.AddVariable( "PFMET_Type1_Phi", &PFMET_Type1_Phi);
-   reader.AddVariable( "M_e1e2", &M_e1e2);
-   reader.AddVariable( "M_e1j1", &M_e1j1);
-   reader.AddVariable( "M_e1j2", &M_e1j2);
-   reader.AddVariable( "M_e2j1", &M_e2j1);
-   reader.AddVariable( "M_e2j2", &M_e2j2);
-   reader.AddVariable( "Ele1_Pt", &Ele1_Pt);
-   reader.AddVariable( "Ele2_Pt", &Ele2_Pt);
-   reader.AddVariable( "Ele1_Eta", &Ele1_Eta);
-   reader.AddVariable( "Ele2_Eta", &Ele2_Eta);
-   reader.AddVariable( "Ele1_Phi", &Ele1_Phi);
-   reader.AddVariable( "Ele2_Phi", &Ele2_Phi);
-   reader.AddVariable( "Jet1_Pt", &Jet1_Pt);
-   reader.AddVariable( "Jet2_Pt", &Jet2_Pt);
-   reader.AddVariable( "Jet3_Pt", &Jet3_Pt);
-   reader.AddVariable( "Jet1_Eta", &Jet1_Eta);
-   reader.AddVariable( "Jet2_Eta", &Jet2_Eta);
-   reader.AddVariable( "Jet3_Eta", &Jet3_Eta);
-   reader.AddVariable( "Jet1_Phi", &Jet1_Phi);
-   reader.AddVariable( "Jet2_Phi", &Jet2_Phi);
-   reader.AddVariable( "Jet3_Phi", &Jet3_Phi);
-   reader.AddVariable( "DR_Ele1Jet1", &DR_Ele1Jet1);
-   reader.AddVariable( "DR_Ele1Jet2", &DR_Ele1Jet2);
-   reader.AddVariable( "DR_Ele2Jet1", &DR_Ele2Jet1);
-   reader.AddVariable( "DR_Ele2Jet2", &DR_Ele2Jet2);
-   reader.AddVariable( "DR_Jet1Jet2", &DR_Jet1Jet2);
-   reader.AddVariable( "Masym", &Masym);
-   reader.AddVariable( "MejMin", &MejMin);
-   reader.AddVariable( "MejMax", &MejMax);
-   reader.AddVariable( "Meejj", &Meejj);
-   reader.AddVariable( "mass", &mass);
+   std::unique_ptr<TMVA::Reader> reader(new TMVA::Reader( "!Color:!Silent" ));
+   reader->AddVariable( "sT_eejj", &sT_eejj);
+   reader->AddVariable( "PFMET_Type1_Pt", &PFMET_Type1_Pt);
+   reader->AddVariable( "PFMET_Type1_Phi", &PFMET_Type1_Phi);
+   reader->AddVariable( "M_e1e2", &M_e1e2);
+   reader->AddVariable( "M_e1j1", &M_e1j1);
+   reader->AddVariable( "M_e1j2", &M_e1j2);
+   reader->AddVariable( "M_e2j1", &M_e2j1);
+   reader->AddVariable( "M_e2j2", &M_e2j2);
+   reader->AddVariable( "Ele1_Pt", &Ele1_Pt);
+   reader->AddVariable( "Ele2_Pt", &Ele2_Pt);
+   reader->AddVariable( "Ele1_Eta", &Ele1_Eta);
+   reader->AddVariable( "Ele2_Eta", &Ele2_Eta);
+   reader->AddVariable( "Ele1_Phi", &Ele1_Phi);
+   reader->AddVariable( "Ele2_Phi", &Ele2_Phi);
+   reader->AddVariable( "Jet1_Pt", &Jet1_Pt);
+   reader->AddVariable( "Jet2_Pt", &Jet2_Pt);
+   reader->AddVariable( "Jet3_Pt", &Jet3_Pt);
+   reader->AddVariable( "Jet1_Eta", &Jet1_Eta);
+   reader->AddVariable( "Jet2_Eta", &Jet2_Eta);
+   reader->AddVariable( "Jet3_Eta", &Jet3_Eta);
+   reader->AddVariable( "Jet1_Phi", &Jet1_Phi);
+   reader->AddVariable( "Jet2_Phi", &Jet2_Phi);
+   reader->AddVariable( "Jet3_Phi", &Jet3_Phi);
+   reader->AddVariable( "DR_Ele1Jet1", &DR_Ele1Jet1);
+   reader->AddVariable( "DR_Ele1Jet2", &DR_Ele1Jet2);
+   reader->AddVariable( "DR_Ele2Jet1", &DR_Ele2Jet1);
+   reader->AddVariable( "DR_Ele2Jet2", &DR_Ele2Jet2);
+   reader->AddVariable( "DR_Jet1Jet2", &DR_Jet1Jet2);
+   reader->AddVariable( "Masym", &Masym);
+   reader->AddVariable( "MejMin", &MejMin);
+   reader->AddVariable( "MejMax", &MejMax);
+   reader->AddVariable( "Meejj", &Meejj);
+   reader->AddVariable( "mass", &mass);
    if(evaluateBDT)
-     reader.BookMVA("BDT", bdtWeightFileName );
+     reader->BookMVA("BDT", bdtWeightFileName );
 
    //--------------------------------------------------------------------------
    // Tell the user how many entries we'll look at
@@ -1025,6 +1022,11 @@ void analysisClass::Loop()
        //////std::cout << "totalScaleFactor = " << totalScaleFactor << std::endl;
        //gen_weight*=recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2*trigSFEle1*trigSFEle2;
        gen_weight*=recoSFEle1*recoSFEle2*looseSFEle1*looseSFEle2;
+     }
+     else {
+       // no syst for data since no scale factor applied
+       fillSystVariableWithValue("EleTrigSFUp", 1);
+       fillSystVariableWithValue("EleTrigSFDown", 1);
      }
 
      //--------------------------------------------------------------------------
@@ -1492,15 +1494,17 @@ void analysisClass::Loop()
      Meejj = eejj.M();
      double bdtOutput = -999;
      if(evaluateBDT)
-       bdtOutput = reader.EvaluateMVA("BDT");
+       bdtOutput = reader->EvaluateMVA("BDT");
 
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "M_e1e2_bkgCR"     , M_e1e2 , gen_weight * pileup_weight  ) ;
        //fillVariableWithValue( "M_e1e2_opt" , M_e1e2 , gen_weight * pileup_weight  ) ;
        // for Ptee cut
        fillVariableWithValue( "Pt_e1e2"    , Pt_e1e2 , gen_weight * pileup_weight  ) ;
 
        fillVariableWithValue( "sT_eejj"    , sT_eejj , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "sT_eejj_bkgCR"    , sT_eejj , gen_weight * pileup_weight  ) ;
 
        if ( nJet_store >= 2 ) { 
          // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
@@ -1658,9 +1662,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Did we make it to the background control region?
      //--------------------------------------------------------------------------
-     bool bkgControlRegion = passedAllPreviousCuts("Pt_e1e2") && passedCut("Pt_e1e2")
-       && sT_eejj > sT_eejj_bkgCR
-       && M_e1e2 > M_e1e2_bkgCR;
+     bool bkgControlRegion = passedAllPreviousCuts("M_e1e2_bkgCR") && passedCut("M_e1e2_bkgCR");
 
      //--------------------------------------------------------------------------
      // Did we pass preselection?
@@ -1763,7 +1765,7 @@ void analysisClass::Loop()
      // Fill background control region plots
      //--------------------------------------------------------------------------
      if(bkgControlRegion) {
-       FillUserTH1D("Mee_BkgControlRegion"	                ,    M_e1e2,    pileup_weight * gen_weight );
+       FillUserTH1D("Mee_BkgControlRegion"	                ,    M_e1e2,    pileup_weight * gen_weight , "M_e1e2_bkgCR");
        if(nBJet_ptCut>=1)
          FillUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
        if(nBJet_ptCut>=2)
