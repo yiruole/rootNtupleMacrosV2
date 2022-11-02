@@ -114,7 +114,7 @@ PassEcalDeadCellTrigPrim           0              1              -           -  
 PassBadPFMuonFilter                0              1              -           -           0           2             -0.5           1.5
 PassEcalBadCalibV2Filter           0              1              -           -           0           2             -0.5           1.5
 PassNEle                           0              1              -           -           0           11            -0.5           10.5
-PassNMuon                          -inf           +inf              -           -           0           16            -0.5           15.5
+PassNMuon                          -inf           +inf           -           -           0           16            -0.5           15.5
 nEle_hltMatched                    -inf           +inf           -           -           0           3             -0.5           2.5
 nJet_hltMatched                    -inf           +inf           -           -           0           3             -0.5           2.5
 Ele1_Pt                            35             +inf           -           -           0           200           0              2000
@@ -132,7 +132,7 @@ DR_Jet1Jet2                        -inf           +inf           -           -  
 sT_eejj                            -inf           +inf           -           -           0           200           0              2000
 Pt_e1e2                            -inf           +inf           -           -           0           200           0              2000
 M_e1e2                             50             +inf           -           -           0           200           0              2000
-preselection                       -inf           +inf           -           -           0           2             -0.5           1.5
+preselection                       -inf           +inf           -           -           1           2             -0.5           1.5
 #-----------------------------------------------------------------------------------------------------------------------------
 # Optimization variables (unused)
 #-----------------------------------------------------------------------------------------------------------------------------
