@@ -11,7 +11,7 @@ import math
 import os
 import os.path
 from ROOT import gROOT, gStyle, gPad, kTRUE, kWhite, kRed, kOrange, kYellow, kSpring, kGreen, kTeal, kCyan, kAzure, kBlack, kBlue, kViolet, kMagenta, kGray
-from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH1F, TH2F, TH1D, TGraph, TLine, TText
+from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH1F, TH2D, TH1D, TGraph, TLine, TText
 from array import array
 import copy
 import numpy
@@ -241,7 +241,7 @@ def generateHisto(histoBaseName, sample, variableName, fileName, scale=1, maxX=-
 
 def generateHistoBlank(histoBaseName, sample, variableName, fileName, scale=1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
-    print("*** BLANK name:", hname)
+    # print("*** BLANK name:", hname)
     histo = GetHisto(hname, fileName)
     new = copy.deepcopy(histo)
     new.Reset()
@@ -266,7 +266,7 @@ def generateIntegralHisto(original_histo):
 
 def generateAndAddHisto(histoBaseName, sample, variableNames, fileName, scale=1):
     iv = 0
-    histo = TH1F()
+    histo = TH1D()
     for variableName in variableNames:
         hname = (histoBaseName.replace("SAMPLE", sample)).replace(
             "VARIABLE", variableName
@@ -280,14 +280,14 @@ def generateAndAddHisto(histoBaseName, sample, variableNames, fileName, scale=1)
 
 
 def rebinHisto2D(histo, xmin, xmax, ymin, ymax, xrebin, yrebin, xbins, ybins, addOvfl):
-    new_histo = TH2F()
+    new_histo = TH2D()
     minBinWidth = 0
     new_histo = histo.Rebin2D(xrebin, yrebin)
     return [new_histo]
 
 
 def rebinHisto(histo, xmin, xmax, rebin, xbins, addOvfl):
-    new_histo = TH1F()
+    new_histo = TH1D()
     minBinWidth = 0
     if (xbins == "" and rebin == "var") or (xbins != "" and rebin != "var"):
         print('ERROR: Did not understand rebinning; xbins must be set to a list and rebin="var" must be set to activate variable rebinning. Quit here.')
@@ -388,7 +388,7 @@ def rebinHisto(histo, xmin, xmax, rebin, xbins, addOvfl):
 def rebinHistos(histos, xmin, xmax, rebin, xbins, addOvfl):
     new_histos = []
     for histo in histos:
-        new_histo = TH1F()
+        new_histo = TH1D()
         new_histo = rebinHisto(histo, xmin, xmax, rebin, xbins, addOvfl)[0]
         new_histos.append(new_histo)
     return new_histos
@@ -399,7 +399,8 @@ def rebinHistos2D(
 ):
     new_histos = []
     for histo in histos:
-        new_histo = TH2F()
+        new_histo = TH2D()
+        #print("INFO: rebinHistos2D -- call rebinHisto2D({},{},{},{},{},{},{},{},{},{})".format(histo, xmin, xmax, ymin, ymax, xrebin, yrebin, xbins, ybins, addOvfl))
         new_histo = rebinHisto2D(
             histo, xmin, xmax, ymin, ymax, xrebin, yrebin, xbins, ybins, addOvfl
         )[0]
@@ -1195,8 +1196,12 @@ class Plot2D:
     xbins = ""  # array with variable bin structure
     ybins = ""  # array with variable bin structure
     histodata = ""  # data histogram
-    gif_folder = "/tmp/"
-    eps_folder = "/tmp/"
+    gif_folder = ""
+    eps_folder = ""
+    png_folder = "/tmp/"
+    pdf_folder = "/tmp/"
+    c_folder = ""
+    root_folder = "/tmp/"
     lumi_pb = "0.0"
     suffix = ""
     stackColorIndexes = []
@@ -1218,31 +1223,44 @@ class Plot2D:
             canvas.SetLogz()
         stack = {}
 
-        self.histosStack = rebinHistos2D(
-            self.histosStack,
-            self.xmin,
-            self.xmax,
-            self.ymin,
-            self.ymax,
-            self.xrebin,
-            self.yrebin,
-            self.xbins,
-            self.ybins,
-            self.addOvfl,
-        )
-        resultArray = rebinHisto2D(
-            self.histodata,
-            self.xmin,
-            self.xmax,
-            self.ymin,
-            self.ymax,
-            self.xrebin,
-            self.yrebin,
-            self.xbins,
-            self.ybins,
-            self.addOvfl,
-        )
-        self.histodata = resultArray[0]
+        #FIXME: no rebinning of 2D hists for now
+        #print("call rebinHistos2D({},{},{},{},{},{},{},{},{},{})".format(
+        #    self.histosStack,
+        #    self.xmin,
+        #    self.xmax,
+        #    self.ymin,
+        #    self.ymax,
+        #    self.xrebin,
+        #    self.yrebin,
+        #    self.xbins,
+        #    self.ybins,
+        #    self.addOvfl
+        #    ))
+        #self.histosStack = rebinHistos2D(
+        #    self.histosStack,
+        #    self.xmin,
+        #    self.xmax,
+        #    self.ymin,
+        #    self.ymax,
+        #    self.xrebin,
+        #    self.yrebin,
+        #    self.xbins,
+        #    self.ybins,
+        #    self.addOvfl,
+        #)
+        #resultArray = rebinHisto2D(
+        #    self.histodata,
+        #    self.xmin,
+        #    self.xmax,
+        #    self.ymin,
+        #    self.ymax,
+        #    self.xrebin,
+        #    self.yrebin,
+        #    self.xbins,
+        #    self.ybins,
+        #    self.addOvfl,
+        #)
+        #self.histodata = resultArray[0]
 
         Nstacked = len(self.histosStack)
 
@@ -1280,7 +1298,9 @@ class Plot2D:
 
         l = TLatex()
         l.SetTextAlign(12)
-        l.SetTextSize(0.065)
+        l.SetTextFont(132)
+        # l.SetTextSize(0.065)
+        l.SetTextSize(0.055)
 
         if not self.hasData:
             l.DrawLatex(xval, yval, "MC only")
@@ -1291,16 +1311,67 @@ class Plot2D:
             self.name = self.name + "_zlog"
 
         # -- end
+        if not os.path.isdir(self.eps_folder) and self.eps_folder != "":
+            "Making directory", self.eps_folder
+            os.mkdir(self.eps_folder)
+        if not os.path.isdir(self.gif_folder) and self.gif_folder != "":
+            "Making directory", self.gif_folder
+            os.mkdir(self.gif_folder)
+        if not os.path.isdir(self.png_folder) and self.png_folder != "":
+            "Making directory", self.png_folder
+            os.mkdir(self.png_folder)
+        if not os.path.isdir(self.pdf_folder) and self.pdf_folder != "":
+            "Making directory", self.pdf_folder
+            os.mkdir(self.pdf_folder)
+        if not os.path.isdir(self.c_folder) and self.c_folder != "":
+            "Making directory", self.c_folder
+            os.mkdir(self.c_folder)
+        if not os.path.isdir(self.root_folder) and self.root_folder != "":
+            "Making directory", self.root_folder
+            os.mkdir(self.root_folder)
         if self.suffix == "":
-            canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps", "eps")
-            canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif", "gif")
+            if self.eps_folder != "":
+                canvas.SaveAs(self.eps_folder + "/" + self.name + ".eps", "eps")
+            if self.gif_folder != "":
+                canvas.SaveAs(self.gif_folder + "/" + self.name + ".gif", "gif")
+            if self.png_folder != "":
+                canvas.SaveAs(self.png_folder + "/" + self.name + ".png", "png")
+            if self.pdf_folder != "":
+                canvas.SaveAs(self.pdf_folder + "/" + self.name + ".pdf", "pdf")
+            if self.c_folder != "":
+                canvas.SaveAs(self.c_folder + "/" + self.name + ".C", "C")
+            if self.root_folder != "":
+                canvas.SaveAs(self.root_folder + "/" + self.name + ".root", "root")
         else:
-            canvas.SaveAs(
-                self.eps_folder + "/" + self.name + "_" + self.suffix + ".eps", "eps"
-            )
-            canvas.SaveAs(
-                self.gif_folder + "/" + self.name + "_" + self.suffix + ".gif", "gif"
-            )
+            if self.eps_folder != "":
+                canvas.SaveAs(
+                    self.eps_folder + "/" + self.name + "_" + self.suffix + ".eps",
+                    "eps",
+                )
+            if self.gif_folder != "":
+                canvas.SaveAs(
+                    self.gif_folder + "/" + self.name + "_" + self.suffix + ".gif",
+                    "gif",
+                )
+            if self.png_folder != "":
+                canvas.SaveAs(
+                    self.png_folder + "/" + self.name + "_" + self.suffix + ".png",
+                    "png",
+                )
+            if self.pdf_folder != "":
+                canvas.SaveAs(
+                    self.pdf_folder + "/" + self.name + "_" + self.suffix + ".pdf",
+                    "pdf",
+                )
+            if self.c_folder != "":
+                canvas.SaveAs(
+                    self.c_folder + "/" + self.name + "_" + self.suffix + ".C", "C"
+                )
+            if self.root_folder != "":
+                canvas.SaveAs(
+                    self.root_folder + "/" + self.name + "_" + self.suffix + ".root",
+                    "root",
+                )
 
         if page_number >= 0:
             page_text = TText()
