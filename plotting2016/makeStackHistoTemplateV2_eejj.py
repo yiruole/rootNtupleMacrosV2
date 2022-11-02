@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-from plot_class import GetFile, Plot, Plot2D, generateHistoList, generateHisto, GetBackgroundSyst, makeTOC
+from plot_class import GetFile, Plot, Plot2D, generateHistoList, generateHisto, generateHistoBlank, GetBackgroundSyst, makeTOC
 from ROOT import gROOT, kCyan, kRed, TCanvas
 
 # gROOT.SetBatch(True)
@@ -406,8 +406,6 @@ def makeDefaultPlot(
     plot.name = variableName
     plot.stackColorIndexes = stackColorIndexes
     plot.stackFillStyleIds = stackFillStyleIds
-    # plot.gif_folder        = "gif_eejj_scaled_preselectionOnly/"
-    # plot.eps_folder        = "eps_eejj_scaled_preselectionOnly/"
     plot.pdf_folder = "pdf_eejj/"
     plot.png_folder = "png_eejj/"
     plot.root_folder = "root_eejj/"
@@ -450,14 +448,20 @@ def makeDefaultPlot2D_NoData(
     plot.histosStack = generateHistoList(
         histoBaseName, samplesForStackHistos_other, variableName, File_preselection
     ) + generateHistoList(
+        histoBaseName, samplesForStackHistos_ttbar, variableName, File_ttbar_preselection
+    ) + generateHistoList(
         histoBaseName, samplesForStackHistos_ZJets, variableName, File_preselection
     )
     plot.histodata = generateHistoBlank(
         histoBaseName, sampleForDataHisto, variableName, File_preselection
     )
-    plot.gif_folder = "gif_eejj_scaled_preselectionOnly/"
-    plot.eps_folder = "eps_eejj_scaled_preselectionOnly/"
+    plot.keysStack = keysStack
+    plot.keys = keys
+    plot.pdf_folder = "pdf_eejj/"
+    plot.png_folder = "png_eejj/"
+    plot.root_folder = "root_eejj/"
     plot.suffix = "eejj"
+    plot.lumi_fb = ilumi
 
     return plot
 
@@ -1448,6 +1452,11 @@ if doPreselPlots:
     plots[-1].xmax = 1
     plots[-1].xmin = -1
     plots[-1].ylog = "yes"
+
+    plots.append(makeDefaultPlot2D_NoData("systematics",histoBaseName2D_userDef,samplesForStackHistos,sampleForDataHisto))
+    #plots[-1].xtit = "M(ee) [GeV]"
+    #plots[-1].ytit = "S_{T}(eejj) [GeV]"
+    #plots[-1].zlog = "yes"
 
     print("Done")
 
