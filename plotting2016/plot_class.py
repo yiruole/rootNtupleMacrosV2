@@ -11,10 +11,10 @@ import math
 import os
 import os.path
 from ROOT import gROOT, gStyle, gPad, kTRUE, kWhite, kRed, kOrange, kYellow, kSpring, kGreen, kTeal, kCyan, kAzure, kBlack, kBlue, kViolet, kMagenta, kGray
-from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH1F, TH2D, TH1D, TGraph, TLine, TText
+from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH2D, TH1D, TGraph, TLine, TText, TGraphAsymmErrors
 from array import array
 import copy
-import numpy
+import numpy as np
 
 # --- ROOT general options
 gROOT.SetBatch(kTRUE)
@@ -32,24 +32,6 @@ gStyle.SetPadRightMargin(0.02)
 gStyle.SetPadLeftMargin(0.1)
 # gStyle.SetTitleSize(0.05, "XYZ");
 # --- TODO: WHY IT DOES NOT LOAD THE DEFAULT ROOTLOGON.C ? ---#
-
-bkgSystDict = {}
-
-
-def GetBackgroundSyst(systType, dictFilename):
-    global bkgSystDict
-    if len(list(bkgSystDict.keys())) == 0:
-        dictFilename = os.path.expandvars(dictFilename)
-        with open(dictFilename, "r") as theFile:
-            theDictString = theFile.read()
-            bkgSystDict = eval(theDictString)
-    for bkg in bkgSystDict["preselection"].keys():
-        if systType in bkg:
-            # print "INFO: GetBackgroundSyst({}) -- found systematic deltaX/X={}".format(systType, bkgSystDict["preselection"][bkg])
-            return bkgSystDict["preselection"][bkg]
-    raise RuntimeError("Cannot find preselection systematic for systType={}; dict has these backgrounds: {}".format(
-        systType, list(bkgSystDict["preselection"].keys())))
-
 
 def makePalette(nPaletteBins, d_color_axisValueRange):
 
@@ -210,7 +192,7 @@ def generateAndAddHistoList(histoBaseName, samples, variableNames, fileName, sca
     histolist = []
     for sample in samples:
         iv = 0
-        histo = TH1F()
+        histo = TH1D()
         for variableName in variableNames:
             hname = (histoBaseName.replace("SAMPLE", sample)).replace(
                 "VARIABLE", variableName
@@ -224,7 +206,7 @@ def generateAndAddHistoList(histoBaseName, samples, variableNames, fileName, sca
     return histolist
 
 
-def generateHisto(histoBaseName, sample, variableName, fileName, scale=1, maxX=-1):
+def generateHisto(histoBaseName, sample, variableName, fileName, scale=1.0, maxX=-1):
     hname = (histoBaseName.replace("SAMPLE", sample)).replace("VARIABLE", variableName)
     histo = GetHisto(hname, fileName)
     new = copy.deepcopy(histo)
@@ -408,6 +390,102 @@ def rebinHistos2D(
     return new_histos
 
 
+def GetSystematicEffect(bkgTotalHist, systName, correlated=True):
+    upErrs = []
+    downErrs = []
+    downBin = -1
+    upBin = -1
+    systBins = [i for i in range(1, bkgTotalHist.GetNbinsY()+1) if systName in bkgTotalHist.GetYaxis().GetBinLabel(i)]
+    if len(systBins) < 1:
+        raise RuntimeError("Could not find any bins that match for systematic named {}".format(systName))
+    for iBin in systBins:
+        upBin = iBin
+        downBin = iBin
+        if "Up" in bkgTotalHist.GetYaxis().GetBinLabel(iBin):
+            upBin = iBin
+        elif "Down" in bkgTotalHist.GetYaxis().GetBinLabel(iBin):
+            downBin = iBin
+    maxErr = -1
+    maxErrNominal = -1
+    maxErrXbin = -1
+    for xBin in range(0, bkgTotalHist.GetNbinsX()+2):
+        nomYield = bkgTotalHist.GetBinContent(xBin, 1)
+        if correlated:
+            upYield = bkgTotalHist.GetBinContent(xBin, upBin)
+            downYield = bkgTotalHist.GetBinContent(xBin, downBin)
+            #maxYield = upYield if abs(upYield) >= abs(downYield) else downYield
+            upErrs.append(upYield-nomYield)
+            downErrs.append(downYield-nomYield)
+        else:
+            # in this case, if we consider the bin error, then we have the delta, not the x' (where delta = x' - x)
+            upDelta = bkgTotalHist.GetBinError(xBin, upBin)
+            downDelta = bkgTotalHist.GetBinError(xBin, downBin)
+            #maxDelta = upDelta if abs(upDelta) >= abs(downDelta) else downDelta
+            upErrs.append(upDelta)
+            downErrs.append(downDelta)
+    #    if abs(upErrs[-1]) > maxErr:
+    #        maxErr = upErrs[-1]
+    #        maxErrXbin = xBin
+    #        maxErrNominal = nomYield
+    #    if abs(downErrs[-1]) > maxErr:
+    #        maxErr = downErrs[-1]
+    #        maxErrXbin = xBin
+    #        maxErrNominal = nomYield
+    #if maxErrNominal > 0:
+    #    print("INFO: for syst name {}, maxErr = {} for xbin = {}, maxErr/nominal = {}".format(systName, maxErr, maxErrXbin, maxErr/maxErrNominal))
+    return np.array(upErrs, dtype=float), np.array(downErrs, dtype=float)
+
+
+def GetSystematicGraphAndHist(bkgTotalHist, systNames):
+    upErrsComb = np.zeros(bkgTotalHist.GetNbinsX()+2)
+    downErrsComb = np.zeros(bkgTotalHist.GetNbinsX()+2)
+    systUpErrs = {}
+    systDownErrs = {}
+    # add all the specified systs in quadrature
+    for systName in systNames:
+        if "lhepdf" in systName.lower():
+            upErrs, downErrs = GetSystematicEffect(bkgTotalHist, "LHEPdf", False)
+        elif "lhescale" in systName.lower():
+            upErrs, downErrs = GetSystematicEffect(bkgTotalHist, "LHEScale", False)
+        else:
+            upErrs, downErrs = GetSystematicEffect(bkgTotalHist, systName)
+        upErrsComb = np.add(upErrsComb, upErrs**2)
+        downErrsComb = np.add(downErrsComb, downErrs**2)
+        systUpErrs[systName] = upErrs
+        systDownErrs[systName] = downErrs
+    upErrsComb = np.sqrt(upErrsComb)
+    downErrsComb = np.sqrt(downErrsComb)
+    nominals = []
+    xBins = []
+    xBinsLow = []
+    xBinsHigh = []
+    systHist = TH1D(bkgTotalHist.GetName()+"_systHist", bkgTotalHist.GetName()+"systHist", bkgTotalHist.GetNbinsX(), bkgTotalHist.GetXaxis().GetXmin(), bkgTotalHist.GetXaxis().GetXmax())
+    for xBin in range(0, bkgTotalHist.GetNbinsX()+2):
+        nomYield = bkgTotalHist.GetBinContent(xBin, 1)
+        nominals.append(nomYield)
+        xBins.append(bkgTotalHist.GetXaxis().GetBinCenter(xBin))
+        xBinsLow.append(bkgTotalHist.GetXaxis().GetBinLowEdge(xBin))
+        xBinsHigh.append(bkgTotalHist.GetXaxis().GetBinUpEdge(xBin))
+        upErr = upErrsComb[xBin]
+        downErr = downErrsComb[xBin]
+        maxErr = upErr if abs(upErr) >= abs(downErr) else downErr
+        systHist.SetBinError(xBin, maxErr)
+        systHist.SetBinContent(xBin, nomYield)
+        #if xBin > 200:
+        #    maxSystErr = -1
+        #    maxSystName = "none"
+        #    for systName in systNames:
+        #        if abs(systUpErrs[systName][xBin]) > maxSystErr:
+        #            maxSystErr = abs(systUpErrs[systName][xBin])
+        #            maxSystName = systName
+        #        if abs(systDownErrs[systName][xBin]) > maxSystErr:
+        #            maxSystErr = abs(systDownErrs[systName][xBin])
+        #            maxSystName = systName
+        #    print("INFO: for xbin={}, maxSystName={}, max. err/nom={}".format(xBin, maxSystName, maxSystErr/nomYield))
+    systGraph = TGraphAsymmErrors(len(nominals), np.array(xBins), np.array(nominals), np.array(xBinsLow), np.array(xBinsHigh), downErrsComb, upErrsComb)
+    return systHist, systGraph
+
+
 # The Plot class: add members if needed
 class Plot:
     data_file_name = ""
@@ -440,8 +518,8 @@ class Plot:
     ZUncKey = "Z/#gamma/Z* + jets unc."  # key to be put in the legend for the Z+jets uncertainty band
     ZPlotIndex = 1  # index of the Z+jets plots in the histosStack list (default = 1)
     ZScaleUnc = 0.20  # uncertainty of the data-MC Z+jets scale factor
-    makeRatio = ""  # 1=simple ratio, 2=ratio of cumulative histograms
-    makeNSigma = ""  # 1= yes, 0 = no
+    makeRatio = 0  # 1=simple ratio, 2=ratio of cumulative histograms
+    makeNSigma = 0  # 1= yes, 0 = no
     xbins = ""  # array with variable bin structure
     histodata = ""  # data histogram
     gif_folder = ""
@@ -456,9 +534,10 @@ class Plot:
     stackFillStyleIds = []
     is_integral = False
     histodataBlindAbove = -1.0
-    addBkgUncBand = True
+    addBkgUncBand = False
     bkgUncKey = "Bkg. syst."
-    systs = []  # relative systematic uncertainty on each stack histo (for background)
+    bkgTotalHist = ""
+    systNames = []
     isInteractive = False  # draw the plot to the screen; use when running with python -i
 
     def Draw(self, fileps, page_number=-1):
@@ -592,7 +671,6 @@ class Plot:
         # stackColorIndexes = [20,38,12,14,20,38,12,14]
 
         stkcp = []
-        stkSystErrHistos = []
         stackedHistos = []
         thStack = THStack()
         bkgTotalHist = TH1D()
@@ -654,7 +732,6 @@ class Plot:
             # draw first histo
             # stackedHistos[-1].Draw("HIST")
             stkcp.append(copy.deepcopy(stackedHistos[-1]))
-            stkSystErrHistos.append(copy.deepcopy(stackedHistos[-1]))
             # legend.AddEntry(stackedHistos[-1], self.keysStack[index],"lf")
             thStack.Add(histo)
             if index == 0:
@@ -733,29 +810,23 @@ class Plot:
             zUncHisto.Draw("E2same")
             legend.AddEntry(zUncHisto, self.ZUncKey, "f")
 
-        # -- total background uncertainty band
+        # -- background uncertainty band
         if self.addBkgUncBand:
-            bkgUncHisto = copy.deepcopy(thStack.GetStack().Last())
-            bkgUncHisto.Reset()
-            for idx, hist in enumerate(stkSystErrHistos):
-                syst = self.systs[idx]
-                for ibin in range(0, hist.GetNbinsX() + 2):
-                    hist.SetBinError(ibin, syst * hist.GetBinContent(ibin))
-                bkgUncHisto.Add(hist)
-
-            ##histoAll = copy.deepcopy(bkgTotalHist)
-            # histoAll = thStack.GetStack().Last()
-            # bkgUncHisto = copy.deepcopy(histoAll)
-            # for bin in range(0,histoAll.GetNbinsX()):
-            #    bkgUncHisto.SetBinError(bin+1,self.bkgSyst*histoAll.GetBinContent(bin+1))
-            bkgUncHisto.SetMarkerStyle(0)
-            bkgUncHisto.SetLineColor(0)
-            bkgUncHisto.SetFillColor(kGray + 2)
-            bkgUncHisto.SetLineColor(kGray + 2)
-            bkgUncHisto.SetFillStyle(3001)
-            bkgUncHisto.SetMarkerSize(0)
-            bkgUncHisto.Draw("E2same")
-            legend.AddEntry(bkgUncHisto, self.bkgUncKey, "f")
+            self.bkgUncHist, graph = GetSystematicGraphAndHist(self.bkgTotalHist, self.systNames)
+            self.bkgUncHist = copy.deepcopy(self.bkgUncHist)
+            self.bkgUncHist = rebinHisto(self.bkgUncHist, self.xmin, self.xmax, self.rebin, self.xbins, self.addOvfl)[0]
+            #for xBin in range(0, self.bkgUncHist.GetNbinsX()+2):
+            #    if self.bkgUncHist.GetBinContent(xBin) != 0:
+            #        print("INFO: for xBin={}, center={}, binError={} vs. nominal={}; binError/nominal={}".format(xBin, self.bkgUncHist.GetXaxis().GetBinCenter(xBin), self.bkgUncHist.GetBinError(xBin), self.bkgUncHist.GetBinContent(xBin), self.bkgUncHist.GetBinError(xBin)/self.bkgUncHist.GetBinContent(xBin)))
+            self.bkgUncHist.SetMarkerStyle(0)
+            self.bkgUncHist.SetLineColor(0)
+            self.bkgUncHist.SetFillColor(kGray + 2)
+            self.bkgUncHist.SetLineColor(kGray + 2)
+            self.bkgUncHist.SetFillStyle(3001)
+            self.bkgUncHist.SetMarkerSize(0)
+            self.bkgUncHist.Draw("E2same")
+            #self.bkgUncHist.Draw("3same")
+            legend.AddEntry(self.bkgUncHist, self.bkgUncKey, "f")
 
         # -- loop over histograms (overlaid)
         ih = 0  # index of histo within a plot
@@ -863,30 +934,31 @@ class Plot:
 
         # -- 2nd pad (ratio)
         if (self.makeRatio == 1 or self.makeNSigma == 1) and self.histodata:
-
             h_bkgTot = copy.deepcopy(bkgTotalHist)
-            if self.addBkgUncBand:
-                h_bkgUnc = copy.deepcopy(bkgUncHisto)
             h_ratio = copy.deepcopy(self.histodata)
             h_ratioSyst = copy.deepcopy(self.histodata)
             h_nsigma = copy.deepcopy(self.histodata)
-            h_bkgTot1 = TH1F()
-            h_bkgUnc1 = TH1F()
-            h_ratio1 = TH1F()
-            h_nsigma1 = TH1F()
+            h_bkgTot1 = TH1D()
+            h_ratio1 = TH1D()
+            h_nsigma1 = TH1D()
 
             if self.xbins != "" and self.rebin != "var":  ## Variable binning
                 xbinsFinal = array("d", self.xbins)
                 length = len(xbinsFinal) - 1
                 h_bkgTot1 = h_bkgTot.Rebin(length, "h_bkgTot1", xbinsFinal)
                 if self.addBkgUncBand:
-                    h_bkgUnc1 = h_bkgUnc.Rebin(length, "h_bkgUnc1", xbinsFinal)
+                    h_bkgUnc1 = copy.deepcopy(self.bkgUncHist)
+                    #bins = h_bkgTot.GetXaxis().GetXbins()
+                    #h_bkgUnc1.Rebin(bins.GetSize()-1, "bkgUnc1Rebin", np.ndarray(bins.GetSize(), buffer=bins.GetArray()))
+                    h_bkgUnc1 = h_bkgUnc1.Rebin(length, "h_bkgUnc1", xbinsFinal)
                 h_ratio1 = h_ratio.Rebin(length, "h_ratio1", xbinsFinal)
                 h_nsigma1 = h_nsigma.Rebin(length, "h_nsigma1", xbinsFinal)
             else:
                 h_bkgTot1 = h_bkgTot
                 if self.addBkgUncBand:
-                    h_bkgUnc1 = h_bkgUnc
+                    h_bkgUnc1 = copy.deepcopy(self.bkgUncHist)
+                    #bins = h_bkgTot1.GetXaxis().GetXbins()
+                    #h_bkgUnc1 = h_bkgUnc1.Rebin(bins.GetSize()-1, "bkgUnc1Rebin", np.ndarray(bins.GetSize(), buffer=bins.GetArray()))
                 h_ratio1 = h_ratio
                 h_nsigma1 = h_nsigma
 
@@ -924,6 +996,8 @@ class Plot:
                 )
 
                 h_ratio1.Draw("e0p")
+                #for xBin in range(0, h_ratio1.GetNbinsX()+1):
+                #    print("INFO: for h_ratio1 [data/MC] xBin={}, center={}, sumQuad={} vs. nominal={}".format(xBin, h_ratio1.GetXaxis().GetBinCenter(xBin), h_ratio1.GetBinError(xBin), h_ratio1.GetBinContent(xBin)))
 
                 if self.addBkgUncBand:
                     # histoAll = thStack.GetStack().Last()
@@ -940,13 +1014,15 @@ class Plot:
                     ##    print 'bin=',bgRatioErrs.GetBinContent(binn),'+/-',bgRatioErrs.GetBinError(binn)
                     ##bgRatioErrs.SetFillColor(kOrange-6)
                     #
-                    h_ratioSyst.Divide(
-                        h_bkgUnc1
-                    )  # just divide by the bkgTotal hist with the systs as errors
+                    #h_ratioSyst.Divide(h_bkgUnc1)  # just divide by the bkgTotal hist with the systs as errors
                     bgRatioErrs = h_ratioSyst
                     # set bin contents to 1
-                    for binn in range(0, bgRatioErrs.GetNbinsX()):
+                    for binn in range(0, bgRatioErrs.GetNbinsX()+2):
                         bgRatioErrs.SetBinContent(binn, 1.0)
+                        binContent = h_bkgUnc1.GetBinContent(binn)
+                        if binContent != 0:
+                            bgRatioErrs.SetBinError(binn, h_bkgUnc1.GetBinError(binn)/binContent)
+                            #print("INFO: for bgRatioErrs: binn={}, center={}, binError={} vs. nominal={}; binError/nominal={}".format(binn, bgRatioErrs.GetXaxis().GetBinCenter(binn), bgRatioErrs.GetBinError(binn), bgRatioErrs.GetBinContent(binn), bgRatioErrs.GetBinError(binn)/bgRatioErrs.GetBinContent(binn)))
                     bgRatioErrs.SetFillColor(kGray + 1)
                     bgRatioErrs.SetLineColor(kGray + 1)
                     # bgRatioErrs.SetFillStyle(3001)
@@ -1014,8 +1090,8 @@ class Plot:
 
                     if len(nsigma_x) != 0:
 
-                        nsigma1_x = numpy.array(nsigma_x)
-                        nsigma1_y = numpy.array(nsigma_y)
+                        nsigma1_x = np.array(nsigma_x)
+                        nsigma1_y = np.array(nsigma_y)
 
                         # if ( len ( nsigma_x ) == 0 ) continue
 
