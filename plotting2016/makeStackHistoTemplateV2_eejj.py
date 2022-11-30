@@ -929,6 +929,35 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(ee) (GeV) [Bkg. Ctrl. Reg.]"
 
+    plots.append(makeDefaultPlot("Mee_BkgControlRegion", systs=True))
+    plots[-1].rebin = 1
+    plots[-1].addOvfl = "no"
+    plots[-1].ymax = 1e6
+    #plots[-1].rebin = "var"
+    #plots[-1].xbins = list(range(0, 410, 10)) + [
+    #    420,
+    #    440,
+    #    460,
+    #    480,
+    #    500,
+    #    550,
+    #    600,
+    #    650,
+    #    700,
+    #    800,
+    #    900,
+    #    1000,
+    #    1200,
+    #    1400,
+    #    1600,
+    #    1800,
+    #    2000,
+    #]
+    plots[-1].xmin = 70.0
+    plots[-1].xmax = 110.0
+    plots[-1].ylog = "yes"
+    plots[-1].xtit = "M(ee) (GeV) [Bkg. Ctrl. Reg., 70-110 GeV]"
+
     plots.append(makeDefaultPlot("Mee_PAS"))
     # plots[-1].rebin = 1
     plots[-1].rebin = "var"
