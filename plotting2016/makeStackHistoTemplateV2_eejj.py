@@ -350,6 +350,7 @@ def makeDefaultPlot(
     systList = []
     if systs:
         histoBaseName = histoBaseName.replace("histo1D", "histo2D")
+        histoBaseName+="WithSystematics"
         systList = systNames
     plot.systNames = systList
     plot.histosStack = generateHistoList(
@@ -383,9 +384,7 @@ def makeDefaultPlot(
             dataBlindAbove,
         )
         plot.histodataBlindAbove = dataBlindAbove
-        # hack for now XXX SIC FIXME in analysis class
-        # if "WithSysts" in plot.histosStack[-1].GetName():
-        if "TH2" in plot.histodata.ClassName():
+        if systs:
             plot.histodata = plot.histodata.ProjectionX(plot.histodata.GetName()+"projx", 1, 1)
     #bkgTotalHist = TH1D()
     #for index, sampleHisto in enumerate(plot.histosStack):
@@ -397,8 +396,8 @@ def makeDefaultPlot(
     #if bkgTotalHist.InheritsFrom("TH2"):
     newHistosStack = []
     if plot.histosStack[-1].InheritsFrom("TH2"):
-        print()
-        print("INFO: redoing stack plots for histo={}".format(plot.histosStack[0].GetName().split("__")[-1]))
+        #print()
+        #print("INFO: redoing stack plots for histo={}".format(plot.histosStack[0].GetName().split("__")[-1]))
         for index, sampleHisto in enumerate(plot.histosStack):
             histo = copy.deepcopy(sampleHisto)
             if index == 0:
@@ -525,7 +524,7 @@ plots = []
 ####################################################################################################
 if doPreselPlots:
     print("INFO: creating preselection plots...", end=' ')
-    plots.append(makeDefaultPlot("nElectron_PAS"))
+    plots.append(makeDefaultPlot("nElectron_PAS", systs=True))
     plots[-1].ymax = 10000000
     # plots[-1].ymin = 1e-1
     plots[-1].xmin = -0.5
@@ -533,7 +532,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "Number of electrons [Preselection]"
 
-    plots.append(makeDefaultPlot("nMuon_PAS"))
+    plots.append(makeDefaultPlot("nMuon_PAS", systs=True))
     # plots[-1].ymax = 10000000
     # plots[-1].ymin = 1e-1
     plots[-1].xmin = -0.5
@@ -541,7 +540,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "Number of muons [Preselection]"
 
-    plots.append(makeDefaultPlot("nJet_PAS"))
+    plots.append(makeDefaultPlot("nJet_PAS", systs=True))
     plots[-1].xtit = "Number of jets [Preselection]"
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
@@ -549,7 +548,7 @@ if doPreselPlots:
     plots[-1].xmin = -0.5
     plots[-1].xmax = 10.5
 
-    plots.append(makeDefaultPlot("nJet_PAS"))
+    plots.append(makeDefaultPlot("nJet_PAS", systs=True))
     plots[-1].xtit = "Number of jets [Preselection]"
     # plots[-1].ymax = 5e4
     # plots[-1].ymin = 1e-1
@@ -575,7 +574,7 @@ if doPreselPlots:
     # plots[-1].xmax  = 1.5
 
     # plots.append(makeDefaultPlot("PtHeep1stEle_PAS"))
-    plots.append(makeDefaultPlot("Pt1stEle_PAS", dataBlindAbove=dataBlindAbovePt1))
+    plots.append(makeDefaultPlot("Pt1stEle_PAS", systs=True, dataBlindAbove=dataBlindAbovePt1))
     plots[-1].rebin = 2
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
@@ -585,7 +584,7 @@ if doPreselPlots:
     plots[-1].xtit = "1st Electron p_{T} (GeV) [Preselection]"
 
     # plots.append(makeDefaultPlot("PtHeep2ndEle_PAS"))
-    plots.append(makeDefaultPlot("Pt2ndEle_PAS", dataBlindAbove=dataBlindAbovePt2))
+    plots.append(makeDefaultPlot("Pt2ndEle_PAS", systs=True, dataBlindAbove=dataBlindAbovePt2))
     plots[-1].rebin = 2
     # plots[-1].ymax = 1e5
     # plots[-1].ymin = 1e-1
@@ -612,7 +611,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "2nd Muon p_{T} (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Eta1stEle_PAS"))
+    plots.append(makeDefaultPlot("Eta1stEle_PAS", systs=True))
     plots[-1].xtit = "1st Electron #eta [Preselection]"
     plots[-1].rebin = 2
     # plots[-1].ymax = 200000000
@@ -621,14 +620,14 @@ if doPreselPlots:
     plots[-1].xmax = 3
     plots[-1].ylog = "yes"
 
-    plots.append(makeDefaultPlot("Phi1stEle_PAS"))
+    plots.append(makeDefaultPlot("Phi1stEle_PAS", systs=True))
     plots[-1].xtit = "1st Electron #phi [Preselection]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 5e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
 
-    plots.append(makeDefaultPlot("Eta2ndEle_PAS"))
+    plots.append(makeDefaultPlot("Eta2ndEle_PAS", systs=True))
     plots[-1].xtit = "2nd Electron #eta [Preselection]"
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
@@ -637,7 +636,7 @@ if doPreselPlots:
     plots[-1].rebin = 2
     plots[-1].ylog = "yes"
 
-    plots.append(makeDefaultPlot("Phi2ndEle_PAS"))
+    plots.append(makeDefaultPlot("Phi2ndEle_PAS", systs=True))
     plots[-1].xtit = "2nd Electron #phi [Preselection]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 5e7
@@ -664,7 +663,7 @@ if doPreselPlots:
     plots[-1].rebin = 2
     plots[-1].ylog = "yes"
 
-    plots.append(makeDefaultPlot("MET_PAS"))
+    plots.append(makeDefaultPlot("MET_PAS", systs=True))
     plots[-1].xtit = "PFMET (GeV) [Preselection]"
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e4
@@ -673,14 +672,14 @@ if doPreselPlots:
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
 
-    plots.append(makeDefaultPlot("METPhi_PAS"))
+    plots.append(makeDefaultPlot("METPhi_PAS", systs=True))
     plots[-1].xtit = "PFMET #phi [Preselection]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 1.2e4
     # plots[-1].ymin = 1e-1
     # plots[-1].ylog  = "yes"
 
-    plots.append(makeDefaultPlot("Pt1stJet_PAS"))
+    plots.append(makeDefaultPlot("Pt1stJet_PAS", systs=True))
     plots[-1].xtit = "1st Jet p_{T} (GeV) [Preselection]"
     plots[-1].rebin = pt_rebin
     # plots[-1].ymax = 1e4
@@ -689,7 +688,7 @@ if doPreselPlots:
     plots[-1].xmin = 0
     plots[-1].ylog = "yes"
 
-    plots.append(makeDefaultPlot("Pt2ndJet_PAS"))
+    plots.append(makeDefaultPlot("Pt2ndJet_PAS", systs=True))
     plots[-1].rebin = pt_rebin
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
@@ -698,7 +697,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "2nd Jet p_{T} (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Eta1stJet_PAS"))
+    plots.append(makeDefaultPlot("Eta1stJet_PAS", systs=True))
     plots[-1].rebin = 2
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
@@ -707,7 +706,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "1st Jet #eta [Preselection]"
 
-    plots.append(makeDefaultPlot("Eta2ndJet_PAS"))
+    plots.append(makeDefaultPlot("Eta2ndJet_PAS", systs=True))
     plots[-1].rebin = 2
     # plots[-1].ymax = 200000000
     # plots[-1].ymin = 1e-1
@@ -716,21 +715,21 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "2nd Jet #eta [Preselection]"
 
-    plots.append(makeDefaultPlot("Phi1stJet_PAS"))
+    plots.append(makeDefaultPlot("Phi1stJet_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 4e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "1st Jet #phi [Preselection]"
 
-    plots.append(makeDefaultPlot("Phi2ndJet_PAS"))
+    plots.append(makeDefaultPlot("Phi2ndJet_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 4e7
     # plots[-1].ymin = 1e-1
     plots[-1].ylog = "yes"
     plots[-1].xtit = "2nd Jet #phi [Preselection]"
 
-    plots.append(makeDefaultPlot("sTlep_PAS"))
+    plots.append(makeDefaultPlot("sTlep_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e6
     # plots[-1].ymin = 1e-1
@@ -740,7 +739,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "S_{T} (1st Electron, 2nd Electron) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("sTjet_PAS"))
+    plots.append(makeDefaultPlot("sTjet_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e6
     # plots[-1].ymin = 1e-1
@@ -750,7 +749,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "S_{T} (1st Jet, 2nd Jet) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("sT_PAS", dataBlindAbove=dataBlindAboveSt))
+    plots.append(makeDefaultPlot("sT_PAS", systs=True, dataBlindAbove=dataBlindAboveSt))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
@@ -856,7 +855,7 @@ if doPreselPlots:
     # plots[-1].ylog  = "yes"
     # plots[-1].xtit = "M(j1,j3) Mass (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Me1j1_PAS"))
+    plots.append(makeDefaultPlot("Me1j1_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 5e4
     # plots[-1].ymin = 1e-1
@@ -864,7 +863,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(e1,j1) Mass (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Me1j1_PAS"))
+    plots.append(makeDefaultPlot("Me1j1_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 9.5e3
     # plots[-1].ymin = 1e-1
@@ -895,7 +894,7 @@ if doPreselPlots:
     # plots[-1].ylog  = "yes"
     # plots[-1].xtit = "M(e1, e2, j1, j2, j3) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Meejj_PAS"))
+    plots.append(makeDefaultPlot("Meejj_PAS", systs=True))
     plots[-1].rebin = 5
     # plots[-1].ymax = 6e5
     # plots[-1].ymin = 1e-1
@@ -958,7 +957,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(ee) (GeV) [Bkg. Ctrl. Reg., 70-110 GeV]"
 
-    plots.append(makeDefaultPlot("Mee_PAS"))
+    plots.append(makeDefaultPlot("Mee_PAS", systs=True))
     # plots[-1].rebin = 1
     plots[-1].rebin = "var"
     plots[-1].xbins = list(range(0, 410, 10)) + [
@@ -987,7 +986,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(ee) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Mee_PAS"))
+    plots.append(makeDefaultPlot("Mee_PAS", systs=True))
     plots[-1].rebin = 4
     #plots[-1].rebin = "var"
     #plots[-1].xbins = range(0, 410, 10) + [
@@ -1017,7 +1016,7 @@ if doPreselPlots:
     plots[-1].xtit = "M(ee) (GeV) [Preselection, 100-250 GeV]"
     plots[-1].name = "Mee_100_250_PAS"
 
-    plots.append(makeDefaultPlot("Mee_PAS"))
+    plots.append(makeDefaultPlot("Mee_PAS", systs=True))
     plots[-1].ymax = 5e5
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 60.0
@@ -1053,7 +1052,7 @@ if doPreselPlots:
     plots[-1].xtit = "M(ee) (GeV) [Preselection, == 0 b-tags, GeV]"
     plots[-1].name = "Mee_PAS_noBtaggedJets"
 
-    plots.append(makeDefaultPlot("Mee_EBEB_PAS"))
+    plots.append(makeDefaultPlot("Mee_EBEB_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e4
     # plots[-1].ymin = 1e-1
@@ -1062,7 +1061,7 @@ if doPreselPlots:
     plots[-1].xmax = 120.0
     plots[-1].xtit = "M(ee) (preselection, EB-EB) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EBEE_PAS"))
+    plots.append(makeDefaultPlot("Mee_EBEE_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 2e3
     # plots[-1].ymin = 1e-1
@@ -1071,7 +1070,7 @@ if doPreselPlots:
     plots[-1].xmax = 120.0
     plots[-1].xtit = "M(ee) (preselection, EB-EE) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EEEE_PAS"))
+    plots.append(makeDefaultPlot("Mee_EEEE_PAS", systs=True))
     plots[-1].rebin = 1
     #plots[-1].ymax = 1e3
     #plots[-1].ymin = 1e-1
@@ -1080,7 +1079,7 @@ if doPreselPlots:
     plots[-1].xmax = 120.0
     plots[-1].xtit = "M(ee) (preselection, EE-EE) (GeV)"
 
-    plots.append(makeDefaultPlot("Mee_EB_PAS"))
+    plots.append(makeDefaultPlot("Mee_EB_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 8e3
     # plots[-1].ymin = 1e-1
@@ -1172,7 +1171,7 @@ if doPreselPlots:
     #plots[-1].ylog = "yes"
     #plots[-1].xtit = "M(ee) [70, 110] (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Ptee_PAS"))
+    plots.append(makeDefaultPlot("Ptee_PAS", systs=True))
     plots[-1].rebin = 2
     # plots[-1].ymax = 4e6
     # plots[-1].ymin = 1e-1
@@ -1250,7 +1249,7 @@ if doPreselPlots:
     # plots[-1].ylog  = "yes"
     # plots[-1].xtit  = "P_{T}(ee) - P_{T}(j_{1}, j_{2}, j_{3}) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Me1j1_PAS"))
+    plots.append(makeDefaultPlot("Me1j1_PAS", systs=True))
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
     plots[-1].xmin = 0
@@ -1259,7 +1258,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(e_{1}j_{1}) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Me1j2_PAS"))
+    plots.append(makeDefaultPlot("Me1j2_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
@@ -1269,7 +1268,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(e_{1}j_{2}) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Me2j1_PAS"))
+    plots.append(makeDefaultPlot("Me2j1_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
@@ -1279,7 +1278,7 @@ if doPreselPlots:
     plots[-1].ylog = "yes"
     plots[-1].xtit = "M(e_{2}j_{1}) (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("Me2j2_PAS"))
+    plots.append(makeDefaultPlot("Me2j2_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
@@ -1289,7 +1288,7 @@ if doPreselPlots:
     plots[-1].xmax = 2000
     plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("Mej_selected_avg_PAS"))
+    plots.append(makeDefaultPlot("Mej_selected_avg_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1.8e4
     # plots[-1].ymin = 1e-1
@@ -1299,7 +1298,7 @@ if doPreselPlots:
     plots[-1].xmax = 1000
     plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("Mej_selected_min_PAS"))
+    plots.append(makeDefaultPlot("Mej_selected_min_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1.8e4
     # plots[-1].ymin = 1e-1
@@ -1309,7 +1308,7 @@ if doPreselPlots:
     plots[-1].xmax = 1000
     plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("Mej_selected_max_PAS"))
+    plots.append(makeDefaultPlot("Mej_selected_max_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1.8e4
     # plots[-1].ymin = 1e-1
@@ -1320,7 +1319,7 @@ if doPreselPlots:
     plots[-1].rebin = 5
 
     # USED IN AN
-    plots.append(makeDefaultPlot("Mej_selected_avg_PAS"))
+    plots.append(makeDefaultPlot("Mej_selected_avg_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 4e4
     # plots[-1].ymin = 1e-1
@@ -1330,7 +1329,7 @@ if doPreselPlots:
     plots[-1].xmax = 1200
     plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("Mej_selected_min_PAS"))
+    plots.append(makeDefaultPlot("Mej_selected_min_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1e6
     # plots[-1].ymin = 1e-1
@@ -1340,7 +1339,7 @@ if doPreselPlots:
     plots[-1].xmax = 1200
     plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("Mej_selected_max_PAS"))
+    plots.append(makeDefaultPlot("Mej_selected_max_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1000000
     # plots[-1].ymin = 1e-1
@@ -1360,7 +1359,7 @@ if doPreselPlots:
     # plots[-1].xmax  = 500
     # plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("Mej_asym_PAS"))
+    plots.append(makeDefaultPlot("Mej_asym_PAS", systs=True))
     plots[-1].rebin = 1
     # plots[-1].ymax = 1000000
     # plots[-1].ymin = 1e-1
@@ -1370,7 +1369,7 @@ if doPreselPlots:
     #plots[-1].xmax = 1200
     #plots[-1].rebin = 5
 
-    plots.append(makeDefaultPlot("nVertex_PAS"))
+    plots.append(makeDefaultPlot("nVertex_PAS", systs=True))
     plots[-1].rebin = 1
     plots[-1].xmin = -0.5
     plots[-1].xmax = 60.5
@@ -1468,7 +1467,7 @@ if doPreselPlots:
     # plots[-1].xmin = 0
     # plots[-1].xmax = 6
 
-    plots.append(makeDefaultPlot("Meejj_PAS"))
+    plots.append(makeDefaultPlot("Meejj_PAS", systs=True))
     plots[-1].rebin = 10
     # plots[-1].ymax = 2000000
     # plots[-1].ymin = 1e-1
@@ -1489,7 +1488,7 @@ if doPreselPlots:
     # plots[-1].ylog  = "yes"
     # plots[-1].xtit = "Mass_{ejj} (GeV) [Preselection]"
 
-    plots.append(makeDefaultPlot("MET_PAS"))
+    plots.append(makeDefaultPlot("MET_PAS", systs=True))
     plots[-1].xtit = "PFMET (GeV) [Preselection]"
     plots[-1].rebin = 4
     # plots[-1].ymax = 1e6
@@ -1512,6 +1511,7 @@ if doPreselPlots:
     # plots[-1].ytit = "S_{T}(eejj) [GeV]"
     #
     #
+    #FIXME TODO
     plots.append(makeDefaultPlot("BDTOutput_Presel"))
     plots[-1].xtit = "BDT output [Preselection]"
     plots[-1].rebin = 200
