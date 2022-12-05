@@ -41,10 +41,16 @@ def GetFile(filename):
     return tfile
 
 
-def GetHisto(histoName, file, scale=1):
-    histo = file.Get(histoName)
+def GetHisto(histoName, tfile, scale=1):
+    histo = tfile.Get(histoName)
     if not histo:
-        raise RuntimeError("ERROR: histo " + histoName + " not found in " + file.GetName())
+        # in this case, try for one with systematics
+        histoWithSystsName = histoName.replace("histo1D", "histo2D")+"WithSystematics"
+        histo2D = tfile.Get(histoWithSystsName)
+        if not histo2D:
+            raise RuntimeError("ERROR: neither histo {} nor histo {} were found in file {}.".format(histoName, histoWithSystsName, tfile.GetName()))
+        print("INFO: Using histo named {} and projecting to 1-D".format(histoWithSystsName))
+        histo = histo2D.ProjectionX(histoName, 1, 1)  # convert to 1-D nominal hist
     new = copy.deepcopy(histo)
     if scale != 1:
         new.Scale(scale)
