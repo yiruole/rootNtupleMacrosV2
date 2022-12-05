@@ -153,41 +153,41 @@ void analysisClass::Loop()
    //CreateUserTH1D( "ProcessID"                       ,    21    , -0.5    , 20.5     );
    //CreateUserTH1D( "ProcessID_PAS"                   ,    21    , -0.5    , 20.5     );
    //CreateUserTH1D( "ProcessID_ZWindow"               ,    21    , -0.5    , 20.5     );
-   CreateUserTH1D( "nElectron_PAS"                   ,    5     , -0.5    , 4.5      );
-   CreateUserTH1D( "nMuon_PAS"                       ,    5     , -0.5    , 4.5      );
-   CreateUserTH1D( "nJet_PAS"                        ,    10    , -0.5    , 9.5      );
+   CreateUserTH1DWithSysts( "nElectron_PAS"                   ,    5     , -0.5    , 4.5      );
+   CreateUserTH1DWithSysts( "nMuon_PAS"                       ,    5     , -0.5    , 4.5      );
+   CreateUserTH1DWithSysts( "nJet_PAS"                        ,    10    , -0.5    , 9.5      );
    CreateUserTH1D( "nJet_PASandMee100"               ,    10    , -0.5    , 9.5      );
-   CreateUserTH1D( "Pt1stEle_PAS"	             , 	100    , 0       , 1000     ); 
+   CreateUserTH1DWithSysts( "Pt1stEle_PAS"	             , 	100    , 0       , 1000     ); 
    //CreateUserTH1D( "PtHeep1stEle_PAS"	             , 	100    , 0       , 1000     ); 
    CreateUserTH1D( "Pt1stEle_PASandMee100"           , 	100    , 0       , 1000     ); 
-   CreateUserTH1D( "Eta1stEle_PAS"	             , 	100    , -5      , 5	  ); 
-   CreateUserTH1D( "SCEta1stEle_PAS"	             , 	100    , -5      , 5	  ); 
+   CreateUserTH1DWithSysts( "Eta1stEle_PAS"	             , 	100    , -5      , 5	  ); 
+   CreateUserTH1DWithSysts( "SCEta1stEle_PAS"	             , 	100    , -5      , 5	  ); 
    CreateUserTH1D( "DeltaEtaEleTrk1stEle_Presel", 400, -0.5,   0.5 );
-   CreateUserTH1D( "Phi1stEle_PAS"	             , 	60     , -3.1416 , +3.1416  ); 
-   CreateUserTH1D( "Pt2ndEle_PAS"	             , 	300    , 0       , 3000     ); 
+   CreateUserTH1DWithSysts( "Phi1stEle_PAS"	             , 	60     , -3.1416 , +3.1416  ); 
+   CreateUserTH1DWithSysts( "Pt2ndEle_PAS"	             , 	300    , 0       , 3000     ); 
    //CreateUserTH1D( "PtHeep2ndEle_PAS"	             , 	300    , 0       , 3000     ); 
    CreateUserTH1D( "Pt2ndEle_PASandMee100"           , 	300    , 0       , 3000     ); 
-   CreateUserTH1D( "Eta2ndEle_PAS"	             , 	100    , -5      , 5	  ); 
-   CreateUserTH1D( "SCEta2ndEle_PAS"	             , 	100    , -5      , 5	  ); 
+   CreateUserTH1DWithSysts( "Eta2ndEle_PAS"	             , 	100    , -5      , 5	  ); 
+   CreateUserTH1DWithSysts( "SCEta2ndEle_PAS"	             , 	100    , -5      , 5	  ); 
    CreateUserTH1D( "DeltaEtaEleTrk2ndEle_Presel", 400, -0.5,   0.5 );
-   CreateUserTH1D( "Phi2ndEle_PAS"	             , 	60     , -3.1416 , +3.1416  ); 
+   CreateUserTH1DWithSysts( "Phi2ndEle_PAS"	             , 	60     , -3.1416 , +3.1416  ); 
    CreateUserTH1D( "Charge1stEle_PAS"	             , 	2      , -1.0001 , 1.0001	  ); 
    CreateUserTH1D( "Charge2ndEle_PAS"	             , 	2      , -1.0001 , 1.0001	  ); 
-   CreateUserTH1D( "MET_PAS"                         ,    200   , 0       , 1000	  ); 
-   CreateUserTH1D( "METPhi_PAS"		             , 	60     , -3.1416 , +3.1416  ); 
-   CreateUserTH1D( "Pt1stJet_PAS"                    ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Pt2ndJet_PAS"                    ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "MET_PAS"                         ,    200   , 0       , 1000	  ); 
+   CreateUserTH1DWithSysts( "METPhi_PAS"		             , 	60     , -3.1416 , +3.1416  ); 
+   CreateUserTH1DWithSysts( "Pt1stJet_PAS"                    ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Pt2ndJet_PAS"                    ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Pt1stJet_PASandMee100"           ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Pt2ndJet_PASandMee100"           ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Eta1stJet_PAS"                   ,    100   , -5      , 5	  ); 
-   CreateUserTH1D( "Eta2ndJet_PAS"                   ,    100   , -5      , 5	  ); 
-   CreateUserTH1D( "Phi1stJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
-   CreateUserTH1D( "Phi2ndJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
-   CreateUserTH1D( "sTlep_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Eta1stJet_PAS"                   ,    100   , -5      , 5	  ); 
+   CreateUserTH1DWithSysts( "Eta2ndJet_PAS"                   ,    100   , -5      , 5	  ); 
+   CreateUserTH1DWithSysts( "Phi1stJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
+   CreateUserTH1DWithSysts( "Phi2ndJet_PAS"	             , 	 60    , -3.1416 , +3.1416  ); 
+   CreateUserTH1DWithSysts( "sTlep_PAS"                       ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sTlep_PASandMee100"              ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "sTjet_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "sTjet_PAS"                       ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "sTjet_PASandMee100"              ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "sT_PAS"                          ,    300   , 0       , 3000	  ); 
+   CreateUserTH1DWithSysts( "sT_PAS"                          ,    300   , 0       , 3000	  ); 
    CreateUserTH1D( "sT_zjj_PAS"                      ,    300   , 0       , 3000	  ); 
    CreateUserTH1D( "sT_zjj_PASandMee100"             ,    300   , 0       , 3000	  ); 
    CreateUserTH1D( "sT_PASandMee100"                 ,    200   , 0       , 2000	  ); 
@@ -203,21 +203,21 @@ void analysisClass::Loop()
    CreateUserTH1D( "sT_PASandMee200"                 ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mjj_PAS"		             ,    200   , 0       , 2000	  ); 
    CreateUserTH1D( "Mjj_PASandMee100"	             ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Mee_PAS"		             ,    2000   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Mee_PAS"		             ,    2000   , 0       , 2000	  ); 
    CreateUserTH1D( "Mee_PASandST445"                 ,    2000   , 0       , 2000	  ); 
    CreateUserTH1D( "MTenu_PAS"                       ,    200   , 0       , 1000	  ); 
-   CreateUserTH1D( "Me1j1_PAS"                       ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Me1j2_PAS"                       ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Me2j1_PAS"                       ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Me2j2_PAS"                       ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Me1j_selected_PAS"               ,    200   , 0       , 2000	  ); 
-   CreateUserTH1D( "Me2j_selected_PAS"               ,    200   , 0       , 2000   );
-   CreateUserTH1D( "Mej_selected_avg_PAS"            ,    200   , 0       , 2000   ); 
-   CreateUserTH1D( "Mej_selected_min_PAS"            ,    200   , 0       , 2000   ); 
-   CreateUserTH1D( "Mej_selected_max_PAS"            ,    200   , 0       , 2000   ); 
-   CreateUserTH1D( "Mej_asym_PAS"                    ,    50    , 0       , 1   ); 
-   CreateUserTH1D( "Mej_minmax_PAS"                  ,    200   , 0       , 2000   ); 
-   CreateUserTH1D( "Meejj_PAS"                       ,    400   , 0       , 4000   );
+   CreateUserTH1DWithSysts( "Me1j1_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Me1j2_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Me2j1_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Me2j2_PAS"                       ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Me1j_selected_PAS"               ,    200   , 0       , 2000	  ); 
+   CreateUserTH1DWithSysts( "Me2j_selected_PAS"               ,    200   , 0       , 2000   );
+   CreateUserTH1DWithSysts( "Mej_selected_avg_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1DWithSysts( "Mej_selected_min_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1DWithSysts( "Mej_selected_max_PAS"            ,    200   , 0       , 2000   ); 
+   CreateUserTH1DWithSysts( "Mej_asym_PAS"                    ,    50    , 0       , 1   ); 
+   CreateUserTH1DWithSysts( "Mej_minmax_PAS"                  ,    200   , 0       , 2000   ); 
+   CreateUserTH1DWithSysts( "Meejj_PAS"                       ,    400   , 0       , 4000   );
    CreateUserTH1D( "Mejj_PAS"                        ,    400   , 0       , 4000   );
    CreateUserTH1D( "Meej_PAS"                        ,    400   , 0       , 4000   );
    CreateUserTH1D( "run_PAS"                         ,    164900 , 160300  , 325200 );
@@ -236,7 +236,7 @@ void analysisClass::Loop()
    CreateUserTH1D( "Ptj1j3_PASandMee100"             ,    200 , 0       , 2000     );
    CreateUserTH1D( "Ptee_Minus_Ptj1j2_PASandMee100"  ,    200 , -500    , 500      );
    CreateUserTH1D( "Ptee_Minus_Ptj1j2j3_PASandMee100",    200 , -500    , 500      );
-   CreateUserTH1D( "Ptee_PAS"                        ,    200 , 0       , 2000     );
+   CreateUserTH1DWithSysts( "Ptee_PAS"                        ,    200 , 0       , 2000     );
    CreateUserTH1D( "Ptee_PASandMee100"               ,    200 , 0       , 2000     );
 					             
    CreateUserTH1D( "M_j1j3_PAS"                      ,    200 , 0       , 2000	 );    
@@ -256,15 +256,15 @@ void analysisClass::Loop()
    CreateUserTH1D( "M_e2j3_PASandMee100"             ,    200 , 0       , 2000	 ); 
    CreateUserTH1D( "M_eejjj_PASandMee100"            ,    500 , 0       , 5000	 ); 
    
-   CreateUserTH1D( "nVertex_PAS"                     ,    101   , -0.5   , 100.5	 ) ; 
+   CreateUserTH1DWithSysts( "nVertex_PAS"                     ,    101   , -0.5   , 100.5	 ) ; 
    CreateUserTH1D( "nVertex_PASandMee100"            ,    101   , -0.5   , 100.5	 ) ; 
    
-   CreateUserTH1D( "DR_Ele1Jet1_PAS"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
-   CreateUserTH1D( "DR_Ele1Jet2_PAS"	   , 	getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     ) ; 
-   CreateUserTH1D( "DR_Ele2Jet1_PAS"	   , 	getHistoNBins("DR_Ele2Jet1"), getHistoMin("DR_Ele2Jet1"), getHistoMax("DR_Ele2Jet1")     ) ; 
-   CreateUserTH1D( "DR_Ele2Jet2_PAS"	   , 	getHistoNBins("DR_Ele2Jet2"), getHistoMin("DR_Ele2Jet2"), getHistoMax("DR_Ele2Jet2")     ) ; 
-   CreateUserTH1D( "DR_Jet1Jet2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
-   CreateUserTH1D( "DR_Ele1Ele2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+   CreateUserTH1DWithSysts( "DR_Ele1Jet1_PAS"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
+   CreateUserTH1DWithSysts( "DR_Ele1Jet2_PAS"	   , 	getHistoNBins("DR_Ele1Jet2"), getHistoMin("DR_Ele1Jet2"), getHistoMax("DR_Ele1Jet2")     ) ; 
+   CreateUserTH1DWithSysts( "DR_Ele2Jet1_PAS"	   , 	getHistoNBins("DR_Ele2Jet1"), getHistoMin("DR_Ele2Jet1"), getHistoMax("DR_Ele2Jet1")     ) ; 
+   CreateUserTH1DWithSysts( "DR_Ele2Jet2_PAS"	   , 	getHistoNBins("DR_Ele2Jet2"), getHistoMin("DR_Ele2Jet2"), getHistoMax("DR_Ele2Jet2")     ) ; 
+   CreateUserTH1DWithSysts( "DR_Jet1Jet2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
+   CreateUserTH1DWithSysts( "DR_Ele1Ele2_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
    CreateUserTH1D( "minDR_EleJet_PAS"	   , 	getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
    CreateUserTH1D( "minDR_ZJet_PAS"        ,    getHistoNBins("DR_Jet1Jet2"), getHistoMin("DR_Jet1Jet2"), getHistoMax("DR_Jet1Jet2")     ) ; 
    
@@ -290,10 +290,10 @@ void analysisClass::Loop()
    CreateUserTH1D( "Mee_70_110_Preselection_Process3", 200, 60, 120 );
    CreateUserTH1D( "Mee_70_110_Preselection_Process4", 200, 60, 120 );
 
-   CreateUserTH1D( "Mee_EBEB_PAS"		   ,    2000 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mee_EBEE_PAS"		   ,    2000 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mee_EEEE_PAS"		   ,    2000 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mee_EB_PAS" 		   ,    60 , 60       , 120	 ); 
+   CreateUserTH1DWithSysts( "Mee_EBEB_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1DWithSysts( "Mee_EBEE_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1DWithSysts( "Mee_EEEE_PAS"		   ,    2000 , 0       , 2000	 ); 
+   CreateUserTH1DWithSysts( "Mee_EB_PAS" 		   ,    60 , 60       , 120	 ); 
 
    CreateUserTH1D( "Mee_EBEB_80_100_PAS"	   ,    60 , 60       , 120	 ); 
    CreateUserTH1D( "Mee_EBEE_80_100_PAS"	   ,    60 , 60       , 120	 ); 
@@ -631,12 +631,12 @@ void analysisClass::Loop()
 
   // bkg control region plots
   CreateUserTH1DWithSysts( "Mee_BkgControlRegion"		            ,    2000   , 0       , 2000	  ); 
-  CreateUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"		       ,    2000 , 0       , 2000	 ); 
-  CreateUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
-  CreateUserTH1D( "Mee_EB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
-  CreateUserTH1D( "Mee_EBEB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
-  CreateUserTH1D( "Mee_EBEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
-  CreateUserTH1D( "Mee_EEEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1DWithSysts( "Mee_BkgControlRegion_gteOneBtaggedJet"		       ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1DWithSysts( "Mee_BkgControlRegion_gteTwoBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1DWithSysts( "Mee_EB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1DWithSysts( "Mee_EBEB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1DWithSysts( "Mee_EBEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1DWithSysts( "Mee_EEEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
   CreateUserTH1D( "Mee_NJetEq2_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
   CreateUserTH1D( "Mee_NJetEq3_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
   CreateUserTH1D( "Mee_NJetEq4_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
@@ -1669,6 +1669,7 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
 
      bool passed_preselection = ( passedAllPreviousCuts("M_e1e2") && passedCut ("M_e1e2") );
+     std::string preselectionCut = "M_e1e2";
 
      //--------------------------------------------------------------------------
      // Are we in the region of interest?
@@ -1767,13 +1768,13 @@ void analysisClass::Loop()
      if(bkgControlRegion) {
        FillUserTH1D("Mee_BkgControlRegion"	                ,    M_e1e2,    pileup_weight * gen_weight , "M_e1e2_bkgCR");
        if(nBJet_ptCut>=1)
-         FillUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet ) ;
+         FillUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastOneBJet, "M_e1e2_bkgCR" ) ;
        if(nBJet_ptCut>=2)
-         FillUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets ) ;
-       if      ( isEB   ) FillUserTH1D( "Mee_EB_BkgControlRegion"  , M_e1e2, pileup_weight * gen_weight ); 
-       if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_BkgControlRegion", M_e1e2, pileup_weight * gen_weight ); 
-       else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_BkgControlRegion", M_e1e2, pileup_weight * gen_weight ); 
-       else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_BkgControlRegion", M_e1e2, pileup_weight * gen_weight ); 
+         FillUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"      , M_e1e2,  pileup_weight * gen_weight * weightAtLeastTwoBJets, "M_e1e2_bkgCR" ) ;
+       if      ( isEB   ) FillUserTH1D( "Mee_EB_BkgControlRegion"  , M_e1e2, pileup_weight * gen_weight, "M_e1e2_bkgCR" ); 
+       if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_BkgControlRegion", M_e1e2, pileup_weight * gen_weight, "M_e1e2_bkgCR" ); 
+       else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_BkgControlRegion", M_e1e2, pileup_weight * gen_weight, "M_e1e2_bkgCR" ); 
+       else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_BkgControlRegion", M_e1e2, pileup_weight * gen_weight, "M_e1e2_bkgCR" ); 
        // scale factor dependence histos
        if ( nJet_ptCut == 2 )
          FillUserTH1D("Mee_NJetEq2_BkgControlRegion", M_e1e2                         , pileup_weight * gen_weight );
@@ -1999,41 +2000,41 @@ void analysisClass::Loop()
        FillUserTH1D( "Ptee_Minus_Ptj1j2_PAS", Pt_e1e2 - Pt_j1j2              , pileup_weight * gen_weight );
        //FillUserTH1D("ProcessID_PAS"         , ProcessID                      , pileup_weight * gen_weight );
        FillUserTH1D("minDR_EleJet_PAS"      , min_DR_EleJet                  , pileup_weight * gen_weight );
-       FillUserTH1D("DR_Ele1Ele2_PAS"	    , DR_Ele1Ele2                    , pileup_weight * gen_weight );
+       FillUserTH1D("DR_Ele1Ele2_PAS"	    , DR_Ele1Ele2                    , pileup_weight * gen_weight, preselectionCut );
        FillUserTH1D("EleChargeSum_PAS"      , Ele1_Charge + Ele2_Charge      , pileup_weight * gen_weight );
-       FillUserTH1D("nElectron_PAS"         , nEle_ptCut                     , pileup_weight * gen_weight );
-       FillUserTH1D("nMuon_PAS"             , nMuon_ptCut                    , pileup_weight * gen_weight );
-       FillUserTH1D("nJet_PAS"              , nJet_ptCut                     , pileup_weight * gen_weight );
-       FillUserTH1D("Pt1stEle_PAS"	        , Ele1_Pt                        , pileup_weight * gen_weight );
+       FillUserTH1D("nElectron_PAS"         , nEle_ptCut                     , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("nMuon_PAS"             , nMuon_ptCut                    , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("nJet_PAS"              , nJet_ptCut                     , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Pt1stEle_PAS"	        , Ele1_Pt                        , pileup_weight * gen_weight, preselectionCut );
        //FillUserTH1D("PtHeep1stEle_PAS"	    , Ele1_PtHeep                    , pileup_weight * gen_weight );
-       FillUserTH1D("Eta1stEle_PAS"	        , Ele1_Eta                       , pileup_weight * gen_weight );
-       FillUserTH1D("SCEta1stEle_PAS"	      , Ele1_SCEta                     , pileup_weight * gen_weight );
+       FillUserTH1D("Eta1stEle_PAS"	        , Ele1_Eta                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("SCEta1stEle_PAS"	      , Ele1_SCEta                     , pileup_weight * gen_weight, preselectionCut );
        //FillUserTH1D("DeltaEtaEleTrk1stEle_Presel"       , fabs(Ele1_Eta-Ele1_TrkEta)                   , pileup_weight * gen_weight );
-       FillUserTH1D("Phi1stEle_PAS"	        , Ele1_Phi                       , pileup_weight * gen_weight );
-       FillUserTH1D("Pt2ndEle_PAS"	        , Ele2_Pt                        , pileup_weight * gen_weight );
+       FillUserTH1D("Phi1stEle_PAS"	        , Ele1_Phi                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Pt2ndEle_PAS"	        , Ele2_Pt                        , pileup_weight * gen_weight, preselectionCut );
        //FillUserTH1D("PtHeep2ndEle_PAS"	    , Ele2_PtHeep                    , pileup_weight * gen_weight );
-       FillUserTH1D("Eta2ndEle_PAS"	        , Ele2_Eta                       , pileup_weight * gen_weight );
-       FillUserTH1D("SCEta2ndEle_PAS"	      , Ele2_SCEta                     , pileup_weight * gen_weight );
+       FillUserTH1D("Eta2ndEle_PAS"	        , Ele2_Eta                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("SCEta2ndEle_PAS"	      , Ele2_SCEta                     , pileup_weight * gen_weight, preselectionCut );
        //FillUserTH1D("DeltaEtaEleTrk2ndEle_Presel"       , fabs(Ele2_Eta-Ele2_TrkEta)                   , pileup_weight * gen_weight );
-       FillUserTH1D("Phi2ndEle_PAS"	    , Ele2_Phi                       , pileup_weight * gen_weight );
+       FillUserTH1D("Phi2ndEle_PAS"	    , Ele2_Phi                       , pileup_weight * gen_weight, preselectionCut );
        FillUserTH1D("Charge1stEle_PAS"	    , Ele1_Charge                    , pileup_weight * gen_weight );
        FillUserTH1D("Charge2ndEle_PAS"	    , Ele2_Charge                    , pileup_weight * gen_weight );
-       FillUserTH1D("MET_PAS"               , PFMET_Type1_Pt              , pileup_weight * gen_weight );
-       FillUserTH1D("METPhi_PAS"	    , PFMET_Type1_Phi             , pileup_weight * gen_weight );
-       FillUserTH1D("Pt1stJet_PAS"          , Jet1_Pt                        , pileup_weight * gen_weight );
-       FillUserTH1D("Pt2ndJet_PAS"          , Jet2_Pt                        , pileup_weight * gen_weight );
-       FillUserTH1D("Eta1stJet_PAS"         , Jet1_Eta                       , pileup_weight * gen_weight );
-       FillUserTH1D("Eta2ndJet_PAS"         , Jet2_Eta                       , pileup_weight * gen_weight );
-       FillUserTH1D("Phi1stJet_PAS"	    , Jet1_Phi                       , pileup_weight * gen_weight );
-       FillUserTH1D("Phi2ndJet_PAS"	    , Jet2_Phi                       , pileup_weight * gen_weight );
-       FillUserTH1D("sTlep_PAS"             , Ele1_Pt + Ele2_Pt              , pileup_weight * gen_weight );
-       FillUserTH1D("sTjet_PAS"             , Jet1_Pt + Jet2_Pt              , pileup_weight * gen_weight );
-       FillUserTH1D("sT_PAS"                , sT_eejj                        , pileup_weight * gen_weight );
+       FillUserTH1D("MET_PAS"               , PFMET_Type1_Pt              , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("METPhi_PAS"	    , PFMET_Type1_Phi             , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Pt1stJet_PAS"          , Jet1_Pt                        , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Pt2ndJet_PAS"          , Jet2_Pt                        , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Eta1stJet_PAS"         , Jet1_Eta                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Eta2ndJet_PAS"         , Jet2_Eta                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Phi1stJet_PAS"	    , Jet1_Phi                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Phi2ndJet_PAS"	    , Jet2_Phi                       , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("sTlep_PAS"             , Ele1_Pt + Ele2_Pt              , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("sTjet_PAS"             , Jet1_Pt + Jet2_Pt              , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("sT_PAS"                , sT_eejj                        , pileup_weight * gen_weight, preselectionCut );
        FillUserTH1D("sT_zjj_PAS"            , sT_zjj                         , pileup_weight * gen_weight );
        FillUserTH1D("Mjj_PAS"		    , M_j1j2                         , pileup_weight * gen_weight );
-       FillUserTH1D("Mee_PAS"		    , M_e1e2                         , pileup_weight * gen_weight );
+       FillUserTH1D("Mee_PAS"		    , M_e1e2                         , pileup_weight * gen_weight, preselectionCut );
        FillUserTH1D( "MTenu_PAS"            , readerTools_->ReadValueBranch<Float_t>("MT_Ele1MET")                     , pileup_weight * gen_weight );
-       FillUserTH1D("Me1j1_PAS"             , M_e1j1                         , pileup_weight * gen_weight );
+       FillUserTH1D("Me1j1_PAS"             , M_e1j1                         , pileup_weight * gen_weight, preselectionCut );
        // muon kinematics
        FillUserTH1D("Pt1stMuon_PAS"	      , Muon1_Pt                        , pileup_weight * gen_weight );
        FillUserTH1D("Eta1stMuon_PAS"	    , Muon1_Eta                       , pileup_weight * gen_weight );
@@ -2387,17 +2388,17 @@ void analysisClass::Loop()
          FillUserTH1D( "Mee_Ptee350To400_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
        else
          FillUserTH1D( "Mee_Ptee400ToInf_PAS"		             ,  Pt_e1e2 , pileup_weight * gen_weight ); 
-       FillUserTH1D("Me1j2_PAS"             , M_e1j2                         , pileup_weight * gen_weight );
-       FillUserTH1D("Me2j1_PAS"             , M_e2j1                         , pileup_weight * gen_weight );
-       FillUserTH1D("Me2j2_PAS"             , M_e2j2                         , pileup_weight * gen_weight );
-       FillUserTH1D("Ptee_PAS"              , Pt_e1e2                        , pileup_weight * gen_weight );
-       FillUserTH1D("nVertex_PAS"           , nVertex                        , pileup_weight * gen_weight );
-       FillUserTH1D("DR_Ele1Jet1_PAS"	    , DR_Ele1Jet1                    , pileup_weight * gen_weight );
-       FillUserTH1D("DR_Ele1Jet2_PAS"	    , DR_Ele1Jet2                    , pileup_weight * gen_weight );
-       FillUserTH1D("DR_Ele2Jet1_PAS"	    , DR_Ele2Jet1                    , pileup_weight * gen_weight );
-       FillUserTH1D("DR_Ele2Jet2_PAS"	    , DR_Ele2Jet2                    , pileup_weight * gen_weight );
-       FillUserTH1D("DR_Jet1Jet2_PAS"	    , DR_Jet1Jet2                    , pileup_weight * gen_weight );
-       FillUserTH1D("Meejj_PAS"             , M_eejj                         , pileup_weight * gen_weight );
+       FillUserTH1D("Me1j2_PAS"             , M_e1j2                         , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Me2j1_PAS"             , M_e2j1                         , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Me2j2_PAS"             , M_e2j2                         , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Ptee_PAS"              , Pt_e1e2                        , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("nVertex_PAS"           , nVertex                        , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("DR_Ele1Jet1_PAS"	    , DR_Ele1Jet1                    , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("DR_Ele1Jet2_PAS"	    , DR_Ele1Jet2                    , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("DR_Ele2Jet1_PAS"	    , DR_Ele2Jet1                    , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("DR_Ele2Jet2_PAS"	    , DR_Ele2Jet2                    , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("DR_Jet1Jet2_PAS"	    , DR_Jet1Jet2                    , pileup_weight * gen_weight, preselectionCut );
+       FillUserTH1D("Meejj_PAS"             , M_eejj                         , pileup_weight * gen_weight, preselectionCut );
        FillUserTH1D("Meej_PAS"              , M_eej                          , pileup_weight * gen_weight );
        FillUserTH1D("Mejj_PAS"              , M_ejj                          , pileup_weight * gen_weight );
        FillUserTH1D("minDR_ZJet_PAS"        , min_DeltaR_Zj                  , pileup_weight * gen_weight );
@@ -2409,12 +2410,12 @@ void analysisClass::Loop()
        FillUserTH1D("sTfrac_Ele2_PAS"       , Ele2_Pt / sT_eejj              , pileup_weight * gen_weight );
        FillUserTH1D("sTfrac_Jet_PAS"        , ( Jet1_Pt + Jet2_Pt ) / sT_eejj, pileup_weight * gen_weight );
        FillUserTH1D("sTfrac_Ele_PAS"        , ( Ele1_Pt + Ele2_Pt ) / sT_eejj, pileup_weight * gen_weight );
-       FillUserTH1D("Mej_selected_avg_PAS"  , M_ej_avg                       , pileup_weight * gen_weight );	   
-       FillUserTH1D("Mej_selected_min_PAS"  , M_ej_min                       , pileup_weight * gen_weight );	   
-       FillUserTH1D("Mej_selected_max_PAS"  , M_ej_max                       , pileup_weight * gen_weight );	   
-       FillUserTH1D("Mej_minmax_PAS"        , M_ej_min                       , pileup_weight * gen_weight );	   
-       FillUserTH1D("Mej_minmax_PAS"        , M_ej_max                       , pileup_weight * gen_weight );	   
-       FillUserTH1D("Mej_asym_PAS"        , M_ej_asym                        , pileup_weight * gen_weight );	   
+       FillUserTH1D("Mej_selected_avg_PAS"  , M_ej_avg                       , pileup_weight * gen_weight, preselectionCut );	   
+       FillUserTH1D("Mej_selected_min_PAS"  , M_ej_min                       , pileup_weight * gen_weight, preselectionCut );	   
+       FillUserTH1D("Mej_selected_max_PAS"  , M_ej_max                       , pileup_weight * gen_weight, preselectionCut );	   
+       FillUserTH1D("Mej_minmax_PAS"        , M_ej_min                       , pileup_weight * gen_weight, preselectionCut );	   
+       FillUserTH1D("Mej_minmax_PAS"        , M_ej_max                       , pileup_weight * gen_weight, preselectionCut );	   
+       FillUserTH1D("Mej_asym_PAS"        , M_ej_asym                        , pileup_weight * gen_weight, preselectionCut );	   
 
        FillUserTH2D("MeeVsST_PAS" , M_e1e2, sT_eejj, pileup_weight * gen_weight );	   
        FillUserTH2D("MeeVsPtee_PAS" , M_e1e2, Pt_e1e2, pileup_weight * gen_weight );	   
@@ -2435,14 +2436,14 @@ void analysisClass::Loop()
        //--------------------------------------------------------------------------
 
        if ( fabs(M_e1j1-M_e2j2) < fabs(M_e1j2-M_e2j1) ) {
-         FillUserTH1D("Me1j_selected_PAS"   , M_e1j1          , pileup_weight * gen_weight);	   
-         FillUserTH1D("Me2j_selected_PAS"   , M_e2j2          , pileup_weight * gen_weight);	   
+         FillUserTH1D("Me1j_selected_PAS"   , M_e1j1          , pileup_weight * gen_weight, preselectionCut);	   
+         FillUserTH1D("Me2j_selected_PAS"   , M_e2j2          , pileup_weight * gen_weight, preselectionCut);	   
          FillUserTH2D("Me1jVsMe2j_selected" , M_e1j1  , M_e2j2, pileup_weight * gen_weight);
          FillUserTH2D("Me1jVsMe2j_rejected" , M_e1j2  , M_e2j1, pileup_weight * gen_weight);
        }
        else {
-         FillUserTH1D("Me1j_selected_PAS"   , M_e1j2          , pileup_weight * gen_weight);	   
-         FillUserTH1D("Me2j_selected_PAS"   , M_e2j1          , pileup_weight * gen_weight);	   
+         FillUserTH1D("Me1j_selected_PAS"   , M_e1j2          , pileup_weight * gen_weight, preselectionCut);	   
+         FillUserTH1D("Me2j_selected_PAS"   , M_e2j1          , pileup_weight * gen_weight, preselectionCut);	   
          FillUserTH2D("Me1jVsMe2j_selected" , M_e1j2  , M_e2j1, pileup_weight * gen_weight);
          FillUserTH2D("Me1jVsMe2j_rejected" , M_e1j1  , M_e2j2, pileup_weight * gen_weight);
        }
@@ -2477,10 +2478,10 @@ void analysisClass::Loop()
        // Preselection + event type (EBEB, EEEB, EEEE, etc)
        //--------------------------------------------------------------------------
 
-       if      ( isEB   ) FillUserTH1D( "Mee_EB_PAS"  , M_e1e2, pileup_weight * gen_weight ); 
-       if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS", M_e1e2, pileup_weight * gen_weight ); 
-       else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS", M_e1e2, pileup_weight * gen_weight ); 
-       else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS", M_e1e2, pileup_weight * gen_weight ); 
+       if      ( isEB   ) FillUserTH1D( "Mee_EB_PAS"  , M_e1e2, pileup_weight * gen_weight, preselectionCut ); 
+       if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_PAS", M_e1e2, pileup_weight * gen_weight, preselectionCut ); 
+       else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_PAS", M_e1e2, pileup_weight * gen_weight, preselectionCut ); 
+       else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_PAS", M_e1e2, pileup_weight * gen_weight, preselectionCut ); 
 
        //--------------------------------------------------------------------------
        // Preselection + high ST plot
