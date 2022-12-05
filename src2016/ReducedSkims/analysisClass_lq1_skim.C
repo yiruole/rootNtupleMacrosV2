@@ -1413,23 +1413,23 @@ void analysisClass::Loop()
       if(triggerExists("HLT_Photon22"))
         fillTriggerVariable ( "HLT_Photon22" , "H_Photon22"  );
       else
-        fillVariableWithValue( "H_Photon22", -1); 
+        fillVariableWithValue( "H_Photon22", -1.0); 
       if(triggerExists("HLT_Photon25"))
         fillTriggerVariable ( "HLT_Photon25" , "H_Photon25"  );
       else
-        fillVariableWithValue( "H_Photon25", -1); 
+        fillVariableWithValue( "H_Photon25", -1.0); 
       if(triggerExists("HLT_Photon30"))
         fillTriggerVariable ( "HLT_Photon30" , "H_Photon30"  );
       else
-        fillVariableWithValue( "H_Photon30", -1); 
+        fillVariableWithValue( "H_Photon30", -1.0); 
       if(triggerExists("HLT_Photon33"))
         fillTriggerVariable ( "HLT_Photon33" , "H_Photon33"  );
       else
-        fillVariableWithValue( "H_Photon33", -1); 
+        fillVariableWithValue( "H_Photon33", -1.0); 
       if(triggerExists("HLT_Photon36"))
         fillTriggerVariable ( "HLT_Photon36" , "H_Photon36"  );
       else
-        fillVariableWithValue( "H_Photon36", -1); 
+        fillVariableWithValue( "H_Photon36", -1.0); 
       fillTriggerVariable ( "HLT_Photon50"   , "H_Photon50"  );
       fillTriggerVariable ( "HLT_Photon75"   , "H_Photon75"  );
       fillTriggerVariable ( "HLT_Photon90"   , "H_Photon90"  );
@@ -1437,12 +1437,12 @@ void analysisClass::Loop()
       if(triggerExists("HLT_Photon150"))
         fillTriggerVariable ( "HLT_Photon150", "H_Photon150" );
       else
-        fillVariableWithValue( "H_Photon150", -1); 
+        fillVariableWithValue( "H_Photon150", -1.0); 
       fillTriggerVariable ( "HLT_Photon175" , "H_Photon175" );
       if(triggerExists("HLT_Photon200"))
         fillTriggerVariable ( "HLT_Photon200" , "H_Photon200" );
       else
-        fillVariableWithValue ( "H_Photon200" , -1 );
+        fillVariableWithValue ( "H_Photon200" , -1.0 );
 
       bool pass_trigger = (
           getVariableValue("H_Photon22") > 0 || 
