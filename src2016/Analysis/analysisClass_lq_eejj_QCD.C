@@ -11,9 +11,9 @@
 #include <TMVA/Tools.h>
 #include <TMVA/Reader.h>
 
-#include "include/QCDFakeRate.h"
+#include "QCDFakeRate.h"
 // for prescales
-#include "include/Run2PhotonTriggerPrescales.h"
+#include "Run2PhotonTriggerPrescales.h"
 
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
