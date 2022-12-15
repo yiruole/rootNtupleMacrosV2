@@ -32,9 +32,9 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
 
    // BDT test
-   const int n_lq_mass = 4;
+   const int n_lq_mass = 7;
    int LQ_MASS[n_lq_mass] = {
-     1400, 1500, 1600, 1700
+     1100, 1200, 1300, 1400, 1500, 1600, 1700
    };
    ////const int n_lq_mass = 30; // 2017
    //const int n_lq_mass = 29; // 2016
@@ -130,6 +130,7 @@ void analysisClass::Loop()
        bdtWeightFileName = getPreCutString1("BDTWeightFileName");
        evaluateBDT = true;
    }
+   double lqBDTMass = getPreCutValue1("LQBDTMass");
 
    //--------------------------------------------------------------------------
    // Create TH1D's
@@ -840,7 +841,7 @@ void analysisClass::Loop()
    float Jet3_Eta, Jet3_Phi, Jet3_Pt;
    float Masym, MejMin, MejMax, Meejj;
    float DR_Ele1Jet1, DR_Ele1Jet2, DR_Ele2Jet1, DR_Ele2Jet2, DR_Jet1Jet2;
-   float mass = 1700; // FIXME: handle this better in the future
+   float mass = lqBDTMass;
    TMVA::Tools::Instance();
    std::unique_ptr<TMVA::Reader> reader(new TMVA::Reader( "!Color:!Silent" ));
    reader->AddVariable( "sT_eejj", &sT_eejj);
