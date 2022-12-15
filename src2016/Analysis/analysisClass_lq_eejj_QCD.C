@@ -11,10 +11,6 @@
 #include <TMVA/Tools.h>
 #include <TMVA/Reader.h>
 
-#include "QCDFakeRate.h"
-// for prescales
-#include "Run2PhotonTriggerPrescales.h"
-
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile)
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile){}
 
@@ -29,9 +25,9 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
 
    // BDT test
-   const int n_lq_mass = 4;
+   const int n_lq_mass = 7;
    int LQ_MASS[n_lq_mass] = {
-     1400, 1500, 1600, 1700
+     1100, 1200, 1300, 1400, 1500, 1600, 1700
    };
    ////const int n_lq_mass = 30; // 2017
    //const int n_lq_mass = 29; // 2016
@@ -86,14 +82,19 @@ void analysisClass::Loop()
   double eleEta_end2_min       = getPreCutValue1("eleEta_end2");
   double eleEta_end2_max       = getPreCutValue2("eleEta_end2");
 
-
-  // prescales
-  Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
-
   //--------------------------------------------------------------------------
   // Analysis year
   //--------------------------------------------------------------------------
   int analysisYear = getPreCutValue1("AnalysisYear");
+
+  //--------------------------------------------------------------------------
+  // electron ID
+  //--------------------------------------------------------------------------
+  std::string electronIDType     = getPreCutString1("electronIDType");
+  if(electronIDType != "HEEP" && electronIDType != "EGMLoose") {
+    STDOUT("electronIDType=" << electronIDType << " is unknown! Please implement it in the analysisClass code. Exiting.");
+    exit(-5);
+  }
 
   //--------------------------------------------------------------------------
   // B-tag stuff
@@ -105,28 +106,12 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   // BDT weight file
   //--------------------------------------------------------------------------
-  std::string bdtWeightFileName = getPreCutString1("BDTWeightFileName");
-
-  //--------------------------------------------------------------------------
-  // QCD Fake Rate loading part
-  //--------------------------------------------------------------------------
-  std::string qcdFileName = getPreCutString1("QCDFakeRateFilename");
-  //HistoReader qcdFakeRateReader(qcdFileName,"fr2D_Bar_2Jet","fr2D_End_2Jet",true,false);
-  std::vector<std::string> regionVec;
-  if(analysisYear < 2018)
-    regionVec = {"Bar_2Jet", "End1_2Jet", "End2_2Jet"};
-  else
-    regionVec = {
-      "Bar_pre319077_2Jet",
-      "End1_pre319077_2Jet",
-      "End2_pre319077_2Jet",
-      "Bar_noHEM_post319077_2Jet",
-      "End1_noHEM_post319077_2Jet",
-      "End2_noHEM_post319077_2Jet",
-      "Bar_HEMonly_post319077_2Jet",
-      "End1_HEMonly_post319077_2Jet",
-      "End2_HEMonly_post319077_2Jet"};
-  QCDFakeRate qcdFR(qcdFileName, regionVec, analysisYear);
+  std::string bdtWeightFileName = "";
+  bool evaluateBDT = false;
+  if(hasPreCut("BDTWeightFileName")) {
+    bdtWeightFileName = getPreCutString1("BDTWeightFileName");
+    evaluateBDT = true;
+  }
 
   //--------------------------------------------------------------------------
   // Create TH1D's
@@ -580,10 +565,38 @@ void analysisClass::Loop()
   CreateUserTH1D( "Mejj_gteTwoBtaggedJets"              ,    400 , 0       , 4000     );
   CreateUserTH1D( "Meej_gteTwoBtaggedJets"              ,    400 , 0       , 4000     );
   CreateUserTH1D( "Meejj_gteTwoBtaggedJets"             ,    400 , 0       , 4000     );
-   // 3D opt cut space
-   CreateUserTH3D( "OptimizationCutSpace", 200, 0, 2000, 200, 0, 2000, 200, 0, 2000);
-   CreateUserTH1D( "BDTOutput_Presel",20000,-2,2);
-   CreateUserTH1D( "BDTOutput_noWeight_Presel",20000,-2,2);
+
+  // bkg control region plots
+  CreateUserTH1D( "Mee_BkgControlRegion"		            ,    2000   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"		       ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"		       ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EBEB_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EBEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_EEEE_BkgControlRegion"		   ,    2000 , 0       , 2000	 ); 
+  CreateUserTH1D( "Mee_NJetEq2_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq3_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq4_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq5_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq6_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetEq7_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetGeq3_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_NJetGeq4_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT300To500_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT500To750_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT750To1250_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_sT1250ToInf_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin100To200_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin200To300_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin300To400_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin400To500_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin500To650_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+  CreateUserTH1D( "Mee_MejMin650ToInf_BkgControlRegion"		             ,    200   , 0       , 2000	  ); 
+
+  // 3D opt cut space
+  CreateUserTH3D( "OptimizationCutSpace", 200, 0, 2000, 200, 0, 2000, 200, 0, 2000);
+  CreateUserTH1D( "BDTOutput_Presel",20000,-2,2);
+  CreateUserTH1D( "BDTOutput_noWeight_Presel",20000,-2,2);
 
 
   //--------------------------------------------------------------------------
@@ -756,7 +769,8 @@ void analysisClass::Loop()
   reader.AddVariable( "MejMax", &MejMax);
   reader.AddVariable( "Meejj", &Meejj);
   reader.AddVariable( "mass", &mass);
-  reader.BookMVA("BDT", bdtWeightFileName );
+  if(evaluateBDT)
+    reader.BookMVA("BDT", bdtWeightFileName );
 
   //--------------------------------------------------------------------------
   // Tell the user how many entries we'll look at
@@ -781,15 +795,10 @@ void analysisClass::Loop()
 
     resetCuts();
 
-    //--------------------------------------------------------------------------
-    // Check good run list
-    //--------------------------------------------------------------------------
-
-    float run = readerTools_->ReadValueBranch<Float_t>("run");
-    float ls = readerTools_->ReadValueBranch<Float_t>("ls");
-    float event = readerTools_->ReadValueBranch<Float_t>("event");
-    int passedJSON = passJSON ( run, ls, isData() ) ;
-
+    // run ls event
+    unsigned int run = readerTools_->ReadValueBranch<UInt_t>("run");
+    unsigned int ls = readerTools_->ReadValueBranch<UInt_t>("ls");
+    unsigned long long int event = readerTools_->ReadValueBranch<ULong64_t>("event");
     //--------------------------------------------------------------------------
     // Find the right prescale for this event
     //--------------------------------------------------------------------------
@@ -797,7 +806,13 @@ void analysisClass::Loop()
 //    double min_prescale = 1;
     int passTrigger  = 0;
 
-    float Ele1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele1_hltPhotonPt");
+    bool ele1PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerPhotonFilter");
+    bool ele2PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerPhotonFilter");
+    float hltPhotonPt = -1.;
+    if(ele1PassedHLTPhoton)
+      hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele1_MatchedHLTriggerObjectPt");
+    else if(ele2PassedHLTPhoton)
+      hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele2_MatchedHLTriggerObjectPt");
 
     std::string triggerName = "";
     //int year = -1;
@@ -816,37 +831,37 @@ void analysisClass::Loop()
     //    exit(-1);
     //  }
     //}
-    if ( Ele1_hltPhotonPt > 0.0 ) {
+    if ( hltPhotonPt > 0.0 ) {
       if(analysisYear==2016) {
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon22")   > 0.1 && Ele1_hltPhotonPt >= 22.  && Ele1_hltPhotonPt < 30. ) { passTrigger = 1; triggerName = "Photon22"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon30")   > 0.1 && Ele1_hltPhotonPt >= 30.  && Ele1_hltPhotonPt < 36. ) { passTrigger = 1; triggerName = "Photon30"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon36")   > 0.1 && Ele1_hltPhotonPt >= 36.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon36"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon120"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon22")   > 0.1 && hltPhotonPt >= 22.  && hltPhotonPt < 30. ) { passTrigger = 1; triggerName = "Photon22"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon30")   > 0.1 && hltPhotonPt >= 30.  && hltPhotonPt < 36. ) { passTrigger = 1; triggerName = "Photon30"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon36")   > 0.1 && hltPhotonPt >= 36.  && hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon36"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && hltPhotonPt >= 50.  && hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && hltPhotonPt >= 75.  && hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && hltPhotonPt >= 90.  && hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && hltPhotonPt >= 120. && hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && hltPhotonPt >= 175.) { passTrigger = 1; triggerName = "Photon175"; } 
       }
       else if(analysisYear==2017) {
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon25")   > 0.1 && Ele1_hltPhotonPt >= 25.  && Ele1_hltPhotonPt < 33. ) { passTrigger = 1; triggerName = "Photon25"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && Ele1_hltPhotonPt >= 33.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && Ele1_hltPhotonPt >= 150. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175. && Ele1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon25")   > 0.1 && hltPhotonPt >= 25.  && hltPhotonPt < 33. ) { passTrigger = 1; triggerName = "Photon25"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && hltPhotonPt >= 33.  && hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && hltPhotonPt >= 50.  && hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && hltPhotonPt >= 75.  && hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && hltPhotonPt >= 90.  && hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && hltPhotonPt >= 120. && hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && hltPhotonPt >= 150. && hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && hltPhotonPt >= 175. && hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
       }
       else if(analysisYear==2018) {
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && Ele1_hltPhotonPt >= 33.  && Ele1_hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && Ele1_hltPhotonPt >= 50.  && Ele1_hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && Ele1_hltPhotonPt >= 75.  && Ele1_hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && Ele1_hltPhotonPt >= 90.  && Ele1_hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && Ele1_hltPhotonPt >= 120. && Ele1_hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && Ele1_hltPhotonPt >= 150. && Ele1_hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && Ele1_hltPhotonPt >= 175. && Ele1_hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
-        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon33")   > 0.1 && hltPhotonPt >= 33.  && hltPhotonPt < 50. ) { passTrigger = 1; triggerName = "Photon33"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon50")   > 0.1 && hltPhotonPt >= 50.  && hltPhotonPt < 75. ) { passTrigger = 1; triggerName = "Photon50"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon75")   > 0.1 && hltPhotonPt >= 75.  && hltPhotonPt < 90. ) { passTrigger = 1; triggerName = "Photon75"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon90")   > 0.1 && hltPhotonPt >= 90.  && hltPhotonPt < 120.) { passTrigger = 1; triggerName = "Photon90"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon120")  > 0.1 && hltPhotonPt >= 120. && hltPhotonPt < 150.) { passTrigger = 1; triggerName = "Photon120"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon150")  > 0.1 && hltPhotonPt >= 150. && hltPhotonPt < 175.) { passTrigger = 1; triggerName = "Photon150"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon175")  > 0.1 && hltPhotonPt >= 175. && hltPhotonPt < 200.) { passTrigger = 1; triggerName = "Photon175"; } 
+        if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
       }
     }
     //if(isData() && passTrigger) {
@@ -867,18 +882,20 @@ void analysisClass::Loop()
     //if ( H_Photon120  > 0.1 ) { passTrigger = 1; min_prescale = H_Photon120 ; } 
     //if ( H_Photon175  > 0.1 ) { passTrigger = 1; min_prescale = H_Photon175 ; } 
     //min_prescale=1.0;
-    //// test output
-    //std::cout << "Ele1_hltPhotonPt: " << Ele1_hltPhotonPt << std::endl;
-    //std::cout << "Ele2_hltPhotonPt: " << readerTools_->ReadValueBranch<Float_t>("Ele2_hltPhotonPt") << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon22 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon22")  << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon30 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon30")  << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon36 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon36")  << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon50 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon50")  << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon75 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon75")  << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon90 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon90")  << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon120= " << readerTools_->ReadValueBranch<Float_t>("H_Photon120") << "; min_prescale=" << min_prescale << std::endl;
-    //std::cout << "PassTrigger? " << passTrigger << "; prescale of H_Photon175= " << readerTools_->ReadValueBranch<Float_t>("H_Photon175") << "; min_prescale=" << min_prescale << std::endl;
-    //// test output
+    // test output
+    if(readerTools_->ReadValueBranch<Float_t>("H_Photon175") < 0) {
+      std::cout << "Ele1_PassedHLTriggerPhotonFilter ? " << ele1PassedHLTPhoton << "; Ele1_MatchedHLTriggerObjectPt=" << readerTools_->ReadValueBranch<Float_t>("Ele1_MatchedHLTriggerObjectPt") << std::endl;
+      std::cout << "Ele2_PassedHLTriggerPhotonFilter ? " << ele2PassedHLTPhoton << "; Ele2_MatchedHLTriggerObjectPt=" << readerTools_->ReadValueBranch<Float_t>("Ele2_MatchedHLTriggerObjectPt") << std::endl;
+      std::cout << "Prescale of H_Photon22 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon22")  << std::endl;
+      std::cout << "Prescale of H_Photon30 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon30")  << std::endl;
+      std::cout << "Prescale of H_Photon36 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon36")  << std::endl;
+      std::cout << "Prescale of H_Photon50 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon50")  << std::endl;
+      std::cout << "Prescale of H_Photon75 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon75")  << std::endl;
+      std::cout << "Prescale of H_Photon90 = " << readerTools_->ReadValueBranch<Float_t>("H_Photon90")  << std::endl;
+      std::cout << "Prescale of H_Photon120= " << readerTools_->ReadValueBranch<Float_t>("H_Photon120") << std::endl;
+      std::cout << "Prescale of H_Photon175= " << readerTools_->ReadValueBranch<Float_t>("H_Photon175") << std::endl;
+    }
+    // test output
 
     //--------------------------------------------------------------------------
     // What kind of event is this?
@@ -954,14 +971,14 @@ void analysisClass::Loop()
     ////    << Ele1_SCEnergy/cosh(Ele1_SCEta) << "=" << Ele1_SCEnergy << "/" << 
     ////    cosh(Ele1_SCEta) << endl;
     ////}
-    double nEle_store = readerTools_->ReadValueBranch<Float_t>("nEle_store");
+    int nEle_store = readerTools_->ReadValueBranch<Int_t>("nEle_store");
     //if ( nEle_store >= 2 ) { 							        
     //  fakeRateEffective *= fakeRate2/(1-fakeRate2);
     //}
     //// double eFakeRateEffective = fakeRateEffective * sqrt (  ( eFakeRate1 / fakeRate1 ) * ( eFakeRate1 / fakeRate1 ) +
     ////					     ( eFakeRate2 / fakeRate2 ) * ( eFakeRate2 / fakeRate2 ) );
     //double eFakeRateEffective = 0.0;
-    float fakeRateEffective = readerTools_->ReadValueBranch<Float_t>("Weight");
+    float fakeRateEffective = readerTools_->ReadValueBranch<Float_t>("Weight");  // redefined in the preselection skim as fakeRateEffective*min_prescale
     float min_prescale = 1; //XXX HACK for now so as not to have to remove all mentions of min_prescale below
                             //probably should also remove the passTrigger part above
     //--------------------------------------------------------------------------
@@ -1007,34 +1024,34 @@ void analysisClass::Loop()
     fillVariableWithValue ( "Reweighting", 1, fakeRateEffective * min_prescale ) ; 
 
     // JSON variable
-    fillVariableWithValue(   "PassJSON"                      , passedJSON              , fakeRateEffective * min_prescale ) ; 
+    fillVariableWithValue ("PassJSON", readerTools_->ReadValueBranch<Bool_t>("PassJSON"), fakeRateEffective * min_prescale); 
 
     //--------------------------------------------------------------------------
     // Fill noise filters
     //--------------------------------------------------------------------------
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Float_t>("PassGlobalSuperTightHalo2016Filter")     == 1), fakeRateEffective * min_prescale);
-    fillVariableWithValue("PassGoodVertices"                   , int(readerTools_->ReadValueBranch<Float_t>("PassGoodVertices")                       == 1), fakeRateEffective * min_prescale);
-    fillVariableWithValue("PassHBHENoiseFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseFilter")                    == 1), fakeRateEffective * min_prescale);
-    fillVariableWithValue("PassHBHENoiseIsoFilter"             , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseIsoFilter")                 == 1), fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , readerTools_->ReadValueBranch<Bool_t>("PassGlobalSuperTightHalo2016Filter")     , fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassGoodVertices"                   , readerTools_->ReadValueBranch<Bool_t>("PassGoodVertices")                       , fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassHBHENoiseFilter"                , readerTools_->ReadValueBranch<Bool_t>("PassHBHENoiseFilter")                    , fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassHBHENoiseIsoFilter"             , readerTools_->ReadValueBranch<Bool_t>("PassHBHENoiseIsoFilter")                 , fakeRateEffective * min_prescale);
     // eBadScFilter not suggested for MC
     if(isData())
-      fillVariableWithValue("PassBadEESupercrystalFilter"      , int(readerTools_->ReadValueBranch<Float_t>("PassBadEESupercrystalFilter")            == 1), fakeRateEffective * min_prescale);
+      fillVariableWithValue("PassBadEESupercrystalFilter"      , readerTools_->ReadValueBranch<Bool_t>("PassBadEESupercrystalFilter")            , fakeRateEffective * min_prescale);
     else
-      fillVariableWithValue("PassBadEESupercrystalFilter"      , 1                                                                                          , fakeRateEffective * min_prescale);
-    fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Float_t>("PassEcalDeadCellTrigPrim")               == 1), fakeRateEffective * min_prescale);
+      fillVariableWithValue("PassBadEESupercrystalFilter"      , 1                                                                                , fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"           , readerTools_->ReadValueBranch<Bool_t>("PassEcalDeadCellTrigPrim")               , fakeRateEffective * min_prescale);
     // not recommended
-    //fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueBranch<Float_t>("PassChargedCandidateFilter")             == 1), fakeRateEffective * min_prescale);
-    fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassBadPFMuonFilter")                    == 1), fakeRateEffective * min_prescale);
+    //fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueB<Float_t>("PassChargedCandidateFilter")            == 1), fakeRateEffective * min_prescale);
+    fillVariableWithValue("PassBadPFMuonFilter"                , readerTools_->ReadValueBranch<Bool_t>("PassBadPFMuonFilter")                    , fakeRateEffective * min_prescale);
     // EcalBadCalibV2 for 2017, 2018
     if(analysisYear > 2016)
-      fillVariableWithValue("PassEcalBadCalibV2Filter"         , int(readerTools_->ReadValueBranch<Float_t>("PassEcalBadCalibV2Filter")               == 1), fakeRateEffective * min_prescale);
+      fillVariableWithValue("PassEcalBadCalibV2Filter"         , readerTools_->ReadValueBranch<Bool_t>("PassEcalBadCalibV2Filter")               , fakeRateEffective * min_prescale);
     else
-      fillVariableWithValue("PassEcalBadCalibV2Filter"         , 1                                                                                          , fakeRateEffective * min_prescale);
+      fillVariableWithValue("PassEcalBadCalibV2Filter"         , 1                                                                                , fakeRateEffective * min_prescale);
 
     // Electrons
-    double nEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nEle_ptCut");
+    int nEle_ptCut = readerTools_->ReadValueBranch<Int_t>("nEle_ptCut");
     int PassNEle = 0;
     //if ( nEle_ptCut == 2 ) PassNEle = 1;
     if ( nEle_ptCut >= 2 ) PassNEle = 1;
@@ -1061,47 +1078,53 @@ void analysisClass::Loop()
     double M_ej_asym = 0;
 
     // Muons
-    double nMuon_ptCut = readerTools_->ReadValueBranch<Float_t>("nMuon_ptCut");
+    int nMuon_ptCut = readerTools_->ReadValueBranch<Int_t>("nMuon_ptCut");
     double Muon1_Pt = readerTools_->ReadValueBranch<Float_t>("Muon1_Pt");
     double Muon1_Eta = readerTools_->ReadValueBranch<Float_t>("Muon1_Eta");
     double Muon1_Phi = readerTools_->ReadValueBranch<Float_t>("Muon1_Phi");
     int PassNMuon = 0;
     if ( nMuon_ptCut == 0 ) PassNMuon = 1;
-    //FIXME SIC TEST
-    //PassNMuon = 1;
 
     fillVariableWithValue ( "PassHLT"                        , passTrigger             , fakeRateEffective * min_prescale ) ;
     fillVariableWithValue("nEle_hltMatched",-1, fakeRateEffective * min_prescale ) ;
     fillVariableWithValue("nJet_hltMatched",-1, fakeRateEffective * min_prescale ) ;
 
 
-    // Electrons								        
+    // Electrons
+    std::string idSuffix = "PassHEEPID";
+    if(electronIDType == "EGMLoose")
+      idSuffix = "PassEGMLooseID";
     fillVariableWithValue(   "PassNEle"                      , PassNEle                , fakeRateEffective * min_prescale ) ;
     Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
-    double Ele1_PassHEEPID = readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPID");
+    bool Ele1_PassID = readerTools_->ReadValueBranch<Bool_t>("Ele1_"+idSuffix);
     Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
-    double Ele2_PassHEEPID = readerTools_->ReadValueBranch<Float_t>("Ele2_PassHEEPID");
+    bool Ele2_PassID = readerTools_->ReadValueBranch<Bool_t>("Ele2_"+idSuffix);
     double Pt_e1e2 = readerTools_->ReadValueBranch<Float_t>("Pt_e1e2");
     M_e1e2 = readerTools_->ReadValueBranch<Float_t>("M_e1e2");
-    if ( nEle_store >= 1 ) { 							        
-      fillVariableWithValue( "Ele1_Eta"                        , Ele1_Eta            , fakeRateEffective * min_prescale ) ;
+    bool Ele1_PassHEEPEta = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut");
+    bool Ele2_PassHEEPEta = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassHEEPGsfEleSCEtaMultiRangeCut");
+    if ( nEle_store >= 1 ) {
+      //fillVariableWithValue( "Ele1_Eta"                      , Ele1_Eta            , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "Ele1_Pt"                       , Ele1_Pt            , fakeRateEffective * min_prescale ) ;
-      fillVariableWithValue( "Ele1_PassHEEPID"                 , Ele1_PassHEEPID                , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele1_PassID"                   , Ele1_PassID                , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "Ele1_AbsDeltaEtaEleTrk"          , fabs(Ele1_Eta-Ele1_TrkEta), fakeRateEffective * min_prescale );
+      fillVariableWithValue( "Ele1_PassHEEPSCEtaCut"                      , Ele1_PassHEEPEta            , fakeRateEffective * min_prescale ) ;
     }										        
     if ( nEle_store >= 2 ) { 							        
-      fillVariableWithValue( "Ele2_Eta"                        , Ele2_Eta            , fakeRateEffective * min_prescale ) ;
+      //fillVariableWithValue( "Ele2_Eta"                      , Ele2_Eta            , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "Ele2_Pt"                       , Ele2_Pt            , fakeRateEffective * min_prescale ) ;
-      fillVariableWithValue( "Ele2_PassHEEPID"                 , Ele2_PassHEEPID                , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "Ele2_PassID"                   , Ele2_PassID                , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "Ele2_AbsDeltaEtaEleTrk"          , fabs(Ele2_Eta-Ele2_TrkEta), fakeRateEffective * min_prescale );
+      fillVariableWithValue( "Ele2_PassHEEPSCEtaCut"                      , Ele2_PassHEEPEta            , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "Pt_e1e2"                       , Pt_e1e2             , fakeRateEffective * min_prescale ) ;
       fillVariableWithValue( "M_e1e2"                        , M_e1e2                  , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "M_e1e2_opt"                    , M_e1e2                  , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "M_e1e2_bkgCR"     , M_e1e2 , fakeRateEffective * min_prescale ) ;
     }
 
     // Jets
-    double nJet_ptCut = readerTools_->ReadValueBranch<Float_t>("nJet_ptCut");
-    double nJet_store = readerTools_->ReadValueBranch<Float_t>("nJet_store");
+    int nJet_ptCut = readerTools_->ReadValueBranch<Int_t>("nJet_ptCut");
+    int nJet_store = readerTools_->ReadValueBranch<Int_t>("nJet_store");
     Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
     Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
     Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
@@ -1181,11 +1204,14 @@ void analysisClass::Loop()
     MejMin = M_ej_min;
     MejMax = M_ej_max;
     Masym = M_ej_asym;
-    double bdtOutput = reader.EvaluateMVA("BDT");
+    double bdtOutput = -999;
+    if(evaluateBDT)
+      bdtOutput = reader.EvaluateMVA("BDT");
     if ( nEle_store >= 2 && nJet_store >= 2) {
       // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
       //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
       fillVariableWithValue( "sT_eejj"                       , sT_eejj                 , fakeRateEffective * min_prescale ) ;
+      fillVariableWithValue( "sT_eejj_bkgCR"    , sT_eejj , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "sT_eejj_opt"                   , sT_eejj                 , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "Mej_min_opt"                   , M_ej_min                , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "Mej_asym_opt"                  , M_ej_asym               , fakeRateEffective * min_prescale ) ;
@@ -1229,12 +1255,18 @@ void analysisClass::Loop()
      double Jet3_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet3_btag"+btagAlgo);
      double Jet4_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet4_btag"+btagAlgo);
      double Jet5_btagDisc = readerTools_->ReadValueBranch<Float_t>("Jet5_btag"+btagAlgo);
+     int Jet1_flavor = readerTools_->ReadValueBranch<Int_t>("Jet1_HadronFlavor");
+     int Jet2_flavor = readerTools_->ReadValueBranch<Int_t>("Jet2_HadronFlavor");
+     int Jet3_flavor = readerTools_->ReadValueBranch<Int_t>("Jet3_HadronFlavor");
+     int Jet4_flavor = readerTools_->ReadValueBranch<Int_t>("Jet4_HadronFlavor");
+     int Jet5_flavor = readerTools_->ReadValueBranch<Int_t>("Jet5_HadronFlavor");
      std::string sfSuffix = btagWP+btagAlgo;
-     double Jet1_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix);
-     double Jet2_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix);
-     double Jet3_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet3_btagSF"+sfSuffix);
-     double Jet4_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet4_btagSF"+sfSuffix);
-     double Jet5_btagSF = readerTools_->ReadValueBranch<Float_t>("Jet5_btagSF"+sfSuffix);
+     //double Jet1_btagSF = Jet1_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet1_btagSF"+sfSuffix+"Comb");
+     //double Jet2_btagSF = Jet2_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet2_btagSF"+sfSuffix+"Comb");
+     //double Jet3_btagSF = Jet3_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet3_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet3_btagSF"+sfSuffix+"Comb");
+     //double Jet4_btagSF = Jet4_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet4_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet4_btagSF"+sfSuffix+"Comb");
+     //double Jet5_btagSF = Jet5_flavor==0 ? readerTools_->ReadValueBranch<Float_t>("Jet5_btagSF"+sfSuffix+"Incl") : readerTools_->ReadValueBranch<Float_t>("Jet5_btagSF"+sfSuffix+"Comb");
+     //FIXME: have to add the scale factors into the QCD RSK
 
      float weightZeroBJets = 1.0;
      float weightAtLeastOneBJet = 1.0;
@@ -1248,24 +1280,24 @@ void analysisClass::Loop()
      float weightAtLeastOneBJetDownShift = 1.0;
 
      double discArray[5] = {Jet1_btagDisc, Jet2_btagDisc, Jet3_btagDisc, Jet4_btagDisc, Jet5_btagDisc};
-     if(!isData())
-     {
-       float weightAtLeastTwoBJetsOneBtagBin = 0.0;
-       // calculate and apply scale factors to MC only
-       double sfArray[5] = {Jet1_btagSF, Jet2_btagSF, Jet3_btagSF, Jet4_btagSF, Jet5_btagSF };
-       for(unsigned int iJet = 0; iJet < 5; ++iJet) {
-         if (discArray[iJet] > btagCut) {
-           weightZeroBJets*=(1-sfArray[iJet]);
-           float tmpWeight = 1.0;
-           for(unsigned int jJet = 0; jJet < 5; ++jJet) {
-             if (discArray[jJet] > btagCut && jJet != iJet)
-               tmpWeight*=(1-sfArray[jJet]);
-           }
-           weightAtLeastTwoBJetsOneBtagBin+=tmpWeight*sfArray[iJet];
-         }
-       }
-       weightAtLeastOneBJet = 1 - weightZeroBJets;
-       weightAtLeastTwoBJets = 1 - weightZeroBJets - weightAtLeastTwoBJetsOneBtagBin;
+     //if(!isData())
+     //{
+     //  float weightAtLeastTwoBJetsOneBtagBin = 0.0;
+     //  // calculate and apply scale factors to MC only
+     //  double sfArray[5] = {Jet1_btagSF, Jet2_btagSF, Jet3_btagSF, Jet4_btagSF, Jet5_btagSF };
+     //  for(unsigned int iJet = 0; iJet < 5; ++iJet) {
+     //    if (discArray[iJet] > btagCut) {
+     //      weightZeroBJets*=(1-sfArray[iJet]);
+     //      float tmpWeight = 1.0;
+     //      for(unsigned int jJet = 0; jJet < 5; ++jJet) {
+     //        if (discArray[jJet] > btagCut && jJet != iJet)
+     //          tmpWeight*=(1-sfArray[jJet]);
+     //      }
+     //      weightAtLeastTwoBJetsOneBtagBin+=tmpWeight*sfArray[iJet];
+     //    }
+     //  }
+     //  weightAtLeastOneBJet = 1 - weightZeroBJets;
+     //  weightAtLeastTwoBJets = 1 - weightZeroBJets - weightAtLeastTwoBJetsOneBtagBin;
        //
        //if ( Jet3_btagDisc > btagCut ) weightZeroBJetsBeyondLeadingTwo*=(1-Jet3_btagSF);
        //if ( Jet4_btagDisc > btagCut ) weightZeroBJetsBeyondLeadingTwo*=(1-Jet4_btagSF);
@@ -1285,7 +1317,7 @@ void analysisClass::Loop()
        //if ( Jet4_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet4_btagSF);
        //if ( Jet5_btagDisc > btagCut ) weightZeroBJetsDownShift*=(1-Jet5_btagSF);
        //weightAtLeastOneBJetDownShift = 1 - weightZeroBJetsDownShift;
-     }
+     //}
      int nBJet_ptCut  = 0;
      int nBJet_ptCut_beyondLeadingTwo = 0;
      
@@ -1311,13 +1343,19 @@ void analysisClass::Loop()
     // Did we at least pass the noise filtes?
     //--------------------------------------------------------------------------
 
-    bool passed_minimum = ( passedAllPreviousCuts("PassBadPFMuonFilter") && passedCut ("PassBadPFMuonFilter"));
+    bool passed_minimum = ( passedAllPreviousCuts("PassEcalBadCalibV2Filter") && passedCut ("PassEcalBadCalibV2Filter"));
+
+    //--------------------------------------------------------------------------
+    // Did we make it to the background control region?
+    //--------------------------------------------------------------------------
+    bool bkgControlRegion = passedAllPreviousCuts("M_e1e2_bkgCR") && passedCut("M_e1e2_bkgCR");
 
     //--------------------------------------------------------------------------
     // Did we pass preselection?
     //--------------------------------------------------------------------------
 
     bool passed_preselection = ( passedAllPreviousCuts("M_e1e2") && passedCut ("M_e1e2") );
+    std::string preselectionCut = "M_e1e2";
 
     //--------------------------------------------------------------------------
     // Are we in the region of interest?
@@ -1360,6 +1398,58 @@ void analysisClass::Loop()
       //  std::cout << "\tFound fakeRate1: " << fakeRate1 << " for SCEta=" << Ele1_SCEta << " Pt=" << Ele1_Pt << " --> term1=" << fakeRate1/(1-fakeRate1) << std::endl;
       //  std::cout << "\tFound fakeRate2: " << fakeRate2 << " for SCEta=" << Ele2_SCEta << " Pt=" << Ele2_Pt << " --> term2=" << fakeRate2/(1-fakeRate2) << std::endl;
       //}
+    }
+
+    //--------------------------------------------------------------------------
+    // Fill background control region plots
+    //--------------------------------------------------------------------------
+    if(bkgControlRegion) {
+      FillUserTH1D("Mee_BkgControlRegion"	                ,    M_e1e2,    fakeRateEffective * min_prescale , "M_e1e2_bkgCR");
+      if(nBJet_ptCut>=1)
+        FillUserTH1D( "Mee_BkgControlRegion_gteOneBtaggedJet"      , M_e1e2,  fakeRateEffective * min_prescale * weightAtLeastOneBJet, "M_e1e2_bkgCR" ) ;
+      if(nBJet_ptCut>=2)
+        FillUserTH1D( "Mee_BkgControlRegion_gteTwoBtaggedJets"      , M_e1e2,  fakeRateEffective * min_prescale * weightAtLeastTwoBJets, "M_e1e2_bkgCR" ) ;
+      if      ( isEB   ) FillUserTH1D( "Mee_EB_BkgControlRegion"  , M_e1e2, fakeRateEffective * min_prescale, "M_e1e2_bkgCR" ); 
+      if      ( isEBEB ) FillUserTH1D( "Mee_EBEB_BkgControlRegion", M_e1e2, fakeRateEffective * min_prescale, "M_e1e2_bkgCR" ); 
+      else if ( isEBEE ) FillUserTH1D( "Mee_EBEE_BkgControlRegion", M_e1e2, fakeRateEffective * min_prescale, "M_e1e2_bkgCR" ); 
+      else if ( isEEEE ) FillUserTH1D( "Mee_EEEE_BkgControlRegion", M_e1e2, fakeRateEffective * min_prescale, "M_e1e2_bkgCR" ); 
+      // scale factor dependence histos
+      if ( nJet_ptCut == 2 )
+        FillUserTH1D("Mee_NJetEq2_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if( nJet_ptCut == 3 )
+        FillUserTH1D("Mee_NJetEq3_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if( nJet_ptCut == 4 )
+        FillUserTH1D("Mee_NJetEq4_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if( nJet_ptCut == 5 )
+        FillUserTH1D("Mee_NJetEq5_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if( nJet_ptCut == 6 )
+        FillUserTH1D("Mee_NJetEq6_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if( nJet_ptCut == 7 )
+        FillUserTH1D("Mee_NJetEq7_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      if ( nJet_ptCut >= 3 )
+        FillUserTH1D("Mee_NJetGeq3_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      if ( nJet_ptCut >= 4 )
+        FillUserTH1D("Mee_NJetGeq4_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      if (sT_eejj >= 300 && sT_eejj < 500)
+        FillUserTH1D("Mee_sT300To500_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (sT_eejj >= 500 && sT_eejj < 750)
+        FillUserTH1D("Mee_sT500To750_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (sT_eejj >= 750 && sT_eejj < 1250)
+        FillUserTH1D("Mee_sT750To1250_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (sT_eejj >= 1250)
+        FillUserTH1D("Mee_sT1250ToInf_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      if (M_ej_min >= 100 && M_ej_min < 200)
+        FillUserTH1D("Mee_MejMin100To200_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (M_ej_min >= 200 && M_ej_min < 300)
+        FillUserTH1D("Mee_MejMin200To300_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (M_ej_min >= 300 && M_ej_min < 400)
+        FillUserTH1D("Mee_MejMin300To400_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (M_ej_min >= 400 && M_ej_min < 500)
+        FillUserTH1D("Mee_MejMin400To500_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (M_ej_min >= 500 && M_ej_min < 650)
+        FillUserTH1D("Mee_MejMin500To650_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
+      else if (M_ej_min >= 650)
+        FillUserTH1D("Mee_MejMin650ToInf_BkgControlRegion", M_e1e2                         , fakeRateEffective * min_prescale );
     }
 
     //--------------------------------------------------------------------------
@@ -1463,13 +1553,13 @@ void analysisClass::Loop()
       double Ele1_EcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_EcalIsolation"); 
       double Ele1_HcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele1_HcalIsolation"); 
       double Ele1_TrkIsolation         = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkIsolation"); 
-      double Ele1_HasMatchedPhot       = readerTools_->ReadValueBranch<Float_t>("Ele1_HasMatchedPhot"); 
+      bool Ele1_HasMatchedPhot         = readerTools_->ReadValueBranch<Bool_t>("Ele1_HasMatchedPhot")     ; 
       double Ele1_HoE                  = readerTools_->ReadValueBranch<Float_t>("Ele1_HoE"); 
       double Ele1_LeadVtxDistXY        = readerTools_->ReadValueBranch<Float_t>("Ele1_LeadVtxDistXY"); 
       double Ele1_LeadVtxDistZ         = readerTools_->ReadValueBranch<Float_t>("Ele1_LeadVtxDistZ"); 
-      double Ele1_MissingHits          = readerTools_->ReadValueBranch<Float_t>("Ele1_MissingHits"); 
+      int Ele1_MissingHits          = readerTools_->ReadValueBranch<Int_t>("Ele1_MissingHits")        ; 
       double Ele1_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele1_Full5x5SigmaIEtaIEta"); 
-      double Ele1_Charge               = readerTools_->ReadValueBranch<Float_t>("Ele1_Charge"); 
+      int Ele1_Charge               = readerTools_->ReadValueBranch<Int_t>("Ele1_Charge");
 
       FillUserTH1D("CorrIsolation_1stEle_PAS"         , Ele1_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("DeltaEtaTrkSC_1stEle_PAS"         , Ele1_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
@@ -1493,13 +1583,13 @@ void analysisClass::Loop()
       double Ele2_EcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_EcalIsolation"); 
       double Ele2_HcalIsolation        = readerTools_->ReadValueBranch<Float_t>("Ele2_HcalIsolation"); 
       double Ele2_TrkIsolation         = readerTools_->ReadValueBranch<Float_t>("Ele2_TrkIsolation"); 
-      double Ele2_HasMatchedPhot       = readerTools_->ReadValueBranch<Float_t>("Ele2_HasMatchedPhot"); 
+      bool Ele2_HasMatchedPhot         = readerTools_->ReadValueBranch<Bool_t>("Ele2_HasMatchedPhot")     ; 
       double Ele2_HoE                  = readerTools_->ReadValueBranch<Float_t>("Ele2_HoE"); 
       double Ele2_LeadVtxDistXY        = readerTools_->ReadValueBranch<Float_t>("Ele2_LeadVtxDistXY"); 
       double Ele2_LeadVtxDistZ         = readerTools_->ReadValueBranch<Float_t>("Ele2_LeadVtxDistZ"); 
-      double Ele2_MissingHits          = readerTools_->ReadValueBranch<Float_t>("Ele2_MissingHits"); 
+      int Ele2_MissingHits          = readerTools_->ReadValueBranch<Int_t>("Ele2_MissingHits")        ; 
       double Ele2_Full5x5SigmaIEtaIEta = readerTools_->ReadValueBranch<Float_t>("Ele2_Full5x5SigmaIEtaIEta"); 
-      double Ele2_Charge               = readerTools_->ReadValueBranch<Float_t>("Ele2_Charge"); 
+      int Ele2_Charge               = readerTools_->ReadValueBranch<Int_t>("Ele2_Charge");
 
       FillUserTH1D("CorrIsolation_2ndEle_PAS"         , Ele2_CorrIsolation                  , min_prescale * fakeRateEffective   ); 
       FillUserTH1D("DeltaEtaTrkSC_2ndEle_PAS"         , Ele2_DeltaEtaTrkSC                  , min_prescale * fakeRateEffective   ); 
@@ -1525,7 +1615,7 @@ void analysisClass::Loop()
       double Muon2_Pt = readerTools_->ReadValueBranch<Float_t>("Muon2_Pt");
       double Muon2_Eta = readerTools_->ReadValueBranch<Float_t>("Muon2_Eta");
       double Muon2_Phi = readerTools_->ReadValueBranch<Float_t>("Muon2_Phi");
-      double nVertex = readerTools_->ReadValueBranch<Float_t>("nVertex");
+      int nVertex = readerTools_->ReadValueBranch<Int_t>("nVertex");
 
       FillUserTH1D( "Ptj1j2_PAS"           , Pt_j1j2                        , min_prescale * fakeRateEffective ) ;
       FillUserTH1D( "Ptee_Minus_Ptj1j2_PAS", Pt_e1e2 - Pt_j1j2              , min_prescale * fakeRateEffective ) ;
