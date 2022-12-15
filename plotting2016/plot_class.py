@@ -15,6 +15,7 @@ from ROOT import TCanvas, TPad, THStack, TLatex, TLegend, TFile, TH2D, TH1D, TGr
 from array import array
 import copy
 import numpy as np
+from tabulate import tabulate
 
 # --- ROOT general options
 gROOT.SetBatch(kTRUE)
@@ -147,9 +148,7 @@ def GetFile(filename):
     print("GetFile("+filename+")")
     tfile = TFile(filename)
     if not tfile or tfile.IsZombie():
-        print("ERROR: file " + filename + " not found")
-        print("exiting...")
-        sys.exit(-1)
+        raise RuntimeError("ERROR: file " + filename + " not found")
     return tfile
 
 
@@ -169,9 +168,7 @@ def GetHisto(histoName, file, scale=1):
     #      rep = rep[0]
 
     if not histo:
-        print("ERROR: histo " + histoName + " not found in " + file.GetName())
-        print("exiting...")
-        sys.exit()
+        raise RuntimeError("histo " + histoName + " not found in " + file.GetName())
     new = copy.deepcopy(histo)
     if scale != 1:
         new.Scale(scale)
@@ -185,6 +182,40 @@ def generateHistoList(histoBaseName, samples, variableName, fileName, scale=1):
             "VARIABLE", variableName
         )
         histolist.append(GetHisto(hname, fileName, scale))
+    return histolist
+
+
+def generateHistoListFakeSystsFromModel(histoBaseName, samples, variableName, fileName, modelHist, scale=1):
+    #print("INFO: generateHistoListFakeSystsFromModel for histoBaseName={}, samples={}, variableName={}, modelHistName={}".format(histoBaseName, samples, variableName, modelHist.GetName()))
+    sys.stdout.flush()
+    histolist = []
+    for sample in samples:
+        hname = (histoBaseName.replace("SAMPLE", sample)).replace(
+            "VARIABLE", variableName
+        )
+        origHist = GetHisto(hname, fileName, scale)
+        if modelHist.InheritsFrom("TH2") and origHist.InheritsFrom("TH1"):
+            if modelHist.GetNbinsX() != origHist.GetNbinsX():
+                raise RuntimeError("Asked to make histo with fake systs but orig histo has {} x bins and model has {} x bins; can't handle this.".format(origHist.GetNbinsX(), modelHist.GetNbinsX()))
+            #newHist = copy.deepcopy(modelHist.Clone().Reset())
+            newHist = TH2D()
+            newHist.SetNameTitle(origHist.GetName(), origHist.GetTitle())
+            newHist.SetBins(
+                modelHist.GetNbinsX(),
+                modelHist.GetXaxis().GetXmin(),
+                modelHist.GetXaxis().GetXmax(),
+                modelHist.GetNbinsY(),
+                modelHist.GetYaxis().GetBinLowEdge(1),
+                modelHist.GetYaxis().GetBinUpEdge(modelHist.GetNbinsY()),
+            )
+            modelHist.GetXaxis().Copy(newHist.GetXaxis())
+            modelHist.GetYaxis().Copy(newHist.GetYaxis())
+            for xBin in range(0, origHist.GetNbinsX()+2):
+                newHist.SetBinContent(xBin, 1, origHist.GetBinContent(xBin))
+                newHist.SetBinError(xBin, 1, origHist.GetBinError(xBin))
+        else:
+            raise RuntimeError("Asked to make histo with fake systs but orig histo is of class {} and model is of class {}; don't know how to handle this".format(origHist.ClassName(), modelHist.ClassName()))
+        histolist.append(newHist)
     return histolist
 
 
@@ -436,11 +467,13 @@ def GetSystematicEffect(bkgTotalHist, systName, correlated=True):
     return np.array(upErrs, dtype=float), np.array(downErrs, dtype=float)
 
 
-def GetSystematicGraphAndHist(bkgTotalHist, systNames):
+def GetSystematicGraphAndHist(bkgTotalHist, systNames, verbose=False):
     upErrsComb = np.zeros(bkgTotalHist.GetNbinsX()+2)
     downErrsComb = np.zeros(bkgTotalHist.GetNbinsX()+2)
     systUpErrs = {}
     systDownErrs = {}
+    upErrsPercentBySyst = {}
+    downErrsPercentBySyst = {}
     # add all the specified systs in quadrature
     for systName in systNames:
         if "lhepdf" in systName.lower():
@@ -453,8 +486,50 @@ def GetSystematicGraphAndHist(bkgTotalHist, systNames):
         downErrsComb = np.add(downErrsComb, downErrs**2)
         systUpErrs[systName] = upErrs
         systDownErrs[systName] = downErrs
+        if verbose:
+            #headers = ["binNumber", "binLowEdge", "nominal", "%systUp", "%systDown"]
+            #xBins = [xBin for xBin in range(0, bkgTotalHist.GetNbinsX()+2)]
+            xBins = [xBin for xBin in range(0, bkgTotalHist.GetNbinsX()+2) if bkgTotalHist.GetXaxis().GetBinLowEdge(xBin) >= 580 and bkgTotalHist.GetXaxis().GetBinLowEdge(xBin) <= 620]
+            #binLowEdges = [bkgTotalHist.GetXaxis().GetBinLowEdge(xBin) for xBin in xBins]
+            nominals = [bkgTotalHist.GetBinContent(xBin, 1) for xBin in xBins]
+            #upErrorDict = {lowEdge:err for lowEdge in binLowEdges for err in upErrs}
+            #print("for bkgTotalHist={}, syst={}, got upErrs={}, downErrs={}".format(bkgTotalHist.GetName(), systName, upErrorDict, downErrs.tolist()))
+            upErrsSliced = [upErrs[xBin] for xBin in xBins]
+            downErrsSliced = [downErrs[xBin] for xBin in xBins]
+            upErrPercents = [100*upErr/nom if nom != 0 else 0 for nom, upErr in zip(nominals, upErrsSliced)]
+            downErrPercents = [100*downErr/nom if nom != 0 else 0 for nom, downErr in zip(nominals, downErrsSliced)]
+            upErrsPercentBySyst[systName] = upErrPercents
+            downErrsPercentBySyst[systName] = downErrPercents
+            #rows = [list(x) for x in zip(xBins, binLowEdges, nominals, upErrPercents, downErrPercents)]
+            #if len(rows) > 0:
+            #    print("Table for syst: {}".format(systName))
+            #    print(tabulate(rows, headers=headers, tablefmt="github", floatfmt=".2f"))
     upErrsComb = np.sqrt(upErrsComb)
     downErrsComb = np.sqrt(downErrsComb)
+    if verbose:
+        headers = ["binNumber", "binLowEdge", "nominal", "%systTotalUp", "%systTotalDown"]
+        headers.extend(list(sum([("%{}Up".format(syst), "%{}Down".format(syst)) for syst in upErrsPercentBySyst.keys()], ())))
+        #xBins = [xBin for xBin in range(0, bkgTotalHist.GetNbinsX()+2)]
+        xBins = [xBin for xBin in range(0, bkgTotalHist.GetNbinsX()+2) if bkgTotalHist.GetXaxis().GetBinLowEdge(xBin) >= 580 and bkgTotalHist.GetXaxis().GetBinLowEdge(xBin) <= 620]
+        binLowEdges = [bkgTotalHist.GetXaxis().GetBinLowEdge(xBin) for xBin in xBins]
+        nominals = [bkgTotalHist.GetBinContent(xBin, 1) for xBin in xBins]
+        #upErrorDict = {lowEdge:err for lowEdge in binLowEdges for err in upErrs}
+        #print("for bkgTotalHist={}, syst={}, got upErrs={}, downErrs={}".format(bkgTotalHist.GetName(), systName, upErrorDict, downErrs.tolist()))
+        upErrsSliced = [upErrsComb[xBin] for xBin in xBins]
+        downErrsSliced = [downErrsComb[xBin] for xBin in xBins]
+        upErrPercents = [100*upErr/nom if nom != 0 else 0 for nom, upErr in zip(nominals, upErrsSliced)]
+        downErrPercents = [100*downErr/nom if nom != 0 else 0 for nom, downErr in zip(nominals, downErrsSliced)]
+        # rows = [list(x) for x in zip(xBins, binLowEdges, nominals, upErrPercents, downErrPercents)]
+        upDownErrsBySystList = []
+        for syst in upErrsPercentBySyst.keys():
+        #    upDownErrsBySystList.extend([x for x in zip(upErrsPercentBySyst[syst], downErrsPercentBySyst[syst])])
+            upDownErrsBySystList.append(upErrsPercentBySyst[syst])
+            upDownErrsBySystList.append(downErrsPercentBySyst[syst])
+        #upDownErrsBySystList = [list(element) for element in upDownErrsBySystList]
+        #rows = [list(x) for x in zip(xBins, binLowEdges, nominals, upErrPercents, downErrPercents)]
+        rows = [list(x) for x in zip(xBins, binLowEdges, nominals, upErrPercents, downErrPercents, *upDownErrsBySystList)]
+        if len(rows) > 0:
+            print(tabulate(rows, headers=headers, tablefmt="github", floatfmt=".2f"))
     nominals = []
     xBins = []
     xBinsLow = []
@@ -538,6 +613,7 @@ class Plot:
     bkgUncKey = "Bkg. syst."
     bkgTotalHist = ""
     systNames = []
+    histos2DStack = []
     isInteractive = False  # draw the plot to the screen; use when running with python -i
 
     def Draw(self, fileps, page_number=-1):
@@ -827,6 +903,10 @@ class Plot:
             self.bkgUncHist.Draw("E2same")
             #self.bkgUncHist.Draw("3same")
             legend.AddEntry(self.bkgUncHist, self.bkgUncKey, "f")
+            # verbose syst output
+            for hist in self.histos2DStack:
+                print("Do verbose syst output for hist {}".format(hist.GetName()))
+                GetSystematicGraphAndHist(hist, self.systNames, True)
 
         # -- loop over histograms (overlaid)
         ih = 0  # index of histo within a plot
