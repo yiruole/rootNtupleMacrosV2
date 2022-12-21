@@ -30,11 +30,9 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
    // Final selection mass points
    //--------------------------------------------------------------------------
-
-   // BDT test
-   const int n_lq_mass = 7;
+   const int n_lq_mass = 11;
    int LQ_MASS[n_lq_mass] = {
-     1100, 1200, 1300, 1400, 1500, 1600, 1700
+     1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000
    };
    ////const int n_lq_mass = 30; // 2017
    //const int n_lq_mass = 29; // 2016
@@ -130,7 +128,6 @@ void analysisClass::Loop()
        bdtWeightFileName = getPreCutString1("BDTWeightFileName");
        evaluateBDT = true;
    }
-   double lqBDTMass = getPreCutValue1("LQBDTMass");
 
    //--------------------------------------------------------------------------
    // Create TH1D's
@@ -684,9 +681,6 @@ void analysisClass::Loop()
    CreateUserTH1D( "DeltaEtaTrkSC_2ndEle_Presel",4000,0,10);
    CreateUserTH1D( "SCEtaMinusEleEta_2ndEle_Presel",4000,0,10);
    CreateUserTH1D( "DeltaEtaTrkSC_Minus_SCEtaMinusEleEta_2ndEle_Presel",4000,0,10);
-   // BDT
-   CreateUserTH1D( "BDTOutput_Presel",20000,-2,2);
-   CreateUserTH1D( "BDTOutput_noWeight_Presel",20000,-2,2);
 
    //--------------------------------------------------------------------------
    // Final selection plots
@@ -697,11 +691,17 @@ void analysisClass::Loop()
      int lq_mass = LQ_MASS[i_lq_mass];
      //TODO FIXME; hack for now
      //sprintf(cut_name, "min_M_ej_LQ%d"   , lq_mass );
+     sprintf(cut_name, "BDTOutput_TrainRegion_LQ%d"   , lq_mass );
+     CreateUserTH1D(cut_name,2000,-1,1);
+     sprintf(cut_name, "BDTOutput_noWeight_TrainRegion_LQ%d"   , lq_mass );
+     CreateUserTH1D(cut_name,2000,-1,1);
      sprintf(cut_name, "BDTOutput_LQ%d"   , lq_mass );
-     if(hasCut(cut_name)) {
+     if(hasCut(cut_name))
        doFinalSelections = true;
-       break;
-     }
+   }
+   if(doFinalSelections && !evaluateBDT) {
+     STDOUT("ERROR: No BDTWeightFileName specified, yet asked to do final selections. Quitting here.");
+     exit(-5);
    }
    // now, we must have an Mej cut and optimization must be off to have final selections enabled
    doFinalSelections = doFinalSelections && !isOptimizationEnabled();
@@ -841,7 +841,7 @@ void analysisClass::Loop()
    float Jet3_Eta, Jet3_Phi, Jet3_Pt;
    float Masym, MejMin, MejMax, Meejj;
    float DR_Ele1Jet1, DR_Ele1Jet2, DR_Ele2Jet1, DR_Ele2Jet2, DR_Jet1Jet2;
-   float mass = lqBDTMass;
+   float mass = 0;
    TMVA::Tools::Instance();
    std::unique_ptr<TMVA::Reader> reader(new TMVA::Reader( "!Color:!Silent" ));
    reader->AddVariable( "sT_eejj", &sT_eejj);
@@ -1493,9 +1493,18 @@ void analysisClass::Loop()
      j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
      eejj = e1 + e2 + j1 + j2 ; 
      Meejj = eejj.M();
-     double bdtOutput = -999;
-     if(evaluateBDT)
-       bdtOutput = reader->EvaluateMVA("BDT");
+     // BDT evaluation
+     for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+       int lq_mass = LQ_MASS[i_lq_mass];
+       mass = lq_mass;  // set BDT mass parameter
+       double bdtOutput = -999;
+       if(evaluateBDT)
+         bdtOutput = reader->EvaluateMVA("BDT");
+       sprintf(cut_name, "BDTOutput_TrainRegion_LQ%d", lq_mass );
+       FillUserTH1D(cut_name, bdtOutput, gen_weight * pileup_weight );
+       sprintf(cut_name, "BDTOutput_noWeight_TrainRegion_LQ%d", lq_mass );
+       FillUserTH1D(cut_name, bdtOutput );
+     }
 
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
@@ -1513,11 +1522,6 @@ void analysisClass::Loop()
          //fillVariableWithValue( "sT_eejj_opt", sT_eejj , gen_weight * pileup_weight  ) ;
          //fillVariableWithValue( "Mej_min_opt", M_ej_min, gen_weight * pileup_weight  ) ;
          //fillVariableWithValue( "Mej_asym_opt", M_ej_asym, gen_weight * pileup_weight  ) ;
-         // BDT evaluation
-         //std::cout << "\tBDT = " << bdtOutput << std::endl; //XXX SIC DEBUG
-         fillVariableWithValue("BDToutput_opt" , bdtOutput, gen_weight * pileup_weight );
-         FillUserTH1D( "BDTOutput_Presel"   , bdtOutput, gen_weight * pileup_weight );
-         FillUserTH1D( "BDTOutput_noWeight_Presel"   , bdtOutput );
        }      
      }
      //fillVariableWithValue( "PFMET_opt", PFMET_Type1_Pt, gen_weight * pileup_weight  ) ;
@@ -1539,6 +1543,9 @@ void analysisClass::Loop()
          //fillVariableWithValue ( cut_name, sT_eejj , gen_weight * pileup_weight  ) ;
          //sprintf(cut_name, "min_M_ej_LQ%d", lq_mass );
          //fillVariableWithValue ( cut_name, M_ej_min, gen_weight * pileup_weight  ) ;
+         mass = lq_mass;  // set BDT mass parameter
+         double bdtOutput = -999;
+         bdtOutput = reader->EvaluateMVA("BDT");
          sprintf(cut_name, "BDTOutput_LQ%d", lq_mass );
          fillVariableWithValue ( cut_name, bdtOutput, gen_weight * pileup_weight  ) ;
          fillSystVariableWithValue( "EER", cut_name, M_ej_min_EER);

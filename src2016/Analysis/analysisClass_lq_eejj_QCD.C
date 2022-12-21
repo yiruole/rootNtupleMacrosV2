@@ -23,35 +23,33 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   // Final selection mass points
   //--------------------------------------------------------------------------
+  const int n_lq_mass = 11;
+  int LQ_MASS[n_lq_mass] = {
+    1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000
+  };
+  ////const int n_lq_mass = 30; // 2017
+  //const int n_lq_mass = 29; // 2016
+  //int LQ_MASS[n_lq_mass] = { 
+  //  300,  400,  500,  600,
+  //  700,  800,  900,  1000,
+  //  1100, 1200, 1300, 1400,
+  //  1500, 1600, 1700, 1800,
+  //  //1900, 2000, // up to 2000 only for 2018
+  //  1900, 2000, 2100, 2200, // 2017-2018
+  //  2300, 2400, //2500, // 2500 for 2016 missing, FIXME
+  //  2600, 2700, 2800, 2900,
+  //  3000,
+  //  3500, 4000
+  //};
 
-   // BDT test
-   const int n_lq_mass = 7;
-   int LQ_MASS[n_lq_mass] = {
-     1100, 1200, 1300, 1400, 1500, 1600, 1700
-   };
-   ////const int n_lq_mass = 30; // 2017
-   //const int n_lq_mass = 29; // 2016
-   //int LQ_MASS[n_lq_mass] = { 
-   //  300,  400,  500,  600,
-   //  700,  800,  900,  1000,
-   //  1100, 1200, 1300, 1400,
-   //  1500, 1600, 1700, 1800,
-   //  //1900, 2000, // up to 2000 only for 2018
-   //  1900, 2000, 2100, 2200, // 2017-2018
-   //  2300, 2400, //2500, // 2500 for 2016 missing, FIXME
-   //  2600, 2700, 2800, 2900,
-   //  3000,
-   //  3500, 4000
-   //};
-
-   //const int n_lq_mass = 18; // 2018
-   //int LQ_MASS[n_lq_mass] = { 
-   //  300,  400,  500,  600,
-   //  700,  800,  900,  1000,
-   //  1100, 1200, 1300, 1400,
-   //  1500, 1600, 1700, 1800,
-   //  1900, 2000
-   //};
+  //const int n_lq_mass = 18; // 2018
+  //int LQ_MASS[n_lq_mass] = { 
+  //  300,  400,  500,  600,
+  //  700,  800,  900,  1000,
+  //  1100, 1200, 1300, 1400,
+  //  1500, 1600, 1700, 1800,
+  //  1900, 2000
+  //};
 
   // LQ650 only 2012
   //const int n_lq_mass = 1;
@@ -595,25 +593,31 @@ void analysisClass::Loop()
 
   // 3D opt cut space
   CreateUserTH3D( "OptimizationCutSpace", 200, 0, 2000, 200, 0, 2000, 200, 0, 2000);
-  CreateUserTH1D( "BDTOutput_Presel",20000,-2,2);
-  CreateUserTH1D( "BDTOutput_noWeight_Presel",20000,-2,2);
 
 
   //--------------------------------------------------------------------------
   // Final selection plots
   //--------------------------------------------------------------------------
-  bool doFinalSelections = false;
-  // check if there is a final Mej specific in cutfile for any LQ mass
-  for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-    int lq_mass = LQ_MASS[i_lq_mass];
+   bool doFinalSelections = false;
+   // check if there is a final Mej specific in cutfile for any LQ mass
+   for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+     int lq_mass = LQ_MASS[i_lq_mass];
      //TODO FIXME; hack for now
      //sprintf(cut_name, "min_M_ej_LQ%d"   , lq_mass );
+     sprintf(cut_name, "BDTOutput_TrainRegion_LQ%d"   , lq_mass );
+     CreateUserTH1D(cut_name,2000,-1,1);
+     sprintf(cut_name, "BDTOutput_noWeight_TrainRegion_LQ%d"   , lq_mass );
+     CreateUserTH1D(cut_name,2000,-1,1);
      sprintf(cut_name, "BDTOutput_LQ%d"   , lq_mass );
-    if(hasCut(cut_name)) {
-      doFinalSelections = true;
-      break;
-    }
-  }
+     if(hasCut(cut_name))
+       doFinalSelections = true;
+   }
+   if(doFinalSelections && !evaluateBDT) {
+     STDOUT("ERROR: No BDTWeightFileName specified, yet asked to do final selections. Quitting here.");
+     exit(-5);
+   }
+   // now, we must have an Mej cut and optimization must be off to have final selections enabled
+   doFinalSelections = doFinalSelections && !isOptimizationEnabled();
 
   char plot_name[100];
 
@@ -733,7 +737,7 @@ void analysisClass::Loop()
   float Jet3_Eta, Jet3_Phi, Jet3_Pt;
   float DR_Ele1Jet1, DR_Ele1Jet2, DR_Ele2Jet1, DR_Ele2Jet2, DR_Jet1Jet2;
   float Masym, MejMin, MejMax, Meejj;
-  float mass = 1700; // FIXME: handle this better in the future
+  float mass = 0;
   TMVA::Tools::Instance();
   TMVA::Reader reader( "!Color:!Silent" );
   reader.AddVariable( "sT_eejj", &sT_eejj);
@@ -1204,9 +1208,18 @@ void analysisClass::Loop()
     MejMin = M_ej_min;
     MejMax = M_ej_max;
     Masym = M_ej_asym;
-    double bdtOutput = -999;
-    if(evaluateBDT)
-      bdtOutput = reader.EvaluateMVA("BDT");
+    // BDT evaluation
+    for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+      int lq_mass = LQ_MASS[i_lq_mass];
+      mass = lq_mass;  // set BDT mass parameter
+      double bdtOutput = -999;
+      if(evaluateBDT)
+        bdtOutput = reader.EvaluateMVA("BDT");
+      sprintf(cut_name, "BDTOutput_TrainRegion_LQ%d", lq_mass );
+      FillUserTH1D(cut_name, bdtOutput, fakeRateEffective * min_prescale );
+      sprintf(cut_name, "BDTOutput_noWeight_TrainRegion_LQ%d", lq_mass );
+      FillUserTH1D(cut_name, bdtOutput );
+    }
     if ( nEle_store >= 2 && nJet_store >= 2) {
       // SIC recompute sT using PtHeep. FIXME: this is now being done in skims
       //sT_eejj = Ele1_PtHeep+Ele2_PtHeep+Jet1_Pt+Jet2_Pt;
@@ -1215,9 +1228,6 @@ void analysisClass::Loop()
       //fillVariableWithValue( "sT_eejj_opt"                   , sT_eejj                 , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "Mej_min_opt"                   , M_ej_min                , fakeRateEffective * min_prescale ) ;
       //fillVariableWithValue( "Mej_asym_opt"                  , M_ej_asym               , fakeRateEffective * min_prescale ) ;
-      fillVariableWithValue("BDToutput_opt" , bdtOutput, fakeRateEffective * min_prescale );
-      FillUserTH1D( "BDTOutput_Presel"   , bdtOutput, fakeRateEffective * min_prescale );
-      FillUserTH1D( "BDTOutput_noWeight_Presel"   , bdtOutput );
     }
     //fillVariableWithValue( "PFMET_opt"                  , PFMET_Type1_Pt               , fakeRateEffective * min_prescale ) ;
 
@@ -1236,6 +1246,9 @@ void analysisClass::Loop()
         //sprintf(cut_name, "sT_eejj_LQ%d" , lq_mass ); fillVariableWithValue ( cut_name, sT_eejj , fakeRateEffective  * min_prescale ) ;
         //sprintf(cut_name, "min_M_ej_LQ%d", lq_mass ); fillVariableWithValue ( cut_name, M_ej_min, fakeRateEffective  * min_prescale ) ;
         //sprintf(cut_name, "asym_M_ej_LQ%d", lq_mass ); fillVariableWithValue ( cut_name, M_ej_asym, fakeRateEffective  * min_prescale ) ;
+        mass = lq_mass;  // set BDT mass parameter
+        double bdtOutput = -999;
+        bdtOutput = reader.EvaluateMVA("BDT");
         sprintf(cut_name, "BDTOutput_LQ%d", lq_mass );
         fillVariableWithValue ( cut_name, bdtOutput, fakeRateEffective * min_prescale  ) ;
       }
