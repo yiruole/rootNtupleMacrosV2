@@ -47,6 +47,13 @@ void analysisClass::Loop() {
   
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
+    //--------------------------------------------------------------------------
+    // Tricky part: refine Weight branch for MC only
+    //--------------------------------------------------------------------------
+    float weight = 1.0;
+
+    if(!isData())
+      resetSkimTreeBranchAddress("Weight", &weight);
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
@@ -58,9 +65,129 @@ void analysisClass::Loop() {
 
     resetCuts();
 
-    float gen_weight = 1.0;
+    float gen_weight = readerTools_->ReadValueBranch<Float_t>("Weight");
     float pileup_weight = 1.0;
+    // add trigger scale factor
+    // have to modify for trigger path selection below
+    // TODO: better way of handling this
+    bool ele1PassedHLTWPTight = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerWPTightFilter");
+    bool ele1PassedHLTCaloIdVTGsfTrkIdT = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerCaloIdVTGsfTrkIdTFilter");
+    bool ele1PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerPhotonFilter");
+    bool ele2PassedHLTWPTight = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerWPTightFilter");
+    bool ele2PassedHLTCaloIdVTGsfTrkIdT = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerCaloIdVTGsfTrkIdTFilter");
+    bool ele2PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerPhotonFilter");
+    if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
+      float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
+      float trigSFEle1Err = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF_Err");
+      gen_weight*=trigSFEle1;
+    }
+    else if(ele2PassedHLTWPTight || ele2PassedHLTPhoton) {
+      float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
+      float trigSFEle2Err = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF_Err");
+      gen_weight*=trigSFEle2;
+    }
+    ////float totalScaleFactor = recoHeepSF*trigSFEle1*trigSFEle2;
+    //////std::cout << "trigSFEle1*trigSFEle2 = " << trigSFEle1 << "*" << trigSFEle2 << " = " << trigSFEle1*trigSFEle2 << std::endl;
+    //////std::cout << "totalScaleFactor = " << totalScaleFactor << std::endl;
+    weight = gen_weight;
     fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
+
+    //--------------------------------------------------------------------------
+    // Fill HLT
+    //--------------------------------------------------------------------------
+    std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
+    int passHLT = 0;
+    bool verboseTrigEff = false;
+    if ( isData() ) {
+      if(current_file_name.find("SinglePhoton") != std::string::npos) {
+        if(analysisYear==2016) {
+          if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1) // take events triggered by Photon175 only plus those triggered by Photon175 AND Ele27/Ele115
+            passHLT = 1;
+        }
+        else {
+          if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1) // take events triggered by Photon200 only plus those triggered by Photon200 AND Ele35
+            passHLT = 1;
+        }
+      }
+      else if(current_file_name.find("SingleElectron") != std::string::npos) {
+        if(analysisYear==2016) {
+          if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") != 1 && 
+              //(readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
+              //(readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele115
+            (readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1) )
+              passHLT = 1;
+        }
+        else {
+          if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") != 1 && 
+              readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
+            passHLT = 1;
+        }
+      }
+      else if(analysisYear==2018) {
+        if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+            readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 ||
+            readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) // take events triggered by Photon200 OR Ele32 OR Ele115
+          passHLT = 1;
+      }
+      //if(current_file_name.find("SingleElectron") != std::string::npos) {
+      //  if(analysisYear==2016) {
+      //    if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") != 1 &&
+      //        (readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 || readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele27 OR Ele115
+      //        //(readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) ) // take events triggered only by Ele115
+      //      //(readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1) ) // take events triggered only by Ele27
+      //        passHLT = 1;
+      //  }
+      //  else {
+      //    if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") != 1 && 
+      //        readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 ) // take events triggered only by Ele35
+      //      passHLT = 1;
+      //  }
+      //}
+      //else if(analysisYear==2018) {
+      //  if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+      //      readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 ||
+      //      readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1) // take events triggered by Photon200 OR Ele32 OR Ele115
+      //    passHLT = 1;
+      //}
+    }
+    else
+    {
+      //// a la Z', throw a random number and if it's below the efficiency at this pt/eta, pass the event
+      ////   we get two chances to pass since we may have two electrons in the event
+      //// trigger efficiency is binned in SCEta and SCEt (uncorrected)
+      //// FIXME if used with stock nano...
+      //// uncorrect the Pt, if there is a nonzero ecorr stored
+      //float ele1ECorr = readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr");
+      //float ele2ECorr = readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr");
+      //float ele1PtUncorr = ele1ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele1_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+      //float ele2PtUncorr = ele2ECorr != 0 ? readerTools_->ReadValueBranch<Float_t>("Ele2_Pt")/ele1ECorr : readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+      ////std::cout << "INFO: ele1PtUncorr = Ele1_Pt / Ele1_ECorr = " << readerTools_->ReadValueBranch<Float_t>("Ele1_Pt") << " / " << readerTools_->ReadValueBranch<Float_t>("Ele1_ECorr") << " = " << ele1PtUncorr << std::endl;
+      //passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Float_t>("Ele1_SCEta"),ele1PtUncorr,verboseTrigEff) ? 1 : 0;
+      //if(!passHLT) { // if the first one doesn't pass, try the second one
+      //  //std::cout << "INFO: ele2PtUncorr = Ele2_Pt / Ele2_ECorr = " << readerTools_->ReadValueBranch<Float_t>("Ele2_Pt") << " / " << readerTools_->ReadValueBranch<Float_t>("Ele2_ECorr") << " = " << ele2PtUncorr << std::endl;
+      //  passHLT = triggerEfficiency.PassTrigger(readerTools_->ReadValueBranch<Float_t>("Ele2_SCEta"),ele2PtUncorr,verboseTrigEff) ? 1 : 0;
+      //}
+      // using trigger scale factors
+      if(analysisYear==2016) {
+        if (//readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
+            // XXX SIC: exclude Ele115 for now
+            //readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
+            readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 )
+          passHLT = 1;
+      }
+      else if(analysisYear==2017) {
+        if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+            readerTools_->ReadValueBranch<Float_t>("H_Ele35_WPTight") == 1 )
+          passHLT = 1;
+      }
+      else if(analysisYear==2018) {
+        if (readerTools_->ReadValueBranch<Float_t>("H_Photon200") == 1 ||
+            readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
+            readerTools_->ReadValueBranch<Float_t>("H_Ele32_WPTight") == 1 )
+          passHLT = 1;
+      }
+    }
+    fillVariableWithValue ( "PassHLT", passHLT, gen_weight * pileup_weight  ) ;     
 
     //--------------------------------------------------------------------------
     // Fill JSON variable

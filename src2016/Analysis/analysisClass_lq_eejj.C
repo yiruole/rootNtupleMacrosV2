@@ -1002,14 +1002,16 @@ void analysisClass::Loop()
        if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
          float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
          float trigSFEle1Err = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF_Err");
-         gen_weight*=trigSFEle1;
+         // now included in post-skim weight
+         //gen_weight*=trigSFEle1;
          fillSystVariableWithValue("EleTrigSFUp", trigSFEle1+trigSFEle1Err);
          fillSystVariableWithValue("EleTrigSFDown", trigSFEle1-trigSFEle1Err);
        }
        else if(ele2PassedHLTWPTight || ele2PassedHLTPhoton) {
          float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
          float trigSFEle2Err = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF_Err");
-         gen_weight*=trigSFEle2;
+         // now included in post-skim weight
+         //gen_weight*=trigSFEle2;
          fillSystVariableWithValue("EleTrigSFUp", trigSFEle2+trigSFEle2Err);
          fillSystVariableWithValue("EleTrigSFDown", trigSFEle2-trigSFEle2Err);
        }

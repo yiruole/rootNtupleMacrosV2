@@ -56,6 +56,7 @@ PassEcalBadCalibV2Filter            0              1              -           - 
 PassNEle                            0              1              -           -           0           11            -0.5           10.5
 PassNJet                            0              1              -           -           0           16            -0.5           15.5
 #PassNMuon                          0              1              -           -           0           16            -0.5           15.5
+PassHLT                             0              1              -           -           0           16            -0.5           15.5
 nEle_hltMatched                     -inf           +inf           -           -           0           3             -0.5           2.5
 nJet_hltMatched                     -inf           +inf           -           -           0           3             -0.5           2.5
 Ele1_Pt                             50             +inf           -           -           0           200           0              2000
