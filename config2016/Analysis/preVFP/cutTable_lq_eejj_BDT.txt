@@ -1,0 +1,183 @@
+#############################     Example of file with list of cuts
+#
+#
+#------------------------ Preliminary cut variables and values (cut level -1) here -----------------------------
+# This first list of variable names and values are used to pass configurable values to the user code associated
+# to a variable name.
+# The user can retrieve the values associated to a variable name via a provided function call
+# [e.g. getPreCutValue1("eleFidRegion") and similarly for value2, value3 and value4 ]
+# The idea is that the user can use these values to define the list of objects (electrons, jets, etc.) used in
+# analysis. No cut is automatically evaluated on these variables and the cut level must be equal to -1.
+# Variable names must be unique.
+#
+#VariableName         value1            value2          value3          value4          level
+#------------         ------------      -------------   ------------    -------------   -----
+produceSkim           1                 -               -               -               -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Preselection cuts
+#-----------------------------------------------------------------------------------------------------------------------------
+eleEta_bar            1.4442           -                -               -               -1
+eleEta_end1           1.566            2.0              -               -               -1
+eleEta_end2           2.000            2.5              -               -               -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# BDT
+#-----------------------------------------------------------------------------------------------------------------------------
+BDTWeightFileName   /afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/versionsOfAnalysis/2016/eejj/eejj_1dec2022_preselOnly_eleSFsTrigSFsLead_ele27AndPhoton175_fromPSK_2016preVFP/bdt/dataset/weights/TMVAClassification_BDTG.weights.xml  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# Analysis year
+#-----------------------------------------------------------------------------------------------------------------------------
+AnalysisYear   2016  - - - -1
+#-----------------------------------------------------------------------------------------------------------------------------
+# B-tagging
+# See: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
+#-----------------------------------------------------------------------------------------------------------------------------
+BTagAlgo       DeepJet  - - - -1
+#BTagWP         Loose    - - - -1
+#BTagCutValue   0.0508   - - - -1
+BTagWP         Medium   - - - -1
+BTagCutValue   0.2598   - - - -1
+#
+#-----------------------------------------------------------------------------------------------------------------------------
+# systematics
+#-----------------------------------------------------------------------------------------------------------------------------
+#         name              source/formula/branch                                       cutVars
+#         ------------      ------------------------------------------------------      --------------------------------------
+##SYST      FivePercentUp     1.05
+#SYST      PrefireDown       PrefireWeight_Dn/PrefireWeight
+#SYST      PrefireUp         PrefireWeight_Up/PrefireWeight
+##SYST      JERDown           regex=".+JER_Dn.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt
+##SYST      JERUp             regex=".+JER_Up.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt
+##SYST      JESDown           regex=".+JESTotal_Dn.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt
+##SYST      JESUp             regex=".+JESTotal_Up.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt
+#SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
+#SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
+#SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
+##FIXME
+##SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
+##SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
+##SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
+#SYST      EleRecoSFUp       Ele1_RecoSF_Up/Ele1_RecoSF
+#SYST      EleRecoSFDown     Ele1_RecoSF_Dn/Ele1_RecoSF
+#SYST      EleIDSFUp         Ele1_EGMLooseIDSF_Up/Ele1_EGMLooseIDSF
+#SYST      EleIDSFDown       Ele1_EGMLooseIDSF_Dn/Ele1_EGMLooseIDSF
+#SYST      EleTrigSFUp       
+#SYST      EleTrigSFDown     
+#SYST      PileupUp          puWeight_Up/puWeight
+#SYST      PileupDown        puWeight_Dn/puWeight
+#SYST      LHEPdfWeight      LHEPdfWeight
+#SYST      LHEScaleWeight    LHEScaleWeight
+#--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
+# The cut variable names, cut boundaries and histogram binnings are provided here by the user.
+# In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
+# a provided function call [ e.g. fillVariableWithValue("nEleFinal", number_of_electrons) ]
+# The variable names in the user code has to match the names provided here.
+# Variable names must be unique.
+# The cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )
+# in case only the first range (minValue1, maxValue1) is provided,
+# otherwise the cut will be declared "passed" if
+#    ( minValue1 < VariableName <= maxValue1 )  OR  ( minValue2 < VariableName <= maxValue2 )
+# in case even the second range (minValue2, maxValue2) is provided.
+# The level of the cut (0,1,2 ... n) is provided by the user and can be used in the code to easily determine if
+# groups of same-level cuts have passed or failed.
+#
+#VariableName                   minValue1(<) maxValue1(>=)      minValue2(<)    maxValue2(>=)   level   histoNbinsMinMax      OptionalFlag
+#------------                   ------------ -------------      ------------    -------------   -----   ----------------      ------------
+#-----------------------------------------------------------------------------------------------------------------------------
+#                          _           _   _             
+# _ __  _ __ ___  ___  ___| | ___  ___| |_(_) ___  _ __  
+#| '_ \| '__/ _ \/ __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \ 
+#| |_) | | |  __/\__ \  __/ |  __/ (__| |_| | (_) | | | |
+#| .__/|_|  \___||___/\___|_|\___|\___|\__|_|\___/|_| |_|
+#|_|                    
+#-----------------------------------------------------------------------------------------------------------------------------
+Reweighting                        0              1              -           -           0           2             -0.5           1.5
+PassLHECuts                        0              1              -           -           0           2             -0.5           1.5
+PassJSON                           0              1              -           -           0           2             -0.5           1.5
+PassHLT                            0              1              -           -           0           2             -0.5           1.5
+PassGlobalSuperTightHalo2016Filter 0              1              -           -           0           2             -0.5           1.5
+PassGoodVertices                   0              1              -           -           0           2             -0.5           1.5
+PassHBHENoiseFilter                0              1              -           -           0           2             -0.5           1.5
+PassHBHENoiseIsoFilter             0              1              -           -           0           2             -0.5           1.5
+PassBadEESupercrystalFilter        0              1              -           -           0           2             -0.5           1.5
+PassEcalDeadCellTrigPrim           0              1              -           -           0           2             -0.5           1.5
+PassBadPFMuonFilter                0              1              -           -           0           2             -0.5           1.5
+PassEcalBadCalibV2Filter           0              1              -           -           0           2             -0.5           1.5
+PassNEle                           0              1              -           -           0           11            -0.5           10.5
+PassNMuon                          0              1              -           -           0           16            -0.5           15.5
+nEle_hltMatched                    -inf           +inf           -           -           0           3             -0.5           2.5
+nJet_hltMatched                    -inf           +inf           -           -           0           3             -0.5           2.5
+Ele1_Pt                            50             +inf           -           -           0           200           0              2000
+Ele2_Pt                            50             +inf           -           -           0           200           0              2000
+nJet                               -inf           +inf           -           -           0           16            -0.5           15.5
+Jet1_Pt                            50             +inf           -           -           0           200           0              2000
+Jet1_Eta                           -2.4           2.4            -           -           0           100           -5             5
+Jet2_Pt                            50             +inf           -           -           0           200           0              2000
+Jet2_Eta                           -2.4           2.4            -           -           0           100           -5             5
+DR_Ele1Jet1                        -inf           +inf           -           -           0           100           0              10
+DR_Ele1Jet2                        -inf           +inf           -           -           0           100           0              10
+DR_Ele2Jet1                        -inf           +inf           -           -           0           100           0              10
+DR_Ele2Jet2                        -inf           +inf           -           -           0           100           0              10
+DR_Jet1Jet2                        -inf           +inf           -           -           0           100           0              10
+Pt_e1e2                            70             +inf           -           -           1           200           0              2000
+sT_eejj_bkgCR                      300            +inf           -           -           1           200           0              2000
+M_e1e2_bkgCR                       50             +inf           -           -           1           200           0              2000
+sT_eejj                            400            +inf           -           -           1           200           0              2000
+M_e1e2                             200            +inf           -           -           1           200           0              2000
+preselection                       -inf           +inf           -           -           1           2             -0.5           1.5
+#-----------------------------------------------------------------------------------------------------------------------------
+# Optimization variables (unused)
+#-----------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------
+#  __ _             _            _           _   _                                                                        
+# / _(_)_ __   __ _| |  ___  ___| | ___  ___| |_(_) ___  _ __                                                             
+#| |_| | '_ \ / _` | | / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \                                                            
+#|  _| | | | | (_| | | \__ \  __/ |  __/ (__| |_| | (_) | | | |                                                           
+#|_| |_|_| |_|\__,_|_| |___/\___|_|\___|\___|\__|_|\___/|_| |_|                                                           
+#-----------------------------------------------------------------------------------------------------------------------------
+# CUTS GET PROGRESSIVELY TIGHTER
+##------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1700 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1700                         0.8178                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1800 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1800                         0.863                +inf              -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 2000 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ2000                         0.863                +inf              -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1900 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1900                         0.863                +inf              -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1600 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1600                         0.8634                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1500 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1500                         0.9276                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1400 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1400                         0.9746                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1300 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1300                         0.9804                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1200 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1200                         0.9898                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1100 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1100                         0.9942                +inf             -               -       2       10000 -1 1
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1000 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1000                         0.9952                +inf             -               -       2       10000 -1 1
