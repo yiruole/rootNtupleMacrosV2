@@ -169,7 +169,7 @@ void analysisClass::Loop() {
       //}
       // using trigger scale factors
       if(analysisYear==2016) {
-        if (//readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
+        if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
             // XXX SIC: exclude Ele115 for now
             //readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
             readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 )
@@ -251,28 +251,25 @@ void analysisClass::Loop() {
     //if ( readerTools_->ReadValueBranch<Float_t>("nEle_ptCut") == 2 ) PassNEle = 1;
     if ( readerTools_->ReadValueBranch<Int_t>("nEle_store") >= 2 ) PassNEle = 1;
     fillVariableWithValue("PassNEle" , PassNEle , gen_weight * pileup_weight);
-    int PassNJet = 0;
-    if( readerTools_->ReadValueBranch<Int_t>("nJet_store") >= 2) PassNJet = 1;
-    fillVariableWithValue("PassNJet" , PassNJet , gen_weight * pileup_weight);
+    //int PassNJet = 0;
+    //if( readerTools_->ReadValueBranch<Int_t>("nJet_store") >= 2) PassNJet = 1;
+    //fillVariableWithValue("PassNJet" , PassNJet , gen_weight * pileup_weight);
 
     // remove muon veto for fake rate calc
     int PassNMuon = 0;
-    //if ( !is_ttbar_from_data && nMuon_ptCut == 0 ) PassNMuon = 1;
-    //if (  is_ttbar_from_data && nMuon_ptCut >  0 ) PassNMuon = 1;
-    if (  readerTools_->ReadValueBranch<Int_t>("nMuon_ptCut") == 0 ) PassNMuon = 1;
-
-    //fillVariableWithValue("PassNMuon", PassNMuon, gen_weight * pileup_weight);
+    int nMuon_ptCut = readerTools_->ReadValueBranch<Int_t>("nMuon_ptCut");
+    if ( !is_ttbar_from_data && nMuon_ptCut == 0 )
+      PassNMuon = 1;
+    if (  is_ttbar_from_data && nMuon_ptCut >  0 )
+      PassNMuon = 1;
+    fillVariableWithValue("PassNMuon", PassNMuon, gen_weight * pileup_weight);
     
-    //if(is_ttbar_from_data)
-    //{
-    //  fillVariableWithValue("nEle_ptCut" , nEle_ptCut , gen_weight * pileup_weight);
-    //  fillVariableWithValue("nMuon_ptCut", nMuon_ptCut, gen_weight * pileup_weight);
-    //}
 
     //--------------------------------------------------------------------------
     // Calculate electron-jet pair mass values
     //--------------------------------------------------------------------------
 
+    double Pt_e1e2 = readerTools_->ReadValueBranch<Float_t>("Pt_e1e2");
     double M_ej_avg, M_ej_min, M_ej_max;
 
     if ( readerTools_->ReadValueBranch<Int_t>("nEle_store") >= 2 &&
@@ -338,6 +335,7 @@ void analysisClass::Loop() {
 
     if ( readerTools_->ReadValueBranch<Int_t>("nEle_store") >= 2 ) { 						    
       fillVariableWithValue( "M_e1e2"     , readerTools_->ReadValueBranch<Float_t>("M_e1e2") , gen_weight * pileup_weight  ) ;
+      fillVariableWithValue( "Pt_e1e2"    , Pt_e1e2 , gen_weight * pileup_weight  ) ;
 
       if ( readerTools_->ReadValueBranch<Int_t>("nJet_store") >= 2 ) { 
         fillVariableWithValue( "sT_eejj"    , readerTools_->ReadValueBranch<Float_t>("sT_eejj") , gen_weight * pileup_weight  ) ;
