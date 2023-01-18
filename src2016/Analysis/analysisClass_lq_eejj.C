@@ -1108,7 +1108,7 @@ void analysisClass::Loop()
        //}
        // using trigger scale factors
        if(analysisYear==2016) {
-         if (//readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
+         if (readerTools_->ReadValueBranch<Float_t>("H_Photon175") == 1 ||
              // XXX SIC: exclude Ele115 for now
              //readerTools_->ReadValueBranch<Float_t>("H_Ele115_CIdVT_GsfIdT") == 1 ||
              readerTools_->ReadValueBranch<Float_t>("H_Ele27_WPTight") == 1 )
