@@ -12,8 +12,6 @@
 #include <TVector2.h>
 #include <TVector3.h>
 #include <TProfile.h>
-#include <TMVA/Tools.h>
-#include <TMVA/Reader.h>
 // for scale factors
 #include "ElectronScaleFactors.C"
 #include "MuonScaleFactors.C"
@@ -831,56 +829,6 @@ void analysisClass::Loop()
    }
 
    //--------------------------------------------------------------------------
-   // TMVA Reader
-   // See, for example: https://github.com/lmoneta/tmva-tutorial/blob/master/notebooks/TMVA_Reader.ipynb
-   //--------------------------------------------------------------------------
-   float sT_eejj, M_e1e2, M_e1j1, M_e1j2, M_e2j1, M_e2j2, Ele1_Pt, Ele2_Pt, Jet1_Pt, Jet2_Pt;
-   float PFMET_Type1_Pt, PFMET_Type1_Phi;
-   float Ele1_Eta, Ele2_Eta, Ele1_Phi, Ele2_Phi;
-   float Jet1_Eta, Jet2_Eta, Jet1_Phi, Jet2_Phi;
-   float Jet3_Eta, Jet3_Phi, Jet3_Pt;
-   float Masym, MejMin, MejMax, Meejj;
-   float DR_Ele1Jet1, DR_Ele1Jet2, DR_Ele2Jet1, DR_Ele2Jet2, DR_Jet1Jet2;
-   float mass = 0;
-   TMVA::Tools::Instance();
-   std::unique_ptr<TMVA::Reader> reader(new TMVA::Reader( "!Color:!Silent" ));
-   reader->AddVariable( "sT_eejj", &sT_eejj);
-   reader->AddVariable( "PFMET_Type1_Pt", &PFMET_Type1_Pt);
-   reader->AddVariable( "PFMET_Type1_Phi", &PFMET_Type1_Phi);
-   reader->AddVariable( "M_e1e2", &M_e1e2);
-   reader->AddVariable( "M_e1j1", &M_e1j1);
-   reader->AddVariable( "M_e1j2", &M_e1j2);
-   reader->AddVariable( "M_e2j1", &M_e2j1);
-   reader->AddVariable( "M_e2j2", &M_e2j2);
-   reader->AddVariable( "Ele1_Pt", &Ele1_Pt);
-   reader->AddVariable( "Ele2_Pt", &Ele2_Pt);
-   reader->AddVariable( "Ele1_Eta", &Ele1_Eta);
-   reader->AddVariable( "Ele2_Eta", &Ele2_Eta);
-   reader->AddVariable( "Ele1_Phi", &Ele1_Phi);
-   reader->AddVariable( "Ele2_Phi", &Ele2_Phi);
-   reader->AddVariable( "Jet1_Pt", &Jet1_Pt);
-   reader->AddVariable( "Jet2_Pt", &Jet2_Pt);
-   reader->AddVariable( "Jet3_Pt", &Jet3_Pt);
-   reader->AddVariable( "Jet1_Eta", &Jet1_Eta);
-   reader->AddVariable( "Jet2_Eta", &Jet2_Eta);
-   reader->AddVariable( "Jet3_Eta", &Jet3_Eta);
-   reader->AddVariable( "Jet1_Phi", &Jet1_Phi);
-   reader->AddVariable( "Jet2_Phi", &Jet2_Phi);
-   reader->AddVariable( "Jet3_Phi", &Jet3_Phi);
-   reader->AddVariable( "DR_Ele1Jet1", &DR_Ele1Jet1);
-   reader->AddVariable( "DR_Ele1Jet2", &DR_Ele1Jet2);
-   reader->AddVariable( "DR_Ele2Jet1", &DR_Ele2Jet1);
-   reader->AddVariable( "DR_Ele2Jet2", &DR_Ele2Jet2);
-   reader->AddVariable( "DR_Jet1Jet2", &DR_Jet1Jet2);
-   reader->AddVariable( "Masym", &Masym);
-   reader->AddVariable( "MejMin", &MejMin);
-   reader->AddVariable( "MejMax", &MejMax);
-   reader->AddVariable( "Meejj", &Meejj);
-   reader->AddVariable( "mass", &mass);
-   if(evaluateBDT)
-     reader->BookMVA("BDT", bdtWeightFileName );
-
-   //--------------------------------------------------------------------------
    // Tell the user how many entries we'll look at
    //--------------------------------------------------------------------------
 
@@ -1310,10 +1258,10 @@ void analysisClass::Loop()
 
      int nEle_store = readerTools_->ReadValueBranch<Int_t>("nEle_store");
      int nJet_store = readerTools_->ReadValueBranch<Int_t>("nJet_store");
-     M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
-     M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
-     M_e2j1 = readerTools_->ReadValueBranch<Float_t>("M_e2j1");
-     M_e2j2 = readerTools_->ReadValueBranch<Float_t>("M_e2j2");
+     float M_e1j1 = readerTools_->ReadValueBranch<Float_t>("M_e1j1");
+     float M_e1j2 = readerTools_->ReadValueBranch<Float_t>("M_e1j2");
+     float M_e2j1 = readerTools_->ReadValueBranch<Float_t>("M_e2j1");
+     float M_e2j2 = readerTools_->ReadValueBranch<Float_t>("M_e2j2");
      double Pt_e1e2 = readerTools_->ReadValueBranch<Float_t>("Pt_e1e2");
      // systs
      double M_e1j1_EER = readerTools_->ReadValueBranch<Float_t>("M_e1j1_EER");
@@ -1406,24 +1354,28 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      //double Ele1_PtHeep = readerTools_->ReadValueBranch<Float_t>("Ele1_PtHeep");
      //double Ele2_PtHeep = readerTools_->ReadValueBranch<Float_t>("Ele2_PtHeep");
-     Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
-     Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
-     Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
-     Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
-     Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
-     Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
+     float Ele1_Pt = readerTools_->ReadValueBranch<Float_t>("Ele1_Pt");
+     float Ele2_Pt = readerTools_->ReadValueBranch<Float_t>("Ele2_Pt");
+     float Ele1_Eta = readerTools_->ReadValueBranch<Float_t>("Ele1_Eta");
+     float Ele2_Eta = readerTools_->ReadValueBranch<Float_t>("Ele2_Eta");
+     float Ele1_Phi = readerTools_->ReadValueBranch<Float_t>("Ele1_Phi");
+     float Ele2_Phi = readerTools_->ReadValueBranch<Float_t>("Ele2_Phi");
      //double Ele1_TrkEta = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkEta");
      //double Ele2_TrkEta = readerTools_->ReadValueBranch<Float_t>("Ele2_TrkEta");
 
      if ( nEle_store >= 1 ) {
        //fillVariableWithValue( "Ele1_PtHeep",            Ele1_PtHeep, gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "Ele1_Pt",            Ele1_Pt, gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Ele1_Eta",            Ele1_Eta, gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Ele1_Phi",            Ele1_Phi, gen_weight * pileup_weight  ) ;
        //fillVariableWithValue( "Ele1_AbsDeltaEtaEleTrk",
        //    fabs(Ele1_Eta-Ele1_TrkEta), gen_weight * pileup_weight );
      }
      if ( nEle_store >= 2 ) {
        //fillVariableWithValue( "Ele2_PtHeep",            Ele2_PtHeep, gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "Ele2_Pt",            Ele2_Pt, gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Ele2_Eta",            Ele2_Eta, gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Ele2_Phi",            Ele2_Phi, gen_weight * pileup_weight  ) ;
        //fillVariableWithValue( "Ele2_AbsDeltaEtaEleTrk",
        //    fabs(Ele2_Eta-Ele2_TrkEta), gen_weight * pileup_weight );
      }
@@ -1431,38 +1383,43 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Fill jet variables 
      //--------------------------------------------------------------------------
-     Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
-     Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
-     Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
-     Jet2_Pt = readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
-     Jet2_Phi = readerTools_->ReadValueBranch<Float_t>("Jet2_Phi");
-     Jet2_Eta = readerTools_->ReadValueBranch<Float_t>("Jet2_Eta");
-     Jet3_Pt = readerTools_->ReadValueBranch<Float_t>("Jet3_Pt");
-     Jet3_Phi = readerTools_->ReadValueBranch<Float_t>("Jet3_Phi");
-     Jet3_Eta = readerTools_->ReadValueBranch<Float_t>("Jet3_Eta");
+     float Jet1_Pt = readerTools_->ReadValueBranch<Float_t>("Jet1_Pt");
+     float Jet1_Eta = readerTools_->ReadValueBranch<Float_t>("Jet1_Eta");
+     float Jet1_Phi = readerTools_->ReadValueBranch<Float_t>("Jet1_Phi");
+     float Jet2_Pt = readerTools_->ReadValueBranch<Float_t>("Jet2_Pt");
+     float Jet2_Phi = readerTools_->ReadValueBranch<Float_t>("Jet2_Phi");
+     float Jet2_Eta = readerTools_->ReadValueBranch<Float_t>("Jet2_Eta");
+     float Jet3_Pt = readerTools_->ReadValueBranch<Float_t>("Jet3_Pt");
+     float Jet3_Phi = readerTools_->ReadValueBranch<Float_t>("Jet3_Phi");
+     float Jet3_Eta = readerTools_->ReadValueBranch<Float_t>("Jet3_Eta");
 
      int nJet_ptCut = readerTools_->ReadValueBranch<Int_t>("nJet_ptCut");
-     DR_Jet1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Jet1Jet2");
+     float DR_Jet1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Jet1Jet2");
      // Jets								    
      fillVariableWithValue("nJet", nJet_ptCut, gen_weight * pileup_weight );
      //if ( nJet_store >= 1 ) {
        fillVariableWithValue( "Jet1_Pt"    , Jet1_Pt     , gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "Jet1_Eta"   , Jet1_Eta    , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Jet1_Phi"   , Jet1_Phi    , gen_weight * pileup_weight  ) ;
      //}
      //if ( nJet_store >= 2 ) {
        fillVariableWithValue( "Jet2_Pt"    , Jet2_Pt     , gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "Jet2_Eta"   , Jet2_Eta    , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Jet2_Phi"   , Jet2_Phi    , gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "DR_Jet1Jet2", DR_Jet1Jet2 , gen_weight * pileup_weight  ) ;
      //}
+       fillVariableWithValue( "Jet3_Pt"    , Jet3_Pt     , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Jet3_Eta"   , Jet3_Eta    , gen_weight * pileup_weight  ) ;
+       fillVariableWithValue( "Jet3_Phi"   , Jet3_Phi    , gen_weight * pileup_weight  ) ;
 
      //--------------------------------------------------------------------------
      // Fill DeltaR variables
      //--------------------------------------------------------------------------
 
-     DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
-     DR_Ele2Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet1");
-     DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
-     DR_Ele2Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet2");
+     float DR_Ele1Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet1");
+     float DR_Ele2Jet1 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet1");
+     float DR_Ele1Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele1Jet2");
+     float DR_Ele2Jet2 = readerTools_->ReadValueBranch<Float_t>("DR_Ele2Jet2");
      //if ( nEle_store >= 2 && nJet_store >= 1) {
        fillVariableWithValue( "DR_Ele1Jet1"  , DR_Ele1Jet1, gen_weight * pileup_weight  ) ;
        fillVariableWithValue( "DR_Ele2Jet1"  , DR_Ele2Jet1 , gen_weight * pileup_weight  ) ;
@@ -1476,16 +1433,16 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------
      // Multi-object variables
      //--------------------------------------------------------------------------
-     sT_eejj = readerTools_->ReadValueBranch<Float_t>("sT_eejj");
-     M_e1e2 =  readerTools_->ReadValueBranch<Float_t>("M_e1e2");
+     float sT_eejj = readerTools_->ReadValueBranch<Float_t>("sT_eejj");
+     float M_e1e2 =  readerTools_->ReadValueBranch<Float_t>("M_e1e2");
      double M_e1e2_EER =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EER");
      double M_e1e2_EES_Up =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EES_Up");
      double M_e1e2_EES_Dn =  readerTools_->ReadValueBranch<Float_t>("M_e1e2_EES_Dn");
-     PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
-     PFMET_Type1_Phi = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
-     MejMin = M_ej_min;
-     MejMax = M_ej_max;
-     Masym = M_ej_asym;
+     float PFMET_Type1_Pt = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
+     float PFMET_Type1_Phi = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
+     float MejMin = M_ej_min;
+     float MejMax = M_ej_max;
+     float Masym = M_ej_asym;
      // calc Meejj and set it for the BDT
      TLorentzVector e1, j1, e2, j2;
      TLorentzVector eejj;
@@ -1494,19 +1451,7 @@ void analysisClass::Loop()
      j1.SetPtEtaPhiM ( Jet1_Pt, Jet1_Eta, Jet1_Phi, 0.0 );
      j2.SetPtEtaPhiM ( Jet2_Pt, Jet2_Eta, Jet2_Phi, 0.0 );
      eejj = e1 + e2 + j1 + j2 ; 
-     Meejj = eejj.M();
-     // BDT evaluation
-     for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-       int lq_mass = LQ_MASS[i_lq_mass];
-       mass = lq_mass;  // set BDT mass parameter
-       double bdtOutput = -999;
-       if(evaluateBDT)
-         bdtOutput = reader->EvaluateMVA("BDT");
-       sprintf(cut_name, "BDTOutput_TrainRegion_LQ%d", lq_mass );
-       FillUserTH1D(cut_name, bdtOutput, gen_weight * pileup_weight );
-       sprintf(cut_name, "BDTOutput_noWeight_TrainRegion_LQ%d", lq_mass );
-       FillUserTH1D(cut_name, bdtOutput );
-     }
+     float Meejj = eejj.M();
 
      if ( nEle_store >= 2 ) { 						    
        fillVariableWithValue( "M_e1e2"     , M_e1e2 , gen_weight * pileup_weight  ) ;
@@ -1526,7 +1471,17 @@ void analysisClass::Loop()
          //fillVariableWithValue( "Mej_asym_opt", M_ej_asym, gen_weight * pileup_weight  ) ;
        }      
      }
+     fillVariableWithValue( "M_e1j1", M_e1j1, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "M_e1j2", M_e1j2, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "M_e2j1", M_e2j1, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "M_e2j2", M_e2j2, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "Masym", Masym, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "MejMin", MejMin, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "MejMax", MejMax, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "Meejj", Meejj, gen_weight * pileup_weight  ) ;
      //fillVariableWithValue( "PFMET_opt", PFMET_Type1_Pt, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "PFMET_Type1_Pt", PFMET_Type1_Pt, gen_weight * pileup_weight  ) ;
+     fillVariableWithValue( "PFMET_Type1_Phi", PFMET_Type1_Phi, gen_weight * pileup_weight  ) ;
 
      // Dummy variables
      fillVariableWithValue ("preselection", 1, gen_weight * pileup_weight ); 
@@ -1535,34 +1490,32 @@ void analysisClass::Loop()
      // Fill final selection cuts
      //--------------------------------------------------------------------------
 
-     if(doFinalSelections)
-     {
-       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
-         int lq_mass = LQ_MASS[i_lq_mass];
-         //sprintf(cut_name, "M_e1e2_LQ%d"  , lq_mass );
-         //fillVariableWithValue ( cut_name, M_e1e2  , gen_weight * pileup_weight  ) ;
-         //sprintf(cut_name, "sT_eejj_LQ%d" , lq_mass );
-         //fillVariableWithValue ( cut_name, sT_eejj , gen_weight * pileup_weight  ) ;
-         //sprintf(cut_name, "min_M_ej_LQ%d", lq_mass );
-         //fillVariableWithValue ( cut_name, M_ej_min, gen_weight * pileup_weight  ) ;
-         mass = lq_mass;  // set BDT mass parameter
-         double bdtOutput = -999;
-         bdtOutput = reader->EvaluateMVA("BDT");
-         sprintf(cut_name, "BDTOutput_LQ%d", lq_mass );
-         fillVariableWithValue ( cut_name, bdtOutput, gen_weight * pileup_weight  ) ;
-         fillSystVariableWithValue( "EER", cut_name, M_ej_min_EER);
-         fillSystVariableWithValue( "EESUp", cut_name, M_ej_min_EES_Up);
-         fillSystVariableWithValue( "EESDown", cut_name, M_ej_min_EES_Dn);
-         fillSystVariableWithValue( "JESUp", cut_name, M_ej_min_JES_Up);
-         fillSystVariableWithValue( "JESDown", cut_name, M_ej_min_JES_Dn);
-         fillSystVariableWithValue( "JERUp", cut_name, M_ej_min_JER_Up);
-         fillSystVariableWithValue( "JERDown", cut_name, M_ej_min_JER_Dn);
-         // add Masym for test
-         //sprintf(cut_name, "asym_M_ej_LQ%d", lq_mass );
-         //fillVariableWithValue ( cut_name, M_ej_asym, gen_weight * pileup_weight  ) ;
-         //
-       }
-     }
+     //if(doFinalSelections)
+     //{
+     //  for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+     //    int lq_mass = LQ_MASS[i_lq_mass];
+     //    //sprintf(cut_name, "M_e1e2_LQ%d"  , lq_mass );
+     //    //fillVariableWithValue ( cut_name, M_e1e2  , gen_weight * pileup_weight  ) ;
+     //    //sprintf(cut_name, "sT_eejj_LQ%d" , lq_mass );
+     //    //fillVariableWithValue ( cut_name, sT_eejj , gen_weight * pileup_weight  ) ;
+     //    //sprintf(cut_name, "min_M_ej_LQ%d", lq_mass );
+     //    //fillVariableWithValue ( cut_name, M_ej_min, gen_weight * pileup_weight  ) ;
+     //    sprintf(cut_name, "BDTOutput_LQ%d", lq_mass );
+     //    STDOUT("sethlog: getVariableValue for " << cut_name);
+     //    fillVariableWithValue ( cut_name, getVariableValue(cut_name), gen_weight * pileup_weight  ) ;
+     //    //fillSystVariableWithValue( "EER", cut_name, M_ej_min_EER);
+     //    //fillSystVariableWithValue( "EESUp", cut_name, M_ej_min_EES_Up);
+     //    //fillSystVariableWithValue( "EESDown", cut_name, M_ej_min_EES_Dn);
+     //    //fillSystVariableWithValue( "JESUp", cut_name, M_ej_min_JES_Up);
+     //    //fillSystVariableWithValue( "JESDown", cut_name, M_ej_min_JES_Dn);
+     //    //fillSystVariableWithValue( "JERUp", cut_name, M_ej_min_JER_Up);
+     //    //fillSystVariableWithValue( "JERDown", cut_name, M_ej_min_JER_Dn);
+     //    // add Masym for test
+     //    //sprintf(cut_name, "asym_M_ej_LQ%d", lq_mass );
+     //    //fillVariableWithValue ( cut_name, M_ej_asym, gen_weight * pileup_weight  ) ;
+     //    //
+     //  }
+     //}
      
      //--------------------------------------------------------------------------
      // Fill bjet variables
@@ -2620,6 +2573,19 @@ void analysisClass::Loop()
          //if ( ProcessID == 2 ) FillUserTH1D ( "Mee_70_110_Preselection_Process2", M_e1e2, pileup_weight * gen_weight );
          //if ( ProcessID == 3 ) FillUserTH1D ( "Mee_70_110_Preselection_Process3", M_e1e2, pileup_weight * gen_weight );
          //if ( ProcessID == 4 ) FillUserTH1D ( "Mee_70_110_Preselection_Process4", M_e1e2, pileup_weight * gen_weight );
+       }
+
+       //--------------------------------------------------------------------------
+       // BDT preselection plots
+       //--------------------------------------------------------------------------
+       for (int i_lq_mass = 0; i_lq_mass < n_lq_mass; ++i_lq_mass ){ 
+         int lq_mass = LQ_MASS[i_lq_mass];
+         sprintf(cut_name, "BDTOutput_LQ%d", lq_mass );
+         float bdtOutput = getVariableValue(cut_name);
+         sprintf(cut_name, "BDTOutput_TrainRegion_LQ%d", lq_mass );
+         FillUserTH1D(cut_name, bdtOutput, gen_weight * pileup_weight );
+         sprintf(cut_name, "BDTOutput_noWeight_TrainRegion_LQ%d", lq_mass );
+         FillUserTH1D(cut_name, bdtOutput );
        }
 
        //--------------------------------------------------------------------------
