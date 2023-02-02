@@ -22,6 +22,7 @@
 #include "HLTriggerObjectCollectionHelper.h"
 #include "HistoReader.h"
 #include "ElectronScaleFactors.C"
+#include "JMEUncertainties.C"
 
 #include "CorrectionHandler.h"
 
@@ -136,8 +137,11 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   // correctionlib JME
   //--------------------------------------------------------------------------
-  std::string jmeJSONFileName = getPreCutString1("JMEJSONFileName");
-  CorrectionHandler cset_jmeAll(jmeJSONFileName);
+  //std::string jmeJSONFileName = getPreCutString1("JMEJSONFileName");
+  //CorrectionHandler cset_jmeAll(jmeJSONFileName);
+  std::string jecTextFilePath = getPreCutString1("JECTextFilePath");
+  std::string jecTag = getPreCutString1("JECTag");
+  std::string jerTextFilePath = getPreCutString1("JERTextFilePath");
   std::string jerTag = getPreCutString1("JERTag");
   
   //--------------------------------------------------------------------------
@@ -247,6 +251,7 @@ void analysisClass::Loop()
   TLorentzVector v_PFMETType1Cor;
   //TLorentzVector v_PFMETType1XYCor;
   
+  JMEUncertainties jmeUncertainties(*this, jecTextFilePath, jerTextFilePath, jecTag, jerTag);
 
   /*//------------------------------------------------------------------
    *
@@ -419,12 +424,13 @@ void analysisClass::Loop()
     // Do the energy scale / energy resolution operations
     // dR for matching = Rcone/2
     //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
-    std::string jerPtRes = jerTag+"_PtResolution_AK4PFchs";
-    std::string jerSF = jerTag+"_ScaleFactor_AK4PFchs";
+    //std::string jerPtRes = jerTag+"_PtResolution_AK4PFchs";
+    //std::string jerSF = jerTag+"_ScaleFactor_AK4PFchs";
 
-    if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll.GetCorrection(jerPtRes).get(), cset_jmeAll.GetCorrection(jerSF).get() );
-    //FIXME
+    //actually, jet smearing/scaling won't work this way; have to do it like for electrons below
+    //if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll.GetCorrection(jerPtRes).get(), cset_jmeAll.GetCorrection(jerSF).get() );
     //if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
+    jmeUncertainties.ComputeJetVariations(c_pfjet_all, !isData());
 
     // Propagate the results to the PFMET
     v_PFMETType1Cor   .SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0., readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0. );
@@ -1128,15 +1134,16 @@ void analysisClass::Loop()
       fillVariableWithValue( "HighEtaJet1_Phi", jet1.Phi() );
     }
 
+    std::vector<std::string> jetSystNames = c_pfjet_final->GetSystematicsNames();
     for(int iJet = 0; iJet < getVariableValue<int>("nJet_store"); ++iJet) {
       PFJet jet = c_pfjet_final -> GetConstituent<PFJet>(iJet);
       std::string prefix = "Jet"+std::to_string(iJet+1);
       // leading HLT jet from 200 GeV collection
       float hltJet1Pt     = triggerMatchPt<HLTriggerObject, PFJet >( c_trigger_l3jets_all     , jet, jet_hltMatch_DeltaRCut);
       int flavor = isData() ? 0 : jet.HadronFlavor();
-      float pt = jet.Pt();
+      float pt = jet.GetSystematicVariation("Pt_nominal");
       fillVariableWithValue( prefix+"_Pt"          , pt                         );
-      fillVariableWithValue( prefix+"_PtOriginal"  , jet.PtOrignal()            );
+      fillVariableWithValue( prefix+"_PtOriginal"  , jet.PtOriginal()            );
       fillVariableWithValue( prefix+"_Eta"         , jet.Eta()                  );
       fillVariableWithValue( prefix+"_Phi"         , jet.Phi()                  );
       fillVariableWithValue( prefix+"_btagDeepJet" , jet.DeepJetBTag()          );
@@ -1180,11 +1187,14 @@ void analysisClass::Loop()
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnCorrelated"  , cset_btagDeepJetComb->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnUncorrelated"  , cset_btagDeepJetComb->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
         }
-        //XXX SIC JUNE 2022 FIXME
-        //fillVariableWithValue( prefix+"_Pt_JESTotal_Up"  , jet.PtJESTotalUp()        );
-        //fillVariableWithValue( prefix+"_Pt_JESTotal_Dn", jet.PtJESTotalDown()        );
-        //fillVariableWithValue( prefix+"_Pt_JER_Up"  , jet.PtJERUp()                  );
-        //fillVariableWithValue( prefix+"_Pt_JER_Dn", jet.PtJERDown()                  );
+        if(iJet < 3) { // don't fill the systs for jets beyond the third
+          for(int varIndex = 1; varIndex < jetSystNames.size(); ++varIndex) {
+            string systName = jetSystNames[varIndex];
+            if(systName.find("mass") != string::npos)
+              continue;
+            fillVariableWithValue( prefix+"_"+systName  , jet.GetSystematicVariation(systName));
+          }
+        }
         if(c_pfJetMatchedLQ->Has<PFJet>(jet))
           fillVariableWithValue( prefix+"_LQMatched", true);
       }
@@ -1194,42 +1204,49 @@ void analysisClass::Loop()
     // Fill variables that depend on more than one object
     // All skims need this
     //-----------------------------------------------------------------
+    // strip off the beginning part for the 
+    vector<string> compSystNames;
+    for(const auto& systName : jetSystNames) {
+      if(systName.find("mass") != string::npos)
+        continue;
+      compSystNames.push_back(systName.substr(3));
+    }
 
     TLorentzVector t_ele1, t_ele2, t_jet1, t_jet2, t_jet3;
     TLorentzVector t_MET;
     TLorentzVector t_ele1Smeared, t_ele1ScaledUp, t_ele1ScaledDown;
     TLorentzVector t_ele2Smeared, t_ele2ScaledUp, t_ele2ScaledDown;
-    TLorentzVector t_jet1JESTotalUp, t_jet1JESTotalDown, t_jet1JERUp, t_jet1JERDown;
-    TLorentzVector t_jet2JESTotalUp, t_jet2JESTotalDown, t_jet2JERUp, t_jet2JERDown;
+    std::vector<TLorentzVector> jet1FourVectors_ptVariations, jet2FourVectors_ptVariations, jet3FourVectors_ptVariations;
 
     t_MET.SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0.0, readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0.0 );
 
     if ( n_jet_store >= 1 ){
 
       PFJet jet1 = c_pfjet_final -> GetConstituent<PFJet>(0);
-      t_jet1.SetPtEtaPhiM ( jet1.Pt(), jet1.Eta(), jet1.Phi(), 0.0 );
+      float jet1Pt = jet1.GetSystematicVariation("Pt_nominal");
+      t_jet1.SetPtEtaPhiM ( jet1Pt, jet1.Eta(), jet1.Phi(), 0.0 );
       if(!isData()) {
-        //XXX SIC JUNE 2022 FIXME
-        //t_jet1JESTotalUp.SetPtEtaPhiM ( jet1.PtJESTotalUp(), jet1.Eta(), jet1.Phi(), 0.0 );
-        //t_jet1JESTotalDown.SetPtEtaPhiM ( jet1.PtJESTotalDown(), jet1.Eta(), jet1.Phi(), 0.0 );
-        //t_jet1JERUp.SetPtEtaPhiM ( jet1.PtJERUp(), jet1.Eta(), jet1.Phi(), 0.0 );
-        //t_jet1JERDown.SetPtEtaPhiM ( jet1.PtJERDown(), jet1.Eta(), jet1.Phi(), 0.0 );
+        for(int varIndex = 1; varIndex < compSystNames.size(); ++varIndex) {
+          string systName = jetSystNames[varIndex];
+          TLorentzVector jet4Vec;
+          jet4Vec.SetPtEtaPhiM(jet1.GetSystematicVariation(systName), jet1.Eta(), jet1.Phi(), 0.0);
+          jet1FourVectors_ptVariations.push_back(jet4Vec);
+        }
       }
-
       fillVariableWithValue ("mDPhi_METJet1", fabs( t_MET.DeltaPhi ( t_jet1 )));
 
       if ( n_jet_store >= 2 ){
-
         PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
-        t_jet2.SetPtEtaPhiM ( jet2.Pt(), jet2.Eta(), jet2.Phi(), 0.0 );
+        float jet2Pt = jet2.GetSystematicVariation("Pt_nominal");
+        t_jet2.SetPtEtaPhiM ( jet2Pt, jet2.Eta(), jet2.Phi(), 0.0 );
         if(!isData()) {
-        //XXX SIC JUNE 2022 FIXME
-          //t_jet2JESTotalUp.SetPtEtaPhiM ( jet2.PtJESTotalUp(), jet2.Eta(), jet2.Phi(), 0.0 );
-          //t_jet2JESTotalDown.SetPtEtaPhiM ( jet2.PtJESTotalDown(), jet2.Eta(), jet2.Phi(), 0.0 );
-          //t_jet2JERUp.SetPtEtaPhiM ( jet2.PtJERUp(), jet2.Eta(), jet2.Phi(), 0.0 );
-          //t_jet2JERDown.SetPtEtaPhiM ( jet2.PtJERDown(), jet2.Eta(), jet2.Phi(), 0.0 );
+          for(int varIndex = 1; varIndex < compSystNames.size(); ++varIndex) {
+            string systName = jetSystNames[varIndex];
+            TLorentzVector jet4Vec;
+            jet4Vec.SetPtEtaPhiM(jet2.GetSystematicVariation(systName), jet2.Eta(), jet2.Phi(), 0.0);
+            jet2FourVectors_ptVariations.push_back(jet4Vec);
+          }
         }
-
         TLorentzVector t_jet1jet2 = t_jet1 + t_jet2;
 
         fillVariableWithValue ("M_j1j2" , t_jet1jet2.M ());
@@ -1238,9 +1255,17 @@ void analysisClass::Loop()
         fillVariableWithValue ("DR_Jet1Jet2"  , t_jet1.DeltaR( t_jet2 ));
 
         if ( n_jet_store >= 3 ){
-
           PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
-          t_jet3.SetPtEtaPhiM ( jet3.Pt(), jet3.Eta(), jet3.Phi(), 0.0 );
+          float jet3Pt = jet3.GetSystematicVariation("Pt_nominal");
+          t_jet3.SetPtEtaPhiM ( jet3Pt, jet3.Eta(), jet3.Phi(), 0.0 );
+          if(!isData()) {
+            for(int varIndex = 1; varIndex < compSystNames.size(); ++varIndex) {
+              string systName = jetSystNames[varIndex];  // to lookup the syst, use the original name
+              TLorentzVector jet4Vec;
+              jet4Vec.SetPtEtaPhiM(jet3.GetSystematicVariation(systName), jet3.Eta(), jet3.Phi(), 0.0);
+              jet3FourVectors_ptVariations.push_back(jet4Vec);
+            }
+          }
           TLorentzVector t_jet1jet3 = t_jet1 + t_jet3;
           TLorentzVector t_jet2jet3 = t_jet2 + t_jet3;
 
@@ -1258,6 +1283,7 @@ void analysisClass::Loop()
       if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
         t_ele1.SetPtEtaPhiM ( ele1.PtUncorr(), ele1.Eta(), ele1.Phi(), 0.0 );
       if(!isData()) {
+        //XXX FIXME
         Electron ele1smeared = *find(smearedEles.begin(), smearedEles.end(), ele1);
         Electron ele1scaledUp = *find(scaledUpEles.begin(), scaledUpEles.end(), ele1);
         Electron ele1scaledDown = *find(scaledDownEles.begin(), scaledDownEles.end(), ele1);
@@ -1320,10 +1346,8 @@ void analysisClass::Loop()
           fillVariableWithValue("M_e1j1_EER"        , (t_ele1Smeared+t_jet1).M());
           fillVariableWithValue("M_e1j1_EES_Up"     , (t_ele1ScaledUp+t_jet1).M());
           fillVariableWithValue("M_e1j1_EES_Dn"     , (t_ele1ScaledDown+t_jet1).M());
-          fillVariableWithValue("M_e1j1_JESTotal_Up", (t_ele1+t_jet1JESTotalUp).M());
-          fillVariableWithValue("M_e1j1_JESTotal_Dn", (t_ele1+t_jet1JESTotalDown).M());
-          fillVariableWithValue("M_e1j1_JER_Up"     , (t_ele1+t_jet1JERUp).M());
-          fillVariableWithValue("M_e1j1_JER_Dn"     , (t_ele1+t_jet1JERDown).M());
+          for(int idx = 1; idx < compSystNames.size(); ++idx)
+            fillVariableWithValue("M_e1j1_"+compSystNames[idx], (t_ele1+jet1FourVectors_ptVariations[idx]).M());
         }
 
         if ( n_jet_store >= 2 ){ 
@@ -1336,10 +1360,8 @@ void analysisClass::Loop()
             fillVariableWithValue("M_e1j2_EER"        , (t_ele1Smeared+t_jet2).M());
             fillVariableWithValue("M_e1j2_EES_Up"     , (t_ele1ScaledUp+t_jet2).M());
             fillVariableWithValue("M_e1j2_EES_Dn"     , (t_ele1ScaledDown+t_jet2).M());
-            fillVariableWithValue("M_e1j2_JESTotal_Up", (t_ele1+t_jet2JESTotalUp).M());
-            fillVariableWithValue("M_e1j2_JESTotal_Dn", (t_ele1+t_jet2JESTotalDown).M());
-            fillVariableWithValue("M_e1j2_JER_Up"     , (t_ele1+t_jet2JERUp).M());
-            fillVariableWithValue("M_e1j2_JER_Dn"     , (t_ele1+t_jet2JERDown).M());
+            for(int idx = 1; idx < compSystNames.size(); ++idx)
+              fillVariableWithValue("M_e1j2_"+compSystNames[idx], (t_ele1+jet2FourVectors_ptVariations[idx]).M());
             fillVariableWithValue("sT_enujj"   , t_ele1.Pt() + t_MET.Pt() + t_jet1.Pt() + t_jet2.Pt());
           }
         }
@@ -1360,10 +1382,8 @@ void analysisClass::Loop()
           fillVariableWithValue("M_e2j1_EER"        , (t_ele2Smeared+t_jet1).M());
           fillVariableWithValue("M_e2j1_EES_Up"     , (t_ele2ScaledUp+t_jet1).M());
           fillVariableWithValue("M_e2j1_EES_Dn"     , (t_ele2ScaledDown+t_jet1).M());
-          fillVariableWithValue("M_e2j1_JESTotal_Up", (t_ele2+t_jet1JESTotalUp).M());
-          fillVariableWithValue("M_e2j1_JESTotal_Dn", (t_ele2+t_jet1JESTotalDown).M());
-          fillVariableWithValue("M_e2j1_JER_Up"     , (t_ele2+t_jet1JERUp).M());
-          fillVariableWithValue("M_e2j1_JER_Dn"     , (t_ele2+t_jet1JERDown).M());
+          for(int idx = 1; idx < compSystNames.size(); ++idx)
+            fillVariableWithValue("M_e2j1_"+compSystNames[idx], (t_ele2+jet1FourVectors_ptVariations[idx]).M());
         }
 
         if ( n_jet_store >= 2 ){ 
@@ -1377,17 +1397,13 @@ void analysisClass::Loop()
             fillVariableWithValue("M_e2j2_EER"        , (t_ele2Smeared+t_jet2).M());
             fillVariableWithValue("M_e2j2_EES_Up"     , (t_ele2ScaledUp+t_jet2).M());
             fillVariableWithValue("M_e2j2_EES_Dn"     , (t_ele2ScaledDown+t_jet2).M());
-            fillVariableWithValue("M_e2j2_JESTotal_Up", (t_ele2+t_jet2JESTotalUp).M());
-            fillVariableWithValue("M_e2j2_JESTotal_Dn", (t_ele2+t_jet2JESTotalDown).M());
-            fillVariableWithValue("M_e2j2_JER_Up"     , (t_ele2+t_jet2JERUp).M());
-            fillVariableWithValue("M_e2j2_JER_Dn"     , (t_ele2+t_jet2JERDown).M());
+            for(int idx = 1; idx < compSystNames.size(); ++idx) {
+              fillVariableWithValue("M_e2j2_"+compSystNames[idx], (t_ele2+jet2FourVectors_ptVariations[idx]).M());
+              fillVariableWithValue("sT_eejj_"+compSystNames[idx], t_ele1.Pt() + t_ele2.Pt() + jet1FourVectors_ptVariations[idx].Pt() + jet2FourVectors_ptVariations[idx].Pt());
+            }
             fillVariableWithValue("sT_eejj_EER"    , t_ele1Smeared.Pt() + t_ele2Smeared.Pt() + t_jet1.Pt() + t_jet2.Pt());
             fillVariableWithValue("sT_eejj_EES_Up"    , t_ele1ScaledUp.Pt() + t_ele2ScaledUp.Pt() + t_jet1.Pt() + t_jet2.Pt());
             fillVariableWithValue("sT_eejj_EES_Dn"    , t_ele1ScaledDown.Pt() + t_ele2ScaledDown.Pt() + t_jet1.Pt() + t_jet2.Pt());
-            fillVariableWithValue("sT_eejj_JESTotal_Up"    , t_ele1.Pt() + t_ele2.Pt() + t_jet1JESTotalUp.Pt() + t_jet2JESTotalUp.Pt());
-            fillVariableWithValue("sT_eejj_JESTotal_Dn"    , t_ele1.Pt() + t_ele2.Pt() + t_jet1JESTotalDown.Pt() + t_jet2JESTotalDown.Pt());
-            fillVariableWithValue("sT_eejj_JER_Up"    , t_ele1.Pt() + t_ele2.Pt() + t_jet1JERUp.Pt() + t_jet2JERUp.Pt());
-            fillVariableWithValue("sT_eejj_JER_Dn"    , t_ele1.Pt() + t_ele2.Pt() + t_jet1JERDown.Pt() + t_jet2JERDown.Pt());
           }
         }
       }
@@ -1510,16 +1526,16 @@ void analysisClass::Loop()
         fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
       //fillTriggerVariable( "HLT_Mu45_eta2p1"  , "H_Mu45_eta2p1" );
 
-      //bool pass_lowPtEle = (triggerExists("HLT_Ele27_WPTight_Gsf") && getVariableValue("H_Ele27_WPTight") > 0) ||
-      //  (triggerExists("HLT_Ele32_WPTight_Gsf") && getVariableValue("H_Ele32_WPTight") > 0) ||
-      //  (triggerExists("HLT_Ele35_WPTight_Gsf") && getVariableValue("H_Ele35_WPTight") > 0);
-      //bool pass_photon = (triggerExists("HLT_Photon175") && getVariableValue("H_Photon175") > 0) ||
-      //  (triggerExists("HLT_Photon200") && getVariableValue("H_Photon200") > 0);
-      //bool pass_trigger = (
-      //    pass_lowPtEle || 
-      //    getVariableValue("H_Ele115_CIdVT_GsfIdT") > 0 ||
-      //    pass_photon);
-      //fillVariableWithValue ("PassTrigger", pass_trigger ? 1 : 0 );
+      bool pass_lowPtEle = (triggerExists("HLT_Ele27_WPTight_Gsf") && getVariableValue("H_Ele27_WPTight") > 0) ||
+        (triggerExists("HLT_Ele32_WPTight_Gsf") && getVariableValue("H_Ele32_WPTight") > 0) ||
+        (triggerExists("HLT_Ele35_WPTight_Gsf") && getVariableValue("H_Ele35_WPTight") > 0);
+      bool pass_photon = (triggerExists("HLT_Photon175") && getVariableValue("H_Photon175") > 0) ||
+        (triggerExists("HLT_Photon200") && getVariableValue("H_Photon200") > 0);
+      bool pass_trigger = (
+          pass_lowPtEle || 
+          getVariableValue("H_Ele115_CIdVT_GsfIdT") > 0 ||
+          pass_photon);
+      fillVariableWithValue ("PassTrigger", pass_trigger ? 1 : 0 );
     }
 
     //-----------------------------------------------------------------
