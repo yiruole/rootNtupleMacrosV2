@@ -47,13 +47,7 @@ void analysisClass::Loop() {
   
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     readerTools_->LoadEntry(jentry);
-    //--------------------------------------------------------------------------
-    // Tricky part: refine Weight branch for MC only
-    //--------------------------------------------------------------------------
-    float weight = 1.0;
 
-    if(!isData())
-      resetSkimTreeBranchAddress("Weight", &weight);
     //------------------------------------------------------------------
     // Tell user how many events we've looped over
     //------------------------------------------------------------------
@@ -66,31 +60,7 @@ void analysisClass::Loop() {
     resetCuts();
 
     float gen_weight = readerTools_->ReadValueBranch<Float_t>("Weight");
-    float pileup_weight = 1.0;
-    // add trigger scale factor
-    // have to modify for trigger path selection below
-    // TODO: better way of handling this
-    bool ele1PassedHLTWPTight = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerWPTightFilter");
-    bool ele1PassedHLTCaloIdVTGsfTrkIdT = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerCaloIdVTGsfTrkIdTFilter");
-    bool ele1PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassedHLTriggerPhotonFilter");
-    bool ele2PassedHLTWPTight = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerWPTightFilter");
-    bool ele2PassedHLTCaloIdVTGsfTrkIdT = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerCaloIdVTGsfTrkIdTFilter");
-    bool ele2PassedHLTPhoton = readerTools_->ReadValueBranch<Bool_t>("Ele2_PassedHLTriggerPhotonFilter");
-    if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
-      float trigSFEle1 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF");
-      float trigSFEle1Err = readerTools_->ReadValueBranch<Float_t>("Ele1_TrigSF_Err");
-      gen_weight*=trigSFEle1;
-    }
-    else if(ele2PassedHLTWPTight || ele2PassedHLTPhoton) {
-      float trigSFEle2 = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF");
-      float trigSFEle2Err = readerTools_->ReadValueBranch<Float_t>("Ele2_TrigSF_Err");
-      gen_weight*=trigSFEle2;
-    }
-    ////float totalScaleFactor = recoHeepSF*trigSFEle1*trigSFEle2;
-    //////std::cout << "trigSFEle1*trigSFEle2 = " << trigSFEle1 << "*" << trigSFEle2 << " = " << trigSFEle1*trigSFEle2 << std::endl;
-    //////std::cout << "totalScaleFactor = " << totalScaleFactor << std::endl;
-    weight = gen_weight;
-    fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
+    //fillVariableWithValue ( "Reweighting", 1, gen_weight * pileup_weight  );
 
     //--------------------------------------------------------------------------
     // Fill HLT
@@ -301,7 +271,8 @@ void analysisClass::Loop() {
     // Fill jet variables 
     //--------------------------------------------------------------------------
 		 		    
-    fillVariableWithValue("nJet", readerTools_->ReadValueBranch<Int_t>("nJet_ptCut"), gen_weight * pileup_weight );
+    //fillVariableWithValue("nJet", readerTools_->ReadValueBranch<Int_t>("nJet_ptCut"), gen_weight * pileup_weight );
+    fillVariableWithValue("nJet", readerTools_->ReadValueBranch<Int_t>("nJet_store"), gen_weight * pileup_weight );
     if ( readerTools_->ReadValueBranch<Int_t>("nJet_store") >= 1 ) { 						    
       fillVariableWithValue( "Jet1_Pt"    , readerTools_->ReadValueBranch<Float_t>("Jet1_Pt")     , gen_weight * pileup_weight  ) ;
       fillVariableWithValue( "Jet1_Eta"   , readerTools_->ReadValueBranch<Float_t>("Jet1_Eta")    , gen_weight * pileup_weight  ) ;
