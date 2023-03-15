@@ -117,14 +117,21 @@ void analysisClass::Loop()
   // Trigger scale factors
   //--------------------------------------------------------------------------
   std::string trigSFFileName = getPreCutString1("TriggerSFFileName");
-  //HistoReader triggerScaleFactorReader(trigSFFileName,"SF_TH2F_Barrel","SF_TH2F_EndCap",false,false);
-  HistoReader triggerScaleFactorReader(trigSFFileName,"EGamma_SF2D","EGamma_SF2D",false,false);
+  std::string trigSFBarrelHistName = hasPreCut("TriggerSFBarrelHistName") ? getPreCutString1("TriggerSFBarrelHistName") : "EGamma_SF2D";;
+  std::string trigSFEndcapHistName = hasPreCut("TriggerSFEndcapHistName") ? getPreCutString1("TriggerSFEndcapHistName") : "EGamma_SF2D";;
+  HistoReader triggerScaleFactorReader(trigSFFileName,trigSFBarrelHistName, trigSFEndcapHistName, false, false);
 
   //--------------------------------------------------------------------------
   // EGM scale factors
   //--------------------------------------------------------------------------
   std::string egmIDJSONFileName = getPreCutString1("EGMIDJSONFileName");
   auto cset_ulEGMID = CorrectionHandler::GetCorrectionFromFile(egmIDJSONFileName, "UL-Electron-ID-SF");
+
+  //--------------------------------------------------------------------------
+  // EGM scale factors
+  //--------------------------------------------------------------------------
+  std::string egmScaleJSONFileName = getPreCutString1("EGMScaleJSONFileName");
+  auto cset_ulEGMScale = CorrectionHandler::GetCorrectionFromFile(egmScaleJSONFileName, "UL-EGM_ScaleUnc");
 
   //--------------------------------------------------------------------------
   // correctionlib B-tagging
@@ -134,16 +141,6 @@ void analysisClass::Loop()
   auto cset_btagDeepJetComb = CorrectionHandler::GetCorrectionFromFile(btagJSONFileName, "deepJet_comb");
   auto cset_btagDeepJetMuJets = CorrectionHandler::GetCorrectionFromFile(btagJSONFileName, "deepJet_mujets");
 
-  //--------------------------------------------------------------------------
-  // correctionlib JME
-  //--------------------------------------------------------------------------
-  //std::string jmeJSONFileName = getPreCutString1("JMEJSONFileName");
-  //CorrectionHandler cset_jmeAll(jmeJSONFileName);
-  std::string jecTextFilePath = getPreCutString1("JECTextFilePath");
-  std::string jecTag = getPreCutString1("JECTag");
-  std::string jerTextFilePath = getPreCutString1("JERTextFilePath");
-  std::string jerTag = getPreCutString1("JERTag");
-  
   //--------------------------------------------------------------------------
   // Analysis year
   //--------------------------------------------------------------------------
@@ -219,21 +216,6 @@ void analysisClass::Loop()
   // trigger objects matching filters/ID
   CollectionPtr c_hlTriggerObjects_filterBits_id;
 
-  // muon filter
-  CollectionPtr c_hltMuon_SingleMu_all;
-
-  // Signal
-  //CollectionPtr c_hltEle45_Signal_all;
-  CollectionPtr c_hltPFJet50_Signal_all;
-  CollectionPtr c_hltPFJet200_Signal_all;
-  CollectionPtr c_hltDoubleEle_Signal_all;
-
-  // trigger
-  CollectionPtr c_trigger_l3jets_all;
-
-  // Tag and probe
-  CollectionPtr c_hltEle27WP85Gsf_all;
-
   //--------------------------------------------------------------------------
   // For smearing systematics samples, you'll need a random number generator
   //--------------------------------------------------------------------------
@@ -242,16 +224,42 @@ void analysisClass::Loop()
   TRandom3 * rootEngine = new TRandom3 ( seed ) ;
 
   //--------------------------------------------------------------------------
-  // For smearing/scaling systematics samples, you'll need to calculate the effect on MET
+  // correctionlib JME
   //--------------------------------------------------------------------------
+  //std::string jmeJSONFileName = getPreCutString1("JMEJSONFileName");
+  //CorrectionHandler cset_jmeAll(jmeJSONFileName);
+  //--------------------------------------------------------------------------
+  // For JES/JER/MET uncertainties
+  //--------------------------------------------------------------------------
+  std::string jecTextFilePath = getPreCutString1("JECTextFilePath");
+  std::string jecTag = getPreCutString1("JECTag");
+  std::string jerTextFilePath = getPreCutString1("JERTextFilePath");
+  std::string jerTag = getPreCutString1("JERTag");
   
-  TLorentzVector v_delta_met;
+  static const std::vector<std::string> jesUncertainties {"AbsoluteStat", "AbsoluteScale", "AbsoluteMPFBias", "Fragmentation",
+    "SinglePionECAL", "SinglePionHCAL", "FlavorQCD", "TimePtEta", "RelativeJEREC1", "RelativeJEREC2", "RelativeJERHF", "RelativePtBB",
+    "RelativePtEC1", "RelativePtEC2", "RelativePtHF", "RelativeBal", "RelativeSample", "RelativeFSR", "RelativeStatFSR", "RelativeStatEC",
+    "RelativeStatHF", "PileUpDataMC", "PileUpPtRef", "PileUpPtBB", "PileUpPtEC1", "PileUpPtEC2", "PileUpPtHF",
+    "Total", "FlavorZJet", "FlavorPureGluon", "FlavorPureQuark", "FlavorPureBottom"};
 
-  TLorentzVector v_PFMETRaw;
-  TLorentzVector v_PFMETType1Cor;
-  //TLorentzVector v_PFMETType1XYCor;
-  
-  JMEUncertainties jmeUncertainties(*this, jecTextFilePath, jerTextFilePath, jecTag, jerTag);
+  bool splitJER = false;
+  JMEUncertainties jetUncertainties(JetVariationsCalculator(), this, jesUncertainties, jecTextFilePath, jerTextFilePath, jecTag, jerTag, splitJER);
+  JMEUncertainties type1METUncertainties(Type1METVariationsCalculator(), this, jesUncertainties, jecTextFilePath, jerTextFilePath, jecTag, jerTag, splitJER);
+  JMEUncertainties fixEE2017Type1METUncertainties(FixEE2017Type1METVariationsCalculator(), this, jesUncertainties, jecTextFilePath, jerTextFilePath, jecTag, jerTag, splitJER);
+  //-----------------------------------------------------------------
+  // If this is MC, smear jets if requested
+  // Don't do it for data
+  //-----------------------------------------------------------------
+  //FIXME TODO: implement the do_jer variable here?
+  if (!isData()) {
+    jetUncertainties.setSmearing();
+    type1METUncertainties.setSmearing();
+    fixEE2017Type1METUncertainties.setSmearing();
+  }
+  if(analysisYearInt == 2018) {
+    jetUncertainties.setAddHEM2018Issue(true);
+    type1METUncertainties.setAddHEM2018Issue(true);
+  }
 
   /*//------------------------------------------------------------------
    *
@@ -297,52 +305,6 @@ void analysisClass::Loop()
     c_hlTriggerObjects_filterBits_id = helper.GetTriggerObjectsByFilterBitAndType(filterBits, typeIds);
     //c_hlTriggerObjects_filterBits_id->examine<HLTriggerObject>("c_hlTriggerObjects_filterBits_id");
 
-    //else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4){
-
-    //  // SingleMu trigger: path was HLT_Mu40_eta2p1_v9+
-    //  //c_hltMuon_SingleMu_all       = helper.GetL3FilterObjectsByPath("HLT_Mu45_eta2p1_v"); // will do prefix matching
-
-    //  //// Ele+jets signal triggers
-    //  //CollectionPtr trigger_l3objects_all = helper.GetL3FilterObjectsByPath("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v");
-    //  //c_trigger_l3jets_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_JET);
-    //  ////c_trigger_l3jets_all->examine<HLTriggerObject>("c_trigger_l3jets_all");
-    //  //// which one passed the last filter?
-    //  ////CollectionPtr trigger_lastObjects_all = helper.GetLastFilterObjectsByPath("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v");
-
-    //  //// electrons seem to come as TRIGGER_PHOTON most of the time
-    //  //c_hltEle45_Signal_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
-    //  //// if not, try TRIGGER_ELECTRON
-    //  //if(c_hltEle45_Signal_all->GetSize() == 0)
-    //  //  c_hltEle45_Signal_all = trigger_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
-    //  //// Note: could also be TRIGGER_CLUSTER?
-
-    //  // jets
-    //  //c_hltPFJet200_Signal_all     =  trigger_lastObjects_all->SkimByID<HLTriggerObject>(TRIGGER_JET);
-    //  // get rid of overlaps
-    //  // XXX no, keep all L3 jets
-    //  //c_hltPFJet50_Signal_all      =  c_trigger_l3jets_all -> SkimByVetoDRMatch<HLTriggerObject,HLTriggerObject>( c_hltPFJet200_Signal_all, 0.3 );
-
-    //  //// DoubleEle signal trigger
-    //  //CollectionPtr double_ele_l3objects_all    = helper.GetL3FilterObjectsByPath("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
-    //  //c_hltDoubleEle_Signal_all    = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
-    //  //// if not, try TRIGGER_ELECTRON
-    //  //if(c_hltDoubleEle_Signal_all->GetSize() == 0)
-    //  //  c_hltDoubleEle_Signal_all = double_ele_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
-
-    //  //// Tag and probe trigger
-    //  //CollectionPtr tagProbe_l3objects_all;
-    //  //if(!isData())
-    //  //  tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
-    //  //else
-    //  //  tagProbe_l3objects_all  = helper.GetL3FilterObjectsByPath("HLT_Ele27_WPLoose_Gsf_v");
-    //  //c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_PHOTON);
-    //  //// if not, try TRIGGER_ELECTRON
-    //  //if(c_hltEle27WP85Gsf_all->GetSize() == 0)
-    //  //  c_hltEle27WP85Gsf_all = tagProbe_l3objects_all->SkimByID<HLTriggerObject>(TRIGGER_ELECTRON);
-
-    //}
-
-
     //-----------------------------------------------------------------
     // Define initial, inclusive collections for physics objects
     //-----------------------------------------------------------------
@@ -368,6 +330,10 @@ void analysisClass::Loop()
     //  New: Cut all jet collections at 17 GeV as per 2016 custom skim
     //c_pfjet_all = c_pfjet_all -> SkimByMinPt   <PFJet>( 17.0 );
     //c_pfjet_all->examine<PFJet>("c_pfjet_all with Pt>17");
+
+    // recall that only jets with pt > 10 GeV affect the PFMET
+    // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
+    c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
 
     //-----------------------------------------------------------------
     // All skims need GEN particles/jets
@@ -403,51 +369,15 @@ void analysisClass::Loop()
     CollectionPtr c_genJetMatchedLQ = c_genJet_all -> SkimByRequireDRMatch<GenJet, GenParticle>(c_genQuark_hardScatter_const, 0.1);
    // c_genJetMatchedLQ->examine<GenJet>("c_genJetMatchedLQ");
 
-    //-----------------------------------------------------------------
-    // If this is MC, smear jets if requested
-    // Don't do it for data
-    //-----------------------------------------------------------------
-    bool do_jer = true;
-    if (isData())
-      do_jer = false; // never for data
-
-    //-----------------------------------------------------------------
-    // Energy scaling and resolution smearing here
-    //-----------------------------------------------------------------
-    // recall that only jets with pt > 10 GeV affect the PFMET
-    // Also, only scale/smear the jets in our eta range (jets in the calorimeter crack are suspect)
-    c_pfjet_all = c_pfjet_all -> SkimByEtaRange<PFJet>( -jet_EtaCut, jet_EtaCut );
-
-    // Set the PFMET difference to zero
-    v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
-
-    // Do the energy scale / energy resolution operations
-    // dR for matching = Rcone/2
-    //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
-    //std::string jerPtRes = jerTag+"_PtResolution_AK4PFchs";
-    //std::string jerSF = jerTag+"_ScaleFactor_AK4PFchs";
-
-    //actually, jet smearing/scaling won't work this way; have to do it like for electrons below
-    //if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll.GetCorrection(jerPtRes).get(), cset_jmeAll.GetCorrection(jerSF).get() );
-    //if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
-    jmeUncertainties.ComputeJetVariations(c_pfjet_all, !isData());
-
-    // Propagate the results to the PFMET
-    v_PFMETType1Cor   .SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0., readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0. );
-    //v_PFMETType1XYCor.SetPtEtaPhiM( (*PFMETType1XYCor)[0] , 0., (*PFMETPhiType1XYCor)[0] , 0. );
-
-    v_PFMETType1Cor    = v_PFMETType1Cor    + v_delta_met;
-    //v_PFMETType1XYCor = v_PFMETType1XYCor + v_delta_met;
-
-    // new systematics handling for electron energy resolution and scale
-    std::vector<Electron> smearedEles;
-    std::vector<Electron> scaledUpEles;
-    std::vector<Electron> scaledDownEles;
-    if(!isData()) {
-      smearedEles = c_ele_all->MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.4/2.0, rootEngine, v_delta_met );
-      scaledUpEles = c_ele_all->ScaleEnergy <Electron> (1 , v_delta_met );
-      scaledDownEles = c_ele_all->ScaleEnergy <Electron> (-1, v_delta_met );
-    }
+    // old systematics handling for electron energy resolution and scale
+    //std::vector<Electron> smearedEles;
+    //std::vector<Electron> scaledUpEles;
+    //std::vector<Electron> scaledDownEles;
+    //if(!isData()) {
+    //  smearedEles = c_ele_all->MatchAndSmearEnergy <Electron, GenParticle> ( c_genEle_final, 0.4/2.0, rootEngine, v_delta_met );
+    //  scaledUpEles = c_ele_all->ScaleEnergy <Electron> (1 , v_delta_met );
+    //  scaledDownEles = c_ele_all->ScaleEnergy <Electron> (-1, v_delta_met );
+    //}
 
     //-----------------------------------------------------------------
     // QCD skims    (reducedSkimType = 0     ) have loose electrons
@@ -559,6 +489,7 @@ void analysisClass::Loop()
     CollectionPtr c_pfjet_final                       = c_pfjet_central_ID_noLeptonOverlap;
     //c_pfjet_final->examine<PFJet>("c_pfjet_final");
     CollectionPtr c_pfjet_final_ptCut                 = c_pfjet_final                        -> SkimByMinPt      <PFJet>          ( jet_PtCut );
+
     //c_pfjet_final_ptCut->examine<PFJet>("c_pfjet_final_ptCut");
     //if(c_pfjet_final->GetSize() > 4) {
     //  // run ls event
@@ -587,6 +518,40 @@ void analysisClass::Loop()
     //c_pfJetMatchedLQ->examine<PFJet>("c_pfJetMatchedLQ");
 
     //-----------------------------------------------------------------
+    // Energy scaling and resolution smearing here
+    //-----------------------------------------------------------------
+
+    TLorentzVector v_delta_met;
+    // Set the PFMET difference to zero
+    v_delta_met.SetPtEtaPhiM(0.,0.,0.,0.);
+
+    // Do the energy scale / energy resolution operations
+    // dR for matching = Rcone/2
+    //   see: https://twiki.cern.ch/twiki/bin/view/CMS/JetResolution
+    //std::string jerPtRes = jerTag+"_PtResolution_AK4PFchs";
+    //std::string jerSF = jerTag+"_ScaleFactor_AK4PFchs";
+
+    //actually, jet smearing/scaling won't work this way; have to do it like for electrons below
+    //if ( do_jer ) c_pfjet_all    -> MatchAndSmearEnergy <PFJet   , GenJet     > ( c_genJet_final, 0.4/2.0, rootEngine, v_delta_met, cset_jmeAll.GetCorrection(jerPtRes).get(), cset_jmeAll.GetCorrection(jerSF).get() );
+    //if ( do_jes ) c_pfjet_all    -> ScaleEnergy <PFJet   > ( pfjet_energy_scale_sign   , v_delta_met );
+    jetUncertainties.ComputeJetVariations(c_pfjet_final_ptCut, c_genJet_all, !isData());
+    //c_pfjet_final_ptCut->SetSystematics(c_pfjet_final->GetSystematicsNames(), c_pfjet_final->GetSystematics());
+
+    map<string, double> metSystematics;
+    if(analysisYearInt != 2017)
+      metSystematics = type1METUncertainties.ComputeType1METVariations(c_pfjet_all, c_genJet_all, !isData());
+    else
+      metSystematics = fixEE2017Type1METUncertainties.ComputeType1METVariations(c_pfjet_all, c_genJet_all, !isData());
+    // get rid of "nominal" MET variations
+    auto nominalItem = metSystematics.extract("Pt_nominal");
+    nominalItem.key() = "Pt";
+    metSystematics.insert(std::move(nominalItem));
+    nominalItem = metSystematics.extract("Phi_nominal");
+    nominalItem.key() = "Phi";
+    metSystematics.insert(std::move(nominalItem));
+
+
+    //-----------------------------------------------------------------
     // We need high-eta jets in order to look at boson recoil
     //-----------------------------------------------------------------
     CollectionPtr c_pfjet_highEta_ID;
@@ -610,10 +575,8 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
 
     fillVariableWithValue( "isData"   , isData()   );
-    //fillVariableWithValue( "bunch"    , bunch      );
     fillVariableWithValue( "event"    , readerTools_->ReadValueBranch<ULong64_t>("event")      );
     fillVariableWithValue( "ls"       , readerTools_->ReadValueBranch<UInt_t>("luminosityBlock")         );
-    //fillVariableWithValue( "orbit"    , orbit      );
     fillVariableWithValue( "run"      , readerTools_->ReadValueBranch<UInt_t>("run")        );
     //fillVariableWithValue( "ProcessID", ProcessID  );
     //fillVariableWithValue( "PtHat"    , PtHat      );
@@ -652,6 +615,13 @@ void analysisClass::Loop()
       fillVariableWithValue("PrefireWeight_Up", prefireDefault);
     }
 
+    //-----------------------------------------------------------------
+    // ZVtx 2017
+    //-----------------------------------------------------------------
+    float zVtxSF = 1.0;
+    if(analysisYearInt==2017)
+      zVtxSF = ElectronScaleFactors2017::zVtxSF;
+    fillVariableWithValue("ZVtxSF", zVtxSF);
 
     //-----------------------------------------------------------------
     // Pass JSON
@@ -669,16 +639,6 @@ void analysisClass::Loop()
     fillVariableWithValue("PassBadEESupercrystalFilter"   , readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter"));
     fillVariableWithValue("PassEcalDeadCellTrigPrim"      , readerTools_->ReadValueBranch<Bool_t>("Flag_EcalDeadCellTriggerPrimitiveFilter"));
     std::string branchName = "Flag_BadChargedCandidateFilter";
-    //std::string branchType = std::string(readerTools_->GetTree()->GetBranch(branchName.c_str())->GetLeaf(branchName.c_str())->GetTypeName());
-    ////std::cout << "Found branchType=" << branchType << std::endl;
-    //if(branchType=="Bool_t") {
-    //  fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<Bool_t>(branchName)          == 1));
-    //  fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter")                    == 1));
-    //}
-    //else {
-    //  fillVariableWithValue("PassChargedCandidateFilter"    , int(readerTools_->ReadValueBranch<UChar_t>(branchName)          == 1));
-    //  fillVariableWithValue("PassBadPFMuonFilter"           , int(readerTools_->ReadValueBranch<UChar_t>("Flag_BadPFMuonFilter")                    == 1));
-    //}
     fillVariableWithValue("PassChargedCandidateFilter"    , readerTools_->ReadValueBranch<Bool_t>(branchName));
     fillVariableWithValue("PassBadPFMuonFilter"           , readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter"));
     // for 2017 and 2018 only
@@ -690,13 +650,15 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Fill MET values
     //-----------------------------------------------------------------
-
-    //fillVariableWithValue("PFMET_Type1_Pt"     , readerTools_->ReadValueBranch<Float_t>("MET_pt"));      
-    //fillVariableWithValue("PFMET_Type1_Phi"    , readerTools_->ReadValueBranch<Float_t>("MET_phi"));
-    fillVariableWithValue("PFMET_Type1_Pt"     , float(v_PFMETType1Cor.Pt()));      
-    fillVariableWithValue("PFMET_Type1_Phi"    , float(v_PFMETType1Cor.Phi()));
-    //fillVariableWithValue("PFMET_Type1XY_Pt"   , PFMETType1XYCor    -> at (0));      
-    //fillVariableWithValue("PFMET_Type1XY_Phi"  , PFMETPhiType1XYCor -> at (0));
+    if(reducedSkimType != 0) {
+      // includes nominal
+      for(const auto& syst : metSystematics)
+        fillVariableWithValue("PFMET_Type1_"+syst.first, syst.second);
+    }
+    else {
+      fillVariableWithValue("PFMET_Type1_Pt", metSystematics["Pt"]);
+      fillVariableWithValue("PFMET_Type1_Phi", metSystematics["Phi"]);
+    }
 
     if ( !isData() ) { 
       if ( reducedSkimType != 0 ){ 
@@ -728,20 +690,6 @@ void analysisClass::Loop()
     }
     fillVariableWithValue( "nPileUpInt_True", puNTrueInt);
 
-    //fillVariableWithValue( "nPileUpInt_BXminus1", -1 );
-    //fillVariableWithValue( "nPileUpInt_BX0"     , -1 );
-    //fillVariableWithValue( "nPileUpInt_BXplus1" , -1 );
-    //if ( !isData() ){
-    //  for(int pu=0; pu<PileUpInteractions->size(); pu++) {
-    //    if(PileUpOriginBX->at(pu) == 0  ) { 
-    //      fillVariableWithValue( "nPileUpInt_BX0" , PileUpInteractions    ->at(pu));
-    //      fillVariableWithValue( "nPileUpInt_True", PileUpInteractionsTrue->at(pu));
-    //    }
-    //    if(PileUpOriginBX->at(pu) == -1 ) fillVariableWithValue( "nPileUpInt_BXminus1", PileUpInteractions->at(pu));
-    //    if(PileUpOriginBX->at(pu) == 1  ) fillVariableWithValue( "nPileUpInt_BXplus1" , PileUpInteractions->at(pu));
-    //  }
-    //}
-
     //-----------------------------------------------------------------
     // How many ID'd objects are there?
     //-----------------------------------------------------------------
@@ -750,7 +698,7 @@ void analysisClass::Loop()
     int n_muonHighPt         = c_muon_eta_IDHighPt           -> GetSize();
     int n_muon_store         = c_muon_final                  -> GetSize();
     int n_ele_store          = c_ele_final                   -> GetSize();
-    int n_jet_store          = c_pfjet_final                 -> GetSize();
+    int n_jet_store          = c_pfjet_final_ptCut           -> GetSize();
     int n_jet_highEta_store  = c_pfjet_highEta_final         -> GetSize();
     int n_genEle_store       = c_genEle_final                -> GetSize();
     int n_genNu_store        = c_genNu_final                 -> GetSize();
@@ -760,7 +708,7 @@ void analysisClass::Loop()
     int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
     int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
     int n_ele_vloose_ptCut   = c_ele_vLoose_ptCut            -> GetSize();
-    int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
+    //int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
     int n_jet_highEta_ptCut  = c_pfjet_highEta_final_ptCut   -> GetSize();
 
     int n_genNuFromW_store   = c_genNuFromW_final            -> GetSize();
@@ -977,7 +925,7 @@ void analysisClass::Loop()
     fillVariableWithValue ("nHighEtaJet_store", min(n_jet_highEta_store, 1));
     fillVariableWithValue ("nEle_ptCut"       , n_ele_ptCut );
     fillVariableWithValue ("nVLooseEle_ptCut"  , n_ele_vloose_ptCut );
-    fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
+    //fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
     fillVariableWithValue ("nHighEtaJet_ptCut", n_jet_highEta_ptCut );
 
     //c_ele_all->examine<Electron>("c_ele_all");
@@ -987,11 +935,6 @@ void analysisClass::Loop()
     for(int iEle = 0; iEle < getVariableValue<int>("nEle_store"); ++iEle) {
       Electron ele = c_ele_final -> GetConstituent<Electron>(iEle);
       std::string prefix = "Ele"+std::to_string(iEle+1);
-      //if(fabs(ele1.Eta()) >= 1.4442 && fabs(ele1.Eta()) <= 1.566)
-      //  c_ele_final->examine<Electron>("c_ele_final");
-      //double hltEle1Pt_signal          = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle45_Signal_all    , ele1, ele_hltMatch_DeltaRCut);
-      //double hltEle1Pt_doubleEleSignal = triggerMatchPt<HLTriggerObject, Electron>(c_hltDoubleEle_Signal_all, ele1, ele_hltMatch_DeltaRCut);
-      //double hltEle1Pt_WP80            = triggerMatchPt<HLTriggerObject, Electron>(c_hltEle27WP85Gsf_all       , ele1, ele_hltMatch_DeltaRCut);
       unsigned int n_trigObjs = c_hlTriggerObjects_filterBits_id -> GetSize();
       float matchedHLTriggerObjectPt = -999.;
       bool passedHLTriggerWPTightFilter = false;
@@ -1083,16 +1026,11 @@ void analysisClass::Loop()
       fillVariableWithValue( prefix+"_PassedHLTriggerCaloIdVTGsfTrkIdTFilter"  , passedHLTriggerCaloIdVTGsfTrkIdTFilter );
       fillVariableWithValue( prefix+"_PassedHLTriggerPhotonFilter"  , passedHLTriggerPhotonFilter );
 
-      //fillVariableWithValue( prefix+"_hltEleSignalPt", hltEle1Pt_signal          );
-      //fillVariableWithValue( prefix+"_hltDoubleElePt", hltEle1Pt_doubleEleSignal ); 
-      //fillVariableWithValue( prefix+"_hltEleWP80Pt"  , hltEle1Pt_WP80            );
       if(!isData() && reducedSkimType != 0) {
-        Electron ele1smeared = *find(smearedEles.begin(), smearedEles.end(), ele);
-        Electron ele1scaledUp = *find(scaledUpEles.begin(), scaledUpEles.end(), ele);
-        Electron ele1scaledDown = *find(scaledDownEles.begin(), scaledDownEles.end(), ele);
-        fillVariableWithValue( prefix+"_Pt_EER"      , ele1smeared.Pt()          );
-        fillVariableWithValue( prefix+"_Pt_EES_Up"    , ele1scaledUp.Pt()         );
-        fillVariableWithValue( prefix+"_Pt_EES_Dn"  , ele1scaledDown.Pt()       );
+        fillVariableWithValue( prefix+"_Pt_EER_Up"  , ele.PtDESigmaUp()          );
+        fillVariableWithValue( prefix+"_Pt_EER_Dn"  , ele.PtDESigmaDown()        );
+        fillVariableWithValue( prefix+"_Pt_EES_Up"  , ele.Pt() * cset_ulEGMScale->evaluate({analysisYear, "scaleup",   ele.SCEta(), ele.SeedGain()}) );
+        fillVariableWithValue( prefix+"_Pt_EES_Dn"  , ele.Pt() * cset_ulEGMScale->evaluate({analysisYear, "scaledown", ele.SCEta(), ele.SeedGain()}) );
       }
       if(!isData()) {
         fillVariableWithValue( prefix+"_TrigSF" , triggerScaleFactorReader.LookupValue(ele.SCEta(), ele.Pt()) );
@@ -1109,8 +1047,8 @@ void analysisClass::Loop()
           fillVariableWithValue( prefix+"_EGMLooseIDSF_Up", cset_ulEGMID->evaluate({analysisYear, "sfup", "Loose", ele.SCEta(), ele.Pt()}));
           fillVariableWithValue( prefix+"_EGMLooseIDSF_Dn", cset_ulEGMID->evaluate({analysisYear, "sfdown", "Loose", ele.SCEta(), ele.Pt()}));
         }
-        fillVariableWithValue( prefix+"_HEEPSF",    ElectronScaleFactorsRunII::LookupHeepSF(ele.SCEta(), analysisYearInt) );
-        fillVariableWithValue( prefix+"_HEEPSF_Err",ElectronScaleFactorsRunII::LookupHeepSFSyst(ele.SCEta(), ele.Pt(), analysisYearInt) );
+        fillVariableWithValue( prefix+"_HEEPSF",    ElectronScaleFactorsRunII::LookupHeepSF(ele.SCEta(), analysisYear) );
+        fillVariableWithValue( prefix+"_HEEPSF_Err",ElectronScaleFactorsRunII::LookupHeepSFSyst(ele.SCEta(), ele.Pt(), analysisYear) );
       }
       else {
         fillVariableWithValue( prefix+"_TrigSF"          , float(1.0));
@@ -1125,6 +1063,28 @@ void analysisClass::Loop()
         fillVariableWithValue( prefix+"_HEEPSF_Err"      , float(0.0));
       }
     }
+    // trigger scale factor part
+    // NB: need to change this if the trigger selection changes below
+    float eventTriggerScaleFactor = 1.0;
+    float eventTriggerScaleFactorErr = 0.0;
+    bool ele1PassedHLTWPTight = variableIsFilled("Ele1_PassedHLTriggerWPTightFilter") ? getVariableValue<bool>("Ele1_PassedHLTriggerWPTightFilter") : false;
+    bool ele1PassedHLTPhoton = variableIsFilled("Ele1_PassedHLTriggerPhotonFilter") ? getVariableValue<bool>("Ele1_PassedHLTriggerPhotonFilter") : false;
+    bool ele2PassedHLTWPTight = variableIsFilled("Ele2_PassedHLTriggerWPTightFilter") ? getVariableValue<bool>("Ele2_PassedHLTriggerWPTightFilter") : false;
+    bool ele2PassedHLTPhoton = variableIsFilled("Ele2_PassedHLTriggerPhotonFilter") ? getVariableValue<bool>("Ele2_PassedHLTriggerPhotonFilter") : false;
+    if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
+      float trigSFEle1 = getVariableValue("Ele1_TrigSF");
+      float trigSFEle1Err = getVariableValue("Ele1_TrigSF_Err");
+      eventTriggerScaleFactor = trigSFEle1;
+      eventTriggerScaleFactorErr = trigSFEle1Err;
+    }
+    else if(ele2PassedHLTWPTight || ele2PassedHLTPhoton) {
+      float trigSFEle2 = getVariableValue("Ele2_TrigSF");
+      float trigSFEle2Err = getVariableValue("Ele2_TrigSF_Err");
+      eventTriggerScaleFactor = trigSFEle2;
+      eventTriggerScaleFactorErr = trigSFEle2Err;
+    }
+    fillVariableWithValue("EventTriggerScaleFactor", eventTriggerScaleFactor);
+    fillVariableWithValue("EventTriggerScaleFactorErr", eventTriggerScaleFactorErr);
 
     // Jets
     if ( n_jet_highEta_store >= 1 ) { 
@@ -1134,12 +1094,10 @@ void analysisClass::Loop()
       fillVariableWithValue( "HighEtaJet1_Phi", jet1.Phi() );
     }
 
-    std::vector<std::string> jetSystNames = c_pfjet_final->GetSystematicsNames();
+    std::vector<std::string> jetSystNames = c_pfjet_final_ptCut->GetSystematicsNames();
     for(int iJet = 0; iJet < getVariableValue<int>("nJet_store"); ++iJet) {
-      PFJet jet = c_pfjet_final -> GetConstituent<PFJet>(iJet);
+      PFJet jet = c_pfjet_final_ptCut -> GetConstituent<PFJet>(iJet);
       std::string prefix = "Jet"+std::to_string(iJet+1);
-      // leading HLT jet from 200 GeV collection
-      float hltJet1Pt     = triggerMatchPt<HLTriggerObject, PFJet >( c_trigger_l3jets_all     , jet, jet_hltMatch_DeltaRCut);
       int flavor = isData() ? 0 : jet.HadronFlavor();
       float pt = jet.GetSystematicVariation("Pt_nominal");
       fillVariableWithValue( prefix+"_Pt"          , pt                         );
@@ -1147,7 +1105,6 @@ void analysisClass::Loop()
       fillVariableWithValue( prefix+"_Eta"         , jet.Eta()                  );
       fillVariableWithValue( prefix+"_Phi"         , jet.Phi()                  );
       fillVariableWithValue( prefix+"_btagDeepJet" , jet.DeepJetBTag()          );
-      fillVariableWithValue( prefix+"_hltJetPt"	   , hltJet1Pt                  );
       fillVariableWithValue( prefix+"_HadronFlavor", flavor                     );
       //fillVariableWithValue( prefix+"_qgl"	  , jet1.QuarkGluonLikelihood()     );
       float absEta = fabs(jet.Eta());
@@ -1187,7 +1144,7 @@ void analysisClass::Loop()
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnCorrelated"  , cset_btagDeepJetComb->evaluate({"down_correlated", "M", flavor, absEta, pt}) );
           fillVariableWithValue( prefix+"_btagSFMediumDeepJetComb_DnUncorrelated"  , cset_btagDeepJetComb->evaluate({"down_uncorrelated", "M", flavor, absEta, pt}) );
         }
-        if(iJet < 3) { // don't fill the systs for jets beyond the third
+        if(!isData() && iJet < 3) { // don't fill the systs for jets beyond the third
           for(int varIndex = 1; varIndex < jetSystNames.size(); ++varIndex) {
             string systName = jetSystNames[varIndex];
             if(systName.find("mass") != string::npos)
@@ -1195,9 +1152,9 @@ void analysisClass::Loop()
             fillVariableWithValue( prefix+"_"+systName  , jet.GetSystematicVariation(systName));
           }
         }
-        if(c_pfJetMatchedLQ->Has<PFJet>(jet))
-          fillVariableWithValue( prefix+"_LQMatched", true);
       }
+      if(c_pfJetMatchedLQ->Has<PFJet>(jet))
+        fillVariableWithValue( prefix+"_LQMatched", true);
     }
 
     //-----------------------------------------------------------------
@@ -1214,15 +1171,15 @@ void analysisClass::Loop()
 
     TLorentzVector t_ele1, t_ele2, t_jet1, t_jet2, t_jet3;
     TLorentzVector t_MET;
-    TLorentzVector t_ele1Smeared, t_ele1ScaledUp, t_ele1ScaledDown;
-    TLorentzVector t_ele2Smeared, t_ele2ScaledUp, t_ele2ScaledDown;
+    TLorentzVector t_ele1SigmaUp, t_ele1SigmaDown, t_ele1ScaledUp, t_ele1ScaledDown;
+    TLorentzVector t_ele2SigmaUp, t_ele2SigmaDown, t_ele2ScaledUp, t_ele2ScaledDown;
     std::vector<TLorentzVector> jet1FourVectors_ptVariations, jet2FourVectors_ptVariations, jet3FourVectors_ptVariations;
 
     t_MET.SetPtEtaPhiM( readerTools_->ReadValueBranch<Float_t>("MET_pt"), 0.0, readerTools_->ReadValueBranch<Float_t>("MET_phi"), 0.0 );
 
     if ( n_jet_store >= 1 ){
 
-      PFJet jet1 = c_pfjet_final -> GetConstituent<PFJet>(0);
+      PFJet jet1 = c_pfjet_final_ptCut -> GetConstituent<PFJet>(0);
       float jet1Pt = jet1.GetSystematicVariation("Pt_nominal");
       t_jet1.SetPtEtaPhiM ( jet1Pt, jet1.Eta(), jet1.Phi(), 0.0 );
       if(!isData()) {
@@ -1236,7 +1193,7 @@ void analysisClass::Loop()
       fillVariableWithValue ("mDPhi_METJet1", fabs( t_MET.DeltaPhi ( t_jet1 )));
 
       if ( n_jet_store >= 2 ){
-        PFJet jet2 = c_pfjet_final -> GetConstituent<PFJet>(1);
+        PFJet jet2 = c_pfjet_final_ptCut -> GetConstituent<PFJet>(1);
         float jet2Pt = jet2.GetSystematicVariation("Pt_nominal");
         t_jet2.SetPtEtaPhiM ( jet2Pt, jet2.Eta(), jet2.Phi(), 0.0 );
         if(!isData()) {
@@ -1255,7 +1212,7 @@ void analysisClass::Loop()
         fillVariableWithValue ("DR_Jet1Jet2"  , t_jet1.DeltaR( t_jet2 ));
 
         if ( n_jet_store >= 3 ){
-          PFJet jet3 = c_pfjet_final -> GetConstituent<PFJet>(2);
+          PFJet jet3 = c_pfjet_final_ptCut -> GetConstituent<PFJet>(2);
           float jet3Pt = jet3.GetSystematicVariation("Pt_nominal");
           t_jet3.SetPtEtaPhiM ( jet3Pt, jet3.Eta(), jet3.Phi(), 0.0 );
           if(!isData()) {
@@ -1282,31 +1239,27 @@ void analysisClass::Loop()
       t_ele1.SetPtEtaPhiM ( ele1.Pt(), ele1.Eta(), ele1.Phi(), 0.0 );
       if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
         t_ele1.SetPtEtaPhiM ( ele1.PtUncorr(), ele1.Eta(), ele1.Phi(), 0.0 );
-      if(!isData()) {
-        //XXX FIXME
-        Electron ele1smeared = *find(smearedEles.begin(), smearedEles.end(), ele1);
-        Electron ele1scaledUp = *find(scaledUpEles.begin(), scaledUpEles.end(), ele1);
-        Electron ele1scaledDown = *find(scaledDownEles.begin(), scaledDownEles.end(), ele1);
-        t_ele1Smeared.SetPtEtaPhiM( ele1smeared.Pt(), ele1smeared.Eta(), ele1smeared.Phi(), 0.0);
-        t_ele1ScaledUp.SetPtEtaPhiM( ele1scaledUp.Pt(), ele1scaledUp.Eta(), ele1scaledUp.Phi(), 0.0);
-        t_ele1ScaledDown.SetPtEtaPhiM( ele1scaledDown.Pt(), ele1scaledDown.Eta(), ele1scaledDown.Phi(), 0.0);
+      if(!isData() && reducedSkimType != 0) {
+        t_ele1SigmaUp.SetPtEtaPhiM(   getVariableValue("Ele1_Pt_EER_Up"),    ele1.Eta(), ele1.Phi(), 0.0);
+        t_ele1SigmaDown.SetPtEtaPhiM( getVariableValue("Ele1_Pt_EER_Dn"),  ele1.Eta(), ele1.Phi(), 0.0);
+        t_ele1ScaledUp.SetPtEtaPhiM(  getVariableValue("Ele1_Pt_EES_Up"),    ele1.Eta(), ele1.Phi(), 0.0);
+        t_ele1ScaledDown.SetPtEtaPhiM( getVariableValue("Ele1_Pt_EES_Dn"), ele1.Eta(), ele1.Phi(), 0.0);
       }
       if ( n_ele_store >= 2 ) {
         Electron ele2 = c_ele_final -> GetConstituent<Electron>(1);
         t_ele2.SetPtEtaPhiM ( ele2.Pt(), ele2.Eta(), ele2.Phi(), 0.0 );
         if ( reducedSkimType == 0 ) // for QCD skims, use the uncorrected Pt
           t_ele2.SetPtEtaPhiM ( ele2.PtUncorr(), ele2.Eta(), ele2.Phi(), 0.0 );
-        if(!isData()) {
-          Electron ele2smeared = *find(smearedEles.begin(), smearedEles.end(), ele2);
-          Electron ele2scaledUp = *find(scaledUpEles.begin(), scaledUpEles.end(), ele2);
-          Electron ele2scaledDown = *find(scaledDownEles.begin(), scaledDownEles.end(), ele2);
-          t_ele2Smeared.SetPtEtaPhiM( ele2smeared.Pt(), ele2smeared.Eta(), ele2smeared.Phi(), 0.0);
-          t_ele2ScaledUp.SetPtEtaPhiM( ele2scaledUp.Pt(), ele2scaledUp.Eta(), ele2scaledUp.Phi(), 0.0);
-          t_ele2ScaledDown.SetPtEtaPhiM( ele2scaledDown.Pt(), ele2scaledDown.Eta(), ele2scaledDown.Phi(), 0.0);
+        if(!isData() && reducedSkimType != 0) {
+          t_ele2SigmaUp.SetPtEtaPhiM(   getVariableValue("Ele2_Pt_EER_Up"),    ele2.Eta(), ele2.Phi(), 0.0);
+          t_ele2SigmaDown.SetPtEtaPhiM( getVariableValue("Ele2_Pt_EER_Dn"),  ele2.Eta(), ele2.Phi(), 0.0);
+          t_ele2ScaledUp.SetPtEtaPhiM(  getVariableValue("Ele2_Pt_EES_Up"),    ele2.Eta(), ele2.Phi(), 0.0);
+          t_ele2ScaledDown.SetPtEtaPhiM( getVariableValue("Ele2_Pt_EES_Dn"), ele2.Eta(), ele2.Phi(), 0.0);
         }
 
         TLorentzVector t_ele1ele2 = t_ele1 + t_ele2;
-        TLorentzVector t_ele1ele2_eer = t_ele1Smeared + t_ele2Smeared;
+        TLorentzVector t_ele1ele2_eerUp = t_ele1SigmaUp + t_ele2SigmaUp;
+        TLorentzVector t_ele1ele2_eerDown = t_ele1SigmaDown + t_ele2SigmaDown;
         TLorentzVector t_ele1ele2_eesUp = t_ele1ScaledUp + t_ele2ScaledUp;
         TLorentzVector t_ele1ele2_eesDown = t_ele1ScaledDown + t_ele2ScaledDown;
         fillVariableWithValue ("M_e1e2" , t_ele1ele2.M ());
@@ -1314,10 +1267,12 @@ void analysisClass::Loop()
         //std::cout << "Pt_e1e2 Pt=" << t_ele1ele2.Pt() << std::endl;
         // systs
         if(!isData() && reducedSkimType != 0) {
-          fillVariableWithValue ("M_e1e2_EER" , t_ele1ele2_eer.M ());
+          fillVariableWithValue ("M_e1e2_EER_Up" , t_ele1ele2_eerUp.M ());
+          fillVariableWithValue ("M_e1e2_EER_Dn" , t_ele1ele2_eerDown.M ());
           fillVariableWithValue ("M_e1e2_EES_Up" , t_ele1ele2_eesUp.M ());
           fillVariableWithValue ("M_e1e2_EES_Dn" , t_ele1ele2_eesDown.M ());
-          fillVariableWithValue ("Pt_e1e2_EER" , t_ele1ele2_eer.Pt ());
+          fillVariableWithValue ("Pt_e1e2_EER_Up" , t_ele1ele2_eerUp.Pt ());
+          fillVariableWithValue ("Pt_e1e2_EER_Dn" , t_ele1ele2_eerDown.Pt ());
           fillVariableWithValue ("Pt_e1e2_EES_Up" , t_ele1ele2_eesUp.Pt ());
           fillVariableWithValue ("Pt_e1e2_EES_Dn" , t_ele1ele2_eesDown.Pt ());
           //std::cout << "Pt_e1e2_EER Pt=" << t_ele1ele2_eer.Pt() << std::endl;
@@ -1343,7 +1298,8 @@ void analysisClass::Loop()
         fillVariableWithValue("M_e1j1"     , t_ele1jet1.M());
         // systs
         if(!isData() && reducedSkimType != 0) {
-          fillVariableWithValue("M_e1j1_EER"        , (t_ele1Smeared+t_jet1).M());
+          fillVariableWithValue("M_e1j1_EER_Up"        , (t_ele1SigmaUp+t_jet1).M());
+          fillVariableWithValue("M_e1j1_EER_Dn"        , (t_ele1SigmaDown+t_jet1).M());
           fillVariableWithValue("M_e1j1_EES_Up"     , (t_ele1ScaledUp+t_jet1).M());
           fillVariableWithValue("M_e1j1_EES_Dn"     , (t_ele1ScaledDown+t_jet1).M());
           for(int idx = 1; idx < compSystNames.size(); ++idx)
@@ -1357,7 +1313,8 @@ void analysisClass::Loop()
           fillVariableWithValue("M_e1j2"     , t_ele1jet2.M());
           // systs
           if(!isData() && reducedSkimType != 0) {
-            fillVariableWithValue("M_e1j2_EER"        , (t_ele1Smeared+t_jet2).M());
+            fillVariableWithValue("M_e1j2_EER_Up"        , (t_ele1SigmaUp+t_jet2).M());
+            fillVariableWithValue("M_e1j2_EER_Dn"        , (t_ele1SigmaDown+t_jet2).M());
             fillVariableWithValue("M_e1j2_EES_Up"     , (t_ele1ScaledUp+t_jet2).M());
             fillVariableWithValue("M_e1j2_EES_Dn"     , (t_ele1ScaledDown+t_jet2).M());
             for(int idx = 1; idx < compSystNames.size(); ++idx)
@@ -1379,7 +1336,8 @@ void analysisClass::Loop()
         fillVariableWithValue("M_e2j1"     , t_ele2jet1.M());
         // systs
         if(!isData() && reducedSkimType != 0) {
-          fillVariableWithValue("M_e2j1_EER"        , (t_ele2Smeared+t_jet1).M());
+          fillVariableWithValue("M_e2j1_EER_Up"        , (t_ele2SigmaUp+t_jet1).M());
+          fillVariableWithValue("M_e2j1_EER_Dn"        , (t_ele2SigmaDown+t_jet1).M());
           fillVariableWithValue("M_e2j1_EES_Up"     , (t_ele2ScaledUp+t_jet1).M());
           fillVariableWithValue("M_e2j1_EES_Dn"     , (t_ele2ScaledDown+t_jet1).M());
           for(int idx = 1; idx < compSystNames.size(); ++idx)
@@ -1394,14 +1352,16 @@ void analysisClass::Loop()
           fillVariableWithValue("sT_eejj"    , t_ele1.Pt() + t_ele2.Pt() + t_jet1.Pt() + t_jet2.Pt());
           // systs
           if(!isData() && reducedSkimType != 0) {
-            fillVariableWithValue("M_e2j2_EER"        , (t_ele2Smeared+t_jet2).M());
+            fillVariableWithValue("M_e2j2_EER_Up"        , (t_ele2SigmaUp+t_jet2).M());
+            fillVariableWithValue("M_e2j2_EER_Dn"        , (t_ele2SigmaDown+t_jet2).M());
             fillVariableWithValue("M_e2j2_EES_Up"     , (t_ele2ScaledUp+t_jet2).M());
             fillVariableWithValue("M_e2j2_EES_Dn"     , (t_ele2ScaledDown+t_jet2).M());
             for(int idx = 1; idx < compSystNames.size(); ++idx) {
               fillVariableWithValue("M_e2j2_"+compSystNames[idx], (t_ele2+jet2FourVectors_ptVariations[idx]).M());
               fillVariableWithValue("sT_eejj_"+compSystNames[idx], t_ele1.Pt() + t_ele2.Pt() + jet1FourVectors_ptVariations[idx].Pt() + jet2FourVectors_ptVariations[idx].Pt());
             }
-            fillVariableWithValue("sT_eejj_EER"    , t_ele1Smeared.Pt() + t_ele2Smeared.Pt() + t_jet1.Pt() + t_jet2.Pt());
+            fillVariableWithValue("sT_eejj_EER_Up"    , t_ele1SigmaUp.Pt() + t_ele2SigmaUp.Pt() + t_jet1.Pt() + t_jet2.Pt());
+            fillVariableWithValue("sT_eejj_EER_Dn"    , t_ele1SigmaDown.Pt() + t_ele2SigmaDown.Pt() + t_jet1.Pt() + t_jet2.Pt());
             fillVariableWithValue("sT_eejj_EES_Up"    , t_ele1ScaledUp.Pt() + t_ele2ScaledUp.Pt() + t_jet1.Pt() + t_jet2.Pt());
             fillVariableWithValue("sT_eejj_EES_Dn"    , t_ele1ScaledDown.Pt() + t_ele2ScaledDown.Pt() + t_jet1.Pt() + t_jet2.Pt());
           }
@@ -1474,31 +1434,13 @@ void analysisClass::Loop()
           getVariableValue("H_Photon175"     ) > 0 || 
           getVariableValue("H_Photon200"     ) > 0 );
 
-      fillVariableWithValue ("PassTrigger", pass_trigger ? 1 : 0 );
+      fillVariableWithValue ("PassTrigger", pass_trigger ? true : false );
 
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ) { 
 
-      // search for HLT path by prefix
-      // in 2015 data, trigger is different
-      // this exists in special from-RAW MC and data only
-      //fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
-      //if      ( isData )
-      //{
-      //  if(run >= 254227 && run <= 254914) // in Run2015C 25 ns, there is no un-eta-restricted WPLoose path
-      //    fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
-      //  else
-      //  {
-      //    fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf_v" , "H_Ele27_WPLoose" );
-      //    fillTriggerVariable( "HLT_Ele27_eta2p1_WPLoose_Gsf_v" , "H_Ele27_WPLoose_eta2p1" );
-      //    fillTriggerVariable( "HLT_Ele27_WPTight_Gsf_v" , "H_Ele27_WPTight" );
-      //  }
-      //}
-
-      // just search by prefix
-      //if(triggerExists("HLT_Ele27_WPLoose_Gsf"))
-      //  fillTriggerVariable( "HLT_Ele27_WPLoose_Gsf" , "H_Ele27_WPLoose" );
+      // search by prefix
       if(triggerExists("HLT_Ele27_WPTight_Gsf"))
         fillTriggerVariable( "HLT_Ele27_WPTight_Gsf" , "H_Ele27_WPTight" );
       if(triggerExists("HLT_Ele32_WPTight_Gsf"))
@@ -1519,23 +1461,44 @@ void analysisClass::Loop()
       if(!triggerExists("HLT_Photon175") && !triggerExists("HLT_Photon200"))
         exit(-5);
       // other triggers
-      //fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50", "H_Ele45_PFJet200_PFJet50");
       if(triggerExists("HLT_Ele105_CaloIdVT_GsfTrkIdT"))
         fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT" , "H_Ele105_CIdVT_GsfIdT");
       if(triggerExists("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL"))
         fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
-      //fillTriggerVariable( "HLT_Mu45_eta2p1"  , "H_Mu45_eta2p1" );
 
-      bool pass_lowPtEle = (triggerExists("HLT_Ele27_WPTight_Gsf") && getVariableValue("H_Ele27_WPTight") > 0) ||
-        (triggerExists("HLT_Ele32_WPTight_Gsf") && getVariableValue("H_Ele32_WPTight") > 0) ||
-        (triggerExists("HLT_Ele35_WPTight_Gsf") && getVariableValue("H_Ele35_WPTight") > 0);
-      bool pass_photon = (triggerExists("HLT_Photon175") && getVariableValue("H_Photon175") > 0) ||
-        (triggerExists("HLT_Photon200") && getVariableValue("H_Photon200") > 0);
-      bool pass_trigger = (
-          pass_lowPtEle || 
-          getVariableValue("H_Ele115_CIdVT_GsfIdT") > 0 ||
-          pass_photon);
-      fillVariableWithValue ("PassTrigger", pass_trigger ? 1 : 0 );
+      //bool pass_lowPtEle = (triggerExists("HLT_Ele27_WPTight_Gsf") && getVariableValue("H_Ele27_WPTight") > 0) ||
+      //  (triggerExists("HLT_Ele32_WPTight_Gsf") && getVariableValue("H_Ele32_WPTight") > 0) ||
+      //  (triggerExists("HLT_Ele35_WPTight_Gsf") && getVariableValue("H_Ele35_WPTight") > 0);
+      //bool pass_photon = (triggerExists("HLT_Photon175") && getVariableValue("H_Photon175") > 0) ||
+      //  (triggerExists("HLT_Photon200") && getVariableValue("H_Photon200") > 0);
+      // NB: need to change the EventTriggerScaleFactorErr above if the trigger selection changes below
+      //bool pass_trigger = (
+      //    pass_lowPtEle || 
+      //    //getVariableValue("H_Ele115_CIdVT_GsfIdT") > 0 ||
+      //    pass_photon);
+      //fillVariableWithValue ("PassTrigger", pass_trigger ? true : false );
+
+      // NB: need to change the EventTriggerScaleFactorErr above if the trigger selection changes below
+      // disambiguate events with multiple triggers at the analysis stage
+      bool passHLT = false;
+      if(analysisYearInt==2016) {
+        if (getVariableValue("H_Photon175") == 1 ||
+            getVariableValue("H_Ele115_CIdVT_GsfIdT") == 1 ||
+            getVariableValue("H_Ele27_WPTight") == 1 )
+          passHLT = true;
+      }
+      else if(analysisYearInt==2017) {
+        if (getVariableValue("H_Photon200") == 1 ||
+            getVariableValue("H_Ele35_WPTight") == 1 )
+          passHLT = true;
+      }
+      else if(analysisYearInt==2018) {
+        if (getVariableValue("H_Photon200") == 1 ||
+            getVariableValue("H_Ele115_CIdVT_GsfIdT") == 1 ||
+            getVariableValue("H_Ele32_WPTight") == 1 )
+          passHLT = true;
+      }
+      fillVariableWithValue ("PassTrigger", passHLT ? true : false );
     }
 
     //-----------------------------------------------------------------
