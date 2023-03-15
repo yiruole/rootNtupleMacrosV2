@@ -41,17 +41,15 @@ BTagCutValue   0.2489   - - - -1
 #SYST      FivePercentUp     1.05
 SYST      PrefireDown       PrefireWeight_Dn/PrefireWeight
 SYST      PrefireUp         PrefireWeight_Up/PrefireWeight
-#SYST      JERDown           regex=".+JER_Dn.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt
-#SYST      JERUp             regex=".+JER_Up.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt
-#SYST      JESDown           regex=".+JESTotal_Dn.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt
-#SYST      JESUp             regex=".+JESTotal_Up.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt
-SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
-SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
-SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
-#FIXME
-#SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
-#SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
-#SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
+SYST      JERDown           regex=".+jerdown.*"                                         sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+SYST      JERUp             regex=".+jerup.*"                                           sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+SYST      JESDown           regex=".+jesTotaldown.*"                                    sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+SYST      JESUp             regex=".+jesTotalup.*"                                      sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+#FIXME: EER/EES effect on MET?
+SYST      EERDown           regex=".+EER_Dn.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EERUp             regex=".+EER_Up.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EESDown           regex=".+EES_Dn.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EESUp             regex=".+EES_Up.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
 SYST      EleRecoSFUp       Ele1_RecoSF_Up/Ele1_RecoSF
 SYST      EleRecoSFDown     Ele1_RecoSF_Dn/Ele1_RecoSF
 SYST      EleIDSFUp         Ele1_EGMLooseIDSF_Up/Ele1_EGMLooseIDSF
@@ -115,13 +113,29 @@ DR_Ele1Jet2                        -inf           +inf           -           -  
 DR_Ele2Jet1                        -inf           +inf           -           -           0           100           0              10
 DR_Ele2Jet2                        -inf           +inf           -           -           0           100           0              10
 DR_Jet1Jet2                        -inf           +inf           -           -           0           100           0              10
-Pt_e1e2                            70             +inf           -           -           1           200           0              2000
-sT_eejj_bkgCR                      300            +inf           -           -           1           200           0              2000
-M_e1e2_bkgCR                       50             +inf           -           -           1           200           0              2000
+PFMET_Type1_Pt                     -inf           +inf           -           -           0           200           0              20
+PFMET_Type1_Phi                    -inf           +inf           -           -           0           200           0              2000
+Ele1_Phi                           -inf           +inf           -           -           0           60            -3.1416        3.14
+Ele2_Phi                           -inf           +inf           -           -           0           60            -3.1416        3.1416
+Ele1_Eta                           -inf           +inf           -           -           0           100           -5             5
+Ele2_Eta                           -inf           +inf           -           -           0           100           -5             5
+M_e1j1                             -inf           +inf           -           -           0           200           0              2000
+M_e1j2                             -inf           +inf           -           -           0           200           0              2000
+M_e2j1                             -inf           +inf           -           -           0           200           0              2000
+M_e2j2                             -inf           +inf           -           -           0           200           0              2000
+Jet3_Pt                            -inf           +inf           -           -           0           200           0              2000
+Jet3_Eta                           -inf           +inf           -           -           0           100           -5             5
+Jet1_Phi                           -inf           +inf           -           -           0           60            -3.1416        3.1416
+Jet2_Phi                           -inf           +inf           -           -           0           60            -3.1416        3.1416
+Jet3_Phi                           -inf           +inf           -           -           0           60            -3.1416        3.1416
+Masym                              -inf           +inf           -           -           0           200           0              2000
+MejMin                             -inf           +inf           -           -           0           200           0              2000
+MejMax                             -inf           +inf           -           -           0           200           0              2000
+Meejj                              -inf           +inf           -           -           0           200           0              2000
+Pt_e1e2                            70             +inf           -           -           0           200           0              2000
+sT_eejj_bkgCR                      300            +inf           -           -           0           200           0              2000
+M_e1e2_bkgCR                       50             +inf           -           -           0           200           0              2000
+preselection                       -inf           +inf           -           -           1           2             -0.5           1.5
 sT_eejj                            400            +inf           -           -           1           200           0              2000
 M_e1e2                             200            +inf           -           -           1           200           0              2000
-preselection                       -inf           +inf           -           -           1           2             -0.5           1.5
-#-----------------------------------------------------------------------------------------------------------------------------
-# Optimization variables (unused)
-#-----------------------------------------------------------------------------------------------------------------------------
-BDToutput_opt                     -inf         +inf               -               -               1       200 -1 1
+trainingSelection                  -inf           +inf           -           -           1           2             -0.5           1.5
