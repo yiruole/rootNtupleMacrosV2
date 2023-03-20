@@ -32,9 +32,10 @@ AnalysisYear   2016  - - - -1
 #------------------------------------------------------------------------------------------------------
 # Electron ID and selection 
 #------------------------------------------------------------------------------------------------------
-ele_PtCut		    10          -               -               -               -1
+vLoose_ele_PtCut	         10          -               -               -               -1
+ele_PtCut	                 40          -               -               -               -1
 ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
-electronIDType             EGMLoose  - - - -1
+electronIDType             HEEP  - - - -1
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
 # In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
@@ -55,12 +56,9 @@ electronIDType             EGMLoose  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------
-nVLooseEle                           0      +inf            -  -  0  16   -0.5  15.5  SAVE/I
-nVLooseEle_ptCut                     0      +inf            -  -  0  16   -0.5  15.5  SAVE/I
-nLooseEle                            0      +inf            -  -  0  16   -0.5  15.5  SAVE/I
-Ele1_Pt                             40.0    +inf            -  -  0  100  0     2000  SAVE
-PassJSON                             0      1               -  -  0  2    -0.5  1.5   SAVE
-PassTrigger                         -inf    +inf               -  -  0  2    -0.5  1.5   SAVE/O
+PassNEle                             0      1               -  -  0  2    -0.5  1.5   SAVE/O
+PassJSON                             0      1               -  -  0  2    -0.5  1.5   SAVE/O
+PassTrigger                          0      1               -  -  0  2    -0.5  1.5   SAVE/O
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Photon triggers 
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -82,6 +80,4 @@ H_Photon200     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
 H_Ele27_WPTight                       -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele32_WPTight                       -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele35_WPTight                       -inf           +inf           -           -           1           100           -1000           1000           SAVE
-H_Ele105_CIdVT_GsfIdT                 -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele115_CIdVT_GsfIdT                 -inf           +inf           -           -           1           100           -1000           1000           SAVE
-H_DoubleEle33_CIdL_GsfIdVL            -inf           +inf           -           -           1           100           -1000           1000           SAVE

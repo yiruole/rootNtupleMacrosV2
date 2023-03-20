@@ -111,6 +111,7 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   // electron cuts
   double ele_PtCut    	         = getPreCutValue1("ele_PtCut");
+  double vLoose_ele_PtCut    	   = getPreCutValue1("vLoose_ele_PtCut");
   double ele_hltMatch_DeltaRCut  = getPreCutValue1("ele_hltMatch_DeltaRCut");
 
   //--------------------------------------------------------------------------
@@ -163,23 +164,23 @@ void analysisClass::Loop()
     //  std::cout << "cut = " << i << " idLevel = " << ele1.GetNbitFromBitMap(i, 3) << std::endl;
     //}
 
-    CollectionPtr c_ele_final;
-    CollectionPtr c_ele_final_ptCut;
-    CollectionPtr c_ele_vLoose_ptCut;
-    CollectionPtr c_ele_loose;
-    CollectionPtr c_ele_vLoose;
+    CollectionPtr c_ele_final, c_ele_final_ptCut;
+    CollectionPtr c_ele_loose, c_ele_loose_ptCut;
+    CollectionPtr c_ele_vLoose, c_ele_vLoose_ptCut;
 
     if(electronIDType == "HEEP") {
       c_ele_loose = c_ele_all   -> SkimByID<LooseElectron>( FAKE_RATE_HEEP_LOOSE);
       c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE);
+      c_ele_final = c_ele_all   -> SkimByID<Electron>(HEEP70);
     }
     else if(electronIDType == "EGMLoose") {
       c_ele_loose = c_ele_all   -> SkimByID<LooseElectron>( FAKE_RATE_EGMLOOSE );
       c_ele_vLoose = c_ele_all   -> SkimByID<LooseElectron>(FAKE_RATE_VERY_LOOSE_EGMLOOSE);
+      c_ele_final = c_ele_all   -> SkimByID<Electron>(EGAMMA_BUILTIN_LOOSE);
     }
-    c_ele_final               = c_ele_loose;
-    c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<LooseElectron>( ele_PtCut  );
-    c_ele_vLoose_ptCut         = c_ele_vLoose -> SkimByMinPt<LooseElectron>( 10.0 );
+    c_ele_final_ptCut         = c_ele_final -> SkimByMinPt<Electron>( ele_PtCut  );
+    c_ele_loose_ptCut         = c_ele_loose -> SkimByMinPt<LooseElectron>( ele_PtCut  );
+    c_ele_vLoose_ptCut        = c_ele_vLoose -> SkimByMinPt<LooseElectron>( vLoose_ele_PtCut );
     //c_ele_all->examine<Electron>("c_ele_all");
     //c_ele_loose->examine<Electron>("c_ele_loose");
     //c_ele_final_ptCut->examine<Electron>("c_ele_final_ptCut");
@@ -201,22 +202,17 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // How many ID'd objects are there?
     //-----------------------------------------------------------------
-    int n_ele_store          = c_ele_final                   -> GetSize();
-    int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
-    int n_ele_vloose_ptCut   = c_ele_vLoose_ptCut            -> GetSize();
-    int n_ele_vloose   = c_ele_vLoose            -> GetSize();
+    int n_ele_final_ptCut    = c_ele_final_ptCut       -> GetSize();
+    int n_ele_loose          = c_ele_loose             -> GetSize();
+    int n_ele_loose_ptCut    = c_ele_loose_ptCut       -> GetSize();
+    int n_ele_vLoose         = c_ele_vLoose            -> GetSize();
+    int n_ele_vLoose_ptCut   = c_ele_vLoose_ptCut      -> GetSize();
 
     //-----------------------------------------------------------------
     // Fill variables
     //-----------------------------------------------------------------
-    fillVariableWithValue ("nVLooseEle"  , n_ele_vloose );
-    fillVariableWithValue ("nVLooseEle_ptCut"  , n_ele_vloose_ptCut );
-    fillVariableWithValue ("nLooseEle"  , n_ele_store );
-    if ( n_ele_store >= 1 ) { 
-      Electron ele = c_ele_final -> GetConstituent<Electron>(0);
-      std::string prefix = "Ele1";
-      fillVariableWithValue( prefix+"_Pt"            , ele.PtUncorr()           );
-    }
+    bool passNEle = n_ele_vLoose_ptCut==1 || n_ele_loose_ptCut > 0 || n_ele_final_ptCut > 0;
+    fillVariableWithValue ("PassNEle"  , passNEle);
 
     //-----------------------------------------------------------------
     // QCD triggers 2016    2017        2018
@@ -321,17 +317,6 @@ void analysisClass::Loop()
       STDOUT("Could not find a Photon175 or Photon200 trigger. Exiting.");
       exit(-5);
     }
-    // other triggers
-    //fillTriggerVariable( "HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50", "H_Ele45_PFJet200_PFJet50");
-    if(triggerExists("HLT_Ele105_CaloIdVT_GsfTrkIdT"))
-      fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT" , "H_Ele105_CIdVT_GsfIdT");
-    else
-      fillVariableWithValue( "H_Ele105_CIdVT_GsfIdT" , -1.0 );
-    if(triggerExists("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL"))
-      fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
-    else
-      fillVariableWithValue( "H_DoubleEle33_CIdL_GsfIdVL", -1.0 );
-    //fillTriggerVariable( "HLT_Mu45_eta2p1"  , "H_Mu45_eta2p1" );
 
     bool pass_lowPtEle = getVariableValue("H_Ele27_WPTight") > 0 ||
       getVariableValue("H_Ele32_WPTight") > 0 ||
