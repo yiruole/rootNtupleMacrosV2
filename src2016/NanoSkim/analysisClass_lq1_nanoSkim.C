@@ -211,7 +211,9 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Fill variables
     //-----------------------------------------------------------------
-    bool passNEle = n_ele_vLoose_ptCut==1 || n_ele_loose_ptCut > 0 || n_ele_final_ptCut > 0;
+    bool passNEle = n_ele_loose_ptCut > 0 || n_ele_final_ptCut > 0;
+    if(n_ele_vLoose_ptCut==1 && n_ele_loose_ptCut > 0)
+      passNEle = true;
     fillVariableWithValue ("PassNEle"  , passNEle);
 
     //-----------------------------------------------------------------
