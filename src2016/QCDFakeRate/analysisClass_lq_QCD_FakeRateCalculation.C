@@ -177,7 +177,6 @@ void analysisClass::Loop()
 
   Long64_t nentries = GetTreeEntries();
   std::cout << "analysisClass::analysisClass(): nentries = " << nentries << std::endl;
-
   //--------------------------------------------------------------------------
   // Loop over the chain
   //--------------------------------------------------------------------------
@@ -186,7 +185,7 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     // Print progress
     //-----------------------------------------------------------------
-    if(jentry < 10 || jentry%10000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+    if(jentry < 10 || jentry%10000 == 0) std::cout << "analysisClass::Loop(): jentry = " << jentry << "/" << nentries << std::endl;
     //// run ls event
     //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
@@ -200,9 +199,9 @@ void analysisClass::Loop()
     // Check good run list
     //--------------------------------------------------------------------------
 
-    float run = readerTools_->ReadValueBranch<Float_t>("run");
+    float run = readerTools_->ReadValueBranch<UInt_t>("run");
     int passedJSON = passJSON ( run,
-        readerTools_->ReadValueBranch<Float_t>("ls"),
+        readerTools_->ReadValueBranch<UInt_t>("ls"),
         isData() ) ;
 
     //--------------------------------------------------------------------------
@@ -211,7 +210,7 @@ void analysisClass::Loop()
     double min_prescale = 1;
     int passTrigger = 0;
 
-    float Ele1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele1_hltPhotonPt");
+    float Ele1_hltPhotonPt = readerTools_->ReadValueBranch<Float_t>("Ele1_MatchedHLTriggerObjectPt");
 
     std::string triggerName = "";
     if ( Ele1_hltPhotonPt > 0.0 ) {
@@ -247,7 +246,8 @@ void analysisClass::Loop()
         if ( readerTools_->ReadValueBranch<Float_t>("H_Photon200")  > 0.1 && Ele1_hltPhotonPt >= 200.) { passTrigger = 1; triggerName = "Photon200"; } 
       }
     }
-    if(isData() && passTrigger) {
+    if(isData() && passTrigger) { 
+      //std::cout<<"this if statement is being evaluated"<<std::endl;
       //std::cout << "INFO: lookup trigger name " << triggerName << " for year: " << year << std::endl;
       min_prescale = run2PhotonTriggerPrescales.LookupPrescale(analysisYear,triggerName);
     }
@@ -302,31 +302,31 @@ void analysisClass::Loop()
     // Fill noise filters
     // see: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
     // we filled these at skim time
-    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Float_t>("PassGlobalSuperTightHalo2016Filter")     == 1), min_prescale * pileup_weight);
-    fillVariableWithValue("PassGoodVertices"                   , int(readerTools_->ReadValueBranch<Float_t>("PassGoodVertices")                       == 1), min_prescale * pileup_weight);
-    fillVariableWithValue("PassHBHENoiseFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseFilter")                    == 1), min_prescale * pileup_weight);
-    fillVariableWithValue("PassHBHENoiseIsoFilter"             , int(readerTools_->ReadValueBranch<Float_t>("PassHBHENoiseIsoFilter")                 == 1), min_prescale * pileup_weight);
+    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , int(readerTools_->ReadValueBranch<Bool_t>("PassGlobalSuperTightHalo2016Filter")     == 1), min_prescale * pileup_weight);
+    fillVariableWithValue("PassGoodVertices"                   , int(readerTools_->ReadValueBranch<Bool_t>("PassGoodVertices")                       == 1), min_prescale * pileup_weight);
+    fillVariableWithValue("PassHBHENoiseFilter"                , int(readerTools_->ReadValueBranch<Bool_t>("PassHBHENoiseFilter")                    == 1), min_prescale * pileup_weight);
+    fillVariableWithValue("PassHBHENoiseIsoFilter"             , int(readerTools_->ReadValueBranch<Bool_t>("PassHBHENoiseIsoFilter")                 == 1), min_prescale * pileup_weight);
     // eBadScFilter not suggested for MC
     if(isData())
-      fillVariableWithValue("PassBadEESupercrystalFilter"      , int(readerTools_->ReadValueBranch<Float_t>("PassBadEESupercrystalFilter")            == 1), min_prescale * pileup_weight);
+      fillVariableWithValue("PassBadEESupercrystalFilter"      , int(readerTools_->ReadValueBranch<Bool_t>("PassBadEESupercrystalFilter")            == 1), min_prescale * pileup_weight);
     else
       fillVariableWithValue("PassBadEESupercrystalFilter"      , 1                                                                                          , min_prescale * pileup_weight);
-    fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Float_t>("PassEcalDeadCellTrigPrim")               == 1), min_prescale * pileup_weight);
+    fillVariableWithValue("PassEcalDeadCellTrigPrim"           , int(readerTools_->ReadValueBranch<Bool_t>("PassEcalDeadCellTrigPrim")               == 1), min_prescale * pileup_weight);
     // not recommended
     //fillVariableWithValue("PassChargedCandidateFilter"         , int(readerTools_->ReadValueBranch<Float_t>("PassChargedCandidateFilter")             == 1), min_prescale * pileup_weight);
-    fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Float_t>("PassBadPFMuonFilter")                    == 1), min_prescale * pileup_weight);
+    fillVariableWithValue("PassBadPFMuonFilter"                , int(readerTools_->ReadValueBranch<Bool_t>("PassBadPFMuonFilter")                    == 1), min_prescale * pileup_weight);
     // EcalBadCalibV2 for 2017, 2018
     if(analysisYear > 2016)
-      fillVariableWithValue("PassEcalBadCalibV2Filter"         , int(readerTools_->ReadValueBranch<Float_t>("PassEcalBadCalibV2Filter")               == 1), min_prescale * pileup_weight);
+      fillVariableWithValue("PassEcalBadCalibV2Filter"         , int(readerTools_->ReadValueBranch<Bool_t>("PassEcalBadCalibV2Filter")               == 1), min_prescale * pileup_weight);
     else
       fillVariableWithValue("PassEcalBadCalibV2Filter"         , 1                                                                                          , min_prescale * pileup_weight);
 
     // Muon variables ( for veto ) 					      	       
     // remove muon veto
     //fillVariableWithValue(   "nMuon"                   , readerTools_->ReadValueBranch<Float_t>("nMuon_ptCut")     , min_prescale * pileup_weight );
-    float nEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nEle_ptCut");
-    float nVLooseEle_ptCut = readerTools_->ReadValueBranch<Float_t>("nVLooseEle_ptCut");
-    float nJet_ptCut = readerTools_->ReadValueBranch<Float_t>("nJet_ptCut");
+    float nEle_ptCut = readerTools_->ReadValueBranch<Int_t>("nEle_ptCut");
+    float nVLooseEle_ptCut = readerTools_->ReadValueBranch<Int_t>("nVLooseEle_ptCut");
+    float nJet_ptCut = readerTools_->ReadValueBranch<Int_t>("nJet_ptCut");
     // 1st Electron variables				      		              
     fillVariableWithValue(   "nEle"                    , nVLooseEle_ptCut , min_prescale * pileup_weight );
 
@@ -432,8 +432,8 @@ void analysisClass::Loop()
     fillVariableWithValue(   "minDREleJets"                          , min_DR_EleJet          , min_prescale * pileup_weight );
 
     float mDPhi_METEle1 = readerTools_->ReadValueBranch<Float_t>("mDPhi_METEle1");
-    float nJet_store = readerTools_->ReadValueBranch<Float_t>("nJet_store");
-    float nEle_store = readerTools_->ReadValueBranch<Float_t>("nEle_store");
+    float nJet_store = readerTools_->ReadValueBranch<Int_t>("nJet_store");
+    float nEle_store = readerTools_->ReadValueBranch<Int_t>("nEle_store");
     TLorentzVector loose_ele1, met;
     // need to use uncorrected Pt
     loose_ele1.SetPtEtaPhiM ( Ele1_Pt , Ele1_Eta , Ele1_Phi , 0.0 );
@@ -563,7 +563,7 @@ void analysisClass::Loop()
     fillVariableWithValue(   "denominator"                   , 1                           , min_prescale * pileup_weight );
 
     // Debugging variables 
-    // fillVariableWithValue ( "HLTPt1stEle"        , Ele1_hltPhotonPt , min_prescale * pileup_weight );
+    //fillVariableWithValue ( "HLTPt1stEle"        , Ele1_hltPhotonPt , min_prescale * pileup_weight );
     // fillVariableWithValue ( "H_Photon30_CIdVL"  , H_Photon30_CIdVL      , min_prescale * pileup_weight );	      
     // fillVariableWithValue ( "H_Photon50_CIdVL"  , H_Photon50_CIdVL      , min_prescale * pileup_weight );		
     // fillVariableWithValue ( "H_Photon75_CIdVL"  , H_Photon75_CIdVL      , min_prescale * pileup_weight );		
@@ -612,8 +612,8 @@ void analysisClass::Loop()
         fabs( Ele1_SCEta  ) < eleEta_end2_max )   isEndcap2 = true;
 
     if ( passed_denominator ) { 
-      float nVertex = readerTools_->ReadValueBranch<Float_t>("nVertex");
-      float Ele1_Charge = readerTools_->ReadValueBranch<Float_t>("Ele1_Charge");
+      float nVertex = readerTools_->ReadValueBranch<Int_t>("nVertex");
+      float Ele1_Charge = readerTools_->ReadValueBranch<Int_t>("Ele1_Charge");
       //float Ele1_EcalDriven = readerTools_->ReadValueBranch<Float_t>("Ele1_EcalDriven");
       float Ele1_TrkIsoHEEP7 = readerTools_->ReadValueBranch<Float_t>("Ele1_TrkIsoHEEP7");
       float MT_Ele1MET = readerTools_->ReadValueBranch<Float_t>("MT_Ele1MET");
@@ -1189,70 +1189,70 @@ void analysisClass::Loop()
       //  same as HEEPv7.0, but no TrkIso cut
       //----------------------------------------------------------------------
       bool passHEEPprime = (
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                             &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDEtaInSeedCut") == 1                  &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDPhiInCut") == 1                      &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 1 &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 1  &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPMinPtCut") == 1                             &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleDEtaInSeedCut") == 1                  &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleDPhiInCut") == 1                      &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 1 &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 1  &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
           //readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleTrkPtIsoCut") == 1                    &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDxyCut") == 1                         &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPEcalDrivenCut") == 1
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleDxyCut") == 1                         &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPEcalDrivenCut") == 1
           );
 
-      bool passHEEP = readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPID") == 1;
-      bool passLoose = readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGMLooseID") == 1;
+      bool passHEEP = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPID") == 1;
+      bool passLoose = readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGMLooseID") == 1;
 
       bool passLoosePrime = (
           // use HEEP MinPt and eta cuts
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                              &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 1  &&  
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDEtaInSeedCut") == 1            &&            
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDPhiInCut") == 1                &&                
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 1 && 
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPMinPtCut") == 1                              &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 1  &&  
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleDEtaInSeedCut") == 1            &&            
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleDPhiInCut") == 1                &&                
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 1 && 
           //readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleRelPFIsoScaledCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleMissingHitsCut") == 1
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleMissingHitsCut") == 1
           );
 
       // for jets
       // they must pass all except at least one of: deltaEtaSeed, deltaPhi, sigmaIEtaIEta, shape
       bool passJetHEEP = (
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                             &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPMinPtCut") == 1                             &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1             &&
           (
-           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDEtaInSeedCut") == 0                  ||
-           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDPhiInCut") == 0                      ||
-           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 0 ||
-           readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 0
+           readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleDEtaInSeedCut") == 0                  ||
+           readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleDPhiInCut") == 0                      ||
+           readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleFull5x5SigmaIEtaIEtaWithSatCut") == 0 ||
+           readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleFull5x5E2x5OverE5x5WithSatCut") == 0
           ) &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleHadronicOverEMLinearCut") == 1        &&
           //readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleTrkPtIsoCut") == 1                    &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleDxyCut") == 1                         &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPEcalDrivenCut") == 1
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleEmHadD1IsoRhoCut") == 1               &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleDxyCut") == 1                         &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleMissingHitsCut") == 1                 &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPEcalDrivenCut") == 1
           );
       // they must pass all except at least one of: deltaEtaSeed, deltaPhi, sigmaIEtaIEta, 1/E-1/p
       bool passJetLoose = (
           // use HEEP MinPt and eta cuts
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPMinPtCut") == 1                              &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPMinPtCut") == 1                              &&
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassHEEPGsfEleSCEtaMultiRangeCut") == 1              &&
           (
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDEtaInSeedCut") == 0            ||
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleDPhiInCut") == 0                ||
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 0  ||
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 0
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleDEtaInSeedCut") == 0            ||
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleDPhiInCut") == 0                ||
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleFull5x5SigmaIEtaIEtaCut") == 0  ||
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleEInverseMinusPInverseCut") == 0
           ) &&
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleHadronicOverEMScaledCut") == 1  &&  
           //readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleRelPFIsoScaledCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
-          readerTools_->ReadValueBranch<Float_t>("Ele1_PassEGammaLooseGsfEleMissingHitsCut") == 1
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleConversionVetoCut") == 1        &&        
+          readerTools_->ReadValueBranch<Bool_t>("Ele1_PassEGammaLooseGsfEleMissingHitsCut") == 1
         );
 
 
