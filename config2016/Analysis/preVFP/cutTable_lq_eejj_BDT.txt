@@ -22,7 +22,7 @@ eleEta_end2           2.000            2.5              -               -       
 #-----------------------------------------------------------------------------------------------------------------------------
 # BDT
 #-----------------------------------------------------------------------------------------------------------------------------
-BDTWeightFileName   /afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/versionsOfAnalysis/2016/eejj/eejj_1dec2022_preselOnly_eleSFsTrigSFsLead_ele27AndPhoton175_fromPSK_2016preVFP/bdt/dataset/weights/TMVAClassification_BDTG.weights.xml  - - - -1
+BDTWeightFileName   /afs/cern.ch/user/s/scooper/work/private/LQNanoAODAttempt/Leptoquarks/analyzer/rootNtupleAnalyzerV2/versionsOfBDTTraining/2016preVFP/eejj_finalSels_egLoose_13feb2023_mee200st400_allLQ/dataset/weights/TMVAClassification_BDTG.weights.xml  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Analysis year
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -42,30 +42,28 @@ BTagCutValue   0.2598   - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 #         name              source/formula/branch                                       cutVars
 #         ------------      ------------------------------------------------------      --------------------------------------
-##SYST      FivePercentUp     1.05
-#SYST      PrefireDown       PrefireWeight_Dn/PrefireWeight
-#SYST      PrefireUp         PrefireWeight_Up/PrefireWeight
-##SYST      JERDown           regex=".+JER_Dn.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt
-##SYST      JERUp             regex=".+JER_Up.*"                                          sT_eejj,Jet2_Pt,Jet1_Pt
-##SYST      JESDown           regex=".+JESTotal_Dn.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt
-##SYST      JESUp             regex=".+JESTotal_Up.*"                                     sT_eejj,Jet2_Pt,Jet1_Pt
-#SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
-#SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
-#SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt
-##FIXME
-##SYST      EER               regex=".+_EER.*"                                            sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
-##SYST      EESDown           regex=".+EES_Dn.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
-##SYST      EESUp             regex=".+EES_Up.*"                                          sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,sT_eejj_bkgCR,M_e1e2_bkgCR
-#SYST      EleRecoSFUp       Ele1_RecoSF_Up/Ele1_RecoSF
-#SYST      EleRecoSFDown     Ele1_RecoSF_Dn/Ele1_RecoSF
-#SYST      EleIDSFUp         Ele1_EGMLooseIDSF_Up/Ele1_EGMLooseIDSF
-#SYST      EleIDSFDown       Ele1_EGMLooseIDSF_Dn/Ele1_EGMLooseIDSF
-#SYST      EleTrigSFUp       
-#SYST      EleTrigSFDown     
-#SYST      PileupUp          puWeight_Up/puWeight
-#SYST      PileupDown        puWeight_Dn/puWeight
-#SYST      LHEPdfWeight      LHEPdfWeight
-#SYST      LHEScaleWeight    LHEScaleWeight
+#SYST      FivePercentUp     1.05
+SYST      PrefireDown       PrefireWeight_Dn/PrefireWeight
+SYST      PrefireUp         PrefireWeight_Up/PrefireWeight
+SYST      JERDown           regex=".+jerdown.*"                                         sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+SYST      JERUp             regex=".+jerup.*"                                           sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+SYST      JESDown           regex=".+jesTotaldown.*"                                    sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+SYST      JESUp             regex=".+jesTotalup.*"                                      sT_eejj,Jet2_Pt,Jet1_Pt,Jet3_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,PFMET_Type1_Pt,PFMET_Type1_Phi,Masym,MejMin,MejMax,Meejj
+#FIXME: EER/EES effect on MET?
+SYST      EERDown           regex=".+EER_Dn.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EERUp             regex=".+EER_Up.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EESDown           regex=".+EES_Dn.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EESUp             regex=".+EES_Up.*"                                           sT_eejj,M_e1e2,Ele1_Pt,Ele2_Pt,M_e1j1,M_e1j2,M_e2j1,M_e2j2,Pt_e1e2,Masym,MejMin,MejMax,Meejj
+SYST      EleRecoSFUp       Ele1_RecoSF_Up/Ele1_RecoSF
+SYST      EleRecoSFDown     Ele1_RecoSF_Dn/Ele1_RecoSF
+SYST      EleIDSFUp         Ele1_EGMLooseIDSF_Up/Ele1_EGMLooseIDSF
+SYST      EleIDSFDown       Ele1_EGMLooseIDSF_Dn/Ele1_EGMLooseIDSF
+SYST      EleTrigSFUp       
+SYST      EleTrigSFDown     
+SYST      PileupUp          puWeight_Up/puWeight
+SYST      PileupDown        puWeight_Dn/puWeight
+SYST      LHEPdfWeight      LHEPdfWeight
+SYST      LHEScaleWeight    LHEScaleWeight
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
 # The cut variable names, cut boundaries and histogram binnings are provided here by the user.
 # In the event loop of the analysisClass_template.C, the user have to fill each variable with its value using
@@ -138,12 +136,12 @@ Masym                              -inf           +inf           -           -  
 MejMin                             -inf           +inf           -           -           0           200           0              2000
 MejMax                             -inf           +inf           -           -           0           200           0              2000
 Meejj                              -inf           +inf           -           -           0           200           0              2000
-Pt_e1e2                            70             +inf           -           -           1           200           0              2000
-sT_eejj_bkgCR                      300            +inf           -           -           1           200           0              2000
-M_e1e2_bkgCR                       50             +inf           -           -           1           200           0              2000
-sT_eejj                            400            +inf           -           -           1           200           0              2000
-M_e1e2                             200            +inf           -           -           1           200           0              2000
-preselection                       -inf           +inf           -           -           1           2             -0.5           1.5
+Pt_e1e2                            70             +inf           -           -           0           200           0              2000
+sT_eejj_bkgCR                      300            +inf           -           -           0           200           0              2000
+M_e1e2_bkgCR                       50             +inf           -           -           0           200           0              2000
+sT_eejj                            400            +inf           -           -           0           200           0              2000
+M_e1e2                             200            +inf           -           -           0           200           0              2000
+preselection                       -inf           +inf           -           -           0           2             -0.5           1.5
 #-----------------------------------------------------------------------------------------------------------------------------
 # Optimization variables (unused)
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -157,46 +155,46 @@ preselection                       -inf           +inf           -           -  
 # CUTS GET PROGRESSIVELY TIGHTER
 ##------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------
-# LQ M 1700 optimization
-#------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1700                         0.8178                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1700
-#------------------------------------------------------------------------------------------------------------------
 # LQ M 1800 optimization
 #------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1800                         0.863                +inf              -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1800
-#------------------------------------------------------------------------------------------------------------------
-# LQ M 2000 optimization
-#------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ2000                         0.863                +inf              -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=2000
+BDTOutput_LQ1800                         0.7974                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1800
 #------------------------------------------------------------------------------------------------------------------
 # LQ M 1900 optimization
 #------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1900                         0.863                +inf              -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1900
+BDTOutput_LQ1900                         0.8174                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1900
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 2000 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ2000                         0.8578                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=2000
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1700 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1700                         0.8762                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1700
 #------------------------------------------------------------------------------------------------------------------
 # LQ M 1600 optimization
 #------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1600                         0.8634                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1600
+BDTOutput_LQ1600                         0.9016                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1600
 #------------------------------------------------------------------------------------------------------------------
 # LQ M 1500 optimization
 #------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1500                         0.9276                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1500
-#------------------------------------------------------------------------------------------------------------------
-# LQ M 1400 optimization
-#------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1400                         0.9746                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1400
+BDTOutput_LQ1500                         0.9302                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1500
 #------------------------------------------------------------------------------------------------------------------
 # LQ M 1300 optimization
 #------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1300                         0.9804                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1300
-#------------------------------------------------------------------------------------------------------------------
-# LQ M 1200 optimization
-#------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1200                         0.9898                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1200
-#------------------------------------------------------------------------------------------------------------------
-# LQ M 1100 optimization
-#------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1100                         0.9942                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1100
+BDTOutput_LQ1300                         0.9668                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1300
 #------------------------------------------------------------------------------------------------------------------
 # LQ M 1000 optimization
 #------------------------------------------------------------------------------------------------------------------
-BDTOutput_LQ1000                         0.9952                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,mass=1000
+BDTOutput_LQ1000                         0.9764                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1000
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1400 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1400                         0.9786                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1400
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1200 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1200                         0.9856                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1200
+#------------------------------------------------------------------------------------------------------------------
+# LQ M 1100 optimization
+#------------------------------------------------------------------------------------------------------------------
+BDTOutput_LQ1100                         0.9908                +inf             -               -       2       10000 -1 1    TMVACut:BDT,BDTWeightFileName,LQCandidateMass=1100
