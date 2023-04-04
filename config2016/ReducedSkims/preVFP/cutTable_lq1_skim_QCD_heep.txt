@@ -29,7 +29,9 @@ reducedSkimType	      	   0		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/wprimeLeptonic_ulTriggerScaleFactors/2016preVFP/egammaEffi.txt_EGM2D.root  - - - -1
+TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
+TriggerSFBarrelHistName SF_TH2F_Barrel    - - - -1
+TriggerSFEndcapHistName SF_TH2F_EndCap    - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM ID scale factors: https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaSFJSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -291,7 +293,8 @@ Ele1_R9                                                     -inf           +inf 
 Ele1_MatchedHLTriggerObjectPt                               -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_PassedHLTriggerWPTightFilter                           -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele1_PassedHLTriggerCaloIdVTGsfTrkIdTFilter                 -inf           +inf           -           -           1           200           0              2000             SAVE/O
-Ele1_PassedHLTriggerPhotonFilter                            -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele1_PassedHLTriggerHighPtPhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele1_PassedHLTriggerSinglePhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele1_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -356,7 +359,8 @@ Ele2_R9                                                     -inf           +inf 
 Ele2_MatchedHLTriggerObjectPt                               -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_PassedHLTriggerWPTightFilter                           -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele2_PassedHLTriggerCaloIdVTGsfTrkIdTFilter                 -inf           +inf           -           -           1           200           0              2000             SAVE/O
-Ele2_PassedHLTriggerPhotonFilter                            -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele2_PassedHLTriggerHighPtPhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele2_PassedHLTriggerSinglePhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele2_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -421,7 +425,8 @@ Ele3_R9                                                     -inf           +inf 
 Ele3_MatchedHLTriggerObjectPt                               -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_PassedHLTriggerWPTightFilter                           -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele3_PassedHLTriggerCaloIdVTGsfTrkIdTFilter                 -inf           +inf           -           -           1           200           0              2000             SAVE/O
-Ele3_PassedHLTriggerPhotonFilter                            -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele3_PassedHLTriggerHighPtPhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele3_PassedHLTriggerSinglePhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele3_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
