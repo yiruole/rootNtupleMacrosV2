@@ -291,7 +291,8 @@ Ele1_R9                                                     -inf           +inf 
 Ele1_MatchedHLTriggerObjectPt                               -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_PassedHLTriggerWPTightFilter                           -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele1_PassedHLTriggerCaloIdVTGsfTrkIdTFilter                 -inf           +inf           -           -           1           200           0              2000             SAVE/O
-Ele1_PassedHLTriggerPhotonFilter                            -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele1_PassedHLTriggerHighPtPhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele1_PassedHLTriggerSinglePhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele1_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele1_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -356,7 +357,8 @@ Ele2_R9                                                     -inf           +inf 
 Ele2_MatchedHLTriggerObjectPt                               -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele2_PassedHLTriggerWPTightFilter                           -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele2_PassedHLTriggerCaloIdVTGsfTrkIdTFilter                 -inf           +inf           -           -           1           200           0              2000             SAVE/O
-Ele2_PassedHLTriggerPhotonFilter                            -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele2_PassedHLTriggerHighPtPhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele2_PassedHLTriggerSinglePhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele2_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele2_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
@@ -421,7 +423,8 @@ Ele3_R9                                                     -inf           +inf 
 Ele3_MatchedHLTriggerObjectPt                               -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele3_PassedHLTriggerWPTightFilter                           -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele3_PassedHLTriggerCaloIdVTGsfTrkIdTFilter                 -inf           +inf           -           -           1           200           0              2000             SAVE/O
-Ele3_PassedHLTriggerPhotonFilter                            -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele3_PassedHLTriggerHighPtPhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
+Ele3_PassedHLTriggerSinglePhotonFilter                      -inf           +inf           -           -           1           200           0              2000             SAVE/O
 Ele3_TrigSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_TrigSF_Err                                             -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
 Ele3_RecoSF                                                 -inf           +inf           -           -           1           2             -0.5           1.5              SAVE
