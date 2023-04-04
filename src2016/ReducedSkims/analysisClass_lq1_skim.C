@@ -26,33 +26,6 @@
 
 #include "CorrectionHandler.h"
 
-//--------------------------------------------------------------------------
-// Function for trigger matching 
-//--------------------------------------------------------------------------
-
-template < class Object1, class Object2 > 
-double triggerMatchPt ( const CollectionPtr & collection, Object2 & target_object, double delta_r_cut, bool verbose=false ){
-  double matched_pt = -999.0;
-  if ( collection ) { 
-    unsigned int size = collection -> GetSize();
-    if ( size > 0 ){ 
-      if(verbose) {
-        std::cout << "triggerMatchPt(): try to find closest object in DR to object: " << target_object << "from collection: " << std::endl;
-        collection->examine<HLTriggerObject>("trigObjs");
-      }
-      Object1 matched_object = collection -> GetClosestInDR <Object1, Object2> ( target_object );
-      double dr = matched_object.DeltaR ( & target_object );
-      if ( dr < delta_r_cut ) { 
-        matched_pt = matched_object.Pt();
-        if(verbose) {
-          std::cout << "dr=" << dr << " < delta_r_cut=" << delta_r_cut << ", so matched_pt set to matched_object pt: " << matched_object << std::endl;
-        }
-      }
-    }
-  }
-  return matched_pt;
-}
-
 analysisClass::analysisClass(string * inputList, string * cutFile, string * treeName, string * outputFileName, string * cutEfficFile) 
   :baseClass(inputList, cutFile, treeName, outputFileName, cutEfficFile)
 {
@@ -213,8 +186,8 @@ void analysisClass::Loop()
   // Create HLT collections in advance (won't need all of them)
   //--------------------------------------------------------------------------
   
-  // trigger objects matching filters/ID
-  CollectionPtr c_hlTriggerObjects_filterBits_id;
+  // trigger objects matching ID
+  CollectionPtr c_hlTriggerObjects_id;
 
   //--------------------------------------------------------------------------
   // For smearing systematics samples, you'll need a random number generator
@@ -299,11 +272,9 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
     HLTriggerObjectCollectionHelper helper(*this);
 
-    // QCD photon triggers
     std::vector<int> typeIds {11, 22};
-    std::vector<unsigned int> filterBits {1, 11, 13}; // in nanoAODv9 for UL, these represent the 3 filters of Ele27/35/32, Ele115, Photon175/200
-    c_hlTriggerObjects_filterBits_id = helper.GetTriggerObjectsByFilterBitAndType(filterBits, typeIds);
-    //c_hlTriggerObjects_filterBits_id->examine<HLTriggerObject>("c_hlTriggerObjects_filterBits_id");
+    c_hlTriggerObjects_id = helper.GetTriggerObjectsByType(typeIds);
+    //c_hlTriggerObjects_id->examine<HLTriggerObject>("c_hlTriggerObjectsid");
 
     //-----------------------------------------------------------------
     // Define initial, inclusive collections for physics objects
@@ -935,30 +906,31 @@ void analysisClass::Loop()
     for(int iEle = 0; iEle < getVariableValue<int>("nEle_store"); ++iEle) {
       Electron ele = c_ele_final -> GetConstituent<Electron>(iEle);
       std::string prefix = "Ele"+std::to_string(iEle+1);
-      unsigned int n_trigObjs = c_hlTriggerObjects_filterBits_id -> GetSize();
+      unsigned int n_trigObjs = c_hlTriggerObjects_id -> GetSize();
       float matchedHLTriggerObjectPt = -999.;
       bool passedHLTriggerWPTightFilter = false;
       bool passedHLTriggerCaloIdVTGsfTrkIdTFilter = false;
-      bool passedHLTriggerPhotonFilter = false;
+      bool passedHLTriggerHighPtPhotonFilter = false;
+      bool passedHLTriggerSinglePhotonFilter = false;
       if ( n_trigObjs > 0 ) {
-        //c_hlTriggerObjects_filterBits_id->examine<HLTriggerObject>("c_hlTriggerObjects_filterBits_id");
-        //matchedHLTriggerObjectPt = triggerMatchPt<HLTriggerObject, Electron>(c_hlTriggerObjects_filterBits_id, ele, ele_hltMatch_DeltaRCut);
-        //matchedHLTriggerObjectPt = triggerMatchPt<HLTriggerObject, Electron>(c_hlTriggerObjects_filterBits_id, ele, ele_hltMatch_DeltaRCut, true);
-        //HLTriggerObject matchedObject = c_hlTriggerObjects_filterBits_id->GetClosestInDR<HLTriggerObject, Electron>(ele);
+        //c_hlTriggerObjects_id->examine<HLTriggerObject>("c_hlTriggerObjects_id");
         HLTriggerObject matchedObject;
-        //bool matched = ele.template MatchByDRAndDPt<HLTriggerObject>(c_hlTriggerObjects_filterBits_id, matchedObject, ele_hltMatch_DeltaRCut, 30 );
-        bool matched = ele.template MatchByDR<HLTriggerObject>(c_hlTriggerObjects_filterBits_id, matchedObject, ele_hltMatch_DeltaRCut);
+        bool matched = ele.template MatchByDRAndDPt<HLTriggerObject>(c_hlTriggerObjects_id, matchedObject, ele_hltMatch_DeltaRCut, 0.5);
+        //bool matched = ele.template MatchByDR<HLTriggerObject>(c_hlTriggerObjects_id, matchedObject, ele_hltMatch_DeltaRCut);
         if(matched) {
           matchedHLTriggerObjectPt = matchedObject.Pt();
           float dR = matchedObject.DeltaR(&ele);
           float dPt = matchedObject.DeltaPt(&ele);
-          passedHLTriggerWPTightFilter = matchedObject.PassedFilterBit(1);
-          passedHLTriggerCaloIdVTGsfTrkIdTFilter = matchedObject.PassedFilterBit(11);
-          passedHLTriggerPhotonFilter = matchedObject.PassedFilterBit(13);
+          passedHLTriggerWPTightFilter = matchedObject.ObjectID()==11 && matchedObject.PassedFilterBit(1);
+          passedHLTriggerCaloIdVTGsfTrkIdTFilter = matchedObject.ObjectID()==11 && matchedObject.PassedFilterBit(11);
+          passedHLTriggerHighPtPhotonFilter = matchedObject.ObjectID()==11 && matchedObject.PassedFilterBit(13);
+          bool passedSinglePhotonFilter = matchedObject.PassedFilterBit(1) || matchedObject.PassedFilterBit(2) || matchedObject.PassedFilterBit(3) || matchedObject.PassedFilterBit(4) || matchedObject.PassedFilterBit(5) || matchedObject.PassedFilterBit(6) || matchedObject.PassedFilterBit(7);
+          passedHLTriggerSinglePhotonFilter = matchedObject.ObjectID()==22 && passedSinglePhotonFilter;
           //std::cout << "\t--> Matched a trigger object with pT=" << matchedHLTriggerObjectPt << " to electron; dR=" << dR << ", dPt=" << dPt << std::endl <<
           //  "\t\t" << matchedObject << "; passedWPTight=" << passedHLTriggerWPTightFilter << ", passedCaloId=" << passedHLTriggerCaloIdVTGsfTrkIdTFilter << 
-          //  ", passedPhoton=" << passedHLTriggerPhotonFilter << std::endl;
-          c_hlTriggerObjects_filterBits_id->RemoveConstituent(matchedObject); // remove so that we can't match it with another electron
+          //  ", passedHighPtPhoton=" << passedHLTriggerHighPtPhotonFilter << ", passedHLTriggerSinglePhotonFilter=" << passedHLTriggerSinglePhotonFilter << 
+          //  ", filterBits=" << matchedObject.FilterBits() << std::endl;
+          c_hlTriggerObjects_id->RemoveConstituent(matchedObject); // remove so that we can't match it with another electron
         }
       }
       //std::cout << "\t" << ele << std::endl;
@@ -1024,7 +996,8 @@ void analysisClass::Loop()
       fillVariableWithValue( prefix+"_MatchedHLTriggerObjectPt"  , matchedHLTriggerObjectPt );
       fillVariableWithValue( prefix+"_PassedHLTriggerWPTightFilter"  , passedHLTriggerWPTightFilter );
       fillVariableWithValue( prefix+"_PassedHLTriggerCaloIdVTGsfTrkIdTFilter"  , passedHLTriggerCaloIdVTGsfTrkIdTFilter );
-      fillVariableWithValue( prefix+"_PassedHLTriggerPhotonFilter"  , passedHLTriggerPhotonFilter );
+      fillVariableWithValue( prefix+"_PassedHLTriggerHighPtPhotonFilter"  , passedHLTriggerHighPtPhotonFilter );
+      fillVariableWithValue( prefix+"_PassedHLTriggerSinglePhotonFilter"  , passedHLTriggerSinglePhotonFilter );
 
       if(!isData() && reducedSkimType != 0) {
         fillVariableWithValue( prefix+"_Pt_EER_Up"  , ele.PtDESigmaUp()          );
@@ -1068,9 +1041,9 @@ void analysisClass::Loop()
     float eventTriggerScaleFactor = 1.0;
     float eventTriggerScaleFactorErr = 0.0;
     bool ele1PassedHLTWPTight = variableIsFilled("Ele1_PassedHLTriggerWPTightFilter") ? getVariableValue<bool>("Ele1_PassedHLTriggerWPTightFilter") : false;
-    bool ele1PassedHLTPhoton = variableIsFilled("Ele1_PassedHLTriggerPhotonFilter") ? getVariableValue<bool>("Ele1_PassedHLTriggerPhotonFilter") : false;
+    bool ele1PassedHLTPhoton = variableIsFilled("Ele1_PassedHLTriggerHighPtPhotonFilter") ? getVariableValue<bool>("Ele1_PassedHLTriggerHighPtPhotonFilter") : false;
     bool ele2PassedHLTWPTight = variableIsFilled("Ele2_PassedHLTriggerWPTightFilter") ? getVariableValue<bool>("Ele2_PassedHLTriggerWPTightFilter") : false;
-    bool ele2PassedHLTPhoton = variableIsFilled("Ele2_PassedHLTriggerPhotonFilter") ? getVariableValue<bool>("Ele2_PassedHLTriggerPhotonFilter") : false;
+    bool ele2PassedHLTPhoton = variableIsFilled("Ele2_PassedHLTriggerHighPtPhotonFilter") ? getVariableValue<bool>("Ele2_PassedHLTriggerHighPtPhotonFilter") : false;
     if(ele1PassedHLTWPTight || ele1PassedHLTPhoton) {
       float trigSFEle1 = getVariableValue("Ele1_TrigSF");
       float trigSFEle1Err = getVariableValue("Ele1_TrigSF_Err");
