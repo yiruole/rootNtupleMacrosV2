@@ -116,7 +116,7 @@ makeNSigma = 1
 pt_rebin = 2
 
 if doSystematics:
-    systNames = ["Prefire", "EES", "EleRecoSF", "EleIDSF", "EleTrigSF", "Pileup", "LHEPdf", "LHEScale"]
+    systNames = ["Prefire", "EES", "EER", "JES", "JER", "EleRecoSF", "EleIDSF", "EleTrigSF", "Pileup", "LHEPdf", "LHEScale"]
     print("INFO: using systNames={}".format(systNames))
 else:
     systNames = []
@@ -402,7 +402,7 @@ def makeDefaultPlot(
         )
         plot.histodataBlindAbove = dataBlindAbove
         if systs:
-            plot.histodata = plot.histodata.ProjectionX(plot.histodata.GetName()+"projx", 1, 1)
+            plot.histodata = copy.deepcopy(plot.histodata.ProjectionX(plot.histodata.GetName()+"projx", 1, 1))
     #bkgTotalHist = TH1D()
     #for index, sampleHisto in enumerate(plot.histosStack):
     #    histo = copy.deepcopy(sampleHisto)
@@ -423,10 +423,7 @@ def makeDefaultPlot(
             else:
                 #print("INFO: attempt to merge plot {} to bkgTotalHist={}".format(histo.GetName(), plot.bkgTotalHist.GetName()))
                 plot.bkgTotalHist.Add(histo)
-            #print()
-            #print("INFO: for histo name={}, xBin=51, yBin=16, content={} vs. nominal={}".format(sampleHisto.GetName(), sampleHisto.GetBinContent(51, 16), sampleHisto.GetBinContent(51, 1)))
-            #print()
-            newHistosStack.append(histo.ProjectionX(histo.GetName()+"projx", 1, 1))  # convert to 1-D nominal hist
+            newHistosStack.append(copy.deepcopy(histo.ProjectionX(histo.GetName()+"projx", 1, 1)))  # convert to 1-D nominal hist
             plot.histos2DStack.append(copy.deepcopy(histo))
         plot.histosStack = newHistosStack
         plot.addBkgUncBand = True
@@ -1047,6 +1044,7 @@ if doPreselPlots:
     plots[-1].name = "Mee_100_250_PAS"
 
     plots.append(makeDefaultPlot("Mee_PAS", systs=doSystematics))
+    plots[-1].rebin = 4
     plots[-1].ymax = 5e5
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 60.0
@@ -1056,6 +1054,7 @@ if doPreselPlots:
     plots[-1].name = "Mee_60_250_PAS"
 
     plots.append(makeDefaultPlot("Mee_PAS_gteTwoBtaggedJets"))
+    plots[-1].rebin = 4
     plots[-1].ymax = 5e5
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 60.0
@@ -1065,6 +1064,7 @@ if doPreselPlots:
     plots[-1].name = "Mee_PAS_gteTwoBtaggedJets"
 
     plots.append(makeDefaultPlot("Mee_PAS_gteOneBtaggedJet"))
+    plots[-1].rebin = 4
     plots[-1].ymax = 5e5
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 60.0
@@ -1074,6 +1074,7 @@ if doPreselPlots:
     plots[-1].name = "Mee_PAS_gteOneBtaggedJet"
 
     plots.append(makeDefaultPlot("Mee_PAS_noBtaggedJets"))
+    plots[-1].rebin = 4
     plots[-1].ymax = 5e5
     plots[-1].ymin = 1e-1
     plots[-1].xmin = 60.0
@@ -1541,10 +1542,9 @@ if doPreselPlots:
     # plots[-1].ytit = "S_{T}(eejj) [GeV]"
     #
     #
-    #FIXME TODO
-    plots.append(makeDefaultPlot("BDTOutput_Presel"))
-    plots[-1].xtit = "BDT output [Preselection]"
-    plots[-1].rebin = 200
+    plots.append(makeDefaultPlot("BDTOutput_TrainRegion_LQ1000"))
+    plots[-1].xtit = "BDT output [TrainRegion, M_{LQ} = 1000 GeV]"
+    plots[-1].rebin = 10
     plots[-1].ymax = 1e6
     plots[-1].ymin = 1e-1
     plots[-1].xmax = 1
@@ -3790,8 +3790,9 @@ fileps = "allPlots_eejj_analysis.ps"
 print("INFO: writing canvas with plots to PDF...", end=' ')
 c.Print(fileps + "[")
 for i_plot, plot in enumerate(plots):
-    #print("INFO: draw plot:", plot.name)
-    sys.stdout.flush()
+    #print()
+    #print("INFO: draw plot:", plot.name, flush=True)
+    #print()
     plot.Draw(fileps, i_plot + 1)
 c.Print(fileps + "]")
 print("DONE")
