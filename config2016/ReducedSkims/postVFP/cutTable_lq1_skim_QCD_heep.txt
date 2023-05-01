@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
 # combined ultralegacy golden json
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/certifiedGoodDataJson/certifiedGolden_2016_2017_2018.json
+JSON /home/scooper/LQData/ultralegacy/certifiedGoodDataJson/certifiedGolden_2016_2017_2018.json
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -29,7 +29,7 @@ reducedSkimType	      	   0		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/wprimeLeptonic_ulTriggerScaleFactors/2016postVFP/egammaEffi.txt_EGM2D.root  - - - -1
+TriggerSFFileName   /home/scooper/LQData/ultralegacy/wprimeLeptonic_ulTriggerScaleFactors/2016postVFP/egammaEffi.txt_EGM2D.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM ID scale factors: https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaSFJSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ EGMIDJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM energy scale uncertainty
 #-----------------------------------------------------------------------------------------------------------------------------
-EGMScaleJSONFileName   /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/egmScaleUncertainty/2016postVFP/EGM_ScaleUnc.json.gz  - - - -1
+EGMScaleJSONFileName   /home/scooper/LQData/ultralegacy/egmScaleUncertainty/2016postVFP/EGM_ScaleUnc.json.gz  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # PU JSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -50,8 +50,8 @@ BTVJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BT
 # JME
 #-----------------------------------------------------------------------------------------------------------------------------
 #JMEJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2016postVFP_UL/jet_jerc.json.gz  - - - -1
-JECTextFilePath  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/jec/  - - - -1
-JERTextFilePath  /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/jer/  - - - -1
+JECTextFilePath  /home/scooper/LQData/ultralegacy/jec/  - - - -1
+JERTextFilePath  /home/scooper/LQData/ultralegacy/jer/  - - - -1
 JECTag   Summer19UL16_V7_MC  - - - -1
 JERTag   Summer20UL16_JRV3_MC  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ AnalysisYear   2016postVFP  - - - -1
 #------------------------------------------------------------------------------------------------------
 # Jet selection
 #------------------------------------------------------------------------------------------------------
-jet_PtCut		               50	         	-               -               -               -1
+jet_PtCut		               40	         	-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
 jet_HighEtaCut		   5.0		-               -               -               -1
 jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
@@ -78,7 +78,7 @@ muonIDType             HighPtTrkRelIso03  - - - -1
 #------------------------------------------------------------------------------------------------------
 # Electron ID and selection 
 #------------------------------------------------------------------------------------------------------
-ele_PtCut		    10          -               -               -               -1
+ele_PtCut		               35          -               -               -               -1
 ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
 electronIDType             HEEP  - - - -1
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -101,14 +101,13 @@ electronIDType             HEEP  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------------
-nVLooseEle_ptCut                0            +inf           -           -           0           16            -0.5           15.5           SAVE/I
+PassJSON                        0             1             -           -           0            2            -0.5           1.5            SAVE/O
 nEle_ptCut                      0            +inf           -           -           0           16            -0.5           15.5           SAVE/I
 Ele1_Pt                         35           +inf           -           -           0          200             0             2000           SAVE
 PassTrigger                     0             1             -           -           0            2            -0.5           1.5            SAVE/O
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
-PassJSON                           0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassGlobalSuperTightHalo2016Filter 0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassGoodVertices                   0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassHBHENoiseFilter                0           1           -           -           1           2           -0.5           1.5           SAVE/O
@@ -261,6 +260,7 @@ LHEScaleWeight             -inf           +inf           -           -          
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 nEle_store                                                  -inf           +inf           -           -           1           16            -0.5           15.5             SAVE/I
 nEle_ID                                                     -inf           +inf           -           -           1           16            -0.5           15.5             SAVE/I
+nVLooseEle_ptCut                                            -inf           +inf           -           -           1           16            -0.5           15.5             SAVE/I
 #
 Ele1_Pt_EER_Up                                              -inf           +inf           -           -           1           200           0              2000             SAVE
 Ele1_Pt_EER_Dn                                              -inf           +inf           -           -           1           200           0              2000             SAVE
