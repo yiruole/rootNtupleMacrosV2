@@ -29,9 +29,7 @@ reducedSkimType	      	   3		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /home/scooper/LQData/ultralegacy/wrAnalysis_triggerScaleFactors/2016/egammaEffi.txt_EGM2D.root  - - - -1
-TriggerSFBarrelHistName SF_TH2F_Barrel    - - - -1
-TriggerSFEndcapHistName SF_TH2F_EndCap    - - - -1
+TriggerSFFileName   /home/scooper/LQData/ultralegacy/wprimeLeptonic_ulTriggerScaleFactors/2016preVFP/egammaEffi.txt_EGM2D.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM ID scale factors: https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaSFJSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -65,7 +63,7 @@ AnalysisYear   2016postVFP  - - - -1
 #------------------------------------------------------------------------------------------------------
 jet_PtCut		               40	         	-               -               -               -1
 jet_EtaCut            	   2.4         	-               -               -               -1
-jet_HighEtaCut      		   5.0		-               -               -               -1
+jet_HighEtaCut		   5.0		-               -               -               -1
 jet_ele_DeltaRCut     	   0.3        	-               -               -               -1
 jet_muon_DeltaRCut    	   0.3        	-               -               -               -1
 jet_hltMatch_DeltaRCut     0.5		-		-		-		-1
@@ -80,7 +78,7 @@ muonIDType             HighPtTrkRelIso03  - - - -1
 #------------------------------------------------------------------------------------------------------
 # Electron ID and selection 
 #------------------------------------------------------------------------------------------------------
-ele_PtCut		               40          -               -               -               -1
+ele_PtCut		               35          -               -               -               -1
 ele_hltMatch_DeltaRCut     0.5		-		-		-		-1
 electronIDType             HEEP  - - - -1
 #--------------------------------- Cuts (level 0,1,2,3 ... n) below --------------------------------------------
@@ -103,13 +101,13 @@ electronIDType             HEEP  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Cuts that have to pass for the skim to fill (level = 0)
 #-----------------------------------------------------------------------------------------------------------------------------------------------
+PassJSON                        0             1             -           -           0            2            -0.5           1.5            SAVE/O
 nEle_ptCut                      1            +inf           -           -           0           16            -0.5           15.5           SAVE/I
-Ele1_Pt                         40           +inf           -           -           0          200             0             2000           SAVE
+Ele1_Pt                         35           +inf           -           -           0          200             0             2000           SAVE
 PassTrigger                     0             1             -           -           0            2            -0.5           1.5            SAVE/O
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
-PassJSON                           0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassGlobalSuperTightHalo2016Filter 0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassGoodVertices                   0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassHBHENoiseFilter                0           1           -           -           1           2           -0.5           1.5           SAVE/O
