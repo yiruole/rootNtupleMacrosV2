@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
 # combined ultralegacy golden json
 #------------------------------------------------------------------------------------------------------
-JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/certifiedGoodDataJson/ultralegacy/certifiedGolden_2016_2017_2018.json
+JSON /afs/cern.ch/user/s/scooper/work/public/Leptoquarks/ultralegacy/certifiedGoodDataJson/certifiedGolden_2016_2017_2018.json
 #-----------------------------------------------------------------------------------------------------------------------------
 # Make a reduced skim (for debugging)
 #-----------------------------------------------------------------------------------------------------------------------------
