@@ -218,7 +218,6 @@ void analysisClass::Loop()
   bool splitJER = false;
   JMEUncertainties jetUncertainties(JetVariationsCalculator(), this, jesUncertainties, jecTextFilePath, jerTextFilePath, jecTag, jerTag, splitJER);
   JMEUncertainties type1METUncertainties(Type1METVariationsCalculator(), this, jesUncertainties, jecTextFilePath, jerTextFilePath, jecTag, jerTag, splitJER);
-  JMEUncertainties fixEE2017Type1METUncertainties(FixEE2017Type1METVariationsCalculator(), this, jesUncertainties, jecTextFilePath, jerTextFilePath, jecTag, jerTag, splitJER);
   //-----------------------------------------------------------------
   // If this is MC, smear jets if requested
   // Don't do it for data
@@ -227,7 +226,6 @@ void analysisClass::Loop()
   if (!isData()) {
     jetUncertainties.setSmearing();
     type1METUncertainties.setSmearing();
-    fixEE2017Type1METUncertainties.setSmearing();
   }
   if(analysisYearInt == 2018) {
     jetUncertainties.setAddHEM2018Issue(true);
@@ -508,11 +506,7 @@ void analysisClass::Loop()
     jetUncertainties.ComputeJetVariations(c_pfjet_final_ptCut, c_genJet_all, !isData());
     //c_pfjet_final_ptCut->SetSystematics(c_pfjet_final->GetSystematicsNames(), c_pfjet_final->GetSystematics());
 
-    map<string, double> metSystematics;
-    if(analysisYearInt != 2017)
-      metSystematics = type1METUncertainties.ComputeType1METVariations(c_pfjet_all, c_genJet_all, !isData());
-    else
-      metSystematics = fixEE2017Type1METUncertainties.ComputeType1METVariations(c_pfjet_all, c_genJet_all, !isData());
+    map<string, double> metSystematics = type1METUncertainties.ComputeType1METVariations(c_pfjet_all, c_genJet_all, !isData());
     // get rid of "nominal" MET variations
     auto nominalItem = metSystematics.extract("Pt_nominal");
     nominalItem.key() = "Pt";
@@ -679,7 +673,7 @@ void analysisClass::Loop()
     int n_muon_ptCut         = c_muon_final_ptCut            -> GetSize();
     int n_ele_ptCut          = c_ele_final_ptCut             -> GetSize();
     int n_ele_vloose_ptCut   = c_ele_vLoose_ptCut            -> GetSize();
-    //int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
+    int n_jet_ptCut          = c_pfjet_final_ptCut           -> GetSize();
     int n_jet_highEta_ptCut  = c_pfjet_highEta_final_ptCut   -> GetSize();
 
     int n_genNuFromW_store   = c_genNuFromW_final            -> GetSize();
@@ -896,7 +890,7 @@ void analysisClass::Loop()
     fillVariableWithValue ("nHighEtaJet_store", min(n_jet_highEta_store, 1));
     fillVariableWithValue ("nEle_ptCut"       , n_ele_ptCut );
     fillVariableWithValue ("nVLooseEle_ptCut"  , n_ele_vloose_ptCut );
-    //fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
+    fillVariableWithValue ("nJet_ptCut"       , n_jet_ptCut );
     fillVariableWithValue ("nHighEtaJet_ptCut", n_jet_highEta_ptCut );
 
     //c_ele_all->examine<Electron>("c_ele_all");
@@ -1456,7 +1450,6 @@ void analysisClass::Loop()
       bool passHLT = false;
       if(analysisYearInt==2016) {
         if (getVariableValue("H_Photon175") == 1 ||
-            getVariableValue("H_Ele115_CIdVT_GsfIdT") == 1 ||
             getVariableValue("H_Ele27_WPTight") == 1 )
           passHLT = true;
       }
@@ -1467,7 +1460,6 @@ void analysisClass::Loop()
       }
       else if(analysisYearInt==2018) {
         if (getVariableValue("H_Photon200") == 1 ||
-            getVariableValue("H_Ele115_CIdVT_GsfIdT") == 1 ||
             getVariableValue("H_Ele32_WPTight") == 1 )
           passHLT = true;
       }
