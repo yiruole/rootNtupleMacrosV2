@@ -595,22 +595,19 @@ void analysisClass::Loop()
 
     //-----------------------------------------------------------------
     // Fill MET filter values
-    // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#2018_2017_data_and_MC_UL
     //-----------------------------------------------------------------
-    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , readerTools_->ReadValueBranch<Bool_t>("Flag_globalSuperTightHalo2016Filter"));
     fillVariableWithValue("PassGoodVertices"              , readerTools_->ReadValueBranch<Bool_t>("Flag_goodVertices"));
+    fillVariableWithValue("PassGlobalSuperTightHalo2016Filter" , readerTools_->ReadValueBranch<Bool_t>("Flag_globalSuperTightHalo2016Filter"));
     fillVariableWithValue("PassHBHENoiseFilter"           , readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseFilter"));
     fillVariableWithValue("PassHBHENoiseIsoFilter"        , readerTools_->ReadValueBranch<Bool_t>("Flag_HBHENoiseIsoFilter"));
-    fillVariableWithValue("PassBadEESupercrystalFilter"   , readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter"));
     fillVariableWithValue("PassEcalDeadCellTrigPrim"      , readerTools_->ReadValueBranch<Bool_t>("Flag_EcalDeadCellTriggerPrimitiveFilter"));
-    std::string branchName = "Flag_BadChargedCandidateFilter";
-    fillVariableWithValue("PassChargedCandidateFilter"    , readerTools_->ReadValueBranch<Bool_t>(branchName));
     fillVariableWithValue("PassBadPFMuonFilter"           , readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonFilter"));
-    // for 2017 and 2018 only
-    if(hasBranch("Flag_ecalBadCalibFilterV2"))
-      fillVariableWithValue("PassEcalBadCalibV2Filter"    , readerTools_->ReadValueBranch<Bool_t>(branchName));
-    else
-      fillVariableWithValue("PassEcalBadCalibV2Filter"    , true);
+    fillVariableWithValue("PassBadPFMuonDzFilter"         , readerTools_->ReadValueBranch<Bool_t>("Flag_BadPFMuonDzFilter"));
+    fillVariableWithValue("PassHFNoisyHitsFilter"         , readerTools_->ReadValueBranch<Bool_t>("Flag_hfNoisyHitsFilter"));
+    fillVariableWithValue("PassBadChargedCandidateFilter" , readerTools_->ReadValueBranch<Bool_t>("Flag_BadChargedCandidateFilter"));
+    fillVariableWithValue("PassBadEESupercrystalFilter"   , readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter"));
+    fillVariableWithValue("PassEcalBadCalibV2Filter"    , readerTools_->ReadValueBranch<Bool_t>("Flag_ecalBadCalibFilter"));
 
     //-----------------------------------------------------------------
     // Fill MET values

@@ -108,15 +108,17 @@ PassTrigger                     0             1             -           -       
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Good-data filters 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
-PassGlobalSuperTightHalo2016Filter 0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassGoodVertices                   0           1           -           -           1           2           -0.5           1.5           SAVE/O
+PassGlobalSuperTightHalo2016Filter 0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassHBHENoiseFilter                0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassHBHENoiseIsoFilter             0           1           -           -           1           2           -0.5           1.5           SAVE/O
-PassBadEESupercrystalFilter        0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassEcalDeadCellTrigPrim           0           1           -           -           1           2           -0.5           1.5           SAVE/O
-PassChargedCandidateFilter         0           1           -           -           1           2           -0.5           1.5           SAVE/O
 PassBadPFMuonFilter                0           1           -           -           1           2           -0.5           1.5           SAVE/O
-PassEcalBadCalibV2Filter           0           1           -           -           1           2           -0.5           1.5           SAVE/O
+PassBadPFMuonDzFilter              0           1           -           -           1           2           -0.5           1.5           SAVE/O
+PassHFNoisyHitsFilter              0           1           -           -           1           2           -0.5           1.5           SAVE/O
+PassBadChargedCandidateFilter      0           1           -           -           1           2           -0.5           1.5           SAVE/O
+PassBadEESupercrystalFilter        0           1           -           -           1           2           -0.5           1.5           SAVE/O
+PassEcalBadCalibFilter             0           1           -           -           1           2           -0.5           1.5           SAVE/O
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # Event info 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
