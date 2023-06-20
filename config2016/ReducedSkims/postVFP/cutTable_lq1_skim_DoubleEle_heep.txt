@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
 # combined ultralegacy golden json
 #------------------------------------------------------------------------------------------------------
-JSON /home/scooper/LQData/ultralegacy/certifiedGoodDataJson/certifiedGolden_2016_2017_2018.json
+JSON /home/scooper/LQData/ul-analysis-inputs/certifiedGolden_2016_2017_2018.json
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -29,7 +29,7 @@ reducedSkimType	      	   3		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /home/scooper/LQData/ultralegacy/triggerScaleFactors/SF_UL2016post.root  - - - -1
+TriggerSFFileName   /home/scooper/LQData/ul-analysis-inputs/triggerScaleFactors/SF_UL2016post.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM ID scale factors: https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaSFJSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ EGMIDJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM energy scale uncertainty
 #-----------------------------------------------------------------------------------------------------------------------------
-EGMScaleJSONFileName   /home/scooper/LQData/ultralegacy/egmScaleUncertainty/2016postVFP/EGM_ScaleUnc.json.gz  - - - -1
+EGMScaleJSONFileName   /home/scooper/LQData/ul-analysis-inputs/egmScaleFactors/2016postVFP/EGM_ScaleUnc.json.gz  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # PU JSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -50,8 +50,8 @@ BTVJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BT
 # JME
 #-----------------------------------------------------------------------------------------------------------------------------
 #JMEJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2016postVFP_UL/jet_jerc.json.gz  - - - -1
-JECTextFilePath  /home/scooper/LQData/ultralegacy/jec/  - - - -1
-JERTextFilePath  /home/scooper/LQData/ultralegacy/jer/  - - - -1
+JECTextFilePath  /home/scooper/LQData/ul-analysis-inputs/jec/  - - - -1
+JERTextFilePath  /home/scooper/LQData/ul-analysis-inputs/jer/  - - - -1
 JECTag   Summer19UL16_V7_MC  - - - -1
 JERTag   Summer20UL16_JRV3_MC  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
