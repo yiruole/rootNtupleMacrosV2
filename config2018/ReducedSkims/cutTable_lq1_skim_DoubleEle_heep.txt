@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------------------------------
 # combined ultralegacy golden json
 #------------------------------------------------------------------------------------------------------
-JSON /home/scooper/LQData/ultralegacy/certifiedGoodDataJson/certifiedGolden_2016_2017_2018.json
+JSON /home/scooper/LQData/ul-analysis-inputs/certifiedGolden_2016_2017_2018.json
 #------------------------------------------------------------------------------------------------------
 #                                 Example of file with list of cuts
 #
@@ -29,7 +29,7 @@ reducedSkimType	      	   3		-		-		-		-1
 #-----------------------------------------------------------------------------------------------------------------------------
 # Trigger scale factors
 #-----------------------------------------------------------------------------------------------------------------------------
-TriggerSFFileName   /home/scooper/LQData/ultralegacy/triggerScaleFactors/SF_UL2018.root  - - - -1
+TriggerSFFileName   /home/scooper/LQData/ul-analysis-inputs/triggerScaleFactors/SF_UL2018.root  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM ID scale factors: https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaSFJSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ EGMIDJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/
 #-----------------------------------------------------------------------------------------------------------------------------
 # EGM energy scale uncertainty
 #-----------------------------------------------------------------------------------------------------------------------------
-EGMScaleJSONFileName   /home/scooper/LQData/ultralegacy/egmScaleUncertainty/2018/EGM_ScaleUnc.json.gz  - - - -1
+EGMScaleJSONFileName   /home/scooper/LQData/ul-analysis-inputs/egmScaleFactors/2018/EGM_ScaleUnc.json.gz  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
 # PU JSON
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -50,8 +50,8 @@ BTVJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BT
 # JME
 #-----------------------------------------------------------------------------------------------------------------------------
 #JMEJSONFileName  /cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/JME/2018_UL/jet_jerc.json.gz  - - - -1
-JECTextFilePath  /home/scooper/LQData/ultralegacy/jec/  - - - -1
-JERTextFilePath  /home/scooper/LQData/ultralegacy/jer/  - - - -1
+JECTextFilePath  /home/scooper/LQData/ul-analysis-inputs/jec/  - - - -1
+JERTextFilePath  /home/scooper/LQData/ul-analysis-inputs/jer/  - - - -1
 JECTag   Summer19UL18_V5_MC  - - - -1
 JERTag   Summer19UL18_JRV2_MC  - - - -1
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -539,6 +539,8 @@ PFMET_Type1_Pt_jesFlavorPureBottomup        -inf           +inf           -     
 PFMET_Type1_Pt_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Pt_unclustEnup                  -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Pt_unclustEndown                -inf           +inf           -           -           1           200           0              2000             SAVE
+PFMET_Type1_Pt_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+PFMET_Type1_Pt_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Phi_jerup                        -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Phi_jerdown                      -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Phi_jesAbsoluteStatup            -inf           +inf           -           -           1           200           0              2000             SAVE
@@ -611,6 +613,8 @@ PFMET_Type1_Phi_jesFlavorPureBottomup        -inf           +inf           -    
 PFMET_Type1_Phi_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Phi_unclustEnup                  -inf           +inf           -           -           1           200           0              2000             SAVE
 PFMET_Type1_Phi_unclustEndown                -inf           +inf           -           -           1           200           0              2000             SAVE
+PFMET_Type1_Phi_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+PFMET_Type1_Phi_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Jets info 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -696,6 +700,8 @@ Jet1_Pt_jesFlavorPureCharmup         -inf           +inf           -           -
 Jet1_Pt_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet1_Pt_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet1_Pt_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+Jet1_Pt_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+Jet1_Pt_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet1_Eta                             -inf           +inf           -           -           1           100           -5             5                SAVE
 Jet1_Phi                             -inf           +inf           -           -           1           100           0              3.1416           SAVE
 Jet1_btagDeepJet                     -inf           +inf           -           -           1           100           0              1.0              SAVE
@@ -803,6 +809,8 @@ Jet2_Pt_jesFlavorPureCharmup         -inf           +inf           -           -
 Jet2_Pt_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_Pt_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_Pt_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+Jet2_Pt_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+Jet2_Pt_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet2_Eta                             -inf           +inf           -           -           1           100           -5             5                SAVE
 Jet2_Phi                             -inf           +inf           -           -           1           100           0              3.1416           SAVE
 Jet2_btagDeepJet                     -inf           +inf           -           -           1           100           0              1.0              SAVE
@@ -910,6 +918,8 @@ Jet3_Pt_jesFlavorPureCharmup         -inf           +inf           -           -
 Jet3_Pt_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet3_Pt_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet3_Pt_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+Jet3_Pt_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+Jet3_Pt_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 Jet3_Eta                             -inf           +inf           -           -           1           100           -5             5                SAVE
 Jet3_Phi                             -inf           +inf           -           -           1           100           0              3.1416           SAVE
 Jet3_btagDeepJet                     -inf           +inf           -           -           1           100           0              1.0              SAVE
@@ -1150,6 +1160,8 @@ sT_eejj_jesFlavorPureCharmup         -inf           +inf           -           -
 sT_eejj_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 sT_eejj_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 sT_eejj_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+sT_eejj_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+sT_eejj_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 sT_enujj                -inf           +inf           -           -           1           200           0           2000           SAVE
 M_j1j2                  -inf           +inf           -           -           1           200           0           2000           SAVE
 M_j1j3                  -inf           +inf           -           -           1           200           0           2000           SAVE
@@ -1229,6 +1241,8 @@ M_e1j1_jesFlavorPureCharmup         -inf           +inf           -           - 
 M_e1j1_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e1j1_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e1j1_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e1j1_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e1j1_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e1j2                  -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e1j2_EER_Up           -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e1j2_EER_Dn           -inf           +inf           -           -           1           200           0           2000           SAVE
@@ -1304,6 +1318,8 @@ M_e1j2_jesFlavorPureCharmup         -inf           +inf           -           - 
 M_e1j2_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e1j2_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e1j2_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e1j2_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e1j2_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e2j1                  -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e2j1_EER_Up           -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e2j1_EER_Dn           -inf           +inf           -           -           1           200           0           2000           SAVE
@@ -1379,6 +1395,8 @@ M_e2j1_jesFlavorPureCharmup         -inf           +inf           -           - 
 M_e2j1_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e2j1_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e2j1_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e2j1_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e2j1_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e2j2                  -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e2j2_EER_Up           -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e2j2_EER_Dn           -inf           +inf           -           -           1           200           0           2000           SAVE
@@ -1454,6 +1472,8 @@ M_e2j2_jesFlavorPureCharmup         -inf           +inf           -           - 
 M_e2j2_jesFlavorPureCharmdown       -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e2j2_jesFlavorPureBottomup        -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e2j2_jesFlavorPureBottomdown      -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e2j2_jesHEMIssueup                -inf           +inf           -           -           1           200           0              2000             SAVE
+M_e2j2_jesHEMIssuedown              -inf           +inf           -           -           1           200           0              2000             SAVE
 M_e1e2                  -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e1e2_EER_Up           -inf           +inf           -           -           1           200           0           2000           SAVE
 M_e1e2_EER_Dn           -inf           +inf           -           -           1           200           0           2000           SAVE
