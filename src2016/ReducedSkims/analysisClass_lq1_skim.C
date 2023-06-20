@@ -607,7 +607,7 @@ void analysisClass::Loop()
     fillVariableWithValue("PassHFNoisyHitsFilter"         , readerTools_->ReadValueBranch<Bool_t>("Flag_hfNoisyHitsFilter"));
     fillVariableWithValue("PassBadChargedCandidateFilter" , readerTools_->ReadValueBranch<Bool_t>("Flag_BadChargedCandidateFilter"));
     fillVariableWithValue("PassBadEESupercrystalFilter"   , readerTools_->ReadValueBranch<Bool_t>("Flag_eeBadScFilter"));
-    fillVariableWithValue("PassEcalBadCalibV2Filter"    , readerTools_->ReadValueBranch<Bool_t>("Flag_ecalBadCalibFilter"));
+    fillVariableWithValue("PassEcalBadCalibFilter"        , readerTools_->ReadValueBranch<Bool_t>("Flag_ecalBadCalibFilter"));
 
     //-----------------------------------------------------------------
     // Fill MET values
