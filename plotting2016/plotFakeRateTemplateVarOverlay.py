@@ -46,11 +46,11 @@ def GetCPErrorLow(passing, total):
 
 
 # configurables
-filename = "plots.root"
-makeRatioPlot = True
-doHEEPFR = False
+filename = "$LQDATA/2016/qcdFakeRateCalc/calcFR_2016HEEPpre/fakeRate_plots.root"
+makeRatioPlot = False
+doHEEPFR = True
 if doHEEPFR:
-    varName = "TrkIso"
+    varName = "TrkIsoHEEP7"
     varTitle = "Trk p_{T} Iso. [GeV]"
     varXRangeMax = 50
     varSBMinLowPt = 10
@@ -74,8 +74,8 @@ else:
     # varTitle = "Full5x5SigmaIEtaIEta"
     # varXRangeMax = 0.1
     fractionFitXRangeMax = 0.8
-plotsDir = "plots_" + varName
-doFracFit = True
+plotsDir = "$LQDATA/2016/qcdFakeRateCalc/calcFR_2016HEEPpre/ExpandedRangeIsoPlots"
+doFracFit = False
 do2016 = True
 
 # start running
@@ -102,6 +102,23 @@ if do2016:
         600,
         1000,
     ]
+    ptBinsHighEndcap = [
+        36,
+        50,
+        75,
+        90,
+        120,
+        140,
+        175,
+        200,
+        225,
+        250,
+        300,
+        350,
+        400,
+        500,
+        1000,
+    ]
 else:
     # ptBins = ["Pt120To150", "Pt150To175", "Pt175To200", "Pt350To400"]
     ptBinsEndcap = [
@@ -120,6 +137,23 @@ else:
         400,
         500,
         600,
+        1000,
+    ]
+    ptBinsHighEndcap = [
+        36,
+        50,
+        75,
+        90,
+        120,
+        150,
+        175,
+        200,
+        225,
+        250,
+        300,
+        350,
+        400,
+        500,
         1000,
     ]
 # TODO HEM1516Only
@@ -145,10 +179,17 @@ ptBins = [
     for lowEnd in ptBinsEndcap[:-1]
 ]
 
+ptBinsEnd2 = [
+    "Pt" + str(lowEnd) + "To" + str(ptBinsHighEndcap[ptBinsHighEndcap.index(lowEnd) + 1])
+    for lowEnd in ptBinsHighEndcap[:-1]
+]
 etaRegions = ["Bar", "End1", "End2"]
 regList = []
 for reg in etaRegions:
-    regList.extend([reg + "_" + x for x in ptBins])
+    if reg == "End2":
+        regList.extend([reg + "_" + x for x in ptBinsEnd2])
+    else:
+        regList.extend([reg + "_" + x for x in ptBins])
 dyEleFracInSBByReg = {}
 dyEleFracErrInSBByReg = {}
 dyEleInSBHistsByEtaReg = {}
@@ -276,7 +317,7 @@ for region in regList:
     denomHist.GetXaxis().SetRangeUser(0, varXRangeMax)
     denomHist.GetXaxis().SetNdivisions(515)
     denomHist.GetXaxis().SetTitle(varTitle)
-    denomHist.SetMinimum(1e-2)
+    denomHist.SetMinimum(0.01)
     denomHist.SetMaximum(10 * denomHist.GetMaximum())
     denomHist.Draw()
     # jets hist style

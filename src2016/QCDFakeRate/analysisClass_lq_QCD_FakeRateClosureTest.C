@@ -69,15 +69,37 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
    std::string qcdFileName = getPreCutString1("QCDFakeRateFileName");
    HistoReader qcdFakeRateReader(qcdFileName,"fr2D_lte1Jet_","fr2D_lte1Jet_",true,false);
-
+   //can run with >= 1Jet instead to compare with old analysis results
+   //HistoReader qcdFakeRateReader(qcdFileName,"fr2D_1Jet","fr2D_1Jet",true,false);
    // prescales
    Run2PhotonTriggerPrescales run2PhotonTriggerPrescales;
 
    //--------------------------------------------------------------------------
    // Analysis year
    //--------------------------------------------------------------------------
-   int analysisYear = getPreCutValue1("AnalysisYear");
-
+   std::string getAnalysisYear = getPreCutString1("AnalysisYear");
+   //std::cout<<"analysis year: "<<getAnalysisYear<<std::endl;
+   int analysisYear;
+   std::string analysisYearStr;
+   if (getAnalysisYear.find("pre") != string::npos ){
+     analysisYear = 2016;
+     analysisYearStr = "2016preVFP";
+   }
+   else if (getAnalysisYear.find("post") != string::npos){
+     analysisYear = 2016;
+     analysisYearStr = "2016postVFP";
+   }
+   else if (getAnalysisYear.find("17") != string::npos){
+     analysisYear = 2017;
+     analysisYearStr = "2017";
+   } 
+   else if (getAnalysisYear.find("18") != string::npos){
+     analysisYear = 2018;
+     analysisYearStr = "2018"; 
+   }
+   else{
+     std::cout<<"ERROR: cannot determine analysis year from cutfile"<<std::endl;
+   }
    //--------------------------------------------------------------------------
    // reco scale factors
    //--------------------------------------------------------------------------
@@ -87,37 +109,45 @@ void analysisClass::Loop()
    //--------------------------------------------------------------------------
    // Create TH1D's
    //--------------------------------------------------------------------------
-   
-   CreateUserTH1D( "nElectron_PAS"         ,    5   , -0.5    , 4.5      );
-   CreateUserTH1D( "nMuon_PAS"             ,    5   , -0.5    , 4.5      );
-   CreateUserTH1D( "nJet_PAS"              ,    10  , -0.5    , 9.5      );
-   CreateUserTH1D( "Pt1stEle_PAS"	   , 	100 , 0       , 1000     ); 
-   CreateUserTH1D( "Eta1stEle_PAS"	   , 	100 , -5      , 5	 ); 
-   CreateUserTH1D( "Phi1stEle_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "Pt2ndEle_PAS"	   , 	100 , 0       , 1000     ); 
-   CreateUserTH1D( "Eta2ndEle_PAS"	   , 	100 , -5      , 5	 ); 
-   CreateUserTH1D( "Phi2ndEle_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "Charge1stEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
-   CreateUserTH1D( "Charge2ndEle_PAS"	   , 	2   , -1.0001 , 1.0001	 ); 
-   CreateUserTH1D( "MET_PAS"               ,    200 , 0       , 1000	 ); 
-   CreateUserTH1D( "METPhi_PAS"		   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "Pt1stJet_PAS"          ,    100 , 0       , 1000	 ); 
-   CreateUserTH1D( "Eta1stJet_PAS"         ,    100 , -5      , 5	 ); 
-   CreateUserTH1D( "Phi1stJet_PAS"	   , 	60  , -3.1416 , +3.1416	 ); 
-   CreateUserTH1D( "sT_PAS"                ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Mee_PAS"		   ,    2000 , 0       , 2000	 ); 
-   CreateUserTH1D( "Me1j1_PAS"		   ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Me2j1_PAS"		   ,    200 , 0       , 2000	 ); 
-   CreateUserTH1D( "Meejj_PAS"             ,    200 , 0       , 2000     );
-   CreateUserTH1D( "Ptee_PAS"              ,    200 , 0       , 2000     );
+   //Since we have two electrons, we have three possible combinations of eta regions they could be in:
+   //both in the barrel (BB), both in the endcap (EE), or one in each (BE).
+   //I also want hists for the total from all regions, which is what the i==3 case is for
+   std::string region;
+   for (int i=0; i<4; i++){
+     if (i==0){region = "_BB";}
+     else if (i==1){region = "_BE";}
+     else if (i==2){region = "_EE";}
+     else {region="";}
+    
+     CreateUserTH1D( "nElectron_PAS"+region          ,    5   , -0.5    , 4.5      );
+     CreateUserTH1D( "nMuon_PAS"+region              ,    5   , -0.5    , 4.5      );
+     CreateUserTH1D( "nJet_PAS"+region               ,    10  , -0.5    , 9.5      );
+     CreateUserTH1D( "Pt1stEle_PAS"+region           , 	  100 , 0       , 1000     ); 
+     CreateUserTH1D( "Eta1stEle_PAS"+region          ,    100 , -5      , 5	   ); 
+     CreateUserTH1D( "Phi1stEle_PAS"+region	     ,    60  , -3.1416 , +3.1416  ); 
+     CreateUserTH1D( "Pt2ndEle_PAS"+region	     , 	  100 , 0       , 1000     ); 
+     CreateUserTH1D( "Eta2ndEle_PAS"+region	     , 	  100 , -5      , 5	   ); 
+     CreateUserTH1D( "Phi2ndEle_PAS"+region	     , 	  60  , -3.1416 , +3.1416  ); 
+     CreateUserTH1D( "Charge1stEle_PAS"+region	     , 	  2   , -1.0001 , 1.0001   ); 
+     CreateUserTH1D( "Charge2ndEle_PAS"+region	     , 	  2   , -1.0001 , 1.0001   ); 
+     CreateUserTH1D( "MET_PAS"+region                ,    200 , 0       , 1000	   ); 
+     CreateUserTH1D( "METPhi_PAS"+region	     , 	  60  , -3.1416 , +3.1416  ); 
+     CreateUserTH1D( "Pt1stJet_PAS"+region           ,    100 , 0       , 1000	   ); 
+     CreateUserTH1D( "Eta1stJet_PAS"+region          ,    100 , -5      , 5	   ); 
+     CreateUserTH1D( "Phi1stJet_PAS"+region	     , 	  60  , -3.1416 , +3.1416  ); 
+     CreateUserTH1D( "sT_PAS"+region                 ,    200 , 0       , 2000	   ); 
+     CreateUserTH1D( "Mee_PAS"+region		     ,    2000, 0       , 2000	   ); 
+     CreateUserTH1D( "Me1j1_PAS"+region		     ,    200 , 0       , 2000	   ); 
+     CreateUserTH1D( "Me2j1_PAS"+region		     ,    200 , 0       , 2000	   ); 
+     CreateUserTH1D( "Meejj_PAS"+region              ,    200 , 0       , 2000     );
+     CreateUserTH1D( "Ptee_PAS"+region               ,    200 , 0       , 2000     );
    		                           
 		                           
-   CreateUserTH1D( "nVertex_PAS"           ,    31   , -0.5   , 30.5	 ) ; 
+     CreateUserTH1D( "nVertex_PAS"+region           ,    31   , -0.5   , 30.5	 ) ; 
 		                           
-   CreateUserTH1D( "DR_Ele1Jet1_PAS"	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
-   CreateUserTH1D( "DR_Ele2Jet1_PAS"	   , 	getHistoNBins("DR_Ele2Jet1"), getHistoMin("DR_Ele2Jet1"), getHistoMax("DR_Ele2Jet1")     ) ; 
-
-
+     CreateUserTH1D( "DR_Ele1Jet1_PAS"+region	   , 	getHistoNBins("DR_Ele1Jet1"), getHistoMin("DR_Ele1Jet1"), getHistoMax("DR_Ele1Jet1")     ) ; 
+     CreateUserTH1D( "DR_Ele2Jet1_PAS"+region	   , 	getHistoNBins("DR_Ele2Jet1"), getHistoMin("DR_Ele2Jet1"), getHistoMax("DR_Ele2Jet1")     ) ; 
+   }
    //--------------------------------------------------------------------------
    // Tell the user how many entries we'll look at
    //--------------------------------------------------------------------------
@@ -134,6 +164,7 @@ void analysisClass::Loop()
      // Print progress
      //-----------------------------------------------------------------
      if(jentry < 10 || jentry%5000 == 0) std::cout << "analysisClass:Loop(): jentry = " << jentry << "/" << nentries << std::endl;
+     //if (jentry==10) break; //run over just a few events for troubleshooting
      //// run ls event
      //std::cout << static_cast<unsigned int>(run) << " " << static_cast<unsigned int>(ls) << " " << static_cast<unsigned int>(event) << std::endl;
 
@@ -277,7 +308,7 @@ void analysisClass::Loop()
      }
      if(isData() && passTrigger) {
        //std::cout << "INFO: lookup trigger name " << triggerName << " for year: " << year << std::endl;
-       min_prescale = run2PhotonTriggerPrescales.LookupPrescale(analysisYear,triggerName);
+       min_prescale = run2PhotonTriggerPrescales.LookupPrescale(analysisYearStr,triggerName);
      }
 
 
@@ -312,11 +343,9 @@ void analysisClass::Loop()
      bool ele1_isEndcap = ( ele1_isEndcap1 || ele1_isEndcap2 ) ;
      bool ele2_isEndcap = ( ele2_isEndcap1 || ele2_isEndcap2 ) ;
 
-     bool isEBEB = ( ele1_isBarrel && ele2_isBarrel ) ;
-     bool isEBEE = ( ( ele1_isBarrel && ele2_isEndcap ) ||
-         ( ele2_isBarrel && ele1_isEndcap ) );
-     bool isEEEE = ( ele1_isEndcap && ele2_isEndcap ) ;
-     bool isEB   = ( isEBEB || isEBEE ) ;
+     bool isBB = ( ele1_isBarrel && ele2_isBarrel ) ;
+     bool isEB = ( ( ele1_isBarrel && ele2_isEndcap ) || ( ele2_isBarrel && ele1_isEndcap ) );
+     bool isEE = ( ele1_isEndcap && ele2_isEndcap ) ;
 
      //--------------------------------------------------------------------------
      // Make this a QCD fake rate calculation
@@ -327,13 +356,18 @@ void analysisClass::Loop()
      bool verboseFakeRateCalc = false;
      float fakeRate1 = qcdFakeRateReader.LookupValue(Ele1_SCEta,Ele1_Pt,verboseFakeRateCalc);
      float fakeRate2 = qcdFakeRateReader.LookupValue(Ele2_SCEta,Ele2_Pt,verboseFakeRateCalc);
+     float eFakeRate1 = qcdFakeRateReader.LookupValueError(Ele1_SCEta,Ele1_Pt,verboseFakeRateCalc);
+     float eFakeRate2 = qcdFakeRateReader.LookupValueError(Ele2_SCEta,Ele2_Pt,verboseFakeRateCalc);
 
      //--------------------------------------------------------------------------
      // Finally have the effective fake rate
      //--------------------------------------------------------------------------
 
-     //FIXME: add error on fake rate as well
+     // add error on fake rate as well
      double fakeRateEffective  = fakeRate1/(1-fakeRate1); // require loose electron to fail HEEP ID
+     double eFakeRateEff1 = eFakeRate1 / ( (1-fakeRate1)*(1-fakeRate1) );
+     // (eFakeRate1) * dFakeRateEffective / dFakeRate1
+
      //if(1-fakeRate1 <= 0)
      //{
      //  cout << "ERROR: Found fakeRate1: " << fakeRate1 << " for SCEta=" << LooseEle1_SCEta << " SCEt="
@@ -341,18 +375,27 @@ void analysisClass::Loop()
      //    cosh(LooseEle1_SCEta) << endl;
      //}
      double nEle_store = readerTools_->ReadValueBranch<Int_t>("nEle_store");
+     double eFakeRateEff2 = 0;
      if ( nEle_store >= 2 ) { 							        
        fakeRateEffective += fakeRate2/(1-fakeRate2);
-     }
+       eFakeRateEff2 = eFakeRate2 / ( (1-fakeRate2)*(1-fakeRate2) );
+     } 
      // double eFakeRateEffective = fakeRateEffective * sqrt (  ( eFakeRate1 / fakeRate1 ) * ( eFakeRate1 / fakeRate1 ) +
      //					     ( eFakeRate2 / fakeRate2 ) * ( eFakeRate2 / fakeRate2 ) );
-     double eFakeRateEffective = 0.0;
+     //double eFakeRateEffective = 0.0;
+     double eFakeRateEffective = sqrt ( eFakeRateEff1 * eFakeRateEff1 + eFakeRateEff2 * eFakeRateEff2);
+     //Error on f(x,y) = A(x) + B(y) = sqrt( (err_x * dA/dx)^2 + (err_y * dB/dy)^2 )
+     //The error calc here is the one that was in the old analysis note. I'm not totally sure what to do with it now
+     //but I figured I'd go on and put it here.
 
      //--------------------------------------------------------------------------
      // User has the option to use a flat fake rate (e.g. 1.0 = no fake rate)
      //--------------------------------------------------------------------------
      
-     if ( override_fakeRate ) fakeRateEffective = fakeRate_override;
+     if ( override_fakeRate ) {
+       fakeRateEffective = fakeRate_override;
+       eFakeRateEffective = 0;
+     }
 
      //--------------------------------------------------------------------------
      // How many loose electrons have HEEP ID?
@@ -407,12 +450,19 @@ void analysisClass::Loop()
      double PFMET_Type1_Pt  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Pt");
      double PFMET_Type1_Phi  = readerTools_->ReadValueBranch<Float_t>("PFMET_Type1_Phi");
      double nEle_ptCut = readerTools_->ReadValueBranch<Int_t>("nEle_ptCut");
-     double nJet_ptCut = readerTools_->ReadValueBranch<Int_t>("nJet_ptCut");
+     double nJet_ptCut = readerTools_->ReadValueBranch<Int_t>("nJet_store"); //ptCut");
      double nJet_store = readerTools_->ReadValueBranch<Int_t>("nJet_store");
      double nVertex = readerTools_->ReadValueBranch<Int_t>("nVertex");
      // reweighting
      fillVariableWithValue ( "Reweighting", 1, pileup_weight * min_prescale * fakeRateEffective) ; 
-
+     //stitching in missing DY events: https://cms-talk.web.cern.ch/t/bug-in-ul-pt-binned-dy-samples/11639
+     bool passLHECuts = true;
+     if(current_file_name.find("DYJetsToLL_M-50_TuneCP5") != std::string::npos) {
+       passLHECuts = false;
+       if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") == 0);
+         passLHECuts = true;
+     }
+     fillVariableWithValue("PassLHECuts",passLHECuts,gen_weight*pileup_weight);
      // JSON variable
      fillVariableWithValue( "PassJSON" , passedJSON, pileup_weight * min_prescale * fakeRateEffective) ; 
 
@@ -493,11 +543,9 @@ void analysisClass::Loop()
      //--------------------------------------------------------------------------     
 
      bool passed_preselection = ( passedAllPreviousCuts("sT_eej_200") && passedCut ("sT_eej_200") );
-     
      if ( passed_preselection ) {
-
        double sT_eej = Ele1_Pt + Ele2_Pt + Jet1_Pt ;
-
+       //fill these for all events
        FillUserTH1D("nElectron_PAS"        , nEle_ptCut                , pileup_weight * min_prescale * fakeRateEffective );
        FillUserTH1D("nMuon_PAS"            , nMuon_ptCut               , pileup_weight * min_prescale * fakeRateEffective );
        FillUserTH1D("nJet_PAS"             , nJet_ptCut                , pileup_weight * min_prescale * fakeRateEffective );
@@ -522,6 +570,38 @@ void analysisClass::Loop()
        FillUserTH1D("DR_Ele2Jet1_PAS"	   , loose_ele2.DeltaR ( jet1 ), pileup_weight * min_prescale * fakeRateEffective );
        FillUserTH1D("Me1j1_PAS"            , e1j1.M()                  , pileup_weight * min_prescale * fakeRateEffective );
        FillUserTH1D("Me2j1_PAS"            , e2j1.M()                  , pileup_weight * min_prescale * fakeRateEffective );
+       //fill these for only the region that this event is in
+       //it is possible for none of these to be true because there is a gap between the barrel and endcap
+       //regions. If at least one ele falls into that gap then we aren't in one of these three regions. 
+       std::string region;
+       if (isBB){region = "_BB";}
+       else if (isEB){region = "_BE";}
+       else if (isEE){region = "_EE";}
+       else { std::cout<<"skip filling eta reg hists for event no. "<<jentry<<" in file "<<current_file_name<<std::endl; continue; }
+       FillUserTH1D("nElectron_PAS"+region        , nEle_ptCut                , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nMuon_PAS"+region            , nMuon_ptCut               , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nJet_PAS"+region             , nJet_ptCut                , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Pt1stEle_PAS"+region         , Ele1_Pt                   , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Eta1stEle_PAS"+region        , Ele1_Eta                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Phi1stEle_PAS"+region        , Ele1_Phi                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Pt2ndEle_PAS"+region         , Ele2_Pt                   , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Eta2ndEle_PAS"+region        , Ele2_Eta                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Phi2ndEle_PAS"+region        , Ele2_Phi                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Charge1stEle_PAS"+region     , Ele1_Charge               , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Charge2ndEle_PAS"+region     , Ele2_Charge               , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("MET_PAS"+region              , PFMET_Type1_Pt            , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("METPhi_PAS"+region           , PFMET_Type1_Phi           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Pt1stJet_PAS"+region         , Jet1_Pt                   , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Eta1stJet_PAS"+region        , Jet1_Eta                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Phi1stJet_PAS"+region        , Jet1_Phi                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("sT_PAS"+region               , sT_eej                    , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Mee_PAS"+region              , loose_e1e2.M()            , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Ptee_PAS"+region             , loose_e1e2.Pt()           , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("nVertex_PAS"+region          , nVertex                   , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("DR_Ele1Jet1_PAS"+region      , loose_ele1.DeltaR ( jet1 ), pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("DR_Ele2Jet1_PAS"+region      , loose_ele2.DeltaR ( jet1 ), pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Me1j1_PAS"+region            , e1j1.M()                  , pileup_weight * min_prescale * fakeRateEffective );
+       FillUserTH1D("Me2j1_PAS"+region            , e2j1.M()                  , pileup_weight * min_prescale * fakeRateEffective );
      }
    } // End loop over events
 

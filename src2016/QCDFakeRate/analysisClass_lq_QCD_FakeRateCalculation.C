@@ -79,7 +79,30 @@ void analysisClass::Loop()
   //--------------------------------------------------------------------------
   // Analysis year
   //--------------------------------------------------------------------------
-  int analysisYear = getPreCutValue1("AnalysisYear");
+  
+  std::string getAnalysisYear = getPreCutString1("AnalysisYear");
+  //std::cout<<"analysis year: "<<getAnalysisYear<<std::endl;
+  int analysisYear;
+  std::string analysisYearStr;
+  if (getAnalysisYear.find("pre") != string::npos ){
+    analysisYear = 2016;
+    analysisYearStr = "2016preVFP";
+  }
+  else if (getAnalysisYear.find("post") != string::npos){
+    analysisYear = 2016;
+    analysisYearStr = "2016postVFP";
+  }
+  else if (getAnalysisYear.find("17") != string::npos){
+    analysisYear = 2017;
+    analysisYearStr = "2017";
+  }
+  else if (getAnalysisYear.find("18") != string::npos){
+    analysisYear = 2018;
+    analysisYearStr = "2018";
+  }
+  else{
+    std::cout<<"ERROR: cannot determine analysis year from cutfile"<<std::endl;
+  }
 
   //--------------------------------------------------------------------------
   // Photon trigger average prescales
@@ -246,9 +269,8 @@ void analysisClass::Loop()
       }
     }
     if(isData() && passTrigger) { 
-      //std::cout<<"this if statement is being evaluated"<<std::endl;
       //std::cout << "INFO: lookup trigger name " << triggerName << " for year: " << year << std::endl;
-      min_prescale = run2PhotonTriggerPrescales.LookupPrescale(analysisYear,triggerName);
+      min_prescale = run2PhotonTriggerPrescales.LookupPrescale(analysisYearStr,triggerName);
     }
 
     //--------------------------------------------------------------------------
@@ -266,7 +288,7 @@ void analysisClass::Loop()
 
     //// TopPt reweight
     //// only valid for powheg
-    //std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
+    std::string current_file_name ( readerTools_->GetTree()->GetCurrentFile()->GetName());
     //if(current_file_name.find("TT_") != std::string::npos) {
     //  gen_weight*=TopPtWeight;
     //}
@@ -297,6 +319,16 @@ void analysisClass::Loop()
 
     // Trigger 
     fillVariableWithValue(   "PassTrigger"                   , passTrigger                 , min_prescale * pileup_weight ); 
+
+    //pt binned sample stitching, June 2023. See https://cms-talk.web.cern.ch/t/bug-in-ul-pt-binned-dy-samples/11639
+    //this was done in the nominal analysis last year and we think it needs to be done here too.
+    bool passLHECuts = true;
+    if(current_file_name.find("DYJetsToLL_M-50_TuneCP5") != std::string::npos) {
+      passLHECuts = false;
+      if(readerTools_->ReadValueBranch<Float_t>("LHE_Vpt") == 0)
+        passLHECuts = true; 
+    }
+    fillVariableWithValue("PassLHECuts",passLHECuts,min_prescale*pileup_weight);
 
     // JSON variable								            
     fillVariableWithValue(   "PassJSON"                      , passedJSON                  , min_prescale * pileup_weight ); 
@@ -1259,8 +1291,9 @@ void analysisClass::Loop()
 
 
       bool passElectron = passHEEPprime;
+      bool passJet = passJetHEEP;
       //bool passElectron = passLoosePrime;
-      bool passJet = passJetLoose;
+      //bool passJet = passJetLoose;
 
       ////XXX SIC TEST
       //if(run==284043 && (ls==116 || ls==146 || ls==172 || ls==199 || ls==45 || ls==8) )
