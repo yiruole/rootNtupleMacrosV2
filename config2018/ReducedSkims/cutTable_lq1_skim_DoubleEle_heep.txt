@@ -257,6 +257,20 @@ LHE_Njets                  -inf           +inf           -           -          
 LHE_Nglu                   -inf           +inf           -           -           1           16            -0.5           15.5           SAVE/i
 LHEPdfWeight               -inf           +inf           -           -           1           16            -0.5           15.5           SAVEARRAY
 LHEScaleWeight             -inf           +inf           -           -           1           16            -0.5           15.5           SAVEARRAY
+#-----------------------------------------------------------------------------------------------------------------------------------------------
+# LHE electron info
+#-----------------------------------------------------------------------------------------------------------------------------------------------
+LHEElectron1_Pt                  -inf           +inf           -           -           1           100           0            2000             SAVE
+LHEElectron1_Eta                 -inf           +inf           -           -           1           100           -5           5                SAVE
+LHEElectron1_Phi                 -inf           +inf           -           -           1           100           0            3.1416           SAVE
+LHEElectron1_Mass                -inf           +inf           -           -           1           500           0            5000             SAVE
+LHEElectron1_ID                  -inf           +inf           -           -           1           100           0            100              SAVE/I
+#
+LHEElectron2_Pt                  -inf           +inf           -           -           1           100           0            2000             SAVE
+LHEElectron2_Eta                 -inf           +inf           -           -           1           100           -5           5                SAVE
+LHEElectron2_Phi                 -inf           +inf           -           -           1           100           0            3.1416           SAVE
+LHEElectron2_Mass                -inf           +inf           -           -           1           500           0            5000             SAVE
+LHEElectron2_ID                  -inf           +inf           -           -           1           100           0            100              SAVE/I
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Electron info 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1485,13 +1499,27 @@ Pt_e1e2_EER_Dn          -inf           +inf           -           -           1 
 Pt_e1e2_EES_Up          -inf           +inf           -           -           1           200           0           2000           SAVE
 Pt_e1e2_EES_Dn          -inf           +inf           -           -           1           200           0           2000           SAVE
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
-# Signal and TTbar triggers
+# Electron triggers
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
 H_Ele27_WPTight                       -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele32_WPTight                       -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele35_WPTight                       -inf           +inf           -           -           1           100           -1000           1000           SAVE
-H_Photon175                           -inf           +inf           -           -           1           100           -1000           1000           SAVE
-H_Photon200                           -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele105_CIdVT_GsfIdT                 -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_Ele115_CIdVT_GsfIdT                 -inf           +inf           -           -           1           100           -1000           1000           SAVE
 H_DoubleEle33_CIdL_GsfIdVL            -inf           +inf           -           -           1           100           -1000           1000           SAVE
+H_DoubleEle33_CIdL_MW                 -inf           +inf           -           -           1           100           -1000           1000           SAVE
+#-----------------------------------------------------------------------------------------------------------------------------------------
+# Photon triggers 
+#-----------------------------------------------------------------------------------------------------------------------------------------
+H_Photon22       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon25       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon30       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon33       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon36       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon50       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon75       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon90       		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon120     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon150     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon175     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
+H_Photon200     		-inf	     +inf		-		-		1	100 -1000 1000	      SAVE
