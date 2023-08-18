@@ -283,7 +283,8 @@ void analysisClass::Loop()
     CollectionPtr c_lhe_all(new Collection(readerTools_));
     if(!isData()) {
       c_gen_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nGenPart")));
-      c_lhe_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nLHEPart")));
+      if(hasBranch("nLHEPart"))
+        c_lhe_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nLHEPart")));
     }
     CollectionPtr c_ele_all   ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nElectron")));
     //c_ele_all->examine<Electron>("c_ele_all = All reco electrons");
@@ -1432,6 +1433,8 @@ void analysisClass::Loop()
       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
     if(triggerExists("HLT_DoubleEle33_CaloIdL_MW"))
       fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_MW", "H_DoubleEle33_CIdL_MW" ); 
+    if(triggerExists("HLT_DoubleEle25_CaloIdL_MW"))
+      fillTriggerVariable( "HLT_DoubleEle25_CaloIdL_MW", "H_DoubleEle25_CIdL_MW" ); 
 
     if ( reducedSkimType == 0 ) {
       bool pass_trigger = (
