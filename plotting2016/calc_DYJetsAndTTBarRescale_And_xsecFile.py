@@ -750,6 +750,7 @@ if "2016" in year:
     allBkg = "ALLBKG_powhegTTBar_ZJetPtIncStitchWJetAMCJetBinned_NLODiboson_tribosonGJetsTTX"
     #allBkg = "ALLBKG_powhegTTBar_ZJetIncWJetAMCJetBinned_NLODiboson_tribosonGJetsTTX"
     data = "DATA"
+#    data = ""
     #data = "SingleElectron_2016_HIPM"
 else:
     zjetDatasetName = "DY.+ToLL"
@@ -1048,7 +1049,7 @@ print("INFO: using file: " + File_preselection.GetName())
 if doQCD:
     print("INFO: using QCD file: " + File_QCD_preselection.GetName())
 print("INFO: using samples:")
-print("\t DATA ------>", data)
+#print("\t DATA ------>", data)
 print("\t allBkg ------>", allBkg)
 print("\t DY ---------->", zjet, "; datasetname =", zjetDatasetName)
 print("\t W ----------->", wjet)

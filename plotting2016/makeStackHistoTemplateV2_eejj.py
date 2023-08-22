@@ -70,8 +70,9 @@ year = sys.argv[3]
 inputFile = mcFile
 inputFileQCD = qcdFile
 
-doSystematics = True
-doQCD = False
+doSystematics = False
+doQCD = True
+#doQCD = False
 doPreselPlots = True
 doBTagPlots = True
 doFinalSelectionPlots = False  # was True
@@ -148,7 +149,8 @@ if doQCD:
         # "$LQDATA/nanoV7/2017/analysis/qcdYield_eejj_16sep2020_optFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
         #
         # "$LQDATA/nanoV7/2016/analysis/qcdYield_eejj_23mar2021_oldOptFinalSels/output_cutTable_lq_eejj_QCD/analysisClass_lq_eejj_QCD_plots.root"
-        inputFileQCD
+        "/afs/cern.ch/user/r/ryi/HEM1516/Leptoquarks/analyzer/rootNtupleAnalyzerV2/HEM1516study_Jet2_PhiInHEM1516_UL_QCD/ultralegacy/analysis/2018/HEM1516study_Jet2_PhiInHEM1516_UL_QCD/output_cutTable_lq_eejj_jet2_phi_in_QCD/analysisClass_lq_eejj_QCD_plots.root"
+        #inputFileQCD
     )
     # samplesForStackHistos_QCD = ["QCD_EMEnriched"]
     samplesForStackHistos_QCD = ["QCDFakes_DATA"]
@@ -256,15 +258,16 @@ elif do2017:
         "Z/#gamma* + jets (MG5_aMC jet/pt-binned)",
     ])
 elif do2018:
-    ilumi = "59.7"
+    #ilumi = "59.7"
+    ilumi = "38.63" #CD
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_Inc"]
-    # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
+    samplesForStackHistos_ZJets = ["ZJet_amcatnlo_ptBinned_IncStitch"]
     # samplesForStackHistos_ZJets = ["ZJet_amcatnlo_jetBinned"]
-    samplesForStackHistos_ZJets = ["ZJet_jetAndPtBinned"]
+    #samplesForStackHistos_ZJets = ["ZJet_jetAndPtBinned"]
     # samplesForStackHistos_other = [ "OTHERBKG_WJetPt" ]
     # samplesForStackHistos_other = ["OTHERBKG_WJetMGInc_DibosonPyth"]
     # samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_DibosonPyth"]
-    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_triboson"]
+    samplesForStackHistos_other = ["OTHERBKG_WJetAMCJetBinned_dibosonNLO_tribosonGJetsTTX"]
     # MC ttbar
     samplesForStackHistos_ttbar = ["TTbar_powheg"]
     keysStack = ["QCD multijet (data)"] if doQCD else []
@@ -326,6 +329,7 @@ samplesForHistos_blank = []
 keys_blank = []
 
 sampleForDataHisto = "DATA"
+#sampleForDataHisto = ""
 #sampleForDataHisto = "SingleElectron_2016_HIPM"
 #sampleForDataHisto = "SingleElectron_2016"
 # dataBlindAbovePt1 = 800 # GeV; used for ele Pt1, Mee, Mej
@@ -1551,8 +1555,8 @@ if doPreselPlots:
     plots[-1].xmin = -1
     plots[-1].ylog = "yes"
 
-    if doSystematics:
-        plots.append(makeDefaultPlot2D_NoData("systematics",histoBaseName2D_userDef,samplesForStackHistos,sampleForDataHisto))
+#    if doSystematics:
+#        plots.append(makeDefaultPlot2D_NoData("systematics",histoBaseName2D_userDef,samplesForStackHistos,sampleForDataHisto))
         #plots[-1].xtit = "M(ee) [GeV]"
         #plots[-1].ytit = "S_{T}(eejj) [GeV]"
         #plots[-1].zlog = "yes"
@@ -3144,40 +3148,40 @@ if doFinalSelectionPlots:
             "#DeltaR(e1,j1) (GeV), (LQ M = " + str(mass_point) + " selection)"
         )
 
-        plots.append(
-            makeDefaultPlot2D(
-                "Mej_selected_min_vs_max_LQ" + str(mass_point),
-                histoBaseName2D_userDef,
-                samplesForStackHistos,
-                sampleForDataHisto,
-            )
-        )
+    #    plots.append(
+    #        makeDefaultPlot2D(
+    #            "Mej_selected_min_vs_max_LQ" + str(mass_point),
+    #            histoBaseName2D_userDef,
+    #            samplesForStackHistos,
+    #            sampleForDataHisto,
+    #        )
+    #    )
         plots[-1].xrebin = 2
         plots[-1].yrebin = 2
         plots[-1].xtit = "M(ej)^{min} (GeV), (LQ M = " + str(mass_point) + " selection)"
         plots[-1].ytit = "M(ej)^{max} (GeV), (LQ M = " + str(mass_point) + " selection)"
 
-        plots.append(
-            makeDefaultPlot2D_Ratio(
-                "Mej_selected_min_vs_max_LQ" + str(mass_point),
-                histoBaseName2D_userDef,
-                samplesForStackHistos,
-                sampleForDataHisto,
-            )
-        )
+#        plots.append(
+#            makeDefaultPlot2D_Ratio(
+#                "Mej_selected_min_vs_max_LQ" + str(mass_point),
+#                histoBaseName2D_userDef,
+#                samplesForStackHistos,
+#                sampleForDataHisto,
+#            )
+#        )
         plots[-1].xrebin = 2
         plots[-1].yrebin = 2
         plots[-1].xtit = "M(ej)^{min} (GeV), (LQ M = " + str(mass_point) + " selection)"
         plots[-1].ytit = "M(ej)^{max} (GeV), (LQ M = " + str(mass_point) + " selection)"
 
-        plots.append(
-            makeDefaultPlot2D_NSigma(
-                "Mej_selected_min_vs_max_LQ" + str(mass_point),
-                histoBaseName2D_userDef,
-                samplesForStackHistos,
-                sampleForDataHisto,
-            )
-        )
+    #    plots.append(
+    #        makeDefaultPlot2D_NSigma(
+    #            "Mej_selected_min_vs_max_LQ" + str(mass_point),
+    #            histoBaseName2D_userDef,
+    #            samplesForStackHistos,
+    #            sampleForDataHisto,
+    #        )
+    #    )
         plots[-1].xrebin = 2
         plots[-1].yrebin = 2
         plots[-1].xtit = "M(ej)^{min} (GeV), (LQ M = " + str(mass_point) + " selection)"
