@@ -13,6 +13,7 @@
 
 #include "Collection.h"
 #include "GenParticle.h"
+#include "LHEParticle.h"
 #include "Electron.h"
 #include "LooseElectron.h"
 #include "Muon.h"
@@ -279,8 +280,11 @@ void analysisClass::Loop()
     //-----------------------------------------------------------------
 
     CollectionPtr c_gen_all(new Collection(readerTools_));
+    CollectionPtr c_lhe_all(new Collection(readerTools_));
     if(!isData()) {
       c_gen_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nGenPart")));
+      if(hasBranch("nLHEPart"))
+        c_lhe_all.reset(new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nLHEPart")));
     }
     CollectionPtr c_ele_all   ( new Collection(readerTools_, readerTools_->ReadValueBranch<UInt_t>("nElectron")));
     //c_ele_all->examine<Electron>("c_ele_all = All reco electrons");
@@ -347,6 +351,8 @@ void analysisClass::Loop()
     //  scaledUpEles = c_ele_all->ScaleEnergy <Electron> (1 , v_delta_met );
     //  scaledDownEles = c_ele_all->ScaleEnergy <Electron> (-1, v_delta_met );
     //}
+
+    CollectionPtr c_lheElectrons = c_lhe_all->SkimByID<LHEParticle>(LHE_ELECTRON);
 
     //-----------------------------------------------------------------
     // QCD skims    (reducedSkimType = 0     ) have loose electrons
@@ -623,22 +629,20 @@ void analysisClass::Loop()
     }
 
     if ( !isData() ) { 
-      if ( reducedSkimType != 0 ){ 
         fillVariableWithValue("GenMET_Pt"		, readerTools_->ReadValueBranch<Float_t>("GenMET_pt"));
         fillVariableWithValue("GenMET_Phi"	, readerTools_->ReadValueBranch<Float_t>("GenMET_phi"));
         // add LHE variables if needed
         if(hasBranch("LHE_Vpt")) {
-          fillVariableWithValue("LHE_Vpt"	  , readerTools_->ReadValueBranch<Float_t>("LHE_Vpt"));
-          fillVariableWithValue("LHE_NpLO"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_NpLO")));
-          fillVariableWithValue("LHE_NpNLO"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_NpNLO")));
-          fillVariableWithValue("LHE_Njets"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_Njets")));
-          fillVariableWithValue("LHE_Nglu"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_Nglu")));
+            fillVariableWithValue("LHE_Vpt"	  , readerTools_->ReadValueBranch<Float_t>("LHE_Vpt"));
+            fillVariableWithValue("LHE_NpLO"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_NpLO")));
+            fillVariableWithValue("LHE_NpNLO"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_NpNLO")));
+            fillVariableWithValue("LHE_Njets"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_Njets")));
+            fillVariableWithValue("LHE_Nglu"	, static_cast<unsigned int>(readerTools_->ReadValueBranch<UChar_t>("LHE_Nglu")));
         }
         if(hasBranch("LHEPdfWeight"))
-          fillArrayVariableWithValue("LHEPdfWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEPdfWeight"));
+            fillArrayVariableWithValue("LHEPdfWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEPdfWeight"));
         if(hasBranch("LHEScaleWeight"))
-          fillArrayVariableWithValue("LHEScaleWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEScaleWeight"));
-      }
+            fillArrayVariableWithValue("LHEScaleWeight"	, readerTools_->ReadArrayBranch<Float_t>("LHEScaleWeight"));
     }
 
     //-----------------------------------------------------------------
@@ -676,6 +680,8 @@ void analysisClass::Loop()
     int n_genNuFromW_store   = c_genNuFromW_final            -> GetSize();
 
     int n_genLQ_store = c_genLQ_final ->GetSize();
+
+    int n_lheElectron_store = c_lheElectrons ->GetSize();
 
     //if(n_ele_ptCut < 1) {
     //  std::cout << "NO GOOD ELECTRON FOUND! " << 
@@ -825,6 +831,24 @@ void analysisClass::Loop()
           fillVariableWithValue ( "GenLQ2_Phi", genLQ2.Phi() );
           fillVariableWithValue ( "GenLQ2_Mass", genLQ2.Mass() );
           fillVariableWithValue ( "GenLQ2_ID" , genLQ2.PdgId());
+        }
+      }
+
+      if ( n_lheElectron_store >= 1 ){ 
+        LHEParticle lheElectron1 = c_lheElectrons -> GetConstituent<LHEParticle>(0);
+        fillVariableWithValue ( "LHEElectron1_Pt" , lheElectron1.Pt () );
+        fillVariableWithValue ( "LHEElectron1_Eta", lheElectron1.Eta() );
+        fillVariableWithValue ( "LHEElectron1_Phi", lheElectron1.Phi() );
+        fillVariableWithValue ( "LHEElectron1_Mass", lheElectron1.Mass() );
+        fillVariableWithValue ( "LHEElectron1_ID" , lheElectron1.PdgId());
+
+        if ( n_lheElectron_store >= 2 ){ 
+          LHEParticle lheElectron2 = c_lheElectrons -> GetConstituent<LHEParticle>(1);
+          fillVariableWithValue ( "LHEElectron2_Pt" , lheElectron2.Pt () );
+          fillVariableWithValue ( "LHEElectron2_Eta", lheElectron2.Eta() );
+          fillVariableWithValue ( "LHEElectron2_Phi", lheElectron2.Phi() );
+          fillVariableWithValue ( "LHEElectron2_Mass", lheElectron2.Mass() );
+          fillVariableWithValue ( "LHEElectron2_ID" , lheElectron2.PdgId());
         }
       }
 
@@ -1347,43 +1371,72 @@ void analysisClass::Loop()
     // - Photon175          Photon175   Photon175
     // - Photon200          Photon200   Photon200
     //-----------------------------------------------------------------
+    if(triggerExists("HLT_Photon22"))
+      fillTriggerVariable ( "HLT_Photon22" , "H_Photon22"  );
+    else
+      fillVariableWithValue( "H_Photon22", -1.0); 
+    if(triggerExists("HLT_Photon25"))
+      fillTriggerVariable ( "HLT_Photon25" , "H_Photon25"  );
+    else
+      fillVariableWithValue( "H_Photon25", -1.0); 
+    if(triggerExists("HLT_Photon30"))
+      fillTriggerVariable ( "HLT_Photon30" , "H_Photon30"  );
+    else
+      fillVariableWithValue( "H_Photon30", -1.0); 
+    if(triggerExists("HLT_Photon33"))
+      fillTriggerVariable ( "HLT_Photon33" , "H_Photon33"  );
+    else
+      fillVariableWithValue( "H_Photon33", -1.0); 
+    if(triggerExists("HLT_Photon36"))
+      fillTriggerVariable ( "HLT_Photon36" , "H_Photon36"  );
+    else
+      fillVariableWithValue( "H_Photon36", -1.0); 
+    fillTriggerVariable ( "HLT_Photon50"   , "H_Photon50"  );
+    fillTriggerVariable ( "HLT_Photon75"   , "H_Photon75"  );
+    fillTriggerVariable ( "HLT_Photon90"   , "H_Photon90"  );
+    fillTriggerVariable ( "HLT_Photon120"  , "H_Photon120" );
+    if(triggerExists("HLT_Photon150"))
+      fillTriggerVariable ( "HLT_Photon150", "H_Photon150" );
+    else
+      fillVariableWithValue( "H_Photon150", -1.0); 
+    fillTriggerVariable ( "HLT_Photon175" , "H_Photon175" );
+    if(triggerExists("HLT_Photon200"))
+      fillTriggerVariable ( "HLT_Photon200" , "H_Photon200" );
+    else
+      fillVariableWithValue ( "H_Photon200" , -1.0 );
 
-    if ( reducedSkimType == 0 ) { 
-      // NB: for data, all prescales applied as averages in downstream analysis code
-      if(triggerExists("HLT_Photon22"))
-        fillTriggerVariable ( "HLT_Photon22" , "H_Photon22"  );
-      else
-        fillVariableWithValue( "H_Photon22", -1.0); 
-      if(triggerExists("HLT_Photon25"))
-        fillTriggerVariable ( "HLT_Photon25" , "H_Photon25"  );
-      else
-        fillVariableWithValue( "H_Photon25", -1.0); 
-      if(triggerExists("HLT_Photon30"))
-        fillTriggerVariable ( "HLT_Photon30" , "H_Photon30"  );
-      else
-        fillVariableWithValue( "H_Photon30", -1.0); 
-      if(triggerExists("HLT_Photon33"))
-        fillTriggerVariable ( "HLT_Photon33" , "H_Photon33"  );
-      else
-        fillVariableWithValue( "H_Photon33", -1.0); 
-      if(triggerExists("HLT_Photon36"))
-        fillTriggerVariable ( "HLT_Photon36" , "H_Photon36"  );
-      else
-        fillVariableWithValue( "H_Photon36", -1.0); 
-      fillTriggerVariable ( "HLT_Photon50"   , "H_Photon50"  );
-      fillTriggerVariable ( "HLT_Photon75"   , "H_Photon75"  );
-      fillTriggerVariable ( "HLT_Photon90"   , "H_Photon90"  );
-      fillTriggerVariable ( "HLT_Photon120"  , "H_Photon120" );
-      if(triggerExists("HLT_Photon150"))
-        fillTriggerVariable ( "HLT_Photon150", "H_Photon150" );
-      else
-        fillVariableWithValue( "H_Photon150", -1.0); 
-      fillTriggerVariable ( "HLT_Photon175" , "H_Photon175" );
-      if(triggerExists("HLT_Photon200"))
-        fillTriggerVariable ( "HLT_Photon200" , "H_Photon200" );
-      else
-        fillVariableWithValue ( "H_Photon200" , -1.0 );
+    // analysis triggers
+    // search by prefix
+    if(triggerExists("HLT_Ele27_WPTight_Gsf"))
+      fillTriggerVariable( "HLT_Ele27_WPTight_Gsf" , "H_Ele27_WPTight" );
+    if(triggerExists("HLT_Ele32_WPTight_Gsf"))
+      fillTriggerVariable( "HLT_Ele32_WPTight_Gsf" , "H_Ele32_WPTight" );
+    if(triggerExists("HLT_Ele35_WPTight_Gsf"))
+      fillTriggerVariable( "HLT_Ele35_WPTight_Gsf" , "H_Ele35_WPTight" );
+    // check that we have at least one WPTight trigger
+    if(!triggerExists("HLT_Ele27_WPTight_Gsf") && !triggerExists("HLT_Ele32_WPTight_Gsf") && !triggerExists("HLT_Ele35_WPTight_Gsf"))
+      exit(-5);
+    // Ele115 is absent from first 5/fb of 2017
+    if(triggerExists("HLT_Ele115_CaloIdVT_GsfTrkIdT"))
+      fillTriggerVariable( "HLT_Ele115_CaloIdVT_GsfTrkIdT" , "H_Ele115_CIdVT_GsfIdT");
+    if(triggerExists("HLT_Photon175"))
+      fillTriggerVariable( "HLT_Photon175" , "H_Photon175" );
+    if(triggerExists("HLT_Photon200"))
+      fillTriggerVariable( "HLT_Photon200" , "H_Photon200" );
+    // check that we have at least one photon trigger
+    if(!triggerExists("HLT_Photon175") && !triggerExists("HLT_Photon200"))
+      exit(-5);
+    // other triggers
+    if(triggerExists("HLT_Ele105_CaloIdVT_GsfTrkIdT"))
+      fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT" , "H_Ele105_CIdVT_GsfIdT");
+    if(triggerExists("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL"))
+      fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
+    if(triggerExists("HLT_DoubleEle33_CaloIdL_MW"))
+      fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_MW", "H_DoubleEle33_CIdL_MW" ); 
+    if(triggerExists("HLT_DoubleEle25_CaloIdL_MW"))
+      fillTriggerVariable( "HLT_DoubleEle25_CaloIdL_MW", "H_DoubleEle25_CIdL_MW" ); 
 
+    if ( reducedSkimType == 0 ) {
       bool pass_trigger = (
           getVariableValue("H_Photon22") > 0 || 
           getVariableValue("H_Photon25") > 0 || 
@@ -1399,36 +1452,10 @@ void analysisClass::Loop()
           getVariableValue("H_Photon200"     ) > 0 );
 
       fillVariableWithValue ("PassTrigger", pass_trigger ? true : false );
-
     }
 
     else if ( reducedSkimType == 1 || reducedSkimType == 2 || reducedSkimType == 3 || reducedSkimType == 4 ) { 
 
-      // search by prefix
-      if(triggerExists("HLT_Ele27_WPTight_Gsf"))
-        fillTriggerVariable( "HLT_Ele27_WPTight_Gsf" , "H_Ele27_WPTight" );
-      if(triggerExists("HLT_Ele32_WPTight_Gsf"))
-        fillTriggerVariable( "HLT_Ele32_WPTight_Gsf" , "H_Ele32_WPTight" );
-      if(triggerExists("HLT_Ele35_WPTight_Gsf"))
-        fillTriggerVariable( "HLT_Ele35_WPTight_Gsf" , "H_Ele35_WPTight" );
-      // check that we have at least one WPTight trigger
-      if(!triggerExists("HLT_Ele27_WPTight_Gsf") && !triggerExists("HLT_Ele32_WPTight_Gsf") && !triggerExists("HLT_Ele35_WPTight_Gsf"))
-        exit(-5);
-      // Ele115 is absent from first 5/fb of 2017
-      if(triggerExists("HLT_Ele115_CaloIdVT_GsfTrkIdT"))
-        fillTriggerVariable( "HLT_Ele115_CaloIdVT_GsfTrkIdT" , "H_Ele115_CIdVT_GsfIdT");
-      if(triggerExists("HLT_Photon175"))
-        fillTriggerVariable( "HLT_Photon175" , "H_Photon175" );
-      if(triggerExists("HLT_Photon200"))
-        fillTriggerVariable( "HLT_Photon200" , "H_Photon200" );
-      // check that we have at least one photon trigger
-      if(!triggerExists("HLT_Photon175") && !triggerExists("HLT_Photon200"))
-        exit(-5);
-      // other triggers
-      if(triggerExists("HLT_Ele105_CaloIdVT_GsfTrkIdT"))
-        fillTriggerVariable( "HLT_Ele105_CaloIdVT_GsfTrkIdT" , "H_Ele105_CIdVT_GsfIdT");
-      if(triggerExists("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL"))
-        fillTriggerVariable( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL", "H_DoubleEle33_CIdL_GsfIdVL" ); 
 
       //bool pass_lowPtEle = (triggerExists("HLT_Ele27_WPTight_Gsf") && getVariableValue("H_Ele27_WPTight") > 0) ||
       //  (triggerExists("HLT_Ele32_WPTight_Gsf") && getVariableValue("H_Ele32_WPTight") > 0) ||
